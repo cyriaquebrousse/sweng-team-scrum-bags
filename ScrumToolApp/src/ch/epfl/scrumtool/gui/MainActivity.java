@@ -1,15 +1,13 @@
 package ch.epfl.scrumtool.gui;
 
-import ch.epfl.scrumtool.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-//import android.view.Menu;
-//import android.view.MenuItem;
+import android.view.View;
+import ch.epfl.scrumtool.R;
 
 /**
- * 
- * @author insertNameOfLorisHere
- *
+ * @author cyriaquebrousse
  */
 public class MainActivity extends Activity {
 
@@ -17,5 +15,10 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	}
+	
+	public void openBacklog(View view) {
+		Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
+        startActivity(openBacklogIntent);
 	}
 }
