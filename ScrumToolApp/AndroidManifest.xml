@@ -14,13 +14,21 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="ch.epfl.scrumtool.gui.MainActivity"
+            android:name=".gui.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.BacklogActivity"
+            android:label="@string/title_activity_backlog" >
+        </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.TaskActivity"
+            android:label="@string/title_activity_task" >
         </activity>
     </application>
 
