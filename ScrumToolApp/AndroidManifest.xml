@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
 
     <application
         android:allowBackup="true"
@@ -26,12 +28,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.BacklogActivity"
+            android:name=".gui.BacklogActivity"
             android:label="@string/title_activity_backlog" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.TaskActivity"
+            android:name=".gui.TaskActivity"
             android:label="@string/title_activity_task" >
+        </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
     </application>
 
