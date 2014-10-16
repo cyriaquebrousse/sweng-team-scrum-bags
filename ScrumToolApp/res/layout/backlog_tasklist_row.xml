@@ -10,10 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
+        <CheckBox
+            android:id="@+id/backlog_tasklist_row_tick"
+            android:layout_width="30dp"
+            android:layout_height="19dp" />
+
         <TextView
             android:id="@+id/backlog_tasklist_row_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/backlog_tasklist_row_tick"
             android:text="@string/backlog_tasklist_row_label"
             android:textSize="20sp" />
 
@@ -36,16 +42,15 @@
             android:id="@+id/backlog_tasklist_row_progressbar_done"
             android:layout_width="wrap_content"
             android:layout_height="3dp"
-            android:background="@color/darkgreen"
-            android:layout_weight="0.33" />
+            android:layout_weight="0.33"
+            android:background="@color/darkgreen" />
 
         <TableRow
             android:id="@+id/backlog_tasklist_row_progressbar_todo"
             android:layout_width="wrap_content"
             android:layout_height="3dp"
-            android:background="@color/darkred"
-            android:layout_weight="0.67" />
-
+            android:layout_weight="0.67"
+            android:background="@color/darkred" />
     </LinearLayout>
 
 </LinearLayout>

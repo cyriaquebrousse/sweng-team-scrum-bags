@@ -2,11 +2,14 @@
 <resources>
 
     <string name="app_name">Scrum Tool App</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">superappname</string>
     <string name="title_activity_backlog">Backlog</string>
     <string name="title_activity_task">Task</string>
     
     <string name="backlog_tasklist_row_label">Backlog task</string>
     <string name="backlog_tasklist_row_percentdone">33 %</string>
+    
+    <string name="task_name">This is a task name</string>
+    <string name="task_percent_done">33 %</string>
 
 </resources>

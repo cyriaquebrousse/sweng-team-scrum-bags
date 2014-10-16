@@ -18,73 +18,75 @@ import ch.epfl.scrumtool.network.BogusTask;
  */
 public class BacklogActivity extends Activity {
 
-	private DummyBacklog backlog = new DummyBacklog();
+    private DummyBacklog backlog = new DummyBacklog();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_backlog);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_backlog);
 
-		String[] tasksAsStrings = new String[backlog.size()];
-		for (int i = 0; i < tasksAsStrings.length; i++) {
-			tasksAsStrings[i] = "Task #" + i;
-		}
+        String[] tasksAsStrings = new String[backlog.size()];
+        for (int i = 0; i < tasksAsStrings.length; i++) {
+            tasksAsStrings[i] = "Task #" + i;
+        }
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-				R.layout.backlog_tasklist_row, R.id.backlog_tasklist_row_label,
-				tasksAsStrings);
-		ListView tasklistView = (ListView) findViewById(R.id.backlog_tasklist);
-		tasklistView.setAdapter(adapter);
-		tasklistView.setOnItemClickListener(new OnItemClickListener() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.backlog_tasklist_row, R.id.backlog_tasklist_row_label,
+                tasksAsStrings);
+        ListView tasklistView = (ListView) findViewById(R.id.backlog_tasklist);
+        tasklistView.setAdapter(adapter);
+        tasklistView.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// Toast.makeText(this, "Task "+ position +" selected",
-				// Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-	
-	/*private void updateProgressDisplay(int position, float percentage) {
-		assert percentage < 1;
-		// Update progress bar
-		ListView tasklistView = (ListView) findViewById(R.id.backlog_tasklist);
-		TableRow greenPart = (TableRow) findViewById(R.id.backlog_tasklist_row_progressbar_done);
-		TableRow redPart = (TableRow) findViewById(R.id.backlog_tasklist_row_progressbar_todo);
-		greenPart.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT, percentage));
-		redPart.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT, 1 - percentage));
-		
-		// Update progress percentage text
-		TextView progressText = (TextView) findViewById(R.id.backlog_tasklist_row_label);
-		progressText.setText((int) percentage * 100 + " %");
-	}*/
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                // Toast.makeText(this, "Task "+ position +" selected",
+                // Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-	/**
-	 * TODO should be deleted once the real backlog class has been created and
-	 * implemented
-	 */
-	private class DummyBacklog {
-		private List<BogusTask> tasks = new ArrayList<>();
+    /*
+     * private void updateProgressDisplay(int position, float percentage) {
+     * assert percentage < 1; // Update progress bar ListView tasklistView =
+     * (ListView) findViewById(R.id.backlog_tasklist); TableRow greenPart =
+     * (TableRow) findViewById(R.id.backlog_tasklist_row_progressbar_done);
+     * TableRow redPart = (TableRow)
+     * findViewById(R.id.backlog_tasklist_row_progressbar_todo);
+     * greenPart.setLayoutParams(new
+     * TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
+     * LayoutParams.WRAP_CONTENT, percentage)); redPart.setLayoutParams(new
+     * TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
+     * LayoutParams.WRAP_CONTENT, 1 - percentage));
+     * 
+     * // Update progress percentage text TextView progressText = (TextView)
+     * findViewById(R.id.backlog_tasklist_row_label); progressText.setText((int)
+     * percentage * 100 + " %"); }
+     */
 
-		/**
-		 * For demonstration purposes, there are five dummy tasks in the dummy
-		 * backlog They do not have any description
-		 */
-		public DummyBacklog() {
-			for (int i = 0; i < 20; i++) {
-				tasks.add(new BogusTask());
-			}
-		}
+    /**
+     * TODO should be deleted once the real backlog class has been created and
+     * implemented
+     */
+    private class DummyBacklog {
+        private List<BogusTask> tasks = new ArrayList<>();
 
-		public List<BogusTask> getTasks() {
-			return new ArrayList<>(tasks);
-		}
+        /**
+         * For demonstration purposes, there are 20 dummy tasks in the dummy
+         * backlog. They do not have any description
+         */
+        public DummyBacklog() {
+            for (int i = 0; i < 20; i++) {
+                tasks.add(new BogusTask());
+            }
+        }
 
-		public int size() {
-			return tasks.size();
-		}
-	}
+        public List<BogusTask> getTasks() {
+            return new ArrayList<>(tasks);
+        }
+
+        public int size() {
+            return tasks.size();
+        }
+    }
 }
