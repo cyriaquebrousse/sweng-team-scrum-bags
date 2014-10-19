@@ -1,10 +1,37 @@
+# Unwanted files in general
+*.tmp
+*.bak
+*.swp
+
+# Eclipse files
 .metadata/
 .classpath
 .project
 .settings
+.settings/
+local.properties
+.loadpath
+*~
+
+# Generated files
 bin/
 gen/
-local.properties
-*~
+
+# Checkstyle Plug-in
 .checkstyle
+
+# For OS X
 .DS_Store
+
+# Built application files
+*.apk
+*.ap_
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Log Files
+*.log
