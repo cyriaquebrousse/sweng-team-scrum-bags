@@ -36,7 +36,7 @@
             android:label="@string/title_activity_task" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.LoginActivity"
+            android:name=".gui.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
