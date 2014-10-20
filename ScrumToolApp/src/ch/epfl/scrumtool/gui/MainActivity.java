@@ -17,11 +17,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void openBacklog(View view) {
-        Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
-        startActivity(openBacklogIntent);
-    }
-    
     public void openLogin(View view) {
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
         startActivity(openLoginIntent);

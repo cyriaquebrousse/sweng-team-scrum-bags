@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.BogusTask;
 
@@ -36,33 +38,14 @@ public class BacklogActivity extends Activity {
         ListView tasklistView = (ListView) findViewById(R.id.backlog_tasklist);
         tasklistView.setAdapter(adapter);
         tasklistView.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
-                // Toast.makeText(this, "Task "+ position +" selected",
-                // Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(view.getContext(), "Task "+ position +" selected", Toast.LENGTH_SHORT).show();
+                Intent startTaskActivityIntent = new Intent(view.getContext(), TaskActivity.class);
+                startActivity(startTaskActivityIntent);
             }
         });
     }
-
-    /*
-     * private void updateProgressDisplay(int position, float percentage) {
-     * assert percentage < 1; // Update progress bar ListView tasklistView =
-     * (ListView) findViewById(R.id.backlog_tasklist); TableRow greenPart =
-     * (TableRow) findViewById(R.id.backlog_tasklist_row_progressbar_done);
-     * TableRow redPart = (TableRow)
-     * findViewById(R.id.backlog_tasklist_row_progressbar_todo);
-     * greenPart.setLayoutParams(new
-     * TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
-     * LayoutParams.WRAP_CONTENT, percentage)); redPart.setLayoutParams(new
-     * TableRow.LayoutParams(LayoutParams.WRAP_CONTENT,
-     * LayoutParams.WRAP_CONTENT, 1 - percentage));
-     * 
-     * // Update progress percentage text TextView progressText = (TextView)
-     * findViewById(R.id.backlog_tasklist_row_label); progressText.setText((int)
-     * percentage * 100 + " %"); }
-     */
 
     /**
      * TODO should be deleted once the real backlog class has been created and
@@ -79,10 +62,6 @@ public class BacklogActivity extends Activity {
             for (int i = 0; i < 20; i++) {
                 tasks.add(new BogusTask());
             }
-        }
-
-        public List<BogusTask> getTasks() {
-            return new ArrayList<>(tasks);
         }
 
         public int size() {
