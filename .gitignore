@@ -5,8 +5,6 @@
 
 # Eclipse files
 .metadata/
-.classpath
-.project
 .settings
 .settings/
 local.properties
