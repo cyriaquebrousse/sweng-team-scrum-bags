@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
+
+    <!-- Project icon -->
+    <TextView
+        android:id="@+id/project_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:background="@color/whitesmoke" />
+
+    <!-- Project name -->
+    <TextView
+        android:id="@+id/project_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/project_icon"
+        android:layout_toEndOf="@+id/project_icon"
+        android:textSize="@dimen/list_row_name"
+        android:textStyle="bold" />
+
+    <!-- Project description -->
+    <TextView
+        android:id="@+id/project_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/project_name"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@id/project_icon"
+        android:textSize="@dimen/list_row_desc"
+        android:maxLines="1" />
+
+    <!-- Number of new elements in project -->
+    <TextView
+        android:id="@+id/project_newElemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/darkgreen"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+</RelativeLayout>

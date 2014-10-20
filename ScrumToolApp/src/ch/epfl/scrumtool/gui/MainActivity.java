@@ -26,4 +26,9 @@ public class MainActivity extends Activity {
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
         startActivity(openLoginIntent);
     }
+    
+    public void openProjects(View view) {
+        Intent openProjectsIntent = new Intent(this, ProjectsActivity.class);
+        startActivity(openProjectsIntent);
+    }
 }

@@ -40,6 +40,10 @@
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name=".gui.ProjectsActivity"
+            android:label="@string/title_activity_projects" >
+        </activity>
     </application>
 
 </manifest>
