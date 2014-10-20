@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ public class ProjectListAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<DummyProject> projectsList;
 	
-	public ProjectListAdapter(Activity activity, List<DummyProject> projectsList) {
+	public ProjectListAdapter(final Activity activity, List<DummyProject> projectsList) {
 		this.activity = activity;
 		//this.projectsList = new ArrayList<>(projectsList);
 		this.projectsList = projectsList;
@@ -40,7 +42,7 @@ public class ProjectListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (inflater == null) {
 			inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

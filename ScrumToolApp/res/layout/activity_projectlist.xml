@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.scrumtool.gui.ProjectsActivity" >
+    tools:context="ch.epfl.scrumtool.gui.ProjectListActivity" >
     
     <ListView
         android:id="@+id/project_list"

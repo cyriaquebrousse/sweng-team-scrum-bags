@@ -41,8 +41,12 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
-            android:name=".gui.ProjectsActivity"
-            android:label="@string/title_activity_projects" >
+            android:name=".gui.ProjectListActivity"
+            android:label="@string/title_activity_projectList" >
+        </activity>
+        <activity
+            android:name=".gui.ProjectOverviewActivity"
+            android:label="@string/title_activity_project_overview" >
         </activity>
     </application>
 
