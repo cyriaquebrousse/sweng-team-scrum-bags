@@ -1,17 +1,11 @@
 package ch.epfl.scrumtool.gui;
 
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.R.drawable;
-import ch.epfl.scrumtool.R.id;
-import ch.epfl.scrumtool.R.layout;
-import ch.epfl.scrumtool.R.menu;
 import ch.epfl.scrumtool.network.NetworkClient;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,25 +39,6 @@ public class UserListActivity extends Activity {
         MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, names);
         listview.setAdapter(adapter);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private class MySimpleArrayAdapter extends ArrayAdapter<String> {

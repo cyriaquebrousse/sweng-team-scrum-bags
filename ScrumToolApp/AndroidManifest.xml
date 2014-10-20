@@ -48,6 +48,10 @@
             android:name=".gui.ProjectOverviewActivity"
             android:label="@string/title_activity_project_overview" >
         </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.UserListActivity"
+            android:label="@string/title_activity_user_list" >
+        </activity>
     </application>
 
 </manifest>

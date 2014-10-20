@@ -12,5 +12,7 @@
     <string name="title_activity_projectList">Projects</string>
     <string name="title_activity_project_overview">Project overview</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_user_list">UserListActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
