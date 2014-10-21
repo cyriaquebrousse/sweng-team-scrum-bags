@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/list_row_padding" >
@@ -31,19 +32,17 @@
         android:layout_below="@id/project_name"
         android:layout_marginTop="1dip"
         android:layout_toEndOf="@id/project_icon"
-        android:textSize="@dimen/list_row_desc"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textSize="@dimen/list_row_desc" />
 
     <!-- Number of new elements in project -->
-    <TextView
+    <ch.epfl.scrumtool.gui.components.Sticker
         android:id="@+id/project_newElemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@color/darkgreen"
-        android:padding="5dp"
-        android:textColor="@color/White"
-        android:textSize="12sp" />
+        android:layout_below="@id/project_newElemCount"
+        custom:sticker_color="@color/darkgreen" />
 
 </RelativeLayout>

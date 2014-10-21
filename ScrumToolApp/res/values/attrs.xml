@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Sticker">
+        <attr name="sticker_color" format="color" />
+        <attr name="sticker_text" format="string" />
+        <attr name="sticker_bold" format="boolean" />
+    </declare-styleable>
+</resources>

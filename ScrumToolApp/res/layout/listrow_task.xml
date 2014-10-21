@@ -16,7 +16,7 @@
         android:padding="1dp"
         android:text="URGENT"
         android:textColor="@color/whitesmoke"
-        android:textSize="@dimen/list_row_sticker"
+        android:textSize="@dimen/sticker_text_size"
         android:textStyle="bold" />
 
     <!-- Task name -->
