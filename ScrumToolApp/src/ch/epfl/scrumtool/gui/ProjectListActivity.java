@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.ProjectInterface;
 import ch.epfl.scrumtool.gui.components.DummyProject;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 
@@ -20,7 +21,7 @@ import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
  */
 public class ProjectListActivity extends Activity {
 
-    private List<DummyProject> projectsList = new ArrayList<DummyProject>();
+    private List<ProjectInterface> projectsList = new ArrayList<>();
     private ListView listView;
     private ProjectListAdapter adapter;
 
@@ -46,7 +47,7 @@ public class ProjectListActivity extends Activity {
         dummyPopulate();
         adapter.notifyDataSetChanged();
 
-        for (DummyProject p : projectsList) {
+        for (ProjectInterface p : projectsList) {
             System.out.println(p.getName());
         }
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.ProjectInterface;
 
 /**
  * @author cyriaquebrousse
@@ -17,9 +18,9 @@ import ch.epfl.scrumtool.R;
 public class ProjectListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<DummyProject> projectsList;
+    private List<ProjectInterface> projectsList;
 
-    public ProjectListAdapter(final Activity activity, List<DummyProject> projectsList) {
+    public ProjectListAdapter(final Activity activity, List<ProjectInterface> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
     }
@@ -52,12 +53,12 @@ public class ProjectListAdapter extends BaseAdapter {
         TextView desc = (TextView) convertView.findViewById(R.id.project_desc);
         TextView newElemCount = (TextView) convertView .findViewById(R.id.project_newElemCount);
 
-        DummyProject project = projectsList.get(position);
+        ProjectInterface project = projectsList.get(position);
         name.setText(project.getName());
-        desc.setText(project.getDesc());
-        newElemCount.setText(Integer.toString(project.getChangesCount()));
+        desc.setText(project.getDescription());
+        newElemCount.setText(Integer.toString(project.getChangesCount(null)));
 
-        if (project.getChangesCount() == 0) {
+        if (project.getChangesCount(null) == 0) {
             newElemCount.setVisibility(View.INVISIBLE);
         } else {
             newElemCount.setVisibility(View.VISIBLE);

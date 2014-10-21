@@ -28,11 +28,11 @@ public class UserListActivity extends Activity {
         NetworkClient NC = new NetworkClient();
         String[] names = null;
         
-        if(NC.getUsers() != null){
+        if (NC.getUsers() != null) {
             //names = NC.getUsers();
         } else {
-            names = new String[] { "Loris", "Joey", "Cyriaque", "Alex ",
-                    "Arno", "Vincent", "Sylvain", "Leo" };
+            names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ",
+                "Arno", "Vincent", "Sylvain", "Leo" };
         }
  
 
