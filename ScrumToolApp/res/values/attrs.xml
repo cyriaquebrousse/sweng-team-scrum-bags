@@ -5,4 +5,10 @@
         <attr name="sticker_text" format="string" />
         <attr name="sticker_bold" format="boolean" />
     </declare-styleable>
+    
+    <declare-styleable name="Slate">
+        <attr name="slate_color" format="color" />
+        <attr name="slate_content_quantity" format="string" />
+        <attr name="slate_content_unit" format="string" />
+    </declare-styleable>
 </resources>
