@@ -12,8 +12,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.DummyProject;
 import ch.epfl.scrumtool.entity.ProjectInterface;
-import ch.epfl.scrumtool.gui.components.DummyProject;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 
 /**
@@ -46,10 +46,6 @@ public class ProjectListActivity extends Activity {
         // Create some dummy projects and add them to the list
         dummyPopulate();
         adapter.notifyDataSetChanged();
-
-        for (ProjectInterface p : projectsList) {
-            System.out.println(p.getName());
-        }
     }
 
     @Deprecated

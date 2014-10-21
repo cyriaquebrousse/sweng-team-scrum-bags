@@ -1,11 +1,6 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.entity;
 
 import java.util.Set;
-
-import ch.epfl.scrumtool.entity.PlayerInterface;
-import ch.epfl.scrumtool.entity.ProjectInterface;
-import ch.epfl.scrumtool.entity.TaskInterface;
-import ch.epfl.scrumtool.entity.UserInterface;
 
 /**
  * Only for demo purposes !
