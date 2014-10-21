@@ -6,4 +6,6 @@
 
     <dimen name="list_row_name">17sp</dimen>
     <dimen name="list_row_desc">15sp</dimen>
+    <dimen name="list_row_sticker">8sp</dimen>
+    <dimen name="list_row_padding">8dp</dimen>
 </resources>

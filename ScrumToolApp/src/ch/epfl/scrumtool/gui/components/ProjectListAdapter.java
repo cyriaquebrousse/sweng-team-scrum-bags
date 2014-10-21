@@ -46,7 +46,7 @@ public class ProjectListAdapter extends BaseAdapter {
             inflater = (LayoutInflater) activity .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.project_list_row, null);
+            convertView = inflater.inflate(R.layout.listrow_project, null);
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.project_name);

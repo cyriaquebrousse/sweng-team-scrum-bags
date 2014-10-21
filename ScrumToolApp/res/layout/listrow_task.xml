@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/list_row_padding" >
+
+    <!-- Priority -->
+    <TextView
+        android:id="@+id/task_priority"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:background="@color/darkred"
+        android:padding="1dp"
+        android:text="URGENT"
+        android:textColor="@color/whitesmoke"
+        android:textSize="@dimen/list_row_sticker"
+        android:textStyle="bold" />
+
+    <!-- Task name -->
+    <TextView
+        android:id="@+id/task_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/task_priority"
+        android:text="Implement basic user interface"
+        android:textSize="@dimen/list_row_name"
+        android:textStyle="bold" />
+
+    <!-- Progress display -->
+
+    <!-- Assignees -->
+    <TextView
+        android:id="@+id/task_assignees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_name"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@id/task_priority"
+        android:maxLines="1"
+        android:text="Toto, Tata, Titi and 3 others"
+        android:textSize="@dimen/list_row_desc" />
+
+    <!-- Sprint and creation details -->
+    <TextView
+        android:id="@+id/task_sprint_and_creation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_assignees"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@id/task_priority"
+        android:maxLines="1"
+        android:text="Sprint 00; Created Jan 01 by toto"
+        android:textColor="@color/Gray"
+        android:textSize="@dimen/list_row_desc" />
+
+</RelativeLayout>
