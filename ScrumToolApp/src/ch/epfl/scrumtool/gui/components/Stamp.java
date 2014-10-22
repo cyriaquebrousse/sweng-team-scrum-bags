@@ -47,4 +47,12 @@ public final class Stamp extends RelativeLayout {
         quantityView.setText(quantity);
         unitView.setText(unit);
     }
+    
+    public void setQuantity(float quantity) {
+        quantityView.setText(Float.toString(quantity));
+    }
+    
+    public void setUnit(String unit) {
+        unitView.setText(unit);
+    }
 }

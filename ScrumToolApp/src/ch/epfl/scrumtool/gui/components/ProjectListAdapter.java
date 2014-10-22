@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui.components;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,14 +16,14 @@ import ch.epfl.scrumtool.entity.ProjectInterface;
 /**
  * @author cyriaquebrousse
  */
-public class ProjectListAdapter extends BaseAdapter {
+public final class ProjectListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<ProjectInterface> projectsList;
 
     public ProjectListAdapter(final Activity activity, List<ProjectInterface> projectsList) {
         this.activity = activity;
-        this.projectsList = projectsList;
+        this.projectsList = new ArrayList<ProjectInterface>(projectsList);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ProjectListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (inflater == null) {
-            inflater = (LayoutInflater) activity .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_project, null);
