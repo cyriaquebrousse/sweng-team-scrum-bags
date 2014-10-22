@@ -1,18 +1,16 @@
 package ch.epfl.scrumtool.entity;
 
-
 /**
  * @author ketsio
- *
  */
 public class Issue implements IssueInterface {
-    
-	private String name;
-	private String description;
-	private float estimation;
+
+    private String name;
+    private String description;
+    private float estimation;
     private PlayerInterface player;
     private Status status;
-    
+
     public Issue(String name, String description, float estimation,
             PlayerInterface player, Status status) {
         this.name = name;
@@ -23,24 +21,24 @@ public class Issue implements IssueInterface {
     }
 
     @Override
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String getDescription() {
-		return description;
-	}
-	
-	@Override
-	public float getEstimation() {
-		return estimation;
-	}
+    @Override
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public PlayerInterface getAssignedPlayer() {
-		return player;
-	}
+    @Override
+    public float getEstimation() {
+        return estimation;
+    }
+
+    @Override
+    public PlayerInterface getAssignedPlayer() {
+        return player;
+    }
 
     @Override
     public Status getStatus() {

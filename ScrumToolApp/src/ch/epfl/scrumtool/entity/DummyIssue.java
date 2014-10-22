@@ -1,13 +1,6 @@
-package ch.epfl.scrumtool.gui;
+package ch.epfl.scrumtool.entity;
 
 import java.util.Set;
-
-import ch.epfl.scrumtool.entity.IssueInterface;
-import ch.epfl.scrumtool.entity.PlayerInterface;
-import ch.epfl.scrumtool.entity.ProjectInterface;
-import ch.epfl.scrumtool.entity.Role;
-import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.entity.UserInterface;
 
 /**
  * @author Cyriaque Brousse
@@ -53,7 +46,6 @@ public class DummyIssue implements IssueInterface {
             
             @Override
             public Role getRole() {
-                // TODO Auto-generated method stub
                 return Role.DEVELOPER;
             }
             

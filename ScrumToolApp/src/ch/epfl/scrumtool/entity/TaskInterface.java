@@ -6,10 +6,8 @@ import java.util.Set;
  * @author ketsio
  */
 public interface TaskInterface {
-	
-	String getName();
-	String getDescription();
-	Status getStatus();
-	
-	Set<IssueInterface> getIssues();
+    String getName();
+    String getDescription();
+    Status getStatus();
+    Set<IssueInterface> getIssues();
 }

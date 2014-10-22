@@ -4,12 +4,11 @@ import java.util.Set;
 
 /**
  * @author Vincent
- * 
  */
 public final class User implements UserInterface {
-	
-	private long token;
-	private String name;
+
+    private long token;
+    private String name;
     private String username;
     private String email;
     private final Set<ProjectInterface> projects;
@@ -20,9 +19,9 @@ public final class User implements UserInterface {
      * @param name
      * @param token
      */
-    public User(long token, String name, String username, 
-    		String email, Set<ProjectInterface> projects) {
-    	this.token = token;
+    public User(long token, String name, String username, String email,
+            Set<ProjectInterface> projects) {
+        this.token = token;
         this.username = username;
         this.email = email;
         this.name = name;
@@ -35,7 +34,8 @@ public final class User implements UserInterface {
     }
 
     /**
-     * @param username the username to set
+     * @param username
+     *            the username to set
      */
     public void setUsername(String username) {
         this.username = username;
@@ -77,9 +77,9 @@ public final class User implements UserInterface {
         this.token = token;
     }
 
-	@Override
-	public Set<ProjectInterface> getProjects() {
-		return projects;
-	}
+    @Override
+    public Set<ProjectInterface> getProjects() {
+        return projects;
+    }
 
 }

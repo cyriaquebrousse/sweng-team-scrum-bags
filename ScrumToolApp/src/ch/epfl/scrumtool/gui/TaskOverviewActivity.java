@@ -1,5 +1,10 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.entity.Status.FINISHED;
+import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.DummyIssue;
 import ch.epfl.scrumtool.entity.IssueInterface;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
-import static ch.epfl.scrumtool.entity.Status.*;
 
 /**
  * @author Cyriaque Brousse
@@ -78,6 +83,6 @@ public class TaskOverviewActivity extends Activity {
         descriptionView.setText("Very interesting description");
         prioritySticker.setStickerText(Priority.URGENT);
         statusSlate.setText(Status.READY_FOR_SPRINT.toString());
-        estimationSlate.setText("3 days");
+        estimationSlate.setText("6.5 hours");
     }
 }
