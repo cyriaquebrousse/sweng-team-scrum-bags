@@ -14,4 +14,5 @@ public interface ProjectInterface {
 	
 	Set<TaskInterface> getBacklog();
 	Set<PlayerInterface> getPlayers();
+	PlayerInterface getAdmin();
 }

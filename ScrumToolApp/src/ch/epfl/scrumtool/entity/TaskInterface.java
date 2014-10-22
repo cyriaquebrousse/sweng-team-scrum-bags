@@ -9,6 +9,7 @@ public interface TaskInterface {
 	
 	String getName();
 	String getDescription();
+	Status getStatus();
 	
 	Set<IssueInterface> getIssues();
 }

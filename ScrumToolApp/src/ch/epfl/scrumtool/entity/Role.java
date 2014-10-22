@@ -5,7 +5,6 @@ package ch.epfl.scrumtool.entity;
  *
  */
 public enum Role {
-	ADMIN,
 	PRODUCT_OWNER,
 	STAKEHOLDER,
 	SCRUM_MASTER,

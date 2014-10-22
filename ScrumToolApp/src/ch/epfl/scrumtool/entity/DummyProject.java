@@ -41,4 +41,9 @@ public class DummyProject implements ProjectInterface {
 	public Set<PlayerInterface> getPlayers() {
 		return null;
 	}
+
+	@Override
+	public PlayerInterface getAdmin() {
+		return null;
+	}
 }

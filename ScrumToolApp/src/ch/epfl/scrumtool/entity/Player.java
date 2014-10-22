@@ -1,55 +1,44 @@
-/**
- * 
- */
-package kernel;
+package ch.epfl.scrumtool.entity;
 
 /**
  * @author Vincent
  * 
  */
-public abstract class Player {
-    enum Role {
-        PROGRAMMER, STAKEHOLDER
-    };
+public class Player implements PlayerInterface {
 
-    private User user;
+    private UserInterface user;
     private Role role;
 
     /**
      * @param user
      * @param role
      */
-    public Player(User user, Role role) {
+    public Player(UserInterface user, Role role) {
         super();
         this.user = user;
         this.role = role;
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
+
+    @Override
+    public UserInterface getAccount() {
         return user;
     }
 
     /**
      * @param user
-     *            the user to set
      */
-    public void setUser(User user) {
+    public void setAccount(UserInterface user) {
         this.user = user;
     }
 
-    /**
-     * @return the role
-     */
+    @Override
     public Role getRole() {
         return role;
     }
 
     /**
      * @param role
-     *            the role to set
      */
     public void setRole(Role role) {
         this.role = role;
