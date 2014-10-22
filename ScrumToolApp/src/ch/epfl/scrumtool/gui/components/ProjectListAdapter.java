@@ -49,9 +49,9 @@ public class ProjectListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listrow_project, null);
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.project_name);
-        TextView desc = (TextView) convertView.findViewById(R.id.project_desc);
-        Sticker newElemCount = (Sticker) convertView.findViewById(R.id.project_newElemCount);
+        TextView name = (TextView) convertView.findViewById(R.id.project_row_name);
+        TextView desc = (TextView) convertView.findViewById(R.id.project_row_description);
+        Sticker newElemCount = (Sticker) convertView.findViewById(R.id.project_row_newElemCount);
 
         ProjectInterface project = projectsList.get(position);
         name.setText(project.getName());

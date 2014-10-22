@@ -3,15 +3,25 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     
+    <!-- Margin and Padding -->
+    <dimen name="space">10dp</dimen>
+    <dimen name="small_space">3dp</dimen>
 
+    <!-- List -->
     <dimen name="list_row_name">17sp</dimen>
     <dimen name="list_row_desc">15sp</dimen>
     <dimen name="list_row_padding">8dp</dimen>
+    <dimen name="issue_row_stamp_width">60dp</dimen>
     
+    <!-- Sticker -->
     <dimen name="sticker_text_size">6sp</dimen>
     <dimen name="sticker_padding">5dp</dimen>
     
+    <!-- Slate -->
     <dimen name="slate_padding">5dp</dimen>
     
-    <dimen name="issue_row_stamp_width">60dp</dimen>
+    <!-- Header -->
+    <dimen name="header_title_size">22sp</dimen>
+    <dimen name="header_description_size">17sp</dimen>
+    
 </resources>

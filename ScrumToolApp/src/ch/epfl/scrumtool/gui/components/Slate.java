@@ -28,7 +28,7 @@ public final class Slate extends RelativeLayout {
 
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.Stamp, 0, 0);
+                attrs, R.styleable.Slate, 0, 0);
         this.color = attributes.getColor(R.styleable.Slate_slate_color,
                 res.getColor(R.color.darkgreen));
         this.title = attributes.getString(R.styleable.Slate_slate_title);
