@@ -7,6 +7,7 @@ public interface IssueInterface {
 	
 	String getName();
 	String getDescription();
+	Status getStatus();
 	
 	/**
 	 * Get the estimation of the issue (unitless)

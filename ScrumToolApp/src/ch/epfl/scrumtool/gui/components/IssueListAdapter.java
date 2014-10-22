@@ -55,8 +55,13 @@ public final class IssueListAdapter extends BaseAdapter {
         TextView assignee = (TextView) convertView.findViewById(R.id.issue_row_assignee);
         
         IssueInterface issue = issuesList.get(position);
+        name.setText(issue.getName());
+        assignee.setText(issue.getAssignedPlayer().getAccount().getName());
+        estimation.setQuantity(issue.getEstimation());
+        estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
+        estimation.setColor(issue.getStatus().getColor());
         
-        
+        return convertView;
     }
 
 }

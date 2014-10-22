@@ -36,8 +36,7 @@ public final class Stamp extends RelativeLayout {
         attributes.recycle();
         
         // Get the view elements
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.stamp, this, true);
         this.quantityView = (TextView) getChildAt(0);
         this.unitView = (TextView) getChildAt(1);
@@ -54,5 +53,9 @@ public final class Stamp extends RelativeLayout {
     
     public void setUnit(String unit) {
         unitView.setText(unit);
+    }
+    
+    public void setColor(int color) {
+        this.setBackgroundColor(color);
     }
 }

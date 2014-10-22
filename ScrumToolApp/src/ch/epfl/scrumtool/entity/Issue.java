@@ -11,6 +11,16 @@ public class Issue implements IssueInterface {
 	private String description;
 	private float estimation;
     private PlayerInterface player;
+    private Status status;
+    
+    public Issue(String name, String description, float estimation,
+            PlayerInterface player, Status status) {
+        this.name = name;
+        this.description = description;
+        this.estimation = estimation;
+        this.player = player;
+        this.status = status;
+    }
 
     @Override
 	public String getName() {
@@ -31,5 +41,10 @@ public class Issue implements IssueInterface {
 	public PlayerInterface getAssignedPlayer() {
 		return player;
 	}
+
+    @Override
+    public Status getStatus() {
+        return status;
+    }
 
 }
