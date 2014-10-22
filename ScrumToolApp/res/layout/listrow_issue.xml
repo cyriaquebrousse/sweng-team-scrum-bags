@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Estimation stamp -->
+
+    <ch.epfl.scrumtool.gui.components.Stamp
+        android:id="@+id/issue_row_estimation"
+        android:layout_width="@dimen/issue_row_stamp_width"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/issue_row_assignee"
+        android:layout_marginEnd="8dp"
+        custom:stamp_content_quantity="42"
+        android:gravity="center_vertical"
+        custom:stamp_content_unit="days" />
+    
+    <!-- Issue name -->
+    <TextView
+        android:layout_marginTop="2dp"
+        android:id="@+id/issue_row_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/issue_row_estimation"
+        android:maxLines="2"
+        android:text="This is an issue name\nIt is 2 lines long (max)"
+        android:textStyle="bold" />
+    
+    <TextView 
+        android:id="@+id/issue_row_assignee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/issue_row_name"
+        android:layout_toEndOf="@id/issue_row_estimation"
+        android:maxLines="1"
+        android:text="John Smith"
+        android:layout_marginBottom="2dp"
+        />
+
+</RelativeLayout>
