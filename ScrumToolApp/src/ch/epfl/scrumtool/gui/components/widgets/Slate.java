@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.gui.components.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,10 +14,6 @@ import ch.epfl.scrumtool.R;
  */
 public final class Slate extends RelativeLayout {
 
-    private int color;
-    private String title;
-    private String text;
-    
     private TextView titleView;
     private TextView textView;
     
@@ -29,10 +25,10 @@ public final class Slate extends RelativeLayout {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Slate, 0, 0);
-        this.color = attributes.getColor(R.styleable.Slate_slate_color,
+        int color = attributes.getColor(R.styleable.Slate_slate_color,
                 res.getColor(R.color.darkgreen));
-        this.title = attributes.getString(R.styleable.Slate_slate_title);
-        this.text = attributes.getString(R.styleable.Slate_slate_text);
+        String title = attributes.getString(R.styleable.Slate_slate_title);
+        String text = attributes.getString(R.styleable.Slate_slate_text);
         attributes.recycle();
         
         // Get the view elements
@@ -43,8 +39,23 @@ public final class Slate extends RelativeLayout {
         this.textView = (TextView) getChildAt(1);
         
         // Customize the view
-        this.setBackgroundColor(color);
+        int padding = (int) res.getDimension(R.dimen.slate_padding);
+        setPadding(padding, padding, padding, padding);
+        
+        setColor(color);
+        setTitle(title);
+        setText(text);
+    }
+    
+    public void setColor(int color) {
+        setBackgroundColor(color);
+    }
+    
+    public void setTitle(String title) {
         titleView.setText(title);
+    }
+    
+    public void setText(String text) {
         textView.setText(text);
     }
 }

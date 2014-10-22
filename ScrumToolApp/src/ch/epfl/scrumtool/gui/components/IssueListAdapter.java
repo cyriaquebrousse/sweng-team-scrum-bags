@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui.components;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.IssueInterface;
+import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
  * @author cyriaquebrousse
@@ -23,7 +23,7 @@ public final class IssueListAdapter extends BaseAdapter {
 
     public IssueListAdapter(final Activity activity, List<IssueInterface> issuesList) {
         this.activity = activity;
-        this.issuesList = new ArrayList<>(issuesList);
+        this.issuesList = issuesList;
     }
     
     @Override

@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.gui.components.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Priority;
 
 /**
  * <p>
@@ -27,10 +28,6 @@ import ch.epfl.scrumtool.R;
  */
 public final class Sticker extends TextView {
     
-    private boolean bold;
-    private int color;
-    private String text = "";
-
     public Sticker(Context context, AttributeSet attrs) {
         super(context, attrs);
         
@@ -39,18 +36,35 @@ public final class Sticker extends TextView {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Sticker, 0, 0);
-        this.bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
-        this.color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.darkgreen));
-        this.text = attributes.getString(R.styleable.Sticker_sticker_text);
+        boolean bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
+        int color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.darkgreen));
+        String text = attributes.getString(R.styleable.Sticker_sticker_text);
         attributes.recycle();
 
         // Customizing the text view
-        setText(text);
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, res.getDimension(R.dimen.sticker_text_size));
-        setTextColor(res.getColor(R.color.White));
-        setBackgroundColor(color);
-        setTypeface(null, bold ? Typeface.BOLD : Typeface.NORMAL);
         int padding = (int) res.getDimension(R.dimen.sticker_padding);
         setPadding(padding, padding, padding, padding);
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, res.getDimension(R.dimen.sticker_text_size));
+        setTextColor(res.getColor(R.color.White));
+        
+        setStickerText(text);
+        setColor(color);
+        setBold(bold);
+    }
+    
+    public void setColor(int color) {
+        setBackgroundColor(color);
+    }
+    
+    public void setStickerText(String text) {
+        setText(text);
+    }
+    
+    public void setStickerText(Priority priority) {
+        setText(priority.toString());
+    }
+    
+    public void setBold(boolean bold) {
+        setTypeface(null, bold ? Typeface.BOLD : Typeface.NORMAL);
     }
 }

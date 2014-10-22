@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui.components;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -12,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.ProjectInterface;
+import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
 /**
  * @author cyriaquebrousse
@@ -23,7 +23,7 @@ public final class ProjectListAdapter extends BaseAdapter {
 
     public ProjectListAdapter(final Activity activity, List<ProjectInterface> projectsList) {
         this.activity = activity;
-        this.projectsList = new ArrayList<ProjectInterface>(projectsList);
+        this.projectsList = projectsList;
     }
 
     @Override

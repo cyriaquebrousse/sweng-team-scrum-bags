@@ -53,7 +53,7 @@
             android:label="@string/title_activity_user_list" >
         </activity>
         <activity
-            android:name=".TaskOverviewActivity"
+            android:name="ch.epfl.scrumtool.gui.TaskOverviewActivity"
             android:label="@string/title_activity_task_overview" >
         </activity>
     </application>

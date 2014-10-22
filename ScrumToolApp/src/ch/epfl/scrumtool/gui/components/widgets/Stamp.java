@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.gui.components.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,10 +14,6 @@ import ch.epfl.scrumtool.R;
  */
 public final class Stamp extends RelativeLayout {
 
-    private int color;
-    private String quantity;
-    private String unit;
-    
     private TextView quantityView;
     private TextView unitView;
     
@@ -29,10 +25,10 @@ public final class Stamp extends RelativeLayout {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Stamp, 0, 0);
-        this.color = attributes.getColor(R.styleable.Stamp_stamp_color,
+        int color = attributes.getColor(R.styleable.Stamp_stamp_color,
                 res.getColor(R.color.darkgreen));
-        this.quantity = attributes.getString(R.styleable.Stamp_stamp_content_quantity);
-        this.unit = attributes.getString(R.styleable.Stamp_stamp_content_unit);
+        String quantity = attributes.getString(R.styleable.Stamp_stamp_content_quantity);
+        String unit = attributes.getString(R.styleable.Stamp_stamp_content_unit);
         attributes.recycle();
         
         // Get the view elements
@@ -42,9 +38,9 @@ public final class Stamp extends RelativeLayout {
         this.unitView = (TextView) getChildAt(1);
         
         // Customize the view
-        this.setBackgroundColor(color);
-        quantityView.setText(quantity);
-        unitView.setText(unit);
+        setColor(color);
+        setQuantity(Float.valueOf(quantity));
+        setUnit(unit);
     }
     
     public void setQuantity(float quantity) {

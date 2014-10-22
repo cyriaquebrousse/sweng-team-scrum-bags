@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
         startActivity(openProjectsIntent);
     }
     
-    public void openProjectOverview(View view) {
-        Intent openProjectOverviewIntent = new Intent(this, ProjectOverviewActivity.class);
-        startActivity(openProjectOverviewIntent);
+    public void openTaskOverview(View view) {
+        Intent openTaskOverviewIntent = new Intent(this, TaskOverviewActivity.class);
+        startActivity(openTaskOverviewIntent);
     }
 }

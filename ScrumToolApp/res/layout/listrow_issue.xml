@@ -5,7 +5,7 @@
     android:layout_height="wrap_content" >
 
     <!-- Estimation stamp -->
-    <ch.epfl.scrumtool.gui.components.Stamp
+    <ch.epfl.scrumtool.gui.components.widgets.Stamp
         android:id="@+id/issue_row_estimation"
         android:layout_width="@dimen/issue_row_stamp_width"
         android:layout_height="match_parent"
@@ -20,7 +20,7 @@
         android:id="@+id/issue_row_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/issue_row_estimation"
         android:maxLines="2"
         android:text="This is an issue name\nIt is 2 lines long (max)"
@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/issue_row_name"
-        android:layout_marginBottom="2dp"
         android:layout_toEndOf="@id/issue_row_estimation"
         android:maxLines="1"
         android:text="John Smith"

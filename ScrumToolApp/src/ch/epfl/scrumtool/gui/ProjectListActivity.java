@@ -29,7 +29,7 @@ public class ProjectListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectlist);
-
+        
         // Get list and initialize its adapter
         adapter = new ProjectListAdapter(this, projectsList);
         listView = (ListView) findViewById(R.id.project_list);
@@ -37,7 +37,7 @@ public class ProjectListActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(view.getContext(), "You clicked position"+ position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "You clicked position "+ position, Toast.LENGTH_SHORT).show();
                 Intent openProjectOverviewIntent = new Intent(view.getContext(), ProjectOverviewActivity.class);
                 startActivity(openProjectOverviewIntent);
             }

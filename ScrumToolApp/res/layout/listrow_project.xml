@@ -36,7 +36,7 @@
         android:textSize="@dimen/list_row_desc" />
 
     <!-- Number of new elements in project -->
-    <ch.epfl.scrumtool.gui.components.Sticker
+    <ch.epfl.scrumtool.gui.components.widgets.Sticker
         android:id="@+id/project_row_newElemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -17,4 +17,10 @@
         android:onClick="openProjects"
         android:text="Open projects" />
     
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openTaskOverview"
+        android:text="[[Open task overview]]" />
+    
 </LinearLayout>
