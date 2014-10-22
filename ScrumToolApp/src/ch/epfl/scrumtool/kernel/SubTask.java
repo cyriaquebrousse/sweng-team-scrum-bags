@@ -1,9 +1,8 @@
 /**
  * 
  */
-package kernel;
+package ch.epfl.scrumtool.kernel;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**

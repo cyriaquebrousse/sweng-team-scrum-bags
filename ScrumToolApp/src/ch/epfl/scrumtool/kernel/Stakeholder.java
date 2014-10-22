@@ -1,7 +1,7 @@
 /**
  * 
  */
-package kernel;
+package ch.epfl.scrumtool.kernel;
 
 /**
  * @author Vincent
