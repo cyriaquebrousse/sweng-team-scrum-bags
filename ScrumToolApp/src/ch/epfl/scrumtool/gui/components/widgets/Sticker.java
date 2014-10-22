@@ -52,6 +52,12 @@ public final class Sticker extends TextView {
         setBold(bold);
     }
     
+    /**
+     * @param color
+     *            MUST be a R color, not a reference to it! This means you have
+     *            to call {@code context.getResources.getColor(int resid)} at
+     *            some point and pass the result to this method
+     */
     public void setColor(int color) {
         setBackgroundColor(color);
     }

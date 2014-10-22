@@ -59,7 +59,7 @@ public final class IssueListAdapter extends BaseAdapter {
         assignee.setText(issue.getAssignedPlayer().getAccount().getName());
         estimation.setQuantity(issue.getEstimation());
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
-        estimation.setColor(issue.getStatus().getColor());
+        estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         
         return convertView;
     }
