@@ -17,14 +17,19 @@ import ch.epfl.scrumtool.R;
  * </p>
  * <b>Possible arguments:</b>
  * <ul>
- * <li>bold (boolean): whether the text will appear in bold</li>
+ * <li>bold (boolean): whether the text will appear in bold. Should NOT be white
+ * or equivalent</li>
  * <li>color (int): background color</li>
  * <li>text (String): the sticker's text. Should be very short</li>
  * </ul>
  * 
  * @author Cyriaque Brousse
  */
-public class Sticker extends TextView {
+public final class Sticker extends TextView {
+    
+    private boolean bold;
+    private int color;
+    private String text = "";
 
     public Sticker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,9 +39,9 @@ public class Sticker extends TextView {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Sticker, 0, 0);
-        boolean bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
-        int color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.darkgreen));
-        String text = attributes.getString(R.styleable.Sticker_sticker_text);
+        this.bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
+        this.color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.darkgreen));
+        this.text = attributes.getString(R.styleable.Sticker_sticker_text);
         attributes.recycle();
 
         // Customizing the text view
@@ -48,5 +53,4 @@ public class Sticker extends TextView {
         int padding = (int) res.getDimension(R.dimen.sticker_padding);
         setPadding(padding, padding, padding, padding);
     }
-
 }

@@ -10,4 +10,6 @@
     
     <dimen name="sticker_text_size">6sp</dimen>
     <dimen name="sticker_padding">5dp</dimen>
+    
+    <dimen name="slate_padding">5dp</dimen>
 </resources>

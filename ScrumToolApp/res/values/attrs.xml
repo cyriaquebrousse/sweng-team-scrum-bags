@@ -6,9 +6,15 @@
         <attr name="sticker_bold" format="boolean" />
     </declare-styleable>
     
+    <declare-styleable name="Stamp">
+        <attr name="stamp_color" format="color" />
+        <attr name="stamp_content_quantity" format="string" />
+        <attr name="stamp_content_unit" format="string" />
+    </declare-styleable>
+    
     <declare-styleable name="Slate">
         <attr name="slate_color" format="color" />
-        <attr name="slate_content_quantity" format="string" />
-        <attr name="slate_content_unit" format="string" />
+        <attr name="slate_title" format="string" />
+        <attr name="slate_text" format="string" />
     </declare-styleable>
 </resources>

@@ -12,16 +12,16 @@ import ch.epfl.scrumtool.R;
 /**
  * @author Cyriaque Brousse
  */
-public final class Slate extends RelativeLayout {
+public final class Stamp extends RelativeLayout {
 
     private int color;
-    private String title;
-    private String text;
+    private String quantity;
+    private String unit;
     
-    private TextView titleView;
-    private TextView textView;
+    private TextView quantityView;
+    private TextView unitView;
     
-    public Slate(Context context, AttributeSet attrs) {
+    public Stamp(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         Resources res = context.getResources();
@@ -29,22 +29,22 @@ public final class Slate extends RelativeLayout {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Stamp, 0, 0);
-        this.color = attributes.getColor(R.styleable.Slate_slate_color,
+        this.color = attributes.getColor(R.styleable.Stamp_stamp_color,
                 res.getColor(R.color.darkgreen));
-        this.title = attributes.getString(R.styleable.Slate_slate_title);
-        this.text = attributes.getString(R.styleable.Slate_slate_text);
+        this.quantity = attributes.getString(R.styleable.Stamp_stamp_content_quantity);
+        this.unit = attributes.getString(R.styleable.Stamp_stamp_content_unit);
         attributes.recycle();
         
         // Get the view elements
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.slate, this, true);
-        this.titleView = (TextView) getChildAt(0);
-        this.textView = (TextView) getChildAt(1);
+        inflater.inflate(R.layout.stamp, this, true);
+        this.quantityView = (TextView) getChildAt(0);
+        this.unitView = (TextView) getChildAt(1);
         
         // Customize the view
         this.setBackgroundColor(color);
-        titleView.setText(title);
-        textView.setText(text);
+        quantityView.setText(quantity);
+        unitView.setText(unit);
     }
 }
