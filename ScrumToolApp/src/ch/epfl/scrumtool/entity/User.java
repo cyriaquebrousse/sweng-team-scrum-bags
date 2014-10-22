@@ -1,17 +1,18 @@
-/**
- * 
- */
-package ch.epfl.scrumtool.kernel;
+package ch.epfl.scrumtool.entity;
+
+import java.util.Set;
 
 /**
  * @author Vincent
  * 
  */
-public class User {
+public final class User implements UserInterface {
+	
+	private long token;
+	private String name;
     private String username;
     private String email;
-    private String name;
-    private int token;
+    private final Set<ProjectInterface> projects;
 
     /**
      * @param username
@@ -19,72 +20,66 @@ public class User {
      * @param name
      * @param token
      */
-    public User(String username, String email, String name, int token) {
-        super();
+    public User(long token, String name, String username, 
+    		String email, Set<ProjectInterface> projects) {
+    	this.token = token;
         this.username = username;
         this.email = email;
         this.name = name;
-        this.token = token;
+        this.projects = projects;
     }
 
-    /**
-     * @return the username
-     */
+    @Override
     public String getUsername() {
         return username;
     }
 
     /**
-     * @param username
-     *            the username to set
+     * @param username the username to set
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * @return the email
-     */
+    @Override
     public String getEmail() {
         return email;
     }
 
     /**
      * @param email
-     *            the email to set
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return the name
-     */
+    @Override
     public String getName() {
         return name;
     }
 
     /**
      * @param name
-     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return the token
-     */
-    public int getToken() {
+    @Override
+    public long getId() {
         return token;
     }
 
     /**
      * @param token
-     *            the token to set
      */
-    public void setToken(int token) {
+    public void setToken(long token) {
         this.token = token;
     }
+
+	@Override
+	public Set<ProjectInterface> getProjects() {
+		return projects;
+	}
 
 }

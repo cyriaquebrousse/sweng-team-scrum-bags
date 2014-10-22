@@ -14,4 +14,6 @@ public interface IssueInterface {
 	 */
 	float getEstimation();
 	
+	PlayerInterface getAssignedPlayer();
+	
 }
