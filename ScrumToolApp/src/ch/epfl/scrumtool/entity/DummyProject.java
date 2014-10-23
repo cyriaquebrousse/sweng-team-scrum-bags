@@ -34,24 +34,23 @@ public class DummyProject implements ProjectInterface {
         return changesCount;
     }
 
-	@Override
-	public Set<TaskInterface> getBacklog() {
-		return null;
-	}
+    @Override
+    public Set<TaskInterface> getBacklog() {
+        return null;
+    }
 
-	@Override
-	public Set<PlayerInterface> getPlayers() {
-		return null;
-	}
+    @Override
+    public Set<PlayerInterface> getPlayers() {
+        return null;
+    }
 
-	@Override
-	public PlayerInterface getAdmin() {
-		return null;
-	}
+    @Override
+    public PlayerInterface getAdmin() {
+        return null;
+    }
 
-	@Override
-	public Role getRoleFor(UserInterface user)
-		throws NotAPlayerOfThisProjectException {
-		return Role.DEVELOPER;
-	}
+    @Override
+    public Role getRoleFor(UserInterface user) throws NotAPlayerOfThisProjectException {
+        return Role.DEVELOPER;
+    }
 }

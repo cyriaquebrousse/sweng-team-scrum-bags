@@ -23,4 +23,10 @@
         android:onClick="openTaskOverview"
         android:text="[[Open task overview]]" />
     
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openProfileOverview"
+        android:text="[[Open profile overview]]" />
+    
 </LinearLayout>

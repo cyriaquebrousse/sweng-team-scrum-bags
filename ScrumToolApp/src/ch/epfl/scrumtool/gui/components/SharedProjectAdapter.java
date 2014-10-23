@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.gui.components;
 
 import java.util.List;
@@ -19,7 +16,6 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
  * @author ketsio
- *
  */
 public final class SharedProjectAdapter extends BaseAdapter {
     private Activity activity;
@@ -27,8 +23,8 @@ public final class SharedProjectAdapter extends BaseAdapter {
     private List<ProjectInterface> sharedProjects;
     private UserInterface user;
 
-    public SharedProjectAdapter(final Activity activity, 
-    	List<ProjectInterface> sharedProjects, UserInterface user) {
+    public SharedProjectAdapter(final Activity activity,
+            List<ProjectInterface> sharedProjects, UserInterface user) {
         this.activity = activity;
         this.sharedProjects = sharedProjects;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,16 +52,18 @@ public final class SharedProjectAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listrow_shared_project, null);
         }
 
-        TextView projectName = (TextView) convertView.findViewById(R.id.shared_project_row_name);
-        TextView projectRole = (TextView) convertView.findViewById(R.id.shared_project_row_role);
+        TextView projectName = (TextView) convertView
+                .findViewById(R.id.shared_project_row_name);
+        TextView projectRole = (TextView) convertView
+                .findViewById(R.id.shared_project_row_role);
 
         ProjectInterface project = sharedProjects.get(position);
         projectName.setText(project.getName());
         try {
-			projectRole.setText(project.getRoleFor(user).toString());
-		} catch (NotAPlayerOfThisProjectException e) {
-			projectRole.setText("Could not retrieve the role");
-		}
+            projectRole.setText(project.getRoleFor(user).toString());
+        } catch (NotAPlayerOfThisProjectException e) {
+            projectRole.setText("Could not retrieve the role");
+        }
 
         return convertView;
     }
