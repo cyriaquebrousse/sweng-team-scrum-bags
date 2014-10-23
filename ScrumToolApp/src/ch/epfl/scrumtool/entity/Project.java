@@ -17,9 +17,10 @@ public class Project implements ProjectInterface {
 
     private String name;
     private String description;
-    private Player admin;
-    private final Set<PlayerInterface> players;
+    private PlayerInterface admin;
+    private Set<PlayerInterface> players;
     private final Set<TaskInterface> backlog;
+
 
     /**
      * @param name
@@ -64,8 +65,16 @@ public class Project implements ProjectInterface {
     }
 
     @Override
-    public PlayerInterface getAdmin() {
-        return admin;
+	public PlayerInterface getAdmin() {
+		return admin;
+	}
+    
+    public void setPLayers(Set<PlayerInterface> players) {
+        this.players = players;
+    }
+    
+    public void setAdmin(PlayerInterface admin) {
+        this.admin = admin;
     }
 
     @Override

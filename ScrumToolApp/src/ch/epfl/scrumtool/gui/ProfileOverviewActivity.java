@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.UserInterface;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
 
@@ -69,13 +69,11 @@ public class ProfileOverviewActivity extends Activity {
 
     @Deprecated
     private UserInterface getConnectedUser() {
-        return new User(1, "Maria Linda", "@maria_linda", "maria_linda@gmail.com",
-                null);
+        return Entity.JOHN_SMITH;
     }
 
-    @Deprecated
-    private UserInterface getUserFromPreviousActivity() {
-        return new User(1, "John Smith", "@john_smith",
-                "john.smith@gmail.com", null);
-    }
+	@Deprecated
+	private UserInterface getUserFromPreviousActivity() {
+        return Entity.MARIA_LINDA;
+	}
 }
