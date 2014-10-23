@@ -6,6 +6,7 @@
     <!-- Margin and Padding -->
     <dimen name="space">10dp</dimen>
     <dimen name="small_space">3dp</dimen>
+    <dimen name="space_list">5dp</dimen>
 
     <!-- List -->
     <dimen name="list_row_name">17sp</dimen>
