@@ -23,6 +23,7 @@
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -54,6 +55,10 @@
         <activity
             android:name=".gui.TaskOverviewActivity"
             android:label="@string/title_activity_task_overview" >
+        </activity>
+        <activity
+            android:name=".gui.IssueOverviewActivity"
+            android:label="@string/title_activity_issue_overview" >
         </activity>
     </application>
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,7 +53,9 @@ public class TaskOverviewActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(view.getContext(), "You clicked position "+ position, Toast.LENGTH_SHORT).show();
+                // TODO actually pass an issue to the activity
+                Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
+                startActivity(openIssueIntent);
             }
         });
         

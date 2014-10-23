@@ -10,7 +10,9 @@
     <string name="title_activity_project_overview">Project overview</string>
     <string name="title_activity_projectList">Projects</string>
     <string name="title_activity_task">Task</string>
-    <string name="title_activity_user_list">UserListActivity</string>
+    <string name="title_activity_user_list">User list</string>
+    <string name="title_activity_task_overview">Task overview</string>
+    <string name="title_activity_issue_overview">Issue overview</string>
 
     <!-- Backlog Activity -->
     <string name="backlog_tasklist_row_label">Backlog task</string>
@@ -26,7 +28,7 @@
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_task_overview">Task overview</string>
     <string name="project_default_unit">hours</string>
+    <string name="issue_assignee_label">Assignee</string>
 
 </resources>

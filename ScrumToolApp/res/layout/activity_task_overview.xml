@@ -35,9 +35,10 @@
         android:id="@+id/task_desc_scrollview"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_alignTop="@+id/task_priority"
+        android:layout_alignTop="@id/task_priority"
         android:layout_marginStart="@dimen/space"
-        android:layout_toEndOf="@+id/task_priority" >
+        android:layout_marginEnd="@dimen/space"
+        android:layout_toEndOf="@id/task_priority" >
 
         <TextView
             android:id="@+id/task_desc"
