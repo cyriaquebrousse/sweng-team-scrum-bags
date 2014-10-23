@@ -88,16 +88,18 @@ public final class Entity {
         description += name + "\". This project is one of the best you'll ever ";
         description += "see in the Android Application (Which is the best Application ever by the way)";
 
-        ProjectInterface project = new Project(name, description, null, null, backlog);
         
         Set<PlayerInterface> players = new HashSet<>();
         for (UserInterface user : users) {
             players.add(new Player(user, getRandomRole()));
+        }
+        PlayerInterface admin = getRandomUser(players);
+        ProjectInterface project = new Project(name, description, admin, players, backlog);
+
+        for (UserInterface user : users) {
             user.getProjects().add(project);
         }
 
-        ((Project) project).setPLayers(players);
-        ((Project) project).setAdmin(getRandomUser(players));
         return project;
     }
     
@@ -108,7 +110,7 @@ public final class Entity {
     private static UserInterface createUser(String name) {
         String username = name.toLowerCase().replace(' ', '_');
         String email = name.toLowerCase().replace(' ', '.') + "@gmail.com";
-        UserInterface user = new User(name.hashCode(), name, username, email, null);
+        UserInterface user = new User(name.hashCode(), name, username, email, new HashSet<ProjectInterface>());
         return user;
     }
     

@@ -29,7 +29,7 @@ public class Project implements ProjectInterface {
      * @param players
      * @param backlog
      */
-    public Project(String name, String description, Player admin,
+    public Project(String name, String description, PlayerInterface admin,
             Set<PlayerInterface> players, Set<TaskInterface> backlog) {
         super();
         this.name = name;
