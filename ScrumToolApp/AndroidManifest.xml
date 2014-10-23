@@ -60,6 +60,10 @@
             android:name=".gui.IssueOverviewActivity"
             android:label="@string/title_activity_issue_overview" >
         </activity>
+        <activity            
+            android:name=".gui.ProfileOverviewActivity"
+            android:label="@string/title_activity_profile_overview" >
+        </activity>
     </application>
 
 </manifest>

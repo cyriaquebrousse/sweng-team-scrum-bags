@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -81,5 +82,11 @@ public final class User implements UserInterface {
     public Set<ProjectInterface> getProjects() {
         return projects;
     }
+
+	@Override
+	public List<ProjectInterface> getProjectsSharedWith(UserInterface user) {
+		// TODO Retrieve from Database
+		return null; 
+	}
 
 }

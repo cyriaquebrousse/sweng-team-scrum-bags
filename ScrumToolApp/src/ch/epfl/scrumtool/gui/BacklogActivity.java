@@ -41,7 +41,7 @@ public class BacklogActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(view.getContext(), "Task "+ position +" selected", Toast.LENGTH_SHORT).show();
-                Intent startTaskActivityIntent = new Intent(view.getContext(), TaskActivity.class);
+                Intent startTaskActivityIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
                 startActivity(startTaskActivityIntent);
             }
         });

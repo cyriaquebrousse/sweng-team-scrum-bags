@@ -2,6 +2,8 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Set;
 
+import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+
 /**
  * Only for demo purposes !
  */
@@ -45,5 +47,11 @@ public class DummyProject implements ProjectInterface {
 	@Override
 	public PlayerInterface getAdmin() {
 		return null;
+	}
+
+	@Override
+	public Role getRoleFor(UserInterface user)
+		throws NotAPlayerOfThisProjectException {
+		return Role.DEVELOPER;
 	}
 }

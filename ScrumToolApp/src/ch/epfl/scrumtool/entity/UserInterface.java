@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,4 +13,6 @@ public interface UserInterface {
     String getUsername();
     String getEmail();
     Set<ProjectInterface> getProjects();
+    
+    List<ProjectInterface> getProjectsSharedWith(UserInterface user);
 }

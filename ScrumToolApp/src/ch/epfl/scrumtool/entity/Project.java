@@ -6,6 +6,8 @@ package ch.epfl.scrumtool.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+
 
 /**
  * @author Vincent
@@ -63,6 +65,12 @@ public class Project implements ProjectInterface {
 	@Override
 	public PlayerInterface getAdmin() {
 		return admin;
+	}
+
+	@Override
+	public Role getRoleFor(UserInterface user)
+		throws NotAPlayerOfThisProjectException {
+		return null; // TODO Database Call
 	}
 
 

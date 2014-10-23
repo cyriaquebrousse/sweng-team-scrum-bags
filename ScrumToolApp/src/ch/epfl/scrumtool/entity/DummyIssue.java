@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -77,6 +78,11 @@ public class DummyIssue implements IssueInterface {
                     public String getEmail() {
                         return "john@smith.ch";
                     }
+
+					@Override
+					public List<ProjectInterface> getProjectsSharedWith(UserInterface user) {
+						return null;
+					}
                 };
             }
         };
