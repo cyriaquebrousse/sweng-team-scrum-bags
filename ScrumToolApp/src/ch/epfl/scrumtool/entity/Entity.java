@@ -21,7 +21,7 @@ public final class Entity {
     public static final IssueInterface ISSUE_A1 = createIssue("Create the profile", Status.FINISHED, 3);
     public static final IssueInterface ISSUE_A2 = createIssue("Create the project", Status.IN_SPRINT, 2);
     public static final IssueInterface ISSUE_A3 = createIssue("Create the task", Status.FINISHED, 0);
-    public static final IssueInterface ISSUE_B1 = createIssue("Take an empty cup", Status.IN_SPRINT, 0.5f);
+    public static final IssueInterface ISSUE_B1 = createIssue("Take an empty cup", Status.FINISHED, 0.5f);
     public static final IssueInterface ISSUE_B2 = createIssue("Put the coffe on it", Status.IN_SPRINT, 0.3f);
     public static final IssueInterface ISSUE_C1 = createIssue("Call Google", Status.IN_SPRINT, 10);
     public static final IssueInterface ISSUE_D1 = createIssue("Why ?", Status.FINISHED, 100);
@@ -81,10 +81,9 @@ public final class Entity {
      */
     static TaskInterface createTask(String name, Status status, Set<IssueInterface> issues) {
         String description = "This is the description of the task called \"" + name + "\"";
-        TaskInterface task = new Task(name, description, issues, status, Priority.NORMAL);
+        TaskInterface task = new Task(name, description, issues, status, getRandomPriority());
         return task;
     }
-
 
     static ProjectInterface createProject(String name, Set<UserInterface> users, Set<TaskInterface> backlog) {
         String description = "This is a description for the project called \"";
@@ -117,6 +116,13 @@ public final class Entity {
         int index = RAND.nextInt(Role.values().length);
         Role[] roles = Role.values();
         return roles[index];
+    }
+    
+
+    private static Priority getRandomPriority() {
+        Priority[] priorities = Priority.values();
+        int index = RAND.nextInt(priorities.length);
+        return priorities[index];
     }
     
     private static PlayerInterface getRandomUser(Set<PlayerInterface> players) {

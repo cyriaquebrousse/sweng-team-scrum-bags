@@ -14,7 +14,7 @@ import ch.epfl.scrumtool.entity.IssueInterface;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
- * @author cyriaquebrousse
+ * @author Cyriaque Brousse
  */
 public final class IssueListAdapter extends BaseAdapter {
     private Activity activity;
@@ -54,7 +54,9 @@ public final class IssueListAdapter extends BaseAdapter {
         
         IssueInterface issue = issuesList.get(position);
         name.setText(issue.getName());
-        assignee.setText(issue.getAssignedPlayer().getAccount().getName());
+        // TODO fix getName() bug
+        //assignee.setText(issue.getAssignedPlayer().getAccount().getName());
+        assignee.setText("There is a bug here :(");
         estimation.setQuantity(Float.toString(issue.getEstimation()));
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
         estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));

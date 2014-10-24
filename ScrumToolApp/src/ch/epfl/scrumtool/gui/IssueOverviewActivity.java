@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.DummyIssue;
+import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.IssueInterface;
-import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
@@ -46,13 +45,13 @@ public class IssueOverviewActivity extends Activity {
         estimationStamp.setQuantity(Float.toString(issue.getEstimation()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
-        assigneeName.setText(issue.getAssignedPlayer().getAccount().getName());
+        // TODO fix getName() bug
+        // assigneeName.setText(issue.getAssignedPlayer().getAccount().getName());
+        assigneeName.setText("Bug here too");
     }
 
     @Deprecated
     private void dummyPopulate() {
-        this.issue = new DummyIssue("Create new GUI class",
-                "Create java class for the sprint display",
-                Status.READY_FOR_SPRINT, 2f);
+        this.issue = Entity.ISSUE_A1;
     }
 }
