@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
@@ -14,7 +16,6 @@
         android:layout_marginLeft="@dimen/space"
         android:layout_marginRight="@dimen/space"
         android:maxLines="1"
-        android:text="Task name"
         android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
 
@@ -43,8 +44,7 @@
         <TextView
             android:id="@+id/task_desc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ceci\nest\nune\ndescription" />
+            android:layout_height="wrap_content" />
     </ScrollView>
     
     <!-- Task deadline ??? -->

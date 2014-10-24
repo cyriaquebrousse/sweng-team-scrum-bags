@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -23,7 +24,6 @@
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/issue_row_estimation"
         android:maxLines="2"
-        android:text="This is an issue name\nIt is 2 lines long (max)"
         android:textStyle="bold" />
 
     <!-- Assignee -->
@@ -34,7 +34,6 @@
         android:layout_below="@id/issue_row_name"
         android:layout_toEndOf="@id/issue_row_estimation"
         android:maxLines="1"
-        android:text="John Smith"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
