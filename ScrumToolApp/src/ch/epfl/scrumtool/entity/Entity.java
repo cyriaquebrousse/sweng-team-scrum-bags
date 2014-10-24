@@ -17,9 +17,9 @@ public final class Entity {
     private static final Random RAND = new Random();
     
     // Issues
-    public static final IssueInterface ISSUE_A1 = createIssue("Create the profile", Status.READY_FOR_SPRINT, 3);
+    public static final IssueInterface ISSUE_A1 = createIssue("Create the profile", Status.FINISHED, 3);
     public static final IssueInterface ISSUE_A2 = createIssue("Create the project", Status.IN_SPRINT, 2);
-    public static final IssueInterface ISSUE_A3 = createIssue("Create the task", Status.READY_FOR_ESTIMATION, 0);
+    public static final IssueInterface ISSUE_A3 = createIssue("Create the task", Status.FINISHED, 0);
     public static final IssueInterface ISSUE_B1 = createIssue("Take an empty cup", Status.IN_SPRINT, 0.5f);
     public static final IssueInterface ISSUE_B2 = createIssue("Put the coffe on it", Status.IN_SPRINT, 0.3f);
     public static final IssueInterface ISSUE_C1 = createIssue("Call Google", Status.IN_SPRINT, 10);
@@ -65,7 +65,8 @@ public final class Entity {
      */
     private static IssueInterface createIssue(String name, Status status, float estimation) {
         String description = "This is the description of the issue called + \"" + name + "\"";
-        IssueInterface issue = new Issue(name, description, estimation, null, status);
+        PlayerInterface player = new Player(JOHN_SMITH, getRandomRole());
+        IssueInterface issue = new Issue(name, description, estimation, player, status);
         return issue;
     }
 
@@ -74,7 +75,7 @@ public final class Entity {
      * @return
      */
     private static TaskInterface createTask(String name, Status status, Set<IssueInterface> issues) {
-        String description = "This is the description of the task called + \"" + name + "\"";
+        String description = "This is the description of the task called \"" + name + "\"";
         TaskInterface task = new Task(name, description, issues, status, Priority.NORMAL);
         return task;
     }

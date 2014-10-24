@@ -14,7 +14,6 @@ public class Player implements PlayerInterface {
      * @param role
      */
     public Player(UserInterface user, Role role) {
-        super();
         this.user = user;
         this.role = role;
     }

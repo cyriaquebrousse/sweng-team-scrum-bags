@@ -8,7 +8,7 @@
         android:id="@+id/backlog_tasklist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#00000000">
-    </ListView>
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp" />
 
 </RelativeLayout>
