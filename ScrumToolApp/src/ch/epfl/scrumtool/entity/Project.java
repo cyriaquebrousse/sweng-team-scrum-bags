@@ -75,7 +75,7 @@ public class Project implements ProjectInterface {
 		return admin;
 	}
     
-    public void setPLayers(Set<PlayerInterface> players) {
+    public void setPlayers(Set<PlayerInterface> players) {
         this.players = players;
     }
     
