@@ -42,12 +42,12 @@ public final class Entity {
             new HashSet<>(Arrays.asList(ISSUE_E1)));
     
     // Users
-    public static final UserInterface JOHN_SMITH = createUser("John Smith");
-    public static final UserInterface MARIA_LINDA = createUser("Maria Linda");
-    public static final UserInterface CYRIAQUE_BROUSSE = createUser("Cyriaque Brousse");
-    public static final UserInterface LORIS_LEIVA = createUser("Loris Leiva");
-    public static final UserInterface ARJEN_LENSTRA = createUser("Arjen Lenstra");
-    public static final UserInterface MICHAEL_SCOFIELD = createUser("Michael Scofield");
+    public static final UserInterface JOHN_SMITH = createUser(0, "John Smith");
+    public static final UserInterface MARIA_LINDA = createUser(1, "Maria Linda");
+    public static final UserInterface CYRIAQUE_BROUSSE = createUser(2, "Cyriaque Brousse");
+    public static final UserInterface LORIS_LEIVA = createUser(3, "Loris Leiva");
+    public static final UserInterface ARJEN_LENSTRA = createUser(4, "Arjen Lenstra");
+    public static final UserInterface MICHAEL_SCOFIELD = createUser(5, "Michael Scofield");
     
     // Connected user
     public static final UserInterface CONNECTECT_USER = MARIA_LINDA;
@@ -68,7 +68,7 @@ public final class Entity {
      * @param readyForEstimation
      * @return
      */
-    private static IssueInterface createIssue(String name, Status status, float estimation) {
+    static IssueInterface createIssue(String name, Status status, float estimation) {
         String description = "This is the description of the issue called + \"" + name + "\"";
         PlayerInterface player = new Player(JOHN_SMITH, getRandomRole());
         IssueInterface issue = new Issue(name, description, estimation, player, status);
@@ -79,14 +79,14 @@ public final class Entity {
      * @param string
      * @return
      */
-    private static TaskInterface createTask(String name, Status status, Set<IssueInterface> issues) {
+    static TaskInterface createTask(String name, Status status, Set<IssueInterface> issues) {
         String description = "This is the description of the task called \"" + name + "\"";
         TaskInterface task = new Task(name, description, issues, status, Priority.NORMAL);
         return task;
     }
 
 
-    private static ProjectInterface createProject(String name, Set<UserInterface> users, Set<TaskInterface> backlog) {
+    static ProjectInterface createProject(String name, Set<UserInterface> users, Set<TaskInterface> backlog) {
         String description = "This is a description for the project called \"";
         description += name + "\". This project is one of the best you'll ever ";
         description += "see in the Android Application (Which is the best Application ever by the way)";
@@ -106,10 +106,10 @@ public final class Entity {
         return project;
     }
     
-    private static UserInterface createUser(String name) {
+    static UserInterface createUser(int id, String name) {
         String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
         String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
-        UserInterface user = new User(name.hashCode(), name, username, email, new HashSet<ProjectInterface>());
+        UserInterface user = new User(id, name, username, email, new HashSet<ProjectInterface>());
         return user;
     }
     

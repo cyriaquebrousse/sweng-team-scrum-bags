@@ -88,8 +88,8 @@ public final class User implements UserInterface {
     public List<ProjectInterface> getProjectsSharedWith(UserInterface user) {
         // TODO Retrieve from Database
         ArrayList<ProjectInterface> projects = new ArrayList<>();
-        projects.add(new DummyProject("projet 1", "desc", 3));
-        projects.add(new DummyProject("projet 2", "desc 2", 0));
+        projects.add(Entity.COOL_PROJECT);
+        projects.add(Entity.SUPER_PROJECT);
         return projects; 
     }
 
