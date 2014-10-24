@@ -15,6 +15,11 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  */
 public class Project implements ProjectInterface {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6482961928101676298L;
+    
     private String name;
     private String description;
     private PlayerInterface admin;
@@ -51,7 +56,8 @@ public class Project implements ProjectInterface {
 
     @Override
     public int getChangesCount(UserInterface user) {
-        return 4; // TODO implement changes count
+     // TODO implement changes count
+        return Math.abs(user.hashCode()) % 10;
     }
 
     @Override
@@ -79,7 +85,7 @@ public class Project implements ProjectInterface {
 
     @Override
     public Role getRoleFor(UserInterface user) throws NotAPlayerOfThisProjectException {
-        return null; // TODO Database Call
+        return Entity.getRandomRole(); // TODO Database Call
     }
 
 }

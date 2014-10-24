@@ -9,6 +9,12 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  */
 @Deprecated
 public class DummyProject implements ProjectInterface {
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 336566742678929777L;
+    
     private String name;
     private String desc;
     private int changesCount;
