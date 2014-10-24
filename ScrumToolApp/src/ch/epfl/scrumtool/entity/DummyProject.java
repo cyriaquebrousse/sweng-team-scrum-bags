@@ -2,11 +2,19 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Set;
 
+import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+
 /**
  * Only for demo purposes !
  */
 @Deprecated
 public class DummyProject implements ProjectInterface {
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 336566742678929777L;
+    
     private String name;
     private String desc;
     private int changesCount;
@@ -32,18 +40,23 @@ public class DummyProject implements ProjectInterface {
         return changesCount;
     }
 
-	@Override
-	public Set<TaskInterface> getBacklog() {
-		return null;
-	}
+    @Override
+    public Set<TaskInterface> getBacklog() {
+        return null;
+    }
 
-	@Override
-	public Set<PlayerInterface> getPlayers() {
-		return null;
-	}
+    @Override
+    public Set<PlayerInterface> getPlayers() {
+        return null;
+    }
 
-	@Override
-	public PlayerInterface getAdmin() {
-		return null;
-	}
+    @Override
+    public PlayerInterface getAdmin() {
+        return null;
+    }
+
+    @Override
+    public Role getRoleFor(UserInterface user) throws NotAPlayerOfThisProjectException {
+        return Role.DEVELOPER;
+    }
 }

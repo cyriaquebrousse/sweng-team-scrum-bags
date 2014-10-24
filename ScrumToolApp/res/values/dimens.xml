@@ -6,12 +6,13 @@
     <!-- Margin and Padding -->
     <dimen name="space">10dp</dimen>
     <dimen name="small_space">3dp</dimen>
+    <dimen name="space_list">5dp</dimen>
 
     <!-- List -->
     <dimen name="list_row_name">17sp</dimen>
     <dimen name="list_row_desc">15sp</dimen>
     <dimen name="list_row_padding">8dp</dimen>
-    <dimen name="issue_row_stamp_width">60dp</dimen>
+    <dimen name="stamp_width">60dp</dimen>
     
     <!-- Sticker -->
     <dimen name="sticker_text_size">6sp</dimen>
@@ -20,8 +21,10 @@
     <!-- Slate -->
     <dimen name="slate_padding">5dp</dimen>
     
-    <!-- Header -->
+    <!-- Text Sizes -->
     <dimen name="header_title_size">22sp</dimen>
     <dimen name="header_description_size">17sp</dimen>
+    <dimen name="default_text_size">15sp</dimen>
+    <dimen name="small_title">17sp</dimen>
     
 </resources>

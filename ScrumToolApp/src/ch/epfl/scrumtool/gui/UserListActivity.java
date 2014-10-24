@@ -40,7 +40,12 @@ public class UserListActivity extends Activity {
         listview.setAdapter(adapter);
 
     }
-
+    
+    /**
+     * 
+     * @author LeoWirz
+     *
+     */
     private class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
         private final String[] values;

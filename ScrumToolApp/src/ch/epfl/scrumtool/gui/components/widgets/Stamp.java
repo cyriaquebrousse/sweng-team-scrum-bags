@@ -39,12 +39,12 @@ public final class Stamp extends RelativeLayout {
         
         // Customize the view
         setColor(color);
-        setQuantity(Float.valueOf(quantity));
+        setQuantity(quantity);
         setUnit(unit);
     }
     
-    public void setQuantity(float quantity) {
-        quantityView.setText(Float.toString(quantity));
+    public void setQuantity(String quantity) {
+        quantityView.setText(quantity);
     }
     
     public void setUnit(String unit) {
@@ -58,6 +58,6 @@ public final class Stamp extends RelativeLayout {
      *            some point and pass the result to this method
      */
     public void setColor(int color) {
-        this.setBackgroundColor(color);
+        setBackgroundColor(color);
     }
 }

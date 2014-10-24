@@ -8,11 +8,17 @@
     <color name="list_row_hover_start_color">#FFebeef0</color>
     <color name="list_row_hover_end_color">#FFebeef0</color>
     
+    <!-- Backgrounds -->
+    <color name="profile_background">@color/whitesmoke</color>
+    
     <!-- Shades -->
     <color name="shade_main">@color/green</color>
     <color name="shade_main_dark">@color/darkgreen</color>
     <color name="shade_second">@color/blue</color>
     <color name="shade_second_dark">@color/darkblue</color>
+    
+    <!-- Text Colors -->
+    <color name="discrete_text">@color/DarkGray</color>
 
     <!-- Standard colors -->
     <color name="blue">#FF33B5E5</color>

@@ -1,60 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/list_row_padding" >
+    android:layout_height="wrap_content" >
 
-    <!-- Priority -->
-    <TextView
-        android:id="@+id/task_priority"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:background="@color/darkred"
-        android:padding="1dp"
-        android:text="URGENT"
-        android:textColor="@color/whitesmoke"
-        android:textSize="@dimen/sticker_text_size"
-        android:textStyle="bold" />
+    <!-- Background, according to percentage -->
+    <View
+        android:id="@+id/task_row_percent_backgrd"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:background="@color/LightGreen" />
 
-    <!-- Task name -->
-    <TextView
-        android:id="@+id/task_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/task_priority"
-        android:text="Implement basic user interface"
-        android:textSize="@dimen/list_row_name"
-        android:textStyle="bold" />
+    <!-- Proper elements -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/list_row_padding" >
 
-    <!-- Progress display -->
+        <!-- Priority -->
+        <ch.epfl.scrumtool.gui.components.widgets.Sticker
+            android:id="@+id/task_row_priority_sticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:sticker_color="@color/darkred"
+            custom:sticker_text="urgent" />
 
-    <!-- Assignees -->
-    <TextView
-        android:id="@+id/task_assignees"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/task_name"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@id/task_priority"
-        android:maxLines="1"
-        android:text="Toto, Tata, Titi and 3 others"
-        android:textSize="@dimen/list_row_desc" />
+        <!-- Name -->
+        <TextView
+            android:id="@+id/task_row_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_list"
+            android:layout_toEndOf="@id/task_row_priority_sticker"
+            android:maxLines="1"
+            android:text="Task name"
+            android:textSize="@dimen/list_row_name"
+            android:textStyle="bold" />
 
-    <!-- Sprint and creation details -->
-    <TextView
-        android:id="@+id/task_sprint_and_creation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/task_assignees"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@id/task_priority"
-        android:maxLines="1"
-        android:text="Sprint 00; Created Jan 01 by toto"
-        android:textColor="@color/Gray"
-        android:textSize="@dimen/list_row_desc" />
+        <!-- One-line description -->
+        <TextView
+            android:id="@+id/task_row_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/task_row_name"
+            android:layout_below="@id/task_row_priority_sticker"
+            android:maxLines="1"
+            android:text="Task description"
+            android:textSize="@dimen/list_row_desc" />
 
-</RelativeLayout>
+        <!-- Status -->
+
+        <TextView
+            android:id="@+id/task_row_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/task_row_desc"
+            android:layout_below="@+id/task_row_desc"
+            android:maxLines="1"
+            android:text="Status"
+            android:textColor="@color/Gray" />
+        
+    </RelativeLayout>
+
+</FrameLayout>

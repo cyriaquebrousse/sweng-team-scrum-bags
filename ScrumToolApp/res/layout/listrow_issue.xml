@@ -7,7 +7,7 @@
     <!-- Estimation stamp -->
     <ch.epfl.scrumtool.gui.components.widgets.Stamp
         android:id="@+id/issue_row_estimation"
-        android:layout_width="@dimen/issue_row_stamp_width"
+        android:layout_width="@dimen/stamp_width"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/issue_row_assignee"
         android:layout_marginEnd="8dp"

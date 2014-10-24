@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.DummyProject;
+import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.ProjectInterface;
+import ch.epfl.scrumtool.entity.UserInterface;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 
 /**
@@ -39,6 +42,11 @@ public class ProjectListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(view.getContext(), "You clicked position "+ position, Toast.LENGTH_SHORT).show();
                 Intent openProjectOverviewIntent = new Intent(view.getContext(), ProjectOverviewActivity.class);
+                
+                ProjectInterface project = projectsList.get(position);
+                openProjectOverviewIntent.putExtra("project_name", project.getName());
+                openProjectOverviewIntent.putExtra("project_name", project.getDescription());
+                
                 startActivity(openProjectOverviewIntent);
             }
         });
@@ -51,8 +59,8 @@ public class ProjectListActivity extends Activity {
     @Deprecated
     /** Demo purposes only! **/
     private void dummyPopulate() {
-        projectsList.add(new DummyProject("Scrum", "Scrum management app", 5));
-        projectsList.add(new DummyProject("HelloWorld", "Super fancy hello world program", 3));
-        projectsList.add(new DummyProject("NoIdeaProject", "This is a description! And it is very very long", 0));
+        projectsList.add(Entity.COOL_PROJECT);
+        projectsList.add(Entity.SUPER_PROJECT);
     }
+
 }

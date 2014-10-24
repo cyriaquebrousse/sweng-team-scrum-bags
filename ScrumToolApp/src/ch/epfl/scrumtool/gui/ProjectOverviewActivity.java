@@ -15,6 +15,11 @@ public class ProjectOverviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_overview);
+        
+        Intent intent = getIntent();
+        String projectName = intent.getStringExtra("project_name");
+        String projectDescription = intent.getStringExtra("project_description");
+        
     }
 
     public void openBacklog(View view) {

@@ -5,18 +5,21 @@ package ch.epfl.scrumtool.network;
 
 import java.util.ArrayList;
 
+import ch.epfl.scrumtool.entity.TaskInterface;
+import ch.epfl.scrumtool.entity.UserInterface;
+
 /**
  * @author AlexVeuthey
  *
  */
 public class NetworkClient implements AbstractNetworkClient {
     @Override
-    public ArrayList<BogusTask> getBacklog() {
+    public ArrayList<TaskInterface> getBacklog() {
         return null;
     }
     
     @Override
-    public ArrayList<BogusUser> getUsers() {
+    public ArrayList<UserInterface> getUsers() {
         return null;
     }
 }

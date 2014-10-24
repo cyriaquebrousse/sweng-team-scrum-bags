@@ -4,10 +4,10 @@
     <item android:state_pressed="false" android:state_selected="false">
         <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
             <item><shape xmlns:android="http://schemas.android.com/apk/res/android">
-                    <solid android:color="@color/shade_main_dark" />
+                    <solid android:color="@color/DarkGray" />
                 </shape></item>
-            <item android:bottom="3dp" android:left="0dp" android:right="0dp" android:top="0dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-                    <solid android:color="@color/shade_main" />
+            <item android:bottom="0dp" android:left="0dp" android:right="0dp" android:top="1dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+                    <solid android:color="@color/White" />
                 </shape></item>
         </layer-list>
     </item>
@@ -15,21 +15,21 @@
     <item android:state_pressed="true">
         <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
             <item><shape xmlns:android="http://schemas.android.com/apk/res/android">
-                    <solid android:color="@color/shade_main" />
+                    <solid android:color="@color/DarkGray" />
                 </shape></item>
-            <item android:bottom="3dp" android:left="0dp" android:right="0dp" android:top="0dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-                    <solid android:color="@color/shade_main_dark" />
+            <item android:bottom="0dp" android:left="0dp" android:right="0dp" android:top="1dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+                    <solid android:color="@color/AliceBlue" />
                 </shape></item>
         </layer-list>
     </item>
-        
+    
     <item android:state_pressed="false" android:state_selected="true">
         <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
             <item><shape xmlns:android="http://schemas.android.com/apk/res/android">
-                    <solid android:color="@color/shade_main" />
+                    <solid android:color="@color/DarkGray" />
                 </shape></item>
-            <item android:bottom="3dp" android:left="0dp" android:right="0dp" android:top="0dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-                    <solid android:color="@color/shade_main_dark" />
+            <item android:bottom="0dp" android:left="0dp" android:right="0dp" android:top="1dp"><shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+                    <solid android:color="@color/AliceBlue" />
                 </shape></item>
         </layer-list>
     </item>

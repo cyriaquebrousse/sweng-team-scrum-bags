@@ -24,6 +24,7 @@ public final class IssueListAdapter extends BaseAdapter {
     public IssueListAdapter(final Activity activity, List<IssueInterface> issuesList) {
         this.activity = activity;
         this.issuesList = issuesList;
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     
     @Override
@@ -43,9 +44,6 @@ public final class IssueListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (inflater == null) {
-            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_issue, null);
         }
@@ -57,7 +55,7 @@ public final class IssueListAdapter extends BaseAdapter {
         IssueInterface issue = issuesList.get(position);
         name.setText(issue.getName());
         assignee.setText(issue.getAssignedPlayer().getAccount().getName());
-        estimation.setQuantity(issue.getEstimation());
+        estimation.setQuantity(Float.toString(issue.getEstimation()));
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
         estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         

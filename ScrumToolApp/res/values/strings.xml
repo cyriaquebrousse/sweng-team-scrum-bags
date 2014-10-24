@@ -10,7 +10,10 @@
     <string name="title_activity_project_overview">Project overview</string>
     <string name="title_activity_projectList">Projects</string>
     <string name="title_activity_task">Task</string>
-    <string name="title_activity_user_list">UserListActivity</string>
+    <string name="title_activity_user_list">User list</string>
+    <string name="title_activity_task_overview">Task overview</string>
+    <string name="title_activity_issue_overview">Issue overview</string>
+    <string name="title_activity_profile_overview">ProfileOverviewActivity</string>
 
     <!-- Backlog Activity -->
     <string name="backlog_tasklist_row_label">Backlog task</string>
@@ -22,11 +25,16 @@
     <string name="button_backlog_show">Backlog</string>
     <string name="button_players_show">Players</string>
     <string name="button_sprints_show">Sprints</string>
+    
+    <!-- Titles -->
+    <string name="shared_projects">Shared Projects</string>
+    <string name="email">email</string>
+    <string name="username">username</string>
 
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_task_overview">Task overview</string>
     <string name="project_default_unit">hours</string>
+    <string name="issue_assignee_label">Assignee</string>
 
 </resources>
