@@ -21,7 +21,7 @@ public final class TaskListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<TaskInterface> taskList;
-
+    
     public TaskListAdapter(final Activity activity, List<TaskInterface> taskList) {
         this.activity = activity;
         this.taskList = taskList;
@@ -56,19 +56,23 @@ public final class TaskListAdapter extends BaseAdapter {
         TextView status = (TextView) convertView.findViewById(R.id.task_row_status);
         View percentDoneBackgrd = (View) convertView.findViewById(R.id.task_row_percent_backgrd);
         
-        // Set views properties
+        // Get percentage of task done
         TaskInterface task = taskList.get(position);
+        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
+                
+        // Set views properties
         priority.setStickerText(task.getPriority());
         priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
         description.setText(task.getDescription());
-        status.setText(task.getStatus().toString());
+        status.setText((int) (percentageDone * 100) + " %  -  "+ task.getStatus().toString());
+        
         
         // Set background width according to # issues finished
         DisplayMetrics metrics = convertView.getContext().getResources().getDisplayMetrics();
         int screenWidthPixel = metrics.widthPixels;
         ViewGroup.LayoutParams params = percentDoneBackgrd.getLayoutParams();
-        params.width = (screenWidthPixel * task.getIssuesFinishedCount()) / task.getIssues().size();
+        params.width = (int) (screenWidthPixel * percentageDone);
         percentDoneBackgrd.setLayoutParams(params);
         
         return convertView;
