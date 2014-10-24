@@ -35,12 +35,11 @@ public class ProfileOverviewActivity extends Activity {
         setContentView(R.layout.activity_profile_overview);
 
         // Get the users
-        this.userConnected = getConnectedUser();
+        this.userConnected = Entity.CONNECTECT_USER;
         this.userProfile = getUserFromPreviousActivity();
 
         // Create the adapter
-        adapter = new SharedProjectAdapter(this,
-                userProfile.getProjectsSharedWith(userConnected), userProfile);
+        adapter = new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
 
         // Get Views
         nameView = (TextView) findViewById(R.id.profile_name);
@@ -67,13 +66,9 @@ public class ProfileOverviewActivity extends Activity {
 
     }
 
-    @Deprecated
-    private UserInterface getConnectedUser() {
-        return Entity.JOHN_SMITH;
-    }
-
 	@Deprecated
+    /** Demo purposes only **/
 	private UserInterface getUserFromPreviousActivity() {
-        return Entity.MARIA_LINDA;
+	    return Entity.JOHN_SMITH;
 	}
 }

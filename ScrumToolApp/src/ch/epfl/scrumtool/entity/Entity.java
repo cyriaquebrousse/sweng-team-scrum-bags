@@ -5,6 +5,7 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
@@ -47,6 +48,9 @@ public final class Entity {
     public static final UserInterface LORIS_LEIVA = createUser("Loris Leiva");
     public static final UserInterface ARJEN_LENSTRA = createUser("Arjen Lenstra");
     public static final UserInterface MICHAEL_SCOFIELD = createUser("Michael Scofield");
+    
+    // Connected user
+    public static final UserInterface CONNECTECT_USER = MARIA_LINDA;
 
     // Projects
     public static final ProjectInterface COOL_PROJECT = createProject("Cool Project",
@@ -56,6 +60,7 @@ public final class Entity {
     public static final ProjectInterface SUPER_PROJECT = createProject("Super Project",
             new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, ARJEN_LENSTRA, MICHAEL_SCOFIELD)),
             new HashSet<>(Arrays.asList(TASK_C, TASK_D)));
+    
 
 
     /**
@@ -80,10 +85,7 @@ public final class Entity {
         return task;
     }
 
-    /**
-     * @param string
-     * @return
-     */
+
     private static ProjectInterface createProject(String name, Set<UserInterface> users, Set<TaskInterface> backlog) {
         String description = "This is a description for the project called \"";
         description += name + "\". This project is one of the best you'll ever ";
@@ -104,18 +106,14 @@ public final class Entity {
         return project;
     }
     
-    /**
-     * @param string
-     * @return
-     */
     private static UserInterface createUser(String name) {
-        String username = name.toLowerCase().replace(' ', '_');
-        String email = name.toLowerCase().replace(' ', '.') + "@gmail.com";
+        String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
+        String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
         UserInterface user = new User(name.hashCode(), name, username, email, new HashSet<ProjectInterface>());
         return user;
     }
     
-    private static Role getRandomRole() {
+    public static Role getRandomRole() {
         int index = RAND.nextInt(Role.values().length);
         Role[] roles = Role.values();
         return roles[index];

@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
@@ -8,7 +9,7 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  * @author ketsio
  *
  */
-public interface ProjectInterface {
+public interface ProjectInterface extends Serializable {
     String getName();
     String getDescription();
     int getChangesCount(UserInterface user);
