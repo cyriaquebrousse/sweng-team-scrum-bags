@@ -6,9 +6,9 @@ import ch.epfl.scrumtool.R;
  * @author Cyriaque Brousse
  */
 public enum Priority {
-    LOW(R.color.Azure, "LOW"),
+    LOW(R.color.blue, "LOW"),
     NORMAL(R.color.darkgreen, "NORMAL"),
-    HIGH(R.color.OrangeRed, "HIGH"),
+    HIGH(R.color.Orange, "HIGH"),
     URGENT(R.color.darkred, "URGENT");
     
     private int colorRef;
