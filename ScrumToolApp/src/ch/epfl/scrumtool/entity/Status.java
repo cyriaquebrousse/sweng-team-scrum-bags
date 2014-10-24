@@ -6,10 +6,10 @@ import ch.epfl.scrumtool.R;
  * @author ketsio
  */
 public enum Status {
-    READY_FOR_SPRINT(R.color.BlanchedAlmond, "Ready for sprint"),
-    IN_SPRINT(R.color.AliceBlue, "In sprint"),
-    READY_FOR_ESTIMATION(R.color.Black, "Ready for estimation"),
-    FINISHED(R.color.Pink, "Finished");
+    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"),
+    IN_SPRINT(R.color.Salmon, "In sprint"),
+    READY_FOR_ESTIMATION(R.color.Lime, "Ready for estimation"),
+    FINISHED(R.color.Cyan, "Finished");
 
     private int colorRef;
     private String stringValue;

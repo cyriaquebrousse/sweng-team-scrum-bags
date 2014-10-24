@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +12,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.DummyProject;
 import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.ProjectInterface;
-import ch.epfl.scrumtool.entity.UserInterface;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 
 /**
- * @author cyriaquebrousse
+ * @author Cyriaque Brousse
  */
 public class ProjectListActivity extends Activity {
 

@@ -39,7 +39,7 @@ public class BacklogActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO actually pass a task to the intent
                 Intent openTaskIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
-                //startActivity(openTaskIntent);
+                startActivity(openTaskIntent);
             }
         });
         

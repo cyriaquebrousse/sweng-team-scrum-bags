@@ -7,7 +7,7 @@ import android.view.View;
 import ch.epfl.scrumtool.R;
 
 /**
- * @author cyriaquebrousse
+ * @author Cyriaque Brousse
  */
 public class ProjectOverviewActivity extends Activity {
 

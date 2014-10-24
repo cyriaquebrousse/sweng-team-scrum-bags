@@ -15,7 +15,7 @@ import ch.epfl.scrumtool.entity.ProjectInterface;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
 /**
- * @author cyriaquebrousse
+ * @author Cyriaque Brousse
  */
 public final class ProjectListAdapter extends BaseAdapter {
     private Activity activity;

@@ -7,7 +7,8 @@ import android.view.View;
 import ch.epfl.scrumtool.R;
 
 /**
- * @author cyriaquebrousse
+ * Note: This class is temporary.
+ * @author Cyriaque Brousse
  */
 public class MainActivity extends Activity {
 

@@ -14,9 +14,7 @@ import ch.epfl.scrumtool.entity.UserInterface;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
 
 /**
- * 
  * @author ketsio
- *
  */
 public class ProfileOverviewActivity extends Activity {
 
