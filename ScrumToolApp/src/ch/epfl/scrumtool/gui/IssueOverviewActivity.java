@@ -18,7 +18,7 @@ public class IssueOverviewActivity extends Activity {
     private TextView descriptionView;
     private TextView statusView;
     private Stamp estimationStamp;
-    private TextView assignedName;
+    private TextView assigneeName;
 
     private Issue issue;
 
@@ -38,7 +38,7 @@ public class IssueOverviewActivity extends Activity {
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
-        assignedName = (TextView) findViewById(R.id.issue_assignee_name);
+        assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
 
         // Set views
         updateViews();
@@ -48,11 +48,10 @@ public class IssueOverviewActivity extends Activity {
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());
+        assigneeName.setText(issue.getPlayer().getUser().getName());
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
-
-        assignedName.setText(issue.getPlayer().getUser().getName());
     }
 
 }

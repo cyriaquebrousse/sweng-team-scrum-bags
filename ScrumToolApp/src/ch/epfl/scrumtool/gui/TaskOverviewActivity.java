@@ -34,7 +34,6 @@ public class TaskOverviewActivity extends Activity {
     private MainTask task;
     private List<Issue> issueList;
     private IssueListAdapter adapter;
-
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,6 @@ public class TaskOverviewActivity extends Activity {
         prioritySticker.setStickerText(task.getPriority());
         prioritySticker.setColor(getResources().getColor(task.getPriority().getColorRef()));
         statusSlate.setText(task.getStatus().toString());
-        
 
         float estimatedTime = task.getEstimatedTime();
         estimationSlate.setText(estimatedTime < 0 ? "?" : Float.toString(estimatedTime) + " hours");
