@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
 

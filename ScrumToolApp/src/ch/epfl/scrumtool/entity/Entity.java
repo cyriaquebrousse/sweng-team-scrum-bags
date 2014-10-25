@@ -26,15 +26,15 @@ public final class Entity {
     public static final User CONNECTED_USER = MARIA_LINDA;
     
     // Issues
-    public static final Issue ISSUE_A1 = createIssue(1, "Create the profile", Status.FINISHED, 3);
-    public static final Issue ISSUE_A2 = createIssue(2, "Create the project", Status.IN_SPRINT, 2);
-    public static final Issue ISSUE_A3 = createIssue(3, "Create the task", Status.FINISHED, 0);
-    public static final Issue ISSUE_B1 = createIssue(4, "Take an empty cup", Status.IN_SPRINT, 0.5f);
-    public static final Issue ISSUE_B2 = createIssue(5, "Put the coffe on it", Status.IN_SPRINT, 0.3f);
-    public static final Issue ISSUE_C1 = createIssue(6, "Call Google", Status.IN_SPRINT, 10);
-    public static final Issue ISSUE_D1 = createIssue(7, "Why ?", Status.FINISHED, 100);
-    public static final Issue ISSUE_D2 = createIssue(8, "Why not ?", Status.FINISHED, 0.5f);
-    public static final Issue ISSUE_E1 = createIssue(9, "Find time to sleep", Status.READY_FOR_ESTIMATION, 2);
+    public static final Issue ISSUE_A1 = createIssue(0, "Create the profile", Status.FINISHED, 3);
+    public static final Issue ISSUE_A2 = createIssue(1, "Create the project", Status.IN_SPRINT, 2);
+    public static final Issue ISSUE_A3 = createIssue(2, "Create the task", Status.FINISHED, 0);
+    public static final Issue ISSUE_B1 = createIssue(3, "Take an empty cup", Status.IN_SPRINT, 0.5f);
+    public static final Issue ISSUE_B2 = createIssue(4, "Put the coffe on it", Status.IN_SPRINT, 0.3f);
+    public static final Issue ISSUE_C1 = createIssue(5, "Call Google", Status.IN_SPRINT, 10);
+    public static final Issue ISSUE_D1 = createIssue(6, "Why ?", Status.FINISHED, 100);
+    public static final Issue ISSUE_D2 = createIssue(7, "Why not ?", Status.FINISHED, 0.5f);
+    public static final Issue ISSUE_E1 = createIssue(8, "Find time to sleep", Status.READY_FOR_ESTIMATION, 2);
 
 
     
@@ -58,7 +58,7 @@ public final class Entity {
     
     public static final Project SUPER_PROJECT = createProject(1, "Super Project",
             new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, ARJEN_LENSTRA, MICHAEL_SCOFIELD)),
-            new HashSet<>(Arrays.asList(TASK_C, TASK_D)));
+            new HashSet<>(Arrays.asList(TASK_C, TASK_D, TASK_E)));
 
 
     /**

@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,12 +12,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
+import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author Cyriaque Brousse
@@ -31,6 +32,7 @@ public class TaskOverviewActivity extends Activity {
     private ListView listView;
     
     private MainTask task;
+    private List<Issue> issueList;
     private IssueListAdapter adapter;
 
     
@@ -38,19 +40,27 @@ public class TaskOverviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
+
+        Intent intent = getIntent();
         
-        // Simulate Task
-        task = Entity.TASK_A;
+        // Get the task
+        long taskId = intent.getLongExtra("task_id", 0);
+        task = ServerSimulator.getTaskById(taskId);
+        issueList = new ArrayList<>(task.getIssues());
         
         // Get list and initialize adapter
-        adapter = new IssueListAdapter(this, new ArrayList<Issue>(task.getIssues()));
+        adapter = new IssueListAdapter(this, issueList);
         listView = (ListView) findViewById(R.id.task_issues_list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO actually pass an issue to the activity
                 Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
+
+                // Pass the issue Id
+                Issue issue = issueList.get(position);
+                openIssueIntent.putExtra("issue_id", issue.getId());
+                
                 startActivity(openIssueIntent);
             }
         });

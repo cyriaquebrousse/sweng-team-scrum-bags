@@ -3,6 +3,7 @@
  */
 package ch.epfl.scrumtool.network;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import ch.epfl.scrumtool.entity.User;
  */
 public final class ServerSimulator {
     
-    private static List<User> users = Arrays.asList(
+    public final static List<User> USERS = Arrays.asList(
             Entity.JOHN_SMITH,
             Entity.MARIA_LINDA,
             Entity.CYRIAQUE_BROUSSE,
@@ -26,18 +27,18 @@ public final class ServerSimulator {
             Entity.ARJEN_LENSTRA,
             Entity.MICHAEL_SCOFIELD);
     
-    private static List<Project> projects = Arrays.asList(
+    public final static List<Project> PROJECTS = Arrays.asList(
             Entity.COOL_PROJECT,
             Entity.SUPER_PROJECT);
     
-    private static List<MainTask> tasks = Arrays.asList(
+    public final static List<MainTask> TASKS = Arrays.asList(
             Entity.TASK_A,
             Entity.TASK_B,
             Entity.TASK_C,
             Entity.TASK_D,
             Entity.TASK_E);
     
-    private static List<Issue> issues = Arrays.asList(
+    public final static List<Issue> ISSUES = Arrays.asList(
             Entity.ISSUE_A1,
             Entity.ISSUE_A2,
             Entity.ISSUE_A3,
@@ -50,19 +51,23 @@ public final class ServerSimulator {
     
     
     
-    public static User getUserById(int id) {
-        return users.get(id);
+    public static User getUserById(long id) {
+        return USERS.get((int) id);
     }
     
-    public static Project getProjectById(int id) {
-        return projects.get(id);
+    public static Project getProjectById(long id) {
+        return PROJECTS.get((int) id);
     }
     
-    public static MainTask getTaskById(int id) {
-        return tasks.get(id);
+    public static MainTask getTaskById(long id) {
+        return TASKS.get((int) id);
     }
     
-    public static Issue getIssueById(int id) {
-        return issues.get(id);
+    public static Issue getIssueById(long id) {
+        return ISSUES.get((int) id);
+    }
+
+    public static List<MainTask> getBacklogByProjectId(long projectId) {
+        return new ArrayList<>(PROJECTS.get((int) projectId).getBacklog());
     }
 }

@@ -27,7 +27,6 @@
         android:layout_marginEnd="@dimen/space"
         android:layout_toEndOf="@id/project_icon"
         android:maxLines="1"
-        android:text="Project Title"
         android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
 
@@ -38,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/project_icon"
         android:layout_margin="@dimen/space"
-        android:text="Project Description"
         android:textSize="@dimen/header_description_size" />
 
     <!-- Go to Backlog -->
