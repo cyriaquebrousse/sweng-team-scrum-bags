@@ -79,10 +79,9 @@ public final class Entity {
      */
     static MainTask createTask(long id, String name, Status status, Set<Issue> issues) {
         String description = "This is the description of the task called \"" + name + "\"";
-        MainTask task = new MainTask(id, name, description, status, issues, Priority.NORMAL);
+        MainTask task = new MainTask(id, name, description, status, issues, getRandomPriority());
         return task;
     }
-
 
     static Project createProject(long id, String name, Set<User> users, Set<MainTask> backlog) {
         String description = "This is a description for the project called \"";
@@ -115,6 +114,12 @@ public final class Entity {
         int index = RAND.nextInt(Role.values().length);
         Role[] roles = Role.values();
         return roles[index];
+    }
+    
+    private static Priority getRandomPriority() {
+        Priority[] priorities = Priority.values();
+        int index = RAND.nextInt(priorities.length);
+        return priorities[index];
     }
     
     private static Player getRandomPlayer(Set<Player> players) {
