@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.ProjectInterface;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
 /**
@@ -20,12 +20,13 @@ import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 public final class ProjectListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<ProjectInterface> projectsList;
+    private List<Project> projectsList;
     
 
-    public ProjectListAdapter(final Activity activity, List<ProjectInterface> projectsList) {
+    public ProjectListAdapter(final Activity activity, List<Project> projectsList) {
         this.activity = activity;
         this.projectsList = projectsList;
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -45,9 +46,6 @@ public final class ProjectListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        if (inflater == null) {
-            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_project, null);
         }
@@ -56,12 +54,12 @@ public final class ProjectListAdapter extends BaseAdapter {
         TextView desc = (TextView) convertView.findViewById(R.id.project_row_description);
         Sticker newElemCount = (Sticker) convertView.findViewById(R.id.project_row_newElemCount);
 
-        ProjectInterface project = projectsList.get(position);
+        Project project = projectsList.get(position);
         name.setText(project.getName());
         desc.setText(project.getDescription());
         
         // Sticker
-        int changesCount = project.getChangesCount(Entity.CONNECTECT_USER);
+        int changesCount = project.getChangesCount(Entity.CONNECTED_USER);
         newElemCount.setText(Integer.toString(changesCount));
 
         if (changesCount == 0) {

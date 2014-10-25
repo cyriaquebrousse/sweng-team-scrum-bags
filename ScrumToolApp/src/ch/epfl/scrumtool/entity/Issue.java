@@ -1,48 +1,64 @@
+/**
+ * 
+ */
 package ch.epfl.scrumtool.entity;
 
 /**
- * @author ketsio
+ * @author Vincent
+ * 
  */
-public class Issue implements IssueInterface {
+public class Issue extends AbstractTask {
 
-    private String name;
-    private String description;
-    private float estimation;
-    private PlayerInterface player;
-    private Status status;
+    private float mEstimatedTime;
+    private Player mPlayer;
 
-    public Issue(String name, String description, float estimation,
-            PlayerInterface player, Status status) {
-        this.name = name;
-        this.description = description;
-        this.estimation = estimation;
-        this.player = player;
-        this.status = status;
+    /**
+     * @param name
+     * @param description
+     * @param status
+     * @param mEstimatedTime
+     * @param mProgramer
+     */
+    public Issue(long id, String name, String description, Status status,
+            float estimatedTime, Player player) {
+        super(id, name, description, status);
+        if (player == null) {
+            throw new NullPointerException("Issue.Constructor");
+        }
+        this.mEstimatedTime = estimatedTime;
+        this.mPlayer = player;
     }
 
-    @Override
-    public String getName() {
-        return name;
+    /**
+     * @return the mEstimatedTime
+     */
+    public float getEstimatedTime() {
+        return mEstimatedTime;
     }
 
-    @Override
-    public String getDescription() {
-        return description;
+    /**
+     * @param mEstimatedTime
+     *            the mEstimatedTime to set
+     */
+    public void setEstimatedTime(float mEstimatedTime) {
+        this.mEstimatedTime = mEstimatedTime;
     }
 
-    @Override
-    public float getEstimation() {
-        return estimation;
+    /**
+     * @return the mProgramer
+     */
+    public Player getPlayer() {
+        return mPlayer;
     }
 
-    @Override
-    public PlayerInterface getAssignedPlayer() {
-        return player;
-    }
-
-    @Override
-    public Status getStatus() {
-        return status;
+    /**
+     * @param mProgramer
+     *            the mProgramer to set
+     */
+    public void setPlayer(Player player) {
+        if (player != null) {
+            this.mPlayer = player;
+        }
     }
 
 }

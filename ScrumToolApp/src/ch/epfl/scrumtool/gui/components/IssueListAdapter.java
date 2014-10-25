@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.IssueInterface;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
@@ -19,9 +19,9 @@ import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 public final class IssueListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<IssueInterface> issuesList;
+    private List<Issue> issuesList;
 
-    public IssueListAdapter(final Activity activity, List<IssueInterface> issuesList) {
+    public IssueListAdapter(final Activity activity, List<Issue> issuesList) {
         this.activity = activity;
         this.issuesList = issuesList;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,12 +52,11 @@ public final class IssueListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.issue_row_name);
         TextView assignee = (TextView) convertView.findViewById(R.id.issue_row_assignee);
         
-        IssueInterface issue = issuesList.get(position);
+        Issue issue = issuesList.get(position);
         name.setText(issue.getName());
-        // TODO fix getName() bug
-        //assignee.setText(issue.getAssignedPlayer().getAccount().getName());
-        assignee.setText("There is a bug here :(");
-        estimation.setQuantity(Float.toString(issue.getEstimation()));
+
+        assignee.setText(issue.getPlayer().getUser().getName());
+        estimation.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
         estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         

@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.ProjectInterface;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 
 /**
@@ -21,7 +21,7 @@ import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
  */
 public class ProjectListActivity extends Activity {
 
-    private List<ProjectInterface> projectsList = new ArrayList<>();
+    private List<Project> projectsList;
     private ListView listView;
     private ProjectListAdapter adapter;
 
@@ -29,6 +29,10 @@ public class ProjectListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectlist);
+
+        // Create some dummy projects and add them to the list
+        projectsList = new ArrayList<Project>();
+        dummyPopulate();
         
         // Get list and initialize its adapter
         adapter = new ProjectListAdapter(this, projectsList);
@@ -40,7 +44,7 @@ public class ProjectListActivity extends Activity {
                 Toast.makeText(view.getContext(), "You clicked position "+ position, Toast.LENGTH_SHORT).show();
                 Intent openProjectOverviewIntent = new Intent(view.getContext(), ProjectOverviewActivity.class);
                 
-                ProjectInterface project = projectsList.get(position);
+                Project project = projectsList.get(position);
                 openProjectOverviewIntent.putExtra("project_name", project.getName());
                 openProjectOverviewIntent.putExtra("project_name", project.getDescription());
                 
@@ -48,8 +52,6 @@ public class ProjectListActivity extends Activity {
             }
         });
 
-        // Create some dummy projects and add them to the list
-        dummyPopulate();
         adapter.notifyDataSetChanged();
     }
 

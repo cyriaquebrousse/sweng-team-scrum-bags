@@ -1,9 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,11 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.IssueInterface;
-import ch.epfl.scrumtool.entity.Priority;
-import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.entity.Task;
-import ch.epfl.scrumtool.entity.TaskInterface;
+import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
@@ -36,24 +30,20 @@ public class TaskOverviewActivity extends Activity {
     private Slate estimationSlate;
     private ListView listView;
     
-    private TaskInterface task;
+    private MainTask task;
     private IssueListAdapter adapter;
-    
-    @Deprecated
-    // TODO this should not be a member of this class
-    private List<IssueInterface> issuesList = new ArrayList<>();
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
         
-        // Get the task
-        dummyPopulate();
-        issuesList = setToList(task.getIssues());
+        // Simulate Task
+        task = Entity.TASK_A;
         
         // Get list and initialize adapter
-        adapter = new IssueListAdapter(this, issuesList);
+        adapter = new IssueListAdapter(this, new ArrayList<Issue>(task.getIssues()));
         listView = (ListView) findViewById(R.id.task_issues_list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -72,8 +62,9 @@ public class TaskOverviewActivity extends Activity {
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
         
-        // Update the views and the adapter
+        // Set the views
         updateViews();
+
         adapter.notifyDataSetChanged();
     }
 
@@ -84,30 +75,9 @@ public class TaskOverviewActivity extends Activity {
         prioritySticker.setColor(getResources().getColor(task.getPriority().getColorRef()));
         statusSlate.setText(task.getStatus().toString());
         
-        // TODO don't assume that estimation := sum (issues.estimation) !
-        float estimation = 0f;
-        for (IssueInterface i : issuesList) {
-            estimation += i.getEstimation();
-        }
-        estimationSlate.setText(Float.toString(estimation));
+
+        float estimatedTime = task.getEstimatedTime();
+        estimationSlate.setText(estimatedTime < 0 ? "?" : Float.toString(estimatedTime) + " hours");
     }
 
-    @Deprecated
-    private void dummyPopulate() {
-        Set<IssueInterface> issues = new HashSet<>();
-        issues.add(Entity.ISSUE_A1);
-        issues.add(Entity.ISSUE_A2);
-        issues.add(Entity.ISSUE_B2);
-        issues.add(Entity.ISSUE_C1);
-        task = new Task("Find meaning of the universe", "It is very important", issues,
-                Status.IN_SPRINT, Priority.HIGH);
-    }
-    
-    private <E> List<E> setToList(Set<E> set) {
-        List<E> list = new ArrayList<>();
-        for (E e : set) {
-            list.add(e);
-        }
-        return list;
-    }
 }

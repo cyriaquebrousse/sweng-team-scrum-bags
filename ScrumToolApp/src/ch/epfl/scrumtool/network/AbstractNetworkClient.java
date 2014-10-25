@@ -5,8 +5,10 @@ package ch.epfl.scrumtool.network;
 
 import java.util.ArrayList;
 
-import ch.epfl.scrumtool.entity.TaskInterface;
-import ch.epfl.scrumtool.entity.UserInterface;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.User;
+
+
 
 /**
  * @author AlexVeuthey
@@ -14,6 +16,6 @@ import ch.epfl.scrumtool.entity.UserInterface;
  */
 public interface AbstractNetworkClient {
     
-    ArrayList<TaskInterface> getBacklog();
-    ArrayList<UserInterface> getUsers();
+    ArrayList<MainTask> getBacklog();
+    ArrayList<User> getUsers();
 }

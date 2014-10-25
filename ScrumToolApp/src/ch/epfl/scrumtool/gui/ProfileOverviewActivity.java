@@ -10,7 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.UserInterface;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
 
 /**
@@ -24,8 +25,8 @@ public class ProfileOverviewActivity extends Activity {
     private ListView sharedProjectsListView;
 
     private SharedProjectAdapter adapter;
-    private UserInterface userConnected;
-    private UserInterface userProfile;
+    private User userConnected;
+    private User userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class ProfileOverviewActivity extends Activity {
         setContentView(R.layout.activity_profile_overview);
 
         // Get the users
-        this.userConnected = Entity.CONNECTECT_USER;
+        this.userConnected = Entity.CONNECTED_USER;
         this.userProfile = getUserFromPreviousActivity();
 
         // Create the adapter
@@ -66,7 +67,7 @@ public class ProfileOverviewActivity extends Activity {
 
 	@Deprecated
     /** Demo purposes only **/
-	private UserInterface getUserFromPreviousActivity() {
+	private User getUserFromPreviousActivity() {
 	    return Entity.JOHN_SMITH;
 	}
 }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.TaskInterface;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
 /**
@@ -20,9 +20,9 @@ import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 public final class TaskListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<TaskInterface> taskList;
-    
-    public TaskListAdapter(final Activity activity, List<TaskInterface> taskList) {
+    private List<MainTask> taskList;
+
+    public TaskListAdapter(final Activity activity, List<MainTask> taskList) {
         this.activity = activity;
         this.taskList = taskList;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,11 +56,10 @@ public final class TaskListAdapter extends BaseAdapter {
         TextView status = (TextView) convertView.findViewById(R.id.task_row_status);
         View percentDoneBackgrd = (View) convertView.findViewById(R.id.task_row_percent_backgrd);
         
-        // Get percentage of task done
-        TaskInterface task = taskList.get(position);
-        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
-                
         // Set views properties
+        MainTask task = taskList.get(position);
+        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
+
         priority.setStickerText(task.getPriority());
         priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());

@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.ProjectInterface;
-import ch.epfl.scrumtool.entity.UserInterface;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
@@ -20,11 +21,11 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 public final class SharedProjectAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<ProjectInterface> sharedProjects;
-    private UserInterface user;
+    private List<Project> sharedProjects;
+    private User user;
 
     public SharedProjectAdapter(final Activity activity,
-            List<ProjectInterface> sharedProjects, UserInterface user) {
+            List<Project> sharedProjects, User user) {
         this.activity = activity;
         this.sharedProjects = sharedProjects;
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,7 +58,7 @@ public final class SharedProjectAdapter extends BaseAdapter {
         TextView projectRole = (TextView) convertView
                 .findViewById(R.id.shared_project_row_role);
 
-        ProjectInterface project = sharedProjects.get(position);
+        Project project = sharedProjects.get(position);
         projectName.setText(project.getName());
         try {
             projectRole.setText(project.getRoleFor(user).toString());

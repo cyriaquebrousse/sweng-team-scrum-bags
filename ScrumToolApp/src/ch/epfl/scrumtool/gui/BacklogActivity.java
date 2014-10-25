@@ -12,7 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
-import ch.epfl.scrumtool.entity.TaskInterface;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
 
 /**
@@ -23,7 +23,7 @@ public class BacklogActivity extends Activity {
     private ListView listView;
     
     private TaskListAdapter adapter;
-    private List<TaskInterface> taskList = new ArrayList<>();
+    private List<MainTask> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

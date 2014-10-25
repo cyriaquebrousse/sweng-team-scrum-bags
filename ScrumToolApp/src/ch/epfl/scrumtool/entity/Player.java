@@ -1,46 +1,67 @@
+/**
+ * 
+ */
 package ch.epfl.scrumtool.entity;
 
 /**
  * @author Vincent
  * 
  */
-public class Player implements PlayerInterface {
-
-    private UserInterface user;
-    private Role role;
-
-    /**
-     * @param user
-     * @param role
-     */
-    public Player(UserInterface user, Role role) {
-        this.user = user;
-        this.role = role;
-    }
-
-
-    @Override
-    public UserInterface getAccount() {
-        return user;
-    }
+public final class Player {
+    private User mUser;
+    private long mId;
+    private Role mRole;
 
     /**
      * @param user
      */
-    public void setAccount(UserInterface user) {
-        this.user = user;
+    public Player(long id, User user, Role role) {
+        super();
+        if (user == null) {
+            throw new NullPointerException("Player.Constructor");
+        }
+        this.mId = id;
+        this.mUser = user;
+        this.mRole = role;
     }
 
-    @Override
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return mUser;
+    }
+
+    /**
+     * @param user
+     *            the user to set
+     */
+    public void setUser(User user) {
+        if (user != null) {
+            this.mUser = user;
+        }
+    }
+
+    /**
+     * @return the role
+     */
     public Role getRole() {
-        return role;
+        return mRole;
     }
 
     /**
-     * @param role
+     * @return the id
      */
-    public void setRole(Role role) {
-        this.role = role;
+    public long getId() {
+        return mId;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(long id) {
+        this.mId = id;
     }
 
 }
