@@ -36,6 +36,7 @@ public class ProjectListActivity extends Activity {
         adapter = new ProjectListAdapter(this, projectsList);
         listView = (ListView) findViewById(R.id.project_list);
         listView.setAdapter(adapter);
+        
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

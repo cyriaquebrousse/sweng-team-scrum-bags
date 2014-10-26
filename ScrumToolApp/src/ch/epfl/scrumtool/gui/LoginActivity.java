@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * A login screen that offers login via email/password.
@@ -85,6 +86,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        
+        Session test = new Session();
+        test.authenticate(this);
     }
 
     private void populateAutoComplete() {
