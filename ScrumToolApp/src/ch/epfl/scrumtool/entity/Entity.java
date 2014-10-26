@@ -106,7 +106,7 @@ public final class Entity {
     static User createUser(long id, String name) {
         String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
         String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
-        User user = new User(id, email, name, username, id, new HashSet<Project>());
+        User user = new User(email, name, username, id, new HashSet<Project>());
         return user;
     }
     

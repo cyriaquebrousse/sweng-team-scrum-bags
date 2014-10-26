@@ -24,9 +24,13 @@ public class User {
      * @param token
      * @param projects
      */
-    public User(long id, String username, String email, String name,
-            long token, Set<Project> projects) {
+    public User(String username, String email, String name, long token,
+            Set<Project> projects) {
         super();
+        if (username == null || email == null || name == null
+                || projects == null) {
+            throw new NullPointerException("User.Constructor");
+        }
         this.mUsername = username;
         this.mEmail = email;
         this.mName = name;
@@ -46,7 +50,9 @@ public class User {
      *            the username to set
      */
     public void setUsername(String username) {
-        this.mUsername = username;
+        if (username != null) {
+            this.mUsername = username;
+        }
     }
 
     /**
@@ -61,7 +67,10 @@ public class User {
      *            the email to set
      */
     public void setEmail(String email) {
-        this.mEmail = email;
+        if (email != null) {
+            // TODO check email is valid email format?
+            this.mEmail = email;
+        }
     }
 
     /**
@@ -76,7 +85,9 @@ public class User {
      *            the name to set
      */
     public void setName(String name) {
-        this.mName = name;
+        if (name != null) {
+            this.mName = name;
+        }
     }
 
     /**
@@ -101,6 +112,30 @@ public class User {
         return mProjects;
     }
 
+    /**
+     * @param project
+     *            the project to ad
+     */
+    public void addProject(Project project) {
+        if (project != null) {
+            this.mProjects.add(project);
+        }
+    }
+
+    /**
+     * @param project
+     *            the project to remove
+     */
+    public void removeProject(Project project) {
+        if (project != null) {
+            this.mProjects.remove(project);
+        }
+    }
+
+    /**
+     * @param user
+     * @return
+     */
     public List<Project> getProjectsSharedWith(User user) {
         // TODO Retrieve from Database + javadoc
         ArrayList<Project> projects = new ArrayList<>();

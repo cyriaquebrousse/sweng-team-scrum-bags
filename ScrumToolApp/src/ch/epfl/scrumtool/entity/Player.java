@@ -17,7 +17,7 @@ public final class Player {
      */
     public Player(long id, User user, Role role) {
         super();
-        if (user == null) {
+        if (user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
         this.mId = id;
@@ -47,6 +47,12 @@ public final class Player {
      */
     public Role getRole() {
         return mRole;
+    }
+
+    public void setRole(Role role) {
+        if (role != null) {
+            this.mRole = role;
+        }
     }
 
     /**
