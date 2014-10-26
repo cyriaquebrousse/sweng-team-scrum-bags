@@ -25,6 +25,7 @@ public class Issue extends AbstractTask {
         if (player == null) {
             throw new NullPointerException("Issue.Constructor");
         }
+        // TODO copie profonde player
         this.mEstimatedTime = estimatedTime;
         this.mPlayer = player;
     }
@@ -48,6 +49,7 @@ public class Issue extends AbstractTask {
      * @return the mProgramer
      */
     public Player getPlayer() {
+        // TODO copie profonde Player
         return mPlayer;
     }
 
@@ -56,6 +58,7 @@ public class Issue extends AbstractTask {
      *            the mProgramer to set
      */
     public void setPlayer(Player player) {
+        // TODO copie profonde player
         if (player != null) {
             this.mPlayer = player;
         }

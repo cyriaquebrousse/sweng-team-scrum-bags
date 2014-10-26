@@ -109,7 +109,7 @@ public class User {
      * @return the projects
      */
     public Set<Project> getProjects() {
-        return mProjects;
+        return new HashSet<Project>(mProjects);
     }
 
     /**
@@ -118,6 +118,7 @@ public class User {
      */
     public void addProject(Project project) {
         if (project != null) {
+            // TODO copie profonde de project
             this.mProjects.add(project);
         }
     }

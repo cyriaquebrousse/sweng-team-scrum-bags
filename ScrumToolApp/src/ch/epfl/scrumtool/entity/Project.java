@@ -25,7 +25,7 @@ public class Project {
      * @param admin
      * @param players
      * @param backlog
-     * @params sprints
+     * @param sprints
      */
     public Project(long id, String name, String description, Player admin,
             Set<Player> players, Set<MainTask> backlog, Set<Sprint> sprints) {
@@ -35,7 +35,7 @@ public class Project {
             throw new NullPointerException("Project.Constructor");
         }
 
-        // TODO check that admin in players
+        // TODO check that admin in players + copie profonde admin
         this.mId = id;
         this.mName = name;
         this.mDescription = description;
@@ -83,6 +83,7 @@ public class Project {
      * @return the admin
      */
     public Player getAdmin() {
+        // TODO copie profonde de admin
         return mAdmin;
     }
 
@@ -92,6 +93,7 @@ public class Project {
      */
     public void setAdmin(Player admin) {
         if (admin != null) {
+            // TODO copie prodonde de admin
             this.mAdmin = admin;
         }
     }
@@ -100,16 +102,52 @@ public class Project {
      * @return the players
      */
     public Set<Player> getPlayers() {
-        return mPlayers;
+        return new HashSet<Player>(mPlayers);
     }
 
-    // TODO add/remove MainTask/Player/Sprint
+    /**
+     * @param player
+     */
+    public void addPlayer(Player player) {
+        if (player != null) {
+            // TODO copie profonde de player
+            this.mPlayers.add(player);
+        }
+    }
+
+    /**
+     * @param player
+     */
+    public void removePlayer(Player player) {
+        if (player != null) {
+            this.mPlayers.remove(player);
+        }
+    }
 
     /**
      * @return the backlog
      */
     public Set<MainTask> getBacklog() {
-        return mBacklog;
+        return new HashSet<MainTask>(mBacklog);
+    }
+
+    /**
+     * @param task
+     */
+    public void addTask(MainTask task) {
+        if (task != null) {
+            // TODO copie profonde de MainTask
+            this.mBacklog.add(task);
+        }
+    }
+
+    /**
+     * @param task
+     */
+    public void removeTask(MainTask task) {
+        if (task != null) {
+            this.mBacklog.remove(task);
+        }
     }
 
     /**
@@ -131,7 +169,26 @@ public class Project {
      * @return the mSprints
      */
     public Set<Sprint> getSprints() {
-        return mSprints;
+        return new HashSet<Sprint>(mSprints);
+    }
+
+    /**
+     * @param sprint
+     */
+    public void addSprint(Sprint sprint) {
+        if (sprint != null) {
+            // TODO copie profonde Sprint
+            this.mSprints.add(sprint);
+        }
+    }
+
+    /**
+     * @param sprint
+     */
+    public void removeSprint(Sprint sprint) {
+        if (sprint != null) {
+            this.mSprints.remove(sprint);
+        }
     }
 
     public int getChangesCount(User user) {
