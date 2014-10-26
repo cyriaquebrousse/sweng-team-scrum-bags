@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Vincent
  * 
  */
-public class User {
+public final class User {
 
     private String mUsername;
     private String mEmail;
@@ -35,7 +35,18 @@ public class User {
         this.mEmail = email;
         this.mName = name;
         this.mToken = token;
-        this.mProjects = new HashSet<Project>(projects);
+        this.mProjects = new HashSet<Project>();
+        for (Project p : projects) {
+            mProjects.add(new Project(p));
+        }
+    }
+
+    /**
+     * @param aUser
+     */
+    public User(User aUser) {
+        this(aUser.getUsername(), aUser.getEmail(), aUser.getName(), aUser
+                .getToken(), aUser.getProjects());
     }
 
     /**
@@ -109,7 +120,11 @@ public class User {
      * @return the projects
      */
     public Set<Project> getProjects() {
-        return new HashSet<Project>(mProjects);
+        HashSet<Project> tmp = new HashSet<Project>();
+        for (Project p : mProjects) {
+            tmp.add(new Project(p));
+        }
+        return tmp;
     }
 
     /**
@@ -118,8 +133,7 @@ public class User {
      */
     public void addProject(Project project) {
         if (project != null) {
-            // TODO copie profonde de project
-            this.mProjects.add(project);
+            this.mProjects.add(new Project(project));
         }
     }
 

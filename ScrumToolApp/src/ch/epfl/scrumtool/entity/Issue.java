@@ -7,7 +7,7 @@ package ch.epfl.scrumtool.entity;
  * @author Vincent
  * 
  */
-public class Issue extends AbstractTask {
+public final class Issue extends AbstractTask {
 
     private float mEstimatedTime;
     private Player mPlayer;
@@ -25,9 +25,17 @@ public class Issue extends AbstractTask {
         if (player == null) {
             throw new NullPointerException("Issue.Constructor");
         }
-        // TODO copie profonde player
         this.mEstimatedTime = estimatedTime;
-        this.mPlayer = player;
+        this.mPlayer = new Player(player);
+    }
+
+    /**
+     * @param anIssue
+     */
+    public Issue(Issue anIssue) {
+        this(anIssue.getId(), anIssue.getName(), anIssue.getDescription(),
+                anIssue.getStatus(), anIssue.getEstimatedTime(), anIssue
+                        .getPlayer());
     }
 
     /**
@@ -49,8 +57,7 @@ public class Issue extends AbstractTask {
      * @return the mProgramer
      */
     public Player getPlayer() {
-        // TODO copie profonde Player
-        return mPlayer;
+        return new Player(mPlayer);
     }
 
     /**
@@ -58,9 +65,8 @@ public class Issue extends AbstractTask {
      *            the mProgramer to set
      */
     public void setPlayer(Player player) {
-        // TODO copie profonde player
         if (player != null) {
-            this.mPlayer = player;
+            this.mPlayer = new Player(player);
         }
     }
 

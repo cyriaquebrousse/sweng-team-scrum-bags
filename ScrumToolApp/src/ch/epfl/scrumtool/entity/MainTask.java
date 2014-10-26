@@ -3,13 +3,14 @@
  */
 package ch.epfl.scrumtool.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author Vincent
  * 
  */
-public class MainTask extends AbstractTask {
+public final class MainTask extends AbstractTask {
 
     private final Set<Issue> mIssues;
     private Priority mPriority;
@@ -27,16 +28,31 @@ public class MainTask extends AbstractTask {
         if (issues == null || priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        this.mIssues = issues;
+        this.mIssues = new HashSet<Issue>();
+        for (Issue i : issues) {
+            mIssues.add(new Issue(i));
+        }
         this.mPriority = priority;
 
+    }
+
+    /**
+     * @param task
+     */
+    public MainTask(MainTask task) {
+        this(task.getId(), task.getName(), task.getDescription(), task
+                .getStatus(), task.getIssues(), task.getPriority());
     }
 
     /**
      * @return the subtasks
      */
     public Set<Issue> getIssues() {
-        return mIssues;
+        HashSet<Issue> tmp = new HashSet<Issue>();
+        for (Issue i : mIssues) {
+            tmp.add(new Issue(i));
+        }
+        return tmp;
     }
 
     /**
@@ -45,7 +61,7 @@ public class MainTask extends AbstractTask {
      */
     public void addIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.add(issue);
+            this.mIssues.add(new Issue(issue));
         }
     }
 
@@ -85,7 +101,7 @@ public class MainTask extends AbstractTask {
         }
         return count;
     }
-    
+
     public float getEstimatedTime() {
         float estimation = 0f;
         float issueEstimation;

@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author ketsio
  */
-public class Sprint {
+public final class Sprint {
     private Date mDeadLine;
     private final Set<Issue> mIssues;
 
@@ -21,7 +21,17 @@ public class Sprint {
             throw new NullPointerException("Sprint.Constructor");
         }
         this.mDeadLine = new Date(deadLine.getTime());
-        this.mIssues = new HashSet<Issue>(issues);
+        this.mIssues = new HashSet<Issue>();
+        for (Issue i : issues) {
+            mIssues.add(new Issue(i));
+        }
+    }
+
+    /**
+     * @param aSprint
+     */
+    public Sprint(Sprint aSprint) {
+        this(aSprint.getDeadLine(), aSprint.getIssues());
     }
 
     /**
@@ -45,7 +55,11 @@ public class Sprint {
      * @return the mIssues
      */
     public Set<Issue> getIssues() {
-        return mIssues;
+        HashSet<Issue> tmp = new HashSet<Issue>();
+        for (Issue i : mIssues) {
+            tmp.add(new Issue(i));
+        }
+        return tmp;
     }
 
     /**
@@ -64,7 +78,6 @@ public class Sprint {
      */
     public void removeIssue(Issue issue) {
         if (issue != null) {
-            // TODO tester si mIssues contient issue?
             this.mIssues.remove(issue);
         }
     }

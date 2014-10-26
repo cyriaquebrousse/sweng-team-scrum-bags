@@ -20,18 +20,23 @@ public final class Player {
         if (user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
-        // TODO copie profonde user( + role???)
         this.mId = id;
-        this.mUser = user;
+        this.mUser = new User(user);
         this.mRole = role;
+    }
+
+    /**
+     * @param aPlayer
+     */
+    public Player(Player aPlayer) {
+        this(aPlayer.getId(), aPlayer.getUser(), aPlayer.getRole());
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-        // TODO copie profonde user
-        return mUser;
+        return new User(mUser);
     }
 
     /**
@@ -40,8 +45,7 @@ public final class Player {
      */
     public void setUser(User user) {
         if (user != null) {
-            // TODO copie profonde user
-            this.mUser = user;
+            this.mUser = new User(user);
         }
     }
 

@@ -9,7 +9,7 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  * @author Vincent
  * 
  */
-public class Project {
+public final class Project {
 
     private long mId;
     private String mName;
@@ -35,14 +35,32 @@ public class Project {
             throw new NullPointerException("Project.Constructor");
         }
 
-        // TODO check that admin in players + copie profonde admin
+        // TODO check that admin in players + copie profonde sets
         this.mId = id;
         this.mName = name;
         this.mDescription = description;
-        this.mAdmin = admin;
-        this.mPlayers = new HashSet<Player>(players);
-        this.mBacklog = new HashSet<MainTask>(backlog);
-        this.mSprints = new HashSet<Sprint>(sprints);
+        this.mAdmin = new Player(admin);
+        this.mPlayers = new HashSet<Player>();
+        for (Player p : players) {
+            mPlayers.add(new Player(p));
+        }
+        this.mBacklog = new HashSet<MainTask>();
+        for (MainTask m : backlog) {
+            mBacklog.add(new MainTask(m));
+        }
+        this.mSprints = new HashSet<Sprint>();
+        for (Sprint s : sprints) {
+            mSprints.add(new Sprint(s));
+        }
+    }
+
+    /**
+     * @param aProject
+     */
+    public Project(Project aProject) {
+        this(aProject.getId(), aProject.getName(), aProject.getDescription(),
+                aProject.getAdmin(), aProject.getPlayers(), aProject
+                        .getBacklog(), aProject.getSprints());
     }
 
     /**
@@ -83,8 +101,7 @@ public class Project {
      * @return the admin
      */
     public Player getAdmin() {
-        // TODO copie profonde de admin
-        return mAdmin;
+        return new Player(mAdmin);
     }
 
     /**
@@ -93,8 +110,7 @@ public class Project {
      */
     public void setAdmin(Player admin) {
         if (admin != null) {
-            // TODO copie prodonde de admin
-            this.mAdmin = admin;
+            this.mAdmin = new Player(admin);
         }
     }
 
@@ -102,7 +118,11 @@ public class Project {
      * @return the players
      */
     public Set<Player> getPlayers() {
-        return new HashSet<Player>(mPlayers);
+        HashSet<Player> tmp = new HashSet<Player>();
+        for (Player p : mPlayers) {
+            tmp.add(new Player(p));
+        }
+        return tmp;
     }
 
     /**
@@ -110,8 +130,7 @@ public class Project {
      */
     public void addPlayer(Player player) {
         if (player != null) {
-            // TODO copie profonde de player
-            this.mPlayers.add(player);
+            this.mPlayers.add(new Player(player));
         }
     }
 
@@ -128,7 +147,11 @@ public class Project {
      * @return the backlog
      */
     public Set<MainTask> getBacklog() {
-        return new HashSet<MainTask>(mBacklog);
+        HashSet<MainTask> tmp = new HashSet<MainTask>();
+        for (MainTask m : mBacklog) {
+            tmp.add(new MainTask(m));
+        }
+        return tmp;
     }
 
     /**
@@ -136,8 +159,7 @@ public class Project {
      */
     public void addTask(MainTask task) {
         if (task != null) {
-            // TODO copie profonde de MainTask
-            this.mBacklog.add(task);
+            this.mBacklog.add(new MainTask(task));
         }
     }
 
@@ -169,7 +191,11 @@ public class Project {
      * @return the mSprints
      */
     public Set<Sprint> getSprints() {
-        return new HashSet<Sprint>(mSprints);
+        HashSet<Sprint> tmp = new HashSet<Sprint>();
+        for (Sprint s : mSprints) {
+            tmp.add(new Sprint(s));
+        }
+        return tmp;
     }
 
     /**
@@ -177,8 +203,7 @@ public class Project {
      */
     public void addSprint(Sprint sprint) {
         if (sprint != null) {
-            // TODO copie profonde Sprint
-            this.mSprints.add(sprint);
+            this.mSprints.add(new Sprint(sprint));
         }
     }
 

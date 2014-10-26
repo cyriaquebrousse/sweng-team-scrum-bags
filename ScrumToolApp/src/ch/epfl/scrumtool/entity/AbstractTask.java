@@ -23,7 +23,6 @@ public abstract class AbstractTask {
         if (name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        // TODO copie pronfonde status
         this.mId = id;
         this.mName = name;
         this.mDescription = description;
@@ -74,7 +73,6 @@ public abstract class AbstractTask {
      * @return the status
      */
     public Status getStatus() {
-        // TODO copie profonde status
         return mStatus;
     }
 
@@ -84,7 +82,6 @@ public abstract class AbstractTask {
      */
     public void setStatus(Status status) {
         if (status != null) {
-            // TODO copie profonde status
             this.mStatus = status;
         }
     }
