@@ -21,7 +21,6 @@ public final class ProjectListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Project> projectsList;
-    
 
     public ProjectListAdapter(final Activity activity, List<Project> projectsList) {
         this.activity = activity;

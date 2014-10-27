@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
@@ -218,7 +219,8 @@ public final class Project {
 
     public int getChangesCount(User user) {
         // TODO implement changes count + javadoc
-        return Math.abs(this.hashCode()) % 10;
+        Random r = new Random();
+        return r.nextInt(20);
     }
 
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
