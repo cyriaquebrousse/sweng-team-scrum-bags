@@ -1,7 +1,11 @@
 package ch.epfl.scrumtool.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -28,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.Session;
+import ch.epfl.scrumtool.server.scrumuserendpoint.Scrumuserendpoint;
+import ch.epfl.scrumtool.server.scrumuserendpoint.model.ScrumUser;
 
 /**
  * A login screen that offers login via email/password.
@@ -89,6 +95,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         
         Session test = new Session();
         test.authenticate(this);
+        
+        
     }
 
     private void populateAutoComplete() {

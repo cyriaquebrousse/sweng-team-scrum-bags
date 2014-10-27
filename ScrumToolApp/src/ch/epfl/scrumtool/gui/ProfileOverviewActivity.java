@@ -47,7 +47,6 @@ public class ProfileOverviewActivity extends Activity {
 
         // Set Views
         nameView.setText(userProfile.getName());
-        usernameView.setText(userProfile.getUsername());
         emailView.setText(userProfile.getEmail());
 
         sharedProjectsListView.setAdapter(adapter);
