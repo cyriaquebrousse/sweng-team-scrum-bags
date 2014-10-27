@@ -12,17 +12,18 @@ import ch.epfl.scrumtool.entity.Priority;
 
 /**
  * <p>
- * GUI element that represents a sticker, i.e. a box in which one word is
+ * GUI element that represents a sticker, i.e. a small box in which one word is
  * present, on a colored background. Examples of use are: "URGENT", "SUCCESS",
  * "FAILURE", etc.
  * </p>
  * <b>Possible arguments:</b>
  * <ul>
- * <li>bold (boolean): whether the text will appear in bold. Should NOT be white
- * or equivalent</li>
- * <li>color (int): background color</li>
+ * <li>bold (boolean): whether the text will appear in bold</li>
+ * <li>color (int): background color. Should NOT be white or equivalent</li>
  * <li>text (String): the sticker's text. Should be very short</li>
  * </ul>
+ * 
+ * The default background color is gray.
  * 
  * @author Cyriaque Brousse
  */
@@ -37,7 +38,7 @@ public final class Sticker extends TextView {
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Sticker, 0, 0);
         boolean bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
-        int color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.darkgreen));
+        int color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.Gray));
         String text = attributes.getString(R.styleable.Sticker_sticker_text);
         attributes.recycle();
 
@@ -62,14 +63,32 @@ public final class Sticker extends TextView {
         setBackgroundColor(color);
     }
     
+    /**
+     * Sets the sticker text
+     * 
+     * @param text
+     *            really should not exceed one word
+     */
     public void setStickerText(String text) {
         setText(text);
     }
     
+    /**
+     * Pertains to the specific case where the sticker displays a priority
+     * 
+     * @param priority
+     *            the priority whose text representation will be displayed
+     */
     public void setStickerText(Priority priority) {
         setText(priority.toString());
     }
     
+    /**
+     * Sets the sticker in bold typeface, or restores it to normal appearance
+     * 
+     * @param bold
+     *            true if the text should be in bold, false otherwise
+     */
     public void setBold(boolean bold) {
         setTypeface(null, bold ? Typeface.BOLD : Typeface.NORMAL);
     }
