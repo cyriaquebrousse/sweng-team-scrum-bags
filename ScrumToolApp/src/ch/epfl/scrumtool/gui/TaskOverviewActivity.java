@@ -40,10 +40,8 @@ public class TaskOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
 
-        Intent intent = getIntent();
-        
         // Get the task
-        long taskId = intent.getLongExtra("task_id", 0);
+        long taskId = getIntent().getLongExtra("ch.epfl.scrumtool.TASK_ID", 0);
         task = ServerSimulator.getTaskById(taskId);
         issueList = new ArrayList<>(task.getIssues());
         
@@ -58,7 +56,7 @@ public class TaskOverviewActivity extends Activity {
 
                 // Pass the issue Id
                 Issue issue = issueList.get(position);
-                openIssueIntent.putExtra("issue_id", issue.getId());
+                openIssueIntent.putExtra("ch.epfl.scrumtool.ISSUE_ID", issue.getId());
                 
                 startActivity(openIssueIntent);
             }

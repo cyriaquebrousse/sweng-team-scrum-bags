@@ -29,10 +29,8 @@ public class BacklogActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
         
-        Intent intent = getIntent();
-
         // Get the project
-        long projectId = intent.getLongExtra("project_id", 0);
+        long projectId = getIntent().getLongExtra("ch.epfl.scrumtool.PROJECT_ID", 0);
         taskList = ServerSimulator.getBacklogByProjectId(projectId);
         
         // Get list and initialize adapter
@@ -46,7 +44,7 @@ public class BacklogActivity extends Activity {
 
                 // Pass the task Id
                 MainTask task = taskList.get(position);
-                openTaskIntent.putExtra("task_id", task.getId());
+                openTaskIntent.putExtra("ch.epfl.scrumtool.TASK_ID", task.getId());
                 
                 startActivity(openTaskIntent);
             }
