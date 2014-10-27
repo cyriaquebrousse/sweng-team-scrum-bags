@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
+import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author ketsio
@@ -32,10 +33,11 @@ public class ProfileOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_overview);
 
-        // Get the users
+        // Get the connected user, and the user to display
         this.userConnected = Entity.CONNECTED_USER;
-        this.userProfile = getUserFromPreviousActivity();
-
+        long userId = getIntent().getLongExtra("ch.epfl.scrumtool.USER_ID", 0);
+        userProfile = ServerSimulator.getUserById(userId);
+        
         // Create the adapter
         adapter = new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
 
@@ -51,22 +53,14 @@ public class ProfileOverviewActivity extends Activity {
         emailView.setText(userProfile.getEmail());
 
         sharedProjectsListView.setAdapter(adapter);
-        sharedProjectsListView
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                            int position, long id) {
-                        Toast.makeText(view.getContext(),
-                                "Openning the project #" + position,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+        sharedProjectsListView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(view.getContext(),
+                        "Openning the project #" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
-
-	@Deprecated
-    /** Demo purposes only **/
-	private User getUserFromPreviousActivity() {
-	    return Entity.JOHN_SMITH;
-	}
 }

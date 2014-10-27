@@ -20,7 +20,7 @@ import ch.epfl.scrumtool.network.ServerSimulator;
  */
 public class ProjectListActivity extends Activity {
 
-    private List<Project> projectsList;
+    private List<Project> projectList;
     private ListView listView;
     private ProjectListAdapter adapter;
 
@@ -30,10 +30,10 @@ public class ProjectListActivity extends Activity {
         setContentView(R.layout.activity_projectlist);
 
         // Create some dummy projects and add them to the list
-        projectsList = new ArrayList<Project>(ServerSimulator.PROJECTS);
+        projectList = new ArrayList<Project>(ServerSimulator.PROJECTS);
         
         // Get list and initialize its adapter
-        adapter = new ProjectListAdapter(this, projectsList);
+        adapter = new ProjectListAdapter(this, projectList);
         listView = (ListView) findViewById(R.id.project_list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -42,8 +42,8 @@ public class ProjectListActivity extends Activity {
                 Intent openProjectOverviewIntent = new Intent(view.getContext(), ProjectOverviewActivity.class);
                 
                 // Pass the project Id
-                Project project = projectsList.get(position);
-                openProjectOverviewIntent.putExtra("project_id", project.getId());
+                Project project = projectList.get(position);
+                openProjectOverviewIntent.putExtra("ch.epfl.scrumtool.PROJECT_ID", project.getId());
                 
                 startActivity(openProjectOverviewIntent);
             }

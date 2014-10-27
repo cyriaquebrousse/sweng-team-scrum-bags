@@ -23,10 +23,8 @@ public class ProjectOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_overview);
         
-        Intent intent = getIntent();
-        
         // Get the project
-        long projectId = intent.getLongExtra("project_id", 0);
+        long projectId = getIntent().getLongExtra("ch.epfl.scrumtool.PROJECT_ID", 0);
         project = ServerSimulator.getProjectById(projectId);
 
         // Get Views
@@ -36,15 +34,11 @@ public class ProjectOverviewActivity extends Activity {
         // Set Views
         nameView.setText(project.getName());
         descriptionView.setText(project.getDescription());
-        
     }
 
     public void openBacklog(View view) {
         Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
-        
-        // Pass the project Id
-        openBacklogIntent.putExtra("project_id", project.getId());
-        
+        openBacklogIntent.putExtra("ch.epfl.scrumtool.PROJECT_ID", project.getId());
         startActivity(openBacklogIntent);
     }
 }

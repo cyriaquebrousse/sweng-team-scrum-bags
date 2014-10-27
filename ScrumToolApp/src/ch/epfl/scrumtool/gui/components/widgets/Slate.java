@@ -10,6 +10,16 @@ import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 
 /**
+ * GUI element that represents a slate, typically used to display a state title
+ * and its value. A typical example of use is:<br>
+ * {@code | Estimation} <br>
+ * {@code | 3 days}<br>
+ * The first part of the example is called the title, and the second one is the
+ * text. A slate is a two-line block of text, hence the title and the text are
+ * at most one line long each. All non-fitting words are dropped. Please see the
+ * {@link #setTitle(String)} and {@link #setText(String)} javadoc. <br>
+ * The slate also has a background color.
+ * 
  * @author Cyriaque Brousse
  */
 public final class Slate extends RelativeLayout {
@@ -57,10 +67,24 @@ public final class Slate extends RelativeLayout {
         setBackgroundColor(color);
     }
     
+    /**
+     * Sets the title of the slate. Keep in mind that the title must fit in a
+     * single line. Additional words are truncated.
+     * 
+     * @param title
+     *            the title. See requirements above
+     */
     public void setTitle(String title) {
         titleView.setText(title);
     }
     
+    /**
+     * Sets the text of the slate. Keep in mind that this text must fit in a
+     * single line. Additional words are truncated.
+     * 
+     * @param title
+     *            the text. See requirements above
+     */
     public void setText(String text) {
         textView.setText(text);
     }
