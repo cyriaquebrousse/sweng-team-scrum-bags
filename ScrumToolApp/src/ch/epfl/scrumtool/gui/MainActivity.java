@@ -27,9 +27,4 @@ public class MainActivity extends Activity {
         Intent openProjectsIntent = new Intent(this, ProjectListActivity.class);
         startActivity(openProjectsIntent);
     }
-    
-    public void openProfileOverview(View view) {
-        Intent openProfileOverviewIntent = new Intent(this, ProfileOverviewActivity.class);
-        startActivity(openProfileOverviewIntent);
-    }
 }

@@ -62,7 +62,7 @@
         android:layout_below="@id/issue_assignee_label"
         android:background="@color/Gainsboro" />
 
-    <!-- Assignee name -->
+    <!-- Assignee name (link to assignee profile) -->
     <TextView
         android:id="@+id/issue_assignee_name"
         android:layout_width="match_parent"
@@ -71,7 +71,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="@dimen/space"
         android:layout_toEndOf="@id/issue_assignee_picture"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textColor="@color/blue" />
     
     <!-- Issue description -->
     <ScrollView
