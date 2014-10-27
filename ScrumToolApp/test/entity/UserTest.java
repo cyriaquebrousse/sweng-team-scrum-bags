@@ -9,12 +9,12 @@ import junit.framework.TestCase;
  * @author Vincent
  *
  */
-public class UsetTest extends TestCase {
+public class UserTest extends TestCase {
 
     /**
      * @param name
      */
-    public UsetTest(String name) {
+    public UserTest(String name) {
         super(name);
     }
 

@@ -218,7 +218,7 @@ public final class Project {
 
     public int getChangesCount(User user) {
         // TODO implement changes count + javadoc
-        return Math.abs(user.hashCode()) % 10;
+        return Math.abs(this.hashCode()) % 10;
     }
 
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
