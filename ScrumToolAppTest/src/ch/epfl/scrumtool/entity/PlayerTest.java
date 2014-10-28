@@ -20,6 +20,11 @@ public class PlayerTest extends TestCase {
     public PlayerTest(String name) {
         super(name);
     }
+    
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
 
     /**
      * Test method for {@link ch.epfl.scrumtool.entity.Player#Player(long, ch.epfl.scrumtool.entity.User, ch.epfl.scrumtool.entity.Role)}.

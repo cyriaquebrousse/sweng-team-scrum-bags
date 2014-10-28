@@ -15,6 +15,11 @@ public class IssueTest extends TestCase {
 
     public IssueTest() {
     }
+    
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
 
     /**
      * Test method for {@link ch.epfl.scrumtool.entity.Issue#getEstimatedTime()}

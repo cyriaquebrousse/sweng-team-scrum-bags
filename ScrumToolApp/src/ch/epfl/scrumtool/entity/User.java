@@ -11,11 +11,11 @@ import java.util.Set;
  */
 public final class User {
 
-    private String mUsername;
-    private String mEmail;
-    private String mName;
-    private long mToken;
-    private final Set<Project> mProjects;
+    private String username;
+    private String email;
+    private String name;
+    private long token;
+    private final Set<Project> projects;
 
     /**
      * @param username
@@ -31,13 +31,13 @@ public final class User {
                 || projects == null) {
             throw new NullPointerException("User.Constructor");
         }
-        this.mUsername = username;
-        this.mEmail = email;
-        this.mName = name;
-        this.mToken = token;
-        this.mProjects = new HashSet<Project>();
+        this.username = username;
+        this.email = email;
+        this.name = name;
+        this.token = token;
+        this.projects = new HashSet<Project>();
         for (Project p : projects) {
-            mProjects.add(new Project(p));
+            this.projects.add(new Project(p));
         }
     }
 
@@ -53,7 +53,7 @@ public final class User {
      * @return the username
      */
     public String getUsername() {
-        return mUsername;
+        return username;
     }
 
     /**
@@ -62,7 +62,7 @@ public final class User {
      */
     public void setUsername(String username) {
         if (username != null) {
-            this.mUsername = username;
+            this.username = username;
         }
     }
 
@@ -70,7 +70,7 @@ public final class User {
      * @return the email
      */
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class User {
     public void setEmail(String email) {
         if (email != null) {
             // TODO check email is valid email format?
-            this.mEmail = email;
+            this.email = email;
         }
     }
 
@@ -88,7 +88,7 @@ public final class User {
      * @return the name
      */
     public String getName() {
-        return mName;
+        return name;
     }
 
     /**
@@ -97,7 +97,7 @@ public final class User {
      */
     public void setName(String name) {
         if (name != null) {
-            this.mName = name;
+            this.name = name;
         }
     }
 
@@ -105,7 +105,7 @@ public final class User {
      * @return the token
      */
     public long getToken() {
-        return mToken;
+        return token;
     }
 
     /**
@@ -113,7 +113,7 @@ public final class User {
      *            the token to set
      */
     public void setToken(long token) {
-        this.mToken = token;
+        this.token = token;
     }
 
     /**
@@ -121,7 +121,7 @@ public final class User {
      */
     public Set<Project> getProjects() {
         HashSet<Project> tmp = new HashSet<Project>();
-        for (Project p : mProjects) {
+        for (Project p : projects) {
             tmp.add(new Project(p));
         }
         return tmp;
@@ -133,7 +133,7 @@ public final class User {
      */
     public void addProject(Project project) {
         if (project != null) {
-            this.mProjects.add(new Project(project));
+            this.projects.add(new Project(project));
         }
     }
 
@@ -143,7 +143,7 @@ public final class User {
      */
     public void removeProject(Project project) {
         if (project != null) {
-            this.mProjects.remove(project);
+            this.projects.remove(project);
         }
     }
 
@@ -157,5 +157,40 @@ public final class User {
         projects.add(Entity.COOL_PROJECT);
         projects.add(Entity.SUPER_PROJECT);
         return projects;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User other = (User) o;
+        if (!other.getEmail().equals(this.getEmail())) {
+            return false;
+        }
+        if (!other.getName().equals(this.getName())) {
+            return false;
+        }
+        if (!other.getProjects().equals(this.getProjects())) {
+            return false;
+        }
+        if (!other.getUsername().equals(this.getUsername())) {
+            return false;
+        }
+        if (other.getToken() != this.getToken()) {
+            return false;
+        }
+        return true;
     }
 }

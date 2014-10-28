@@ -9,14 +9,14 @@ package ch.epfl.scrumtool.entity;
  */
 public final class Issue extends AbstractTask {
 
-    private float mEstimatedTime;
-    private Player mPlayer;
+    private float estimatedTime;
+    private Player player;
 
     /**
      * @param name
      * @param description
      * @param status
-     * @param mEstimatedTime
+     * @param estimatedTime
      * @param mProgramer
      */
     public Issue(long id, String name, String description, Status status,
@@ -25,8 +25,8 @@ public final class Issue extends AbstractTask {
         if (player == null) {
             throw new NullPointerException("Issue.Constructor");
         }
-        this.mEstimatedTime = estimatedTime;
-        this.mPlayer = new Player(player);
+        this.estimatedTime = estimatedTime;
+        this.player = new Player(player);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class Issue extends AbstractTask {
      * @return the mEstimatedTime
      */
     public float getEstimatedTime() {
-        return mEstimatedTime;
+        return estimatedTime;
     }
 
     /**
@@ -50,14 +50,14 @@ public final class Issue extends AbstractTask {
      *            the mEstimatedTime to set
      */
     public void setEstimatedTime(float mEstimatedTime) {
-        this.mEstimatedTime = mEstimatedTime;
+        this.estimatedTime = mEstimatedTime;
     }
 
     /**
      * @return the mProgramer
      */
     public Player getPlayer() {
-        return new Player(mPlayer);
+        return new Player(player);
     }
 
     /**
@@ -66,8 +66,35 @@ public final class Issue extends AbstractTask {
      */
     public void setPlayer(Player player) {
         if (player != null) {
-            this.mPlayer = new Player(player);
+            this.player = new Player(player);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        // TODO equals player and not ==
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Issue)) {
+            return false;
+        }
+        Issue other = (Issue) o;
+        if (other.getEstimatedTime() != this.getEstimatedTime()) {
+            return false;
+        }
+        if (!other.getPlayer().equals(this.getPlayer())) {
+            return false;
+        }
+        return super.equals(o);
     }
 
 }

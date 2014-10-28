@@ -3,14 +3,13 @@
  */
 package ch.epfl.scrumtool.entity;
 
-
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
 /**
  * @author Vincent
- *
+ * 
  */
 public class AbstractTaskTest extends TestCase {
 
@@ -21,8 +20,15 @@ public class AbstractTaskTest extends TestCase {
         super(name);
     }
 
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
+
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#AbstractTask(long, java.lang.String, java.lang.String, ch.epfl.scrumtool.entity.Status)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#AbstractTask(long, java.lang.String, java.lang.String, ch.epfl.scrumtool.entity.Status)}
+     * .
      */
     @Test
     public void testAbstractTask() {
@@ -30,7 +36,8 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getEstimatedTime()}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#getEstimatedTime()}.
      */
     @Test
     public void testGetEstimatedTime() {
@@ -46,7 +53,8 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setName(java.lang.String)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#setName(java.lang.String)}.
      */
     @Test
     public void testSetName() {
@@ -54,7 +62,8 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getDescription()}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#getDescription()}.
      */
     @Test
     public void testGetDescription() {
@@ -62,7 +71,9 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setDescription(java.lang.String)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#setDescription(java.lang.String)}
+     * .
      */
     @Test
     public void testSetDescription() {
@@ -70,7 +81,8 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getStatus()}.
+     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getStatus()}
+     * .
      */
     @Test
     public void testGetStatus() {
@@ -78,7 +90,9 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setStatus(ch.epfl.scrumtool.entity.Status)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.AbstractTask#setStatus(ch.epfl.scrumtool.entity.Status)}
+     * .
      */
     @Test
     public void testSetStatus() {
@@ -94,7 +108,8 @@ public class AbstractTaskTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setId(long)}.
+     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setId(long)}
+     * .
      */
     @Test
     public void testSetId() {

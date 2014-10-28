@@ -12,13 +12,13 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  */
 public final class Project {
 
-    private long mId;
-    private String mName;
-    private String mDescription;
-    private Player mAdmin;
-    private final Set<Player> mPlayers;
-    private final Set<MainTask> mBacklog;
-    private final Set<Sprint> mSprints;
+    private long id;
+    private String name;
+    private String description;
+    private Player admin;
+    private final Set<Player> players;
+    private final Set<MainTask> backlog;
+    private final Set<Sprint> sprints;
 
     /**
      * @param name
@@ -36,22 +36,22 @@ public final class Project {
             throw new NullPointerException("Project.Constructor");
         }
 
-        // TODO check that admin in players + copie profonde sets
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-        this.mAdmin = new Player(admin);
-        this.mPlayers = new HashSet<Player>();
+        // TODO check that admin in players
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.admin = new Player(admin);
+        this.players = new HashSet<Player>();
         for (Player p : players) {
-            mPlayers.add(new Player(p));
+            this.players.add(new Player(p));
         }
-        this.mBacklog = new HashSet<MainTask>();
+        this.backlog = new HashSet<MainTask>();
         for (MainTask m : backlog) {
-            mBacklog.add(new MainTask(m));
+            this.backlog.add(new MainTask(m));
         }
-        this.mSprints = new HashSet<Sprint>();
+        this.sprints = new HashSet<Sprint>();
         for (Sprint s : sprints) {
-            mSprints.add(new Sprint(s));
+            this.sprints.add(new Sprint(s));
         }
     }
 
@@ -68,7 +68,7 @@ public final class Project {
      * @return the name
      */
     public String getName() {
-        return mName;
+        return name;
     }
 
     /**
@@ -77,7 +77,7 @@ public final class Project {
      */
     public void setName(String name) {
         if (name != null) {
-            this.mName = name;
+            this.name = name;
         }
     }
 
@@ -85,7 +85,7 @@ public final class Project {
      * @return the description
      */
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     /**
@@ -94,7 +94,7 @@ public final class Project {
      */
     public void setDescription(String description) {
         if (description != null) {
-            this.mDescription = description;
+            this.description = description;
         }
     }
 
@@ -102,7 +102,7 @@ public final class Project {
      * @return the admin
      */
     public Player getAdmin() {
-        return new Player(mAdmin);
+        return new Player(admin);
     }
 
     /**
@@ -111,7 +111,7 @@ public final class Project {
      */
     public void setAdmin(Player admin) {
         if (admin != null) {
-            this.mAdmin = new Player(admin);
+            this.admin = new Player(admin);
         }
     }
 
@@ -120,7 +120,7 @@ public final class Project {
      */
     public Set<Player> getPlayers() {
         HashSet<Player> tmp = new HashSet<Player>();
-        for (Player p : mPlayers) {
+        for (Player p : players) {
             tmp.add(new Player(p));
         }
         return tmp;
@@ -131,7 +131,7 @@ public final class Project {
      */
     public void addPlayer(Player player) {
         if (player != null) {
-            this.mPlayers.add(new Player(player));
+            this.players.add(new Player(player));
         }
     }
 
@@ -140,7 +140,7 @@ public final class Project {
      */
     public void removePlayer(Player player) {
         if (player != null) {
-            this.mPlayers.remove(player);
+            this.players.remove(player);
         }
     }
 
@@ -149,7 +149,7 @@ public final class Project {
      */
     public Set<MainTask> getBacklog() {
         HashSet<MainTask> tmp = new HashSet<MainTask>();
-        for (MainTask m : mBacklog) {
+        for (MainTask m : backlog) {
             tmp.add(new MainTask(m));
         }
         return tmp;
@@ -160,7 +160,7 @@ public final class Project {
      */
     public void addTask(MainTask task) {
         if (task != null) {
-            this.mBacklog.add(new MainTask(task));
+            this.backlog.add(new MainTask(task));
         }
     }
 
@@ -169,7 +169,7 @@ public final class Project {
      */
     public void removeTask(MainTask task) {
         if (task != null) {
-            this.mBacklog.remove(task);
+            this.backlog.remove(task);
         }
     }
 
@@ -177,7 +177,7 @@ public final class Project {
      * @return the id
      */
     public long getId() {
-        return mId;
+        return id;
     }
 
     /**
@@ -185,7 +185,7 @@ public final class Project {
      *            the id to set
      */
     public void setId(long id) {
-        this.mId = id;
+        this.id = id;
     }
 
     /**
@@ -193,7 +193,7 @@ public final class Project {
      */
     public Set<Sprint> getSprints() {
         HashSet<Sprint> tmp = new HashSet<Sprint>();
-        for (Sprint s : mSprints) {
+        for (Sprint s : sprints) {
             tmp.add(new Sprint(s));
         }
         return tmp;
@@ -204,7 +204,7 @@ public final class Project {
      */
     public void addSprint(Sprint sprint) {
         if (sprint != null) {
-            this.mSprints.add(new Sprint(sprint));
+            this.sprints.add(new Sprint(sprint));
         }
     }
 
@@ -213,7 +213,7 @@ public final class Project {
      */
     public void removeSprint(Sprint sprint) {
         if (sprint != null) {
-            this.mSprints.remove(sprint);
+            this.sprints.remove(sprint);
         }
     }
 
@@ -227,4 +227,47 @@ public final class Project {
         // TODO Database Call + javadoc
         return Entity.getRandomRole();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Project)) {
+            return false;
+        }
+        Project other = (Project) o;
+        if (!other.getAdmin().equals(this.getAdmin())) {
+            return false;
+        }
+        if (!other.getBacklog().equals(this.getBacklog())) {
+            return false;
+        }
+        if (!other.getDescription().equals(this.getDescription())) {
+            return false;
+        }
+        if (other.getId() != this.getId()) {
+            return false;
+        }
+        if (!other.getName().equals(this.getName())) {
+            return false;
+        }
+        if (!other.getPlayers().equals(this.getPlayers())) {
+            return false;
+        }
+        if (!other.getSprints().equals(this.getSprints())) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

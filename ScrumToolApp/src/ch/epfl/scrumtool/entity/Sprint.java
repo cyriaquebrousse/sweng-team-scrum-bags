@@ -8,22 +8,22 @@ import java.util.Set;
  * @author ketsio
  */
 public final class Sprint {
-    private Date mDeadLine;
-    private final Set<Issue> mIssues;
+    private Date deadLine;
+    private final Set<Issue> issues;
 
     /**
-     * @param mDeadLine
-     * @param mIssues
+     * @param deadLine
+     * @param issues
      */
     public Sprint(Date deadLine, Set<Issue> issues) {
         super();
         if (deadLine == null || issues == null) {
             throw new NullPointerException("Sprint.Constructor");
         }
-        this.mDeadLine = new Date(deadLine.getTime());
-        this.mIssues = new HashSet<Issue>();
+        this.deadLine = new Date(deadLine.getTime());
+        this.issues = new HashSet<Issue>();
         for (Issue i : issues) {
-            mIssues.add(new Issue(i));
+            this.issues.add(new Issue(i));
         }
     }
 
@@ -38,16 +38,16 @@ public final class Sprint {
      * @return the mDeadLine
      */
     public Date getDeadLine() {
-        return new Date(mDeadLine.getTime());
+        return new Date(deadLine.getTime());
     }
 
     /**
-     * @param mDeadLine
+     * @param deadLine
      *            the mDeadLine to set
      */
     public void setDeadLine(Date deadLine) {
         if (deadLine != null) {
-            this.mDeadLine = new Date(deadLine.getTime());
+            this.deadLine = new Date(deadLine.getTime());
         }
     }
 
@@ -56,7 +56,7 @@ public final class Sprint {
      */
     public Set<Issue> getIssues() {
         HashSet<Issue> tmp = new HashSet<Issue>();
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             tmp.add(new Issue(i));
         }
         return tmp;
@@ -68,7 +68,7 @@ public final class Sprint {
      */
     public void addIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.add(issue);
+            this.issues.add(issue);
         }
     }
 
@@ -78,7 +78,34 @@ public final class Sprint {
      */
     public void removeIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.remove(issue);
+            this.issues.remove(issue);
         }
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Sprint)) {
+            return false;
+        }
+        Sprint other = (Sprint) o;
+        if (other.getDeadLine().getTime() != this.getDeadLine().getTime()) {
+            return false;
+        }
+        if (!other.getIssues().equals(this.getIssues())) {
+            return false;
+        }
+        return true;
+    }
+
 }

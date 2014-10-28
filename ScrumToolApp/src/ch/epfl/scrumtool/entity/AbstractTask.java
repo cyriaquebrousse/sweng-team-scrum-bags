@@ -8,10 +8,10 @@ package ch.epfl.scrumtool.entity;
  * 
  */
 public abstract class AbstractTask {
-    private long mId;
-    private String mName;
-    private String mDescription;
-    private Status mStatus;
+    private long id;
+    private String name;
+    private String description;
+    private Status status;
 
     /**
      * @param id
@@ -23,10 +23,10 @@ public abstract class AbstractTask {
         if (name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-        this.mStatus = status;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     /**
@@ -39,7 +39,7 @@ public abstract class AbstractTask {
      * @return the name
      */
     public String getName() {
-        return mName;
+        return name;
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class AbstractTask {
      */
     public void setName(String name) {
         if (name != null) {
-            this.mName = name;
+            this.name = name;
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractTask {
      * @return the description
      */
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class AbstractTask {
      */
     public void setDescription(String description) {
         if (description != null) {
-            this.mDescription = description;
+            this.description = description;
         }
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractTask {
      * @return the status
      */
     public Status getStatus() {
-        return mStatus;
+        return status;
     }
 
     /**
@@ -82,7 +82,7 @@ public abstract class AbstractTask {
      */
     public void setStatus(Status status) {
         if (status != null) {
-            this.mStatus = status;
+            this.status = status;
         }
     }
 
@@ -90,7 +90,7 @@ public abstract class AbstractTask {
      * @return the id
      */
     public long getId() {
-        return mId;
+        return id;
     }
 
     /**
@@ -98,7 +98,38 @@ public abstract class AbstractTask {
      *            the id to set
      */
     public void setId(long id) {
-        this.mId = id;
+        this.id = id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof AbstractTask)) {
+            return false;
+        }
+        AbstractTask other = (AbstractTask) o;
+        if (!other.getDescription().equals(this.description)) {
+            return false;
+        }
+        if (other.getId() != this.id) {
+            return false;
+        }
+        if (!other.getName().equals(this.name)) {
+            return false;
+        }
+        if (other.getStatus() != this.status) {
+            return false;
+        }
+        return true;
+    }
 }

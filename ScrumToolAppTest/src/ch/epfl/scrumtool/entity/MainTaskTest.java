@@ -20,6 +20,11 @@ public class MainTaskTest extends TestCase {
     public MainTaskTest(String name) {
         super(name);
     }
+    
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
 
     /**
      * Test method for {@link ch.epfl.scrumtool.entity.MainTask#getEstimatedTime()}.

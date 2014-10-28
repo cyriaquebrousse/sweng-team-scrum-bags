@@ -20,6 +20,11 @@ public class ProjectTest extends TestCase {
     public ProjectTest(String name) {
         super(name);
     }
+    
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
 
     /**
      * Test method for {@link ch.epfl.scrumtool.entity.Project#Project(long, java.lang.String, java.lang.String, ch.epfl.scrumtool.entity.Player, java.util.Set, java.util.Set, java.util.Set)}.

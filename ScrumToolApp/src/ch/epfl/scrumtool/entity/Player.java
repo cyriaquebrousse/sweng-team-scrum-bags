@@ -8,9 +8,9 @@ package ch.epfl.scrumtool.entity;
  * 
  */
 public final class Player {
-    private User mUser;
-    private long mId;
-    private Role mRole;
+    private User user;
+    private long id;
+    private Role role;
 
     /**
      * @param user
@@ -20,9 +20,9 @@ public final class Player {
         if (user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
-        this.mId = id;
-        this.mUser = new User(user);
-        this.mRole = role;
+        this.id = id;
+        this.user = new User(user);
+        this.role = role;
     }
 
     /**
@@ -36,7 +36,7 @@ public final class Player {
      * @return the user
      */
     public User getUser() {
-        return new User(mUser);
+        return new User(user);
     }
 
     /**
@@ -45,7 +45,7 @@ public final class Player {
      */
     public void setUser(User user) {
         if (user != null) {
-            this.mUser = new User(user);
+            this.user = new User(user);
         }
     }
 
@@ -53,12 +53,12 @@ public final class Player {
      * @return the role
      */
     public Role getRole() {
-        return mRole;
+        return role;
     }
 
     public void setRole(Role role) {
         if (role != null) {
-            this.mRole = role;
+            this.role = role;
         }
     }
 
@@ -66,7 +66,7 @@ public final class Player {
      * @return the id
      */
     public long getId() {
-        return mId;
+        return id;
     }
 
     /**
@@ -74,7 +74,36 @@ public final class Player {
      *            the id to set
      */
     public void setId(long id) {
-        this.mId = id;
+        this.id = id;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Player)) {
+            return false;
+        }
+        Player other = (Player) o;
+        if (other.getId() != this.getId()) {
+            return false;
+        }
+        if (other.getRole() != this.getRole()) {
+            return false;
+        }
+        if (!other.getUser().equals(this.getUser())) {
+            return false;
+        }
+        return true;
     }
 
 }

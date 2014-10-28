@@ -3,14 +3,13 @@
  */
 package ch.epfl.scrumtool.entity;
 
-
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
 /**
  * @author Vincent
- *
+ * 
  */
 public class UserTest extends TestCase {
 
@@ -21,8 +20,15 @@ public class UserTest extends TestCase {
         super(name);
     }
 
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
+
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#User(java.lang.String, java.lang.String, java.lang.String, long, java.util.Set)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#User(java.lang.String, java.lang.String, java.lang.String, long, java.util.Set)}
+     * .
      */
     @Test
     public void testUserStringStringStringLongSetOfProject() {
@@ -30,7 +36,9 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#User(ch.epfl.scrumtool.entity.User)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#User(ch.epfl.scrumtool.entity.User)}
+     * .
      */
     @Test
     public void testUserUser() {
@@ -46,7 +54,8 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#setUsername(java.lang.String)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#setUsername(java.lang.String)}.
      */
     @Test
     public void testSetUsername() {
@@ -62,7 +71,8 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#setEmail(java.lang.String)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#setEmail(java.lang.String)}.
      */
     @Test
     public void testSetEmail() {
@@ -78,7 +88,8 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#setName(java.lang.String)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#setName(java.lang.String)}.
      */
     @Test
     public void testSetName() {
@@ -110,7 +121,9 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#addProject(ch.epfl.scrumtool.entity.Project)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#addProject(ch.epfl.scrumtool.entity.Project)}
+     * .
      */
     @Test
     public void testAddProject() {
@@ -118,7 +131,9 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#removeProject(ch.epfl.scrumtool.entity.Project)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#removeProject(ch.epfl.scrumtool.entity.Project)}
+     * .
      */
     @Test
     public void testRemoveProject() {
@@ -126,7 +141,9 @@ public class UserTest extends TestCase {
     }
 
     /**
-     * Test method for {@link ch.epfl.scrumtool.entity.User#getProjectsSharedWith(ch.epfl.scrumtool.entity.User)}.
+     * Test method for
+     * {@link ch.epfl.scrumtool.entity.User#getProjectsSharedWith(ch.epfl.scrumtool.entity.User)}
+     * .
      */
     @Test
     public void testGetProjectsSharedWith() {

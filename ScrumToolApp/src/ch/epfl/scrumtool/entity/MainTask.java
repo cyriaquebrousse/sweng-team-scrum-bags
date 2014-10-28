@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public final class MainTask extends AbstractTask {
 
-    private final Set<Issue> mIssues;
-    private Priority mPriority;
+    private final Set<Issue> issues;
+    private Priority priority;
 
     /**
      * @param name
@@ -28,11 +28,11 @@ public final class MainTask extends AbstractTask {
         if (issues == null || priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        this.mIssues = new HashSet<Issue>();
+        this.issues = new HashSet<Issue>();
         for (Issue i : issues) {
-            mIssues.add(new Issue(i));
+            this.issues.add(new Issue(i));
         }
-        this.mPriority = priority;
+        this.priority = priority;
 
     }
 
@@ -49,7 +49,7 @@ public final class MainTask extends AbstractTask {
      */
     public Set<Issue> getIssues() {
         HashSet<Issue> tmp = new HashSet<Issue>();
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             tmp.add(new Issue(i));
         }
         return tmp;
@@ -61,7 +61,7 @@ public final class MainTask extends AbstractTask {
      */
     public void addIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.add(new Issue(issue));
+            this.issues.add(new Issue(issue));
         }
     }
 
@@ -71,7 +71,7 @@ public final class MainTask extends AbstractTask {
      */
     public void removeIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.remove(issue);
+            this.issues.remove(issue);
         }
     }
 
@@ -79,7 +79,7 @@ public final class MainTask extends AbstractTask {
      * @return the priority
      */
     public Priority getPriority() {
-        return mPriority;
+        return priority;
     }
 
     /**
@@ -88,13 +88,13 @@ public final class MainTask extends AbstractTask {
      */
     public void setPriority(Priority priority) {
         if (priority != null) {
-            this.mPriority = priority;
+            this.priority = priority;
         }
     }
 
     public int getIssuesFinishedCount() {
         int count = 0;
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             if (i.getStatus() == Status.FINISHED) {
                 ++count;
             }
@@ -106,7 +106,7 @@ public final class MainTask extends AbstractTask {
         float estimation = 0f;
         float issueEstimation;
         boolean estimated = true;
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             issueEstimation = i.getEstimatedTime();
             if (issueEstimation < 0) {
                 estimated = false;
@@ -115,5 +115,31 @@ public final class MainTask extends AbstractTask {
             }
         }
         return estimated ? estimation : -1;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof MainTask)) {
+            return false;
+        }
+        MainTask other = (MainTask) o;
+        if (other.getPriority() != this.getPriority()) {
+            return false;
+        }
+        if (other.getIssues() != this.getIssues()) {
+            return false;
+        }
+        return super.equals(o);
     }
 }

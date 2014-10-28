@@ -20,6 +20,11 @@ public class SprintTest extends TestCase {
     public SprintTest(String name) {
         super(name);
     }
+    
+    @Test
+    public void testEquals() {
+        fail("Not yet implemented");
+    }
 
     /**
      * Test method for {@link ch.epfl.scrumtool.entity.Sprint#Sprint(java.util.Date, java.util.Set)}.
