@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
