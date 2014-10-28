@@ -37,7 +37,7 @@ public class ProfileOverviewActivity extends Activity {
         this.userProfile = getUserFromPreviousActivity();
 
         // Create the adapter
-        adapter = new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
+        adapter = null;//new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
 
         // Get Views
         nameView = (TextView) findViewById(R.id.profile_name);

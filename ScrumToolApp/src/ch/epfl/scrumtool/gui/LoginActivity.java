@@ -32,8 +32,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.Session;
-import ch.epfl.scrumtool.server.scrumuserendpoint.Scrumuserendpoint;
-import ch.epfl.scrumtool.server.scrumuserendpoint.model.ScrumUser;
 
 /**
  * A login screen that offers login via email/password.

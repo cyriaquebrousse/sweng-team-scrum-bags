@@ -1,9 +1,9 @@
 package ch.epfl.scrumtool.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import com.google.api.client.util.Key;
 
 /**
  * @author vincent, aschneuw, zenhaeus
@@ -12,21 +12,21 @@ import com.google.api.client.util.Key;
 public class User implements DatabaseInteraction<User> {
     private final String mEmail;
     private final String mName;
-    private final Set<Key> mProjectKeys;
+    private final Set<String> mProjectKeys;
 
     /**
      * @param email
      * @param name
      * @param projects
      */
-    public User(String email, String name, Set<Key> projectKeys) {
+    public User(String email, String name, Set<String> projectKeys) {
         if (email == null || name == null || projectKeys == null) {
             throw new NullPointerException("User.Constructor");
         }
         
         this.mEmail = email;
         this.mName = name;
-        this.mProjectKeys = new HashSet<Key>(projectKeys);
+        this.mProjectKeys = new HashSet<String>(projectKeys);
     }
 
     /**
@@ -47,24 +47,24 @@ public class User implements DatabaseInteraction<User> {
     /**
      * @return the projects
      */
-    public Set<Key> getProjectsKeys() {
-        return new HashSet<Key>(mProjectKeys);
+    public List<String> getProjectKeys() {
+        return new ArrayList<String>(mProjectKeys);
     }
     
     public static class Builder {
     	private String mEmail;
         private String mName;
-        private Set<Key> mProjectKeys;
+        private Set<String> mProjectKeys;
     	
         
-        Builder() {
-        	this.mProjectKeys = new HashSet<Key>();
+        public Builder() {
+        	this.mProjectKeys = new HashSet<String>();
         }
         
-        Builder(User otherUser) {
+        public Builder(User otherUser) {
         	this.mEmail = otherUser.mEmail;
         	this.mName = otherUser.mName;
-        	this.mProjectKeys = new HashSet<Key>(otherUser.mProjectKeys);
+        	this.mProjectKeys = new HashSet<String>(otherUser.mProjectKeys);
         }
         
         /**
@@ -94,15 +94,15 @@ public class User implements DatabaseInteraction<User> {
         /**
          * @return the projects
          */
-        public Set<Key> getProjectsKeys() {
-            return new HashSet<Key>(mProjectKeys);
+        public List<String> getProjectsKeys() {
+            return new ArrayList<String>(mProjectKeys);
         }
         
-        public void addProjectKey(Key k) {
+        public void addProjectKey(String k) {
         	mProjectKeys.add(k);
         }
         
-        public void removeProjectKey(Key k) {
+        public void removeProjectKey(String k) {
         	mProjectKeys.remove(k);
         }
         

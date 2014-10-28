@@ -97,7 +97,7 @@ public final class Entity {
         Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
 
         for (User user : users) {
-            user.getProjects().add(project);
+//            user.getProjects().add(project);
         }
 
         return project;
@@ -106,7 +106,7 @@ public final class Entity {
     static User createUser(long id, String name) {
         String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
         String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
-        User user = new User(email, name, new HashSet<Project>());
+        User user = new User(email, name, new HashSet<String>());
         return user;
     }
     
