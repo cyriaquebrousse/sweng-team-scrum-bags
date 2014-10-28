@@ -106,8 +106,11 @@ public final class Entity {
     static User createUser(long id, String name) {
         String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
         String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
-        User user = new User(email, name, new HashSet<String>());
-        return user;
+        User.Builder uB = new User.Builder();
+        uB.setName(username);
+        uB.setEmail(email);
+        uB.addProjects(new HashSet<String>());
+        return uB.build();
     }
     
     public static Role getRandomRole() {
