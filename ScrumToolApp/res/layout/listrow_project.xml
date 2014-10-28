@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp" >
+    android:padding="@dimen/list_row_padding" >
 
     <!-- Project icon -->
     <TextView
-        android:id="@+id/project_icon"
+        android:id="@+id/project_row_icon"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentStart="true"
@@ -15,35 +17,32 @@
 
     <!-- Project name -->
     <TextView
-        android:id="@+id/project_name"
+        android:id="@+id/project_row_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/project_icon"
-        android:layout_toEndOf="@+id/project_icon"
+        android:layout_alignTop="@id/project_row_icon"
+        android:layout_toEndOf="@id/project_row_icon"
         android:textSize="@dimen/list_row_name"
         android:textStyle="bold" />
 
     <!-- Project description -->
     <TextView
-        android:id="@+id/project_desc"
+        android:id="@+id/project_row_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/project_name"
+        android:layout_below="@id/project_row_name"
         android:layout_marginTop="1dip"
-        android:layout_toEndOf="@id/project_icon"
-        android:textSize="@dimen/list_row_desc"
-        android:maxLines="1" />
+        android:layout_toEndOf="@id/project_row_icon"
+        android:maxLines="1"
+        android:textSize="@dimen/list_row_desc" />
 
     <!-- Number of new elements in project -->
-    <TextView
-        android:id="@+id/project_newElemCount"
+    <ch.epfl.scrumtool.gui.components.widgets.Sticker
+        android:id="@+id/project_row_newElemCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@color/darkgreen"
-        android:padding="5dp"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        custom:sticker_color="@color/darkgreen" />
 
 </RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <!-- Estimation stamp -->
+    <ch.epfl.scrumtool.gui.components.widgets.Stamp
+        android:id="@+id/issue_row_estimation"
+        android:layout_width="@dimen/stamp_width"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/issue_row_assignee"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        custom:stamp_content_quantity="42"
+        custom:stamp_content_unit="hours" />
+
+    <!-- Issue name -->
+    <TextView
+        android:id="@+id/issue_row_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/issue_row_estimation"
+        android:maxLines="2"
+        android:textStyle="bold" />
+
+    <!-- Assignee -->
+    <TextView
+        android:id="@+id/issue_row_assignee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/issue_row_name"
+        android:layout_toEndOf="@id/issue_row_estimation"
+        android:maxLines="1"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

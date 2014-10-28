@@ -30,7 +30,7 @@ import ch.epfl.scrumtool.R;
 
 /**
  * A login screen that offers login via email/password.
- * @author cyriaquebrousse
+ * @author Cyriaque Brousse
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 

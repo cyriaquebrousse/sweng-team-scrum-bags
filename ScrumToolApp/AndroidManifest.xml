@@ -49,8 +49,20 @@
             android:label="@string/title_activity_project_overview" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.UserListActivity"
+            android:name=".gui.UserListActivity"
             android:label="@string/title_activity_user_list" >
+        </activity>
+        <activity
+            android:name=".gui.TaskOverviewActivity"
+            android:label="@string/title_activity_task_overview" >
+        </activity>
+        <activity
+            android:name=".gui.IssueOverviewActivity"
+            android:label="@string/title_activity_issue_overview" >
+        </activity>
+        <activity            
+            android:name=".gui.ProfileOverviewActivity"
+            android:label="@string/title_activity_profile_overview" >
         </activity>
     </application>
 

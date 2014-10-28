@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Loris Leiva -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/profile_background"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <LinearLayout 
+        android:id="@+id/main_frame"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/space"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" >
+        
+        <TextView
+            android:id="@+id/profile_picture"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight=".35"
+            android:background="@color/DarkGray" />
+        
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight=".65"
+            android:background="@color/White" >
+            
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/space"
+                android:textSize="@dimen/header_title_size"
+                android:textStyle="bold" />
+        
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    android:layout_below="@id/main_frame"
+        android:background="@color/White" >
+    
+	    <LinearLayout
+	        android:id="@+id/characteristic_frame"
+	        android:orientation="vertical" 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:padding="@dimen/space" >
+	        
+	        <LinearLayout 
+	            android:orientation="horizontal"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="@dimen/space" >
+	            
+	            <TextView 
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content" 
+	                android:layout_weight="0.4"
+	                android:text="@string/username"
+	                android:textSize="@dimen/default_text_size"
+	                android:textStyle="bold" />
+	            
+	            <TextView 
+	                android:id="@+id/profile_username"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content" 
+	                android:layout_weight="0.6"
+	                android:textSize="@dimen/default_text_size" />
+	            
+	        </LinearLayout>
+	        
+	        
+	        <LinearLayout 
+	            android:orientation="horizontal"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" >
+	            
+	            <TextView 
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content" 
+	                android:layout_weight="0.4"
+	                android:text="@string/email"
+	                android:textSize="@dimen/default_text_size"
+	                android:textStyle="bold" />
+	            
+	            <TextView 
+                    android:id="@+id/profile_email"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content" 
+	                android:layout_weight="0.6"
+	                android:textSize="@dimen/default_text_size" />
+	            
+	        </LinearLayout>
+	        
+	    </LinearLayout>
+	    
+	    <LinearLayout 
+	        android:orientation="vertical"
+	        android:layout_below="@id/characteristic_frame"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	        
+	        <TextView 
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="@dimen/small_title"
+                android:paddingTop="@dimen/space"
+                android:paddingLeft="@dimen/space"
+                android:paddingRight="@dimen/space"
+	            android:text="@string/shared_projects" />
+	        
+	        <ListView 
+	            android:id="@+id/profile_shared_projects_list"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" />
+            
+	    </LinearLayout>
+	    
+    </RelativeLayout>
+
+</RelativeLayout>

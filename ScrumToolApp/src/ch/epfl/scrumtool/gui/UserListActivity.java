@@ -25,10 +25,10 @@ public class UserListActivity extends Activity {
         setContentView(R.layout.activity_user_list);
         ListView listview = (ListView) findViewById(R.id.userList);
         
-        NetworkClient NC = new NetworkClient();
+        NetworkClient nc = new NetworkClient();
         String[] names = null;
         
-        if (NC.getUsers() != null) {
+        if (nc.getUsers() != null) {
             //names = NC.getUsers();
         } else {
             names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ",
@@ -40,7 +40,12 @@ public class UserListActivity extends Activity {
         listview.setAdapter(adapter);
 
     }
-
+    
+    /**
+     * 
+     * @author LeoWirz
+     *
+     */
     private class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
         private final String[] values;

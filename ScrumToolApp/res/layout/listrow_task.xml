@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <!-- Background, according to percentage -->
+    <View
+        android:id="@+id/task_row_percent_backgrd"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/LightGreen" />
+
+    <!-- Proper elements -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/list_row_padding" >
+
+        <!-- Priority -->
+        <ch.epfl.scrumtool.gui.components.widgets.Sticker
+            android:id="@+id/task_row_priority_sticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/task_row_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_list"
+            android:layout_toEndOf="@id/task_row_priority_sticker"
+            android:maxLines="1"
+            android:textSize="@dimen/list_row_name"
+            android:textStyle="bold" />
+
+        <!-- One-line description -->
+        <TextView
+            android:id="@+id/task_row_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/task_row_name"
+            android:layout_below="@id/task_row_name"
+            android:maxLines="1"
+            android:textSize="@dimen/list_row_desc" />
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/task_row_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/task_row_desc"
+            android:layout_below="@+id/task_row_desc"
+            android:maxLines="1"
+            android:textColor="@color/Gray" />
+        
+    </RelativeLayout>
+
+</FrameLayout>

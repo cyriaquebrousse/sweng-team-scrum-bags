@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gui.TaskOverviewActivity" >
+
+    <!-- Task name -->
+    <TextView
+        android:id="@+id/task_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space"
+        android:layout_marginLeft="@dimen/space"
+        android:layout_marginRight="@dimen/space"
+        android:maxLines="1"
+        android:textSize="@dimen/header_title_size"
+        android:textStyle="bold" />
+
+    <!-- Task priority -->
+    <ch.epfl.scrumtool.gui.components.widgets.Sticker
+        android:id="@+id/task_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/task_name"
+        android:layout_below="@+id/task_name"
+        custom:sticker_text="URGENT"
+        custom:sticker_color="@color/darkred"
+        custom:sticker_bold="true" />
+
+    <!-- Task description -->
+    <!-- TODO arbitrary height !!! -->
+    <ScrollView
+        android:id="@+id/task_desc_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignTop="@id/task_priority"
+        android:layout_marginStart="@dimen/space"
+        android:layout_marginEnd="@dimen/space"
+        android:layout_toEndOf="@id/task_priority" >
+
+        <TextView
+            android:id="@+id/task_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+    
+    <!-- Task deadline ??? -->
+    
+    <!-- Status and estimation slates -->
+    <LinearLayout android:id="@+id/task_slates"
+        android:layout_below="@id/task_desc_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <!-- Status -->
+        <ch.epfl.scrumtool.gui.components.widgets.Slate
+            android:id="@+id/task_slate_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            custom:slate_title="Status"
+            custom:slate_text="En sprint" />
+
+        <!-- Estimation -->
+        <ch.epfl.scrumtool.gui.components.widgets.Slate
+            android:id="@+id/task_slate_estimation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:slate_color="@color/BurlyWood"
+            custom:slate_title="Estimation"
+            custom:slate_text="3 jours"
+            android:layout_weight=".5" />
+    </LinearLayout>
+    
+    <!-- Issues list -->
+    <ListView
+        android:id="@+id/task_issues_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/task_slates" />
+    
+</RelativeLayout>

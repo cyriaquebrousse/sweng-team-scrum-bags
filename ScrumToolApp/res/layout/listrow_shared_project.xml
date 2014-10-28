@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Loris Leiva -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/small_space"
+    android:paddingRight="@dimen/space"
+    android:paddingBottom="@dimen/small_space"
+    android:paddingLeft="@dimen/space"
+    android:background="@drawable/fluid_list_1" >
+    
+    <TextView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/DarkGray" />
+    
+    <LinearLayout 
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+        <TextView 
+            android:id="@+id/shared_project_row_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_row_name"
+            android:text="Super Project" />
+        
+        <TextView 
+            android:id="@+id/shared_project_row_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_row_desc"
+            android:textStyle="italic"
+            android:textColor="@color/discrete_text"
+            android:text="Developer" />
+        
+    </LinearLayout>
+
+</LinearLayout>

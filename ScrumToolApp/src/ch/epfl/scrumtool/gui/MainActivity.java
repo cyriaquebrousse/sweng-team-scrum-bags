@@ -7,7 +7,8 @@ import android.view.View;
 import ch.epfl.scrumtool.R;
 
 /**
- * @author cyriaquebrousse
+ * Note: This class is temporary.
+ * @author Cyriaque Brousse
  */
 public class MainActivity extends Activity {
 
@@ -25,10 +26,5 @@ public class MainActivity extends Activity {
     public void openProjects(View view) {
         Intent openProjectsIntent = new Intent(this, ProjectListActivity.class);
         startActivity(openProjectsIntent);
-    }
-    
-    public void openProjectOverview(View view) {
-        Intent openProjectOverviewIntent = new Intent(this, ProjectOverviewActivity.class);
-        startActivity(openProjectOverviewIntent);
     }
 }
