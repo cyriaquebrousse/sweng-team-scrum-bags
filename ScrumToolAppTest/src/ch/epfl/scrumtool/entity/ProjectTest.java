@@ -1,29 +1,63 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
 /**
- * @author Vincent
+ * @author ketsio
  *
  */
 public class ProjectTest extends TestCase {
+    
+    private final Project project1;
+    private final Project project2;
+    private final Project project3;
 
     /**
      * @param name
      */
     public ProjectTest(String name) {
         super(name);
+        
+        project1 = new Project(1l, "Super Cool Project", "description...", 
+                new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER),
+                new HashSet<Player>(Arrays.asList(new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER))), 
+                new HashSet<MainTask>(Arrays.asList(Entity.TASK_A, Entity.TASK_B)), 
+                new HashSet<Sprint>());
+        
+        project2 = new Project(2l, "Lame Project", "\n\t\n lame\"\"", 
+                new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER),
+                new HashSet<Player>(Arrays.asList(new Player(2, Entity.ARJEN_LENSTRA, Role.PRODUCT_OWNER))), 
+                new HashSet<MainTask>(), 
+                new HashSet<Sprint>());
+        
+        project3 = new Project(3l, "Okay project", "description...", 
+                new Player(1, Entity.CYRIAQUE_BROUSSE, Role.PRODUCT_OWNER),
+                new HashSet<Player>(Arrays.asList(new Player(2, Entity.MARIA_LINDA, Role.DEVELOPER))), 
+                new HashSet<MainTask>(Arrays.asList(Entity.TASK_B, Entity.TASK_B, Entity.TASK_C)), 
+                new HashSet<Sprint>());
+        
+        System.out.println("constr");
     }
     
     @Test
     public void testEquals() {
-        fail("Not yet implemented");
+        Project projectCopiedFromProject1 = new Project(project1);
+        assertEquals(
+                "A project copied from another project should be semantically equals", 
+                project1, 
+                projectCopiedFromProject1);
+        assertFalse("Different projects should not be equals",
+                project1.equals(project2));
+        assertFalse("Different projects should not be equals",
+                project1.equals(project3));
+        assertFalse("Different projects should not be equals",
+                project2.equals(project3));
     }
 
     /**
@@ -47,7 +81,9 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testGetName() {
-        fail("Not yet implemented");
+        assertEquals("Super Cool Project", project1.getName());
+        assertEquals("Lame Project", project2.getName());
+        assertEquals("Okay project", project3.getName());
     }
 
     /**
@@ -55,7 +91,19 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testSetName() {
-        fail("Not yet implemented");
+        
+        // project 1
+        project1.setName("");
+        assertEquals("", project1.getName());
+        
+        // project 2
+        project2.setName(null);
+        assertNotNull("A name should never be null", project2.getName());
+        assertEquals("Lame Project", project2.getName());
+        
+        // project 3
+        project3.setName(new StringBuffer().append(true).toString());
+        assertEquals("true", project3.getName());
     }
 
     /**
@@ -63,7 +111,9 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testGetDescription() {
-        fail("Not yet implemented");
+        assertEquals("description...", project1.getDescription());
+        assertEquals("\n\t\n lame\"\"", project2.getDescription());
+        assertEquals("description...", project3.getDescription());
     }
 
     /**
@@ -71,7 +121,19 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testSetDescription() {
-        fail("Not yet implemented");
+        
+        // project 1
+        project1.setDescription("");
+        assertEquals("", project1.getDescription());
+        
+        // project 2
+        project2.setDescription(null);
+        assertNotNull("A description should never be null", project2.getDescription());
+        assertEquals("\n\t\n lame\"\"", project2.getDescription());
+        
+        // project 3
+        project3.setDescription(new StringBuffer().append(true).toString());
+        assertEquals("true", project3.getDescription());
     }
 
     /**
@@ -79,7 +141,12 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testGetAdmin() {
-        fail("Not yet implemented");
+        Player mariaLindaDeveloper = new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER);
+        Player cyriaqueBrousseProductOwner = new Player(1, Entity.CYRIAQUE_BROUSSE, Role.PRODUCT_OWNER);
+
+        assertEquals(mariaLindaDeveloper, project1.getAdmin());
+        assertEquals(mariaLindaDeveloper, project2.getAdmin());
+        assertEquals(cyriaqueBrousseProductOwner, project3.getAdmin());
     }
 
     /**
@@ -87,7 +154,22 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testSetAdmin() {
-        fail("Not yet implemented");
+        Player mariaLindaDeveloper = new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER);
+        Player arjenLenstraStakeholder = new Player(0, Entity.ARJEN_LENSTRA, Role.STAKEHOLDER);
+        Player cyriaqueBrousseProductOwner = new Player(1, Entity.CYRIAQUE_BROUSSE, Role.PRODUCT_OWNER);
+        
+        // project 1
+        project1.setAdmin(new Player(cyriaqueBrousseProductOwner));
+        assertEquals(cyriaqueBrousseProductOwner, project1.getAdmin());
+        
+        // project 2
+        project2.setAdmin(null);
+        assertNotNull("The admin should never be null", project2.getAdmin());
+        assertEquals(mariaLindaDeveloper, project2.getAdmin());
+        
+        // project 3
+        project3.setAdmin(arjenLenstraStakeholder);
+        assertEquals(arjenLenstraStakeholder, project3.getAdmin());
     }
 
     /**
