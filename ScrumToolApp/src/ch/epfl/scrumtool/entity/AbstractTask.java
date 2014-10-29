@@ -101,11 +101,6 @@ public abstract class AbstractTask {
         this.id = id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -131,5 +126,13 @@ public abstract class AbstractTask {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (id
+                + name.hashCode()
+                + description.hashCode()
+                + status.hashCode()) % Integer.MAX_VALUE;
     }
 }

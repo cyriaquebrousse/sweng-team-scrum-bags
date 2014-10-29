@@ -117,11 +117,6 @@ public final class MainTask extends AbstractTask {
         return estimated ? estimation : -1;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -141,5 +136,12 @@ public final class MainTask extends AbstractTask {
             return false;
         }
         return super.equals(o);
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (super.hashCode()
+                + priority.hashCode()
+                + issues.hashCode()) % Integer.MAX_VALUE;
     }
 }

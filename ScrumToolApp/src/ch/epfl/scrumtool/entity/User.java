@@ -159,11 +159,6 @@ public final class User {
         return projects;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -192,5 +187,13 @@ public final class User {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (username.hashCode() 
+                + email.hashCode()
+                + name.hashCode()
+                + token) % Integer.MAX_VALUE;
     }
 }

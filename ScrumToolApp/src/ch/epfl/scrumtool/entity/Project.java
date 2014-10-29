@@ -228,11 +228,6 @@ public final class Project {
         return Entity.getRandomRole();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -268,6 +263,17 @@ public final class Project {
         }
 
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (id
+                + name.hashCode()
+                + description.hashCode()
+                + admin.hashCode()
+                + players.hashCode()
+                + backlog.hashCode()
+                + sprints.hashCode()) % Integer.MAX_VALUE;
     }
 
 }

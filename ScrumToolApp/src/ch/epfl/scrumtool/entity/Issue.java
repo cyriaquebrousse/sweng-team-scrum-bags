@@ -70,11 +70,6 @@ public final class Issue extends AbstractTask {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         // TODO equals player and not ==
@@ -95,6 +90,13 @@ public final class Issue extends AbstractTask {
             return false;
         }
         return super.equals(o);
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (super.hashCode()
+                + estimatedTime
+                + player.hashCode()) % Integer.MAX_VALUE;
     }
 
 }

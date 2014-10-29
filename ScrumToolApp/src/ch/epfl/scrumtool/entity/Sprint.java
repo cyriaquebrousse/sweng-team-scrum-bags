@@ -82,11 +82,6 @@ public final class Sprint {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -106,6 +101,11 @@ public final class Sprint {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (deadLine.hashCode() + issues.hashCode()) % Integer.MAX_VALUE;
     }
 
 }

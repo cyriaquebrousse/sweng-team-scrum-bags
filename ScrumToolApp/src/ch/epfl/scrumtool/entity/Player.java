@@ -77,11 +77,6 @@ public final class Player {
         this.id = id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -104,6 +99,11 @@ public final class Player {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        return (int) (id + role.hashCode() + user.hashCode()) % Integer.MAX_VALUE;
     }
 
 }
