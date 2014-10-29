@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
@@ -27,6 +28,7 @@ public final class Entity {
     public static final User CONNECTED_USER = MARIA_LINDA;
     
     // Issues
+    // If you add some more, please also update ALL_A_ISSUES below !
     public static final Issue ISSUE_A1 = createIssue(0, "Create the profile", Status.FINISHED, 3);
     public static final Issue ISSUE_A2 = createIssue(1, "Create the project", Status.IN_SPRINT, 2);
     public static final Issue ISSUE_A3 = createIssue(2, "Create the task", Status.FINISHED, 0);
@@ -37,7 +39,8 @@ public final class Entity {
     public static final Issue ISSUE_D2 = createIssue(7, "Why not ?", Status.FINISHED, 0.5f);
     public static final Issue ISSUE_E1 = createIssue(8, "Find time to sleep", Status.READY_FOR_ESTIMATION, 2);
 
-
+    // All "A" issues
+    public static final List<Issue> ALL_A_ISSUES = Arrays.asList(ISSUE_A1, ISSUE_A2, ISSUE_A3);
     
     // Tasks
     public static final MainTask TASK_A = createTask(0, "Create Mock UI", Status.IN_SPRINT,
