@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -177,7 +178,20 @@ public class ProjectTest extends TestCase {
      */
     @Test
     public void testGetPlayers() {
-        fail("Not yet implemented");
+        Player mariaLindaDeveloper = new Player(1, Entity.MARIA_LINDA, Role.DEVELOPER);
+        Player arjenLenstraStakeholder = new Player(0, Entity.ARJEN_LENSTRA, Role.STAKEHOLDER);
+        Player mariaLindaDeveloper2 = new Player(2, Entity.MARIA_LINDA, Role.DEVELOPER);
+
+        Set<Player> players1 = new HashSet<Player>();
+        players1.add(mariaLindaDeveloper);
+        Set<Player> players2 = new HashSet<Player>();
+        players2.add(arjenLenstraStakeholder);
+        Set<Player> players3 = new HashSet<Player>();
+        players3.add(mariaLindaDeveloper2);
+        
+        assertEquals(players1, project1.getPlayers());
+        assertEquals(players2, project2.getPlayers());
+        assertEquals(players3, project3.getPlayers());
     }
 
     /**
