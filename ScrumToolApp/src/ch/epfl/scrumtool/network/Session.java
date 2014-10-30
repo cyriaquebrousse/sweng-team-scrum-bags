@@ -7,8 +7,8 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import ch.epfl.scrumtool.entity.DSUserHandler;
-import ch.epfl.scrumtool.entity.DatabaseCallback;
+import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.google.DSUserHandler;
 import ch.epfl.scrumtool.entity.User;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -47,7 +47,7 @@ public class Session {
 
             @Override
             public void interactionDone(User object) {
-                name = object.getEmail();
+                String name = object.getEmail();
                 Log.d("GET", name);
 
             }

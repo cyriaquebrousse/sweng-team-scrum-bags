@@ -1,14 +1,14 @@
 /**
  * 
  */
-package ch.epfl.scrumtool.entity;
+package ch.epfl.scrumtool.database;
 
 /**
  * @author Arno
  * 
  */
 public abstract class DatabaseHandler<A> {
-
+	
     public abstract void insert(A object);
 
     public abstract void load(String key, DatabaseCallback<A> dbC);

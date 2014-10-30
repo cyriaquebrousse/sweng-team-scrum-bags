@@ -47,6 +47,13 @@ public final class Player {
     public long getId() {
         return id;
     }
+    
+    /**
+     * @return admin Flag
+     */
+    public boolean isAdmin(){
+    	return this.isAdmin;
+    }
 
     public static class Builder {
         private User user;

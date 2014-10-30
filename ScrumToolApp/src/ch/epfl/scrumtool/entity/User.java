@@ -1,5 +1,9 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
+
 
 /**
  * @author vincent, aschneuw, zenhaeus

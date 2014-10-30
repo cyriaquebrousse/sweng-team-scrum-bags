@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.scrumtool.entity;
+package ch.epfl.scrumtool.database;
 
 /**
  * @author Arno

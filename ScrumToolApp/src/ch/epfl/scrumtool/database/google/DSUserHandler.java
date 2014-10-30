@@ -1,19 +1,18 @@
 /**
  * 
  */
-package ch.epfl.scrumtool.entity;
+package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.os.AsyncTask;
+import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
-
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.util.DateTime;
 
 /**
  * @author Arno
@@ -35,7 +34,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
         Date date = new Date();
         scrumUser.setLastModDate(date.getTime());
         scrumUser.setLastModUser(object.getEmail());
-        scrumUser.setPlayers(new ArrayList<ch.epfl.scrumtool.server.scrumtool.model.Player>());
+        scrumUser.setPlayers(new ArrayList<ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer>());
 
         InsertUserTask iu = new InsertUserTask();
         iu.execute(scrumUser);
@@ -96,11 +95,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
          */
         @Override
         protected Void doInBackground(ScrumUser... params) {
-            Scrumtool.Builder builder = new Scrumtool.Builder(
-                    AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-                    null);
-            builder.setRootUrl(AppEngineUtils.getServerURL());
-            Scrumtool service = builder.build();
+            Scrumtool service = AppEngineUtils.getServiceObject();
 
             try {
                 service.insertScrumUser(params[0]).execute();
@@ -127,11 +122,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
          */
         @Override
         protected ScrumUser doInBackground(String... params) {
-            Scrumtool.Builder builder = new Scrumtool.Builder(
-                    AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-                    null);
-            builder.setRootUrl(AppEngineUtils.getServerURL());
-            Scrumtool service = builder.build();
+            Scrumtool service = AppEngineUtils.getServiceObject();
             ScrumUser user = null;
             try {
                 user = service.getScrumUser(params[0]).execute();
