@@ -35,34 +35,8 @@ public class Session {
                 REQUEST_ACCOUNT_PICKER);
         googleCredential.setSelectedAccountName((String) googleAccountPicker
                 .getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-
-        User.Builder uB = new User.Builder();
-        uB.setName("Arno");
-        uB.setEmail("arno.schneuwly@epfl.ch");
-
-        DSUserHandler uH = new DSUserHandler();
-        uH.insert(uB.build());
-
-        uH.load(uB.getEmail(), new DatabaseCallback<User>() {
-
-            @Override
-            public void interactionDone(User object) {
-                name = object.getEmail();
-                Log.d("GET", name);
-
-            }
-        });
-        //
-        // User user = uB.build();
-        // DatabaseHandler<User> handler = new GoogleUserHandler();
-        // handler.insert(user);
-
-        // User arno = handler.get("arno.schneuwly@epfl.ch");
-
-        // int n = Role.PRODUCT_OWNER.ordinal();
-        // AuthenticateTask newTask = new AuthenticateTask();
-        // newTask.execute();
     }
+    
     public static Session getCurrentSession() {
         return currentSesstion;
     }

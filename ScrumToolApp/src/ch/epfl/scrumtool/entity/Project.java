@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  */
 public class Project {
 
-    private final long id;
+    private final String id;
     private final String name;
     private final String description;
     private final Set<Player> players;
@@ -26,7 +26,7 @@ public class Project {
      * @param backlog
      * @params sprints
      */
-    private Project(long id, String name, String description,
+    private Project(String id, String name, String description,
             Set<Player> players, Set<MainTask> backlog, Set<Sprint> sprints) {
         super();
         if (name == null || description == null
@@ -74,7 +74,7 @@ public class Project {
     /**
      * @return the id
      */
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -97,7 +97,7 @@ public class Project {
     }
 
     public static class Builder {
-        private long id;
+        private String id;
         private String name;
         private String description;
         private final Set<Player> players;
@@ -163,7 +163,7 @@ public class Project {
         /**
          * @return the id
          */
-        public long getId() {
+        public String getId() {
             return id;
         }
 
@@ -171,7 +171,7 @@ public class Project {
          * @param id
          *            the id to set
          */
-        public void setId(long id) {
+        public void setId(String id) {
             this.id = id;
         }
 
