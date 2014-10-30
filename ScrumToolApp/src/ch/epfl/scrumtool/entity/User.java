@@ -9,10 +9,10 @@ import java.util.Set;
  * @author vincent, aschneuw, zenhaeus
  * 
  */
-public class User implements DatabaseInteraction<User> {
-    private final String mEmail;
-    private final String mName;
-    private final Set<String> mProjectKeys;
+public final class User implements DatabaseInteraction<User> {
+    private final String email;
+    private final String name;
+    private final Set<String> projectKeys;
 
     /**
      * @param email
@@ -24,90 +24,90 @@ public class User implements DatabaseInteraction<User> {
             throw new NullPointerException("User.Constructor");
         }
 
-        this.mEmail = email;
-        this.mName = name;
-        this.mProjectKeys = new HashSet<String>(projectKeys);
+        this.email = email;
+        this.name = name;
+        this.projectKeys = new HashSet<String>(projectKeys);
     }
 
     /**
      * @return the email
      */
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     /**
      * @return the name
      */
     public String getName() {
-        return mName;
+        return name;
     }
 
     /**
      * @return the projects
      */
     public List<String> getProjectKeys() {
-        return new ArrayList<String>(mProjectKeys);
+        return new ArrayList<String>(projectKeys);
     }
 
     public static class Builder {
-        private String mEmail;
-        private String mName;
-        private Set<String> mProjectKeys;
+        private String email;
+        private String name;
+        private Set<String> projectKeys;
 
         public Builder() {
-            this.mProjectKeys = new HashSet<String>();
+            this.projectKeys = new HashSet<String>();
         }
 
         public Builder(User otherUser) {
-            this.mEmail = otherUser.mEmail;
-            this.mName = otherUser.mName;
-            this.mProjectKeys = new HashSet<String>(otherUser.mProjectKeys);
+            this.email = otherUser.email;
+            this.name = otherUser.name;
+            this.projectKeys = new HashSet<String>(otherUser.projectKeys);
         }
 
         /**
          * @return the email
          */
         public String getEmail() {
-            return mEmail;
+            return email;
         }
 
         public void setEmail(String email) {
-            mEmail = email;
+            this.email = email;
         }
 
         /**
          * @return the name
          */
         public String getName() {
-            return mName;
+            return name;
         }
 
         public void setName(String name) {
-            mName = name;
+            this.name = name;
         }
 
         /**
          * @return the projects
          */
         public List<String> getProjectsKeys() {
-            return new ArrayList<String>(mProjectKeys);
+            return new ArrayList<String>(projectKeys);
         }
 
         public void addProjectKey(String k) {
-            mProjectKeys.add(k);
+            projectKeys.add(k);
         }
         
         public void addProjects(Set<String> k) {
-            mProjectKeys = k;
+            projectKeys = k;
         }
 
         public void removeProjectKey(String k) {
-            mProjectKeys.remove(k);
+            projectKeys.remove(k);
         }
 
         public User build() {
-            return new User(this.mEmail, this.mName, this.mProjectKeys);
+            return new User(this.email, this.name, this.projectKeys);
         }
 
     }
