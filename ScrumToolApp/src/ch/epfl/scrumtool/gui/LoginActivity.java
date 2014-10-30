@@ -31,6 +31,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.network.Session;
 
 /**
@@ -91,7 +94,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         
+        
+//        User.Builder joeyB = new User.Builder();
+//        joeyB.setEmail("joey.zenhaeusern@epfl.ch");
+//        joeyB.setName("Joey Transa");
+//        User joey = joeyB.build();
+//        
+//        DatabaseHandler<User> ds= new DSUserHandler();
+//        ds.insert(joey);
+        
+        
+        
+        
         Session test = new Session();
+        
         test.authenticate(this);
         
         

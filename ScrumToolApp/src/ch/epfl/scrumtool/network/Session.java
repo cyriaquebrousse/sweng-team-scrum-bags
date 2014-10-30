@@ -8,7 +8,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -35,6 +38,30 @@ public class Session {
                 REQUEST_ACCOUNT_PICKER);
         googleCredential.setSelectedAccountName((String) googleAccountPicker
                 .getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
+        
+        DatabaseHandler<User> handler = new DSUserHandler();
+        handler.load("joey.zenhaeusern@epfl.ch", new DatabaseCallback<User>() {
+
+			@Override
+			public void interactionDone(User object) {
+				scrumUser = object;
+				currentSesstion = Session.this;
+				
+				Project.Builder pB = new Project.Builder();
+				pB.setDescription("BLA");
+				pB.setName("Test1 Scrumttool");
+				Project p = pB.build();
+				
+				DatabaseHandler<Project> handler = new DSProjectHandler();
+				handler.insert(p);
+				
+				
+				
+			}
+		});
+        
+        
+        
     }
     
     public static Session getCurrentSession() {
