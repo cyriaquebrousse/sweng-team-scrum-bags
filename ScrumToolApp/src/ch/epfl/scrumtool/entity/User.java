@@ -1,9 +1,5 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author vincent, aschneuw, zenhaeus
@@ -12,21 +8,19 @@ import java.util.Set;
 public final class User implements DatabaseInteraction<User> {
     private final String email;
     private final String name;
-    private final Set<String> projectKeys;
 
     /**
      * @param email
      * @param name
      * @param projects
      */
-    private User(String email, String name, Set<String> projectKeys) {
-        if (email == null || name == null || projectKeys == null) {
+    private User(String email, String name) {
+        if (email == null || name == null) {
             throw new NullPointerException("User.Constructor");
         }
 
         this.email = email;
         this.name = name;
-        this.projectKeys = new HashSet<String>(projectKeys);
     }
 
     /**
@@ -46,23 +40,21 @@ public final class User implements DatabaseInteraction<User> {
     /**
      * @return the projects
      */
-    public List<String> getProjectKeys() {
-        return new ArrayList<String>(projectKeys);
+    public void loadProjects(DatabaseHandler<Project> db, DatabaseCallback<Project> callback ){
+    	db.load(this.name, callback );
     }
 
     public static class Builder {
         private String email;
         private String name;
-        private Set<String> projectKeys;
-
-        public Builder() {
-            this.projectKeys = new HashSet<String>();
+        
+        
+        public Builder(){
         }
 
         public Builder(User otherUser) {
             this.email = otherUser.email;
             this.name = otherUser.name;
-            this.projectKeys = new HashSet<String>(otherUser.projectKeys);
         }
 
         /**
@@ -90,24 +82,10 @@ public final class User implements DatabaseInteraction<User> {
         /**
          * @return the projects
          */
-        public List<String> getProjectsKeys() {
-            return new ArrayList<String>(projectKeys);
-        }
 
-        public void addProjectKey(String k) {
-            projectKeys.add(k);
-        }
-        
-        public void addProjects(Set<String> k) {
-            projectKeys = k;
-        }
-
-        public void removeProjectKey(String k) {
-            projectKeys.remove(k);
-        }
 
         public User build() {
-            return new User(this.email, this.name, this.projectKeys);
+            return new User(this.email, this.name);
         }
 
     }

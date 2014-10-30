@@ -92,7 +92,8 @@ public class Project {
 
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
         // TODO Database Call + javadoc
-        return Entity.getRandomRole();
+    	
+        return Role.DEVELOPER;
     }
 
     public static class Builder {
@@ -189,7 +190,7 @@ public class Project {
         public Role getRoleFor(User user)
                 throws NotAPlayerOfThisProjectException {
             // TODO Database Call + javadoc
-            return Entity.getRandomRole();
+            return Role.DEVELOPER;
         }
         
         public Project build() {

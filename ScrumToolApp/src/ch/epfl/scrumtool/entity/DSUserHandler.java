@@ -4,26 +4,24 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.DateTime;
 
 /**
  * @author Arno
  * 
  */
-public class GoogleUserHandler extends DatabaseHandler<User> {
+public class DSUserHandler extends DatabaseHandler<User> {
     private ScrumUser scrumUser = new ScrumUser();
+    public static final String LOCAL = "http://10.0.0.10:8888/_ah/api/";
 
     /*
      * (non-Javadoc)
@@ -35,8 +33,12 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
         scrumUser = new ScrumUser();
         scrumUser.setEmail(object.getEmail());
         scrumUser.setName(object.getEmail());
+        Date date = new Date();
+        scrumUser.setLastModDate(date.getTime());
+        scrumUser.setLastModUser(object.getEmail());
+        scrumUser.setPlayers(new ArrayList<ch.epfl.scrumtool.server.scrumtool.model.Player>());
 
-        InsertUser iu = new InsertUser();
+        InsertUserTask iu = new InsertUserTask();
         iu.execute(scrumUser);
     }
 
@@ -48,28 +50,10 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
      * .Key)
      */
     @Override
-    public User get(String key) {
-        GetUser iu = new GetUser();
-        ScrumUser su = null;
-        try {
-            su = iu.execute(key).get();
-        } catch (InterruptedException | ExecutionException e) {
-            Log.e("ASYNC_RESULT", "failure");
-            e.printStackTrace();
-        }
+    public void load(String key, DatabaseCallback<User> cB) {
+        GetUserTask task = new GetUserTask(cB);
+        task.execute(key);
         
-        User.Builder uB = new User.Builder();
-        uB.setName(su.getName());
-        uB.setEmail(su.getEmail());
-        HashSet<String> projects;
-        if (su.getProjects() != null) {
-            projects = new HashSet<String>(su.getProjects());
-        } else {
-            projects = new HashSet<String>();
-        }
-        uB.addProjects(projects);
-        User user = uB.build();
-        return user;
     }
 
     /*
@@ -78,9 +62,8 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#getAll()
      */
     @Override
-    public List<User> getAll() {
+    public void loadAll(DatabaseCallback<User> cB) {
         // TODO Auto-generated method stub
-        return null;
     }
 
     /*
@@ -105,7 +88,7 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
 
     }
 
-    private class InsertUser extends AsyncTask<ScrumUser, Void, Void> {
+    private class InsertUserTask extends AsyncTask<ScrumUser, Void, Void> {
 
         /*
          * (non-Javadoc)
@@ -117,7 +100,7 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
             Scrumtool.Builder builder = new Scrumtool.Builder(
                     AndroidHttp.newCompatibleTransport(), new GsonFactory(),
                     null);
-            builder.setRootUrl(Scrumtool.DEFAULT_ROOT_URL);
+            builder.setRootUrl(LOCAL);
             Scrumtool service = builder.build();
 
             try {
@@ -131,8 +114,13 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
 
     }
 
-    private class GetUser extends AsyncTask<String, Void, ScrumUser> {
-
+    private class GetUserTask extends AsyncTask<String, Void, ScrumUser> {
+    	private DatabaseCallback<User> cB;
+    	
+    	public GetUserTask(DatabaseCallback<User> cB){
+    		this.cB = cB;
+    	}
+    	
         /*
          * (non-Javadoc)
          * 
@@ -143,7 +131,7 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
             Scrumtool.Builder builder = new Scrumtool.Builder(
                     AndroidHttp.newCompatibleTransport(), new GsonFactory(),
                     null);
-            builder.setRootUrl(Scrumtool.DEFAULT_ROOT_URL);
+            builder.setRootUrl(LOCAL);
             Scrumtool service = builder.build();
             ScrumUser user = null;
             try {
@@ -157,8 +145,11 @@ public class GoogleUserHandler extends DatabaseHandler<User> {
 
         @Override
         protected void onPostExecute(ScrumUser su) {
-            Log.d("DB_TEST", su.getEmail());
-            Log.d("DB_TEST", su.getName());
+        	User.Builder uB = new User.Builder();
+            uB.setName(su.getName());
+            uB.setEmail(su.getEmail());
+            User user = uB.build();
+            cB.interactionDone(user);
         }
     }
 

@@ -67,10 +67,10 @@ public final class Entity {
      * @return
      */
     static Issue createIssue(long id, String name, Status status, float estimation) {
-        String description = "This is the description of the issue called + \"" + name + "\"";
-        Player player = new Player(0, JOHN_SMITH, getRandomRole());
-        Issue issue = new Issue(id, name, description, status, estimation, player);
-        return issue;
+//        String description = "This is the description of the issue called + \"" + name + "\"";
+//        Player player = new Player(0, JOHN_SMITH, getRandomRole());
+//        Issue issue = new Issue(id, name, description, status, estimation, player);
+        return null;
     }
 
     /**
@@ -91,16 +91,16 @@ public final class Entity {
         
         Set<Player> players = new HashSet<Player>();
         for (User user : users) {
-            players.add(new Player(0, user, getRandomRole()));
+            //players.add(new Player(0, user, getRandomRole()));
         }
         Player admin = getRandomPlayer(players);
-        Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
+        //Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
 
         for (User user : users) {
 //            user.getProjects().add(project);
         }
 
-        return project;
+        return null;
     }
     
     static User createUser(long id, String name) {
@@ -109,7 +109,7 @@ public final class Entity {
         User.Builder uB = new User.Builder();
         uB.setName(username);
         uB.setEmail(email);
-        uB.addProjects(new HashSet<String>());
+        //uB.addProjects(new HashSet<String>());
         return uB.build();
     }
     
