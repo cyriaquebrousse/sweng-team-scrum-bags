@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
@@ -12,14 +9,11 @@ import ch.epfl.scrumtool.database.DatabaseCallback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
-/**
- * @author Arno
- * 
- */
 public class DSUserHandler extends DatabaseHandler<User> {
-    private ScrumUser scrumUser = new ScrumUser();
+    private ScrumUser scrumUser;
 
     /*
      * (non-Javadoc)
@@ -34,8 +28,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
         Date date = new Date();
         scrumUser.setLastModDate(date.getTime());
         scrumUser.setLastModUser(object.getEmail());
-        scrumUser.setPlayers(new ArrayList<ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer>());
-
+        scrumUser.setPlayers(new ArrayList<ScrumPlayer>());
         InsertUserTask iu = new InsertUserTask();
         iu.execute(scrumUser);
     }
@@ -51,7 +44,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
     public void load(String key, DatabaseCallback<User> cB) {
         GetUserTask task = new GetUserTask(cB);
         task.execute(key);
-        
+
     }
 
     /*
@@ -109,12 +102,12 @@ public class DSUserHandler extends DatabaseHandler<User> {
     }
 
     private class GetUserTask extends AsyncTask<String, Void, ScrumUser> {
-    	private DatabaseCallback<User> cB;
-    	
-    	public GetUserTask(DatabaseCallback<User> cB){
-    		this.cB = cB;
-    	}
-    	
+        private DatabaseCallback<User> cB;
+
+        public GetUserTask(DatabaseCallback<User> cB) {
+            this.cB = cB;
+        }
+
         /*
          * (non-Javadoc)
          * 
@@ -135,7 +128,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
         @Override
         protected void onPostExecute(ScrumUser su) {
-        	User.Builder uB = new User.Builder();
+            User.Builder uB = new User.Builder();
             uB.setName(su.getName());
             uB.setEmail(su.getEmail());
             User user = uB.build();

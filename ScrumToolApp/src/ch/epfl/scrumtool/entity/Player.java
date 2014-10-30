@@ -9,14 +9,14 @@ package ch.epfl.scrumtool.entity;
  */
 public final class Player {
     private final User user;
-    private final long id;
+    private final String id;
     private final Role role;
     private final boolean isAdmin;
 
     /**
      * @param user
      */
-    private Player(long id, User user, Role role, boolean isAdmin) {
+    private Player(String id, User user, Role role, boolean isAdmin) {
         super();
         if (user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
@@ -44,7 +44,7 @@ public final class Player {
     /**
      * @return the id
      */
-    public long getId() {
+    public String getId() {
         return id;
     }
     
@@ -57,7 +57,7 @@ public final class Player {
 
     public static class Builder {
         private User user;
-        private long id;
+        private String id;
         private Role role;
         private boolean isAdmin;
 
@@ -104,7 +104,7 @@ public final class Player {
         /**
          * @return the id
          */
-        public long getId() {
+        public String getId() {
             return id;
         }
 
@@ -112,7 +112,7 @@ public final class Player {
          * @param id
          *            the id to set
          */
-        public void setId(long id) {
+        public void setId(String id) {
             this.id = id;
         }
         
