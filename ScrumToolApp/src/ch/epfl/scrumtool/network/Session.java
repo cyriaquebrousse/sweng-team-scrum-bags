@@ -9,9 +9,12 @@ import android.content.Intent;
 import android.util.Log;
 import ch.epfl.scrumtool.database.DatabaseCallback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.google.DSIssueHandler;
 import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -54,8 +57,6 @@ public class Session {
 				
 				DatabaseHandler<Project> handler = new DSProjectHandler();
 				handler.insert(p);
-				
-				
 				
 			}
 		});
