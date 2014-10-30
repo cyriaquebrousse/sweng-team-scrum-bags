@@ -21,7 +21,6 @@ import com.google.api.client.util.DateTime;
  */
 public class DSUserHandler extends DatabaseHandler<User> {
     private ScrumUser scrumUser = new ScrumUser();
-    public static final String LOCAL = "http://10.0.0.10:8888/_ah/api/";
 
     /*
      * (non-Javadoc)
@@ -100,7 +99,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
             Scrumtool.Builder builder = new Scrumtool.Builder(
                     AndroidHttp.newCompatibleTransport(), new GsonFactory(),
                     null);
-            builder.setRootUrl(LOCAL);
+            builder.setRootUrl(AppEngineUtils.getServerURL());
             Scrumtool service = builder.build();
 
             try {
@@ -131,7 +130,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
             Scrumtool.Builder builder = new Scrumtool.Builder(
                     AndroidHttp.newCompatibleTransport(), new GsonFactory(),
                     null);
-            builder.setRootUrl(LOCAL);
+            builder.setRootUrl(AppEngineUtils.getServerURL());
             Scrumtool service = builder.build();
             ScrumUser user = null;
             try {
