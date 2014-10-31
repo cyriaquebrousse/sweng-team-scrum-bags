@@ -1,20 +1,21 @@
 package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
+
 public class DSUserHandler extends DatabaseHandler<User> {
-    private ScrumUser scrumUser;
 
     /*
      * (non-Javadoc)
@@ -23,17 +24,10 @@ public class DSUserHandler extends DatabaseHandler<User> {
      */
     @Override
     public void insert(User object) {
-        scrumUser = new ScrumUser();
-        scrumUser.setEmail(object.getEmail());
-        scrumUser.setName(object.getEmail());
-        Date date = new Date();
-        scrumUser.setLastModDate(date.getTime());
-        scrumUser.setLastModUser(object.getEmail());
-        scrumUser.setPlayers(new ArrayList<ScrumPlayer>());
-        InsertUserTask iu = new InsertUserTask();
-        iu.execute(scrumUser);
+        // TODO
+        // No implementation needed -> exception
     }
-    
+
     public void loginUser(String email, Callback<User> cB) {
         LoginTask l = new LoginTask(cB);
         l.execute(email);
@@ -87,33 +81,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
     /**
      * @author zenhaeus
-     *
-     */
-    private class InsertUserTask extends AsyncTask<ScrumUser, Void, Void> {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
-        @Override
-        protected Void doInBackground(ScrumUser... params) {
-            Scrumtool service = AppEngineUtils.getServiceObject();
-
-            try {
-                service.insertScrumUser(params[0]).execute();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-    }
-    
-    /**
-     * @author zenhaeus
-     *
+     * 
      */
     private class LoginTask extends AsyncTask<String, Void, ScrumUser> {
         private Callback<User> cB;
@@ -134,7 +102,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
             }
             return user;
         }
-        
+
         @Override
         protected void onPostExecute(ScrumUser su) {
             User.Builder uB = new User.Builder();
