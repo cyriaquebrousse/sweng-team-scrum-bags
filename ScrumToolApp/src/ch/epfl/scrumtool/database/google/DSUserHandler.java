@@ -44,7 +44,6 @@ public class DSUserHandler extends DatabaseHandler<User> {
     public void load(String key, Callback<User> cB) {
         GetUserTask task = new GetUserTask(cB);
         task.execute(key);
-
     }
 
     /*
