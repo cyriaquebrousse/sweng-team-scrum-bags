@@ -1,9 +1,13 @@
 package ch.epfl.scrumtool.database.google;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.gson.GsonFactory;
+import java.io.IOException;
 
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.google.api.client.json.gson.GsonFactory;
 
 public class AppEngineUtils {
 	private static final String APP_NAME = "ScrumTool";
@@ -30,6 +34,18 @@ public class AppEngineUtils {
                     null);
             builder.setRootUrl(AppEngineUtils.getServerURL());
             builder.setApplicationName(APP_NAME);
+            /*
+             * The following line fixes an issue with sending UTF-8 characters to the server
+             * which caused an IllegalArgumentException
+             * 
+             * Source https://code.google.com/p/googleappengine/issues/detail?id=11057 post #17
+             */
+            builder.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
             Scrumtool service = builder.build();
             return service;
 
