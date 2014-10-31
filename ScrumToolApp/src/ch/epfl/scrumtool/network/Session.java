@@ -7,7 +7,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.google.DSIssueHandler;
 import ch.epfl.scrumtool.database.google.DSProjectHandler;
@@ -16,6 +16,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
@@ -24,55 +25,51 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
  * 
  */
 public class Session {
-    public static final String CLIENT_ID = "756445222019-sefvcpr9aos0dg4r0unt44unvaqlg1nq.apps.googleusercontent.com";
+    public static final String CLIENT_ID =
+            "756445222019-sefvcpr9aos0dg4r0unt44unvaqlg1nq.apps.googleusercontent.com";
     public static final int REQUEST_ACCOUNT_PICKER = 2;
 
-    private GoogleAccountCredential googleCredential = null;
-    private User scrumUser = null;
+    private static GoogleAccountCredential googleCredential = null;
+    private static User scrumUser = null;
 
-    private static Session currentSesstion;
-
-    public void authenticate(Activity loginContext) {
-        googleCredential = GoogleAccountCredential.usingAudience(loginContext,
-                "server:client_id:" + CLIENT_ID);
+    public static void authenticate(final Activity loginContext) {
+        googleCredential = GoogleAccountCredential.usingAudience(loginContext,"server:client_id:" + CLIENT_ID);
         Intent googleAccountPicker = googleCredential.newChooseAccountIntent();
         loginContext.startActivityForResult(
                 googleCredential.newChooseAccountIntent(),
                 REQUEST_ACCOUNT_PICKER);
         googleCredential.setSelectedAccountName((String) googleAccountPicker
                 .getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-        
+
         DatabaseHandler<User> handler = new DSUserHandler();
-        handler.load("joey.zenhaeusern@epfl.ch", new DatabaseCallback<User>() {
+        handler.loginUser(googleCredential.getSelectedAccountName(), new Callback<User>() {
 
-			@Override
-			public void interactionDone(User object) {
-				scrumUser = object;
-				currentSesstion = Session.this;
-				
-				Project.Builder pB = new Project.Builder();
-				pB.setDescription("BLA");
-				pB.setName("Test1 Scrumttool");
-				Project p = pB.build();
-				
-				DatabaseHandler<Project> handler = new DSProjectHandler();
-				handler.insert(p);
-				
-			}
-		});
-        
-        
-        
-    }
-    
-    public static Session getCurrentSession() {
-        return currentSesstion;
-    }
-    public GoogleAccountCredential getCurrenUser() {
-        return googleCredential;
+            @Override
+            public void interactionDone(User object) {
+                if(object != null) {
+                    scrumUser = object;
+                    loginContext.openOptionsMenu();
+                } else {
+                    throw new NotAuthenticatedException();
+                }
+            }
+        });
+
     }
 
-    public User getCurrentUser() {
-        return scrumUser;
+    public static GoogleAccountCredential getCurrenUser() throws NotAuthenticatedException {
+        if(googleCredential == null) {
+            throw new NotAuthenticatedException();
+        } else {
+            return googleCredential;
+        }
+    }
+
+    public static User getCurrentUser() throws NotAuthenticatedException {
+        if(scrumUser == null) {
+            throw new NotAuthenticatedException();
+        } else {
+            return scrumUser;
+        }
     }
 }

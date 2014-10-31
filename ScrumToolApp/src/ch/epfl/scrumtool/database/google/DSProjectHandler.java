@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.os.AsyncTask;
-import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.network.Session;
@@ -38,13 +38,13 @@ private ScrumProject scrumProject;
     }
 
     @Override
-    public void load(String key, DatabaseCallback<Project> dbC) {
+    public void load(String key, Callback<Project> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void loadAll(DatabaseCallback<Project> dbC) {
+    public void loadAll(Callback<Project> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -61,9 +61,9 @@ private ScrumProject scrumProject;
 
     }
     private class GetProjectTask extends AsyncTask<String, Void, ScrumProject> {
-        private DatabaseCallback<Project> cB;
+        private Callback<Project> cB;
 
-        public GetProjectTask(DatabaseCallback<Project> cB) {
+        public GetProjectTask(Callback<Project> cB) {
             this.cB = cB;
         }
 

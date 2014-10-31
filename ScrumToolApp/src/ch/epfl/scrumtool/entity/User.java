@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
-import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
 
@@ -44,7 +44,7 @@ public final class User implements DatabaseInteraction<User> {
     /**
      * @return the projects
      */
-    public void loadProjects(DatabaseHandler<Project> db, DatabaseCallback<Project> callback ){
+    public void loadProjects(DatabaseHandler<Project> db, Callback<Project> callback ){
     	db.load(this.name, callback );
     }
 

@@ -6,7 +6,7 @@ package ch.epfl.scrumtool.database.google;
 import java.io.IOException;
 
 import android.os.AsyncTask;
-import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -40,7 +40,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * ch.epfl.scrumtool.database.DatabaseCallback)
      */
     @Override
-    public void load(String key, DatabaseCallback<Player> dbC) {
+    public void load(String key, Callback<Player> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -53,7 +53,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * database.DatabaseCallback)
      */
     @Override
-    public void loadAll(DatabaseCallback<Player> dbC) {
+    public void loadAll(Callback<Player> dbC) {
         // TODO Auto-generated method stub
 
     }

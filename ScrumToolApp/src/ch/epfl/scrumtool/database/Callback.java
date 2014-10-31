@@ -1,5 +1,5 @@
 package ch.epfl.scrumtool.database;
 
-public interface DatabaseCallback<A> {
+public interface Callback<A> {
 	public void interactionDone(A object);
 }

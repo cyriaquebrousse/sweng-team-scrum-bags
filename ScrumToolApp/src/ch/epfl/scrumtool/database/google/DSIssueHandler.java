@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.os.AsyncTask;
-import ch.epfl.scrumtool.database.DatabaseCallback;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
@@ -39,14 +39,14 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
 
 
 	@Override
-	public void load(String key, DatabaseCallback<Issue> dbC) {
+	public void load(String key, Callback<Issue> dbC) {
 		GetIssueTask task = new GetIssueTask(dbC);
 		task.execute(key);	
 	}
 
 
 	@Override
-	public void loadAll(DatabaseCallback<Issue> dbC) {
+	public void loadAll(Callback<Issue> dbC) {
 		// TODO Auto-generated method stub
 
 	}
@@ -86,9 +86,9 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
 	}
 	
     private class GetIssueTask extends AsyncTask<String, Void, ScrumIssue> {
-        private DatabaseCallback<Issue> cB;
+        private Callback<Issue> cB;
 
-        public GetIssueTask(DatabaseCallback<Issue> cB) {
+        public GetIssueTask(Callback<Issue> cB) {
             this.cB = cB;
         }
 
