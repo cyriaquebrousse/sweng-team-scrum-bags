@@ -7,7 +7,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
 public class AppEngineUtils {
 	private static final String APP_NAME = "ScrumTool";
-    private static final String LOCAL_IP = "128.179.183.170";
+    private static final String LOCAL_IP = "10.0.0.7";
     private static final String SERVER_URL = Scrumtool.DEFAULT_ROOT_URL;
     private static final String LOCAL_SERVER_URL = "http://" + LOCAL_IP
             + ":8888/_ah/api/";

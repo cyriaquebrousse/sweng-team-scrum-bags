@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
@@ -31,7 +32,12 @@ private ScrumProject scrumProject;
         scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
         Date date = new Date();
         scrumProject.setLastModDate(date.getTime());
-        scrumProject.setLastModUser(Session.getCurrentSession().getCurrentUser().getEmail());
+        try {
+            scrumProject.setLastModUser(Session.getCurrentUser().getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO This exception should probably be handled elsewhere
+            e.printStackTrace();
+        }
         
         InsertProjectTask ip = new InsertProjectTask();
         ip.execute(scrumProject);

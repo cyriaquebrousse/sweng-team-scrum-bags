@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.Session;
+
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 /**
  * A login screen that offers login via email/password.
@@ -50,6 +54,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private GoogleAccountCredential googleCredential;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +89,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 //
 //        mLoginFormView = findViewById(R.id.login_form);
 //        mProgressView = findViewById(R.id.login_progress);
-        
-        Session.authenticate(this);
+        googleCredential = GoogleAccountCredential.usingAudience(this,"server:client_id:" + Session.CLIENT_ID);
+        Intent googleAccountPicker = googleCredential.newChooseAccountIntent();
+        this.startActivityForResult(googleAccountPicker, Session.REQUEST_ACCOUNT_PICKER);
+
+
         
     }
 
-    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            Log.d("LoginActivity", (String) data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME));
+            googleCredential.setSelectedAccountName((String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
+            Session.authenticate(googleCredential, this);
+        }
+    }
+
     public void openMenu(View view) {
         Intent openMenuIntent = new Intent(this, MenuActivity.class);
         startActivity(openMenuIntent);

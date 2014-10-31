@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.User;
@@ -31,6 +32,11 @@ public class DSUserHandler extends DatabaseHandler<User> {
         scrumUser.setPlayers(new ArrayList<ScrumPlayer>());
         InsertUserTask iu = new InsertUserTask();
         iu.execute(scrumUser);
+    }
+    
+    public void loginUser(String email, Callback<User> cB) {
+        LoginTask l = new LoginTask(cB);
+        l.execute(email);
     }
 
     /*
@@ -79,6 +85,10 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
     }
 
+    /**
+     * @author zenhaeus
+     *
+     */
     private class InsertUserTask extends AsyncTask<ScrumUser, Void, Void> {
 
         /*
@@ -97,6 +107,41 @@ public class DSUserHandler extends DatabaseHandler<User> {
                 e.printStackTrace();
             }
             return null;
+        }
+
+    }
+    
+    /**
+     * @author zenhaeus
+     *
+     */
+    private class LoginTask extends AsyncTask<String, Void, ScrumUser> {
+        private Callback<User> cB;
+
+        public LoginTask(Callback<User> cB) {
+            this.cB = cB;
+        }
+
+        @Override
+        protected ScrumUser doInBackground(String... params) {
+            Scrumtool service = AppEngineUtils.getServiceObject();
+            ScrumUser user = null;
+            try {
+                user = service.loginUser(params[0]).execute();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return user;
+        }
+        
+        @Override
+        protected void onPostExecute(ScrumUser su) {
+            User.Builder uB = new User.Builder();
+            uB.setName(su.getName());
+            uB.setEmail(su.getEmail());
+            User user = uB.build();
+            cB.interactionDone(user);
         }
 
     }

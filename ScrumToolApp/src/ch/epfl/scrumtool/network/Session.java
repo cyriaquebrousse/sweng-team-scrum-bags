@@ -3,18 +3,9 @@
  */
 package ch.epfl.scrumtool.network;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.google.DSIssueHandler;
-import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
-import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 
@@ -32,17 +23,12 @@ public class Session {
     private static GoogleAccountCredential googleCredential = null;
     private static User scrumUser = null;
 
-    public static void authenticate(final Activity loginContext) {
-        googleCredential = GoogleAccountCredential.usingAudience(loginContext,"server:client_id:" + CLIENT_ID);
-        Intent googleAccountPicker = googleCredential.newChooseAccountIntent();
-        loginContext.startActivityForResult(
-                googleCredential.newChooseAccountIntent(),
-                REQUEST_ACCOUNT_PICKER);
-        googleCredential.setSelectedAccountName((String) googleAccountPicker
-                .getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-
-        DatabaseHandler<User> handler = new DSUserHandler();
-        handler.loginUser(googleCredential.getSelectedAccountName(), new Callback<User>() {
+    public static void authenticate(final GoogleAccountCredential credential, final Activity loginContext) {
+        googleCredential = credential;
+        
+        DSUserHandler handler = new DSUserHandler();
+        String email = googleCredential.getSelectedAccountName();
+        handler.loginUser(email, new Callback<User>() {
 
             @Override
             public void interactionDone(User object) {
@@ -50,7 +36,8 @@ public class Session {
                     scrumUser = object;
                     loginContext.openOptionsMenu();
                 } else {
-                    throw new NotAuthenticatedException();
+//                    TODO: Error handling
+//                    throw new NotAuthenticatedException();
                 }
             }
         });
@@ -58,7 +45,7 @@ public class Session {
     }
 
     public static GoogleAccountCredential getCurrenUser() throws NotAuthenticatedException {
-        if(googleCredential == null) {
+        if (googleCredential == null) {
             throw new NotAuthenticatedException();
         } else {
             return googleCredential;
@@ -66,7 +53,7 @@ public class Session {
     }
 
     public static User getCurrentUser() throws NotAuthenticatedException {
-        if(scrumUser == null) {
+        if (scrumUser == null) {
             throw new NotAuthenticatedException();
         } else {
             return scrumUser;
