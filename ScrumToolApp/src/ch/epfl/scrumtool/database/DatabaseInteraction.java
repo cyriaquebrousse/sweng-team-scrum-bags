@@ -1,14 +1,12 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database;
 
 /**
- * @author Arno
- * 
+ * @author aschneuw
+ *
+ * @param <A>
  */
 public interface DatabaseInteraction<A> {
-    public void updateDatabase(A reference, DatabaseHandler<A> handler);
+    void updateDatabase(A reference, DatabaseHandler<A> handler);
 
-    public void deleteFromDatabase(DatabaseHandler<A> handler);
+    void deleteFromDatabase(DatabaseHandler<A> handler);
 }

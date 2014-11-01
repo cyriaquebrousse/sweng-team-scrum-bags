@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.network;
 
 import java.io.IOException;
@@ -21,6 +18,9 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.json.gson.GsonFactory;
 
 /**
+ * This class provides ways to create and access GoogleSessions, 
+ * which are needed to access the Datastore on the Google App Engine
+ * 
  * @author aschneuw
  * 
  */
@@ -31,11 +31,21 @@ public class GoogleSession extends Session {
 
     private final GoogleAccountCredential googleCredential;
 
+    /**
+     * Constructs a GoogleSession with a {@link User} and a {@link GoogleAccountCredential}
+     * @param user
+     * @param credential
+     */
     public GoogleSession(User user, GoogleAccountCredential credential) {
         super(user);
         this.googleCredential = credential;
     }
 
+    /**
+     * @return Scrumtool
+     * Returns a new Scrumtool service object with GoogleAccoundCredential 
+     * for authenticated access to the Datastore
+     */
     public Scrumtool getAuthServiceObject() {
         // TODO
         // A pool of service objects???
@@ -46,6 +56,11 @@ public class GoogleSession extends Session {
         return authDBService;
     }
 
+    /**
+     * @return Scrumtool
+     * Returns a new Scrumtool service for access to API methods that do not
+     * require authentication.
+     */
     public static Scrumtool getServiceObject() {
         if (dbService == null) {
             dbService = getServiceObject(null);
@@ -72,13 +87,19 @@ public class GoogleSession extends Session {
             public void initialize(
                     AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
                         abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
+                    }
         });
         Scrumtool service = builder.build();
         return service;
 
     }
 
+    /**
+     * This class provides functionalities to create a new GoogleSession
+     * 
+     * @author aschneuw
+     *
+     */
     public static class Builder {
         private GoogleAccountCredential googleCredential = null;
         private LoginActivity context = null;
@@ -96,6 +117,11 @@ public class GoogleSession extends Session {
             googleCredential.setSelectedAccountName(
                     (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
             String email = googleCredential.getSelectedAccountName();
+            /*
+             * If the server successfully logs in the user (insert user in case of 
+             * non-existence, otherwise return user that wants to login) then the
+             * interactionDone function of the Callback is executed.
+             */
             handler.loginUser(email, new Callback<User>() {
 
                 @Override
