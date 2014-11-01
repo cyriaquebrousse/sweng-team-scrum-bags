@@ -1,11 +1,9 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database;
 
 /**
- * @author Arno
- * 
+ * @author aschneuw
+ *
+ * @param <A> Entity type to do database operations with
  */
 public abstract class DatabaseHandler<A> {
 	

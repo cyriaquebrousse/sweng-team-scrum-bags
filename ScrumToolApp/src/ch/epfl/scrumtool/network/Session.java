@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.network;
 
 import ch.epfl.scrumtool.entity.User;
@@ -22,10 +19,19 @@ public abstract class Session {
         this.user = user;
     }
 
+    /**
+     * @return User
+     *  Returns the user of this Session
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * @return Session
+     *  Returns the Session the application is currently working with.
+     * @throws NotAuthenticatedException
+     */
     public static Session getCurrentSession() throws NotAuthenticatedException {
         if (currentSession == null) {
             throw new NotAuthenticatedException();

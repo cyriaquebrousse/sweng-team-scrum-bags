@@ -27,8 +27,7 @@ public class UserListActivity extends Activity {
         // TODO: Get users of project
         String[] names = null;
 
-        names = new String[] { "Loris", "Joey", "Cyriaque", "Alex ", "Arno",
-                "Vincent", "Sylvain", "Leo" };
+        names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ", "Arno", "Vincent", "Sylvain", "Leo"};
 
         MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, names);
         listview.setAdapter(adapter);
