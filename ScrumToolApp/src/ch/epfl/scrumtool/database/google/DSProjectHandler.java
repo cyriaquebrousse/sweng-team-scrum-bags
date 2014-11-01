@@ -9,18 +9,19 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.gson.GsonFactory;
-
 public class DSProjectHandler extends DatabaseHandler<Project> {
-private ScrumProject scrumProject;
-    /* (non-Javadoc)
+    private ScrumProject scrumProject;
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#insert(java.lang.Object)
      */
     @Override
@@ -33,12 +34,13 @@ private ScrumProject scrumProject;
         Date date = new Date();
         scrumProject.setLastModDate(date.getTime());
         try {
-            scrumProject.setLastModUser(Session.getCurrentUser().getEmail());
+            scrumProject.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
         } catch (NotAuthenticatedException e) {
             // TODO This exception should probably be handled elsewhere
             e.printStackTrace();
         }
-        
+
         InsertProjectTask ip = new InsertProjectTask();
         ip.execute(scrumProject);
     }
@@ -66,6 +68,12 @@ private ScrumProject scrumProject;
         // TODO Auto-generated method stub
 
     }
+
+    /**
+     * 
+     * @author
+     * 
+     */
     private class GetProjectTask extends AsyncTask<String, Void, ScrumProject> {
         private Callback<Project> cB;
 
@@ -80,15 +88,12 @@ private ScrumProject scrumProject;
          */
         @Override
         protected ScrumProject doInBackground(String... params) {
-            Scrumtool.Builder builder = new Scrumtool.Builder(
-                    AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-                    null);
-            builder.setRootUrl(AppEngineUtils.getServerURL());
-            Scrumtool service = builder.build();
             ScrumProject project = null;
             try {
+                GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 project = service.getScrumProject(params[0]).execute();
-            } catch (IOException e) {
+            } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -104,7 +109,12 @@ private ScrumProject scrumProject;
             cB.interactionDone(pB.build());
         }
     }
-    
+
+    /**
+     * 
+     * @author
+     * 
+     */
     private class InsertProjectTask extends AsyncTask<ScrumProject, Void, Void> {
 
         /*
@@ -114,15 +124,11 @@ private ScrumProject scrumProject;
          */
         @Override
         protected Void doInBackground(ScrumProject... params) {
-            Scrumtool.Builder builder = new Scrumtool.Builder(
-                    AndroidHttp.newCompatibleTransport(), new GsonFactory(),
-                    null);
-            builder.setRootUrl(AppEngineUtils.getServerURL());
-            Scrumtool service = builder.build();
-
             try {
+                GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 service.insertScrumProject(params[0]).execute();
-            } catch (IOException e) {
+            } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
