@@ -16,6 +16,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
  * @author Cyriaque Brousse
  */
 public class LoginActivity extends Activity {
+    public static final int REQUEST_ACCOUNT_PICKER = 2;
 
     // UI references.
     private GoogleAccountCredential googleCredential;
@@ -27,7 +28,7 @@ public class LoginActivity extends Activity {
 
         googleCredential = GoogleAccountCredential.usingAudience(this, "server:client_id:" + Session.CLIENT_ID);
         Intent googleAccountPicker = googleCredential.newChooseAccountIntent();
-        this.startActivityForResult(googleAccountPicker, Session.REQUEST_ACCOUNT_PICKER);
+        this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
 
 
         
@@ -36,13 +37,13 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            Log.d("LoginActivity", (String) data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME));
             googleCredential.setSelectedAccountName((String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-            Session.authenticate(googleCredential, this);
+            Session.authenticate(googleCredential, (LoginActivity) this);
         }
     }
 
-    public void openMenu(View view) {
+    public void openMenuActivity() {
+        Log.d("LoginActivity", "openMenus");
         Intent openMenuIntent = new Intent(this, MenuActivity.class);
         startActivity(openMenuIntent);
     }

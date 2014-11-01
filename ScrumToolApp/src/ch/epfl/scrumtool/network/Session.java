@@ -3,11 +3,11 @@
  */
 package ch.epfl.scrumtool.network;
 
-import android.app.Activity;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.gui.LoginActivity;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
@@ -23,7 +23,7 @@ public class Session {
     private static GoogleAccountCredential googleCredential = null;
     private static User scrumUser = null;
 
-    public static void authenticate(final GoogleAccountCredential credential, final Activity loginContext) {
+    public static void authenticate(final GoogleAccountCredential credential, final LoginActivity loginContext) {
         googleCredential = credential;
         
         DSUserHandler handler = new DSUserHandler();
@@ -32,9 +32,9 @@ public class Session {
 
             @Override
             public void interactionDone(User object) {
-                if(object != null) {
+                if (object != null) {
                     scrumUser = object;
-                    loginContext.openOptionsMenu();
+                    loginContext.openMenuActivity();
                 } else {
 //                    TODO: Error handling
 //                    throw new NotAuthenticatedException();
