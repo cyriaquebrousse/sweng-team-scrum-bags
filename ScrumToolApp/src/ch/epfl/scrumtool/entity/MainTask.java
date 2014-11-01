@@ -3,7 +3,11 @@
  */
 package ch.epfl.scrumtool.entity;
 
+import java.util.HashSet;
 import java.util.Set;
+
+import ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler;
+import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
  * @author Vincent
@@ -30,6 +34,10 @@ public class MainTask extends AbstractTask {
         this.mIssues = issues;
         this.mPriority = priority;
 
+    }
+    
+    public void setIssue(DoubleEntityDatabaseHandler<MainTask, Issue> handler, Issue issue){
+    	handler.insert(this, issue);
     }
 
     /**
@@ -99,5 +107,101 @@ public class MainTask extends AbstractTask {
             }
         }
         return estimated ? estimation : -1;
+    }
+    
+    public static class Builder {
+        private long id;
+        private String name;
+        private String description;
+        private Status status;
+        private Set<Issue> issues;
+        private Priority priority;
+
+        public Builder() {
+            this.issues = new HashSet<Issue>();
+        }
+        
+        /**
+         * 
+         * @return the id
+         */
+        public long getId() {
+        	return id;
+        }
+        
+        public void setId(long id) {
+        	this.id = id;
+        }
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * @param name
+         *            the name to set
+         */
+        public void setName(String name) {
+            if (name != null) {
+                this.name = name;
+            }
+        }
+
+        /**
+         * @return the description
+         */
+        public String getDescription() {
+            return description;
+        }
+
+        /**
+         * @param description
+         *            the description to set
+         */
+        public void setDescription(String description) {
+            if (description != null) {
+                this.description = description;
+            }
+        }
+        
+        /**
+         * 
+         * @return the status
+         */
+        public Status getStatus() {
+        	return this.status;
+        }
+        
+        public void setStatus(Status status) {
+        	if (status.isAValidStatus()) {
+        		this.status = status;
+        	}
+        }
+
+        /**
+         * @return the issues
+         */
+        public Set<Issue> getIssues() {
+            return issues;
+        }
+        
+        public void setIssues(Set<Issue> issues) {
+        	this.issues = issues;
+        }
+        
+        public Priority getPriority() {
+        	return priority;
+        }
+        
+        public void setPriority(Priority priority) {
+        	this.priority = priority;
+        }
+        
+        public MainTask build() {
+            return new MainTask(this.id, this.name, this.description, this.status, this.issues, this.priority);
+        }
     }
 }

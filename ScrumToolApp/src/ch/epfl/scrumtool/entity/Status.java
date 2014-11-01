@@ -18,6 +18,11 @@ public enum Status {
         this.colorRef = colorRef;
         this.stringValue = stringValue;
     }
+    
+    public boolean isAValidStatus() {
+    	return this.equals(READY_FOR_SPRINT) || this.equals(IN_SPRINT) ||
+    			this.equals(READY_FOR_ESTIMATION) || this.equals(FINISHED);
+    }
 
     /**
      * @return the color. It is <b>NOT</b> a color, but rather a R reference to one!
