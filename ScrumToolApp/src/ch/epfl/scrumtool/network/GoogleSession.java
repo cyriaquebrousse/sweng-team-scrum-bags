@@ -102,7 +102,7 @@ public class GoogleSession extends Session {
                 public void interactionDone(User object) {
                     if (object != null) {
                         new GoogleSession(object, googleCredential);
-                        context.openOptionsMenu();
+                        context.openMenuActivity();
                     } else {
                         // TODO: Error handling
                         // throw new NotAuthenticatedException();

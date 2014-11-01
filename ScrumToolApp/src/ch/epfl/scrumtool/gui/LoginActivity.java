@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.GoogleSession;
@@ -13,12 +14,10 @@ import ch.epfl.scrumtool.network.GoogleSession;
  * @author Cyriaque Brousse, aschneuw, zenhaeus
  */
 public class LoginActivity extends Activity {
-
-    private static final int REQUEST_ACCOUNT_PICKER = 2;
+    public static final int REQUEST_ACCOUNT_PICKER = 2;
     private GoogleSession.Builder sessionBuilder;
 
     // UI references.
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +35,8 @@ public class LoginActivity extends Activity {
         }
     }
 
-
-    public void openMenu(View view) {
+    public void openMenuActivity() {
+        Log.d("LoginActivity", "openMenus");
         Intent openMenuIntent = new Intent(this, MenuActivity.class);
         startActivity(openMenuIntent);
     }

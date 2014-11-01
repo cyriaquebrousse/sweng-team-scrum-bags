@@ -8,25 +8,24 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 
 /**
  * @author aschneuw
- *
+ * 
  */
 public abstract class Session {
     private static Session currentSession = null;
-    
-    private final User scrumUser;
-    
+
+    private final User user;
+
     public Session(User user) {
         if (user == null) {
             throw new NullPointerException("A session must have a valid user");
         }
-        this.scrumUser = user;
-        currentSession = this;
+        this.user = user;
     }
-    
+
     public User getUser() {
-        return scrumUser;
+        return user;
     }
-    
+
     public static Session getCurrentSession() throws NotAuthenticatedException {
         if (currentSession == null) {
             throw new NotAuthenticatedException();
