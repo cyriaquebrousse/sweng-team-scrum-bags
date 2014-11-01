@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
@@ -91,7 +92,8 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
         @Override
         protected ScrumUser doInBackground(String... params) {
-            Scrumtool service = AppEngineUtils.getServiceObject();
+            
+            Scrumtool service = GoogleSession.getServiceObject();
             ScrumUser user = null;
             try {
                 user = service.loginUser(params[0]).execute();
@@ -112,7 +114,11 @@ public class DSUserHandler extends DatabaseHandler<User> {
         }
 
     }
-
+/**
+ * 
+ * @author
+ *
+ */
     private class GetUserTask extends AsyncTask<String, Void, ScrumUser> {
         private Callback<User> cB;
 
@@ -127,7 +133,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
          */
         @Override
         protected ScrumUser doInBackground(String... params) {
-            Scrumtool service = AppEngineUtils.getServiceObject();
+            Scrumtool service = GoogleSession.getServiceObject();
             ScrumUser user = null;
             try {
                 user = service.getScrumUser(params[0]).execute();
