@@ -3,13 +3,16 @@ package ch.epfl.scrumtool.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public class Project {
+public final class Project implements DatabaseInteraction<Project> {
 
     private final String id;
     private final String name;
@@ -29,7 +32,7 @@ public class Project {
     private Project(String id, String name, String description,
             Set<Player> players, Set<MainTask> backlog, Set<Sprint> sprints) {
         super();
-        if (name == null || description == null
+        if (id == null || name == null || description == null
                 || players == null || backlog == null || sprints == null) {
             throw new NullPointerException("Project.Constructor");
         }
@@ -96,6 +99,12 @@ public class Project {
         return Role.DEVELOPER;
     }
 
+    /**
+     * Builder class for Project object
+     * 
+     * @author zenhaeus
+     *
+     */
     public static class Builder {
         private String id;
         private String name;
@@ -187,8 +196,7 @@ public class Project {
             return Math.abs(user.hashCode()) % 10;
         }
 
-        public Role getRoleFor(User user)
-                throws NotAPlayerOfThisProjectException {
+        public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
             // TODO Database Call + javadoc
             return Role.DEVELOPER;
         }
@@ -196,5 +204,19 @@ public class Project {
         public Project build() {
             return new Project(this.id, this.name, this.description, this.players, this.backlog, this.sprints);
         }
+    }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<Project> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<Project> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 }

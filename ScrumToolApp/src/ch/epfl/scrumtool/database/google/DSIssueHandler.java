@@ -121,7 +121,7 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
         @Override
         protected void onPostExecute(ScrumIssue si) {
             Issue.Builder iB = new Issue.Builder();
-            iB.setId(0000); // TODO change this value
+            iB.setId("test"); // TODO change this value
             iB.setName(si.getName());
             iB.setDescription(si.getDescription());
             iB.setStatus(ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT); // TODO

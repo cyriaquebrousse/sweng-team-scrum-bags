@@ -6,7 +6,6 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
 
-
 /**
  * @author vincent, aschneuw, zenhaeus
  * 
@@ -46,16 +45,21 @@ public final class User implements DatabaseInteraction<User> {
     /**
      * @return the projects
      */
-    public void loadProjects(DatabaseHandler<Project> db, Callback<List<Project>> callback ){
-    	db.loadAll(this.name, callback );
+    public void loadProjects(DatabaseHandler<Project> db, Callback<List<Project>> callback) {
+        db.loadAll(this.name, callback);
     }
 
+    /**
+     * Builder class for the User object
+     * 
+     * @author zenhaeus
+     * 
+     */
     public static class Builder {
         private String email;
         private String name;
-        
-        
-        public Builder(){
+
+        public Builder() {
         }
 
         public Builder(User otherUser) {
@@ -89,7 +93,6 @@ public final class User implements DatabaseInteraction<User> {
          * @return the projects
          */
 
-
         public User build() {
             return new User(this.email, this.name);
         }
@@ -104,8 +107,9 @@ public final class User implements DatabaseInteraction<User> {
      * .Object, ch.epfl.scrumtool.entity.DatabaseHandler)
      */
     @Override
-    public void updateDatabase(User reference, DatabaseHandler<User> handler) {
-        handler.update(reference);
+    public void updateDatabase(DatabaseHandler<User> handler,
+            Callback<Boolean> successCb) {
+        handler.update(this);
     }
 
     /*
@@ -116,7 +120,8 @@ public final class User implements DatabaseInteraction<User> {
      * .scrumtool.entity.DatabaseHandler)
      */
     @Override
-    public void deleteFromDatabase(DatabaseHandler<User> handler) {
+    public void deleteFromDatabase(DatabaseHandler<User> handler,
+            Callback<Boolean> successCB) {
         handler.remove(this);
     }
 

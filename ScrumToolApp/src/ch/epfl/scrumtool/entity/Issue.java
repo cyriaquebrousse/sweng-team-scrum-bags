@@ -1,68 +1,55 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
+
 /**
- * @author Vincent
+ * @author Vincent, zenhaeus
  * 
  */
-public class Issue extends AbstractTask {
-
-    private float mEstimatedTime;
-    private Player mPlayer;
+public final class Issue extends AbstractTask implements DatabaseInteraction<Issue> {
+    private float estimatedTime;
+    private Player player;
 
     /**
+     * @param id
      * @param name
      * @param description
      * @param status
-     * @param mEstimatedTime
-     * @param mProgramer
+     * @param estimatedTime
+     * @param player
      */
-    public Issue(long id, String name, String description, Status status,
+    private Issue(String id, String name, String description, Status status,
             float estimatedTime, Player player) {
         super(id, name, description, status);
         if (player == null) {
             throw new NullPointerException("Issue.Constructor");
         }
-        this.mEstimatedTime = estimatedTime;
-        this.mPlayer = player;
+        this.estimatedTime = estimatedTime;
+        this.player = player;
     }
 
     /**
      * @return the mEstimatedTime
      */
     public float getEstimatedTime() {
-        return mEstimatedTime;
-    }
-
-    /**
-     * @param mEstimatedTime
-     *            the mEstimatedTime to set
-     */
-    public void setEstimatedTime(float mEstimatedTime) {
-        this.mEstimatedTime = mEstimatedTime;
+        return estimatedTime;
     }
 
     /**
      * @return the mProgramer
      */
     public Player getPlayer() {
-        return mPlayer;
+        return player;
     }
 
     /**
-     * @param mProgramer
-     *            the mProgramer to set
+     * @author 
+     *
      */
-    public void setPlayer(Player player) {
-        if (player != null) {
-            this.mPlayer = player;
-        }
-    }
-
     public static class Builder {
-        private long id;
+        private String id;
         private String name;
         private String description;
         private Status status;
@@ -77,18 +64,18 @@ public class Issue extends AbstractTask {
             this.name = otherIssue.getName();
             this.description = otherIssue.getDescription();
             this.status = otherIssue.getStatus();
-            this.estimatedTime = otherIssue.mEstimatedTime;
-            this.player = otherIssue.mPlayer;
+            this.estimatedTime = otherIssue.estimatedTime;
+            this.player = otherIssue.player;
         }
 
         /**
          * @return the id
          */
-        public long getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -152,6 +139,20 @@ public class Issue extends AbstractTask {
                     this.estimatedTime, this.player);
         }
 
+    }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<Issue> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<Issue> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

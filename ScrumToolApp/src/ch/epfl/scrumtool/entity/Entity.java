@@ -39,15 +39,15 @@ public final class Entity {
 
     
     // Tasks
-    public static final MainTask TASK_A = createTask(0, "Create Mock UI", Status.IN_SPRINT,
+    public static final MainTask TASK_A = createTask("0", "Create Mock UI", Status.IN_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_A1, ISSUE_A2, ISSUE_A3)));
-    public static final MainTask TASK_B = createTask(1, "Take a Coffee", Status.READY_FOR_SPRINT,
+    public static final MainTask TASK_B = createTask("1", "Take a Coffee", Status.READY_FOR_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_B1, ISSUE_B2)));
-    public static final MainTask TASK_C = createTask(2, "Implement the Google App Engine server", Status.IN_SPRINT,
+    public static final MainTask TASK_C = createTask("2", "Implement the Google App Engine server", Status.IN_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_C1)));
-    public static final MainTask TASK_D = createTask(3, "Find the meaning of the univers", Status.FINISHED,
+    public static final MainTask TASK_D = createTask("3", "Find the meaning of the univers", Status.FINISHED,
             new HashSet<>(Arrays.asList(ISSUE_D1, ISSUE_D2)));
-    public static final MainTask TASK_E = createTask(4, "Having a good night sleep", Status.READY_FOR_ESTIMATION,
+    public static final MainTask TASK_E = createTask("4", "Having a good night sleep", Status.READY_FOR_ESTIMATION,
             new HashSet<>(Arrays.asList(ISSUE_E1)));
     
     
@@ -77,9 +77,16 @@ public final class Entity {
      * @param string
      * @return
      */
-    static MainTask createTask(long id, String name, Status status, Set<Issue> issues) {
+    static MainTask createTask(String id, String name, Status status, Set<Issue> issues) {
         String description = "This is the description of the task called \"" + name + "\"";
-        MainTask task = new MainTask(id, name, description, status, issues, getRandomPriority());
+        MainTask.Builder mB = new MainTask.Builder();
+        mB.setDescription(description);
+        mB.setId(id);
+        mB.setName(name);
+        mB.setStatus(status);
+        mB.setIssues(issues);
+        mB.setPriority(getRandomPriority());
+        MainTask task = mB.build();
         return task;
     }
 

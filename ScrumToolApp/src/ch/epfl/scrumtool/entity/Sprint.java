@@ -4,10 +4,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
+
 /**
  * @author ketsio, zenhaeus
  */
-public final class Sprint {
+public final class Sprint implements DatabaseInteraction<Sprint> {
+    private final String id;
     private final Date deadLine;
     private final Set<Issue> issues;
 
@@ -15,13 +20,21 @@ public final class Sprint {
      * @param deadLine
      * @param issues
      */
-    private Sprint(Date deadLine, Set<Issue> issues) {
+    private Sprint(String id, Date deadLine, Set<Issue> issues) {
         super();
-        if (deadLine == null || issues == null) {
+        if (id == null || deadLine == null || issues == null) {
             throw new NullPointerException("Sprint.Constructor");
         }
+        this.id = id;
         this.deadLine = new Date(deadLine.getTime());
         this.issues = new HashSet<Issue>(issues);
+    }
+    
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
     }
 
     /**
@@ -40,7 +53,14 @@ public final class Sprint {
     }
 
     
+    /**
+     * Builder class for the Sprint object
+     * 
+     * @author zenhaeus
+     *
+     */
     public static class Builder {
+        private String id;
         private Date deadLine;
         private Set<Issue> issues;
         
@@ -51,6 +71,21 @@ public final class Sprint {
         public Builder(Sprint otherSprint) {
             this.deadLine = otherSprint.deadLine;
             this.issues = new HashSet<Issue>(otherSprint.issues);
+        }
+
+        /**
+         * @return the id
+         */
+        public String getId() {
+            return id;
+        }
+
+        /**
+         * @param id
+         *            the id to set
+         */
+        public void setId(String id) {
+            this.id = id;
         }
 
         /**
@@ -97,7 +132,22 @@ public final class Sprint {
         }
         
         public Sprint build() {
-            return new Sprint(this.deadLine, this.issues);
+            return new Sprint(this.id, this.deadLine, this.issues);
         }
+    }
+
+
+    @Override
+    public void updateDatabase(DatabaseHandler<Sprint> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<Sprint> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 }

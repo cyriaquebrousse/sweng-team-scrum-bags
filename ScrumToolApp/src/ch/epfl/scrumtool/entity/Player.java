@@ -1,15 +1,16 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
+
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player {
-    private final User user;
+public final class Player implements DatabaseInteraction<Player> {
     private final String id;
+    private final User user;
     private final Role role;
     private final boolean isAdmin;
 
@@ -18,7 +19,7 @@ public final class Player {
      */
     private Player(String id, User user, Role role, boolean isAdmin) {
         super();
-        if (user == null || role == null) {
+        if (id == null || user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
         this.id = id;
@@ -31,30 +32,35 @@ public final class Player {
      * @return the user
      */
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     /**
      * @return the role
      */
     public Role getRole() {
-        return role;
+        return this.role;
     }
 
     /**
      * @return the id
      */
     public String getId() {
-        return id;
+        return this.id;
     }
     
     /**
      * @return admin Flag
      */
-    public boolean isAdmin(){
+    public boolean isAdmin() {
     	return this.isAdmin;
     }
 
+    /**
+     * Builder Class for Player Object
+     * @author zenhaeus
+     *
+     */
     public static class Builder {
         private User user;
         private String id;
@@ -138,6 +144,20 @@ public final class Player {
         public Player build() {
             return new Player(this.id, this.user, this.role, this.isAdmin);
         }
+    }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<Player> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<Player> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

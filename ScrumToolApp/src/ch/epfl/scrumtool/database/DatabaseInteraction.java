@@ -6,7 +6,15 @@ package ch.epfl.scrumtool.database;
  * @param <A>
  */
 public interface DatabaseInteraction<A> {
-    void updateDatabase(A reference, DatabaseHandler<A> handler);
+    /**
+     * @param handler
+     * @param successCb
+     */
+    void updateDatabase(DatabaseHandler<A> handler, Callback<Boolean> successCb);
 
-    void deleteFromDatabase(DatabaseHandler<A> handler);
+    /**
+     * @param handler
+     * @param successCb
+     */
+    void deleteFromDatabase(DatabaseHandler<A> handler, Callback<Boolean> successCb);
 }

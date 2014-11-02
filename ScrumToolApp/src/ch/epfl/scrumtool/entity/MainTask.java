@@ -1,21 +1,21 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
 import ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler;
 
 /**
- * @author Vincent
+ * @author Vincent, zenhaeus
  * 
  */
-public class MainTask extends AbstractTask {
+public final class MainTask extends AbstractTask implements DatabaseInteraction<MainTask> {
 
-    private final Set<Issue> mIssues;
-    private Priority mPriority;
+    private final Set<Issue> issues;
+    private Priority priority;
 
     /**
      * @param name
@@ -24,26 +24,22 @@ public class MainTask extends AbstractTask {
      * @param subtasks
      * @param priority
      */
-    public MainTask(long id, String name, String description, Status status,
+    private MainTask(String id, String name, String description, Status status,
             Set<Issue> issues, Priority priority) {
         super(id, name, description, status);
         if (issues == null || priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        this.mIssues = issues;
-        this.mPriority = priority;
+        this.issues = issues;
+        this.priority = priority;
 
-    }
-    
-    public void setIssue(DoubleEntityDatabaseHandler<MainTask, Issue> handler, Issue issue){
-    	handler.insert(this, issue);
     }
 
     /**
      * @return the subtasks
      */
     public Set<Issue> getIssues() {
-        return mIssues;
+        return issues;
     }
 
     /**
@@ -52,7 +48,7 @@ public class MainTask extends AbstractTask {
      */
     public void addIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.add(issue);
+            this.issues.add(issue);
         }
     }
 
@@ -62,7 +58,7 @@ public class MainTask extends AbstractTask {
      */
     public void removeIssue(Issue issue) {
         if (issue != null) {
-            this.mIssues.remove(issue);
+            this.issues.remove(issue);
         }
     }
 
@@ -70,22 +66,12 @@ public class MainTask extends AbstractTask {
      * @return the priority
      */
     public Priority getPriority() {
-        return mPriority;
-    }
-
-    /**
-     * @param priority
-     *            the priority to set
-     */
-    public void setPriority(Priority priority) {
-        if (priority != null) {
-            this.mPriority = priority;
-        }
+        return priority;
     }
 
     public int getIssuesFinishedCount() {
         int count = 0;
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             if (i.getStatus() == Status.FINISHED) {
                 ++count;
             }
@@ -97,7 +83,7 @@ public class MainTask extends AbstractTask {
         float estimation = 0f;
         float issueEstimation;
         boolean estimated = true;
-        for (Issue i : mIssues) {
+        for (Issue i : issues) {
             issueEstimation = i.getEstimatedTime();
             if (issueEstimation < 0) {
                 estimated = false;
@@ -108,8 +94,13 @@ public class MainTask extends AbstractTask {
         return estimated ? estimation : -1;
     }
     
+    /**
+     * Builder class for the MainTask object
+     * @author zenhaeus
+     *
+     */
     public static class Builder {
-        private long id;
+        private String id;
         private String name;
         private String description;
         private Status status;
@@ -124,11 +115,11 @@ public class MainTask extends AbstractTask {
          * 
          * @return the id
          */
-        public long getId() {
+        public String getId() {
         	return id;
         }
         
-        public void setId(long id) {
+        public void setId(String id) {
         	this.id = id;
         }
 
@@ -202,5 +193,19 @@ public class MainTask extends AbstractTask {
         public MainTask build() {
             return new MainTask(this.id, this.name, this.description, this.status, this.issues, this.priority);
         }
+    }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<MainTask> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<MainTask> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 }

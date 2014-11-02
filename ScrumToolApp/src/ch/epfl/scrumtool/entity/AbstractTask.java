@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
 /**
@@ -8,25 +5,25 @@ package ch.epfl.scrumtool.entity;
  * 
  */
 public abstract class AbstractTask {
-    private long mId;
-    private String mName;
-    private String mDescription;
-    private Status mStatus;
+    private String id;
+    private String name;
+    private String description;
+    private Status status;
 
     /**
      * @param id
      * @param name
      * @param description
      */
-    public AbstractTask(long id, String name, String description, Status status) {
+    public AbstractTask(String id, String name, String description, Status status) {
         super();
-        if (name == null || description == null || status == null) {
+        if (id == null || name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-        this.mStatus = status;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
     
     /**
@@ -39,66 +36,28 @@ public abstract class AbstractTask {
      * @return the name
      */
     public String getName() {
-        return mName;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        if (name != null) {
-            this.mName = name;
-        }
+        return name;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-        return mDescription;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        if (description != null) {
-            this.mDescription = description;
-        }
+        return description;
     }
 
     /**
      * @return the status
      */
     public Status getStatus() {
-        return mStatus;
-    }
-
-    /**
-     * @param status
-     *            the status to set
-     */
-    public void setStatus(Status status) {
-        if (status != null) {
-            this.mStatus = status;
-        }
+        return status;
     }
 
     /**
      * @return the id
      */
-    public long getId() {
-        return mId;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.mId = id;
+    public String getId() {
+        return id;
     }
 
 }
