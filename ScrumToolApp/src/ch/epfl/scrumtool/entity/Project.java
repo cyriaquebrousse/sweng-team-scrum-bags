@@ -170,8 +170,6 @@ public final class Project implements DatabaseInteraction<Project> {
             return players;
         }
 
-        // TODO add/remove MainTask/Player/Sprint
-
         /**
          * @return the backlog
          */
@@ -220,6 +218,7 @@ public final class Project implements DatabaseInteraction<Project> {
     public void updateDatabase(DatabaseHandler<Project> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
+        handler.update(this);
         
     }
 
@@ -227,7 +226,7 @@ public final class Project implements DatabaseInteraction<Project> {
     public void deleteFromDatabase(DatabaseHandler<Project> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
-        
+        handler.remove(this);
     }
 
     @Override

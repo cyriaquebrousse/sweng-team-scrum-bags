@@ -148,6 +148,7 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     public void updateDatabase(DatabaseHandler<Issue> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
+        handler.update(this);
         
     }
 
@@ -155,6 +156,7 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     public void deleteFromDatabase(DatabaseHandler<Issue> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
+        handler.remove(this);
         
     }
 

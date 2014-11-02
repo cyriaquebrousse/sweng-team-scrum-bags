@@ -233,6 +233,7 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
     public void updateDatabase(DatabaseHandler<MainTask> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
+        handler.update(this);
         
     }
 
@@ -240,6 +241,7 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
     public void deleteFromDatabase(DatabaseHandler<MainTask> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
+        handler.remove(this);
 
     }
 }

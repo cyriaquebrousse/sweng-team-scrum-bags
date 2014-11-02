@@ -15,7 +15,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
     private final String id;
     private final long deadLine;
     private final Set<Issue> issues;
-    
+
     /**
      * @param deadLine
      * @param issues
@@ -29,7 +29,6 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         this.deadLine = deadLine.getTime();
         this.issues = new HashSet<Issue>(issues);
     }
-    
 
     /**
      * @return the deadline in milliseconds
@@ -53,23 +52,22 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         return issues;
     }
 
-    
     /**
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
-     *
+     * 
      */
 
     public static class Builder {
         private String id;
         private long deadLine;
         private Set<Issue> issues;
-        
+
         public Builder() {
             this.issues = new HashSet<Issue>();
         }
-        
+
         public Builder(Sprint otherSprint) {
             this.deadLine = otherSprint.deadLine;
             this.issues = new HashSet<Issue>(otherSprint.issues);
@@ -117,6 +115,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
                 this.issues.remove(issue);
             }
         }
+
         /**
          * @return the deadLine
          */
@@ -133,25 +132,24 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
                 this.deadLine = deadLine.getTime();
             }
         }
-        
+
         public Sprint build() {
             return new Sprint(this.id, new Date(this.deadLine), this.issues);
         }
     }
 
-
     @Override
     public void updateDatabase(DatabaseHandler<Sprint> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
-        
+        handler.update(this);
     }
 
     @Override
     public void deleteFromDatabase(DatabaseHandler<Sprint> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
-        
+        handler.remove(this);
     }
 
     /**
@@ -183,9 +181,9 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         }
         return true;
     }
-    
+
     @Override
     public int hashCode() {
         return id.hashCode();
-	}
+    }
 }
