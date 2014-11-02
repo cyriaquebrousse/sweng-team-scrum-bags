@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.database;
 
+import java.util.List;
+
 /**
  * @author aschneuw
  *
@@ -11,7 +13,7 @@ public abstract class DatabaseHandler<A> {
 
     public abstract void load(String key, Callback<A> dbC);
 
-    public abstract void loadAll(Callback<A> dbC);
+    public abstract void loadAll(String filter, Callback<List<A>> dbC);
 
     public abstract void update(A modified);
 

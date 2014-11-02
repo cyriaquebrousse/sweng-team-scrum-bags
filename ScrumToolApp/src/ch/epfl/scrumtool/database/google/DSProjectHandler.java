@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.database.google;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
@@ -52,7 +53,7 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
     }
 
     @Override
-    public void loadAll(Callback<Project> dbC) {
+    public void loadAll(String filter, Callback<List<Project>> dbC) {
         // TODO Auto-generated method stub
 
     }

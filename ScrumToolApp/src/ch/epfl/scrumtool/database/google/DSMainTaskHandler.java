@@ -7,12 +7,9 @@ import java.util.List;
 
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
@@ -20,8 +17,6 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -92,7 +87,7 @@ public class DSMainTaskHandler extends DoubleEntityDatabaseHandler<MainTask, Iss
 
 
 	@Override
-	public void loadAll(Callback<MainTask> dbC) {
+	public void loadAll(String filter, Callback<List<MainTask>> dbC) {
 		// TODO Auto-generated method stub
 
 	}

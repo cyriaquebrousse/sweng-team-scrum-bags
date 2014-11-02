@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler;
-import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
  * @author Vincent

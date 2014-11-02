@@ -4,6 +4,7 @@
 package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
@@ -55,7 +56,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * database.DatabaseCallback)
      */
     @Override
-    public void loadAll(Callback<Player> dbC) {
+    public void loadAll(String filter, Callback<List<Player>> dbC) {
         // TODO Auto-generated method stub
 
     }

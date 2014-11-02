@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
@@ -53,7 +54,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#getAll()
      */
     @Override
-    public void loadAll(Callback<User> cB) {
+    public void loadAll(String filter, Callback<List<User>> cB) {
         // TODO Auto-generated method stub
     }
 
