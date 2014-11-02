@@ -1,69 +1,32 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
 
 /**
- * @author Vincent
+ * @author vincent, aschneuw, zenhaeus
  * 
  */
-public final class User {
 
-    private String username;
-    private String email;
-    private String name;
-    private long token;
-    private final Set<Project> projects;
+public final class User implements DatabaseInteraction<User> {
+    private final String email;
+    private final String name;
 
     /**
-     * @param username
      * @param email
      * @param name
-     * @param token
      * @param projects
      */
-    public User(String username, String email, String name, long token,
-            Set<Project> projects) {
-        super();
-        if (username == null || email == null || name == null
-                || projects == null) {
+    private User(String email, String name) {
+        if (email == null || name == null) {
             throw new NullPointerException("User.Constructor");
         }
-        this.username = username;
         this.email = email;
         this.name = name;
-        this.token = token;
-        this.projects = new HashSet<Project>();
-        for (Project p : projects) {
-            this.projects.add(new Project(p));
-        }
-    }
 
-    /**
-     * @param aUser
-     */
-    public User(User aUser) {
-        this(aUser.getUsername(), aUser.getEmail(), aUser.getName(), aUser
-                .getToken(), aUser.getProjects());
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username
-     *            the username to set
-     */
-    public void setUsername(String username) {
-        if (username != null) {
-            this.username = username;
-        }
     }
 
     /**
@@ -74,17 +37,6 @@ public final class User {
     }
 
     /**
-     * @param email
-     *            the email to set
-     */
-    public void setEmail(String email) {
-        if (email != null) {
-            // TODO check email is valid email format?
-            this.email = email;
-        }
-    }
-
-    /**
      * @return the name
      */
     public String getName() {
@@ -92,72 +44,91 @@ public final class User {
     }
 
     /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        if (name != null) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * @return the token
-     */
-    public long getToken() {
-        return token;
-    }
-
-    /**
-     * @param token
-     *            the token to set
-     */
-    public void setToken(long token) {
-        this.token = token;
-    }
-
-    /**
      * @return the projects
      */
-    public Set<Project> getProjects() {
-        HashSet<Project> tmp = new HashSet<Project>();
-        for (Project p : projects) {
-            tmp.add(new Project(p));
-        }
-        return tmp;
+    public void loadProjects(DatabaseHandler<Project> db, Callback<List<Project>> callback) {
+        db.loadAll(this.name, callback);
     }
 
     /**
-     * @param project
-     *            the project to ad
+     * Builder class for the User object
+     * 
+     * @author zenhaeus
+     * 
      */
-    public void addProject(Project project) {
-        if (project != null) {
-            this.projects.add(new Project(project));
+
+    public static class Builder {
+        private String email;
+        private String name;
+
+        public Builder() {
         }
+
+        public Builder(User otherUser) {
+            this.email = otherUser.email;
+            this.name = otherUser.name;
+        }
+
+        /**
+         * @return the email
+         */
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        /**
+         * @return the projects
+         */
+
+        public User build() {
+            return new User(this.email, this.name);
+        }
+
     }
 
-    /**
-     * @param project
-     *            the project to remove
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * ch.epfl.scrumtool.entity.DatabaseInteraction#updateDatabase(java.lang
+     * .Object, ch.epfl.scrumtool.entity.DatabaseHandler)
      */
-    public void removeProject(Project project) {
-        if (project != null) {
-            this.projects.remove(project);
-        }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<User> handler,
+            Callback<Boolean> successCb) {
+        handler.update(this);
+
     }
 
-    /**
-     * @param user
-     * @return
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * ch.epfl.scrumtool.entity.DatabaseInteraction#deleteFromDatabase(ch.epfl
+     * .scrumtool.entity.DatabaseHandler)
      */
-    public List<Project> getProjectsSharedWith(User user) {
-        // TODO Retrieve from Database + javadoc
-        ArrayList<Project> projects = new ArrayList<>();
-        projects.add(Entity.COOL_PROJECT);
-        projects.add(Entity.SUPER_PROJECT);
-        return projects;
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<User> handler,
+            Callback<Boolean> successCB) {
+        handler.remove(this);
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -171,29 +142,26 @@ public final class User {
             return false;
         }
         User other = (User) o;
-        if (!other.getEmail().equals(this.getEmail())) {
-            return false;
+        if (other.getEmail().equals(this.getEmail())) {
+            return true;
         }
-        if (!other.getName().equals(this.getName())) {
-            return false;
-        }
-        if (!other.getProjects().equals(this.getProjects())) {
-            return false;
-        }
-        if (!other.getUsername().equals(this.getUsername())) {
-            return false;
-        }
-        if (other.getToken() != this.getToken()) {
-            return false;
-        }
-        return true;
+//        if (!other.getName().equals(this.getName())) {
+//            return false;
+//        }
+//        if (!other.getProjects().equals(this.getProjects())) {
+//            return false;
+//        }
+//        if (!other.getUsername().equals(this.getUsername())) {
+//            return false;
+//        }
+//        if (other.getToken() != this.getToken()) {
+//            return false;
+//        }
+        return false;
     }
     
     @Override
     public int hashCode() {
-        return (int) (username.hashCode() 
-                + email.hashCode()
-                + name.hashCode()
-                + token) % Integer.MAX_VALUE;
+        return email.hashCode();
     }
 }

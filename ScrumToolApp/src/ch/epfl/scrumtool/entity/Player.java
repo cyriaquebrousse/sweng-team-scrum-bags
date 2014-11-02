@@ -1,80 +1,59 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.database.DatabaseInteraction;
+
 /**
- * @author Vincent
+ * @author Vincent, zenhaeus
  * 
  */
-public final class Player {
-    private User user;
-    private long id;
-    private Role role;
+public final class Player implements DatabaseInteraction<Player> {
+    private final String id;
+    private final User user;
+    private final Role role;
+    private final boolean isAdmin;
 
     /**
      * @param user
      */
-    public Player(long id, User user, Role role) {
+    private Player(String id, User user, Role role, boolean isAdmin) {
         super();
-        if (user == null || role == null) {
+        if (id == null || user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
         this.id = id;
-        this.user = new User(user);
+        this.user = user;
         this.role = role;
-    }
-
-    /**
-     * @param aPlayer
-     */
-    public Player(Player aPlayer) {
-        this(aPlayer.getId(), aPlayer.getUser(), aPlayer.getRole());
+        this.isAdmin = isAdmin;
     }
 
     /**
      * @return the user
      */
     public User getUser() {
-        return new User(user);
-    }
-
-    /**
-     * @param user
-     *            the user to set
-     */
-    public void setUser(User user) {
-        if (user != null) {
-            this.user = new User(user);
-        }
+        return this.user;
     }
 
     /**
      * @return the role
      */
     public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        if (role != null) {
-            this.role = role;
-        }
+        return this.role;
     }
 
     /**
      * @return the id
      */
-    public long getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
-
+    
     /**
-     * @param id
-     *            the id to set
+     * @return admin Flag
      */
-    public void setId(long id) {
-        this.id = id;
+    public boolean isAdmin() {
+    	return this.isAdmin;
     }
 
     @Override
@@ -103,7 +82,111 @@ public final class Player {
     
     @Override
     public int hashCode() {
-        return (int) (id + role.hashCode() + user.hashCode()) % Integer.MAX_VALUE;
+        return id.hashCode();
+	}
+
+    /**
+     * Builder Class for Player Object
+     * @author zenhaeus
+     *
+     */
+    public static class Builder {
+        private User user;
+        private String id;
+        private Role role;
+        private boolean isAdmin;
+
+        public Builder() {
+        }
+        
+        public Builder(Player otherPlayer) {
+            this.user = otherPlayer.user;
+            this.id = otherPlayer.id;
+            this.role = otherPlayer.role;
+            this.isAdmin = otherPlayer.isAdmin;
+        }
+        
+        /**
+         * @return the user
+         */
+        public User getUser() {
+            return user;
+        }
+
+        /**
+         * @param user
+         *            the user to set
+         */
+        public void setUser(User user) {
+            if (user != null) {
+                this.user = user;
+            }
+        }
+
+        /**
+         * @return the role
+         */
+        public Role getRole() {
+            return role;
+        }
+
+        public void setRole(Role role) {
+            if (role != null) {
+                this.role = role;
+            }
+        }
+
+        /**
+         * @return the id
+         */
+        public String getId() {
+            return id;
+        }
+
+        /**
+         * @param id
+         *            the id to set
+         */
+        public void setId(String id) {
+            this.id = id;
+        }
+        
+        /**
+         * @return isAdmin
+         */
+        public boolean isAdmin() {
+            return this.isAdmin;
+        }
+        
+        /**
+         * @param isAdmin
+         */
+        public void setIsAdmin(boolean isAdmin) {
+            this.isAdmin = isAdmin;
+        }
+        
+        
+        /**
+         * Creates and returns a new immutable instance of Player
+         * @return
+         */
+        public Player build() {
+            return new Player(this.id, this.user, this.role, this.isAdmin);
+        }
+    }
+
+    @Override
+    public void updateDatabase(DatabaseHandler<Player> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void deleteFromDatabase(DatabaseHandler<Player> handler,
+            Callback<Boolean> successCb) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

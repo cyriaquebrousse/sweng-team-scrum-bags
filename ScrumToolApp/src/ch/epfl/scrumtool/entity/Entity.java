@@ -43,15 +43,15 @@ public final class Entity {
     public static final List<Issue> ALL_A_ISSUES = Arrays.asList(ISSUE_A1, ISSUE_A2, ISSUE_A3);
     
     // Tasks
-    public static final MainTask TASK_A = createTask(0, "Create Mock UI", Status.IN_SPRINT,
+    public static final MainTask TASK_A = createTask("0", "Create Mock UI", Status.IN_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_A1, ISSUE_A2, ISSUE_A3)));
-    public static final MainTask TASK_B = createTask(1, "Take a Coffee", Status.READY_FOR_SPRINT,
+    public static final MainTask TASK_B = createTask("1", "Take a Coffee", Status.READY_FOR_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_B1, ISSUE_B2)));
-    public static final MainTask TASK_C = createTask(2, "Implement the Google App Engine server", Status.IN_SPRINT,
+    public static final MainTask TASK_C = createTask("2", "Implement the Google App Engine server", Status.IN_SPRINT,
             new HashSet<>(Arrays.asList(ISSUE_C1)));
-    public static final MainTask TASK_D = createTask(3, "Find the meaning of the univers", Status.FINISHED,
+    public static final MainTask TASK_D = createTask("3", "Find the meaning of the univers", Status.FINISHED,
             new HashSet<>(Arrays.asList(ISSUE_D1, ISSUE_D2)));
-    public static final MainTask TASK_E = createTask(4, "Having a good night sleep", Status.READY_FOR_ESTIMATION,
+    public static final MainTask TASK_E = createTask("4", "Having a good night sleep", Status.READY_FOR_ESTIMATION,
             new HashSet<>(Arrays.asList(ISSUE_E1)));
     
     
@@ -71,19 +71,26 @@ public final class Entity {
      * @return
      */
     static Issue createIssue(long id, String name, Status status, float estimation) {
-        String description = "This is the description of the issue called \"" + name + "\"";
-        Player player = new Player(0, getRandomUser(), getRandomRole());
-        Issue issue = new Issue(id, name, description, status, estimation, player);
-        return issue;
+//        String description = "This is the description of the issue called + \"" + name + "\"";
+//        Player player = new Player(0, JOHN_SMITH, getRandomRole());
+//        Issue issue = new Issue(id, name, description, status, estimation, player);
+        return null;
     }
 
     /**
      * @param string
      * @return
      */
-    static MainTask createTask(long id, String name, Status status, Set<Issue> issues) {
+    static MainTask createTask(String id, String name, Status status, Set<Issue> issues) {
         String description = "This is the description of the task called \"" + name + "\"";
-        MainTask task = new MainTask(id, name, description, status, issues, getRandomPriority());
+        MainTask.Builder mB = new MainTask.Builder();
+        mB.setDescription(description);
+        mB.setId(id);
+        mB.setName(name);
+        mB.setStatus(status);
+        mB.setIssues(issues);
+        mB.setPriority(getRandomPriority());
+        MainTask task = mB.build();
         return task;
     }
 
@@ -95,23 +102,26 @@ public final class Entity {
         
         Set<Player> players = new HashSet<Player>();
         for (User user : users) {
-            players.add(new Player(0, user, getRandomRole()));
+            //players.add(new Player(0, user, getRandomRole()));
         }
         Player admin = getRandomPlayer(players);
-        Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
+        //Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
 
         for (User user : users) {
-            user.getProjects().add(project);
+//            user.getProjects().add(project);
         }
 
-        return project;
+        return null;
     }
     
     static User createUser(long id, String name) {
         String username = name.toLowerCase(Locale.ENGLISH).replace(' ', '_');
         String email = name.toLowerCase(Locale.ENGLISH).replace(' ', '.') + "@gmail.com";
-        User user = new User(email, name, username, id, new HashSet<Project>());
-        return user;
+        User.Builder uB = new User.Builder();
+        uB.setName(username);
+        uB.setEmail(email);
+        //uB.addProjects(new HashSet<String>());
+        return uB.build();
     }
     
     public static Role getRandomRole() {

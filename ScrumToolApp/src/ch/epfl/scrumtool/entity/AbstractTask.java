@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
 /**
@@ -8,7 +5,7 @@ package ch.epfl.scrumtool.entity;
  * 
  */
 public abstract class AbstractTask {
-    private long id;
+    private String id;
     private String name;
     private String description;
     private Status status;
@@ -18,9 +15,9 @@ public abstract class AbstractTask {
      * @param name
      * @param description
      */
-    public AbstractTask(long id, String name, String description, Status status) {
+    public AbstractTask(String id, String name, String description, Status status) {
         super();
-        if (name == null || description == null || status == null) {
+        if (id == null || name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
         this.id = id;
@@ -43,30 +40,10 @@ public abstract class AbstractTask {
     }
 
     /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        if (name != null) {
-            this.name = name;
-        }
-    }
-
-    /**
      * @return the description
      */
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        if (description != null) {
-            this.description = description;
-        }
     }
 
     /**
@@ -77,28 +54,11 @@ public abstract class AbstractTask {
     }
 
     /**
-     * @param status
-     *            the status to set
-     */
-    public void setStatus(Status status) {
-        if (status != null) {
-            this.status = status;
-        }
-    }
-
-    /**
      * @return the id
      */
-    public long getId() {
-        return id;
-    }
 
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.id = id;
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -130,9 +90,6 @@ public abstract class AbstractTask {
     
     @Override
     public int hashCode() {
-        return (int) (id
-                + name.hashCode()
-                + description.hashCode()
-                + status.hashCode()) % Integer.MAX_VALUE;
+        return id.hashCode();
     }
 }

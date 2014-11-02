@@ -39,7 +39,7 @@ public class ProfileOverviewActivity extends Activity {
         userProfile = ServerSimulator.getUserById(userId);
         
         // Create the adapter
-        adapter = new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
+        adapter = null; //new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
 
         // Get Views
         nameView = (TextView) findViewById(R.id.profile_name);
@@ -49,7 +49,6 @@ public class ProfileOverviewActivity extends Activity {
 
         // Set Views
         nameView.setText(userProfile.getName());
-        usernameView.setText(userProfile.getUsername());
         emailView.setText(userProfile.getEmail());
 
         sharedProjectsListView.setAdapter(adapter);

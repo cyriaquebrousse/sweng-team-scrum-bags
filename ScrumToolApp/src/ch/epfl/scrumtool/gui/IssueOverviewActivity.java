@@ -46,8 +46,9 @@ public class IssueOverviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                long assigneeId = issue.getPlayer().getUser().getToken(); // FIXME token != id, or is it?
-                openProfileIntent.putExtra("ch.epfl.scrumtool.USER_ID", assigneeId);
+//                TODO: figure this out
+//                long assigneeId = issue.getPlayer().getUser().getToken();
+//                openProfileIntent.putExtra("ch.epfl.scrumtool.USER_ID", assigneeId);
                 startActivity(openProfileIntent);
             }
         });
