@@ -23,7 +23,7 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
     private ScrumIssue scrumIssue;
 
     @Override
-    public void insert(Issue object) {
+    public void insert(Issue object, Callback<Boolean> dbC) {
         scrumIssue = new ScrumIssue();
         scrumIssue.setName(object.getName());
         scrumIssue.setDescription(object.getDescription());
@@ -43,19 +43,19 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
     }
 
     @Override
-    public void loadAll(String filter, Callback<List<Issue>> dbC) {
+    public void loadAll(Callback<List<Issue>> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update(Issue modified) {
+    public void update(Issue modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void remove(Issue object) {
+    public void remove(Issue object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }

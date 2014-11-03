@@ -1,12 +1,14 @@
 package ch.epfl.scrumtool.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
 /**
@@ -18,23 +20,15 @@ public final class Project implements DatabaseInteraction<Project> {
     private final String id;
     private final String name;
     private final String description;
-    private final Set<Player> players;
-    private final Set<MainTask> backlog;
-    private final Set<Sprint> sprints;
 
     /**
      * @param name
      * @param description
      * @param admin
-     * @param players
-     * @param backlog
-     * @param sprints
      */
-    private Project(String id, String name, String description,
-            Set<Player> players, Set<MainTask> backlog, Set<Sprint> sprints) {
+    private Project(String id, String name, String description) {
         super();
-        if (id == null || name == null || description == null
-                || players == null || backlog == null || sprints == null) {
+        if (id == null || name == null || description == null) {
             throw new NullPointerException("Project.Constructor");
         }
 
@@ -42,9 +36,6 @@ public final class Project implements DatabaseInteraction<Project> {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.players = new HashSet<Player>(players);
-        this.backlog = new HashSet<MainTask>(backlog);
-        this.sprints = new HashSet<Sprint>(sprints);
     }
 
     /**
@@ -70,31 +61,38 @@ public final class Project implements DatabaseInteraction<Project> {
     }
 
     /**
-     * @return the players
+     * Load the Players of this Project
+     * @param callback
      */
-    public Set<Player> getPlayers() {
-        return players;
+    public void loadPlayers(Callback<List<Player>> callback) {
+        DSProjectHandler ph = new DSProjectHandler();
+        ph.loadPlayers(this.id, callback);
     }
 
     /**
-     * @return the backlog
+     * Load the Backlog of this Project
+     * @param callback
      */
-    public Set<MainTask> getBacklog() {
-        return backlog;
+    public void loadBacklog(Callback<List<MainTask>> callback) {
+        DSProjectHandler ph = new DSProjectHandler();
+        ph.loadMainTasks(this.id, callback);
     }
+    
+    /**
+     * @param callback
+     */
+    public void loadSprints(Callback<List<Sprint>> callback) {
+        DSProjectHandler ph = new DSProjectHandler();
+        ph.loadSprints(this.id, callback);
+    }
+    
+    // TODO save and remove methods for collections (same style as load methods above)
 
     /**
      * @return the id
      */
     public String getId() {
         return id;
-    }
-
-    /**
-     * @return the mSprints
-     */
-    public Set<Sprint> getSprints() {
-        return sprints;
     }
 
     public int getChangesCount(User user) {
@@ -119,14 +117,8 @@ public final class Project implements DatabaseInteraction<Project> {
         private String id;
         private String name;
         private String description;
-        private final Set<Player> players;
-        private final Set<MainTask> backlog;
-        private final Set<Sprint> sprints;
 
         public Builder() {
-            this.players = new HashSet<Player>();
-            this.backlog = new HashSet<MainTask>();
-            this.sprints = new HashSet<Sprint>();
         }
 
         /**
@@ -164,20 +156,6 @@ public final class Project implements DatabaseInteraction<Project> {
         }
 
         /**
-         * @return the players
-         */
-        public Set<Player> getPlayers() {
-            return players;
-        }
-
-        /**
-         * @return the backlog
-         */
-        public Set<MainTask> getBacklog() {
-            return backlog;
-        }
-
-        /**
          * @return the id
          */
         public String getId() {
@@ -192,13 +170,6 @@ public final class Project implements DatabaseInteraction<Project> {
             this.id = id;
         }
 
-        /**
-         * @return the mSprints
-         */
-        public Set<Sprint> getSprints() {
-            return sprints;
-        }
-
         public int getChangesCount(User user) {
             // TODO implement changes count + javadoc
             return Math.abs(user.hashCode()) % 10;
@@ -210,23 +181,21 @@ public final class Project implements DatabaseInteraction<Project> {
         }
         
         public Project build() {
-            return new Project(this.id, this.name, this.description, this.players, this.backlog, this.sprints);
+            return new Project(this.id, this.name, this.description);
         }
     }
 
     @Override
     public void updateDatabase(DatabaseHandler<Project> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this);
+        handler.update(this, successCb);
         
     }
 
     @Override
     public void deleteFromDatabase(DatabaseHandler<Project> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this);
+        handler.remove(this, successCb);
     }
 
     @Override
@@ -241,28 +210,9 @@ public final class Project implements DatabaseInteraction<Project> {
             return false;
         }
         Project other = (Project) o;
-        if (!other.getAdmin().equals(this.getAdmin())) {
-            return false;
-        }
-        if (!other.getBacklog().equals(this.getBacklog())) {
-            return false;
-        }
-        if (!other.getDescription().equals(this.getDescription())) {
-            return false;
-        }
         if (other.getId() != this.getId()) {
             return false;
         }
-        if (!other.getName().equals(this.getName())) {
-            return false;
-        }
-        if (!other.getPlayers().equals(this.getPlayers())) {
-            return false;
-        }
-        if (!other.getSprints().equals(this.getSprints())) {
-            return false;
-        }
-
         return true;
     }
     

@@ -5,6 +5,8 @@ import java.util.List;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
+import ch.epfl.scrumtool.database.google.DSUserHandler;
 
 /**
  * @author vincent, aschneuw, zenhaeus
@@ -46,8 +48,9 @@ public final class User implements DatabaseInteraction<User> {
     /**
      * @return the projects
      */
-    public void loadProjects(DatabaseHandler<Project> db, Callback<List<Project>> callback) {
-        db.loadAll(this.name, callback);
+    public void loadProjects(Callback<List<Project>> callback) {
+        DSUserHandler db = new DSUserHandler();
+        db.loadProjects(this.name, callback);
     }
 
     /**
@@ -112,7 +115,7 @@ public final class User implements DatabaseInteraction<User> {
     @Override
     public void updateDatabase(DatabaseHandler<User> handler,
             Callback<Boolean> successCb) {
-        handler.update(this);
+        handler.update(this, successCb);
 
     }
 
@@ -125,8 +128,8 @@ public final class User implements DatabaseInteraction<User> {
      */
     @Override
     public void deleteFromDatabase(DatabaseHandler<User> handler,
-            Callback<Boolean> successCB) {
-        handler.remove(this);
+            Callback<Boolean> successCb) {
+        handler.remove(this, successCb);
     }
 
 
@@ -145,18 +148,6 @@ public final class User implements DatabaseInteraction<User> {
         if (other.getEmail().equals(this.getEmail())) {
             return true;
         }
-//        if (!other.getName().equals(this.getName())) {
-//            return false;
-//        }
-//        if (!other.getProjects().equals(this.getProjects())) {
-//            return false;
-//        }
-//        if (!other.getUsername().equals(this.getUsername())) {
-//            return false;
-//        }
-//        if (other.getToken() != this.getToken()) {
-//            return false;
-//        }
         return false;
     }
     

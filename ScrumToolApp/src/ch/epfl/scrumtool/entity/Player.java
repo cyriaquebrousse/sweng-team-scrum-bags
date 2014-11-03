@@ -179,7 +179,7 @@ public final class Player implements DatabaseInteraction<Player> {
     public void updateDatabase(DatabaseHandler<Player> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
-        handler.update(this);
+        handler.update(this, successCb);
         
     }
 
@@ -187,7 +187,7 @@ public final class Player implements DatabaseInteraction<Player> {
     public void deleteFromDatabase(DatabaseHandler<Player> handler,
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
-        handler.remove(this);
+        handler.remove(this, successCb);
         
     }
 

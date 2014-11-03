@@ -28,11 +28,11 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#insert(java.lang.Object)
      */
     @Override
-    public void insert(Player object) {
+    public void insert(Player object, Callback<Boolean> dbC) {
         InsertPlayerTask task = new InsertPlayerTask();
         ScrumPlayer player = new ScrumPlayer();
         player.setAdminFlag(object.isAdmin());
-        //
+        // TODO: finish this method
 
     }
 
@@ -56,7 +56,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * database.DatabaseCallback)
      */
     @Override
-    public void loadAll(String filter, Callback<List<Player>> dbC) {
+    public void loadAll(Callback<List<Player>> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -67,7 +67,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object)
      */
     @Override
-    public void update(Player modified) {
+    public void update(Player modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -78,7 +78,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#remove(java.lang.Object)
      */
     @Override
-    public void remove(Player object) {
+    public void remove(Player object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }

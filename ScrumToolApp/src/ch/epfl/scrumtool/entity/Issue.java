@@ -147,17 +147,13 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     @Override
     public void updateDatabase(DatabaseHandler<Issue> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this);
-        
+        handler.update(this, successCb);
     }
 
     @Override
     public void deleteFromDatabase(DatabaseHandler<Issue> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this);
-        
+        handler.remove(this, successCb);
     }
 
     @Override

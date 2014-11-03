@@ -8,7 +8,10 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
@@ -26,7 +29,7 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#insert(java.lang.Object)
      */
     @Override
-    public void insert(Project object) {
+    public void insert(Project object, Callback<Boolean> dbC) {
         scrumProject = new ScrumProject();
         scrumProject.setDescription(object.getDescription());
         scrumProject.setName(object.getName());
@@ -53,22 +56,48 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
     }
 
     @Override
-    public void loadAll(String filter, Callback<List<Project>> dbC) {
+    public void loadAll(Callback<List<Project>> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update(Project modified) {
+    public void update(Project modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void remove(Project object) {
+    public void remove(Project object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
+    
+    /**
+     * Loads the players of the passed project
+     * @param projectKey
+     * @param dbC
+     */
+    public void loadPlayers(String projectKey, Callback<List<Player>> dbC) {
+        // TODO Implementation
+    }
+    
+    /**
+     * @param projectKey
+     * @param dbC
+     */
+    public void loadMainTasks(String projectKey, Callback<List<MainTask>> dbC) {
+        // TODO Implementation
+    }
+    
+    /**
+     * @param projectKey
+     * @param dbC
+     */
+    public void loadSprints(String projectKey, Callback<List<Sprint>> dbC) {
+        // TODO Implementation
+    }
+    
 
     /**
      * 

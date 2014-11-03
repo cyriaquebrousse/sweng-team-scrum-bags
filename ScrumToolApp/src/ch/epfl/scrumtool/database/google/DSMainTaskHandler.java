@@ -28,7 +28,7 @@ public class DSMainTaskHandler extends
     private ScrumIssue scrumIssue;
 
     @Override
-    public void insert(MainTask object) {
+    public void insert(MainTask object, Callback<Boolean> dbC) {
         scrumMainTask = new ScrumMainTask();
         scrumMainTask.setName(object.getName());
         scrumMainTask.setDescription(object.getDescription());
@@ -47,7 +47,7 @@ public class DSMainTaskHandler extends
     }
 
     @Override
-    public void insert(MainTask mainTask, Issue object) {
+    public void insert(MainTask mainTask, Issue object, Callback<Boolean> dbC) {
 
         scrumIssue = new ScrumIssue();
         scrumIssue.setName(object.getName());
@@ -88,21 +88,25 @@ public class DSMainTaskHandler extends
     }
 
     @Override
-    public void loadAll(String filter, Callback<List<MainTask>> dbC) {
+    public void loadAll(Callback<List<MainTask>> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update(MainTask modified) {
+    public void update(MainTask modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void remove(MainTask object) {
+    public void remove(MainTask object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
+    }
+    
+    public void loadIssues(String mainTaskKey, Callback<List<Issue>> dbC) {
+        // TODO Implement
     }
 
     private class InsertIssueTask extends AsyncTask<ScrumIssue, Void, Void> {

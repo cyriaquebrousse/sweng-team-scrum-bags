@@ -6,6 +6,7 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -25,7 +26,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#insert(java.lang.Object)
      */
     @Override
-    public void insert(User object) {
+    public void insert(User object, Callback<Boolean> dbC) {
         // TODO
         // No implementation needed -> exception
     }
@@ -54,7 +55,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#getAll()
      */
     @Override
-    public void loadAll(String filter, Callback<List<User>> cB) {
+    public void loadAll(Callback<List<User>> cB) {
         // TODO Auto-generated method stub
     }
 
@@ -64,7 +65,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#update(java.lang.Object)
      */
     @Override
-    public void update(User modified) {
+    public void update(User modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -75,9 +76,13 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#remove(java.lang.Object)
      */
     @Override
-    public void remove(User object) {
+    public void remove(User object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
+    }
+    
+    public void loadProjects(String userKey, Callback<List<Project>> dbC) {
+        
     }
 
     /**

@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.entity;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -14,20 +15,18 @@ import ch.epfl.scrumtool.database.DatabaseInteraction;
 public final class Sprint implements DatabaseInteraction<Sprint> {
     private final String id;
     private final long deadLine;
-    private final Set<Issue> issues;
 
     /**
      * @param deadLine
      * @param issues
      */
-    private Sprint(String id, Date deadLine, Set<Issue> issues) {
+    private Sprint(String id, Date deadLine) {
         super();
-        if (id == null || issues == null) {
+        if (id == null) {
             throw new NullPointerException("Sprint.Constructor");
         }
         this.id = id;
         this.deadLine = deadLine.getTime();
-        this.issues = new HashSet<Issue>(issues);
     }
 
     /**
@@ -48,8 +47,28 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
     /**
      * @return the set of issues
      */
-    public Set<Issue> getIssues() {
-        return issues;
+    public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
+        //TODO: define function in DSSprintHandler: db.loadIssues(this.id, callback);
+    }
+    
+    /**
+     * Add existing Issue to this Sprint
+     * @param db
+     * @param callback
+     */
+    public void addIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+        // Cast handler to DSSprintHandler since this is a Sprint specific method
+        //TODO: define function in DSSprintHandler: db.addIssue(issueKey, this.id, callback);
+    }
+
+    /**
+     * Removes existing Issue to this Sprint
+     * @param db
+     * @param callback
+     */
+    public void removeIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+        // Cast handler to DSSprintHandler since this is a Sprint specific method
+        //TODO: define function in DSSprintHandler: db.removeIssue(issueKey, this.id, callback);
     }
 
     /**
@@ -70,8 +89,6 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
 
         public Builder(Sprint otherSprint) {
             this.deadLine = otherSprint.deadLine;
-            this.issues = new HashSet<Issue>(otherSprint.issues);
-
         }
 
         /**
@@ -134,22 +151,20 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         }
 
         public Sprint build() {
-            return new Sprint(this.id, new Date(this.deadLine), this.issues);
+            return new Sprint(this.id, new Date(this.deadLine));
         }
     }
 
     @Override
     public void updateDatabase(DatabaseHandler<Sprint> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this);
+        handler.update(this, successCb);
     }
 
     @Override
     public void deleteFromDatabase(DatabaseHandler<Sprint> handler,
             Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this);
+        handler.remove(this, successCb);
     }
 
     /**
@@ -174,9 +189,6 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         }
         Sprint other = (Sprint) o;
         if (other.getDeadline() != this.getDeadline()) {
-            return false;
-        }
-        if (!other.getIssues().equals(this.getIssues())) {
             return false;
         }
         return true;

@@ -5,17 +5,42 @@ import java.util.List;
 /**
  * @author aschneuw
  *
- * @param <A> Entity type to do database operations with
+ * @param <A> Entity type of object that gets sent to the datastore
  */
 public abstract class DatabaseHandler<A> {
 	
-    public abstract void insert(A object);
+    /**
+     * Inserts an object of type A into the database
+     * @param object
+     * @param dbC
+     */
+    public abstract void insert(A object, Callback<Boolean> dbC);
 
+    /**
+     * loads an object of type A from the database
+     * @param key
+     * @param dbC
+     */
     public abstract void load(String key, Callback<A> dbC);
 
-    public abstract void loadAll(String filter, Callback<List<A>> dbC);
+    /**
+     * Loads all objects of type A from the database
+     * @param filter
+     * @param dbC
+     */
+    public abstract void loadAll(Callback<List<A>> dbC);
 
-    public abstract void update(A modified);
+    /**
+     * Updates an object of type A on the database
+     * @param modified
+     * @param dbC
+     */
+    public abstract void update(A modified, Callback<Boolean> dbC);
 
-    public abstract void remove(A object);
+    /**
+     * Removes an object of type A from the database
+     * @param object
+     * @param dbC
+     */
+    public abstract void remove(A object, Callback<Boolean> dbC);
 }
