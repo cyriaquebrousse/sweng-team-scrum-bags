@@ -14,7 +14,8 @@ import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
  * 
  */
 
-public final class MainTask extends AbstractTask implements DatabaseInteraction<MainTask> {
+public final class MainTask extends AbstractTask implements
+        DatabaseInteraction<MainTask> {
     private Priority priority;
 
     /**
@@ -24,7 +25,8 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status, Priority priority) {
+    private MainTask(String id, String name, String description, Status status,
+            Priority priority) {
         super(id, name, description, status);
         if (priority == null) {
             throw new NullPointerException("MainTask.Constructor");
@@ -49,7 +51,7 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
     }
 
     // TODO save and remove methods for issues
-    
+
     /**
      * @return the priority
      */
@@ -59,28 +61,29 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
 
     public int getIssuesFinishedCount() {
         int count = 0;
-//        for (Issue i : issues) {
-//            if (i.getStatus() == Status.FINISHED) {
-//                ++count;
-//            }
-//        }
+        // for (Issue i : issues) {
+        // if (i.getStatus() == Status.FINISHED) {
+        // ++count;
+        // }
+        // }
         return count;
     }
 
     public float getEstimatedTime() {
         float estimation = 0f;
-//        float issueEstimation;
+        // float issueEstimation;
         boolean estimated = true;
-//        for (Issue i : issues) {
-//            issueEstimation = i.getEstimatedTime();
-//            if (issueEstimation < 0) {
-//                estimated = false;
-//            } else {
-//                estimation += issueEstimation;
-//            }
-//        }
+        // for (Issue i : issues) {
+        // issueEstimation = i.getEstimatedTime();
+        // if (issueEstimation < 0) {
+        // estimated = false;
+        // } else {
+        // estimation += issueEstimation;
+        // }
+        // }
         return estimated ? estimation : -1;
     }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -92,7 +95,7 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
         if (!(o instanceof MainTask)) {
             return false;
         }
-        
+
         // TODO: only compare id
         MainTask other = (MainTask) o;
         if (other.getPriority() != this.getPriority()) {
@@ -100,39 +103,38 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
         }
         return super.equals(o);
     }
-    
+
     @Override
     public int hashCode() {
         return this.getId().hashCode();
     }
-    
+
     /**
      * Builder class for the MainTask object
+     * 
      * @author zenhaeus
-     *
+     * 
      */
     public static class Builder {
         private String id;
         private String name;
         private String description;
         private Status status;
-        private Set<Issue> issues;
         private Priority priority;
 
         public Builder() {
-            this.issues = new HashSet<Issue>();
         }
-        
+
         /**
          * 
          * @return the id
          */
         public String getId() {
-        	return id;
+            return id;
         }
-        
+
         public void setId(String id) {
-        	this.id = id;
+            this.id = id;
         }
 
         /**
@@ -168,42 +170,32 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
                 this.description = description;
             }
         }
-        
+
         /**
          * 
          * @return the status
          */
         public Status getStatus() {
-        	return this.status;
-        }
-        
-        public void setStatus(Status status) {
-        	if (status.isAValidStatus()) {
-        		this.status = status;
-        	}
+            return this.status;
         }
 
-        /**
-         * @return the issues
-         */
-        public Set<Issue> getIssues() {
-            return issues;
+        public void setStatus(Status status) {
+            if (status.isAValidStatus()) {
+                this.status = status;
+            }
         }
-        
-        public void setIssues(Set<Issue> issues) {
-        	this.issues = issues;
-        }
-        
+
         public Priority getPriority() {
-        	return priority;
+            return priority;
         }
-        
+
         public void setPriority(Priority priority) {
-        	this.priority = priority;
+            this.priority = priority;
         }
-        
+
         public MainTask build() {
-            return new MainTask(this.id, this.name, this.description, this.status, this.issues, this.priority);
+            return new MainTask(this.id, this.name, this.description,
+                    this.status, this.priority);
         }
     }
 
@@ -212,7 +204,7 @@ public final class MainTask extends AbstractTask implements DatabaseInteraction<
             Callback<Boolean> successCb) {
         // TODO Auto-generated method stub
         handler.update(this, successCb);
-        
+
     }
 
     @Override

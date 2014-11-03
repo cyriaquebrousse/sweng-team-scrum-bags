@@ -43,7 +43,10 @@ public class TaskOverviewActivity extends Activity {
         // Get the task
         long taskId = getIntent().getLongExtra("ch.epfl.scrumtool.TASK_ID", 0);
         task = ServerSimulator.getTaskById(taskId);
-        issueList = new ArrayList<>(task.getIssues());
+        
+        // FIXME getIssues does not exist in new entity model, use loadIssues
+//        issueList = new ArrayList<>(task.getIssues());
+        issueList = ServerSimulator.ISSUES;
         
         // Get list and initialize adapter
         adapter = new IssueListAdapter(this, issueList);

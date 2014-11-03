@@ -68,6 +68,7 @@ public final class ServerSimulator {
     }
 
     public static List<MainTask> getBacklogByProjectId(long projectId) {
-        return new ArrayList<>(PROJECTS.get((int) projectId).getBacklog());
+//        return new ArrayList<>(PROJECTS.get((int) projectId).getBacklog());
+        return TASKS;
     }
 }

@@ -88,7 +88,6 @@ public final class Entity {
         mB.setId(id);
         mB.setName(name);
         mB.setStatus(status);
-        mB.setIssues(issues);
         mB.setPriority(getRandomPriority());
         MainTask task = mB.build();
         return task;

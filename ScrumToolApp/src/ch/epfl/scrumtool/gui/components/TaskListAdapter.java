@@ -58,8 +58,10 @@ public final class TaskListAdapter extends BaseAdapter {
         
         // Set views properties
         MainTask task = taskList.get(position);
-        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
-
+        // FIXME getIssues does not exist in new entity model, use loadIssues
+//        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
+        double percentageDone = 0;
+        
         priority.setStickerText(task.getPriority());
         priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
