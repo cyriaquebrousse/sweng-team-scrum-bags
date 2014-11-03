@@ -58,9 +58,9 @@ public final class User implements DatabaseInteraction<User> {
      * The callback will contain the key of the added Project
      * @param callback The callback function 
      */
-    public void addProject(Callback<String> callback) {
+    public void addProject(Project p, Callback<String> callback) {
         DSUserHandler db = new DSUserHandler();
-        db.addProject(this.name, callback);
+        db.addProject(this.name, p, callback);
     }
 
     /**

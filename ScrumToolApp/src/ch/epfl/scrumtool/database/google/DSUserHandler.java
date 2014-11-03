@@ -85,7 +85,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
     }
 
-    public void addProject(String userKey, Callback<String> callback) {
+    public void addProject(String userKey, Project p, Callback<String> dbC) {
 
     }
 
