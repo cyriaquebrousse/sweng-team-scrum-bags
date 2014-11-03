@@ -50,7 +50,7 @@ public final class User implements DatabaseInteraction<User> {
      */
     public void loadProjects(Callback<List<Project>> callback) {
         DSUserHandler db = new DSUserHandler();
-        db.loadProjects(this.name, callback);
+        db.loadProjects(this.name, callback); // shouldn't it use the email? name are not unique
     }
     
     /**

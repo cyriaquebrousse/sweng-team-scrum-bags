@@ -24,7 +24,7 @@ public class AppEngineUtils {
     /**
      * If this is true the app will contact the local server
      */
-    private static final boolean TEST_LOCAL = true;
+    private static final boolean TEST_LOCAL = false;
 
     /**
      * Returns server URL

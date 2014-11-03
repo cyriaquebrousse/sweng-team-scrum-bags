@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
@@ -82,10 +84,62 @@ public class DSUserHandler extends DatabaseHandler<User> {
     }
 
     public void loadProjects(String userKey, Callback<List<Project>> dbC) {
-
+        LoadProjectsTask task = new LoadProjectsTask(dbC);
+        task.execute(userKey);
     }
 
     public void addProject(String userKey, Project p, Callback<String> dbC) {
+
+    }
+
+    /**
+     * @author Vincent
+     * 
+     */
+    private class LoadProjectsTask extends
+            AsyncTask<String, Void, List<ScrumProject>> {
+        private Callback<List<Project>> cB;
+
+        public LoadProjectsTask(Callback<List<Project>> callBack) {
+            this.cB = callBack;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see android.os.AsyncTask#doInBackground(Params[])
+         */
+        @Override
+        protected List<ScrumProject> doInBackground(String... params) {
+            Scrumtool service = GoogleSession.getServiceObject();
+            List<ScrumProject> projects = null;
+            // TODO How do I load a list of projects from DB
+//            try {
+//                projects = service.loadProjects(params[0]).execute();
+//            }catch (IOException e){
+//             // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+            return projects;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(List<ScrumProject> result) {
+            ArrayList<Project> projects = new ArrayList<Project>();
+            for (ScrumProject sP : result) {
+                Project.Builder pB = new Project.Builder();
+                pB.setDescription(sP.getDescription());
+                pB.setName(sP.getName());
+                pB.setId(sP.getKey());
+                projects.add(pB.build());
+            }
+            cB.interactionDone(projects);
+        }
 
     }
 
