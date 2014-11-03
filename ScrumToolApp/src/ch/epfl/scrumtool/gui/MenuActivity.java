@@ -18,11 +18,6 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
     }
 
-//    public void openLogin(View view) {
-//        Intent openLoginIntent = new Intent(this, LoginActivity.class);
-//        startActivity(openLoginIntent);
-//    }
-    
     public void openProjects(View view) {
         Intent openProjectsIntent = new Intent(this, ProjectListActivity.class);
         startActivity(openProjectsIntent);
