@@ -7,6 +7,10 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
+import ch.epfl.scrumtool.entity.Project.Builder;
+
+import android.util.Log;
+
 /**
  * @author ketsio
  * 
@@ -56,13 +60,13 @@ public final class Entity {
     
     
     // Projects
-    public static final Project COOL_PROJECT = createProject(0, "Cool Project",
-            new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, CYRIAQUE_BROUSSE, LORIS_LEIVA)),
-            new HashSet<>(Arrays.asList(TASK_A, TASK_B)));
+    public static final Project COOL_PROJECT = createProject(0, "Cool Project");
+//            new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, CYRIAQUE_BROUSSE, LORIS_LEIVA)),
+//            new HashSet<>(Arrays.asList(TASK_A, TASK_B)));
     
-    public static final Project SUPER_PROJECT = createProject(1, "Super Project",
-            new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, ARJEN_LENSTRA, MICHAEL_SCOFIELD)),
-            new HashSet<>(Arrays.asList(TASK_C, TASK_D, TASK_E)));
+    public static final Project SUPER_PROJECT = createProject(1, "Super Project");
+//            new HashSet<>(Arrays.asList(JOHN_SMITH, MARIA_LINDA, ARJEN_LENSTRA, MICHAEL_SCOFIELD)),
+//            new HashSet<>(Arrays.asList(TASK_C, TASK_D, TASK_E)));
 
 
     /**
@@ -93,24 +97,27 @@ public final class Entity {
         return task;
     }
 
-    static Project createProject(long id, String name, Set<User> users, Set<MainTask> backlog) {
+    static Project createProject(long id, String name) {
         String description = "This is a description for the project called \"";
         description += name + "\". This project is one of the best you'll ever ";
         description += "see in the Android Application (Which is the best Application ever by the way)";
-
+        Project.Builder pB = new Builder();
+        pB.setDescription(description);
+        pB.setId("SomeId"+name);
+        pB.setName(name);
         
-        Set<Player> players = new HashSet<Player>();
-        for (User user : users) {
-            //players.add(new Player(0, user, getRandomRole()));
-        }
-        Player admin = getRandomPlayer(players);
-        //Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
-
-        for (User user : users) {
+//        Set<Player> players = new HashSet<Player>();
+//        for (User user : users) {
+//            players.add(new Player(0, user, getRandomRole()));
+//        }
+//        Player admin = getRandomPlayer(players);
+//        Project project = new Project(id, name, description, admin, players, backlog, new HashSet<Sprint>());
+//
+//        for (User user : users) {
 //            user.getProjects().add(project);
-        }
+//        }
 
-        return null;
+        return pB.build();
     }
     
     static User createUser(long id, String name) {
