@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
@@ -19,6 +20,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 public class DSProjectHandler extends DatabaseHandler<Project> {
     private ScrumProject scrumProject;
@@ -45,7 +47,7 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
             e.printStackTrace();
         }
 
-        InsertProjectTask ip = new InsertProjectTask();
+        InsertProjectTask ip = new InsertProjectTask(dbC);
         ip.execute(scrumProject);
     }
 
@@ -145,7 +147,12 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
      * @author
      * 
      */
-    private class InsertProjectTask extends AsyncTask<ScrumProject, Void, Void> {
+    private class InsertProjectTask extends AsyncTask<ScrumProject, Void, ScrumProject> {
+        private Callback<Boolean> cB;
+        
+        public InsertProjectTask(Callback<Boolean> cB) {
+            this.cB = cB;
+        }
 
         /*
          * (non-Javadoc)
@@ -153,7 +160,7 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
          * @see android.os.AsyncTask#doInBackground(Params[])
          */
         @Override
-        protected Void doInBackground(ScrumProject... params) {
+        protected ScrumProject doInBackground(ScrumProject... params) {
             try {
                 GoogleSession s = (GoogleSession) Session.getCurrentSession();
                 Scrumtool service = s.getAuthServiceObject();
@@ -164,7 +171,15 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
             }
             return null;
         }
-
+        
+        @Override
+        protected void onPostExecute(ScrumProject su) {
+            if(su != null) {
+                cB.interactionDone(Boolean.TRUE);
+            } else {
+                cB.interactionDone(Boolean.FALSE);
+            }
+        }
     }
 
 }

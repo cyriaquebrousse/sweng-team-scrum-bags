@@ -15,7 +15,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 /**
  * 
  * @author aschneuw
- *
+ * 
  */
 
 public class DSUserHandler extends DatabaseHandler<User> {
@@ -80,9 +80,13 @@ public class DSUserHandler extends DatabaseHandler<User> {
         // TODO Auto-generated method stub
 
     }
-    
+
     public void loadProjects(String userKey, Callback<List<Project>> dbC) {
-        
+
+    }
+
+    public void addProject(String userKey, Callback<Boolean> dbC) {
+
     }
 
     /**
@@ -98,7 +102,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
         @Override
         protected ScrumUser doInBackground(String... params) {
-            
+
             Scrumtool service = GoogleSession.getServiceObject();
             ScrumUser user = null;
             try {
@@ -120,11 +124,12 @@ public class DSUserHandler extends DatabaseHandler<User> {
         }
 
     }
-/**
- * 
- * @author
- *
- */
+
+    /**
+     * 
+     * @author
+     * 
+     */
     private class GetUserTask extends AsyncTask<String, Void, ScrumUser> {
         private Callback<User> cB;
 

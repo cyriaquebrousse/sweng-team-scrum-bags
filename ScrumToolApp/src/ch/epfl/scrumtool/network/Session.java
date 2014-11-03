@@ -17,6 +17,7 @@ public abstract class Session {
             throw new NullPointerException("A session must have a valid user");
         }
         this.user = user;
+        currentSession = this;
     }
 
     /**
