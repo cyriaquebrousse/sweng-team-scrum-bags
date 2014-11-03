@@ -161,15 +161,16 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
          */
         @Override
         protected ScrumProject doInBackground(ScrumProject... params) {
+            ScrumProject proj = null;
             try {
                 GoogleSession s = (GoogleSession) Session.getCurrentSession();
                 Scrumtool service = s.getAuthServiceObject();
-                service.insertScrumProject(params[0]).execute();
+                proj = service.insertScrumProject(params[0]).execute();
             } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            return null;
+            return proj;
         }
         
         @Override
