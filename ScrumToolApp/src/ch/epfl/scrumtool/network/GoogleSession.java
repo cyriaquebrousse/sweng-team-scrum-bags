@@ -25,7 +25,7 @@ import com.google.api.client.json.gson.GsonFactory;
  * 
  */
 public class GoogleSession extends Session {
-    public static final String CLIENT_ID = "756445222019-sefvcpr9aos0dg4r0unt44unvaqlg1nq.apps.googleusercontent.com";
+    public static final String CLIENT_ID = "756445222019-7ll8hq36aorbfbno1unp49ikle7kt1nv.apps.googleusercontent.com";
     private static Scrumtool dbService = null;
     private Scrumtool authDBService = null;
 
