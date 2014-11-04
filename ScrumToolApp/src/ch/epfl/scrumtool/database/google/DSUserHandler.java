@@ -9,8 +9,12 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
+import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.Scrumtool.LoadProjects;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
@@ -96,8 +100,7 @@ public class DSUserHandler extends DatabaseHandler<User> {
      * @author Vincent
      * 
      */
-    private class LoadProjectsTask extends
-            AsyncTask<String, Void, List<ScrumProject>> {
+    private class LoadProjectsTask extends AsyncTask<String, Void, CollectionResponseScrumProject> {
         private Callback<List<Project>> cB;
 
         public LoadProjectsTask(Callback<List<Project>> callBack) {
@@ -110,16 +113,18 @@ public class DSUserHandler extends DatabaseHandler<User> {
          * @see android.os.AsyncTask#doInBackground(Params[])
          */
         @Override
-        protected List<ScrumProject> doInBackground(String... params) {
-            Scrumtool service = GoogleSession.getServiceObject();
-            List<ScrumProject> projects = null;
-            // TODO How do I load a list of projects from DB
-//            try {
-//                projects = service.loadProjects(params[0]).execute();
-//            }catch (IOException e){
-//             // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
+        protected CollectionResponseScrumProject doInBackground(String... params) {
+            GoogleSession s;
+            CollectionResponseScrumProject projects = null;
+            try {
+                s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
+                projects = service.loadProjects(params[0]).execute();
+            } catch (NotAuthenticatedException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
             return projects;
         }
 
@@ -129,9 +134,10 @@ public class DSUserHandler extends DatabaseHandler<User> {
          * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
          */
         @Override
-        protected void onPostExecute(List<ScrumProject> result) {
+        protected void onPostExecute(CollectionResponseScrumProject result) {
+            List<ScrumProject> resultItems = result.getItems();
             ArrayList<Project> projects = new ArrayList<Project>();
-            for (ScrumProject sP : result) {
+            for (ScrumProject sP : resultItems) {
                 Project.Builder pB = new Project.Builder();
                 pB.setDescription(sP.getDescription());
                 pB.setName(sP.getName());
