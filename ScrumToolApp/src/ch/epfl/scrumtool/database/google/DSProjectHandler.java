@@ -10,6 +10,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
@@ -17,9 +18,11 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 public class DSProjectHandler extends DatabaseHandler<Project> {
@@ -74,32 +77,163 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
         // TODO Auto-generated method stub
 
     }
-    
+
     /**
      * Loads the players of the passed project
+     * 
      * @param projectKey
      * @param dbC
      */
     public void loadPlayers(String projectKey, Callback<List<Player>> dbC) {
-        // TODO Implementation
+        // LoadPlayersTask task = new LoadPlayersTask(dbC);
+        // task.execute(projectKey);
     }
-    
+
     /**
      * @param projectKey
      * @param dbC
      */
     public void loadMainTasks(String projectKey, Callback<List<MainTask>> dbC) {
-        // TODO Implementation
+        // LoadMainTasksTask task = new LoadMainTasksTask(dbC);
+        // task.execute(projectKey);
     }
-    
+
     /**
      * @param projectKey
      * @param dbC
      */
     public void loadSprints(String projectKey, Callback<List<Sprint>> dbC) {
-        // TODO Implementation
+        // LoadSprintsTask task = new LoadSprintsTask(dbC);
+        // task.execute(projectKey);
     }
-    
+
+    // private class LoadPlayersTask extends
+    // AsyncTask<String, Void, CollectionResponseScrumPlayer> {
+    //
+    // private Callback<List<Player>> cB;
+    //
+    // public LoadPlayersTask(CallBack<List<Player>> callBack) {
+    // this.cB = callBack;
+    // }
+    //
+    // @Override
+    // protected CollectionResponseScrumPlayer doInBackground(String... params)
+    // {
+    // GoogleSession s;
+    // CollectionResponseScrumProject players = null;
+    // try {
+    // s = (GoogleSession) Session.getCurrentSession();
+    // Scrumtool service = s.getAuthServiceObject();
+    // players = service.loadPlayers(params[0]).execute();
+    // } catch (NotAuthenticatedException | IOException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // return players;
+    // }
+    //
+    // @Override
+    // protected void onPostExecute(CollectionResponseScrumPlayer result) {
+    // List<ScrumPlayer> resultItems = result.getItems();
+    // ArrayList<Player> players = new ArrayList<Player>();
+    // for (ScrumPlayer s : resultItems) {
+    // Player.Builder pB = new Player.Builder();
+    // pB.setId(s.getKey());
+    // pB.setIsAdmin(s.getAdminFlag());
+    // // pB.setRole(s.getRole()); TODO
+    // // pB.setUser(s.getUser());
+    // players.add(pB.build());
+    // }
+    // cB.interactionDone(players);
+    // }
+    //
+    // private class LoadMainTasksTask extends
+    // AsyncTask<String, Void, CollectionResponseScrumMainTask> {
+    //
+    // private Callback<List<MainTask>> cB;
+    //
+    // public LoadMainTasksTask(Callback<List<MainTask>> callBack) {
+    // this.cB = callBack;
+    // }
+    //
+    // @Override
+    // protected CollectionResponseScrumMainTask doInBackground(
+    // String... params) {
+    // GoogleSession s;
+    // CollectionResponseScrumMainTask mainTasks = null;
+    // try {
+    // s = (GoogleSession) Session.getCurrentSession();
+    // Scrumtool service = s.getAuthServiceObject();
+    // mainTasks = service.loadMainTasks(params[0]).execute();
+    // } catch (NotAuthenticatedException | IOException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // return mainTasks;
+    // }
+    //
+    // @Override
+    // protected void onPostExecute(CollectionResponseScrumMainTask result) {
+    // List<ScrumMainTask> resulItems = result.getItems();
+    // ArrayList<MainTask> mainTasks = ArrayList<MainTask>();
+    // for (ScrumMainTask s : resulItems){
+    // MainTask.Builder mB = new MainTask.Builder();
+    // mB.setDescription(s.getDescription());
+    // mB.setId(s.getKey());
+    // mB.setName(s.getName());
+    // mB.setPriority(Priority.NORMAL);//TODO a getPriority method
+    // mB.setStatus(s.getStatus());
+    // mainTasks.add(mB.build());
+    // }
+    // cB.interactionDone(mainTasks);
+    // }
+    // }
+    //
+    // private class LoadSprintsTask extends
+    // AsyncTask<String, Void, CollectionResponseScrumSprint> {
+    // private Callback<List<Sprint>> cB;
+    //
+    // public LoadSprintsTask(Callback<List<Sprint>> callBack) {
+    // this.cB = callBack;
+    // }
+    //
+    // @Override
+    // protected CollectionResponseScrumSprint doInBackground(
+    // String... params) {
+    // GoogleSession s;
+    // CollectionResponseScrumSprint sprints = null;
+    // try {
+    // s = (GoogleSession) Session.getCurrentSession();
+    // Scrumtool service = s.getAuthServiceObject();
+    // sprints = service.loadSprints(params[0]).execute();
+    // } catch (NotAuthenticatedException | IOException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // return sprints;
+    // }
+    //
+    // @Override
+    // protected void onPostExecute(CollectionResponseScrumSprint result) {
+    // List<ScrumSprint> resultItems = result.getItems;
+    // ArrayList<Sprint> sprints = new ArrayList<Sprint>();
+    // for (ScrumSprint s : resultItems) {
+    // Sprint.Builder sB = new Sprint.Builder();
+    // sB.setId(s.getKey());
+    // sB.setDeadLine(new Date(s.getDate().getValue())); // TODO
+    // // Not so
+    // // sure
+    // // about
+    // // this
+    // sprints.add(sB.build());
+    // }
+    // cB.interactionDone(sprints);
+    // }
+    // }
+    // }
 
     /**
      * 
@@ -147,9 +281,10 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
      * @author
      * 
      */
-    private class InsertProjectTask extends AsyncTask<ScrumProject, Void, ScrumProject> {
+    private class InsertProjectTask extends
+            AsyncTask<ScrumProject, Void, ScrumProject> {
         private Callback<Boolean> cB;
-        
+
         public InsertProjectTask(Callback<Boolean> cB) {
             this.cB = cB;
         }
@@ -172,10 +307,10 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
             }
             return proj;
         }
-        
+
         @Override
         protected void onPostExecute(ScrumProject su) {
-            if(su != null) {
+            if (su != null) {
                 cB.interactionDone(Boolean.TRUE);
             } else {
                 cB.interactionDone(Boolean.FALSE);
