@@ -32,7 +32,7 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
         InsertPlayerTask task = new InsertPlayerTask();
         ScrumPlayer player = new ScrumPlayer();
         player.setAdminFlag(object.isAdmin());
-        // TODO: finish this method
+        // TODO finish this method
 
     }
 

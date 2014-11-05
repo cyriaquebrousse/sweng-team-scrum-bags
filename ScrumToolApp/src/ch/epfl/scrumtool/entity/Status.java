@@ -19,7 +19,8 @@ public enum Status {
     }
 
     public boolean isAValidStatus() {
-        return this.equals(READY_FOR_SPRINT) || this.equals(IN_SPRINT) || 
+        return this.equals(READY_FOR_SPRINT) || this.equals(IN_SPRINT) 
+                || 
                 this.equals(READY_FOR_ESTIMATION) || this.equals(FINISHED);
     }
 

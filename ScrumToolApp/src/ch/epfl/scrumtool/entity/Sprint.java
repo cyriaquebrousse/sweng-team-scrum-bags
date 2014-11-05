@@ -48,7 +48,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      * @return the set of issues
      */
     public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
-        //TODO: define function in DSSprintHandler: db.loadIssues(this.id, callback);
+        //TODO define function in DSSprintHandler: db.loadIssues(this.id, callback);
     }
     
     /**
@@ -58,7 +58,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      */
     public void addIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
         // Cast handler to DSSprintHandler since this is a Sprint specific method
-        //TODO: define function in DSSprintHandler: db.addIssue(issueKey, this.id, callback);
+        //TODO define function in DSSprintHandler: db.addIssue(issueKey, this.id, callback);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      */
     public void removeIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
         // Cast handler to DSSprintHandler since this is a Sprint specific method
-        //TODO: define function in DSSprintHandler: db.removeIssue(issueKey, this.id, callback);
+        //TODO define function in DSSprintHandler: db.removeIssue(issueKey, this.id, callback);
     }
 
     /**

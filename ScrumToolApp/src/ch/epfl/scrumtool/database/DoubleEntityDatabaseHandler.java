@@ -9,6 +9,5 @@ package ch.epfl.scrumtool.database;
  * @param <B> second entity type to include in database operation
  */
 public abstract class DoubleEntityDatabaseHandler<A, B> extends DatabaseHandler<A> {
-    
     public abstract void insert(A first, B second, Callback<Boolean> dbC);
 }

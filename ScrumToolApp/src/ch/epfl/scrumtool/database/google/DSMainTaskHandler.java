@@ -131,6 +131,11 @@ public class DSMainTaskHandler extends
 
     }
 
+    /**
+     * 
+     * @author ?
+     *
+     */
     private class GetIssueTask extends AsyncTask<String, Void, ScrumIssue> {
         private Callback<Issue> cB;
 

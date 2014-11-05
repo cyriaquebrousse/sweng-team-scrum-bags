@@ -24,7 +24,7 @@ public class UserListActivity extends Activity {
         setContentView(R.layout.activity_user_list);
         ListView listview = (ListView) findViewById(R.id.userList);
 
-        // TODO: Get users of project
+        // TODO Get users of project
         String[] names = null;
 
         names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ", "Arno", "Vincent", "Sylvain", "Leo"};

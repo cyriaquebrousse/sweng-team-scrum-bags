@@ -66,7 +66,8 @@ public final class TaskListAdapter extends BaseAdapter {
         priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
         description.setText(task.getDescription());
-        status.setText((int) (percentageDone * 100) + " %  -  "+ task.getStatus().toString());
+        final int hundred = 100;
+        status.setText((int) (percentageDone * hundred) + " %  -  "+ task.getStatus().toString());
         
         
         // Set background width according to # issues finished

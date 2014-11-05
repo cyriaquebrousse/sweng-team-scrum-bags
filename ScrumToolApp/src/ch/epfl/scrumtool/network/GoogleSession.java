@@ -86,8 +86,8 @@ public class GoogleSession extends Session {
             @Override
             public void initialize(
                     AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                        abstractGoogleClientRequest.setDisableGZipContent(true);
-                    }
+                abstractGoogleClientRequest.setDisableGZipContent(true);
+            }
         });
         Scrumtool service = builder.build();
         return service;
@@ -130,7 +130,7 @@ public class GoogleSession extends Session {
                         new GoogleSession(object, googleCredential);
                         context.openMenuActivity();
                     } else {
-                        // TODO: Error handling
+                        // TODO Error handling
                         // throw new NotAuthenticatedException();
                     }
                 }

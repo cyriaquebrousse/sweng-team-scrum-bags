@@ -1,8 +1,8 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+//import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
@@ -96,7 +96,7 @@ public final class MainTask extends AbstractTask implements
             return false;
         }
 
-        // TODO: only compare id
+        // TODO only compare id
         MainTask other = (MainTask) o;
         if (other.getPriority() != this.getPriority()) {
             return false;

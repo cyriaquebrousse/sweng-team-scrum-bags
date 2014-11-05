@@ -1,9 +1,9 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
+//import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
@@ -56,7 +56,7 @@ public final class Project implements DatabaseInteraction<Project> {
      * @return the admin TODO
      */
     public Player getAdmin() {
-        // TODO: query database to get admin
+        // TODO query database to get admin
         return null;
     }
 
@@ -98,7 +98,8 @@ public final class Project implements DatabaseInteraction<Project> {
     public int getChangesCount(User user) {
         // TODO implement changes count + javadoc
         Random r = new Random();
-        return r.nextInt(20);
+        final int twenty = 20;
+        return r.nextInt(twenty);
     }
 
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
@@ -172,7 +173,8 @@ public final class Project implements DatabaseInteraction<Project> {
 
         public int getChangesCount(User user) {
             // TODO implement changes count + javadoc
-            return Math.abs(user.hashCode()) % 10;
+            final int ten = 10;
+            return Math.abs(user.hashCode()) % ten;
         }
 
         public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {

@@ -10,21 +10,26 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.entity.Priority;
+//import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.entity.User;
+//import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
+//import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
+//import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+//import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
+/**
+ * 
+ * @author ?
+ *
+ */
 public class DSProjectHandler extends DatabaseHandler<Project> {
     private ScrumProject scrumProject;
 
