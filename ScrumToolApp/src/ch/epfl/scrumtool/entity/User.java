@@ -5,7 +5,6 @@ import java.util.List;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
-//import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
 
 /**

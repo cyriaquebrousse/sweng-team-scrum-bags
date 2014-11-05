@@ -3,7 +3,6 @@
  */
 package ch.epfl.scrumtool.network;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

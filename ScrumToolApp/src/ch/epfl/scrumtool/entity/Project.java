@@ -1,9 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
-//import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-//import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;

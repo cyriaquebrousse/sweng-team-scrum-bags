@@ -1,24 +1,19 @@
 package ch.epfl.scrumtool.gui;
 
-//import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
-//import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.entity.Project;
-//import ch.epfl.scrumtool.entity.Project.Builder;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
-//import ch.epfl.scrumtool.network.ServerSimulator;
 import ch.epfl.scrumtool.network.Session;
 
 /**

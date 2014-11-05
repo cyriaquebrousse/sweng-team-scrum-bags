@@ -13,7 +13,6 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-//import ch.epfl.scrumtool.server.scrumtool.Scrumtool.LoadProjects;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;

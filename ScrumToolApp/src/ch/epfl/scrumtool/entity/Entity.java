@@ -9,8 +9,6 @@ import java.util.Set;
 
 import ch.epfl.scrumtool.entity.Project.Builder;
 
-//import android.util.Log;
-
 /**
  * @author ketsio
  * 
