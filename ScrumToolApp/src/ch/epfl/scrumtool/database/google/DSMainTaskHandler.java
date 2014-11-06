@@ -8,12 +8,16 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler;
+import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
@@ -106,7 +110,8 @@ public class DSMainTaskHandler extends
     }
     
     public void loadIssues(String mainTaskKey, Callback<List<Issue>> dbC) {
-        // TODO Implement
+         LoadIssuesTask task = new LoadIssuesTask(dbC);
+         task.execute(mainTaskKey);
     }
 
     private class InsertIssueTask extends AsyncTask<ScrumIssue, Void, Void> {
@@ -118,8 +123,8 @@ public class DSMainTaskHandler extends
          */
         @Override
         protected Void doInBackground(ScrumIssue... params) {
-            Scrumtool service = GoogleSession.getServiceObject();
-
+        	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+            Scrumtool service = s.getAuthServiceObject();
             try {
                 service.insertScrumIssue(params[0]).execute();
             } catch (IOException e) {
@@ -142,15 +147,10 @@ public class DSMainTaskHandler extends
         public GetIssueTask(Callback<Issue> cB) {
             this.cB = cB;
         }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
         @Override
         protected ScrumIssue doInBackground(String... params) {
-            Scrumtool service = GoogleSession.getServiceObject();
+            GoogleSession s = (GoogleSession) Session.getCurrentSession();
+            Scrumtool service = s.getAuthServiceObject();
             ScrumIssue issue = null;
             try {
                 issue = service.getScrumIssue(params[0]).execute();
@@ -177,14 +177,7 @@ public class DSMainTaskHandler extends
         }
     }
 
-    private class InsertMainTaskTask extends
-            AsyncTask<ScrumMainTask, Void, Void> {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
+    private class InsertMainTaskTask extends AsyncTask<ScrumMainTask, Void, Void> {
         @Override
         protected Void doInBackground(ScrumMainTask... params) {
             try {
@@ -199,22 +192,17 @@ public class DSMainTaskHandler extends
         }
     }
 
-    private class GetMainTaskTask extends
-            AsyncTask<String, Void, ScrumMainTask> {
+    private class GetMainTaskTask extends AsyncTask<String, Void, ScrumMainTask> {
         private Callback<MainTask> cB;
-
+        
         public GetMainTaskTask(Callback<MainTask> cB) {
             this.cB = cB;
         }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
+        
         @Override
         protected ScrumMainTask doInBackground(String... params) {
-            Scrumtool service = GoogleSession.getServiceObject();
+            GoogleSession s = (GoogleSession) Session.getCurrentSession();
+            Scrumtool service = s.getAuthServiceObject();
             ScrumMainTask mainTask = null;
             try {
                 mainTask = service.getScrumMainTask(params[0]).execute();
@@ -239,4 +227,49 @@ public class DSMainTaskHandler extends
             cB.interactionDone(mainTask);
         }
     }
+    
+    private class LoadIssuesTask extends
+        AsyncTask<String, Void, CollectionResponseScrumIssue> {
+    
+        private Callback<List<Issue>> cB;
+        
+        public LoadIssuesTask(Callback<List<Issue>> callBack) {
+        	this.cB = callBack;
+        }
+        
+        @Override
+        protected CollectionResponseScrumIssue doInBackground(String... params) {
+        	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+            Scrumtool service = s.getAuthServiceObject();
+            CollectionResponseScrumIssue issues = null;
+            try {
+                issues = service.loadScrumIssues(params[0]).execute();
+            } catch (NotAuthenticatedException | IOException e) {
+                e.printStackTrace();
+            }
+            return issues;
+        }
+        
+        @Override
+        protected void onPostExecute(CollectionResponseScrumIssue result) {
+            List<ScrumIssue> resultItems = result.getItems();
+            ArrayList<Issue> issues = new ArrayList<Issue>();
+            for (ScrumIssue scrumIssue : resultItems) {
+                Player.Builder pB = new Player.Builder();
+                pB.setId("playser");
+                pB.setRole(Role.DEVELOPER);
+                pB.setIsAdmin(false);
+                Player player = pB.build();
+                
+                Issue.Builder iB = new Issue.Builder();
+                iB.setId(scrumIssue.getKey());
+                iB.setName(scrumIssue.getName());
+                iB.setDescription(scrumIssue.getDescription());
+                iB.setPlayer(player); //TODO load player function for the issue
+//                iB.setStatus(); // TODO
+                iB.setEstimatedTime(scrumIssue.getEstimation());
+                issues.add(iB.build());
+                }
+            cB.interactionDone(issues);
+            }
 }
