@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
+
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
@@ -8,7 +10,9 @@ import ch.epfl.scrumtool.database.DatabaseInteraction;
  * @author Vincent, zenhaeus
  * 
  */
-public final class Issue extends AbstractTask implements DatabaseInteraction<Issue> {
+public final class Issue extends AbstractTask implements DatabaseInteraction<Issue>, Serializable {
+
+    private static final long serialVersionUID = -1590796103232831763L;
 
     private float estimatedTime;
     private Player player;

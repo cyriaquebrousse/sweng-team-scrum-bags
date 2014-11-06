@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -12,7 +13,10 @@ import ch.epfl.scrumtool.database.google.DSUserHandler;
  * 
  */
 
-public final class User implements DatabaseInteraction<User> {
+public final class User implements DatabaseInteraction<User>, Serializable {
+
+    private static final long serialVersionUID = 7681922700115023885L;
+
     private final String email;
     private final String name;
 
@@ -49,7 +53,9 @@ public final class User implements DatabaseInteraction<User> {
      */
     public void loadProjects(Callback<List<Project>> callback) {
         DSUserHandler db = new DSUserHandler();
-        db.loadProjects(this.name, callback); // shouldn't it use the email? name are not unique
+        db.loadProjects(this.name, callback);
+        // TODO : shouldn't it use the email? name are not unique
+        // loris : I think so !
     }
     
     /**
