@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.network.GoogleSession;
 
@@ -20,7 +21,10 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        
+    }
+    
+    public void openAccountPicker(View view) {
         sessionBuilder = new GoogleSession.Builder();
         Intent googleAccountPicker = sessionBuilder.getIntent(this);
         this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);

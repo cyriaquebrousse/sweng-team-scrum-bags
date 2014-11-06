@@ -19,6 +19,7 @@
     <string name="button_backlog_show">Backlog</string>
     <string name="button_players_show">Players</string>
     <string name="button_sprints_show">Sprints</string>
+    <string name="button_login">Login</string>
     
     <!-- Titles -->
     <string name="shared_projects">Shared Projects</string>
