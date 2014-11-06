@@ -35,10 +35,10 @@ public final class MainTask extends AbstractTask implements
     /**
      * @param task
      */
-    public MainTask(MainTask task) {
+    /*public MainTask(MainTask task) {
         this(task.getId(), task.getName(), task.getDescription(), task
                 .getStatus(), task.getPriority());
-    }
+    }*/
 
     /**
      * @return the subtasks
@@ -132,7 +132,9 @@ public final class MainTask extends AbstractTask implements
         }
 
         public void setId(String id) {
-            this.id = id;
+            if(id != null) {
+                this.id = id;
+            }
         }
 
         /**

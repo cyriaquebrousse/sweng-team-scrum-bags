@@ -56,7 +56,8 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
 
     @Override
     public void load(String key, Callback<Project> dbC) {
-        // TODO Auto-generated method stub
+    	GetProjectTask task = new GetProjectTask(dbC);
+        task.execute(key);
 
     }
 

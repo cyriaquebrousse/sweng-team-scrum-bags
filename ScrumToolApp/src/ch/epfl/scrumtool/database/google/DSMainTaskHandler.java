@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.MainTask.Builder;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
@@ -21,6 +22,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
+
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -38,7 +41,8 @@ public class DSMainTaskHandler extends
         scrumMainTask.setDescription(object.getDescription());
         scrumMainTask.setStatus("FINISHED"); // TODO change this value
         scrumMainTask.setIssues(new ArrayList<ScrumIssue>());
-        scrumMainTask.setLastModDate(new Date().getTime());
+        Date date = new Date();
+        scrumMainTask.setLastModDate(date.getTime());
         try {
             scrumMainTask.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());
@@ -46,7 +50,7 @@ public class DSMainTaskHandler extends
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        InsertMainTaskTask im = new InsertMainTaskTask();
+        InsertMainTaskTask im = new InsertMainTaskTask(dbC);
         im.execute(scrumMainTask);
     }
 
@@ -57,10 +61,16 @@ public class DSMainTaskHandler extends
         scrumIssue.setName(object.getName());
         scrumIssue.setDescription(object.getDescription());
         scrumIssue.setEstimation(object.getEstimatedTime());
-        scrumIssue.setAssignedPlayer(new ScrumPlayer());
+        //scrumIssue.setAssignedPlayer(new ScrumPlayer());
         Date date = new Date();
         scrumIssue.setLastModDate(date.getTime());
-        scrumIssue.setLastModUser(object.getPlayer().getUser().getName());
+        try {
+            scrumIssue.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         List<ScrumIssue> scrumIssueList = new ArrayList<ScrumIssue>();
         scrumIssueList.add(scrumIssue);
@@ -79,16 +89,37 @@ public class DSMainTaskHandler extends
             e.printStackTrace();
         }
 
-        InsertMainTaskTask im = new InsertMainTaskTask();
+        InsertMainTaskTask im = new InsertMainTaskTask(dbC);
         im.execute(scrumMainTask);
-        InsertIssueTask ii = new InsertIssueTask();
+        InsertIssueTask ii = new InsertIssueTask(dbC);
         ii.execute(scrumIssue);
     }
 
+    
+    public void addIssueToMainTask(MainTask task, Issue object, Callback<Boolean> dbC) {
+    
+        scrumIssue = new ScrumIssue();
+        scrumIssue.setName(object.getName());
+        scrumIssue.setDescription(object.getDescription());
+        scrumIssue.setEstimation(object.getEstimatedTime());
+        //scrumIssue.setAssignedPlayer(new ScrumPlayer());
+        Date date = new Date();
+        scrumIssue.setLastModDate(date.getTime());
+        try {
+            scrumIssue.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        InsertIssueTask ii = new InsertIssueTask(dbC);
+        ii.execute(scrumIssue);
+    }
+    
     @Override
     public void load(String key, Callback<MainTask> dbC) {
-        // GetMainTaskTask task = new GetMainTaskTask(dbC);
-        // task.execute(key);
+         GetMainTaskTask task = new GetMainTaskTask(dbC);
+         task.execute(key);
     }
 
     @Override
@@ -114,24 +145,34 @@ public class DSMainTaskHandler extends
          task.execute(mainTaskKey);
     }
 
-    private class InsertIssueTask extends AsyncTask<ScrumIssue, Void, Void> {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.os.AsyncTask#doInBackground(Params[])
-         */
+    private class InsertIssueTask extends AsyncTask<ScrumIssue, Void, ScrumIssue> {
+        
+        private Callback<Boolean> dbC;
+        
+        public InsertIssueTask(Callback<Boolean> dbC) {
+            this.dbC = dbC;
+        }
+        
         @Override
-        protected Void doInBackground(ScrumIssue... params) {
-        	GoogleSession s = (GoogleSession) Session.getCurrentSession();
-            Scrumtool service = s.getAuthServiceObject();
+        protected ScrumIssue doInBackground(ScrumIssue... params) {
             try {
+            	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 service.insertScrumIssue(params[0]).execute();
-            } catch (IOException e) {
+            } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return null;
+        }
+        
+        @Override
+        protected void onPostExecute(ScrumIssue object) {
+            if (object != null) {
+                dbC.interactionDone(Boolean.TRUE);
+            } else {
+                dbC.interactionDone(Boolean.FALSE);
+            }
         }
 
     }
@@ -149,12 +190,12 @@ public class DSMainTaskHandler extends
         }
         @Override
         protected ScrumIssue doInBackground(String... params) {
-            GoogleSession s = (GoogleSession) Session.getCurrentSession();
-            Scrumtool service = s.getAuthServiceObject();
             ScrumIssue issue = null;
             try {
+            	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 issue = service.getScrumIssue(params[0]).execute();
-            } catch (IOException e) {
+            } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -177,9 +218,15 @@ public class DSMainTaskHandler extends
         }
     }
 
-    private class InsertMainTaskTask extends AsyncTask<ScrumMainTask, Void, Void> {
+    private class InsertMainTaskTask extends AsyncTask<ScrumMainTask, Void, ScrumMainTask> {
+        
+        private Callback<Boolean> dbC;
+        
+        public InsertMainTaskTask(Callback<Boolean> dbC) {
+            this.dbC = dbC;
+        }
         @Override
-        protected Void doInBackground(ScrumMainTask... params) {
+        protected ScrumMainTask doInBackground(ScrumMainTask... params) {
             try {
                 GoogleSession s = (GoogleSession) Session.getCurrentSession();
                 Scrumtool service = s.getAuthServiceObject();
@@ -189,6 +236,15 @@ public class DSMainTaskHandler extends
                 e.printStackTrace();
             }
             return null;
+        }
+        
+        @Override
+        protected void onPostExecute(ScrumMainTask object) {
+            if (object != null) {
+                dbC.interactionDone(Boolean.TRUE);
+            } else {
+                dbC.interactionDone(Boolean.FALSE);
+            }
         }
     }
 
@@ -201,12 +257,12 @@ public class DSMainTaskHandler extends
         
         @Override
         protected ScrumMainTask doInBackground(String... params) {
-            GoogleSession s = (GoogleSession) Session.getCurrentSession();
-            Scrumtool service = s.getAuthServiceObject();
             ScrumMainTask mainTask = null;
             try {
+            	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 mainTask = service.getScrumMainTask(params[0]).execute();
-            } catch (IOException e) {
+            } catch (IOException | NotAuthenticatedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -239,10 +295,10 @@ public class DSMainTaskHandler extends
         
         @Override
         protected CollectionResponseScrumIssue doInBackground(String... params) {
-        	GoogleSession s = (GoogleSession) Session.getCurrentSession();
-            Scrumtool service = s.getAuthServiceObject();
             CollectionResponseScrumIssue issues = null;
             try {
+            	GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
                 issues = service.loadScrumIssues(params[0]).execute();
             } catch (NotAuthenticatedException | IOException e) {
                 e.printStackTrace();
@@ -272,4 +328,5 @@ public class DSMainTaskHandler extends
                 }
             cB.interactionDone(issues);
             }
+    }
 }

@@ -24,9 +24,9 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     private Issue(String id, String name, String description, Status status,
             float estimatedTime, Player player) {
         super(id, name, description, status);
-        if (player == null) {
-            throw new NullPointerException("Issue.Constructor");
-        }
+//        if (player == null) {
+//            throw new NullPointerException("Issue.Constructor");
+//        }
         this.estimatedTime = estimatedTime;
 
         this.player = player;
