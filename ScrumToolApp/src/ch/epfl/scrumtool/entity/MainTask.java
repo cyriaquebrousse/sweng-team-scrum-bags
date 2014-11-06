@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -13,7 +14,10 @@ import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
  */
 
 public final class MainTask extends AbstractTask implements
-        DatabaseInteraction<MainTask> {
+        DatabaseInteraction<MainTask>, Serializable {
+    
+    private static final long serialVersionUID = 4279399766459657365L;
+    
     private Priority priority;
 
     /**

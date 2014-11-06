@@ -21,7 +21,6 @@ import ch.epfl.scrumtool.network.Session;
  */
 public class ProjectListActivity extends Activity {
 
-    private List<Project> projectList;
     private ListView listView;
     private ProjectListAdapter adapter;
 
@@ -35,8 +34,8 @@ public class ProjectListActivity extends Activity {
             Session.getCurrentSession().getUser().loadProjects(new Callback<List<Project>>() {
 
                 @Override
-                public void interactionDone(List<Project> object) {
-                    projectList = object;
+                public void interactionDone(final List<Project> projectList) {
+
                     // Get list and initialize its adapter
                     adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
                     listView = (ListView) findViewById(R.id.project_list);
@@ -50,7 +49,7 @@ public class ProjectListActivity extends Activity {
                             
                             // Pass the project Id
                             Project project = projectList.get(position);
-                            openProjectOverviewIntent.putExtra("ch.epfl.scrumtool.PROJECT_ID", project.getId());
+                            openProjectOverviewIntent.putExtra("ch.epfl.scrumtool.PROJECT", project);
                             
                             startActivity(openProjectOverviewIntent);
                         }

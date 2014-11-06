@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -13,7 +14,9 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  * @author Vincent, zenhaeus
  * 
  */
-public final class Project implements DatabaseInteraction<Project> {
+public final class Project implements DatabaseInteraction<Project>, Serializable {
+
+    private static final long serialVersionUID = -4181818270822077982L;
 
     private final String id;
     private final String name;
