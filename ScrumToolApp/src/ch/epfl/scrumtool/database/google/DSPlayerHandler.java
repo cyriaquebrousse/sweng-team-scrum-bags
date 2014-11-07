@@ -51,19 +51,6 @@ public class DSPlayerHandler extends DatabaseHandler<Player> {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * ch.epfl.scrumtool.database.DatabaseHandler#loadAll(ch.epfl.scrumtool.
-     * database.DatabaseCallback)
-     */
-    @Override
-    public void loadAll(Callback<List<Player>> dbC) {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object)
      */
     @Override

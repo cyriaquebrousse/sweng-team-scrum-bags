@@ -4,12 +4,14 @@ import java.util.List;
 
 /**
  * @author aschneuw
- *
- * @param <A> Entity type of object that gets sent to the datastore
+ * 
+ * @param <A>
+ *            Entity type of object that gets sent to the datastore
  */
 public abstract class DatabaseHandler<A> {
     /**
      * Inserts an object of type A into the database.
+     * 
      * @param object
      * @param dbC
      */
@@ -17,20 +19,15 @@ public abstract class DatabaseHandler<A> {
 
     /**
      * loads an object of type A from the database.
+     * 
      * @param key
      * @param dbC
      */
     public abstract void load(String key, Callback<A> dbC);
 
     /**
-     * Loads all objects of type A from the database.
-     * @param filter
-     * @param dbC
-     */
-    public abstract void loadAll(Callback<List<A>> dbC);
-
-    /**
      * Updates an object of type A on the database.
+     * 
      * @param modified
      * @param dbC
      */
@@ -38,6 +35,7 @@ public abstract class DatabaseHandler<A> {
 
     /**
      * Removes an object of type A from the database.
+     * 
      * @param object
      * @param dbC
      */

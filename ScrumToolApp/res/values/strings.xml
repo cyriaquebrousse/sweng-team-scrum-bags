@@ -15,6 +15,7 @@
     <string name="title_activity_issue_overview">Issue overview</string>
     <string name="title_activity_profile_overview">Profile overview</string>
     <string name="title_activity_sprint">Sprint</string>
+    <string name="title_activity_project_edit">Edit project</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
@@ -29,6 +30,10 @@
     <string name="shared_projects">Shared Projects</string>
     <string name="email">email</string>
     <string name="username">username</string>
+    
+    <!-- Hints -->
+    <string name="project_title_edit_hint">Project title</string>
+    <string name="project_description_edit_hint">Please enter a project description</string>
 
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
@@ -38,6 +43,5 @@
     <string name="sprintName">Name</string>
     <string name="sprintEditName">Enter a name</string>
     <string name="sprintDate">Date</string>
-    
 
 </resources>

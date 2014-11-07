@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.entity.Project.Builder;
  * @author ketsio
  * 
  */
+@Deprecated
 public final class Entity {
     
     private static final Random RAND = new Random();
