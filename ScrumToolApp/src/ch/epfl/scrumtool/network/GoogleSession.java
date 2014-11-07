@@ -8,6 +8,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.AppEngineUtils;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
@@ -102,18 +103,17 @@ public class GoogleSession extends Session {
      */
     public static class Builder {
         private GoogleAccountCredential googleCredential = null;
-        private LoginActivity context = null;
 
         public Intent getIntent(LoginActivity context) {
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.CLIENT_ID);
 
-            this.context = context;
             return googleCredential.newChooseAccountIntent();
         }
 
-        public void authenticate(Intent data) {
+        public void authenticate(Intent data, Callback<Boolean> authCallback) {
             DSUserHandler handler = new DSUserHandler();
+            final Callback<Boolean> cB = authCallback;
             googleCredential.setSelectedAccountName(
                     (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
             String email = googleCredential.getSelectedAccountName();
@@ -128,10 +128,9 @@ public class GoogleSession extends Session {
                 public void interactionDone(User object) {
                     if (object != null) {
                         new GoogleSession(object, googleCredential);
-                        context.openMenuActivity();
+                        cB.interactionDone(Boolean.TRUE);
                     } else {
-                        // TODO Error handling
-                        // throw new NotAuthenticatedException();
+                        cB.interactionDone(Boolean.FALSE);
                     }
                 }
             });

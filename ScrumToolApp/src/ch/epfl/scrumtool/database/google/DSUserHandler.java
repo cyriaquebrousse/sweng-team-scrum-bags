@@ -167,11 +167,15 @@ public class DSUserHandler extends DatabaseHandler<User> {
 
         @Override
         protected void onPostExecute(ScrumUser su) {
-            User.Builder uB = new User.Builder();
-            uB.setName(su.getName());
-            uB.setEmail(su.getEmail());
-            User user = uB.build();
-            cB.interactionDone(user);
+            if(su != null) {
+                User.Builder uB = new User.Builder();
+                uB.setName(su.getName());
+                uB.setEmail(su.getEmail());
+                User user = uB.build();
+                cB.interactionDone(user);
+            } else {
+                cB.interactionDone(null);
+            }
         }
 
     }
