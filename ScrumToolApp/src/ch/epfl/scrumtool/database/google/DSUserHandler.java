@@ -13,7 +13,6 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
-import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumUser;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -83,45 +82,6 @@ public class DSUserHandler extends DatabaseHandler<User> {
     }
 
     public void addProject(String userKey, Project p, Callback<String> dbC) {
-
-    }
-
-    private class LoadAllUsersTask extends
-            AsyncTask<Void, Void, CollectionResponseScrumUser> {
-
-        private Callback<List<User>> callback;
-
-        public LoadAllUsersTask(Callback<List<User>> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected CollectionResponseScrumUser doInBackground(Void... params) {
-            GoogleSession s;
-            CollectionResponseScrumUser users = null;
-            try {
-                s = (GoogleSession) Session.getCurrentSession();
-                Scrumtool service = s.getAuthServiceObject();
-                users = service.loadAllUsers().execute();
-            } catch (NotAuthenticatedException | IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return users;
-        }
-
-        @Override
-        protected void onPostExecute(CollectionResponseScrumUser result) {
-            List<ScrumUser> resultItems = result.getItems();
-            ArrayList<User> users = new ArrayList<User>();
-            for (ScrumUser s : resultItems) {
-                User.Builder userBuilder = new User.Builder();
-                userBuilder.setEmail(s.getEmail());
-                userBuilder.setName(s.getName());
-                users.add(userBuilder.build());
-            }
-            callback.interactionDone(users);
-        }
 
     }
 

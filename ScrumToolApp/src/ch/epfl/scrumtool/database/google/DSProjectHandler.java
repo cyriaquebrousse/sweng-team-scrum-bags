@@ -67,14 +67,6 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
     }
 
     @Override
-    public void loadAll(Callback<List<Project>> dbC) {
-        // TODO Auto-generated method stub
-        LoadAllProjectsTask task = new LoadAllProjectsTask(dbC);
-        task.execute();
-
-    }
-
-    @Override
     public void update(Project modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
         // UpdateProjectTask task = new UpdateProjectTask(dbC);
@@ -119,7 +111,6 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
         task.execute(projectKey);
     }
 
-    
     private class LoadMainTasksTask extends
             AsyncTask<String, Void, CollectionResponseScrumMainTask> {
 

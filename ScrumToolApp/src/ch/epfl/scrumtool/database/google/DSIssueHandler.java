@@ -43,12 +43,6 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
     }
 
     @Override
-    public void loadAll(Callback<List<Issue>> dbC) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void update(Issue modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
@@ -59,11 +53,12 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
         // TODO Auto-generated method stub
 
     }
-/**
- * 
- * @author 
- *
- */
+
+    /**
+     * 
+     * @author
+     * 
+     */
     private class InsertIssueTask extends AsyncTask<ScrumIssue, Void, Void> {
 
         /*
@@ -90,7 +85,7 @@ public class DSIssueHandler extends DatabaseHandler<Issue> {
     /**
      * 
      * @author Arno
-     *
+     * 
      */
     private class GetIssueTask extends AsyncTask<String, Void, ScrumIssue> {
         private Callback<Issue> cB;

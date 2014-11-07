@@ -121,12 +121,6 @@ public class DSMainTaskHandler extends
     }
 
     @Override
-    public void loadAll(Callback<List<MainTask>> dbC) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void update(MainTask modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 

@@ -33,12 +33,6 @@ public class DSSprintHandler extends DatabaseHandler<Sprint> {
     }
 
     @Override
-    public void loadAll(Callback<List<Sprint>> dbC) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void update(Sprint modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
