@@ -29,7 +29,7 @@
             android:layout_centerVertical="@id/project_icon"
             android:layout_marginStart="@dimen/space"
             android:layout_toEndOf="@id/project_icon"
-            android:hint="Project title" >
+            android:hint="@string/project_title_edit_hint" >
 
             <requestFocus />
         </EditText>
@@ -41,11 +41,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/project_icon"
             android:layout_marginTop="@dimen/space"
-            android:hint="Please enter a project description"
+            android:hint="@string/project_description_edit_hint"
             android:inputType="textMultiLine" />
     </RelativeLayout>
 
     <!-- "Save" button -->
+    <!-- This button is temporary -->
     <Button
         android:id="@+id/project_edit_button_next"
         android:layout_width="match_parent"
