@@ -18,7 +18,10 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
  * @author ketsio
  */
 public final class SharedProjectAdapter extends BaseAdapter {
+    
+    @SuppressWarnings("unused")
     private Activity activity;
+    
     private LayoutInflater inflater;
     private List<Project> sharedProjects;
     private User user;

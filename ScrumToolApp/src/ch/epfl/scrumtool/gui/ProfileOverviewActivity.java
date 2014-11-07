@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
-import ch.epfl.scrumtool.network.ServerSimulator;
 import ch.epfl.scrumtool.network.Session;
 
 /**
@@ -36,6 +35,7 @@ public class ProfileOverviewActivity extends Activity {
 
         // Get the connected user, and the user to display
         try {
+            @SuppressWarnings("unused")
             User userConnected = Session.getCurrentSession().getUser();
             User userProfile = (User) getIntent().getSerializableExtra("ch.epfl.scrumtool.USER");
 
@@ -65,7 +65,7 @@ public class ProfileOverviewActivity extends Activity {
                         }
                     });
         } catch (NotAuthenticatedException e) {
-            // TODO Auto-generated catch block
+            // TODO : redirecting to the login activity if not connected
             this.finish();
             e.printStackTrace();
         }

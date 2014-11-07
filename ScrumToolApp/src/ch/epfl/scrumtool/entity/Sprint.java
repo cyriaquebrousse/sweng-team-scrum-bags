@@ -22,7 +22,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      */
     private Sprint(String id, Date deadLine) {
         super();
-        if (id == null) {
+        if (id == null || deadLine == null) {
             throw new NullPointerException("Sprint.Constructor");
         }
         this.id = id;
