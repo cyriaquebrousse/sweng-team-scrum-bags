@@ -23,55 +23,56 @@ public class DSSprintHandler extends DatabaseHandler<Sprint> {
     @Override
     public void insert(Sprint object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void load(String key, Callback<Sprint> dbC) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void loadAll(Callback<List<Sprint>> dbC) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void update(Sprint modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void remove(Sprint object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
-        
+
     }
 
-    public void loadIssues(String id, Callback<List<Issue>> callback) {
-        // TODO Auto-generated method stub
-        
+    public void loadIssues(String mainTaskKey, Callback<List<Issue>> callback) {
+        LoadIssuesTask task = new LoadIssuesTask(callback);
+        task.execute(mainTaskKey);
     }
-    
-    private class loadIssuesTask extends AsyncTask<String, Void, CollectionResponseScrumIssue>{
-        
-        private Callback<List<Issue>> cB;
-        
-        public loadIssuesTask(Callback<List<Issue>> callback){
-            cB = callback;
+
+    private class LoadIssuesTask extends
+            AsyncTask<String, Void, CollectionResponseScrumIssue> {
+
+        private Callback<List<Issue>> callback;
+
+        public LoadIssuesTask(Callback<List<Issue>> callback) {
+            this.callback = callback;
         }
-        
+
         @Override
         protected CollectionResponseScrumIssue doInBackground(String... params) {
-            GoogleSession s;
+            GoogleSession session;
             CollectionResponseScrumIssue issues = null;
 
             try {
-                s = (GoogleSession) Session.getCurrentSession();
-                Scrumtool service = s.getAuthServiceObject();
-                //TODO not sure about the loadScrumIssues function
+                session = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = session.getAuthServiceObject();
+                // TODO not sure about the loadScrumIssues function
                 issues = service.loadScrumIssues(params[0]).execute();
             } catch (NotAuthenticatedException | IOException e) {
                 // TODO Auto-generated catch block
@@ -84,19 +85,19 @@ public class DSSprintHandler extends DatabaseHandler<Sprint> {
         protected void onPostExecute(CollectionResponseScrumIssue result) {
             List<ScrumIssue> resultItems = result.getItems();
             ArrayList<Issue> issues = new ArrayList<Issue>();
-            for (ScrumIssue s : resultItems){
-                Issue.Builder iB = new Issue.Builder();
-                iB.setDescription(s.getDescription());
-                iB.setEstimatedTime(s.getEstimation());
-                iB.setId(s.getKey());
-                iB.setName(s.getName());
-                //TODO status(string) constructor
-                //iB.setStatus(s.getStatus());
-                issues.add(iB.build());
+            for (ScrumIssue s : resultItems) {
+                Issue.Builder issueBuilder = new Issue.Builder();
+                issueBuilder.setDescription(s.getDescription());
+                issueBuilder.setEstimatedTime(s.getEstimation());
+                issueBuilder.setId(s.getKey());
+                issueBuilder.setName(s.getName());
+                // TODO status(string) constructor
+                // iB.setStatus(s.getStatus());
+                issues.add(issueBuilder.build());
             }
-            cB.interactionDone(issues);
+            callback.interactionDone(issues);
         }
-        
+
     }
 
 }
