@@ -18,6 +18,7 @@ import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
@@ -68,18 +69,24 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
     @Override
     public void loadAll(Callback<List<Project>> dbC) {
         // TODO Auto-generated method stub
+        LoadAllProjectsTask task = new LoadAllProjectsTask(dbC);
+        task.execute();
 
     }
 
     @Override
     public void update(Project modified, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
+        // UpdateProjectTask task = new UpdateProjectTask(dbC);
+        // task.execute(modified);
 
     }
 
     @Override
     public void remove(Project object, Callback<Boolean> dbC) {
-        // TODO Auto-generated method stub
+        // TODO why pass a Project and not a String?
+        // RemoveProjectTask task = new RemoveProjectTask(dbC);
+        // task.execute(object);
 
     }
 
@@ -110,6 +117,46 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
     public void loadSprints(String projectKey, Callback<List<Sprint>> dbC) {
         LoadSprintsTask task = new LoadSprintsTask(dbC);
         task.execute(projectKey);
+    }
+
+    private class LoadAllProjectsTask extends
+            AsyncTask<Void, Void, CollectionResponseScrumProject> {
+
+        private Callback<List<Project>> callback;
+
+        public LoadAllProjectsTask(Callback<List<Project>> callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected CollectionResponseScrumProject doInBackground(Void... params) {
+            GoogleSession s;
+            CollectionResponseScrumProject projects = null;
+            try {
+                s = (GoogleSession) Session.getCurrentSession();
+                Scrumtool service = s.getAuthServiceObject();
+                projects = service.loadAllProjects().execute();
+            } catch (NotAuthenticatedException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return projects;
+        }
+
+        @Override
+        protected void onPostExecute(CollectionResponseScrumProject result) {
+            List<ScrumProject> resultItems = result.getItems();
+            ArrayList<Project> projects = new ArrayList<Project>();
+            for (ScrumProject sP : resultItems) {
+                Project.Builder pB = new Project.Builder();
+                pB.setDescription(sP.getDescription());
+                pB.setName(sP.getName());
+                pB.setId(sP.getKey());
+                projects.add(pB.build());
+            }
+            callback.interactionDone(projects);
+        }
+
     }
 
     private class LoadMainTasksTask extends
