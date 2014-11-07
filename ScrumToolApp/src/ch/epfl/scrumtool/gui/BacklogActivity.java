@@ -80,7 +80,7 @@ public class BacklogActivity extends Activity {
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
                     
-                    // TODO : create function addTask(task) to Project !!! (loris)
+                    // FIXME: need database function project.addTask(task)
                     
                     Intent openTaskOverviewIntent = new Intent(BacklogActivity.this, TaskOverviewActivity.class);
                     openTaskOverviewIntent.putExtra("ch.epfl.scrumtool.TASK", newTask);

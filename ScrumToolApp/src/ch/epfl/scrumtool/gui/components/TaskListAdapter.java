@@ -58,7 +58,7 @@ public final class TaskListAdapter extends BaseAdapter {
         
         // Set views properties
         MainTask task = taskList.get(position);
-        // FIXME need database function task.getIssuesFinishedCount()
+        // FIXME: need database function task.getIssuesFinishedCount()
         // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
         double percentageDone = 0;
         

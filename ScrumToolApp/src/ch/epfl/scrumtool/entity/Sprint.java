@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,33 +7,40 @@ import java.util.Set;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
+import ch.epfl.scrumtool.database.google.DSSprintHandler;
 
 /**
  * @author ketsio, zenhaeus
+ * @author Cyriaque Brousse
  */
 public final class Sprint implements DatabaseInteraction<Sprint> {
+    
     private final String id;
-    private final long deadLine;
+    private final long deadline;
 
     /**
-     * @param deadLine
-     * @param issues
+     * Constructs a new sprint
+     * 
+     * @param id
+     *            the unique identifier
+     * @param deadline
+     *            the deadline in milliseconds. Must be non-negative
+     * @see java.util.Date#getTime()
      */
-    private Sprint(String id, Date deadLine) {
-        super();
-        if (id == null) {
-            throw new NullPointerException("Sprint.Constructor");
+    private Sprint(String id, long deadline) {
+        if (id == null || !deadlineIsValid(deadline)) {
+            throw new IllegalArgumentException("Deadline was invalid or no id was provided");
         }
         this.id = id;
-        this.deadLine = deadLine.getTime();
+        this.deadline = deadline;
     }
 
     /**
      * @return the deadline in milliseconds
-     * @see Date#getTime()
+     * @see java.util.Date#getTime()
      */
     public long getDeadline() {
-        return deadLine;
+        return deadline;
     }
 
     /**
@@ -45,10 +51,12 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
     }
 
     /**
-     * @return the set of issues
+     * The set of issues is returned in a callback
      */
     public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
         //TODO define function in DSSprintHandler: db.loadIssues(this.id, callback);
+        DSSprintHandler sh = new DSSprintHandler();
+        sh.loadIssues(this.id, callback);
     }
     
     /**
@@ -75,12 +83,12 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
-     * 
      */
 
     public static class Builder {
+        
         private String id;
-        private long deadLine;
+        private long deadline;
         private Set<Issue> issues;
 
         public Builder() {
@@ -88,7 +96,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         }
 
         public Builder(Sprint otherSprint) {
-            this.deadLine = otherSprint.deadLine;
+            this.deadline = otherSprint.deadline;
         }
 
         /**
@@ -110,7 +118,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
          * @return the issues
          */
         public Set<Issue> getIssues() {
-            return issues;
+            return new HashSet<>(this.issues);
         }
 
         /**
@@ -136,22 +144,22 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         /**
          * @return the deadLine
          */
-        public long getDeadLine() {
-            return deadLine;
+        public long getDeadline() {
+            return deadline;
         }
 
         /**
-         * @param deadLine
-         *            the deadLine to set
+         * @param deadline
+         *            the deadline to set
          */
-        public void setDeadLine(Date deadLine) {
-            if (deadLine != null) {
-                this.deadLine = deadLine.getTime();
+        public void setDeadline(long deadline) {
+            if (deadlineIsValid(deadline)) {
+                this.deadline = deadline;
             }
         }
 
         public Sprint build() {
-            return new Sprint(this.id, new Date(this.deadLine));
+            return new Sprint(this.id, this.deadline);
         }
     }
 
@@ -172,7 +180,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      *            the deadline whose validity is to be checked
      * @return true if the deadline is valid, false otherwise
      */
-    private boolean deadlineIsValid(long deadline) {
+    private static boolean deadlineIsValid(long deadline) {
         return deadline >= 0;
     }
 

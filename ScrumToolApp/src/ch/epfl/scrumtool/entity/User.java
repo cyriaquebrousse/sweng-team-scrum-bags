@@ -119,13 +119,6 @@ public final class User implements DatabaseInteraction<User>, Serializable {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * ch.epfl.scrumtool.entity.DatabaseInteraction#updateDatabase(java.lang
-     * .Object, ch.epfl.scrumtool.entity.DatabaseHandler)
-     */
 
     @Override
     public void updateDatabase(DatabaseHandler<User> handler,
@@ -134,19 +127,11 @@ public final class User implements DatabaseInteraction<User>, Serializable {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * ch.epfl.scrumtool.entity.DatabaseInteraction#deleteFromDatabase(ch.epfl
-     * .scrumtool.entity.DatabaseHandler)
-     */
     @Override
     public void deleteFromDatabase(DatabaseHandler<User> handler,
             Callback<Boolean> successCb) {
         handler.remove(this, successCb);
     }
-
 
     @Override
     public boolean equals(Object o) {
