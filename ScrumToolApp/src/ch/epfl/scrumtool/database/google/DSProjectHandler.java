@@ -140,7 +140,6 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
             return projects;
         }
 
