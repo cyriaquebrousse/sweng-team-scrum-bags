@@ -72,13 +72,12 @@
             android:label="@string/title_activity_profile_overview" >
         </activity>
         <activity
-<<<<<<< HEAD
             android:name=".gui.SprintActivity"
             android:label="@string/title_activity_sprint" >
-=======
+        </activity>
+        <activity
             android:name=".gui.ProjectEditActivity"
             android:label="@string/title_activity_project_edit" >
->>>>>>> 662f8cf2d39a15131c7cc9bf50dad41452a24b22
         </activity>
     </application>
 
