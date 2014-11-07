@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import java.util.Random;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -54,10 +56,11 @@ public class ProjectEditActivity extends Activity {
         
         projectBuilder.setName(newTitle);
         projectBuilder.setDescription(newDescription);
+        projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
         
         Project project = projectBuilder.build();
         
-        Toast.makeText(this, "Project (should be) saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Pretend project is saved :)", Toast.LENGTH_SHORT).show();
         this.finish(); // TODO save project and then open player list maybe?
     }
     
@@ -117,9 +120,9 @@ public class ProjectEditActivity extends Activity {
      */
     private void updateTextViewAfterValidityCheck(EditText view, boolean inputValid) {
         if (!inputValid) {
-            view.setTextColor(getResources().getColor(R.color.darkred));
+            view.setError(getResources().getString(R.string.error_field_required));
         } else {
-            view.setTextColor(getResources().getColor(R.color.Black));
+            view.setError(null);
         }
     }
 }

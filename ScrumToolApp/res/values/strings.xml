@@ -37,7 +37,10 @@
     
     <!-- Menu actions -->
     <string name="action_add">Add</string>
-
+    
+    <!-- Error messages -->
+    <string name="error_field_required">This field is required</string>
+    
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
