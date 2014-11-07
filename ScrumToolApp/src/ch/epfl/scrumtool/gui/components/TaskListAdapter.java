@@ -46,7 +46,7 @@ public final class TaskListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_task, parent);
+            convertView = inflater.inflate(R.layout.listrow_task, null);
         }
         
         // Get the views
