@@ -72,6 +72,10 @@
             android:label="@string/title_activity_profile_overview" >
         </activity>
         <activity
+            android:name=".gui.SprintActivity"
+            android:label="@string/title_activity_sprint" >
+        </activity>
+        <activity
             android:name=".gui.ProjectEditActivity"
             android:label="@string/title_activity_project_edit" >
         </activity>
