@@ -188,7 +188,7 @@ public class DSProjectHandler extends DatabaseHandler<Project> {
             for (ScrumSprint s : resultItems) {
                 Sprint.Builder sB = new Sprint.Builder();
                 sB.setId(s.getKey());
-                sB.setDeadLine(new Date(s.getDate().getValue())); // TODO
+                sB.setDeadline(s.getDate().getValue()); // TODO
                 // Not so
                 // sure
                 // about
