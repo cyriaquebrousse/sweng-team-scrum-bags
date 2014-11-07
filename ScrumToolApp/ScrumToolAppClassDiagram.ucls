@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.7" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <class id="1" language="java" name="ch.epfl.scrumtool.entity.Sprint" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Sprint.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="295" width="375" x="1538" y="1060"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="ch.epfl.scrumtool.entity.User" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/User.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="277" width="370" x="786" y="1060"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="ch.epfl.scrumtool.entity.Project" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Project.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="385" width="380" x="1245" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="ch.epfl.scrumtool.entity.Issue" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Issue.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="372" x="557" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="ch.epfl.scrumtool.entity.MainTask" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/MainTask.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="241" width="392" x="125" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="ch.epfl.scrumtool.entity.AbstractTask" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/AbstractTask.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="218" x="427" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="ch.epfl.scrumtool.database.google.DSProjectHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSProjectHandler.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="241" width="282" x="1633" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="ch.epfl.scrumtool.database.google.DSUserHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSUserHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="258" x="953" y="1741"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="ch.epfl.scrumtool.database.google.DSIssueHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSIssueHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="187" width="211" x="1955" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="ch.epfl.scrumtool.database.google.DSMainTaskHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSMainTaskHandler.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="259" width="323" x="64" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="ch.epfl.scrumtool.database.google.DSSprintHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSSprintHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="187" width="242" x="1251" y="1741"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" name="ch.epfl.scrumtool.database.Callback" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/Callback.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="79" width="138" x="953" y="2004"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="13" language="java" name="ch.epfl.scrumtool.database.DatabaseHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/DatabaseHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="193" x="1251" y="1532"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="14" language="java" name="ch.epfl.scrumtool.database.DatabaseInteraction" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/DatabaseInteraction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="97" width="354" x="802" y="1395"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="15" language="java" name="ch.epfl.scrumtool.database.DoubleEntityDatabaseHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/DoubleEntityDatabaseHandler.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="97" width="232" x="660" y="1741"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="ch.epfl.scrumtool.database.google.DSPlayerHandler" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/database/google/DSPlayerHandler.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="169" width="215" x="1554" y="1741"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="ch.epfl.scrumtool.entity.Player" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Player.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="377" x="1259" y="761"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="18" language="java" name="ch.epfl.scrumtool.entity.Status" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Status.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="241" width="199" x="85" y="761"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="19" language="java" name="ch.epfl.scrumtool.entity.Priority" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Priority.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="120" x="345" y="761"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <enumeration id="20" language="java" name="ch.epfl.scrumtool.entity.Role" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/entity/Role.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="223" width="155" x="1322" y="1060"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="21" language="java" name="ch.epfl.scrumtool.network.Session" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/network/Session.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="115" width="163" x="990" y="336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="ch.epfl.scrumtool.network.GoogleSession" project="ScrumToolApp" 
+    file="/ScrumToolApp/src/ch/epfl/scrumtool/network/GoogleSession.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="205" width="286" x="786" y="761"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <dependency id="24">    
+    <bendpoint x="1729" y="336"/>    
+    <bendpoint x="1729" y="761"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="25">    
+    <bendpoint x="959" y="336"/>    
+    <bendpoint x="755" y="761"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="26">    
+    <bendpoint x="1655" y="336"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <association id="27">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="28" name="role"/>      
+      <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="30">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="31">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="32" name="user"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="34">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="21"/>  
+  </generalization>  
+  <dependency id="36">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="37">    
+    <bendpoint x="1943" y="1060"/>    
+    <bendpoint x="1943" y="1395"/>    
+    <bendpoint x="1943" y="1532"/>    
+    <bendpoint x="1943" y="1741"/>    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <association id="38">    
+    <bendpoint x="1102" y="761"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="39" name="user"/>      
+      <multiplicity id="40" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="41">    
+    <bendpoint x="31" y="336"/>    
+    <bendpoint x="31" y="761"/>    
+    <bendpoint x="31" y="1060"/>    
+    <bendpoint x="31" y="1395"/>    
+    <bendpoint x="31" y="1532"/>    
+    <bendpoint x="31" y="1741"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="42">    
+    <bendpoint x="1474" y="1532"/>    
+    <bendpoint x="1474" y="1395"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="43">    
+    <bendpoint x="1666" y="761"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="20"/>  
+  </dependency>  
+  <dependency id="44">    
+    <bendpoint x="650" y="1395"/>    
+    <bendpoint x="629" y="1532"/>    
+    <bendpoint x="629" y="1741"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <generalization id="45">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <dependency id="46">    
+    <bendpoint x="1214" y="336"/>    
+    <bendpoint x="1165" y="761"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <generalization id="47">    
+    <bendpoint x="52" y="336"/>    
+    <bendpoint x="54" y="761"/>    
+    <bendpoint x="231" y="1060"/>    
+    <bendpoint x="409" y="1395"/>    
+    <bendpoint x="587" y="1532"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <association id="48">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="49" name="priority"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="51">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="52">    
+    <bendpoint x="650" y="1532"/>    
+    <bendpoint x="587" y="1395"/>    
+    <bendpoint x="587" y="1060"/>    
+    <bendpoint x="587" y="761"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="53">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <dependency id="54">    
+    <bendpoint x="1495" y="1532"/>    
+    <bendpoint x="1432" y="1395"/>    
+    <bendpoint x="1291" y="1060"/>    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <dependency id="55">    
+    <bendpoint x="545" y="761"/>    
+    <bendpoint x="608" y="1060"/>    
+    <bendpoint x="629" y="1395"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <dependency id="56">    
+    <bendpoint x="566" y="761"/>    
+    <bendpoint x="566" y="1060"/>    
+    <bendpoint x="566" y="1395"/>    
+    <bendpoint x="566" y="1532"/>    
+    <bendpoint x="566" y="1741"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="57">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="58">    
+    <bendpoint x="1523" y="1741"/>    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="59">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="60">    
+    <bendpoint x="1453" y="1395"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <association id="61">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="62" name="currentSession"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="64">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <generalization id="65">    
+    <bendpoint x="1964" y="336"/>    
+    <bendpoint x="1964" y="761"/>    
+    <bendpoint x="1964" y="1060"/>    
+    <bendpoint x="1922" y="1395"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <dependency id="66">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="67">    
+    <bendpoint x="1964" y="1395"/>    
+    <bendpoint x="1964" y="1532"/>    
+    <bendpoint x="1964" y="1741"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="68">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <realization id="69">    
+    <bendpoint x="1228" y="1060"/>    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <dependency id="70">    
+    <bendpoint x="771" y="1532"/>    
+    <bendpoint x="771" y="1395"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="71">    
+    <bendpoint x="1708" y="336"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="17"/>  
+  </dependency>  
+  <realization id="72">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <dependency id="73">    
+    <bendpoint x="922" y="1532"/>    
+    <bendpoint x="922" y="1741"/>    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="74">    
+    <bendpoint x="73" y="336"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <association id="75">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="76" name="player"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="78">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="79">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="80">    
+    <bendpoint x="1193" y="336"/>    
+    <bendpoint x="1144" y="761"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="81">    
+    <bendpoint x="2006" y="336"/>    
+    <bendpoint x="2006" y="761"/>    
+    <bendpoint x="2006" y="1060"/>    
+    <bendpoint x="2006" y="1395"/>    
+    <bendpoint x="2006" y="1532"/>    
+    <bendpoint x="2006" y="1741"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="82">    
+    <bendpoint x="314" y="761"/>    
+    <bendpoint x="314" y="1060"/>    
+    <bendpoint x="314" y="1395"/>    
+    <bendpoint x="314" y="1532"/>    
+    <bendpoint x="314" y="1741"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="83">    
+    <bendpoint x="1207" y="1532"/>    
+    <bendpoint x="1207" y="1395"/>    
+    <bendpoint x="1207" y="1060"/>    
+    <bendpoint x="1207" y="761"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <generalization id="84">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <dependency id="85">    
+    <bendpoint x="671" y="761"/>    
+    <bendpoint x="671" y="1060"/>    
+    <bendpoint x="671" y="1395"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <generalization id="86">    
+    <bendpoint x="1687" y="336"/>    
+    <bendpoint x="1687" y="761"/>    
+    <bendpoint x="1507" y="1060"/>    
+    <bendpoint x="1411" y="1395"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <dependency id="87">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <dependency id="88">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <realization id="89">    
+    <bendpoint x="1186" y="761"/>    
+    <bendpoint x="1186" y="1060"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <dependency id="90">    
+    <bendpoint x="1270" y="1060"/>    
+    <bendpoint x="1270" y="1395"/>    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <realization id="91">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <dependency id="92">    
+    <bendpoint x="1228" y="761"/>    
+    <bendpoint x="1249" y="1060"/>    
+    <bendpoint x="1249" y="1395"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <generalization id="93">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <realization id="94">    
+    <bendpoint x="734" y="761"/>    
+    <bendpoint x="734" y="1060"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <dependency id="95">    
+    <bendpoint x="1186" y="1395"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <realization id="96">    
+    <bendpoint x="650" y="761"/>    
+    <bendpoint x="692" y="1060"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <generalization id="97">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="98">    
+    <bendpoint x="94" y="336"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="99" name="status"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="101">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="102">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="103">    
+    <bendpoint x="1123" y="761"/>    
+    <bendpoint x="713" y="1060"/>    
+    <bendpoint x="608" y="1395"/>    
+    <bendpoint x="608" y="1532"/>    
+    <bendpoint x="608" y="1741"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="104">    
+    <bendpoint x="1943" y="336"/>    
+    <bendpoint x="1943" y="761"/>    
+    <bendpoint x="1985" y="1060"/>    
+    <bendpoint x="1985" y="1395"/>    
+    <bendpoint x="1985" y="1532"/>    
+    <bendpoint x="1985" y="1741"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="105">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
