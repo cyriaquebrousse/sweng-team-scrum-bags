@@ -17,6 +17,9 @@ public class DatePickerFragment extends DialogFragment
     implements DatePickerDialog.OnDateSetListener {
 
     @Override
+    /**
+     * Called when the dialog is created, creates a date picker for the user to choose
+     */
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
         final Calendar c = Calendar.getInstance();
@@ -28,7 +31,9 @@ public class DatePickerFragment extends DialogFragment
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear,
+            int dayOfMonth) {
+        // Do something with the data
     }
 }
