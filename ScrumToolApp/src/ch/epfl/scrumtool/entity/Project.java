@@ -121,6 +121,14 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
         private String description;
 
         public Builder() {
+            this.name = "";
+            this.description = "";
+        }
+        
+        public Builder(Project other) {
+            this.id = other.id;
+            this.name = other.name;
+            this.description = other.description;
         }
 
         /**
