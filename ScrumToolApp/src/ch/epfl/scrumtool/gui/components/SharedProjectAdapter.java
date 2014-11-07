@@ -48,7 +48,7 @@ public final class SharedProjectAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_shared_project, null);
+            convertView = inflater.inflate(R.layout.listrow_shared_project, parent);
         }
 
         TextView projectName = (TextView) convertView.findViewById(R.id.shared_project_row_name);

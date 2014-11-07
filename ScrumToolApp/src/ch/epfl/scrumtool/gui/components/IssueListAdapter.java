@@ -45,7 +45,7 @@ public final class IssueListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_issue, null);
+            convertView = inflater.inflate(R.layout.listrow_issue, parent);
         }
         
         Stamp estimation = (Stamp) convertView.findViewById(R.id.issue_row_estimation);

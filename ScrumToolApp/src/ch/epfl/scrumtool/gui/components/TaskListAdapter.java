@@ -46,7 +46,7 @@ public final class TaskListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_task, null);
+            convertView = inflater.inflate(R.layout.listrow_task, parent);
         }
         
         // Get the views
@@ -58,8 +58,8 @@ public final class TaskListAdapter extends BaseAdapter {
         
         // Set views properties
         MainTask task = taskList.get(position);
-        // FIXME getIssues does not exist in new entity model, use loadIssues
-//        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
+        // FIXME need database function task.getIssuesFinishedCount()
+        // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
         double percentageDone = 0;
         
         priority.setStickerText(task.getPriority());
