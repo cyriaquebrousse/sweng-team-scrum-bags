@@ -58,17 +58,6 @@ public class DSUserHandler extends DatabaseHandler<User> {
     /*
      * (non-Javadoc)
      * 
-     * @see ch.epfl.scrumtool.entity.DatabaseHandler#getAll()
-     */
-    @Override
-    public void loadAll(Callback<List<User>> cB) {
-        LoadAllUsersTask task = new LoadAllUsersTask(cB);
-        task.execute();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see ch.epfl.scrumtool.entity.DatabaseHandler#update(java.lang.Object)
      */
     @Override
