@@ -88,27 +88,12 @@ public final class MainTask extends AbstractTask implements
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof MainTask)) {
-            return false;
-        }
-
-        // TODO only compare id
-        MainTask other = (MainTask) o;
-        if (other.getPriority() != this.getPriority()) {
-            return false;
-        }
-        return super.equals(o);
+        return o instanceof MainTask && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return super.hashCode();
     }
 
     /**
@@ -136,7 +121,7 @@ public final class MainTask extends AbstractTask implements
         }
 
         public void setId(String id) {
-            if(id != null) {
+            if (id != null) {
                 this.id = id;
             }
         }

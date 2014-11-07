@@ -63,29 +63,11 @@ public abstract class AbstractTask {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof AbstractTask)) {
+        if (o == null || !(o instanceof AbstractTask)) {
             return false;
         }
         AbstractTask other = (AbstractTask) o;
-        if (!other.getDescription().equals(this.description)) {
-            return false;
-        }
-        if (other.getId() != this.id) {
-            return false;
-        }
-        if (!other.getName().equals(this.name)) {
-            return false;
-        }
-        if (other.getStatus() != this.status) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
     
     @Override

@@ -58,26 +58,11 @@ public final class Player implements DatabaseInteraction<Player> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Player)) {
+        if (o == null || !(o instanceof Player)) {
             return false;
         }
         Player other = (Player) o;
-        if (other.getId() != this.getId()) {
-            return false;
-        }
-        if (other.getRole() != this.getRole()) {
-            return false;
-        }
-        if (!other.getUser().equals(this.getUser())) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
     
     @Override

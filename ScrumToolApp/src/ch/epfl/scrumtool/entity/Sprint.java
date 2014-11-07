@@ -178,22 +178,13 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Sprint)) {
+        if (o == null || !(o instanceof Sprint)) {
             return false;
         }
         Sprint other = (Sprint) o;
-        if (other.getDeadline() != this.getDeadline()) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
-
+    
     @Override
     public int hashCode() {
         return id.hashCode();

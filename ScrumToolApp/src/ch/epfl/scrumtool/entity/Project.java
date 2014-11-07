@@ -54,7 +54,7 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
     }
     
     /**
-     * @return the admin TODO
+     * @return the admin
      */
     public Player getAdmin() {
         // TODO query database to get admin
@@ -203,20 +203,11 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Project)) {
+        if (o == null || !(o instanceof Project)) {
             return false;
         }
         Project other = (Project) o;
-        if (other.getId() != this.getId()) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
     
     @Override

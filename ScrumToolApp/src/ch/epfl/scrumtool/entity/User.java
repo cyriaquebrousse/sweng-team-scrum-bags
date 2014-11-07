@@ -150,20 +150,11 @@ public final class User implements DatabaseInteraction<User>, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof User)) {
+        if (o == null || !(o instanceof User)) {
             return false;
         }
         User other = (User) o;
-        if (other.getEmail().equals(this.getEmail())) {
-            return true;
-        }
-        return false;
+        return other.getEmail().equals(this.getEmail());
     }
     
     @Override

@@ -160,33 +160,15 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
         handler.remove(this, successCb);
     }
 
+
     @Override
     public boolean equals(Object o) {
-        // TODO equals player and not ==
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Issue)) {
-            return false;
-        }
-        Issue other = (Issue) o;
-        if (other.getEstimatedTime() != this.getEstimatedTime()) {
-            return false;
-        }
-        if (!other.getPlayer().equals(this.getPlayer())) {
-            return false;
-        }
-        return super.equals(o);
+        return o instanceof Issue && super.equals(o);
     }
-    
+
     @Override
     public int hashCode() {
-        return (int) (super.hashCode()
-                + estimatedTime
-                + player.hashCode()) % Integer.MAX_VALUE;
+        return super.hashCode();
     }
 
 }
