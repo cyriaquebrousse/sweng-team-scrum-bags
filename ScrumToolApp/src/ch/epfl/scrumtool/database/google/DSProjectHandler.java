@@ -18,7 +18,6 @@ import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;

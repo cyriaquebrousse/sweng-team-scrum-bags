@@ -8,6 +8,8 @@ import java.util.Set;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.database.DatabaseInteraction;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
+import ch.epfl.scrumtool.database.google.DSSprintHandler;
 
 /**
  * @author ketsio, zenhaeus
@@ -49,6 +51,8 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      */
     public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
         //TODO define function in DSSprintHandler: db.loadIssues(this.id, callback);
+        DSSprintHandler sh = new DSSprintHandler();
+        sh.loadIssues(this.id, callback);
     }
     
     /**
