@@ -133,7 +133,7 @@ public class ProjectListActivity extends Activity implements
     }
 
     private void openLoginActivity() {
-        Session.destroyCurrentSession();
+        Session.destroyCurrentSession(this);
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
         startActivity(openLoginIntent);
     }
