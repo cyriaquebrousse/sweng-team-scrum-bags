@@ -34,7 +34,13 @@
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
     <string name="project_description_edit_hint">Please enter a project description</string>
-
+    
+    <!-- Menu actions -->
+    <string name="action_add">Add</string>
+    
+    <!-- Error messages -->
+    <string name="error_field_required">This field is required</string>
+    
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

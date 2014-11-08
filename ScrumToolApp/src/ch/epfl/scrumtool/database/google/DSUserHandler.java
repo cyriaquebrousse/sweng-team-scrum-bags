@@ -93,6 +93,5 @@ public class DSUserHandler implements UserHandler {
     public void remove(User object, Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
     }
-    
-    
+
 }

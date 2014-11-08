@@ -5,6 +5,9 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -83,5 +86,34 @@ public class ProjectListActivity extends Activity {
 //        });
 
     }
-
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_projectlist, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_project_new:
+                openProjectEditActivity(null);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    /**
+     * @param project
+     *            if {@code null}, the edit activity will behave so that the
+     *            user can create a project
+     */
+    private void openProjectEditActivity(Project project) {
+        Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
+        openProjectEditIntent.putExtra("ch.epfl.scrumtool.PROJECT", project);
+        startActivity(openProjectEditIntent);
+    }
+    
 }

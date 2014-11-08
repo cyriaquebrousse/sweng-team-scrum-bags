@@ -1,11 +1,14 @@
 package ch.epfl.scrumtool.gui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.GoogleSession;
 
 /**
@@ -16,6 +19,8 @@ import ch.epfl.scrumtool.network.GoogleSession;
 public class LoginActivity extends Activity {
     public static final int REQUEST_ACCOUNT_PICKER = 2;
     private GoogleSession.Builder sessionBuilder;
+    private ProgressDialog pd = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,24 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            sessionBuilder.authenticate(data);
+            this.pd = ProgressDialog.show(this, "Signing in..", "", true, false);
+            sessionBuilder.authenticate(data, new Callback<Boolean>() {
+
+                @Override
+                public void interactionDone(Boolean object) {
+                    if (LoginActivity.this.pd != null) {
+                        LoginActivity.this.pd.dismiss();
+                    }
+                    if (object.booleanValue()) {
+                        LoginActivity.this.openMenuActivity();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
+                    }
+                    
+                }
+            });
+        } else {
+            Toast.makeText(this, "Please choose an Account", Toast.LENGTH_LONG).show();
         }
     }
 
