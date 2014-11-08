@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.network;
 
 import java.io.IOException;
 
-import android.accounts.AccountManager;
 import android.content.Intent;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DBHandlers;
@@ -108,26 +107,31 @@ public class GoogleSession extends Session {
      */
     public static class Builder {
         private GoogleAccountCredential googleCredential = null;
-
-        public Intent getIntent(LoginActivity context) {
+        
+        public Builder(LoginActivity context) {
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.CLIENT_ID);
+        }
 
+        public Intent getIntent() {
             return googleCredential.newChooseAccountIntent();
         }
 
-        public void authenticate(Intent data, Callback<Boolean> authCallback) {
+        /**
+         * Create a new GoogleSession
+         * @param accName
+         * @param authCallback
+         */
+        public void build(String accName, Callback<Boolean> authCallback) {
             DSUserHandler handler = new DSUserHandler();
             final Callback<Boolean> cB = authCallback;
-            googleCredential.setSelectedAccountName(
-                    (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-            String email = googleCredential.getSelectedAccountName();
+            googleCredential.setSelectedAccountName(accName);
             /*
              * If the server successfully logs in the user (insert user in case of 
              * non-existence, otherwise return user that wants to login) then the
              * interactionDone function of the Callback is executed.
              */
-            handler.loginUser(email, new Callback<User>() {
+            handler.loginUser(accName, new Callback<User>() {
 
                 @Override
                 public void interactionDone(User object) {

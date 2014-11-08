@@ -7,6 +7,11 @@
         android:id="@+id/action_project_new"
         android:icon="@drawable/ic_action_new"
         android:showAsAction="ifRoom"
-        android:title="@string/action_add" />
+        android:title="@string/action_add"/>
+    <item
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/ic_menu_moreoverflow_holo_light"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_overflow"/>
 
 </menu>

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -28,8 +29,6 @@ public class DSMainTaskHandler implements MainTaskHandler {
 
     @Override
     public void insert(final MainTask object, final Project project, final Callback<MainTask> cB) {
-
-        // FIXME: Why scrumMainTask doesn't have a Priority field ?
         ScrumMainTask scrumMainTask = new ScrumMainTask();
         scrumMainTask.setName(object.getName());
         scrumMainTask.setDescription(object.getDescription());
@@ -95,6 +94,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 List<ScrumMainTask> resulItems = result.getItems();
                 ArrayList<MainTask> mainTasks = new ArrayList<MainTask>();
                 if (resulItems != null) {
+
                     for (ScrumMainTask s : resulItems) {
                         MainTask.Builder mB = new MainTask.Builder();
                         mB.setDescription(s.getDescription());
@@ -106,9 +106,11 @@ public class DSMainTaskHandler implements MainTaskHandler {
                         mB.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         mainTasks.add(mB.build());
                     }
+                    cB.interactionDone(mainTasks);
+                } else {
+                    Log.d("test", "warning the task list is empty");
                 }
-                cB.interactionDone(mainTasks);
-            }
+            } 
         };
         task.execute(project.getId());
     }
