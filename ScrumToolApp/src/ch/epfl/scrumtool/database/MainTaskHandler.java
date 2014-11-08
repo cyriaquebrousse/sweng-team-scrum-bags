@@ -14,5 +14,5 @@ import ch.epfl.scrumtool.entity.Project;
  */
 public interface MainTaskHandler extends DatabaseHandler<MainTask> {
     void loadMainTasks(final Project project, Callback<List<MainTask>> cB);
-    void insert(final MainTask object, final Project project, final Callback<String> dbC);
+    void insert(final MainTask object, final Project project, final Callback<MainTask> cB);
 }

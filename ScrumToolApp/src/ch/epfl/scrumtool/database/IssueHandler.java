@@ -16,7 +16,7 @@ import ch.epfl.scrumtool.entity.Sprint;
 public interface IssueHandler extends DatabaseHandler<Issue> {
     void loadIssues(final MainTask mainTask, final Callback<List<Issue>> cB);
     void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB);
-    void insert(final Issue issue, final MainTask mainTask, final Callback<String> cB);
+    void insert(final Issue issue, final MainTask mainTask, final Callback<Issue> cB);
     void addIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> cB);
     void removeIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> cB);
 

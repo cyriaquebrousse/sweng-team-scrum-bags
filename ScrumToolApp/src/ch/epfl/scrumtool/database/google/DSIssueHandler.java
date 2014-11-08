@@ -26,12 +26,12 @@ public class DSIssueHandler implements IssueHandler {
     private ScrumIssue scrumIssue;
 
     @Override
-    public void insert(final Issue object, final Callback<String> cB) {
+    public void insert(final Issue object, final Callback<Issue> cB) {
         throw new UnsupportedOperationException();
     }
     
     @Override
-    public void insert(final Issue object, final MainTask task, final Callback<String> cB) {
+    public void insert(final Issue object, final MainTask task, final Callback<Issue> cB) {
         
         scrumIssue = new ScrumIssue();
         scrumIssue.setName(object.getName());

@@ -12,8 +12,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.MainTask.Builder;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
@@ -34,8 +34,6 @@ public class BacklogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
-        
-        
         
         project = (Project) getIntent().getSerializableExtra("ch.epfl.scrumtool.PROJECT");
         project.loadBacklog(new Callback<List<MainTask>>() {
@@ -66,7 +64,6 @@ public class BacklogActivity extends Activity {
     }
     
     public void addTask(View view) {
-        
         MainTask.Builder tB = new MainTask.Builder();
         tB.setName("Static Task");
         tB.setDescription("I am a super super cool description... YAHOU !");
@@ -76,17 +73,18 @@ public class BacklogActivity extends Activity {
         
         final MainTask newTask = tB.build();
         
-        Client.getScrumClient().insertMainTask(newTask, project, new Callback<String>() {
+        Client.getScrumClient().insertMainTask(newTask, project, new Callback<MainTask>() {
             
             @Override
-            public void interactionDone(String success) {
-                if (!success.equals("")) {
-                    
+            public void interactionDone(MainTask task) {
+                if (task != null) {
+                    Log.d("Task ID", task.getKey());
                     // FIXME: need database function project.addTask(task)
                     
-                    Intent openTaskOverviewIntent = new Intent(BacklogActivity.this, TaskOverviewActivity.class);
-                    openTaskOverviewIntent.putExtra("ch.epfl.scrumtool.TASK", newTask);
-                    startActivity(openTaskOverviewIntent);
+                    //Intent openTaskOverviewIntent = new Intent(BacklogActivity.this, TaskOverviewActivity.class);
+                    //openTaskOverviewIntent.putExtra("ch.epfl.scrumtool.TASK", newTask);
+                    //startActivity(openTaskOverviewIntent);
+                    
                 } else {
                     Log.e("BacklogActivity", "Could not insert the new task");
                 }

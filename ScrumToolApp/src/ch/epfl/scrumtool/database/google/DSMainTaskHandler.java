@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -14,6 +15,8 @@ import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
+import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 
 
@@ -24,49 +27,46 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 public class DSMainTaskHandler implements MainTaskHandler {
 
     @Override
-    public void insert(final MainTask object, final Project project, final Callback<String> dbC) {
-//        
-//        // FIXME: Why scrumMainTask doesn't have a Priority field ?
-//        scrumMainTask = new ScrumMainTask();
-//        scrumMainTask.setName(object.getName());
-//        scrumMainTask.setDescription(object.getDescription());
-//        scrumMainTask.setStatus(object.getStatus().name());
-//        scrumMainTask.setIssues(new ArrayList<ScrumIssue>());
-//        Date date = new Date();
-//        scrumMainTask.setLastModDate(date.getTime());
-//        try {
-//            scrumMainTask.setLastModUser(Session.getCurrentSession().getUser()
-//                    .getEmail());
-//        } catch (NotAuthenticatedException e) {
-//            // TODO : redirecting to the login activity if not connected
-//            e.printStackTrace();
-//        }
-//        
-//        AsyncTask<ScrumMainTask, Void, String> task = new AsyncTask<ScrumMainTask, Void, String> (){
-//            @Override
-//            protected ScrumMainTask doInBackground(ScrumMainTask... params) {
-//                try {
-//                    GoogleSession s = (GoogleSession) Session.getCurrentSession();
-//                    Scrumtool service = s.getAuthServiceObject();
-//                    service.insertScrumMainTask(params[0]).execute();
-//                } catch (IOException | NotAuthenticatedException e) {
-//                    // TODO : redirecting to the login activity if not connected
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//            
-//            @Override
-//            protected void onPostExecute(ScrumMainTask object) {
-//                if (object != null) {
-//                    dbC.interactionDone(Boolean.TRUE);
-//                } else {
-//                    dbC.interactionDone(Boolean.FALSE);
-//                }
-//            }
-//        }
-//        
-//        im.execute(scrumMainTask);
+    public void insert(final MainTask object, final Project project, final Callback<MainTask> cB) {
+
+        // FIXME: Why scrumMainTask doesn't have a Priority field ?
+        ScrumMainTask scrumMainTask = new ScrumMainTask();
+        scrumMainTask.setName(object.getName());
+        scrumMainTask.setDescription(object.getDescription());
+        scrumMainTask.setStatus(object.getStatus().name());
+        scrumMainTask.setIssues(new ArrayList<ScrumIssue>());
+        Date date = new Date();
+        scrumMainTask.setLastModDate(date.getTime());
+        try {
+            scrumMainTask.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO : redirecting to the login activity if not connected
+            e.printStackTrace();
+        }
+
+        AsyncTask<ScrumMainTask, Void, OperationStatus> task = new AsyncTask<ScrumMainTask, Void, OperationStatus>() {
+            @Override
+            protected OperationStatus doInBackground(ScrumMainTask... params) {
+                OperationStatus opStat = null;
+                try {
+                    GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = s.getAuthServiceObject();
+                    opStat = service.insertScrumMainTask(project.getId(), params[0]).execute();
+                } catch (IOException | NotAuthenticatedException e) {
+                    // TODO : redirecting to the login activity if not connected
+                    e.printStackTrace();
+                }
+                return opStat;
+            }
+            @Override
+            protected void onPostExecute(OperationStatus opStat) {
+                MainTask.Builder builder = new MainTask.Builder(object);
+                builder.setId(opStat.getKey());
+                cB.interactionDone(builder.build());
+            }
+        };
+        task.execute(scrumMainTask);
     }
 
     @Override
@@ -94,73 +94,116 @@ public class DSMainTaskHandler implements MainTaskHandler {
             protected void onPostExecute(CollectionResponseScrumMainTask result) {
                 List<ScrumMainTask> resulItems = result.getItems();
                 ArrayList<MainTask> mainTasks = new ArrayList<MainTask>();
-                for (ScrumMainTask s : resulItems) {
-                    MainTask.Builder mB = new MainTask.Builder();
-                    mB.setDescription(s.getDescription());
-                    mB.setId(s.getKey());
-                    mB.setName(s.getName());
-                    // TODO a getPriority method and a status(String)
-                    // constructor
-                    // mB.setPriority(Priority.NORMAL);
-                    // mB.setStatus(s.getStatus());
-                    mainTasks.add(mB.build());
+                if (resulItems != null) {
+                    for (ScrumMainTask s : resulItems) {
+                        MainTask.Builder mB = new MainTask.Builder();
+                        mB.setDescription(s.getDescription());
+                        mB.setId(s.getKey());
+                        mB.setName(s.getName());
+                        // TODO a getPriority method and a status(String)
+                        // constructor
+                        mB.setPriority(ch.epfl.scrumtool.entity.Priority.NORMAL);
+                        mB.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
+                        mainTasks.add(mB.build());
+                    }
                 }
                 cB.interactionDone(mainTasks);
             }
         };
         task.execute(project.getId());
     }
-    
+
     @Override
     public void load(final String key, final Callback<MainTask> cB) {
-        AsyncTask<String, Void, ScrumMainTask> task = 
-                new AsyncTask<String, Void, ScrumMainTask>(){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void update(final MainTask modified, final MainTask ref , final Callback<Boolean> cB) {
+        final ScrumMainTask changes = new ScrumMainTask();
+        changes.setKey(modified.getKey());
+        changes.setName(modified.getName());
+        changes.setDescription(modified.getDescription());
+        changes.setStatus(modified.getStatus().name());
+        Date date = new Date();
+        changes.setLastModDate(date.getTime());
+        try {
+            changes.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO : redirecting to the login activity if not connected
+            e.printStackTrace();
+        }
+
+        AsyncTask<ScrumMainTask, Void, OperationStatus> task = 
+                new AsyncTask<ScrumMainTask, Void, OperationStatus>() {
+
             @Override
-            protected ScrumMainTask doInBackground(String... params) {
-                ScrumMainTask mainTask = null;
+            protected OperationStatus doInBackground(
+                    ScrumMainTask... params) {
+                GoogleSession s;
+                OperationStatus opStat = null;
                 try {
-                    GoogleSession s = (GoogleSession) Session.getCurrentSession();
+                    s = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = s.getAuthServiceObject();
-                    mainTask = service.getScrumMainTask(params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO : redirecting to the login activity if not connected
+                    opStat = service.updateScrumMainTask(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                return mainTask;
+                return opStat;
             }
+
+            /* (non-Javadoc)
+             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+             */
+            @Override
+            protected void onPostExecute(OperationStatus result) {
+                cB.interactionDone(Boolean.valueOf(result.getSuccess()));
+                super.onPostExecute(result);
+            }
+
+        };
+        task.execute(changes);
+    }
+
+    @Override
+    public void remove(final MainTask object, final Callback<Boolean> cB) {
+        AsyncTask<String, Void, OperationStatus> task = 
+                new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
-            protected void onPostExecute(ScrumMainTask sm) {
-                MainTask.Builder mB = new MainTask.Builder();
-                // TODO : id should be generated by the server
-                mB.setId("test");
-                mB.setName(sm.getName());
-                mB.setDescription(sm.getDescription());
-                mB.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(sm.getStatus()));
-                // TODO need to add the player. 
-                // loris : what player ? it is a MainTask not an Issue
-                MainTask mainTask = mB.build();
-                cB.interactionDone(mainTask);
+            protected OperationStatus doInBackground(
+                    String... params) {
+                GoogleSession s;
+                OperationStatus opStat = null;
+                try {
+                    s = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = s.getAuthServiceObject();
+                    opStat = service.removeScrumMainTask(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStat;
             }
+
+            /* (non-Javadoc)
+             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+             */
+            @Override
+            protected void onPostExecute(OperationStatus result) {
+                cB.interactionDone(Boolean.valueOf(result.getSuccess()));
+                super.onPostExecute(result);
+            }
+
         };
-        task.execute(key);
+        task.execute(object.getKey());
     }
 
     @Override
-    public void update(final MainTask modified, final MainTask ref , final Callback<Boolean> dbC) {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void remove(final MainTask object, final Callback<Boolean> dbC) {
-        // TODO Auto-generated method stub
-    }
-
-
-    @Override
-    public void insert(MainTask object, Callback<String> cB) {
+    public void insert(MainTask object, Callback<MainTask> cB) {
         throw new UnsupportedOperationException();
-        
     }
-    
+
 }

@@ -5,6 +5,7 @@ package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
@@ -26,24 +28,37 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 public class DSPlayerHandler implements PlayerHandler {
 
     @Override
-    public void insert(final Player object, final Project project, final Callback<String> dbC) {
+    public void insert(final Player object, final Project project, final Callback<Player> dbC) {
 
         ScrumPlayer player = new ScrumPlayer();
         player.setAdminFlag(object.isAdmin());
+        Date date = new Date();
+        player.setLastModDate(date.getTime());
+        player.setLastModDate(date.getTime());
+        try {
+            player.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO This exception should probably be handled elsewhere
+            e.printStackTrace();
+        }
+        player.setRole(object.getRole().name());
+        
 
-        AsyncTask<ScrumPlayer, Void, String> task = new AsyncTask<ScrumPlayer, Void, String>() {
+        AsyncTask<ScrumPlayer, Void, OperationStatus> task = new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
             @Override
-            protected String doInBackground(ScrumPlayer... params) {
+            protected OperationStatus doInBackground(ScrumPlayer... params) {
+                OperationStatus opStatus = null;
                 try {
                     GoogleSession s = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = s.getAuthServiceObject();
-                    service.insertScrumPlayer(params[0]).execute();
+                    opStatus = service.insertScrumPlayer(project.getId(), object.getId(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                return null;
+                return opStatus;
             }
         };
         task.execute(player);
@@ -119,7 +134,7 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void insert(Player object, Callback<String> cB) {
+    public void insert(Player object, Callback<Player> cB) {
         throw new UnsupportedOperationException();
         
     }

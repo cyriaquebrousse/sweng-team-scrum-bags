@@ -58,7 +58,7 @@ public final class User implements Serializable {
      * The callback will contain the key of the added Project
      * @param callback The callback function 
      */
-    public void addProject(Project p, Callback<String> callback) {
+    public void addProject(Project p, Callback<Project> callback) {
         Client.getScrumClient().insertProject(p, callback);
         
     }

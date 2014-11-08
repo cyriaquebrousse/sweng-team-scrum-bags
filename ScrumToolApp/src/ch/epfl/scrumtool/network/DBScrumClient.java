@@ -54,7 +54,7 @@ public class DBScrumClient implements ScrumClient {
      * @see ch.epfl.scrumtool.network.ScrumClient#insertProject(ch.epfl.scrumtool.entity.Project, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void insertProject(Project project, Callback<String> cB) {
+    public void insertProject(Project project, Callback<Project> cB) {
         dbH.getProjectHandler().insert(project, cB);
         
     }
@@ -91,7 +91,7 @@ public class DBScrumClient implements ScrumClient {
      */
     @Override
     public void insertMainTask(MainTask task, Project project,
-            Callback<String> cB) {
+            Callback<MainTask> cB) {
         dbH.getMainTaskHandler().insert(task, project, cB);        
     }
 
@@ -132,7 +132,7 @@ public class DBScrumClient implements ScrumClient {
      * @see ch.epfl.scrumtool.network.ScrumClient#insertIssue(ch.epfl.scrumtool.entity.MainTask, ch.epfl.scrumtool.entity.Issue, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void insertIssue(MainTask task, Issue issue, Callback<String> cB) {
+    public void insertIssue(MainTask task, Issue issue, Callback<Issue> cB) {
         dbH.getIssueHandler().insert(issue, task, cB);
         
     }
@@ -186,7 +186,7 @@ public class DBScrumClient implements ScrumClient {
      * @see ch.epfl.scrumtool.network.ScrumClient#insertSprint(ch.epfl.scrumtool.entity.Sprint, ch.epfl.scrumtool.entity.Project, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void insertSprint(Sprint sprint, Project project, Callback<String> cB) {
+    public void insertSprint(Sprint sprint, Project project, Callback<Sprint> cB) {
         dbH.getSprintHandler().insert(sprint, project, cB);
         
     }
@@ -223,7 +223,7 @@ public class DBScrumClient implements ScrumClient {
      * @see ch.epfl.scrumtool.network.ScrumClient#addPlayer(ch.epfl.scrumtool.entity.Player, ch.epfl.scrumtool.entity.Project, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void addPlayer(Player player, Project project, Callback<String> cB) {
+    public void addPlayer(Player player, Project project, Callback<Player> cB) {
         dbH.getPlayerHandler().insert(player, project, cB);
         
     }

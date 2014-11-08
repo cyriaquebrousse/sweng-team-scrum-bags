@@ -6,12 +6,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -59,6 +62,14 @@ public class ProjectEditActivity extends Activity {
         projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
         
         Project project = projectBuilder.build();
+        Client.getScrumClient().insertProject(project, new Callback<Project>(){
+
+            @Override
+            public void interactionDone(Project object) {
+                Log.d("Project added Key:", object.toString());                
+            }
+            
+        });
         
         Toast.makeText(this, "Pretend project is saved :)", Toast.LENGTH_SHORT).show();
         this.finish(); // TODO save project and then open player list maybe?
@@ -99,7 +110,7 @@ public class ProjectEditActivity extends Activity {
     private boolean titleIsValid() {
         String title = projectTitleView.getText().toString();
         return title != null && title.length() > 0
-                && title.length() < 50; // TODO put a meaningful value (cyriaque)
+                && title.length() < 50; //TODO put a meaningful value (cyriaque)
     }
 
     private void updateNextButtonEnableState() {

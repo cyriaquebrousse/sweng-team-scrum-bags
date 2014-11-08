@@ -99,6 +99,15 @@ public final class MainTask extends AbstractTask implements Serializable {
         private Priority priority;
 
         public Builder() {
+            
+        }
+        
+        public Builder(MainTask task) {
+            this.id = task.getKey();
+            this.name = task.getName();
+            this.description = task.getDescription();
+            this.status = task.getStatus();
+            this.priority = task.getPriority();
         }
 
         /**

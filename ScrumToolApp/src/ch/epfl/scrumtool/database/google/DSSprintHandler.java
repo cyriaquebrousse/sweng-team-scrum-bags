@@ -24,7 +24,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 public class DSSprintHandler implements SprintHandler {
 
     @Override
-    public void insert(final Sprint object, final Callback<String> cB) {
+    public void insert(final Sprint object, final Callback<Sprint> cB) {
         // TODO Auto-generated method stub
     }
 
@@ -90,7 +90,7 @@ public class DSSprintHandler implements SprintHandler {
     }
 
     @Override
-    public void insert(Sprint sprint, Project project, Callback<String> cB) {
+    public void insert(Sprint sprint, Project project, Callback<Sprint> cB) {
         // TODO Auto-generated method stub
         
     }

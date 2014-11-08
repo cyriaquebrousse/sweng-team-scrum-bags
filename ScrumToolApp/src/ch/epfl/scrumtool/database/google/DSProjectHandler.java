@@ -14,6 +14,7 @@ import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
+import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
@@ -27,7 +28,7 @@ public class DSProjectHandler implements ProjectHandler {
     private ScrumProject scrumProject;
 
     @Override
-    public void insert(final Project object, final Callback<String> cB) {
+    public void insert(final Project object, final Callback<Project> cB) {
         scrumProject = new ScrumProject();
         scrumProject.setDescription(object.getDescription());
         scrumProject.setName(object.getName());
@@ -42,30 +43,28 @@ public class DSProjectHandler implements ProjectHandler {
             // TODO This exception should probably be handled elsewhere
             e.printStackTrace();
         }
-        
-        AsyncTask<ScrumProject, Void, ScrumProject> task = 
-                new AsyncTask<ScrumProject, Void, ScrumProject>(){
+
+        AsyncTask<ScrumProject, Void, OperationStatus> task = 
+                new AsyncTask<ScrumProject, Void, OperationStatus>(){
             @Override
-            protected ScrumProject doInBackground(ScrumProject... params) {
-                ScrumProject proj = null;
+            protected OperationStatus doInBackground(ScrumProject... params) {
+                OperationStatus opStat = null;
                 try {
                     GoogleSession s = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = s.getAuthServiceObject();
-                    proj = service.insertScrumProject(params[0]).execute();
+                    opStat = service.insertScrumProject(params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                return proj;
+                return opStat;
             }
 
             @Override
-            protected void onPostExecute(ScrumProject su) {
-                if (su != null) {
-                    cB.interactionDone(su.getKey());
-                } else {
-                    cB.interactionDone("");
-                }
+            protected void onPostExecute(OperationStatus opStat) {
+                Project.Builder builder = new Project.Builder(object);
+                builder.setId(opStat.getKey());
+                cB.interactionDone(builder.build());
             }
         };
         task.execute(scrumProject);
@@ -73,33 +72,7 @@ public class DSProjectHandler implements ProjectHandler {
 
     @Override
     public void load(final String key, final Callback<Project> cB) {
-        AsyncTask<String, Void, ScrumProject> task =
-                new AsyncTask<String, Void, ScrumProject>() {
-            @Override
-            protected ScrumProject doInBackground(String... params) {
-                ScrumProject project = null;
-                try {
-                    GoogleSession s = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
-                    project = service.getScrumProject(params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return project;
-            }
-
-            @Override
-            protected void onPostExecute(ScrumProject sp) {
-                Project.Builder pB = new Project.Builder();
-                pB.setDescription(sp.getDescription());
-                pB.setName(sp.getName());
-                pB.setId(sp.getKey());
-                cB.interactionDone(pB.build());
-            }
-        };
-        
-        task.execute(key);
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -122,7 +95,7 @@ public class DSProjectHandler implements ProjectHandler {
 
 
 
-    
+
     public void loadProjects(final Callback<List<Project>> cB) {
         AsyncTask<Void, Void, CollectionResponseScrumProject> task = 
                 new AsyncTask<Void, Void, CollectionResponseScrumProject>(){
@@ -144,18 +117,20 @@ public class DSProjectHandler implements ProjectHandler {
             protected void onPostExecute(CollectionResponseScrumProject result) {
                 List<ScrumProject> resultItems = result.getItems();
                 ArrayList<Project> projects = new ArrayList<Project>();
-                for (ScrumProject sP : resultItems) {
-                    Project.Builder pB = new Project.Builder();
-                    pB.setDescription(sP.getDescription());
-                    pB.setName(sP.getName());
-                    pB.setId(sP.getKey());
-                    projects.add(pB.build());
+                if (resultItems != null) {
+                    for (ScrumProject sP : resultItems) {
+                        Project.Builder pB = new Project.Builder();
+                        pB.setDescription(sP.getDescription());
+                        pB.setName(sP.getName());
+                        pB.setId(sP.getKey());
+                        projects.add(pB.build());
+                    }
                 }
                 cB.interactionDone(projects);
             }
         };
         task.execute();
     }
-    
+
 
 }

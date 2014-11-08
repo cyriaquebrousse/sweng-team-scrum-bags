@@ -13,6 +13,6 @@ import ch.epfl.scrumtool.entity.Project;
  *
  */
 public interface PlayerHandler extends DatabaseHandler<Player> {
-    void insert(final Player object, final Project project, final Callback<String> cB);
+    void insert(final Player object, final Project project, final Callback<Player> cB);
     void loadPlayers(final Project project, final Callback<List<Player>> cB);
 }

@@ -18,7 +18,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 public class DSUserHandler implements UserHandler {
 
     @Override
-    public void insert(User object, Callback<String> dbC) {
+    public void insert(User object, Callback<User> dbC) {
         throw new UnsupportedOperationException();
     }
 

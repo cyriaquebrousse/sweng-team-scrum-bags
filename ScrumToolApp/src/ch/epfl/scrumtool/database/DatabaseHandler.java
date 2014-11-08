@@ -14,7 +14,7 @@ public interface DatabaseHandler<A> {
      * @param object
      * @param dbC
      */
-    void insert(final A object, final Callback<String> cB);
+    void insert(final A object, final Callback<A> cB);
 
     /**
      * loads an object of type A from the database.
