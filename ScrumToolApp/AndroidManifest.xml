@@ -43,11 +43,6 @@
             android:label="@string/title_activity_task" >
         </activity>
         <activity
-            android:name=".gui.MenuActivity"
-            android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
-        <activity
             android:name=".gui.ProjectListActivity"
             android:label="@string/title_activity_projectList" >
         </activity>
