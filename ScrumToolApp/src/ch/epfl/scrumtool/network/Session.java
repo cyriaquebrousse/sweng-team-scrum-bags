@@ -40,4 +40,11 @@ public abstract class Session {
             return currentSession;
         }
     }
+    
+    /**
+     * Destroys current session
+     */
+    public static void destroyCurrentSession() {
+        currentSession = null;
+    }
 }
