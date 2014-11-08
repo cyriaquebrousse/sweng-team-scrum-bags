@@ -7,33 +7,34 @@ import java.util.List;
 import android.os.AsyncTask;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.database.SprintHandler;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
-
-public class DSSprintHandler extends DatabaseHandler<Sprint> {
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+/**
+ * 
+ * @author aschneuw
+ *
+ */
+public class DSSprintHandler implements SprintHandler {
 
     @Override
-    public void insert(Sprint object, Callback<Boolean> dbC) {
+    public void insert(final Sprint object, final Callback<String> cB) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    public void load(String key, Callback<Sprint> dbC) {
-        // TODO Auto-generated method stub
-
+    public void load(final String key, final Callback<Sprint> cB) {
+        
     }
 
     @Override
-    public void update(Sprint modified, Callback<Boolean> dbC) {
+    public void update(final Sprint modified, final Sprint ref, final Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
 
     }
@@ -44,54 +45,62 @@ public class DSSprintHandler extends DatabaseHandler<Sprint> {
 
     }
 
-    public void loadIssues(String mainTaskKey, Callback<List<Issue>> callback) {
-        LoadIssuesTask task = new LoadIssuesTask(callback);
-        task.execute(mainTaskKey);
+    /**
+     * @param projectKey
+     * @param dbC
+     */
+    @Override
+    public void loadSprints(final Project project, final  Callback<List<Sprint>> cB) {
+        AsyncTask<String, Void, CollectionResponseScrumSprint> task = 
+                new AsyncTask<String, Void, CollectionResponseScrumSprint>() {
+            @Override
+            protected CollectionResponseScrumSprint doInBackground(String... params) {
+                GoogleSession s;
+                CollectionResponseScrumSprint sprints = null;
+                try {
+                    s = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = s.getAuthServiceObject();
+                    sprints = service.loadSprints(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                return sprints;
+            }
+
+            @Override
+            protected void onPostExecute(CollectionResponseScrumSprint result) {
+                List<ScrumSprint> resultItems = result.getItems();
+                ArrayList<Sprint> sprints = new ArrayList<Sprint>();
+                for (ScrumSprint s : resultItems) {
+                    Sprint.Builder sB = new Sprint.Builder();
+                    sB.setId(s.getKey());
+                    sB.setDeadline(s.getDate().getValue()); // TODO
+                    // Not so
+                    // sure
+                    // about
+                    // this
+                    sprints.add(sB.build());
+                }
+                cB.interactionDone(sprints);
+            }
+        };
+        task.execute(project.getId());
     }
 
-    private class LoadIssuesTask extends
-            AsyncTask<String, Void, CollectionResponseScrumIssue> {
-
-        private Callback<List<Issue>> callback;
-
-        public LoadIssuesTask(Callback<List<Issue>> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected CollectionResponseScrumIssue doInBackground(String... params) {
-            GoogleSession session;
-            CollectionResponseScrumIssue issues = null;
-
-            try {
-                session = (GoogleSession) Session.getCurrentSession();
-                Scrumtool service = session.getAuthServiceObject();
-                // TODO not sure about the loadScrumIssues function
-                issues = service.loadScrumIssues(params[0]).execute();
-            } catch (NotAuthenticatedException | IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return issues;
-        }
-
-        @Override
-        protected void onPostExecute(CollectionResponseScrumIssue result) {
-            List<ScrumIssue> resultItems = result.getItems();
-            ArrayList<Issue> issues = new ArrayList<Issue>();
-            for (ScrumIssue s : resultItems) {
-                Issue.Builder issueBuilder = new Issue.Builder();
-                issueBuilder.setDescription(s.getDescription());
-                issueBuilder.setEstimatedTime(s.getEstimation());
-                issueBuilder.setId(s.getKey());
-                issueBuilder.setName(s.getName());
-                // TODO status(string) constructor
-                // iB.setStatus(s.getStatus());
-                issues.add(issueBuilder.build());
-            }
-            callback.interactionDone(issues);
-        }
-
+    @Override
+    public void insert(Sprint sprint, Project project, Callback<String> cB) {
+        // TODO Auto-generated method stub
+        
     }
+    @Override
+    public void removeSprint(Sprint sprint, Project project,
+            Callback<Boolean> cB) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
 
 }

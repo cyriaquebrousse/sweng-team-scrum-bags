@@ -1,14 +1,11 @@
 package ch.epfl.scrumtool.entity;
 
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player implements DatabaseInteraction<Player> {
+public final class Player {
     private final String id;
     private final User user;
     private final Role role;
@@ -158,22 +155,6 @@ public final class Player implements DatabaseInteraction<Player> {
         public Player build() {
             return new Player(this.id, this.user, this.role, this.isAdmin);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<Player> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this, successCb);
-        
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Player> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this, successCb);
-        
     }
 
 }

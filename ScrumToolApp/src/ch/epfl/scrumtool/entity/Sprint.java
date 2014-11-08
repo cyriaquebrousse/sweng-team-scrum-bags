@@ -6,15 +6,14 @@ import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSSprintHandler;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author ketsio, zenhaeus
  * @author Cyriaque Brousse
  */
-public final class Sprint implements DatabaseInteraction<Sprint> {
-    
+
+public final class Sprint {
     private final String id;
     private final long deadline;
 
@@ -54,9 +53,7 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      * The set of issues is returned in a callback
      */
     public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
-        //TODO define function in DSSprintHandler: db.loadIssues(this.id, callback);
-        DSSprintHandler sh = new DSSprintHandler();
-        sh.loadIssues(this.id, callback);
+        Client.getScrumClient().loadIssues(this, callback);
     }
     
     /**
@@ -64,9 +61,8 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      * @param db
      * @param callback
      */
-    public void addIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
-        // Cast handler to DSSprintHandler since this is a Sprint specific method
-        //TODO define function in DSSprintHandler: db.addIssue(issueKey, this.id, callback);
+    public void addIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+        Client.getScrumClient().addIssue(issue, this, callback);
     }
 
     /**
@@ -74,9 +70,8 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
      * @param db
      * @param callback
      */
-    public void removeIssue(String issueKey, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
-        // Cast handler to DSSprintHandler since this is a Sprint specific method
-        //TODO define function in DSSprintHandler: db.removeIssue(issueKey, this.id, callback);
+    public void removeIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+        Client.getScrumClient().removeIssue(issue, this, callback);
     }
 
     /**
@@ -161,18 +156,6 @@ public final class Sprint implements DatabaseInteraction<Sprint> {
         public Sprint build() {
             return new Sprint(this.id, this.deadline);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<Sprint> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Sprint> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
     }
 
     /**

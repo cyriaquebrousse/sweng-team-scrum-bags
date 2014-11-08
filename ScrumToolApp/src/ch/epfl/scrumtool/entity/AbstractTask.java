@@ -5,22 +5,22 @@ package ch.epfl.scrumtool.entity;
  * 
  */
 public abstract class AbstractTask {
-    private String id;
+    private String key;
     private String name;
     private String description;
     private Status status;
 
     /**
-     * @param id
+     * @param key
      * @param name
      * @param description
      */
-    public AbstractTask(String id, String name, String description, Status status) {
+    public AbstractTask(String key, String name, String description, Status status) {
         super();
-        if (id == null || name == null || description == null || status == null) {
+        if (key == null || name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        this.id = id;
+        this.key = key;
         this.name = name;
         this.description = description;
         this.status = status;
@@ -57,8 +57,8 @@ public abstract class AbstractTask {
      * @return the id
      */
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     @Override
@@ -67,11 +67,11 @@ public abstract class AbstractTask {
             return false;
         }
         AbstractTask other = (AbstractTask) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
     }
     
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
     }
 }

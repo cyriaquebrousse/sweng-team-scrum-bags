@@ -4,17 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
 
-public final class MainTask extends AbstractTask implements
-        DatabaseInteraction<MainTask>, Serializable {
+public final class MainTask extends AbstractTask implements Serializable {
     
     private static final long serialVersionUID = 4279399766459657365L;
     
@@ -36,20 +33,12 @@ public final class MainTask extends AbstractTask implements
         this.priority = priority;
     }
 
-    /**
-     * @param task
-     */
-    /*public MainTask(MainTask task) {
-        this(task.getId(), task.getName(), task.getDescription(), task
-                .getStatus(), task.getPriority());
-    }*/
 
     /**
      * @return the subtasks
      */
     public void loadIssues(Callback<List<Issue>> callback) {
-        DSMainTaskHandler mH = new DSMainTaskHandler();
-        mH.loadIssues(this.getId(), callback);
+        Client.getScrumClient().loadIssues(this, callback);
     }
 
     // TODO save and remove methods for issues
@@ -186,21 +175,5 @@ public final class MainTask extends AbstractTask implements
             return new MainTask(this.id, this.name, this.description,
                     this.status, this.priority);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<MainTask> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this, successCb);
-
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<MainTask> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this, successCb);
-
     }
 }

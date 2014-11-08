@@ -4,16 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author vincent, aschneuw, zenhaeus
  * 
  */
 
-public final class User implements DatabaseInteraction<User>, Serializable {
+public final class User implements Serializable {
 
     private static final long serialVersionUID = 7681922700115023885L;
 
@@ -52,10 +50,7 @@ public final class User implements DatabaseInteraction<User>, Serializable {
      * @return the projects
      */
     public void loadProjects(Callback<List<Project>> callback) {
-        DSUserHandler db = new DSUserHandler();
-        db.loadProjects(this.name, callback);
-        // TODO : shouldn't it use the email? name are not unique
-        // loris : I think so !
+        Client.getScrumClient().loadProjects(callback);
     }
     
     /**
@@ -64,8 +59,8 @@ public final class User implements DatabaseInteraction<User>, Serializable {
      * @param callback The callback function 
      */
     public void addProject(Project p, Callback<String> callback) {
-        DSUserHandler db = new DSUserHandler();
-        db.addProject(this.name, p, callback);
+        Client.getScrumClient().insertProject(p, callback);
+        
     }
 
     /**
@@ -117,20 +112,6 @@ public final class User implements DatabaseInteraction<User>, Serializable {
             return new User(this.email, this.name);
         }
 
-    }
-
-
-    @Override
-    public void updateDatabase(DatabaseHandler<User> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<User> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
     }
 
     @Override

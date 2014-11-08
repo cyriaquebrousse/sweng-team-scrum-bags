@@ -18,6 +18,7 @@ import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -33,6 +34,8 @@ public class BacklogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
+        
+        
         
         project = (Project) getIntent().getSerializableExtra("ch.epfl.scrumtool.PROJECT");
         project.loadBacklog(new Callback<List<MainTask>>() {
@@ -73,12 +76,11 @@ public class BacklogActivity extends Activity {
         
         final MainTask newTask = tB.build();
         
-        DSMainTaskHandler tH = new DSMainTaskHandler();
-        tH.insert(newTask, new Callback<Boolean>() {
+        Client.getScrumClient().insertMainTask(newTask, project, new Callback<String>() {
             
             @Override
-            public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
+            public void interactionDone(String success) {
+                if (!success.equals("")) {
                     
                     // FIXME: need database function project.addTask(task)
                     

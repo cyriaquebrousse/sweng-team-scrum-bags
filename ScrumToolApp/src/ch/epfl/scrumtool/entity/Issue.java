@@ -2,15 +2,11 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Issue extends AbstractTask implements DatabaseInteraction<Issue>, Serializable {
+public final class Issue extends AbstractTask implements Serializable {
 
     private static final long serialVersionUID = -1590796103232831763L;
 
@@ -67,7 +63,7 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
         }
 
         public Builder(Issue otherIssue) {
-            this.id = otherIssue.getId();
+            this.id = otherIssue.getKey();
             this.name = otherIssue.getName();
             this.description = otherIssue.getDescription();
             this.status = otherIssue.getStatus();
@@ -147,19 +143,6 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
         }
 
     }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<Issue> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Issue> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
-    }
-
 
     @Override
     public boolean equals(Object o) {

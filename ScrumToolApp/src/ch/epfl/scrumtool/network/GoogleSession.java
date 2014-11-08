@@ -1,12 +1,22 @@
 package ch.epfl.scrumtool.network;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.accounts.AccountManager;
 import android.content.Intent;
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DBHandlers;
+import ch.epfl.scrumtool.database.MainTaskHandler;
 import ch.epfl.scrumtool.database.google.AppEngineUtils;
+import ch.epfl.scrumtool.database.google.DSIssueHandler;
+import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
+import ch.epfl.scrumtool.database.google.DSPlayerHandler;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
+import ch.epfl.scrumtool.database.google.DSSprintHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -129,6 +139,17 @@ public class GoogleSession extends Session {
                     if (object != null) {
                         new GoogleSession(object, googleCredential);
                         context.openMenuActivity();
+                        
+                        DBHandlers.Builder builder = new DBHandlers.Builder();
+                        builder.setIssueHandler(new DSIssueHandler());
+                        builder.setMaintaskHandler(new DSMainTaskHandler());
+                        builder.setPlayerHandler(new DSPlayerHandler());
+                        builder.setProjectHandler(new DSProjectHandler());
+                        builder.setSprintHandler(new DSSprintHandler());
+                        builder.setUserHandler(new DSUserHandler());
+                        
+                        Client.setScrumClient(new DBScrumClient(builder.build()));
+
                     } else {
                         // TODO Error handling
                         // throw new NotAuthenticatedException();

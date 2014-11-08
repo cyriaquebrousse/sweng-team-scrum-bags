@@ -5,16 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Project implements DatabaseInteraction<Project>, Serializable {
+public final class Project implements Serializable {
 
     private static final long serialVersionUID = -4181818270822077982L;
 
@@ -66,8 +64,7 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
      * @param callback
      */
     public void loadPlayers(Callback<List<Player>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadPlayers(this.id, callback);
+        Client.getScrumClient().loadPlayers(this, callback);
     }
 
     /**
@@ -75,16 +72,14 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
      * @param callback
      */
     public void loadBacklog(Callback<List<MainTask>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadMainTasks(this.id, callback);
+        Client.getScrumClient().loadBacklog(this, callback);
     }
     
     /**
      * @param callback
      */
     public void loadSprints(Callback<List<Sprint>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadSprints(this.id, callback);
+        Client.getScrumClient().loadSprints(this, callback);
     }
     
     // TODO save and remove methods for collections (same style as load methods above)
@@ -186,19 +181,6 @@ public final class Project implements DatabaseInteraction<Project>, Serializable
         public Project build() {
             return new Project(this.id, this.name, this.description);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<Project> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-        
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Project> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
     }
 
     @Override
