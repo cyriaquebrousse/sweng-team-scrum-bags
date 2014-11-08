@@ -1,11 +1,13 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
+
 import ch.epfl.scrumtool.R;
 
 /**
  * @author Cyriaque Brousse
  */
-public enum Priority {
+public enum Priority implements Serializable{
     LOW(R.color.blue, "LOW"),
     NORMAL(R.color.darkgreen, "NORMAL"),
     HIGH(R.color.Orange, "HIGH"),

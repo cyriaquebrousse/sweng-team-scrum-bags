@@ -68,7 +68,7 @@ public class DSPlayerHandler implements PlayerHandler {
 
     @Override
     public void load(final String key, final Callback<Player> dbC) {
-        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
 
     }
 

@@ -1,10 +1,16 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
+
 /**
  * @author Vincent
  * 
  */
-public abstract class AbstractTask {
+public abstract class AbstractTask implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1197442142563029748L;
     private String key;
     private String name;
     private String description;
