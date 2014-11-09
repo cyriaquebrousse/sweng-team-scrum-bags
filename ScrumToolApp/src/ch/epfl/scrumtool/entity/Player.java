@@ -17,7 +17,7 @@ public final class Player {
 	private Player(String id, User user, Role role, boolean isAdmin,
 			String projectKey) {
 		super();
-		if (id == null || user == null || role == null) {
+		if (id == null || user == null || role == null || projectKey == null) {
 			throw new NullPointerException("Player.Constructor");
 		}
 		this.id = id;
@@ -167,11 +167,11 @@ public final class Player {
 		}
 
 		/**
-		 * @param newKey
+		 * @param newProject
 		 */
-		public void setProjectKey(String newKey) {
-			if (newKey != null) {
-				this.projectKey = newKey;
+		public void setProjectKey(String newProjectKey) {
+			if (newProjectKey != null) {
+				this.projectKey = newProjectKey;
 			}
 		}
 
