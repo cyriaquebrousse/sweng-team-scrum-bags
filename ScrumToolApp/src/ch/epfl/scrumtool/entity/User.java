@@ -1,10 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.List;
-
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author vincent, aschneuw, zenhaeus
@@ -45,23 +41,6 @@ public final class User implements Serializable {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @return the projects
-     */
-    public void loadProjects(Callback<List<Project>> callback) {
-        Client.getScrumClient().loadProjects(callback);
-    }
-    
-    /**
-     * This adds a project for this user
-     * The callback will contain the key of the added Project
-     * @param callback The callback function 
-     */
-    public void addProject(Project p, Callback<Project> callback) {
-        Client.getScrumClient().insertProject(p, callback);
-        
     }
 
     /**
