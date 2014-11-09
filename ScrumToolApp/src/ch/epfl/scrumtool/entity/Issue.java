@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public final class Issue extends AbstractTask implements Serializable {
 
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.ISSUE";
     private static final long serialVersionUID = -1590796103232831763L;
 
     private float estimatedTime;

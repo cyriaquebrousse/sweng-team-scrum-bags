@@ -14,6 +14,7 @@ import ch.epfl.scrumtool.network.Client;
 public final class User implements Serializable {
 
     private static final long serialVersionUID = 7681922700115023885L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.USER";
 
     private final String email;
     private final String name;

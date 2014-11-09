@@ -1,11 +1,17 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
+
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player {
+public final class Player implements Serializable {
+    
+    private static final long serialVersionUID = -1373129649658028177L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PLAYER";
+    
     private final String id;
     private final User user;
     private final Role role;

@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -13,12 +12,8 @@ import android.widget.ListView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.entity.MainTask.Builder;
-import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -35,7 +30,7 @@ public class BacklogActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
         
-        project = (Project) getIntent().getSerializableExtra("ch.epfl.scrumtool.PROJECT");
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         project.loadBacklog(new Callback<List<MainTask>>() {
             
             @Override
@@ -49,45 +44,13 @@ public class BacklogActivity extends Activity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent openTaskIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
-                        
-                        // Pass the task Id
                         MainTask task = taskList.get(position);
-                        openTaskIntent.putExtra("ch.epfl.scrumtool.TASK", task);
-                        
+                        openTaskIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
                         startActivity(openTaskIntent);
                     }
                 });
                 
                 adapter.notifyDataSetChanged();
-            }
-        });
-    }
-    
-    public void addTask(View view) {
-        MainTask.Builder tB = new MainTask.Builder();
-        tB.setName("Static Task");
-        tB.setDescription("I am a super super cool description... YAHOU !");
-        tB.setPriority(Priority.HIGH);
-        tB.setStatus(Status.READY_FOR_ESTIMATION);
-        tB.setId("newTaskId");
-        
-        final MainTask newTask = tB.build();
-        
-        Client.getScrumClient().insertMainTask(newTask, project, new Callback<MainTask>() {
-            
-            @Override
-            public void interactionDone(MainTask task) {
-                if (task != null) {
-                    Log.d("Task ID", task.getKey());
-                    // FIXME: need database function project.addTask(task)
-                    
-                    //Intent openTaskOverviewIntent = new Intent(BacklogActivity.this, TaskOverviewActivity.class);
-                    //openTaskOverviewIntent.putExtra("ch.epfl.scrumtool.TASK", newTask);
-                    //startActivity(openTaskOverviewIntent);
-                    
-                } else {
-                    Log.e("BacklogActivity", "Could not insert the new task");
-                }
             }
         });
     }

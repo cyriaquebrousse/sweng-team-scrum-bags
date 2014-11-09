@@ -38,7 +38,7 @@ public class TaskOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
 
-        task = (MainTask) getIntent().getSerializableExtra("ch.epfl.scrumtool.TASK");
+        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
         task.loadIssues(new Callback<List<Issue>>() {
             
             @Override
@@ -52,10 +52,8 @@ public class TaskOverviewActivity extends Activity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
-                        
                         Issue issue = issueList.get(position);
-                        openIssueIntent.putExtra("ch.epfl.scrumtool.ISSUE", issue);
-                        
+                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
                         startActivity(openIssueIntent);
                     }
                 });

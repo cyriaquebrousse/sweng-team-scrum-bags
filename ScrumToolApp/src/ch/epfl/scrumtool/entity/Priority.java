@@ -7,7 +7,8 @@ import ch.epfl.scrumtool.R;
 /**
  * @author Cyriaque Brousse
  */
-public enum Priority implements Serializable{
+public enum Priority implements Serializable {
+    
     LOW(R.color.blue, "LOW"),
     NORMAL(R.color.darkgreen, "NORMAL"),
     HIGH(R.color.Orange, "HIGH"),

@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.network.Client;
 
 public final class MainTask extends AbstractTask implements Serializable {
     
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
     
     private Priority priority;

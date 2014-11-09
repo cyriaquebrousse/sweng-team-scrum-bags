@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,29 +39,22 @@ public class ProjectListActivity extends Activity implements
         try {
             Session.getCurrentSession().getUser().loadProjects(new Callback<List<Project>>() {
                 @Override
-                public void interactionDone(
-                        final List<Project> projectList) {
+                public void interactionDone(final List<Project> projectList) {
 
                     // Get list and initialize its adapter
-                    adapter = new ProjectListAdapter(
-                            ProjectListActivity.this, projectList);
+                    adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
                     listView = (ListView) findViewById(R.id.project_list);
                     listView.setAdapter(adapter);
 
                     listView.setOnItemClickListener(new OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent,
-                                View view, int position, long id) {
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent openProjectOverviewIntent = new Intent(
                                     view.getContext(),
                                     ProjectOverviewActivity.class);
 
-                            // Pass the project Id
                             Project project = projectList.get(position);
-                            openProjectOverviewIntent.putExtra(
-                                    "ch.epfl.scrumtool.PROJECT",
-                                    project);
-
+                            openProjectOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
                             startActivity(openProjectOverviewIntent);
                         }
                     });
@@ -94,7 +86,6 @@ public class ProjectListActivity extends Activity implements
                 showPopup(v);
                 return true;
             case R.id.action_logout:
-                Log.d("ProjectListActivity", "Lol, it works");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -113,7 +104,7 @@ public class ProjectListActivity extends Activity implements
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                openLoginActivity();
+                logoutAndOpenLoginActivity();
                 return true;
             default:
                 return false;
@@ -126,13 +117,12 @@ public class ProjectListActivity extends Activity implements
      *            user can create a project
      */
     private void openProjectEditActivity(Project project) {
-        Intent openProjectEditIntent = new Intent(this,
-                ProjectEditActivity.class);
-        openProjectEditIntent.putExtra("ch.epfl.scrumtool.PROJECT", project);
+        Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
+        openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openProjectEditIntent);
     }
 
-    private void openLoginActivity() {
+    private void logoutAndOpenLoginActivity() {
         Session.destroyCurrentSession(this);
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
         startActivity(openLoginIntent);

@@ -8,6 +8,7 @@ import ch.epfl.scrumtool.R;
  * @author ketsio
  */
 public enum Status implements Serializable {
+    
     READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"), 
     IN_SPRINT(R.color.Salmon, "In sprint"), 
     READY_FOR_ESTIMATION(R.color.Lime, "Ready for estimation"),

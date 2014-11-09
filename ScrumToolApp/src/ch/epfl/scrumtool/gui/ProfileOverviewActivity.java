@@ -37,7 +37,7 @@ public class ProfileOverviewActivity extends Activity {
         try {
             @SuppressWarnings("unused")
             User userConnected = Session.getCurrentSession().getUser();
-            User userProfile = (User) getIntent().getSerializableExtra("ch.epfl.scrumtool.USER");
+            User userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
 
             // Create the adapter
             // TODO : Change static getter by getProjectsSharedWith(userConnected)

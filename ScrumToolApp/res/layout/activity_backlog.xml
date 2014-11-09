@@ -6,16 +6,8 @@
     android:layout_height="match_parent"
     tools:context="ch.epfl.scrumtool.gui.BacklogActivity" >
 
-    <Button 
-        android:id="@+id/backlog_add_task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="addTask"
-        android:text="@string/button_add_task" />
-    
     <ListView
         android:id="@+id/backlog_tasklist"
-        android:layout_below="@id/backlog_add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/list_divider"

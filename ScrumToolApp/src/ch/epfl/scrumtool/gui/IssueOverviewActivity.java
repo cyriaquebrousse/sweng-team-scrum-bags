@@ -30,7 +30,7 @@ public class IssueOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_overview);
 
-        issue = (Issue) getIntent().getSerializableExtra("ch.epfl.scrumtool.ISSUE");
+        issue = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
 
         nameView = (TextView) findViewById(R.id.issue_name);
         descriptionView = (TextView) findViewById(R.id.issue_desc);
@@ -42,10 +42,8 @@ public class IssueOverviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                
                 User assignee = issue.getPlayer().getUser();
-                openProfileIntent.putExtra("ch.epfl.scrumtool.USER", assignee);
-                
+                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
                 startActivity(openProfileIntent);
             }
         });

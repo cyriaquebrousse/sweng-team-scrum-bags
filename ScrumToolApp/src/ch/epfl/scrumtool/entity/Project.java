@@ -10,11 +10,11 @@ import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
- * 
  */
 public final class Project implements Serializable {
 
     private static final long serialVersionUID = -4181818270822077982L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
     private final String id;
     private final String name;
