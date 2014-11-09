@@ -53,7 +53,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     GoogleSession s = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = s.getAuthServiceObject();
-                    opStatus = service.insertScrumPlayer(project.getId(), object.getId(), params[0]).execute();
+                    opStatus = service.insertScrumPlayer(project.getKey(), object.getId(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -130,7 +130,7 @@ public class DSPlayerHandler implements PlayerHandler {
             }
         };
 
-        task.execute(project.getId());
+        task.execute(project.getKey());
     }
 
     @Override
