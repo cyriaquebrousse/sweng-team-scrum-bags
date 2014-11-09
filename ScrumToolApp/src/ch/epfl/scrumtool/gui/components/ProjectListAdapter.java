@@ -34,7 +34,7 @@ public final class ProjectListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Project getItem(int position) {
         return projectsList.get(position);
     }
 

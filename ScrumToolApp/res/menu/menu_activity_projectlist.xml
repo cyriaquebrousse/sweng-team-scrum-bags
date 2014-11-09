@@ -8,6 +8,8 @@
         android:icon="@drawable/ic_action_new"
         android:showAsAction="ifRoom"
         android:title="@string/action_add"/>
+    
+    <!-- "More" -->
     <item
         android:id="@+id/action_overflow"
         android:icon="@drawable/ic_menu_moreoverflow_holo_light"
