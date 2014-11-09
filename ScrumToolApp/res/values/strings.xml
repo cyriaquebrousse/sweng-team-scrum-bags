@@ -31,19 +31,21 @@
     <string name="shared_projects">Shared Projects</string>
     <string name="email">email</string>
     <string name="username">username</string>
-    
+
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
     <string name="project_description_edit_hint">Please enter a project description</string>
-    
+
     <!-- Menu actions -->
     <string name="action_add">Add</string>
     <string name="action_overflow">More</string>
     <string name="action_logout">Logout</string>
-    
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
-    
+
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -52,5 +54,6 @@
     <string name="sprintName">Name</string>
     <string name="sprintEditName">Enter a name</string>
     <string name="sprintDate">Date</string>
+    <string name="title_activity_project_player_list">Player list</string>
 
 </resources>

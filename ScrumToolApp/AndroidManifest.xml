@@ -74,6 +74,10 @@
             android:name=".gui.ProjectEditActivity"
             android:label="@string/title_activity_project_edit" >
         </activity>
+        <activity
+            android:name=".gui.ProjectPlayerListActivity"
+            android:label="@string/title_activity_project_player_list" >
+        </activity>
     </application>
 
 </manifest>
