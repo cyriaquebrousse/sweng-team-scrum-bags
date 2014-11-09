@@ -34,7 +34,7 @@ public class DSPlayerHandler implements PlayerHandler {
         player.setAdminFlag(object.isAdmin());
         Date date = new Date();
         player.setLastModDate(date.getTime());
-        player.setLastModDate(date.getTime());
+        player.setProjectKey(object.getProjectKey());
         try {
             player.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());
@@ -122,6 +122,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     Player.Builder pB = new Player.Builder();
                     pB.setId(s.getKey());
                     pB.setIsAdmin(s.getAdminFlag());
+                    pB.setProjectKey(s.getProjectKey());
                     // pB.setRole(s.getRole()); TODO get role and get user
                     // pB.setUser(s.getUser());
                     players.add(pB.build());
