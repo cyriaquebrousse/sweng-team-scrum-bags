@@ -4,13 +4,8 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
@@ -23,7 +18,6 @@ public class ProjectEditActivity extends Activity {
     
     private EditText projectTitleView;
     private EditText projectDescriptionView;
-    private Button nextButton;
     
     private Project.Builder projectBuilder;
 
@@ -33,9 +27,10 @@ public class ProjectEditActivity extends Activity {
         setContentView(R.layout.activity_project_edit);
         
         // Get project and construct a builder from it
-        Project fromIntent = (Project) getIntent().getSerializableExtra("ch.epfl.scrumtool.PROJECT");
+        Project fromIntent = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         if (fromIntent == null) {
             projectBuilder = new Project.Builder();
+            setTitle(R.string.title_activity_project_edit_new);
         } else {
             projectBuilder = new Project.Builder(fromIntent);
         }
@@ -43,78 +38,37 @@ public class ProjectEditActivity extends Activity {
         // Get the views and initialize them with the builder values
         projectTitleView = (EditText) findViewById(R.id.project_title_edit);
         projectDescriptionView = (EditText) findViewById(R.id.project_description_edit);
-        nextButton = (Button) findViewById(R.id.project_edit_button_next);
-        
-        nextButton.setEnabled(false);
-        projectTitleView.addTextChangedListener(titleVerifier());
-        projectDescriptionView.addTextChangedListener(descriptionVerifier());
         
         projectTitleView.setText(projectBuilder.getName());
         projectDescriptionView.setText(projectBuilder.getDescription());
     }
     
     public void saveProjectChanges(View view) {
-        String newTitle = projectTitleView.getText().toString();
-        String newDescription = projectDescriptionView.getText().toString();
+        updateTextViewAfterValidityCheck(projectTitleView, titleIsValid());
+        updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid());
         
-        projectBuilder.setName(newTitle);
-        projectBuilder.setDescription(newDescription);
-        projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
-        
-        Project project = projectBuilder.build();
-        Client.getScrumClient().insertProject(project, new Callback<Project>(){
-
-            @Override
-            public void interactionDone(Project object) {
-                Log.d("Project added Key:", object.toString());                
-            }
+        if (titleIsValid() && descriptionIsValid()) {
+            String newTitle = projectTitleView.getText().toString();
+            String newDescription = projectDescriptionView.getText().toString();
             
-        });
-        
-        Toast.makeText(this, "Pretend project is saved :)", Toast.LENGTH_SHORT).show();
-        this.finish(); // TODO save project and then open player list maybe?
+            projectBuilder.setName(newTitle);
+            projectBuilder.setDescription(newDescription);
+            projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
+            
+            Project project = projectBuilder.build();
+            Client.getScrumClient().insertProject(project, new Callback<Project>() {
+                @Override
+                public void interactionDone(Project object) {
+                    ProjectEditActivity.this.finish();
+                }
+            });
+        }
     }
     
-    private TextWatcher titleVerifier() {
-        return new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateTextViewAfterValidityCheck(projectTitleView, titleIsValid());
-                updateNextButtonEnableState();
-            }
-        };
-    }
-    
-    private TextWatcher descriptionVerifier() {
-        return new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid());
-                updateNextButtonEnableState();
-            }
-        };
-    }
-
     private boolean titleIsValid() {
         String title = projectTitleView.getText().toString();
         return title != null && title.length() > 0
-                && title.length() < 50; //TODO put a meaningful value (cyriaque)
-    }
-
-    private void updateNextButtonEnableState() {
-        nextButton.setEnabled(titleIsValid() && descriptionIsValid());
+                && title.length() < 50; // TODO put a meaningful value (cyriaque)
     }
 
     private boolean descriptionIsValid() {

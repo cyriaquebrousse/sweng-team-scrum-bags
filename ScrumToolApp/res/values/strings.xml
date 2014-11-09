@@ -16,6 +16,7 @@
     <string name="title_activity_profile_overview">Profile overview</string>
     <string name="title_activity_sprint">Sprint</string>
     <string name="title_activity_project_edit">Edit project</string>
+    <string name="title_activity_project_edit_new">New project</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
