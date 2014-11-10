@@ -17,6 +17,8 @@
     <string name="title_activity_sprint">Sprint</string>
     <string name="title_activity_project_edit">Edit project</string>
     <string name="title_activity_project_edit_new">New project</string>
+    <string name="title_activity_task_edit">Edit task</string>
+    <string name="title_activity_task_edit_new">New task</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
@@ -36,6 +38,8 @@
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
     <string name="project_description_edit_hint">Please enter a project description</string>
+    <string name="task_name_edit_hint">Task name</string>
+    <string name="task_description_edit_hint">Please enter a task description</string>
 
     <!-- Menu actions -->
     <string name="action_add">Add</string>

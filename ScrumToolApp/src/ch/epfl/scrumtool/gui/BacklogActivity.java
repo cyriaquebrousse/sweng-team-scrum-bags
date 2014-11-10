@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +17,7 @@ import ch.epfl.scrumtool.gui.components.TaskListAdapter;
 /**
  * @author Cyriaque Brousse
  */
-public class BacklogActivity extends Activity {
+public class BacklogActivity extends BaseMenuActivity<MainTask> {
     
     private ListView listView;
     private Project project;
@@ -53,5 +52,19 @@ public class BacklogActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+    
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null); // TODO right way to do this (cyriaque)
+    }
+
+    @Override
+    void openEditElementActivity(MainTask task) {
+        Intent openTaskEditIntent = new Intent(this, MainTaskEditActivity.class);
+        openTaskEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
+        openTaskEditIntent.putExtra(Project.SERIALIZABLE_NAME, this.project);
+        startActivity(openTaskEditIntent);
     }
 }

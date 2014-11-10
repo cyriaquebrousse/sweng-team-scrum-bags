@@ -81,6 +81,10 @@
         <activity
             android:name="ch.epfl.scrumtool.gui.SprintListActivity"
             android:label="@string/title_activity_sprint_list" >
+	</activity>
+	<activity
+            android:name=".gui.MainTaskEditActivity"
+            android:label="@string/title_activity_task_edit" >
         </activity>
     </application>
 

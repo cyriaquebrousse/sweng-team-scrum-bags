@@ -29,7 +29,11 @@ public class ProjectEditActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_edit);
         
-        // Get project and construct a builder from it
+        initOriginal();
+        initViews();
+    }
+    
+    private void initOriginal() {
         original = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         if (original == null) {
             projectBuilder = new Project.Builder();
@@ -37,15 +41,16 @@ public class ProjectEditActivity extends Activity {
         } else {
             projectBuilder = new Project.Builder(original);
         }
-        
-        // Get the views and initialize them with the builder values
+    }
+    
+    private void initViews() {
         projectTitleView = (EditText) findViewById(R.id.project_title_edit);
         projectDescriptionView = (EditText) findViewById(R.id.project_description_edit);
         
         projectTitleView.setText(projectBuilder.getName());
         projectDescriptionView.setText(projectBuilder.getDescription());
     }
-    
+
     public void saveProjectChanges(View view) {
         updateTextViewAfterValidityCheck(projectTitleView, titleIsValid());
         updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid());
@@ -58,17 +63,16 @@ public class ProjectEditActivity extends Activity {
             projectBuilder.setDescription(newDescription);
             projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
             
-            Project project = projectBuilder.build();
-            
             if (original == null) {
-                insertProject(project);
+                insertProject();
             } else {
-                updateProject(project);
+                updateProject();
             }
         }
     }
     
-    private void insertProject(Project project) {
+    private void insertProject() {
+        Project project = projectBuilder.build();
         Client.getScrumClient().insertProject(project, new Callback<Project>() {
             @Override
             public void interactionDone(Project object) {
@@ -77,7 +81,8 @@ public class ProjectEditActivity extends Activity {
         });
     }
 
-    private void updateProject(Project project) {
+    private void updateProject() {
+        Project project = projectBuilder.build();
         Client.getScrumClient().updateProject(project, original, new Callback<Boolean>() {
             @Override
             public void interactionDone(Boolean success) {
