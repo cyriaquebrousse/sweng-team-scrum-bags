@@ -1,6 +1,7 @@
-package ch.epfl.scrumtool.gui;
+package ch.epfl.scrumtool.gui.components;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.network.Session;
 import android.app.Activity;
 import android.content.Intent;
