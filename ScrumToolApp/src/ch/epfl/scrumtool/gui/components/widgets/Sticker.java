@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Priority;
 
 /**
  * <p>
@@ -27,7 +26,7 @@ import ch.epfl.scrumtool.entity.Priority;
  * 
  * @author Cyriaque Brousse
  */
-public final class Sticker extends TextView {
+public class Sticker extends TextView {
     
     public Sticker(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -71,16 +70,6 @@ public final class Sticker extends TextView {
      */
     public void setStickerText(String text) {
         setText(text);
-    }
-    
-    /**
-     * Pertains to the specific case where the sticker displays a priority
-     * 
-     * @param priority
-     *            the priority whose text representation will be displayed
-     */
-    public void setStickerText(Priority priority) {
-        setText(priority.toString());
     }
     
     /**

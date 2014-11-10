@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.gui.components.widgets.Sticker;
+import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 /**
  * @author Cyriaque Brousse
@@ -50,7 +50,7 @@ public final class TaskListAdapter extends BaseAdapter {
         }
         
         // Get the views
-        Sticker priority = (Sticker) convertView.findViewById(R.id.task_row_priority_sticker);
+        PrioritySticker priorityView = (PrioritySticker) convertView.findViewById(R.id.task_row_priority_sticker);
         TextView name = (TextView) convertView.findViewById(R.id.task_row_name);
         TextView description = (TextView) convertView.findViewById(R.id.task_row_desc);
         TextView status = (TextView) convertView.findViewById(R.id.task_row_status);
@@ -62,8 +62,8 @@ public final class TaskListAdapter extends BaseAdapter {
         // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
         double percentageDone = 0;
         
-        priority.setStickerText(task.getPriority());
-        priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
+        priorityView.setPriority(task.getPriority());
+        priorityView.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
         description.setText(task.getDescription());
         final int hundred = 100;
