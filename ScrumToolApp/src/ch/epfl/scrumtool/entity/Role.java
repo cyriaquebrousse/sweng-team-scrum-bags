@@ -4,8 +4,11 @@ package ch.epfl.scrumtool.entity;
  * @author ketsio
  */
 public enum Role {
-    PRODUCT_OWNER("Product Owner", true), STAKEHOLDER("Stakeholder", false), SCRUM_MASTER(
-            "Scrum Master", true), DEVELOPER("Developer", true);
+    
+    PRODUCT_OWNER("Product Owner", true),
+    STAKEHOLDER("Stakeholder", false),
+    SCRUM_MASTER("Scrum Master", true),
+    DEVELOPER("Developer", true);
 
     private final String stringValue;
     private final boolean canAccessIssues;

@@ -10,9 +10,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
-import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author Cyriaque Brousse
@@ -20,36 +21,37 @@ import ch.epfl.scrumtool.network.ServerSimulator;
 public class BacklogActivity extends Activity {
     
     private ListView listView;
+    private Project project;
     
     private TaskListAdapter adapter;
-    private List<MainTask> taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
         
-        // Get the project
-        long projectId = getIntent().getLongExtra("ch.epfl.scrumtool.PROJECT_ID", 0);
-        taskList = ServerSimulator.getBacklogByProjectId(projectId);
-        
-        // Get list and initialize adapter
-        adapter = new TaskListAdapter(this, taskList);
-        listView = (ListView) findViewById(R.id.backlog_tasklist);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        project.loadBacklog(new Callback<List<MainTask>>() {
+            
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent openTaskIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
+            public void interactionDone(final List<MainTask> taskList) {
 
-                // Pass the task Id
-                MainTask task = taskList.get(position);
-                openTaskIntent.putExtra("ch.epfl.scrumtool.TASK_ID", task.getId());
+                // Get list and initialize adapter
+                adapter = new TaskListAdapter(BacklogActivity.this, taskList);
+                listView = (ListView) findViewById(R.id.backlog_tasklist);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent openTaskIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
+                        MainTask task = taskList.get(position);
+                        openTaskIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
+                        startActivity(openTaskIntent);
+                    }
+                });
                 
-                startActivity(openTaskIntent);
+                adapter.notifyDataSetChanged();
             }
         });
-        
-        adapter.notifyDataSetChanged();
     }
 }

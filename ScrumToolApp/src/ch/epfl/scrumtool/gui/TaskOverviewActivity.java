@@ -11,12 +11,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
-import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author Cyriaque Brousse
@@ -31,7 +31,6 @@ public class TaskOverviewActivity extends Activity {
     private ListView listView;
     
     private MainTask task;
-    private List<Issue> issueList;
     private IssueListAdapter adapter;
     
     @Override
@@ -39,28 +38,27 @@ public class TaskOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
 
-        // Get the task
-        long taskId = getIntent().getLongExtra("ch.epfl.scrumtool.TASK_ID", 0);
-        task = ServerSimulator.getTaskById(taskId);
-        
-        // FIXME getIssues does not exist in new entity model, use loadIssues
-//        issueList = new ArrayList<>(task.getIssues());
-        issueList = ServerSimulator.ISSUES;
-        
-        // Get list and initialize adapter
-        adapter = new IssueListAdapter(this, issueList);
-        listView = (ListView) findViewById(R.id.task_issues_list);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
+        task.loadIssues(new Callback<List<Issue>>() {
+            
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
+            public void interactionDone(final List<Issue> issueList) {
 
-                // Pass the issue Id
-                Issue issue = issueList.get(position);
-                openIssueIntent.putExtra("ch.epfl.scrumtool.ISSUE_ID", issue.getId());
+                // Get list and initialize adapter
+                adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
+                listView = (ListView) findViewById(R.id.task_issues_list);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
+                        Issue issue = issueList.get(position);
+                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+                        startActivity(openIssueIntent);
+                    }
+                });
                 
-                startActivity(openIssueIntent);
+                adapter.notifyDataSetChanged();
             }
         });
         
@@ -71,10 +69,8 @@ public class TaskOverviewActivity extends Activity {
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
         
-        // Set the views
         updateViews();
 
-        adapter.notifyDataSetChanged();
     }
 
     private void updateViews() {

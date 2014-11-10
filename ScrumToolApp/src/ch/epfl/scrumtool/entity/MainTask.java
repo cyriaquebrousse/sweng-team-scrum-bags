@@ -1,19 +1,21 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
 
-public final class MainTask extends AbstractTask implements
-        DatabaseInteraction<MainTask> {
+public final class MainTask extends AbstractTask implements Serializable {
+    
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
+    private static final long serialVersionUID = 4279399766459657365L;
+    
     private Priority priority;
 
     /**
@@ -32,20 +34,12 @@ public final class MainTask extends AbstractTask implements
         this.priority = priority;
     }
 
-    /**
-     * @param task
-     */
-    public MainTask(MainTask task) {
-        this(task.getId(), task.getName(), task.getDescription(), task
-                .getStatus(), task.getPriority());
-    }
 
     /**
      * @return the subtasks
      */
     public void loadIssues(Callback<List<Issue>> callback) {
-        DSMainTaskHandler mH = new DSMainTaskHandler();
-        mH.loadIssues(this.getId(), callback);
+        Client.getScrumClient().loadIssues(this, callback);
     }
 
     // TODO save and remove methods for issues
@@ -84,27 +78,12 @@ public final class MainTask extends AbstractTask implements
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof MainTask)) {
-            return false;
-        }
-
-        // TODO only compare id
-        MainTask other = (MainTask) o;
-        if (other.getPriority() != this.getPriority()) {
-            return false;
-        }
-        return super.equals(o);
+        return o instanceof MainTask && super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return super.hashCode();
     }
 
     /**
@@ -121,6 +100,15 @@ public final class MainTask extends AbstractTask implements
         private Priority priority;
 
         public Builder() {
+            
+        }
+        
+        public Builder(MainTask task) {
+            this.id = task.getKey();
+            this.name = task.getName();
+            this.description = task.getDescription();
+            this.status = task.getStatus();
+            this.priority = task.getPriority();
         }
 
         /**
@@ -132,7 +120,9 @@ public final class MainTask extends AbstractTask implements
         }
 
         public void setId(String id) {
-            this.id = id;
+            if (id != null) {
+                this.id = id;
+            }
         }
 
         /**
@@ -195,21 +185,5 @@ public final class MainTask extends AbstractTask implements
             return new MainTask(this.id, this.name, this.description,
                     this.status, this.priority);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<MainTask> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this, successCb);
-
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<MainTask> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this, successCb);
-
     }
 }

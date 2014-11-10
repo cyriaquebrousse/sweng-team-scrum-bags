@@ -1,14 +1,15 @@
 package ch.epfl.scrumtool.entity;
 
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
+import java.io.Serializable;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Issue extends AbstractTask implements DatabaseInteraction<Issue> {
+public final class Issue extends AbstractTask implements Serializable {
+
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.ISSUE";
+    private static final long serialVersionUID = -1590796103232831763L;
 
     private float estimatedTime;
     private Player player;
@@ -24,9 +25,9 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     private Issue(String id, String name, String description, Status status,
             float estimatedTime, Player player) {
         super(id, name, description, status);
-        if (player == null) {
-            throw new NullPointerException("Issue.Constructor");
-        }
+//        if (player == null) {
+//            throw new NullPointerException("Issue.Constructor");
+//        }
         this.estimatedTime = estimatedTime;
 
         this.player = player;
@@ -63,7 +64,7 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
         }
 
         public Builder(Issue otherIssue) {
-            this.id = otherIssue.getId();
+            this.id = otherIssue.getKey();
             this.name = otherIssue.getName();
             this.description = otherIssue.getDescription();
             this.status = otherIssue.getStatus();
@@ -145,44 +146,13 @@ public final class Issue extends AbstractTask implements DatabaseInteraction<Iss
     }
 
     @Override
-    public void updateDatabase(DatabaseHandler<Issue> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Issue> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        // TODO equals player and not ==
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Issue)) {
-            return false;
-        }
-        Issue other = (Issue) o;
-        if (other.getEstimatedTime() != this.getEstimatedTime()) {
-            return false;
-        }
-        if (!other.getPlayer().equals(this.getPlayer())) {
-            return false;
-        }
-        return super.equals(o);
+        return o instanceof Issue && super.equals(o);
     }
-    
+
     @Override
     public int hashCode() {
-        return (int) (super.hashCode()
-                + estimatedTime
-                + player.hashCode()) % Integer.MAX_VALUE;
+        return super.hashCode();
     }
 
 }

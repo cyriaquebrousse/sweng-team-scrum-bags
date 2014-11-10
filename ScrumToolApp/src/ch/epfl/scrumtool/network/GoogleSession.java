@@ -2,10 +2,15 @@ package ch.epfl.scrumtool.network;
 
 import java.io.IOException;
 
-import android.accounts.AccountManager;
 import android.content.Intent;
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.DBHandlers;
 import ch.epfl.scrumtool.database.google.AppEngineUtils;
+import ch.epfl.scrumtool.database.google.DSIssueHandler;
+import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
+import ch.epfl.scrumtool.database.google.DSPlayerHandler;
+import ch.epfl.scrumtool.database.google.DSProjectHandler;
+import ch.epfl.scrumtool.database.google.DSSprintHandler;
 import ch.epfl.scrumtool.database.google.DSUserHandler;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.LoginActivity;
@@ -102,36 +107,50 @@ public class GoogleSession extends Session {
      */
     public static class Builder {
         private GoogleAccountCredential googleCredential = null;
-        private LoginActivity context = null;
-
-        public Intent getIntent(LoginActivity context) {
+        
+        public Builder(LoginActivity context) {
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.CLIENT_ID);
+        }
 
-            this.context = context;
+        public Intent getIntent() {
             return googleCredential.newChooseAccountIntent();
         }
 
-        public void authenticate(Intent data) {
+        /**
+         * Create a new GoogleSession
+         * @param accName
+         * @param authCallback
+         */
+        public void build(String accName, Callback<Boolean> authCallback) {
             DSUserHandler handler = new DSUserHandler();
-            googleCredential.setSelectedAccountName(
-                    (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME));
-            String email = googleCredential.getSelectedAccountName();
+            final Callback<Boolean> cB = authCallback;
+            googleCredential.setSelectedAccountName(accName);
             /*
              * If the server successfully logs in the user (insert user in case of 
              * non-existence, otherwise return user that wants to login) then the
              * interactionDone function of the Callback is executed.
              */
-            handler.loginUser(email, new Callback<User>() {
+            handler.loginUser(accName, new Callback<User>() {
 
                 @Override
                 public void interactionDone(User object) {
                     if (object != null) {
                         new GoogleSession(object, googleCredential);
-                        context.openMenuActivity();
+                        
+                        DBHandlers.Builder builder = new DBHandlers.Builder();
+                        builder.setIssueHandler(new DSIssueHandler());
+                        builder.setMaintaskHandler(new DSMainTaskHandler());
+                        builder.setPlayerHandler(new DSPlayerHandler());
+                        builder.setProjectHandler(new DSProjectHandler());
+                        builder.setSprintHandler(new DSSprintHandler());
+                        builder.setUserHandler(new DSUserHandler());
+                        
+                        Client.setScrumClient(new DBScrumClient(builder.build()));
+
+                        cB.interactionDone(Boolean.TRUE);
                     } else {
-                        // TODO Error handling
-                        // throw new NotAuthenticatedException();
+                        cB.interactionDone(Boolean.FALSE);
                     }
                 }
             });

@@ -1,7 +1,9 @@
 package ch.epfl.scrumtool.network;
 
+import android.app.Activity;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
  * @author aschneuw
@@ -12,7 +14,7 @@ public abstract class Session {
 
     private final User user;
 
-    public Session(User user) {
+    protected Session(User user) {
         if (user == null) {
             throw new NullPointerException("A session must have a valid user");
         }
@@ -39,5 +41,18 @@ public abstract class Session {
         } else {
             return currentSession;
         }
+    }
+    
+    /**
+     * Destroys current session
+     * @param context
+     */
+    public static void destroyCurrentSession(Activity context) {
+        /*
+         *  Remove our user from the settings, otherwise the AccountPicker will be 
+         *  skipped in the LoginActivity
+         */
+        ApplicationSettings.removeCachedUser(context);
+        currentSession = null;
     }
 }

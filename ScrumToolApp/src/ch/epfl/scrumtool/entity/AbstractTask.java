@@ -1,26 +1,29 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
+
 /**
  * @author Vincent
- * 
  */
-public abstract class AbstractTask {
-    private String id;
+public abstract class AbstractTask implements Serializable {
+    private static final long serialVersionUID = 1197442142563029748L;
+    
+    private String key;
     private String name;
     private String description;
     private Status status;
 
     /**
-     * @param id
+     * @param key
      * @param name
      * @param description
      */
-    public AbstractTask(String id, String name, String description, Status status) {
+    public AbstractTask(String key, String name, String description, Status status) {
         super();
-        if (id == null || name == null || description == null || status == null) {
+        if (key == null || name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        this.id = id;
+        this.key = key;
         this.name = name;
         this.description = description;
         this.status = status;
@@ -57,39 +60,21 @@ public abstract class AbstractTask {
      * @return the id
      */
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof AbstractTask)) {
+        if (o == null || !(o instanceof AbstractTask)) {
             return false;
         }
         AbstractTask other = (AbstractTask) o;
-        if (!other.getDescription().equals(this.description)) {
-            return false;
-        }
-        if (other.getId() != this.id) {
-            return false;
-        }
-        if (!other.getName().equals(this.name)) {
-            return false;
-        }
-        if (other.getStatus() != this.status) {
-            return false;
-        }
-        return true;
+        return other.key.equals(this.key);
     }
     
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
     }
 }

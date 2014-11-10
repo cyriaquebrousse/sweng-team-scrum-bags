@@ -1,18 +1,17 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.List;
-
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSUserHandler;
+import java.io.Serializable;
 
 /**
  * @author vincent, aschneuw, zenhaeus
  * 
  */
 
-public final class User implements DatabaseInteraction<User> {
+public final class User implements Serializable {
+
+    private static final long serialVersionUID = 7681922700115023885L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.USER";
+
     private final String email;
     private final String name;
 
@@ -42,24 +41,6 @@ public final class User implements DatabaseInteraction<User> {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @return the projects
-     */
-    public void loadProjects(Callback<List<Project>> callback) {
-        DSUserHandler db = new DSUserHandler();
-        db.loadProjects(this.name, callback); // shouldn't it use the email? name are not unique
-    }
-    
-    /**
-     * This adds a project for this user
-     * The callback will contain the key of the added Project
-     * @param callback The callback function 
-     */
-    public void addProject(Project p, Callback<String> callback) {
-        DSUserHandler db = new DSUserHandler();
-        db.addProject(this.name, p, callback);
     }
 
     /**
@@ -113,51 +94,13 @@ public final class User implements DatabaseInteraction<User> {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * ch.epfl.scrumtool.entity.DatabaseInteraction#updateDatabase(java.lang
-     * .Object, ch.epfl.scrumtool.entity.DatabaseHandler)
-     */
-
-    @Override
-    public void updateDatabase(DatabaseHandler<User> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * ch.epfl.scrumtool.entity.DatabaseInteraction#deleteFromDatabase(ch.epfl
-     * .scrumtool.entity.DatabaseHandler)
-     */
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<User> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
-    }
-
-
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof User)) {
+        if (o == null || !(o instanceof User)) {
             return false;
         }
         User other = (User) o;
-        if (other.getEmail().equals(this.getEmail())) {
-            return true;
-        }
-        return false;
+        return other.getEmail().equals(this.getEmail());
     }
     
     @Override

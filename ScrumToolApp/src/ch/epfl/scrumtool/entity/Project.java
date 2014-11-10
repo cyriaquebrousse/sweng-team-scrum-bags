@@ -1,19 +1,20 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
-import ch.epfl.scrumtool.database.google.DSProjectHandler;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
- * 
  */
-public final class Project implements DatabaseInteraction<Project> {
+public final class Project implements Serializable {
+
+    private static final long serialVersionUID = -4181818270822077982L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
     private final String id;
     private final String name;
@@ -51,7 +52,7 @@ public final class Project implements DatabaseInteraction<Project> {
     }
     
     /**
-     * @return the admin TODO
+     * @return the admin
      */
     public Player getAdmin() {
         // TODO query database to get admin
@@ -63,8 +64,7 @@ public final class Project implements DatabaseInteraction<Project> {
      * @param callback
      */
     public void loadPlayers(Callback<List<Player>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadPlayers(this.id, callback);
+        Client.getScrumClient().loadPlayers(this, callback);
     }
 
     /**
@@ -72,16 +72,14 @@ public final class Project implements DatabaseInteraction<Project> {
      * @param callback
      */
     public void loadBacklog(Callback<List<MainTask>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadMainTasks(this.id, callback);
+        Client.getScrumClient().loadBacklog(this, callback);
     }
     
     /**
      * @param callback
      */
     public void loadSprints(Callback<List<Sprint>> callback) {
-        DSProjectHandler ph = new DSProjectHandler();
-        ph.loadSprints(this.id, callback);
+        Client.getScrumClient().loadSprints(this, callback);
     }
     
     // TODO save and remove methods for collections (same style as load methods above)
@@ -118,6 +116,14 @@ public final class Project implements DatabaseInteraction<Project> {
         private String description;
 
         public Builder() {
+            this.name = "";
+            this.description = "";
+        }
+        
+        public Builder(Project other) {
+            this.id = other.id;
+            this.name = other.name;
+            this.description = other.description;
         }
 
         /**
@@ -186,34 +192,12 @@ public final class Project implements DatabaseInteraction<Project> {
     }
 
     @Override
-    public void updateDatabase(DatabaseHandler<Project> handler,
-            Callback<Boolean> successCb) {
-        handler.update(this, successCb);
-        
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Project> handler,
-            Callback<Boolean> successCb) {
-        handler.remove(this, successCb);
-    }
-
-    @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Project)) {
+        if (o == null || !(o instanceof Project)) {
             return false;
         }
         Project other = (Project) o;
-        if (other.getId() != this.getId()) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
     
     @Override

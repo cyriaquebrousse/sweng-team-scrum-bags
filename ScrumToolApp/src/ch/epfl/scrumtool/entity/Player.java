@@ -1,14 +1,17 @@
 package ch.epfl.scrumtool.entity;
 
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.database.DatabaseInteraction;
+import java.io.Serializable;
+
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player implements DatabaseInteraction<Player> {
+public final class Player implements Serializable {
+    
+    private static final long serialVersionUID = -1373129649658028177L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PLAYER";
+    
     private final String id;
     private final User user;
     private final Role role;
@@ -58,26 +61,11 @@ public final class Player implements DatabaseInteraction<Player> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Player)) {
+        if (o == null || !(o instanceof Player)) {
             return false;
         }
         Player other = (Player) o;
-        if (other.getId() != this.getId()) {
-            return false;
-        }
-        if (other.getRole() != this.getRole()) {
-            return false;
-        }
-        if (!other.getUser().equals(this.getUser())) {
-            return false;
-        }
-        return true;
+        return other.id.equals(this.id);
     }
     
     @Override
@@ -173,22 +161,6 @@ public final class Player implements DatabaseInteraction<Player> {
         public Player build() {
             return new Player(this.id, this.user, this.role, this.isAdmin);
         }
-    }
-
-    @Override
-    public void updateDatabase(DatabaseHandler<Player> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.update(this, successCb);
-        
-    }
-
-    @Override
-    public void deleteFromDatabase(DatabaseHandler<Player> handler,
-            Callback<Boolean> successCb) {
-        // TODO Auto-generated method stub
-        handler.remove(this, successCb);
-        
     }
 
 }
