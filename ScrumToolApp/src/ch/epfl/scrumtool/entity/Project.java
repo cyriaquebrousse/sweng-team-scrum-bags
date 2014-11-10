@@ -16,7 +16,7 @@ public final class Project implements Serializable {
     private static final long serialVersionUID = -4181818270822077982L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
-    private final String key;
+    private final String id;
     private final String name;
     private final String description;
 
@@ -32,7 +32,7 @@ public final class Project implements Serializable {
         }
 
         // TODO check that admin in players
-        this.key = id;
+        this.id = id;
         this.name = name;
         this.description = description;
     }
@@ -87,8 +87,8 @@ public final class Project implements Serializable {
     /**
      * @return the id
      */
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
     public int getChangesCount(User user) {
@@ -121,7 +121,7 @@ public final class Project implements Serializable {
         }
         
         public Builder(Project other) {
-            this.id = other.key;
+            this.id = other.id;
             this.name = other.name;
             this.description = other.description;
         }
@@ -197,12 +197,12 @@ public final class Project implements Serializable {
             return false;
         }
         Project other = (Project) o;
-        return other.key.equals(this.key);
+        return other.id.equals(this.id);
     }
     
     @Override
     public int hashCode() {
-        return key.hashCode();
+        return id.hashCode();
     }
 
 }

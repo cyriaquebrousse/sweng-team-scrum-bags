@@ -86,7 +86,7 @@ public class DSSprintHandler implements SprintHandler {
                 cB.interactionDone(sprints);
             }
         };
-        task.execute(project.getKey());
+        task.execute(project.getId());
     }
 
     @Override

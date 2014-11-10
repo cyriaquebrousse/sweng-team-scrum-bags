@@ -51,7 +51,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 try {
                     GoogleSession s = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = s.getAuthServiceObject();
-                    opStat = service.insertScrumMainTask(project.getKey(), params[0]).execute();
+                    opStat = service.insertScrumMainTask(project.getId(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
                     e.printStackTrace();
@@ -112,7 +112,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 }
             } 
         };
-        task.execute(project.getKey());
+        task.execute(project.getId());
     }
 
     @Override
