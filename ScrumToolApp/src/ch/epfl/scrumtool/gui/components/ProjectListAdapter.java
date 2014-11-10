@@ -46,7 +46,7 @@ public final class ProjectListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_project, null);
+            convertView = inflater.inflate(R.layout.listrow_project, parent, false);
         }
 
         TextView name = (TextView) convertView.findViewById(R.id.project_row_name);
