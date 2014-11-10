@@ -10,7 +10,7 @@
     android:padding="@dimen/space" >
 
     <!-- Priority -->
-    <ch.epfl.scrumtool.gui.components.widgets.Sticker
+    <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
         android:id="@+id/task_priority_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
