@@ -32,7 +32,7 @@ public class DSProjectHandler implements ProjectHandler {
 		ScrumProject scrumProject = new ScrumProject();
 		scrumProject.setDescription(object.getDescription());
 		scrumProject.setName(object.getName());
-		scrumProject.setPlayers(new ArrayList<ScrumPlayer>());
+		scrumProject.setPlayerKeys(new ArrayList<String>());
 		scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
 		Date date = new Date();
 		scrumProject.setLastModDate(date.getTime());
