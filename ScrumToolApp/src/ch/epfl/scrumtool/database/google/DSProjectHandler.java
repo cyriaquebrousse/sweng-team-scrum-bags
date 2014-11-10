@@ -84,10 +84,37 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void remove(Project object, Callback<Boolean> dbC) {
+    public void remove(final Project object, final Callback<Boolean> cB) {
         // TODO why pass a Project and not a String?
         // RemoveProjectTask task = new RemoveProjectTask(dbC);
         // task.execute(object);
+        
+        AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
+            
+            @Override
+            protected OperationStatus doInBackground(String... params) {
+                OperationStatus opStat = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
+                    opStat = session.getAuthServiceObject().removeScrumProject(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStat;
+                
+            }
+            
+            /* (non-Javadoc)
+             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+             */
+            @Override
+            protected void onPostExecute(OperationStatus result) {
+                cB.interactionDone(result.getSuccess());
+            }
+        };
+        task.execute(object.getId());
+        
     }
 
 
