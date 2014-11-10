@@ -3,11 +3,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_project_edit"
+        android:id="@+id/action_entity_edit"
         android:title="@string/action_edit"/>
     
     <item
-        android:id="@+id/action_project_delete"
+        android:id="@+id/action_entity_delete"
         android:title="@string/action_delete"/>
 
 </menu>

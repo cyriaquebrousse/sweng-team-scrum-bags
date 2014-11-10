@@ -2,12 +2,10 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,19 +13,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
-import ch.epfl.scrumtool.network.Session;
 
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectListActivity extends Activity implements OnMenuItemClickListener {
+public class ProjectListActivity extends BaseMenuActivity<Project> implements OnMenuItemClickListener {
 
     private ListView listView;
     private ProjectListAdapter adapter;
@@ -74,17 +70,17 @@ public class ProjectListActivity extends Activity implements OnMenuItemClickList
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_project_list_context, menu);
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.action_project_edit:
-                openProjectEditActivity(adapter.getItem(info.position));
+            case R.id.action_entity_edit:
+                openEditElementActivity(adapter.getItem(info.position));
                 return true;
-            case R.id.action_project_delete:
+            case R.id.action_entity_delete:
                 deleteProject(adapter.getItem(info.position));
                 return true;
             default:
@@ -93,61 +89,15 @@ public class ProjectListActivity extends Activity implements OnMenuItemClickList
     }
     
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_projectlist, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_project_new:
-                openProjectEditActivity(null);
-                return true;
-            case R.id.action_overflow:
-                View v = (View) findViewById(R.id.action_overflow);
-                showPopup(v);
-                return true;
-            case R.id.action_logout:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                logoutAndOpenLoginActivity();
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.setOnMenuItemClickListener(this);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_overflow, popup.getMenu());
-        popup.show();
-    }
-
-    /**
-     * @param project
-     *            if {@code null}, the edit activity will behave so that the
-     *            user can create a project
-     */
-    private void openProjectEditActivity(Project project) {
+    void openEditElementActivity(Project project) {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openProjectEditIntent);
     }
-    
+
     /**
-     * @param project the project to delete
+     * @param project
+     *            the project to delete
      */
     private void deleteProject(Project project) {
         Client.getScrumClient().deleteProject(project, new Callback<Boolean>() {
@@ -156,12 +106,5 @@ public class ProjectListActivity extends Activity implements OnMenuItemClickList
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private void logoutAndOpenLoginActivity() {
-        Session.destroyCurrentSession(this);
-        Intent openLoginIntent = new Intent(this, LoginActivity.class);
-        startActivity(openLoginIntent);
-        this.finish();
     }
 }

@@ -2,9 +2,9 @@
 <!-- Author: Cyriaque Brousse -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- Add project -->
+    <!-- Add element -->
     <item
-        android:id="@+id/action_project_new"
+        android:id="@+id/action_new"
         android:icon="@drawable/ic_action_new"
         android:showAsAction="ifRoom"
         android:title="@string/action_add"/>
