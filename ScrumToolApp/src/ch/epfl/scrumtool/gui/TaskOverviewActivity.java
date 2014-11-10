@@ -15,8 +15,8 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
-import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
 /**
  * @author Cyriaque Brousse
@@ -25,7 +25,7 @@ public class TaskOverviewActivity extends Activity {
 
     private TextView nameView;
     private TextView descriptionView;
-    private Sticker prioritySticker;
+    private PrioritySticker prioritySticker;
     private Slate statusSlate;
     private Slate estimationSlate;
     private ListView listView;
@@ -65,7 +65,7 @@ public class TaskOverviewActivity extends Activity {
         // Get other views
         nameView = (TextView) findViewById(R.id.task_name);
         descriptionView = (TextView) findViewById(R.id.task_desc);
-        prioritySticker = (Sticker) findViewById(R.id.task_priority);
+        prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
         
@@ -76,8 +76,7 @@ public class TaskOverviewActivity extends Activity {
     private void updateViews() {
         nameView.setText(task.getName());
         descriptionView.setText(task.getDescription());
-        prioritySticker.setStickerText(task.getPriority());
-        prioritySticker.setColor(getResources().getColor(task.getPriority().getColorRef()));
+        prioritySticker.setPriority(task.getPriority());
         statusSlate.setText(task.getStatus().toString());
 
         float estimatedTime = task.getEstimatedTime();
