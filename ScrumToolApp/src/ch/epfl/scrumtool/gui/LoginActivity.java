@@ -36,6 +36,11 @@ public class LoginActivity extends Activity {
         }
     }
     
+    /**
+     * Opens the account picker from where the user can 
+     * chose the account he wants to log in with.
+     * @param view
+     */
     public void openAccountPicker(View view) {
         Intent googleAccountPicker = sessionBuilder.getIntent();
         this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
