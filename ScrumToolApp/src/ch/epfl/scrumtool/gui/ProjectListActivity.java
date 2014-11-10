@@ -17,7 +17,6 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.gui.components.BaseMenuActivity;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
 
