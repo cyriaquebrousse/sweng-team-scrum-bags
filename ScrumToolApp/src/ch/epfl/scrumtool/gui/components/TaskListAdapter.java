@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.gui.components.widgets.Sticker;
+import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 /**
  * @author Cyriaque Brousse
@@ -46,11 +46,11 @@ public final class TaskListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_task, null);
+            convertView = inflater.inflate(R.layout.listrow_task, parent, false);
         }
         
         // Get the views
-        Sticker priority = (Sticker) convertView.findViewById(R.id.task_row_priority_sticker);
+        PrioritySticker priorityView = (PrioritySticker) convertView.findViewById(R.id.task_row_priority_sticker);
         TextView name = (TextView) convertView.findViewById(R.id.task_row_name);
         TextView description = (TextView) convertView.findViewById(R.id.task_row_desc);
         TextView status = (TextView) convertView.findViewById(R.id.task_row_status);
@@ -58,13 +58,16 @@ public final class TaskListAdapter extends BaseAdapter {
         
         // Set views properties
         MainTask task = taskList.get(position);
-        double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
-
-        priority.setStickerText(task.getPriority());
-        priority.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
+        // FIXME: need database function task.getIssuesFinishedCount()
+        // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
+        double percentageDone = 0;
+        
+        priorityView.setPriority(task.getPriority());
+        priorityView.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
         description.setText(task.getDescription());
-        status.setText((int) (percentageDone * 100) + " %  -  "+ task.getStatus().toString());
+        final int hundred = 100;
+        status.setText((int) (percentageDone * hundred) + " %  -  "+ task.getStatus().toString());
         
         
         // Set background width according to # issues finished

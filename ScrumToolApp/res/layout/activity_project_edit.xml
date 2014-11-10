@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/space"
+    tools:context="ch.epfl.scrumtool.gui.ProjectEditActivity" >
+
+    <!-- Project icon -->
+    <TextView
+        android:id="@+id/project_icon"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@color/Gray"
+        android:text="[Icon]" />
+
+    <!-- Project title textedit -->
+    <EditText
+        android:id="@+id/project_title_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="@id/project_icon"
+        android:layout_marginStart="@dimen/space"
+        android:layout_toEndOf="@id/project_icon"
+        android:hint="@string/project_title_edit_hint"
+        android:maxLines="1" >
+
+        <requestFocus />
+    </EditText>
+
+    <!-- Project description textedit -->
+    <EditText
+        android:id="@+id/project_description_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/project_icon"
+        android:layout_marginTop="@dimen/space"
+        android:hint="@string/project_description_edit_hint"
+        android:inputType="textMultiLine" />
+
+    <!-- "Save" button -->
+    <!-- This button is temporary -->
+    <Button
+        android:id="@+id/project_edit_button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:onClick="saveProjectChanges"
+        android:text="Save" />
+
+</RelativeLayout>

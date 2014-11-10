@@ -9,8 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
-import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author Cyriaque Brousse
@@ -30,29 +30,24 @@ public class IssueOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_overview);
 
-        // Get the task
-        long issueId = getIntent().getLongExtra("ch.epfl.scrumtool.ISSUE_ID", 0);
-        issue = ServerSimulator.getIssueById(issueId);
+        issue = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
 
-        // Get views
         nameView = (TextView) findViewById(R.id.issue_name);
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
         assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
         
-        // Set listener on assignee name, so that it opens a profile view
         assigneeName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                long assigneeId = issue.getPlayer().getUser().getToken(); // FIXME token != id, or is it?
-                openProfileIntent.putExtra("ch.epfl.scrumtool.USER_ID", assigneeId);
+                User assignee = issue.getPlayer().getUser();
+                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
                 startActivity(openProfileIntent);
             }
         });
 
-        // Set views
         updateViews();
     }
 

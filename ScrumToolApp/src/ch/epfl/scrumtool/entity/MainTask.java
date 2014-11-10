@@ -1,19 +1,22 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
+
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Vincent
+ * @author Vincent, zenhaeus
  * 
  */
-public final class MainTask extends AbstractTask {
 
-    private final Set<Issue> mIssues;
-    private Priority mPriority;
+public final class MainTask extends AbstractTask implements Serializable {
+    
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
+    private static final long serialVersionUID = 4279399766459657365L;
+    
+    private Priority priority;
 
     /**
      * @param name
@@ -22,98 +25,168 @@ public final class MainTask extends AbstractTask {
      * @param subtasks
      * @param priority
      */
-    public MainTask(long id, String name, String description, Status status,
-            Set<Issue> issues, Priority priority) {
+    private MainTask(String id, String name, String description, Status status,
+            Priority priority) {
         super(id, name, description, status);
-        if (issues == null || priority == null) {
+        if (priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        this.mIssues = new HashSet<Issue>();
-        for (Issue i : issues) {
-            mIssues.add(new Issue(i));
-        }
-        this.mPriority = priority;
-
+        this.priority = priority;
     }
 
-    /**
-     * @param task
-     */
-    public MainTask(MainTask task) {
-        this(task.getId(), task.getName(), task.getDescription(), task
-                .getStatus(), task.getIssues(), task.getPriority());
-    }
 
     /**
      * @return the subtasks
      */
-    public Set<Issue> getIssues() {
-        HashSet<Issue> tmp = new HashSet<Issue>();
-        for (Issue i : mIssues) {
-            tmp.add(new Issue(i));
-        }
-        return tmp;
+    public void loadIssues(Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssues(this, callback);
     }
 
-    /**
-     * @param issue
-     *            the issue to add
-     */
-    public void addIssue(Issue issue) {
-        if (issue != null) {
-            this.mIssues.add(new Issue(issue));
-        }
-    }
-
-    /**
-     * @param issue
-     *            the issue to remove
-     */
-    public void removeIssue(Issue issue) {
-        if (issue != null) {
-            this.mIssues.remove(issue);
-        }
-    }
+    // TODO save and remove methods for issues
 
     /**
      * @return the priority
      */
     public Priority getPriority() {
-        return mPriority;
-    }
-
-    /**
-     * @param priority
-     *            the priority to set
-     */
-    public void setPriority(Priority priority) {
-        if (priority != null) {
-            this.mPriority = priority;
-        }
+        return priority;
     }
 
     public int getIssuesFinishedCount() {
         int count = 0;
-        for (Issue i : mIssues) {
-            if (i.getStatus() == Status.FINISHED) {
-                ++count;
-            }
-        }
+        // for (Issue i : issues) {
+        // if (i.getStatus() == Status.FINISHED) {
+        // ++count;
+        // }
+        // }
         return count;
     }
 
     public float getEstimatedTime() {
         float estimation = 0f;
-        float issueEstimation;
+        // float issueEstimation;
         boolean estimated = true;
-        for (Issue i : mIssues) {
-            issueEstimation = i.getEstimatedTime();
-            if (issueEstimation < 0) {
-                estimated = false;
-            } else {
-                estimation += issueEstimation;
+        // for (Issue i : issues) {
+        // issueEstimation = i.getEstimatedTime();
+        // if (issueEstimation < 0) {
+        // estimated = false;
+        // } else {
+        // estimation += issueEstimation;
+        // }
+        // }
+        return estimated ? estimation : -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MainTask && super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    /**
+     * Builder class for the MainTask object
+     * 
+     * @author zenhaeus
+     * 
+     */
+    public static class Builder {
+        private String id;
+        private String name;
+        private String description;
+        private Status status;
+        private Priority priority;
+
+        public Builder() {
+            this.name = "";
+            this.description = "";
+            this.status = Status.READY_FOR_ESTIMATION;
+            this.priority = Priority.NORMAL;
+        }
+        
+        public Builder(MainTask task) {
+            this.id = task.getKey();
+            this.name = task.getName();
+            this.description = task.getDescription();
+            this.status = task.getStatus();
+            this.priority = task.getPriority();
+        }
+
+        /**
+         * 
+         * @return the id
+         */
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            if (id != null) {
+                this.id = id;
             }
         }
-        return estimated ? estimation : -1;
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * @param name
+         *            the name to set
+         */
+        public void setName(String name) {
+            if (name != null) {
+                this.name = name;
+            }
+        }
+
+        /**
+         * @return the description
+         */
+        public String getDescription() {
+            return description;
+        }
+
+        /**
+         * @param description
+         *            the description to set
+         */
+        public void setDescription(String description) {
+            if (description != null) {
+                this.description = description;
+            }
+        }
+
+        /**
+         * 
+         * @return the status
+         */
+        public Status getStatus() {
+            return this.status;
+        }
+
+        public void setStatus(Status status) {
+            if (status.isAValidStatus()) {
+                this.status = status;
+            }
+        }
+
+        public Priority getPriority() {
+            return priority;
+        }
+
+        public void setPriority(Priority priority) {
+            this.priority = priority;
+        }
+
+        public MainTask build() {
+            return new MainTask(this.id, this.name, this.description,
+                    this.status, this.priority);
+        }
     }
 }

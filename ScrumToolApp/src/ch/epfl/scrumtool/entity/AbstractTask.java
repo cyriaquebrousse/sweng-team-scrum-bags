@@ -1,32 +1,32 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
+
+import java.io.Serializable;
 
 /**
  * @author Vincent
- * 
  */
-public abstract class AbstractTask {
-    private long mId;
-    private String mName;
-    private String mDescription;
-    private Status mStatus;
+public abstract class AbstractTask implements Serializable {
+    private static final long serialVersionUID = 1197442142563029748L;
+    
+    private String key;
+    private String name;
+    private String description;
+    private Status status;
 
     /**
-     * @param id
+     * @param key
      * @param name
      * @param description
      */
-    public AbstractTask(long id, String name, String description, Status status) {
+    public AbstractTask(String key, String name, String description, Status status) {
         super();
-        if (name == null || description == null || status == null) {
+        if (key == null || name == null || description == null || status == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-        this.mStatus = status;
+        this.key = key;
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     /**
@@ -39,66 +39,42 @@ public abstract class AbstractTask {
      * @return the name
      */
     public String getName() {
-        return mName;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        if (name != null) {
-            this.mName = name;
-        }
+        return name;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-        return mDescription;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        if (description != null) {
-            this.mDescription = description;
-        }
+        return description;
     }
 
     /**
      * @return the status
      */
     public Status getStatus() {
-        return mStatus;
-    }
-
-    /**
-     * @param status
-     *            the status to set
-     */
-    public void setStatus(Status status) {
-        if (status != null) {
-            this.mStatus = status;
-        }
+        return status;
     }
 
     /**
      * @return the id
      */
-    public long getId() {
-        return mId;
+
+    public String getKey() {
+        return key;
     }
 
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.mId = id;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof AbstractTask)) {
+            return false;
+        }
+        AbstractTask other = (AbstractTask) o;
+        return other.key.equals(this.key);
     }
-
+    
+    @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
 }

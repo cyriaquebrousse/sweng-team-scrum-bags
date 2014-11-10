@@ -1,230 +1,208 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Vincent
- * 
+ * @author Vincent, zenhaeus
  */
-public final class Project {
+public final class Project implements Serializable {
 
-    private long mId;
-    private String mName;
-    private String mDescription;
-    private Player mAdmin;
-    private final Set<Player> mPlayers;
-    private final Set<MainTask> mBacklog;
-    private final Set<Sprint> mSprints;
+    private static final long serialVersionUID = -4181818270822077982L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
+
+    private final String id;
+    private final String name;
+    private final String description;
 
     /**
      * @param name
      * @param description
      * @param admin
-     * @param players
-     * @param backlog
-     * @param sprints
      */
-    public Project(long id, String name, String description, Player admin,
-            Set<Player> players, Set<MainTask> backlog, Set<Sprint> sprints) {
+    private Project(String id, String name, String description) {
         super();
-        if (name == null || description == null || admin == null
-                || players == null || backlog == null || sprints == null) {
+        if (id == null || name == null || description == null) {
             throw new NullPointerException("Project.Constructor");
         }
 
-        // TODO check that admin in players + copie profonde sets
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-        this.mAdmin = new Player(admin);
-        this.mPlayers = new HashSet<Player>();
-        for (Player p : players) {
-            mPlayers.add(new Player(p));
-        }
-        this.mBacklog = new HashSet<MainTask>();
-        for (MainTask m : backlog) {
-            mBacklog.add(new MainTask(m));
-        }
-        this.mSprints = new HashSet<Sprint>();
-        for (Sprint s : sprints) {
-            mSprints.add(new Sprint(s));
-        }
-    }
-
-    /**
-     * @param aProject
-     */
-    public Project(Project aProject) {
-        this(aProject.getId(), aProject.getName(), aProject.getDescription(),
-                aProject.getAdmin(), aProject.getPlayers(), aProject
-                        .getBacklog(), aProject.getSprints());
+        // TODO check that admin in players
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
 
     /**
      * @return the name
      */
     public String getName() {
-        return mName;
-    }
-
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        if (name != null) {
-            this.mName = name;
-        }
+        return name;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-        return mDescription;
+        return this.description;
     }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-        if (description != null) {
-            this.mDescription = description;
-        }
-    }
-
+    
     /**
      * @return the admin
      */
     public Player getAdmin() {
-        return new Player(mAdmin);
+        // TODO query database to get admin
+        return null;
     }
 
     /**
-     * @param admin
-     *            the admin to set
+     * Load the Players of this Project
+     * @param callback
      */
-    public void setAdmin(Player admin) {
-        if (admin != null) {
-            this.mAdmin = new Player(admin);
-        }
+    public void loadPlayers(Callback<List<Player>> callback) {
+        Client.getScrumClient().loadPlayers(this, callback);
     }
 
     /**
-     * @return the players
+     * Load the Backlog of this Project
+     * @param callback
      */
-    public Set<Player> getPlayers() {
-        HashSet<Player> tmp = new HashSet<Player>();
-        for (Player p : mPlayers) {
-            tmp.add(new Player(p));
-        }
-        return tmp;
+    public void loadBacklog(Callback<List<MainTask>> callback) {
+        Client.getScrumClient().loadBacklog(this, callback);
     }
-
+    
     /**
-     * @param player
+     * @param callback
      */
-    public void addPlayer(Player player) {
-        if (player != null) {
-            this.mPlayers.add(new Player(player));
-        }
+    public void loadSprints(Callback<List<Sprint>> callback) {
+        Client.getScrumClient().loadSprints(this, callback);
     }
-
-    /**
-     * @param player
-     */
-    public void removePlayer(Player player) {
-        if (player != null) {
-            this.mPlayers.remove(player);
-        }
-    }
-
-    /**
-     * @return the backlog
-     */
-    public Set<MainTask> getBacklog() {
-        HashSet<MainTask> tmp = new HashSet<MainTask>();
-        for (MainTask m : mBacklog) {
-            tmp.add(new MainTask(m));
-        }
-        return tmp;
-    }
-
-    /**
-     * @param task
-     */
-    public void addTask(MainTask task) {
-        if (task != null) {
-            this.mBacklog.add(new MainTask(task));
-        }
-    }
-
-    /**
-     * @param task
-     */
-    public void removeTask(MainTask task) {
-        if (task != null) {
-            this.mBacklog.remove(task);
-        }
-    }
+    
+    // TODO save and remove methods for collections (same style as load methods above)
 
     /**
      * @return the id
      */
-    public long getId() {
-        return mId;
-    }
-
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(long id) {
-        this.mId = id;
-    }
-
-    /**
-     * @return the mSprints
-     */
-    public Set<Sprint> getSprints() {
-        HashSet<Sprint> tmp = new HashSet<Sprint>();
-        for (Sprint s : mSprints) {
-            tmp.add(new Sprint(s));
-        }
-        return tmp;
-    }
-
-    /**
-     * @param sprint
-     */
-    public void addSprint(Sprint sprint) {
-        if (sprint != null) {
-            this.mSprints.add(new Sprint(sprint));
-        }
-    }
-
-    /**
-     * @param sprint
-     */
-    public void removeSprint(Sprint sprint) {
-        if (sprint != null) {
-            this.mSprints.remove(sprint);
-        }
+    public String getId() {
+        return id;
     }
 
     public int getChangesCount(User user) {
         // TODO implement changes count + javadoc
         Random r = new Random();
-        return r.nextInt(20);
+        final int twenty = 20;
+        return r.nextInt(twenty);
     }
 
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
         // TODO Database Call + javadoc
-        return Entity.getRandomRole();
+    	
+        return Role.DEVELOPER;
     }
+
+    /**
+     * Builder class for Project object
+     * 
+     * @author zenhaeus
+     *
+     */
+    public static class Builder {
+        private String id;
+        private String name;
+        private String description;
+
+        public Builder() {
+            this.name = "";
+            this.description = "";
+        }
+        
+        public Builder(Project other) {
+            this.id = other.id;
+            this.name = other.name;
+            this.description = other.description;
+        }
+
+        /**
+         * @return the name
+         */
+        public String getName() {
+            return name;
+        }
+
+        /**
+         * @param name
+         *            the name to set
+         */
+        public void setName(String name) {
+            if (name != null) {
+                this.name = name;
+            }
+        }
+
+        /**
+         * @return the description
+         */
+        public String getDescription() {
+            return description;
+        }
+
+        /**
+         * @param description
+         *            the description to set
+         */
+        public void setDescription(String description) {
+            if (description != null) {
+                this.description = description;
+            }
+        }
+
+        /**
+         * @return the id
+         */
+        public String getId() {
+            return id;
+        }
+
+        /**
+         * @param id
+         *            the id to set
+         */
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public int getChangesCount(User user) {
+            // TODO implement changes count + javadoc
+            final int ten = 10;
+            return Math.abs(user.hashCode()) % ten;
+        }
+
+        public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
+            // TODO Database Call + javadoc
+            return Role.DEVELOPER;
+        }
+        
+        public Project build() {
+            return new Project(this.id, this.name, this.description);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Project)) {
+            return false;
+        }
+        Project other = (Project) o;
+        return other.id.equals(this.id);
+    }
+    
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
 }

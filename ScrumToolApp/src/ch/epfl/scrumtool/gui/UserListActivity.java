@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.network.NetworkClient;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 
 /**
  * @author LeoWirz
- *
+ * 
  */
 public class UserListActivity extends Activity {
 
@@ -24,27 +23,21 @@ public class UserListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         ListView listview = (ListView) findViewById(R.id.userList);
-        
-        NetworkClient nc = new NetworkClient();
+
+        // TODO Get users of project
         String[] names = null;
-        
-        if (nc.getUsers() != null) {
-            //names = NC.getUsers();
-        } else {
-            names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ",
-                "Arno", "Vincent", "Sylvain", "Leo" };
-        }
- 
+
+        names = new String[] {"Loris", "Joey", "Cyriaque", "Alex ", "Arno", "Vincent", "Sylvain", "Leo"};
 
         MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, names);
         listview.setAdapter(adapter);
 
     }
-    
+
     /**
      * 
      * @author LeoWirz
-     *
+     * 
      */
     private class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;

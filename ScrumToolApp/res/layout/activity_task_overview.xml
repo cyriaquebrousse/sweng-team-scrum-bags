@@ -20,15 +20,12 @@
         android:textStyle="bold" />
 
     <!-- Task priority -->
-    <ch.epfl.scrumtool.gui.components.widgets.Sticker
+    <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
         android:id="@+id/task_priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/task_name"
-        android:layout_below="@+id/task_name"
-        custom:sticker_text="URGENT"
-        custom:sticker_color="@color/darkred"
-        custom:sticker_bold="true" />
+        android:layout_below="@+id/task_name" />
 
     <!-- Task description -->
     <!-- TODO arbitrary height !!! -->

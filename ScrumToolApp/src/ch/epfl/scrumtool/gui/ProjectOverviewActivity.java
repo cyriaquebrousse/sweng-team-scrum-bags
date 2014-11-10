@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.network.ServerSimulator;
 
 /**
  * @author Cyriaque Brousse
@@ -16,6 +15,7 @@ public class ProjectOverviewActivity extends Activity {
 
     private TextView nameView;
     private TextView descriptionView;
+    
     private Project project;
 
     @Override
@@ -23,22 +23,23 @@ public class ProjectOverviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_overview);
         
-        // Get the project
-        long projectId = getIntent().getLongExtra("ch.epfl.scrumtool.PROJECT_ID", 0);
-        project = ServerSimulator.getProjectById(projectId);
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
 
-        // Get Views
         nameView = (TextView) findViewById(R.id.project_title);
         descriptionView = (TextView) findViewById(R.id.project_description);
 
-        // Set Views
         nameView.setText(project.getName());
         descriptionView.setText(project.getDescription());
     }
 
     public void openBacklog(View view) {
         Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
-        openBacklogIntent.putExtra("ch.epfl.scrumtool.PROJECT_ID", project.getId());
+        openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openBacklogIntent);
+    }
+    
+    public void openSprints(View view) {
+//        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+//        startActivity(openSprintsIntent);
     }
 }

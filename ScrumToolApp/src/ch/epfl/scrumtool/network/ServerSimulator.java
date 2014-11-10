@@ -3,7 +3,6 @@
  */
 package ch.epfl.scrumtool.network;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,6 +67,7 @@ public final class ServerSimulator {
     }
 
     public static List<MainTask> getBacklogByProjectId(long projectId) {
-        return new ArrayList<>(PROJECTS.get((int) projectId).getBacklog());
+//        return new ArrayList<>(PROJECTS.get((int) projectId).getBacklog());
+        return TASKS;
     }
 }

@@ -14,21 +14,52 @@
     <string name="title_activity_task_overview">Task overview</string>
     <string name="title_activity_issue_overview">Issue overview</string>
     <string name="title_activity_profile_overview">Profile overview</string>
+    <string name="title_activity_sprint">Sprint</string>
+    <string name="title_activity_project_edit">Edit project</string>
+    <string name="title_activity_project_edit_new">New project</string>
+    <string name="title_activity_task_edit">Edit task</string>
+    <string name="title_activity_task_edit_new">New task</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
     <string name="button_players_show">Players</string>
     <string name="button_sprints_show">Sprints</string>
-    
+    <string name="button_login">Login</string>
+    <string name="button_add_task">add task</string>
+    <string name="sprint_pick_date_button">Pick a date</string>
+    <string name="sprint_edit_done">Done</string>
+    <string name="create_sprint_button">Create a new Sprint</string>
+
     <!-- Titles -->
     <string name="shared_projects">Shared Projects</string>
     <string name="email">email</string>
     <string name="username">username</string>
+
+    <!-- Hints -->
+    <string name="project_title_edit_hint">Project title</string>
+    <string name="project_description_edit_hint">Please enter a project description</string>
+    <string name="task_name_edit_hint">Task name</string>
+    <string name="task_description_edit_hint">Please enter a task description</string>
+
+    <!-- Menu actions -->
+    <string name="action_add">Add</string>
+    <string name="action_overflow">More</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+
+    <!-- Error messages -->
+    <string name="error_field_required">This field is required</string>
 
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="project_default_unit">hours</string>
     <string name="issue_assignee_label">Assignee</string>
+    <string name="sprint_name">Name</string>
+    <string name="sprint_edit_name">Enter a name</string>
+    <string name="sprint_date">Date</string>
+    <string name="title_activity_project_player_list">Player list</string>
+    <string name="title_activity_sprint_list">Sprint list</string>
 
 </resources>

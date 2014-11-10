@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +13,9 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
-import ch.epfl.scrumtool.network.ServerSimulator;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * @author ketsio
@@ -20,13 +23,10 @@ import ch.epfl.scrumtool.network.ServerSimulator;
 public class ProfileOverviewActivity extends Activity {
 
     private TextView nameView;
-    private TextView usernameView;
     private TextView emailView;
     private ListView sharedProjectsListView;
 
     private SharedProjectAdapter adapter;
-    private User userConnected;
-    private User userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,33 +34,41 @@ public class ProfileOverviewActivity extends Activity {
         setContentView(R.layout.activity_profile_overview);
 
         // Get the connected user, and the user to display
-        this.userConnected = Entity.CONNECTED_USER;
-        long userId = getIntent().getLongExtra("ch.epfl.scrumtool.USER_ID", 0);
-        userProfile = ServerSimulator.getUserById(userId);
-        
-        // Create the adapter
-        adapter = new SharedProjectAdapter(this, userProfile.getProjectsSharedWith(userConnected), userProfile);
+        try {
+            @SuppressWarnings("unused")
+            User userConnected = Session.getCurrentSession().getUser();
+            User userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
 
-        // Get Views
-        nameView = (TextView) findViewById(R.id.profile_name);
-        usernameView = (TextView) findViewById(R.id.profile_username);
-        emailView = (TextView) findViewById(R.id.profile_email);
-        sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
+            // Create the adapter
+            // TODO : Change static getter by getProjectsSharedWith(userConnected)
+            adapter = new SharedProjectAdapter(this,
+                    Arrays.asList(Entity.SUPER_PROJECT), userProfile);
 
-        // Set Views
-        nameView.setText(userProfile.getName());
-        usernameView.setText(userProfile.getUsername());
-        emailView.setText(userProfile.getEmail());
+            // Get Views
+            nameView = (TextView) findViewById(R.id.profile_name);
+            emailView = (TextView) findViewById(R.id.profile_email);
+            sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
 
-        sharedProjectsListView.setAdapter(adapter);
-        sharedProjectsListView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(view.getContext(),
-                        "Openning the project #" + position,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+            // Set Views
+            nameView.setText(userProfile.getName());
+            emailView.setText(userProfile.getEmail());
+
+            sharedProjectsListView.setAdapter(adapter);
+            sharedProjectsListView
+                    .setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent,
+                                View view, int position, long id) {
+                            Toast.makeText(view.getContext(),
+                                    "Openning the project #" + position,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (NotAuthenticatedException e) {
+            // TODO : redirecting to the login activity if not connected
+            this.finish();
+            e.printStackTrace();
+        }
 
     }
 }
