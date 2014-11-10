@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.R.layout;
 import ch.epfl.scrumtool.gui.components.widgets.DatePickerFragment;
 import android.app.Activity;
 import android.app.DialogFragment;

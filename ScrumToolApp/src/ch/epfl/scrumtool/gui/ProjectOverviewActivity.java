@@ -37,4 +37,9 @@ public class ProjectOverviewActivity extends Activity {
         openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openBacklogIntent);
     }
+    
+    public void openSprints(View view) {
+        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+        startActivity(openSprintsIntent);
+    }
 }
