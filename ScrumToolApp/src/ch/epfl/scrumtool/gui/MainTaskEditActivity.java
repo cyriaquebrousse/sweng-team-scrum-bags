@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
+import ch.epfl.scrumtool.gui.utils.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -64,8 +65,8 @@ public class MainTaskEditActivity extends Activity {
     }
     
     public void saveTaskChanges(View view) {
-        updateTextViewAfterValidityCheck(taskNameView, nameIsValid());
-        updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid());
+        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid(), getResources());
         
         if (nameIsValid() && descriptionIsValid()) {
             String newName = taskNameView.getText().toString();
@@ -118,20 +119,5 @@ public class MainTaskEditActivity extends Activity {
     private boolean descriptionIsValid() {
         String description = taskDescriptionView.getText().toString();
         return description != null && description.length() > 0;
-    }
-    
-    /**
-     * Warn the user that incorrect input was entered in the specified text
-     * field
-     * 
-     * @param view
-     *            the text field in which the error sign will be displayed
-     */
-    private void updateTextViewAfterValidityCheck(EditText view, boolean inputValid) {
-        if (!inputValid) {
-            view.setError(getResources().getString(R.string.error_field_required));
-        } else {
-            view.setError(null);
-        }
     }
 }
