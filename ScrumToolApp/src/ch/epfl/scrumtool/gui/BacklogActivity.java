@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -30,13 +31,12 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> {
         setContentView(R.layout.activity_backlog);
         
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        project.loadBacklog(new Callback<List<MainTask>>() {
-            
+        Client.getScrumClient().loadBacklog(project, new Callback<List<MainTask>>() {
             @Override
             public void interactionDone(final List<MainTask> taskList) {
-
-                // Get list and initialize adapter
+                
                 adapter = new TaskListAdapter(BacklogActivity.this, taskList);
+                
                 listView = (ListView) findViewById(R.id.backlog_tasklist);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
