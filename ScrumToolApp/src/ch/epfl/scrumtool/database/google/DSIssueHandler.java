@@ -183,7 +183,7 @@ public class DSIssueHandler implements IssueHandler {
                 try {
                     session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    issues = service.loadScrumIssues(params[0]).execute();
+                    issues = service.loadIssuesByMainTask(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -227,7 +227,7 @@ public class DSIssueHandler implements IssueHandler {
                     session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
                     // TODO not sure about the loadScrumIssues function
-                    issues = service.loadScrumIssues(params[0]).execute();
+                    issues = service.loadIssuesBySprint(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -276,7 +276,7 @@ public class DSIssueHandler implements IssueHandler {
             }
             
         };
-        task.execute(issue.getKey(),sprint.getKey());
+        task.execute(issue.getKey(), sprint.getKey());
     }
 
     @Override
