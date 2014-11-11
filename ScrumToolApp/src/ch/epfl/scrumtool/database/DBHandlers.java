@@ -71,14 +71,6 @@ public final class DBHandlers {
      * @author aschneuw
      * 
      */
-    /**
-     * @author vincent
-     * 
-     */
-    /**
-     * @author vincent
-     * 
-     */
     public static class Builder {
         private IssueHandler issueHandlr;
         private MainTaskHandler maintaskHandlr;
