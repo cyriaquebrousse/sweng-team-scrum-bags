@@ -16,8 +16,7 @@ endpoint-libs/
 bin/
 gen/
 
-# Checkstyle Plug-in
-.checkstyle
+
 
 # For OS X
 .DS_Store
