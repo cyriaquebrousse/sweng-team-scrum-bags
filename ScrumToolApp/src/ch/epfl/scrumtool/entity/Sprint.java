@@ -14,7 +14,7 @@ import ch.epfl.scrumtool.network.Client;
  */
 
 public final class Sprint {
-    private final String id;
+    private final String key;
     private final long deadline;
 
     /**
@@ -28,9 +28,10 @@ public final class Sprint {
      */
     private Sprint(String id, long deadline) {
         if (id == null || !deadlineIsValid(deadline)) {
-            throw new IllegalArgumentException("Deadline was invalid or no id was provided");
+            throw new IllegalArgumentException(
+                    "Deadline was invalid or no id was provided");
         }
-        this.id = id;
+        this.key = id;
         this.deadline = deadline;
     }
 
@@ -45,32 +46,37 @@ public final class Sprint {
     /**
      * @return the id
      */
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     /**
      * The set of issues is returned in a callback
      */
-    public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
+    public void loadIssues(DatabaseHandler<Sprint> db,
+            Callback<List<Issue>> callback) {
         Client.getScrumClient().loadIssues(this, callback);
     }
-    
+
     /**
      * Add existing Issue to this Sprint
+     * 
      * @param db
      * @param callback
      */
-    public void addIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+    public void addIssue(Issue issue, DatabaseHandler<Sprint> db,
+            Callback<Boolean> callback) {
         Client.getScrumClient().addIssue(issue, this, callback);
     }
 
     /**
      * Removes existing Issue to this Sprint
+     * 
      * @param db
      * @param callback
      */
-    public void removeIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
+    public void removeIssue(Issue issue, DatabaseHandler<Sprint> db,
+            Callback<Boolean> callback) {
         Client.getScrumClient().removeIssue(issue, this, callback);
     }
 
@@ -81,15 +87,21 @@ public final class Sprint {
      */
 
     public static class Builder {
-        
-        private String id;
+
+        private String keyb;
         private long deadline;
         private Set<Issue> issues;
 
+        /**
+         * 
+         */
         public Builder() {
             this.issues = new HashSet<Issue>();
         }
 
+        /**
+         * @param otherSprint
+         */
         public Builder(Sprint otherSprint) {
             this.deadline = otherSprint.deadline;
         }
@@ -97,16 +109,16 @@ public final class Sprint {
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
+        public void setKey(String id) {
+            this.keyb = id;
         }
 
         /**
@@ -153,8 +165,11 @@ public final class Sprint {
             }
         }
 
+        /**
+         * @return
+         */
         public Sprint build() {
-            return new Sprint(this.id, this.deadline);
+            return new Sprint(this.keyb, this.deadline);
         }
     }
 
@@ -173,11 +188,11 @@ public final class Sprint {
             return false;
         }
         Sprint other = (Sprint) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
     }
-    
+
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
     }
 }

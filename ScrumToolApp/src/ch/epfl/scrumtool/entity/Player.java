@@ -2,17 +2,16 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 
-
 /**
  * @author Vincent, zenhaeus
  * 
  */
 public final class Player implements Serializable {
-    
+
     private static final long serialVersionUID = -1373129649658028177L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PLAYER";
-    
-    private final String id;
+
+    private final String key;
     private final User user;
     private final Role role;
     private final boolean isAdmin;
@@ -20,12 +19,12 @@ public final class Player implements Serializable {
     /**
      * @param user
      */
-    private Player(String id, User user, Role role, boolean isAdmin) {
+    private Player(String key, User user, Role role, boolean isAdmin) {
         super();
-        if (id == null || user == null || role == null) {
+        if (key == null || user == null || role == null) {
             throw new NullPointerException("Player.Constructor");
         }
-        this.id = id;
+        this.key = key;
         this.user = user;
         this.role = role;
         this.isAdmin = isAdmin;
@@ -48,15 +47,15 @@ public final class Player implements Serializable {
     /**
      * @return the id
      */
-    public String getId() {
-        return this.id;
+    public String getKey() {
+        return this.key;
     }
-    
+
     /**
      * @return admin Flag
      */
     public boolean isAdmin() {
-    	return this.isAdmin;
+        return this.isAdmin;
     }
 
     @Override
@@ -65,35 +64,42 @@ public final class Player implements Serializable {
             return false;
         }
         Player other = (Player) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
     }
-    
+
     @Override
     public int hashCode() {
-        return id.hashCode();
-	}
+        return key.hashCode();
+    }
 
     /**
      * Builder Class for Player Object
+     * 
      * @author zenhaeus
-     *
+     * 
      */
     public static class Builder {
         private User user;
-        private String id;
+        private String keyb;
         private Role role;
         private boolean isAdmin;
 
+        /**
+         * 
+         */
         public Builder() {
         }
-        
+
+        /**
+         * @param otherPlayer
+         */
         public Builder(Player otherPlayer) {
             this.user = otherPlayer.user;
-            this.id = otherPlayer.id;
+            this.keyb = otherPlayer.key;
             this.role = otherPlayer.role;
             this.isAdmin = otherPlayer.isAdmin;
         }
-        
+
         /**
          * @return the user
          */
@@ -118,6 +124,9 @@ public final class Player implements Serializable {
             return role;
         }
 
+        /**
+         * @param role
+         */
         public void setRole(Role role) {
             if (role != null) {
                 this.role = role;
@@ -127,39 +136,39 @@ public final class Player implements Serializable {
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
+        public void setKey(String id) {
+            this.keyb = id;
         }
-        
+
         /**
          * @return isAdmin
          */
         public boolean isAdmin() {
             return this.isAdmin;
         }
-        
+
         /**
          * @param isAdmin
          */
         public void setIsAdmin(boolean isAdmin) {
             this.isAdmin = isAdmin;
         }
-        
-        
+
         /**
          * Creates and returns a new immutable instance of Player
+         * 
          * @return
          */
         public Player build() {
-            return new Player(this.id, this.user, this.role, this.isAdmin);
+            return new Player(this.keyb, this.user, this.role, this.isAdmin);
         }
     }
 

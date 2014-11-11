@@ -118,11 +118,11 @@ public final class MainTask extends AbstractTask implements Serializable {
          * 
          * @return the id
          */
-        public String getId() {
+        public String getKey() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setKey(String id) {
             if (id != null) {
                 this.id = id;
             }

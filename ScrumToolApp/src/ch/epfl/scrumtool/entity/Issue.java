@@ -3,6 +3,8 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 
 /**
+ * A class that represent an Issue (child of a Maintask)
+ * 
  * @author Vincent, zenhaeus
  * 
  */
@@ -15,19 +17,19 @@ public final class Issue extends AbstractTask implements Serializable {
     private Player player;
 
     /**
-     * @param id
+     * @param key
      * @param name
      * @param description
      * @param status
      * @param estimatedTime
      * @param player
      */
-    private Issue(String id, String name, String description, Status status,
+    private Issue(String key, String name, String description, Status status,
             float estimatedTime, Player player) {
-        super(id, name, description, status);
-//        if (player == null) {
-//            throw new NullPointerException("Issue.Constructor");
-//        }
+        super(key, name, description, status);
+        // if (player == null) {
+        // throw new NullPointerException("Issue.Constructor");
+        // }
         this.estimatedTime = estimatedTime;
 
         this.player = player;
@@ -49,11 +51,13 @@ public final class Issue extends AbstractTask implements Serializable {
     }
 
     /**
-     * @author 
-     *
+     * A Builder for the Issue
+     * 
+     * @author
+     * 
      */
     public static class Builder {
-        private String id;
+        private String key;
         private String name;
         private String description;
         private Status status;
@@ -67,7 +71,7 @@ public final class Issue extends AbstractTask implements Serializable {
         }
 
         public Builder(Issue otherIssue) {
-            this.id = otherIssue.getKey();
+            this.key = otherIssue.getKey();
             this.name = otherIssue.getName();
             this.description = otherIssue.getDescription();
             this.status = otherIssue.getStatus();
@@ -76,14 +80,17 @@ public final class Issue extends AbstractTask implements Serializable {
         }
 
         /**
-         * @return the id
+         * @return the key
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return key;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        /**
+         * @param id
+         */
+        public void setKey(String id) {
+            this.key = id;
         }
 
         /**
@@ -93,6 +100,9 @@ public final class Issue extends AbstractTask implements Serializable {
             return name;
         }
 
+        /**
+         * @param name
+         */
         public void setName(String name) {
             this.name = name;
         }
@@ -104,6 +114,9 @@ public final class Issue extends AbstractTask implements Serializable {
             return description;
         }
 
+        /**
+         * @param description
+         */
         public void setDescription(String description) {
             this.description = description;
         }
@@ -115,6 +128,9 @@ public final class Issue extends AbstractTask implements Serializable {
             return status;
         }
 
+        /**
+         * @param status
+         */
         public void setStatus(Status status) {
             this.status = status;
         }
@@ -126,6 +142,9 @@ public final class Issue extends AbstractTask implements Serializable {
             return estimatedTime;
         }
 
+        /**
+         * @param estimatedTime
+         */
         public void setEstimatedTime(float estimatedTime) {
             this.estimatedTime = estimatedTime;
         }
@@ -137,13 +156,19 @@ public final class Issue extends AbstractTask implements Serializable {
             return player;
         }
 
+        /**
+         * @param player
+         */
         public void setPlayer(Player player) {
             this.player = player;
         }
 
+        /**
+         * @return
+         */
         public Issue build() {
-            return new Issue(this.id, this.name, this.description, this.status,
-                    this.estimatedTime, this.player);
+            return new Issue(this.key, this.name, this.description,
+                    this.status, this.estimatedTime, this.player);
         }
 
     }

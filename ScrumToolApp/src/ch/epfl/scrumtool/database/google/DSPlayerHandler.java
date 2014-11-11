@@ -53,8 +53,8 @@ public class DSPlayerHandler implements PlayerHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStatus = service.insertScrumPlayer(project.getId(),
-                            player.getId(), params[0]).execute();
+                    opStatus = service.insertScrumPlayer(project.getKey(),
+                            player.getKey(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -115,7 +115,7 @@ public class DSPlayerHandler implements PlayerHandler {
                 ArrayList<Player> players = new ArrayList<Player>();
                 for (ScrumPlayer s : resultItems) {
                     Player.Builder playerBuilder = new Player.Builder();
-                    playerBuilder.setId(s.getKey());
+                    playerBuilder.setKey(s.getKey());
                     playerBuilder.setIsAdmin(s.getAdminFlag());
                     // pB.setRole(s.getRole()); TODO get role and get user
                     // pB.setUser(s.getUser());
@@ -125,7 +125,7 @@ public class DSPlayerHandler implements PlayerHandler {
             }
         };
 
-        task.execute(project.getId());
+        task.execute(project.getKey());
     }
 
     @Override
