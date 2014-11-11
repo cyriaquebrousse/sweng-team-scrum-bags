@@ -62,7 +62,7 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> {
 
     @Override
     void openEditElementActivity(MainTask task) {
-        Intent openTaskEditIntent = new Intent(this, MainTaskEditActivity.class);
+        Intent openTaskEditIntent = new Intent(this, TaskEditActivity.class);
         openTaskEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
         openTaskEditIntent.putExtra(Project.SERIALIZABLE_NAME, this.project);
         startActivity(openTaskEditIntent);

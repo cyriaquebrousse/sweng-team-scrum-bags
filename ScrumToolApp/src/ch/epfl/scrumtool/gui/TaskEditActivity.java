@@ -19,7 +19,7 @@ import ch.epfl.scrumtool.network.Client;
 /**
  * @author Cyriaque Brousse
  */
-public class MainTaskEditActivity extends Activity {
+public class TaskEditActivity extends Activity {
     
     private EditText taskNameView;
     private EditText taskDescriptionView;
@@ -91,7 +91,7 @@ public class MainTaskEditActivity extends Activity {
         Client.getScrumClient().insertMainTask(task, parentProject, new Callback<MainTask>() {
             @Override
             public void interactionDone(MainTask object) {
-                MainTaskEditActivity.this.finish();
+                TaskEditActivity.this.finish();
             }
         });
     }
@@ -102,9 +102,9 @@ public class MainTaskEditActivity extends Activity {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
-                    MainTaskEditActivity.this.finish();
+                    TaskEditActivity.this.finish();
                 } else {
-                    Toast.makeText(MainTaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
                 }
             }
         });
