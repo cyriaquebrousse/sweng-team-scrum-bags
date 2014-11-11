@@ -16,12 +16,10 @@ import ch.epfl.scrumtool.entity.Player;
  * @author Cyriaque Brousse
  */
 public final class PlayerListAdapter extends BaseAdapter {
-    private Activity activity;
     private LayoutInflater inflater;
     private List<Player> playerList;
 
     public PlayerListAdapter(final Activity activity, List<Player> playerList) {
-        this.activity = activity;
         this.playerList = playerList;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
