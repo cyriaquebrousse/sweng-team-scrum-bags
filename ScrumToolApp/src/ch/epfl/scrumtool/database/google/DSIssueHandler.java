@@ -259,7 +259,7 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void addIssue(final Issue issue, final Sprint sprint, Callback<Boolean> cB) {
+    public void assignIssueToSprint(final Issue issue, final Sprint sprint, Callback<Boolean> cB) {
        
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
             @Override
