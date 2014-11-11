@@ -55,6 +55,8 @@ public final class User implements Serializable {
         private String name;
 
         public Builder() {
+            this.email = "";
+            this.name = "";
         }
 
         public Builder(User otherUser) {

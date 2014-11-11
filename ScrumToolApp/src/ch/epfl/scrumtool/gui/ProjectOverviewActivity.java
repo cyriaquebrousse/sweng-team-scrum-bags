@@ -38,6 +38,12 @@ public class ProjectOverviewActivity extends Activity {
         startActivity(openBacklogIntent);
     }
     
+    public void openPlayerList(View view) {
+        Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
+        openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, this.project);
+        startActivity(openPlayerListIntent);
+    }
+
     public void openSprints(View view) {
 //        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
 //        startActivity(openSprintsIntent);

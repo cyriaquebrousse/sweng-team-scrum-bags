@@ -10,6 +10,7 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.utils.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -52,8 +53,8 @@ public class ProjectEditActivity extends Activity {
     }
 
     public void saveProjectChanges(View view) {
-        updateTextViewAfterValidityCheck(projectTitleView, titleIsValid());
-        updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid());
+        InputVerifiers.updateTextViewAfterValidityCheck(projectTitleView, titleIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid(), getResources());
         
         if (titleIsValid() && descriptionIsValid()) {
             String newTitle = projectTitleView.getText().toString();
@@ -104,20 +105,5 @@ public class ProjectEditActivity extends Activity {
     private boolean descriptionIsValid() {
         String description = projectDescriptionView.getText().toString();
         return description != null && description.length() > 0;
-    }
-    
-    /**
-     * Warn the user that incorrect input was entered in the specified text
-     * field
-     * 
-     * @param view
-     *            the text field in which the error sign will be displayed
-     */
-    private void updateTextViewAfterValidityCheck(EditText view, boolean inputValid) {
-        if (!inputValid) {
-            view.setError(getResources().getString(R.string.error_field_required));
-        } else {
-            view.setError(null);
-        }
     }
 }
