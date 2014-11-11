@@ -13,6 +13,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.PlayerHandler;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
@@ -117,8 +118,8 @@ public class DSPlayerHandler implements PlayerHandler {
                     Player.Builder playerBuilder = new Player.Builder();
                     playerBuilder.setKey(s.getKey());
                     playerBuilder.setIsAdmin(s.getAdminFlag());
-                    // pB.setRole(s.getRole()); TODO get role and get user
-                    // pB.setUser(s.getUser());
+                    playerBuilder.setRole(Role.valueOf(s.getRole()));
+                    // pB.setUser(s.getUser()); TODO transform ScrumPlayer into User
                     players.add(playerBuilder.build());
                 }
                 calback.interactionDone(players);
