@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Entity;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
@@ -41,8 +41,7 @@ public class ProfileOverviewActivity extends Activity {
 
             // Create the adapter
             // TODO : Change static getter by getProjectsSharedWith(userConnected)
-            adapter = new SharedProjectAdapter(this,
-                    Arrays.asList(Entity.SUPER_PROJECT), userProfile);
+            adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
 
             // Get Views
             nameView = (TextView) findViewById(R.id.profile_name);

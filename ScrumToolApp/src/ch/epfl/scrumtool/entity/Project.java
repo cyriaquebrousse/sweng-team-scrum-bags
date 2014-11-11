@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.Random;
 
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 
@@ -58,29 +57,13 @@ public final class Project implements Serializable {
         return key;
     }
 
-    /**
-     * Get the number of changes since last time seen
-     * 
-     * @param user
-     * @return
-     */
+    @Deprecated // TODO create a method in ScrumClient and delete this one.
     public int getChangesCount(User user) {
-        // TODO implement changes count + javadoc
-        Random r = new Random();
-        final int twenty = 20;
-        return r.nextInt(twenty);
+        return 0;
     }
 
-    /**
-     * Gets the role of a User in the project
-     * 
-     * @param user
-     * @return
-     * @throws NotAPlayerOfThisProjectException
-     */
+    @Deprecated // TODO create a method in ScrumClient and delete this one.
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-        // TODO Database Call + javadoc
-
         return Role.DEVELOPER;
     }
 

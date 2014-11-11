@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Entity;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 
@@ -58,7 +57,7 @@ public final class ProjectListAdapter extends BaseAdapter {
         desc.setText(project.getDescription());
         
         // Sticker
-        int changesCount = project.getChangesCount(Entity.CONNECTED_USER);
+        int changesCount = project.getChangesCount(null);
         newElemCount.setText(Integer.toString(changesCount));
 
         if (changesCount == 0) {
