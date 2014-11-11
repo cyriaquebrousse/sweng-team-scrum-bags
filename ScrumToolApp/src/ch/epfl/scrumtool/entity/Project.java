@@ -16,7 +16,7 @@ public final class Project implements Serializable {
     private static final long serialVersionUID = -4181818270822077982L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
-    private final String id;
+    private final String key;
     private final String name;
     private final String description;
 
@@ -25,14 +25,14 @@ public final class Project implements Serializable {
      * @param description
      * @param admin
      */
-    private Project(String id, String name, String description) {
+    private Project(String key, String name, String description) {
         super();
-        if (id == null || name == null || description == null) {
+        if (key == null || name == null || description == null) {
             throw new NullPointerException("Project.Constructor");
         }
 
         // TODO check that admin in players
-        this.id = id;
+        this.key = key;
         this.name = name;
         this.description = description;
     }
@@ -50,7 +50,7 @@ public final class Project implements Serializable {
     public String getDescription() {
         return this.description;
     }
-    
+
     /**
      * @return the admin
      */
@@ -61,6 +61,7 @@ public final class Project implements Serializable {
 
     /**
      * Load the Players of this Project
+     * 
      * @param callback
      */
     public void loadPlayers(Callback<List<Player>> callback) {
@@ -69,28 +70,38 @@ public final class Project implements Serializable {
 
     /**
      * Load the Backlog of this Project
+     * 
      * @param callback
      */
     public void loadBacklog(Callback<List<MainTask>> callback) {
         Client.getScrumClient().loadBacklog(this, callback);
     }
-    
+
     /**
+     * Load the Sprints of this project
+     * 
      * @param callback
      */
     public void loadSprints(Callback<List<Sprint>> callback) {
         Client.getScrumClient().loadSprints(this, callback);
     }
-    
-    // TODO save and remove methods for collections (same style as load methods above)
+
+    // TODO save and remove methods for collections (same style as load methods
+    // above)
 
     /**
      * @return the id
      */
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
+    /**
+     * Get the number of changes since last time seen
+     * 
+     * @param user
+     * @return
+     */
     public int getChangesCount(User user) {
         // TODO implement changes count + javadoc
         Random r = new Random();
@@ -98,9 +109,16 @@ public final class Project implements Serializable {
         return r.nextInt(twenty);
     }
 
+    /**
+     * Gets the role of a User in the project
+     * 
+     * @param user
+     * @return
+     * @throws NotAPlayerOfThisProjectException
+     */
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
         // TODO Database Call + javadoc
-    	
+
         return Role.DEVELOPER;
     }
 
@@ -108,10 +126,10 @@ public final class Project implements Serializable {
      * Builder class for Project object
      * 
      * @author zenhaeus
-     *
+     * 
      */
     public static class Builder {
-        private String id;
+        private String keyb;
         private String name;
         private String description;
 
@@ -119,9 +137,9 @@ public final class Project implements Serializable {
             this.name = "";
             this.description = "";
         }
-        
+
         public Builder(Project other) {
-            this.id = other.id;
+            this.keyb = other.key;
             this.name = other.name;
             this.description = other.description;
         }
@@ -163,31 +181,20 @@ public final class Project implements Serializable {
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
+        public void setKey(String id) {
+            this.keyb = id;
         }
 
-        public int getChangesCount(User user) {
-            // TODO implement changes count + javadoc
-            final int ten = 10;
-            return Math.abs(user.hashCode()) % ten;
-        }
-
-        public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-            // TODO Database Call + javadoc
-            return Role.DEVELOPER;
-        }
-        
         public Project build() {
-            return new Project(this.id, this.name, this.description);
+            return new Project(this.keyb, this.name, this.description);
         }
     }
 
@@ -197,12 +204,12 @@ public final class Project implements Serializable {
             return false;
         }
         Project other = (Project) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
     }
-    
+
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
     }
 
 }

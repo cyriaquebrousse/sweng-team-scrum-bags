@@ -1,6 +1,8 @@
 package ch.epfl.scrumtool.entity;
 
 /**
+ * Describes a role a User can have in a project
+ * 
  * @author ketsio
  */
 public enum Role {
@@ -10,17 +12,21 @@ public enum Role {
     SCRUM_MASTER("Scrum Master", true),
     DEVELOPER("Developer", true);
 
-    private final String stringValue;
+    private final String value;
     private final boolean canAccessIssues;
 
+    /**
+     * @param stringValue
+     * @param accessIssues
+     */
     Role(String stringValue, boolean accessIssues) {
-        this.stringValue = stringValue;
+        this.value = stringValue;
         this.canAccessIssues = accessIssues;
     }
 
     @Override
     public String toString() {
-        return this.stringValue;
+        return this.value;
     }
 
     /**

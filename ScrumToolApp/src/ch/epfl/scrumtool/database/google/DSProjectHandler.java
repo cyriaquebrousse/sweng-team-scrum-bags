@@ -63,7 +63,7 @@ public class DSProjectHandler implements ProjectHandler {
             @Override
             protected void onPostExecute(OperationStatus opStat) {
                 Project.Builder projectBuilder = new Project.Builder(project);
-                projectBuilder.setId(opStat.getKey());
+                projectBuilder.setKey(opStat.getKey());
                 callback.interactionDone(projectBuilder.build());
             }
         };
@@ -118,7 +118,7 @@ public class DSProjectHandler implements ProjectHandler {
                 callback.interactionDone(result.getSuccess());
             }
         };
-        task.execute(project.getId());
+        task.execute(project.getKey());
 
     }
 
@@ -150,7 +150,7 @@ public class DSProjectHandler implements ProjectHandler {
                         Project.Builder projectBuilder = new Project.Builder();
                         projectBuilder.setDescription(sP.getDescription());
                         projectBuilder.setName(sP.getName());
-                        projectBuilder.setId(sP.getKey());
+                        projectBuilder.setKey(sP.getKey());
                         projects.add(projectBuilder.build());
                     }
                 }

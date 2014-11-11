@@ -52,7 +52,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumMainTask(project.getId(),
+                    opStat = service.insertScrumMainTask(project.getKey(),
                             params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
@@ -65,7 +65,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
             protected void onPostExecute(OperationStatus opStat) {
                 MainTask.Builder maintaskBuilder = new MainTask.Builder(
                         maintask);
-                maintaskBuilder.setId(opStat.getKey());
+                maintaskBuilder.setKey(opStat.getKey());
                 callback.interactionDone(maintaskBuilder.build());
             }
         };
@@ -102,7 +102,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                     for (ScrumMainTask s : resulItems) {
                         MainTask.Builder maintaskBuilder = new MainTask.Builder();
                         maintaskBuilder.setDescription(s.getDescription());
-                        maintaskBuilder.setId(s.getKey());
+                        maintaskBuilder.setKey(s.getKey());
                         maintaskBuilder.setName(s.getName());
                         // TODO a getPriority method and a status(String)
                         // constructor
@@ -119,7 +119,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 }
             }
         };
-        task.execute(project.getId());
+        task.execute(project.getKey());
     }
 
     @Override

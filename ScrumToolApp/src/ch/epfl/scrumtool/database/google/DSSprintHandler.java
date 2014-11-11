@@ -75,7 +75,7 @@ public class DSSprintHandler implements SprintHandler {
                 ArrayList<Sprint> sprints = new ArrayList<Sprint>();
                 for (ScrumSprint s : resultItems) {
                     Sprint.Builder sB = new Sprint.Builder();
-                    sB.setId(s.getKey());
+                    sB.setKey(s.getKey());
                     sB.setDeadline(s.getDate().getValue()); // TODO
                     // Not so
                     // sure
@@ -86,7 +86,7 @@ public class DSSprintHandler implements SprintHandler {
                 cB.interactionDone(sprints);
             }
         };
-        task.execute(project.getId());
+        task.execute(project.getKey());
     }
 
     @Override

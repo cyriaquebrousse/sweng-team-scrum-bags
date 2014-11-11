@@ -88,7 +88,7 @@ public final class Entity {
         String description = "This is the description of the task called \"" + name + "\"";
         MainTask.Builder mB = new MainTask.Builder();
         mB.setDescription(description);
-        mB.setId(id);
+        mB.setKey(id);
         mB.setName(name);
         mB.setStatus(status);
         mB.setPriority(getRandomPriority());
@@ -102,7 +102,7 @@ public final class Entity {
         description += "see in the Android Application (Which is the best Application ever by the way)";
         Project.Builder pB = new Builder();
         pB.setDescription(description);
-        pB.setId("SomeId"+name);
+        pB.setKey("SomeId"+name);
         pB.setName(name);
         
 //        Set<Player> players = new HashSet<Player>();

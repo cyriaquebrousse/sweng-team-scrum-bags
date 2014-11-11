@@ -73,7 +73,7 @@ public class MainTaskEditActivity extends Activity {
             
             taskBuilder.setName(newName);
             taskBuilder.setDescription(newDescription);
-            taskBuilder.setId("random task id "+ new Random().nextInt()); // FIXME task id
+            taskBuilder.setKey("random task id "+ new Random().nextInt()); // FIXME task id
             taskBuilder.setStatus(Status.READY_FOR_ESTIMATION);
             taskBuilder.setPriority(taskPriorityView.getPriority());
             

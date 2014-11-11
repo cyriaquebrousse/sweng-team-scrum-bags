@@ -42,7 +42,7 @@ public class DSIssueHandler implements IssueHandler {
         scrumIssue.setEstimation(issue.getEstimatedTime());
         
         ScrumPlayer scrumPlayer = new ScrumPlayer();
-        scrumPlayer.setKey(issue.getPlayer().getId());
+        scrumPlayer.setKey(issue.getPlayer().getKey());
         scrumPlayer.setAdminFlag(false);
         scrumPlayer.setRole(issue.getPlayer().getRole().name());
         
@@ -77,7 +77,7 @@ public class DSIssueHandler implements IssueHandler {
             @Override
             protected void onPostExecute(OperationStatus opStat) {
                 Issue.Builder issueBuilder = new Issue.Builder(issue);
-                issueBuilder.setId(opStat.getKey());
+                issueBuilder.setKey(opStat.getKey());
                 callback.interactionDone(issueBuilder.build());
             }
         };
@@ -198,7 +198,7 @@ public class DSIssueHandler implements IssueHandler {
                 if (resultItems != null) {
                     for (ScrumIssue s : resultItems) {
                         Issue.Builder issueBuilder = new Issue.Builder();
-                        issueBuilder.setId(s.getKey());
+                        issueBuilder.setKey(s.getKey());
                         issueBuilder.setName(s.getName());
                         issueBuilder.setDescription(s.getDescription());
                         issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
@@ -242,7 +242,7 @@ public class DSIssueHandler implements IssueHandler {
                 if (resultItems != null) {
                     for (ScrumIssue s : resultItems) {
                         Issue.Builder issueBuilder = new Issue.Builder();
-                        issueBuilder.setId(s.getKey());
+                        issueBuilder.setKey(s.getKey());
                         issueBuilder.setName(s.getName());
                         issueBuilder.setDescription(s.getDescription());
                         issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
@@ -254,7 +254,7 @@ public class DSIssueHandler implements IssueHandler {
                 }
             }
         };
-        task.execute(sprint.getId());
+        task.execute(sprint.getKey());
     }
 
     @Override
@@ -267,7 +267,7 @@ public class DSIssueHandler implements IssueHandler {
                 try {
                     GoogleSession session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertIssueInSprint(issue.getKey(), sprint.getId()).execute();
+                    opStat = service.insertIssueInSprint(issue.getKey(), sprint.getKey()).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
                     e.printStackTrace();
@@ -276,7 +276,7 @@ public class DSIssueHandler implements IssueHandler {
             }
             
         };
-        task.execute(issue.getKey(),sprint.getId());
+        task.execute(issue.getKey(),sprint.getKey());
     }
 
     @Override

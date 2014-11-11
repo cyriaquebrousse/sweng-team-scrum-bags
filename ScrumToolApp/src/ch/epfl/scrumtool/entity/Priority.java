@@ -5,6 +5,8 @@ import java.io.Serializable;
 import ch.epfl.scrumtool.R;
 
 /**
+ * Reprensents a Priority of a Maintask or an Issue
+ * 
  * @author Cyriaque Brousse
  */
 public enum Priority implements Serializable {
@@ -15,11 +17,11 @@ public enum Priority implements Serializable {
     URGENT(R.color.darkred, "URGENT");
     
     private int colorRef;
-    private String stringValue;
+    private String value;
     
     private Priority(int colorRef, String stringValue) {
         this.colorRef = colorRef;
-        this.stringValue = stringValue;
+        this.value = stringValue;
     }
     
     /**
@@ -31,7 +33,7 @@ public enum Priority implements Serializable {
     
     @Override
     public String toString() {
-        return stringValue;
+        return value;
     }
 
 }
