@@ -21,8 +21,14 @@ public final class Player implements Serializable {
      */
     private Player(String key, User user, Role role, boolean isAdmin) {
         super();
-        if (key == null || user == null || role == null) {
-            throw new NullPointerException("Player.Constructor");
+        if (key == null) {
+            throw new NullPointerException("Key cannot be null");
+        } 
+        if (user == null) {
+            throw new NullPointerException("User cannot be null");
+        } 
+        if (role == null) {
+            throw new NullPointerException("Role cannot be null");
         }
         this.key = key;
         this.user = user;

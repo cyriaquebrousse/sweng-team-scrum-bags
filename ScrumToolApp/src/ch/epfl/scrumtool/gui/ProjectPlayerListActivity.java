@@ -74,6 +74,8 @@ public class ProjectPlayerListActivity extends Activity {
     
     private void initAddPlayerBlock() {
         newPlayerEmailView = (EditText) findViewById(R.id.player_list_add_playeremail);
+        
+        playerBuilder = new Player.Builder();
     }
     
     public void addPlayer(View view) {
