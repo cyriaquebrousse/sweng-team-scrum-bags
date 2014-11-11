@@ -73,6 +73,10 @@ public class GoogleSession extends Session {
         return dbService;
     }
 
+    /**
+     * @param credential
+     * @return
+     */
     private static Scrumtool getServiceObject(GoogleAccountCredential credential) {
         Scrumtool.Builder builder = new Scrumtool.Builder(
                 AndroidHttp.newCompatibleTransport(), new GsonFactory(),
@@ -108,49 +112,55 @@ public class GoogleSession extends Session {
     public static class Builder {
         private GoogleAccountCredential googleCredential = null;
         
+        /**
+         * @param context
+         */
         public Builder(LoginActivity context) {
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.CLIENT_ID);
         }
 
+        /**
+         * @return
+         */
         public Intent getIntent() {
             return googleCredential.newChooseAccountIntent();
         }
 
         /**
          * Create a new GoogleSession
-         * @param accName
+         * @param accountName
          * @param authCallback
          */
-        public void build(String accName, Callback<Boolean> authCallback) {
-            DSUserHandler handler = new DSUserHandler();
-            final Callback<Boolean> cB = authCallback;
-            googleCredential.setSelectedAccountName(accName);
+        public void build(String accountName, Callback<Boolean> authCallback) {
+            DSUserHandler userHandler = new DSUserHandler();
+            final Callback<Boolean> callback = authCallback;
+            googleCredential.setSelectedAccountName(accountName);
             /*
              * If the server successfully logs in the user (insert user in case of 
              * non-existence, otherwise return user that wants to login) then the
              * interactionDone function of the Callback is executed.
              */
-            handler.loginUser(accName, new Callback<User>() {
+            userHandler.loginUser(accountName, new Callback<User>() {
 
                 @Override
-                public void interactionDone(User object) {
-                    if (object != null) {
-                        new GoogleSession(object, googleCredential);
+                public void interactionDone(User user) {
+                    if (user != null) {
+                        new GoogleSession(user, googleCredential);
                         
-                        DBHandlers.Builder builder = new DBHandlers.Builder();
-                        builder.setIssueHandler(new DSIssueHandler());
-                        builder.setMaintaskHandler(new DSMainTaskHandler());
-                        builder.setPlayerHandler(new DSPlayerHandler());
-                        builder.setProjectHandler(new DSProjectHandler());
-                        builder.setSprintHandler(new DSSprintHandler());
-                        builder.setUserHandler(new DSUserHandler());
+                        DBHandlers.Builder handlersBuilder = new DBHandlers.Builder();
+                        handlersBuilder.setIssueHandler(new DSIssueHandler());
+                        handlersBuilder.setMaintaskHandler(new DSMainTaskHandler());
+                        handlersBuilder.setPlayerHandler(new DSPlayerHandler());
+                        handlersBuilder.setProjectHandler(new DSProjectHandler());
+                        handlersBuilder.setSprintHandler(new DSSprintHandler());
+                        handlersBuilder.setUserHandler(new DSUserHandler());
                         
-                        Client.setScrumClient(new DBScrumClient(builder.build()));
+                        Client.setScrumClient(new DBScrumClient(handlersBuilder.build()));
 
-                        cB.interactionDone(Boolean.TRUE);
+                        callback.interactionDone(Boolean.TRUE);
                     } else {
-                        cB.interactionDone(Boolean.FALSE);
+                        callback.interactionDone(Boolean.FALSE);
                     }
                 }
             });

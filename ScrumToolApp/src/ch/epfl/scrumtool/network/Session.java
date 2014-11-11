@@ -14,6 +14,9 @@ public abstract class Session {
 
     private final User user;
 
+    /**
+     * @param user
+     */
     protected Session(User user) {
         if (user == null) {
             throw new NullPointerException("A session must have a valid user");
