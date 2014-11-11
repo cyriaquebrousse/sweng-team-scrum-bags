@@ -3,8 +3,8 @@ package ch.epfl.scrumtool.database.google;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
 /**
- * The AppEngineUtils class provides constants and methods to configure 
- * access to the App Engine server locally and online.
+ * The AppEngineUtils class provides constants and methods to configure access
+ * to the App Engine server locally and online.
  * 
  * @author aschneuw, zenhaeus
  * 
@@ -27,9 +27,8 @@ public class AppEngineUtils {
     private static final boolean TEST_LOCAL = false;
 
     /**
-     * Returns server URL
-     * If {@code}TEST_LOCAL is true then the local server url will be returned
-     * else the url of the online App Engine is returned
+     * Returns server URL If {@code}TEST_LOCAL is true then the local server url
+     * will be returned else the url of the online App Engine is returned
      * 
      * @return
      */
