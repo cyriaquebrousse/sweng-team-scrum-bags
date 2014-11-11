@@ -10,7 +10,7 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.gui.utils.InputVerifiers;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**

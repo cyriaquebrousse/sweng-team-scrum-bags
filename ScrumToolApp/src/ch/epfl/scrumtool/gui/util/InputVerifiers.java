@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.utils;
+package ch.epfl.scrumtool.gui.util;
 
 import android.content.res.Resources;
 import android.widget.EditText;

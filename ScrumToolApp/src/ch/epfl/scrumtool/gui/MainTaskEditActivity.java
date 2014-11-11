@@ -13,7 +13,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
-import ch.epfl.scrumtool.gui.utils.InputVerifiers;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**
