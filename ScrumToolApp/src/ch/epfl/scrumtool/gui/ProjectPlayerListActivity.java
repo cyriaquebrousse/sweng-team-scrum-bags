@@ -86,7 +86,7 @@ public class ProjectPlayerListActivity extends Activity {
             userBuilder.setEmail(email);
             userBuilder.setName(email.toUpperCase()); // TODO real name
             playerBuilder.setUser(userBuilder.build());
-            playerBuilder.setId("random player id "+ new Random().nextInt());
+            playerBuilder.setKey("random player id "+ new Random().nextInt());
             playerBuilder.setIsAdmin(false);
             playerBuilder.setRole(Role.DEVELOPER); // TODO real role
             
