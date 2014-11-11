@@ -39,7 +39,7 @@ public class ProjectOverviewActivity extends Activity {
     }
     
     public void openSprints(View view) {
-        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
-        startActivity(openSprintsIntent);
+//        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+//        startActivity(openSprintsIntent);
     }
 }
