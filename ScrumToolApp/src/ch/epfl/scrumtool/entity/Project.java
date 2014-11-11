@@ -1,12 +1,9 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Random;
 
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
@@ -20,11 +17,6 @@ public final class Project implements Serializable {
     private final String name;
     private final String description;
 
-    /**
-     * @param name
-     * @param description
-     * @param admin
-     */
     private Project(String key, String name, String description) {
         super();
         if (key == null || name == null || description == null) {
@@ -56,41 +48,11 @@ public final class Project implements Serializable {
      */
     public Player getAdmin() {
         // TODO query database to get admin
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
-     * Load the Players of this Project
-     * 
-     * @param callback
-     */
-    public void loadPlayers(Callback<List<Player>> callback) {
-        Client.getScrumClient().loadPlayers(this, callback);
-    }
-
-    /**
-     * Load the Backlog of this Project
-     * 
-     * @param callback
-     */
-    public void loadBacklog(Callback<List<MainTask>> callback) {
-        Client.getScrumClient().loadBacklog(this, callback);
-    }
-
-    /**
-     * Load the Sprints of this project
-     * 
-     * @param callback
-     */
-    public void loadSprints(Callback<List<Sprint>> callback) {
-        Client.getScrumClient().loadSprints(this, callback);
-    }
-
-    // TODO save and remove methods for collections (same style as load methods
-    // above)
-
-    /**
-     * @return the id
+     * @return the key
      */
     public String getKey() {
         return key;

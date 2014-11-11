@@ -5,7 +5,7 @@ import java.io.Serializable;
 import ch.epfl.scrumtool.R;
 
 /**
- * Reprensents a Priority of a Maintask or an Issue
+ * Represents the priority of a task or an issue
  * 
  * @author Cyriaque Brousse
  */

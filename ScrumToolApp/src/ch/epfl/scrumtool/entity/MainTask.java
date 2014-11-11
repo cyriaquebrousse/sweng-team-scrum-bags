@@ -1,10 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.List;
-
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
@@ -25,24 +21,13 @@ public final class MainTask extends AbstractTask implements Serializable {
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status,
-            Priority priority) {
+    private MainTask(String id, String name, String description, Status status, Priority priority) {
         super(id, name, description, status);
         if (priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
         this.priority = priority;
     }
-
-
-    /**
-     * @return the subtasks
-     */
-    public void loadIssues(Callback<List<Issue>> callback) {
-        Client.getScrumClient().loadIssues(this, callback);
-    }
-
-    // TODO save and remove methods for issues
 
     /**
      * @return the priority
@@ -52,13 +37,7 @@ public final class MainTask extends AbstractTask implements Serializable {
     }
 
     public int getIssuesFinishedCount() {
-        int count = 0;
-        // for (Issue i : issues) {
-        // if (i.getStatus() == Status.FINISHED) {
-        // ++count;
-        // }
-        // }
-        return count;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public float getEstimatedTime() {
@@ -162,18 +141,12 @@ public final class MainTask extends AbstractTask implements Serializable {
             }
         }
 
-        /**
-         * 
-         * @return the status
-         */
         public Status getStatus() {
             return this.status;
         }
 
         public void setStatus(Status status) {
-            if (status.isAValidStatus()) {
-                this.status = status;
-            }
+            this.status = status;
         }
 
         public Priority getPriority() {

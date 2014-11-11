@@ -1,12 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author ketsio, zenhaeus
@@ -51,36 +46,6 @@ public final class Sprint {
     }
 
     /**
-     * The set of issues is returned in a callback
-     */
-    public void loadIssues(DatabaseHandler<Sprint> db,
-            Callback<List<Issue>> callback) {
-        Client.getScrumClient().loadIssues(this, callback);
-    }
-
-    /**
-     * Add existing Issue to this Sprint
-     * 
-     * @param db
-     * @param callback
-     */
-    public void addIssue(Issue issue, DatabaseHandler<Sprint> db,
-            Callback<Boolean> callback) {
-        Client.getScrumClient().addIssue(issue, this, callback);
-    }
-
-    /**
-     * Removes existing Issue to this Sprint
-     * 
-     * @param db
-     * @param callback
-     */
-    public void removeIssue(Issue issue, DatabaseHandler<Sprint> db,
-            Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssue(issue, this, callback);
-    }
-
-    /**
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
@@ -92,9 +57,6 @@ public final class Sprint {
         private long deadline;
         private Set<Issue> issues;
 
-        /**
-         * 
-         */
         public Builder() {
             this.issues = new HashSet<Issue>();
         }

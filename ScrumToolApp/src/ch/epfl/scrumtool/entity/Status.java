@@ -9,24 +9,17 @@ import ch.epfl.scrumtool.R;
  */
 public enum Status implements Serializable {
 
-    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"), IN_SPRINT(
-            R.color.Salmon, "In sprint"), READY_FOR_ESTIMATION(R.color.Lime,
-            "Ready for estimation"), FINISHED(R.color.Cyan, "Finished");
+    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"),
+    IN_SPRINT(R.color.Salmon, "In sprint"),
+    READY_FOR_ESTIMATION(R.color.Lime, "Ready for estimation"),
+    FINISHED(R.color.Cyan, "Finished");
 
     private int colorRef;
-    private String value;
+    private String stringValue;
 
     Status(int colorRef, String stringValue) {
         this.colorRef = colorRef;
-        this.value = stringValue;
-    }
-
-    /**Check if the status is valid
-     * @return
-     */
-    public boolean isAValidStatus() {
-        return this.equals(READY_FOR_SPRINT) || this.equals(IN_SPRINT)
-                || this.equals(READY_FOR_ESTIMATION) || this.equals(FINISHED);
+        this.stringValue = stringValue;
     }
 
     /**
@@ -39,6 +32,6 @@ public enum Status implements Serializable {
 
     @Override
     public String toString() {
-        return this.value;
+        return this.stringValue;
     }
 }
