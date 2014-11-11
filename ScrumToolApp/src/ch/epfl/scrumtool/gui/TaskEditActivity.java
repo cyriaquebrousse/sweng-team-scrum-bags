@@ -33,7 +33,7 @@ public class TaskEditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_task_edit);
+        setContentView(R.layout.activity_task_edit);
         
         initOriginalAndParentProject();
         initViews();

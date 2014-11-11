@@ -19,6 +19,8 @@
     <string name="title_activity_project_edit_new">New project</string>
     <string name="title_activity_task_edit">Edit task</string>
     <string name="title_activity_task_edit_new">New task</string>
+    <string name="title_activity_issue_edit">Edit issue</string>
+    <string name="title_activity_issue_edit_new">New issue</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>

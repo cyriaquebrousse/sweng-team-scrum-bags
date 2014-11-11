@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +16,12 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
  */
-public class TaskOverviewActivity extends Activity {
+public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
 
     private TextView nameView;
     private TextView descriptionView;
@@ -39,12 +39,9 @@ public class TaskOverviewActivity extends Activity {
         setContentView(R.layout.activity_task_overview);
 
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        task.loadIssues(new Callback<List<Issue>>() {
-            
+        Client.getScrumClient().loadIssues(task, new Callback<List<Issue>>() {
             @Override
             public void interactionDone(final List<Issue> issueList) {
-
-                // Get list and initialize adapter
                 adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
                 listView = (ListView) findViewById(R.id.task_issues_list);
                 listView.setAdapter(adapter);
@@ -62,15 +59,22 @@ public class TaskOverviewActivity extends Activity {
             }
         });
         
-        // Get other views
+        initViews();
+        updateViews();
+    }
+
+    private void initViews() {
         nameView = (TextView) findViewById(R.id.task_name);
         descriptionView = (TextView) findViewById(R.id.task_desc);
         prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
-        
-        updateViews();
-
+    }
+    
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null); // TODO right way to do it? (cyriaque)
     }
 
     private void updateViews() {
@@ -81,6 +85,13 @@ public class TaskOverviewActivity extends Activity {
 
         float estimatedTime = task.getEstimatedTime();
         estimationSlate.setText(estimatedTime < 0 ? "?" : Float.toString(estimatedTime) + " hours");
+    }
+
+    @Override
+    void openEditElementActivity(Issue issue) {
+        Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
+        openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
+        startActivity(openIssueEditIntent);
     }
 
 }

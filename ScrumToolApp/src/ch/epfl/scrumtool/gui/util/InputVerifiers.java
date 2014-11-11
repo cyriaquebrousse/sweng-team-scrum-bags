@@ -24,4 +24,9 @@ public final class InputVerifiers {
             view.setError(null);
         }
     }
+    
+    public static boolean textEditNonNullNotEmpty(EditText view) {
+        return view != null
+            && view.getText().length() > 0;
+    }
 }

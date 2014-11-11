@@ -79,12 +79,16 @@
             android:label="@string/title_activity_project_player_list" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.SprintListActivity"
+            android:name=".gui.SprintListActivity"
             android:label="@string/title_activity_sprint_list" >
-	</activity>
-	<activity
+        </activity>
+        <activity
             android:name=".gui.MainTaskEditActivity"
             android:label="@string/title_activity_task_edit" >
+        </activity>
+        <activity
+            android:name=".gui.IssueEditActivity"
+            android:label="@string/title_activity_issue_edit" >
         </activity>
     </application>
 

@@ -105,9 +105,18 @@ public class ProjectPlayerListActivity extends Activity {
     }
     
     private void deletePlayer(Player player) {
-        // Client.getScrumClient().removePlayer(player, cB);
-        // FIXME scrum client must remove player from project
-        // adapter.notifyDataSetChanged();
+        Client.getScrumClient().removePlayer(player, new Callback<Boolean>() {
+            
+            @Override
+            public void interactionDone(Boolean success) {
+                if (success.booleanValue()) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
     
     private boolean emailIsValid() {

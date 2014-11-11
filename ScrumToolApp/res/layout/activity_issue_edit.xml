@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Cyriaque Brousse -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ch.epfl.scrumtool.gui.IssueEditActivity"
+    android:padding="@dimen/space" >
+
+    <EditText
+        android:id="@+id/issue_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:hint="Issue name" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/issue_description_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_name_edit"
+        android:inputType="textMultiLine"
+        android:hint="Issue description" />
+
+    <EditText
+        android:id="@+id/issue_estimation_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_description_edit"
+        android:hint="Estimation"
+        android:inputType="numberDecimal"
+        android:maxLines="1" />
+    
+    <EditText
+        android:id="@+id/issue_assignee_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_estimation_edit"
+        android:hint="Assigned player"
+        android:maxLines="1" />
+    
+    <!-- "Save" button -->
+    <!-- This button is temporary -->
+    <Button
+        android:id="@+id/issue_edit_button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Save"
+        android:onClick="saveIssueChanges" />
+
+
+</RelativeLayout>
