@@ -10,9 +10,24 @@ import ch.epfl.scrumtool.entity.Project;
 
 /**
  * @author Arno
- *
+ * 
  */
 public interface PlayerHandler extends DatabaseHandler<Player> {
-    void insert(final Player object, final Project project, final Callback<Player> cB);
+    /**
+     * Insert a Player in a Project
+     * 
+     * @param player
+     * @param project
+     * @param cB
+     */
+    void insert(final Player player, final Project project,
+            final Callback<Player> cB);
+
+    /**
+     * Load the Players of a Project
+     * 
+     * @param project
+     * @param cB
+     */
     void loadPlayers(final Project project, final Callback<List<Player>> cB);
 }

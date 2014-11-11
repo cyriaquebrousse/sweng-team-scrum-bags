@@ -25,13 +25,13 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
  * 
  */
 public class DSProjectHandler implements ProjectHandler {
-    private ScrumProject scrumProject;
 
     @Override
-    public void insert(final Project object, final Callback<Project> cB) {
+    public void insert(final Project project, final Callback<Project> callback) {
+        ScrumProject scrumProject;
         scrumProject = new ScrumProject();
-        scrumProject.setDescription(object.getDescription());
-        scrumProject.setName(object.getName());
+        scrumProject.setDescription(project.getDescription());
+        scrumProject.setName(project.getName());
         scrumProject.setPlayers(new ArrayList<ScrumPlayer>());
         scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
         Date date = new Date();
@@ -44,14 +44,14 @@ public class DSProjectHandler implements ProjectHandler {
             e.printStackTrace();
         }
 
-        AsyncTask<ScrumProject, Void, OperationStatus> task = 
-                new AsyncTask<ScrumProject, Void, OperationStatus>(){
+        AsyncTask<ScrumProject, Void, OperationStatus> task = new AsyncTask<ScrumProject, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(ScrumProject... params) {
                 OperationStatus opStat = null;
                 try {
-                    GoogleSession s = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
                     opStat = service.insertScrumProject(params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
@@ -62,21 +62,22 @@ public class DSProjectHandler implements ProjectHandler {
 
             @Override
             protected void onPostExecute(OperationStatus opStat) {
-                Project.Builder builder = new Project.Builder(object);
-                builder.setId(opStat.getKey());
-                cB.interactionDone(builder.build());
+                Project.Builder projectBuilder = new Project.Builder(project);
+                projectBuilder.setId(opStat.getKey());
+                callback.interactionDone(projectBuilder.build());
             }
         };
         task.execute(scrumProject);
     }
 
     @Override
-    public void load(final String key, final Callback<Project> cB) {
+    public void load(final String projectKey, final Callback<Project> callback) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void update(final Project modified, final Project ref, final Callback<Boolean> dbC) {
+    public void update(final Project modified, final Project ref,
+            final Callback<Boolean> callback) {
         // TODO Auto-generated method stub
         // UpdateProjectTask task = new UpdateProjectTask(dbC);
         // task.execute(modified);
@@ -84,55 +85,55 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void remove(final Project object, final Callback<Boolean> cB) {
+    public void remove(final Project project, final Callback<Boolean> callback) {
         // TODO why pass a Project and not a String?
         // RemoveProjectTask task = new RemoveProjectTask(dbC);
         // task.execute(object);
-        
+
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
-            
+
             @Override
             protected OperationStatus doInBackground(String... params) {
                 OperationStatus opStat = null;
                 try {
-                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
-                    opStat = session.getAuthServiceObject().removeScrumProject(params[0]).execute();
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    opStat = session.getAuthServiceObject()
+                            .removeScrumProject(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 return opStat;
-                
+
             }
-            
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
+             * 
              * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
              */
             @Override
             protected void onPostExecute(OperationStatus result) {
-                cB.interactionDone(result.getSuccess());
+                callback.interactionDone(result.getSuccess());
             }
         };
-        task.execute(object.getId());
-        
+        task.execute(project.getId());
+
     }
 
-
-
-
-
-
-
-    public void loadProjects(final Callback<List<Project>> cB) {
-        AsyncTask<Void, Void, CollectionResponseScrumProject> task = 
-                new AsyncTask<Void, Void, CollectionResponseScrumProject>(){
-            protected CollectionResponseScrumProject doInBackground(Void... params) {
-                GoogleSession s;
+    @Override
+    public void loadProjects(final Callback<List<Project>> callback) {
+        AsyncTask<Void, Void, CollectionResponseScrumProject> task = new AsyncTask<Void, Void, CollectionResponseScrumProject>() {
+            protected CollectionResponseScrumProject doInBackground(
+                    Void... params) {
+                GoogleSession session;
                 CollectionResponseScrumProject projects = null;
                 try {
-                    s = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
-                    projects = service.loadProjects(s.getUser().getEmail()).execute();
+                    session = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
+                    projects = service.loadProjects(
+                            session.getUser().getEmail()).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -146,18 +147,17 @@ public class DSProjectHandler implements ProjectHandler {
                 ArrayList<Project> projects = new ArrayList<Project>();
                 if (resultItems != null) {
                     for (ScrumProject sP : resultItems) {
-                        Project.Builder pB = new Project.Builder();
-                        pB.setDescription(sP.getDescription());
-                        pB.setName(sP.getName());
-                        pB.setId(sP.getKey());
-                        projects.add(pB.build());
+                        Project.Builder projectBuilder = new Project.Builder();
+                        projectBuilder.setDescription(sP.getDescription());
+                        projectBuilder.setName(sP.getName());
+                        projectBuilder.setId(sP.getKey());
+                        projects.add(projectBuilder.build());
                     }
                 }
-                cB.interactionDone(projects);
+                callback.interactionDone(projects);
             }
         };
         task.execute();
     }
-
 
 }

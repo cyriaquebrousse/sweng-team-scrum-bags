@@ -18,19 +18,20 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 public class DSUserHandler implements UserHandler {
 
     @Override
-    public void insert(User object, Callback<User> dbC) {
+    public void insert(User user, Callback<User> callback) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Returns the User in the Datastore for the corresponding mailaddress
      * (creates one automatically if it doesn't exist)
+     * 
      * @email user mail address
      * @cB callback
      */
     @Override
-    public void loginUser(final String email, final Callback<User> cB) {
-        AsyncTask<String, Void, ScrumUser>  task = new AsyncTask<String, Void, ScrumUser>(){
+    public void loginUser(final String email, final Callback<User> callback) {
+        AsyncTask<String, Void, ScrumUser> task = new AsyncTask<String, Void, ScrumUser>() {
             @Override
             protected ScrumUser doInBackground(String... params) {
                 Scrumtool service = GoogleSession.getServiceObject();
@@ -43,21 +44,22 @@ public class DSUserHandler implements UserHandler {
                 }
                 return user;
             }
+
             @Override
-            protected void onPostExecute(ScrumUser su) {
-                User.Builder uB = new User.Builder();
-                uB.setName(su.getName());
-                uB.setEmail(su.getEmail());
-                User user = uB.build();
-                cB.interactionDone(user);
+            protected void onPostExecute(ScrumUser scrumUser) {
+                User.Builder userBuilder = new User.Builder();
+                userBuilder.setName(scrumUser.getName());
+                userBuilder.setEmail(scrumUser.getEmail());
+                User user = userBuilder.build();
+                callback.interactionDone(user);
             }
         };
         task.execute(email);
     }
 
     @Override
-    public void load(final String key, final Callback<User> cB) {
-        AsyncTask<String, Void, ScrumUser> task = new AsyncTask<String, Void, ScrumUser>(){
+    public void load(final String userKey, final Callback<User> callback) {
+        AsyncTask<String, Void, ScrumUser> task = new AsyncTask<String, Void, ScrumUser>() {
             @Override
             protected ScrumUser doInBackground(String... params) {
                 Scrumtool service = GoogleSession.getServiceObject();
@@ -72,25 +74,25 @@ public class DSUserHandler implements UserHandler {
             }
 
             @Override
-            protected void onPostExecute(ScrumUser su) {
-                User.Builder uB = new User.Builder();
-                uB.setName(su.getName());
-                uB.setEmail(su.getEmail());
-                User user = uB.build();
-                cB.interactionDone(user);
+            protected void onPostExecute(ScrumUser scrumUser) {
+                User.Builder userBuilder = new User.Builder();
+                userBuilder.setName(scrumUser.getName());
+                userBuilder.setEmail(scrumUser.getEmail());
+                User user = userBuilder.build();
+                callback.interactionDone(user);
             }
         };
-        task.execute(key);
+        task.execute(userKey);
     }
 
     @Override
-    public void update(User modified, User ref, Callback<Boolean> dbC) {
+    public void update(User modified, User ref, Callback<Boolean> callback) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void remove(User object, Callback<Boolean> dbC) {
+    public void remove(User user, Callback<Boolean> callback) {
         // TODO Auto-generated method stub
     }
 

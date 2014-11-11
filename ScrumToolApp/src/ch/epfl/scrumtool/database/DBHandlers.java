@@ -5,153 +5,177 @@ package ch.epfl.scrumtool.database;
 
 /**
  * @author aschneuw
- *
+ * 
  */
 public final class DBHandlers {
-    private final IssueHandler issueH;
-    private final MainTaskHandler mainTaskH;
-    private final PlayerHandler playerH;
-    private final ProjectHandler projectH;
-    private final SprintHandler sprintH;
-    private final UserHandler userH;
-    
+    private final IssueHandler issueHandler;
+    private final MainTaskHandler mainTaskHandler;
+    private final PlayerHandler playerHandler;
+    private final ProjectHandler projectHandler;
+    private final SprintHandler sprintHandler;
+    private final UserHandler userHandler;
+
     private DBHandlers(DBHandlers.Builder builder) {
-        issueH = builder.iH;
-        mainTaskH = builder.mH;
-        playerH = builder.playerH;
-        projectH = builder.projectH;
-        sprintH = builder.sprintH;
-        userH = builder.uH;
+        issueHandler = builder.issueHandlr;
+        mainTaskHandler = builder.maintaskHandlr;
+        playerHandler = builder.playerHandlr;
+        projectHandler = builder.projectHandlr;
+        sprintHandler = builder.sprintHandlr;
+        userHandler = builder.userHandlr;
     }
-    
+
     /**
-     * @return the issueH
+     * @return the issueHandler
      */
     public IssueHandler getIssueHandler() {
-        return issueH;
+        return issueHandler;
     }
 
     /**
-     * @return the mainTaskH
+     * @return the mainTaskHandler
      */
     public MainTaskHandler getMainTaskHandler() {
-        return mainTaskH;
+        return mainTaskHandler;
     }
 
     /**
-     * @return the playerH
+     * @return the playerHandler
      */
     public PlayerHandler getPlayerHandler() {
-        return playerH;
+        return playerHandler;
     }
 
     /**
-     * @return the projectH
+     * @return the projectHandler
      */
     public ProjectHandler getProjectHandler() {
-        return projectH;
+        return projectHandler;
     }
 
     /**
-     * @return the sprintH
+     * @return the sprintHandler
      */
     public SprintHandler getSprintHandler() {
-        return sprintH;
+        return sprintHandler;
     }
-
 
     /**
-     * @return the userH
+     * @return the userHandler
      */
     public UserHandler getUserHandler() {
-        return userH;
+        return userHandler;
     }
 
-/**
- * 
- * @author aschneuw
- *
- */
+    /**
+     * 
+     * @author aschneuw
+     * 
+     */
+    /**
+     * @author vincent
+     * 
+     */
+    /**
+     * @author vincent
+     * 
+     */
     public static class Builder {
-        private IssueHandler iH;
-        private MainTaskHandler mH;
-        private PlayerHandler playerH;
-        private ProjectHandler projectH;
-        private SprintHandler sprintH;
-        private UserHandler uH;
+        private IssueHandler issueHandlr;
+        private MainTaskHandler maintaskHandlr;
+        private PlayerHandler playerHandlr;
+        private ProjectHandler projectHandlr;
+        private SprintHandler sprintHandlr;
+        private UserHandler userHandlr;
+
         /**
-         * @return the iH
+         * @return the issueHandler
          */
         public IssueHandler getIssueHandler() {
-            return iH;
+            return issueHandlr;
         }
+
         /**
-         * @param iH the iH to set
+         * @param issueHandlr
          */
-        public void setIssueHandler(IssueHandler iH) {
-            this.iH = iH;
+        public void setIssueHandler(IssueHandler issueHandlr) {
+            this.issueHandlr = issueHandlr;
         }
+
         /**
-         * @return the mH
+         * @return the maintaskHandler
          */
         public MainTaskHandler getMainTaskHandler() {
-            return mH;
+            return maintaskHandlr;
         }
+
         /**
-         * @param mH the mH to set
+         * @param maintaskHandlr
          */
-        public void setMaintaskHandler(MainTaskHandler mH) {
-            this.mH = mH;
+        public void setMaintaskHandler(MainTaskHandler maintaskHandlr) {
+            this.maintaskHandlr = maintaskHandlr;
         }
+
         /**
-         * @return the playerH
+         * @return the playerHandler
          */
         public PlayerHandler getPlayerHandler() {
-            return playerH;
+            return playerHandlr;
         }
+
         /**
-         * @param playerH the playerH to set
+         * @param playerHandlr
          */
-        public void setPlayerHandler(PlayerHandler playerH) {
-            this.playerH = playerH;
+        public void setPlayerHandler(PlayerHandler playerHandlr) {
+            this.playerHandlr = playerHandlr;
         }
+
         /**
-         * @return the projectH
+         * @return the projectHandler
          */
         public ProjectHandler getProjectHandler() {
-            return projectH;
+            return projectHandlr;
         }
+
         /**
-         * @param projectH the projectH to set
+         * @param projectHandlr
          */
-        public void setProjectHandler(ProjectHandler projectH) {
-            this.projectH = projectH;
+        public void setProjectHandler(ProjectHandler projectHandlr) {
+            this.projectHandlr = projectHandlr;
         }
+
         /**
-         * @return the sprintH
+         * @return the sprintHandler
          */
         public SprintHandler getSprintHandler() {
-            return sprintH;
+            return sprintHandlr;
         }
+
         /**
-         * @param sprintH the sprintH to set
+         * @param sprintHandlr
          */
-        public void setSprintHandler(SprintHandler sprintH) {
-            this.sprintH = sprintH;
+        public void setSprintHandler(SprintHandler sprintHandlr) {
+            this.sprintHandlr = sprintHandlr;
         }
+
         /**
-         * @return the uH
+         * @return the userHandler
          */
         public UserHandler getUserHandler() {
-            return uH;
+            return userHandlr;
         }
+
         /**
-         * @param uH the uH to set
+         * @param userHandlr
          */
-        public void setUserHandler(UserHandler uH) {
-            this.uH = uH;
+        public void setUserHandler(UserHandler userHandlr) {
+            this.userHandlr = userHandlr;
         }
-        
+
+        /**
+         * Builds the Builder
+         * 
+         * @return an immutable DBHandlers
+         */
         public DBHandlers build() {
             return new DBHandlers(this);
         }

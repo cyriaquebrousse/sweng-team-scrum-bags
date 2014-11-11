@@ -142,7 +142,7 @@ public class DBScrumClient implements ScrumClient {
      */
     @Override
     public void addIssue(Issue issue, Sprint sprint, Callback<Boolean> cB) {
-        dbH.getIssueHandler().addIssue(issue, sprint, cB);
+        dbH.getIssueHandler().assignIssueToSprint(issue, sprint, cB);
         
     }
 
