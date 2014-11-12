@@ -35,6 +35,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
         scrumMaintask.setName(maintask.getName());
         scrumMaintask.setDescription(maintask.getDescription());
         scrumMaintask.setStatus(maintask.getStatus().name());
+        scrumMaintask.setPriority(maintask.getPriority().name());
         scrumMaintask.setIssues(new ArrayList<ScrumIssue>());
         Date date = new Date();
         scrumMaintask.setLastModDate(date.getTime());
