@@ -98,17 +98,13 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMen
      * @param project
      *            the project to delete
      */
-    private void deleteMainTask(MainTask mainTask) {
-        
-        DefaultGUICallback<Boolean> projectDeleted = new DefaultGUICallback<Boolean>(this) {
-            
+    private void deleteMainTask(final MainTask mainTask) {
+        Client.getScrumClient().deleteMainTask(mainTask, new DefaultGUICallback<Boolean>(this) {
             @Override
-            public void interactionDone(Boolean object) {
-                adapter.notifyDataSetChanged();
-                
+            public void interactionDone(Boolean success) {
+                adapter.remove(mainTask);
             }
-        };
-        Client.getScrumClient().deleteProject(project, projectDeleted);
+        });
     }
     
     @Override

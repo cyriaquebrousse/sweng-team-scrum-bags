@@ -7,7 +7,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Player;
@@ -15,28 +14,12 @@ import ch.epfl.scrumtool.entity.Player;
 /**
  * @author Cyriaque Brousse
  */
-public final class PlayerListAdapter extends BaseAdapter {
+public final class PlayerListAdapter extends DefaultAdapter<Player> {
     private LayoutInflater inflater;
-    private List<Player> playerList;
 
-    public PlayerListAdapter(final Activity activity, List<Player> playerList) {
-        this.playerList = playerList;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return playerList.size();
-    }
-
-    @Override
-    public Player getItem(int position) {
-        return playerList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+    public PlayerListAdapter(final Activity activity, final List<Player> playerList) {
+        super(playerList);
+        this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -48,7 +31,7 @@ public final class PlayerListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.player_row_name);
         TextView role = (TextView) convertView.findViewById(R.id.player_row_role);
 
-        Player player = playerList.get(position);
+        Player player = getList().get(position);
         name.setText(player.getUser().getName());
         role.setText(player.getRole().toString());
         

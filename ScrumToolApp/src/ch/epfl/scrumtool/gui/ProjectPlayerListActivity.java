@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import java.util.List;
-import java.util.Random;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
@@ -105,7 +103,7 @@ public class ProjectPlayerListActivity extends Activity {
 
             @Override
             public void interactionDone(Player object) {
-                adapter.notifyDataSetChanged();                
+                adapter.add(object);
             }
         };
 
@@ -113,21 +111,19 @@ public class ProjectPlayerListActivity extends Activity {
         Client.getScrumClient().addPlayerToProject(project, userEmail, role,  playerAdded);
     }
 
-    private void deletePlayer(Player player) {
-        DefaultGUICallback<Boolean> playerRemoved = new DefaultGUICallback<Boolean>(this) {
+    private void deletePlayer(final Player player) {
+        Client.getScrumClient().removePlayer(player, new DefaultGUICallback<Boolean>(this) {
 
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
-                    adapter.notifyDataSetChanged();
+                    adapter.remove(player);
                 } else {
                     Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
                             Toast.LENGTH_SHORT).show();
                 }                
             }
-        };
-
-        Client.getScrumClient().removePlayer(player, playerRemoved);
+        });
     }
 
     private boolean emailIsValid() {

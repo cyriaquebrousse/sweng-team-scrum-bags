@@ -8,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -17,32 +16,17 @@ import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 /**
  * @author Cyriaque Brousse
  */
-public final class TaskListAdapter extends BaseAdapter {
+public final class TaskListAdapter extends DefaultAdapter<MainTask>  {
+    
     private Activity activity;
     private LayoutInflater inflater;
-    private List<MainTask> taskList;
 
-    public TaskListAdapter(final Activity activity, List<MainTask> taskList) {
+    public TaskListAdapter(final Activity activity, final List<MainTask> taskList) {
+        super(taskList);
         this.activity = activity;
-        this.taskList = taskList;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     
-    @Override
-    public int getCount() {
-        return taskList.size();
-    }
-
-    @Override
-    public MainTask getItem(int position) {
-        return taskList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -57,7 +41,7 @@ public final class TaskListAdapter extends BaseAdapter {
         View percentDoneBackgrd = (View) convertView.findViewById(R.id.task_row_percent_backgrd);
         
         // Set views properties
-        MainTask task = taskList.get(position);
+        MainTask task = getList().get(position);
         // FIXME: need database function task.getIssuesFinishedCount()
         // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
         double percentageDone = 0;
@@ -79,5 +63,4 @@ public final class TaskListAdapter extends BaseAdapter {
         
         return convertView;
     }
-    
 }

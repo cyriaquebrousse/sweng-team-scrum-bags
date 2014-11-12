@@ -32,9 +32,8 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectlist);
-
         
-        final DefaultGUICallback<List<Project>> projectsLoaded = new DefaultGUICallback<List<Project>>(this) {
+        Client.getScrumClient().loadProjects(new DefaultGUICallback<List<Project>>(this) {
             
             @Override
             public void interactionDone(final List<Project> projectList) {
@@ -57,12 +56,8 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
                 });
 
                 adapter.notifyDataSetChanged();
-                
             }
-        };
-        
-        
-        Client.getScrumClient().loadProjects(projectsLoaded);
+        });
     }
     
     @Override
@@ -104,16 +99,12 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
      * @param project
      *            the project to delete
      */
-    private void deleteProject(Project project) {
-        
-        DefaultGUICallback<Boolean> projectDeleted = new DefaultGUICallback<Boolean>(this) {
-            
+    private void deleteProject(final Project project) {
+        Client.getScrumClient().deleteProject(project, new DefaultGUICallback<Boolean>(this) {
             @Override
-            public void interactionDone(Boolean object) {
-                adapter.notifyDataSetChanged();
-                
+            public void interactionDone(Boolean success) {
+                adapter.remove(project);
             }
-        };
-        Client.getScrumClient().deleteProject(project, projectDeleted);
+        });
     }
 }

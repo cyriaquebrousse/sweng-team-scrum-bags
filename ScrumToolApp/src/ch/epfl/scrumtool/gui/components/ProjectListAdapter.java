@@ -7,7 +7,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
@@ -16,30 +15,15 @@ import ch.epfl.scrumtool.gui.components.widgets.Sticker;
 /**
  * @author Cyriaque Brousse
  */
-public final class ProjectListAdapter extends BaseAdapter {
+public final class ProjectListAdapter extends DefaultAdapter<Project> {
+
     private Activity activity;
     private LayoutInflater inflater;
-    private List<Project> projectsList;
-
-    public ProjectListAdapter(final Activity activity, List<Project> projectsList) {
+    
+    public ProjectListAdapter(final Activity activity, final List<Project> projectList) {
+        super(projectList);
         this.activity = activity;
-        this.projectsList = projectsList;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return projectsList.size();
-    }
-
-    @Override
-    public Project getItem(int position) {
-        return projectsList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+        this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -52,7 +36,7 @@ public final class ProjectListAdapter extends BaseAdapter {
         TextView desc = (TextView) convertView.findViewById(R.id.project_row_description);
         Sticker newElemCount = (Sticker) convertView.findViewById(R.id.project_row_newElemCount);
 
-        Project project = projectsList.get(position);
+        Project project = getList().get(position);
         name.setText(project.getName());
         desc.setText(project.getDescription());
         

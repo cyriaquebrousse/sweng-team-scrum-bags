@@ -39,8 +39,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
         setContentView(R.layout.activity_task_overview);
 
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        
-        DefaultGUICallback<List<Issue>> issuesLoaded = new DefaultGUICallback<List<Issue>>(this) {
+        Client.getScrumClient().loadIssues(task, new DefaultGUICallback<List<Issue>>(this) {
             
             @Override
             public void interactionDone(final List<Issue> issueList) {
@@ -59,9 +58,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
                 
                 adapter.notifyDataSetChanged();
             }
-        };
-        
-        Client.getScrumClient().loadIssues(task, issuesLoaded);
+        });
         
         initViews();
         updateViews();
