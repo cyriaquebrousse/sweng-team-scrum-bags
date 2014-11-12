@@ -5,14 +5,18 @@ import java.util.Random;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
+import ch.epfl.scrumtool.gui.util.Dialogs;
+import ch.epfl.scrumtool.gui.util.Dialogs.PriorityDialogCallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
@@ -62,6 +66,19 @@ public class TaskEditActivity extends Activity {
         taskNameView.setText(taskBuilder.getName());
         taskDescriptionView.setText(taskBuilder.getDescription());
         taskPriorityView.setPriority(taskBuilder.getPriority());
+        
+        taskPriorityView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialogs.showTaskPriorityEditDialog(TaskEditActivity.this, new PriorityDialogCallback() {
+                    @Override
+                    public void onSelected(Priority selected) {
+                        taskBuilder.setPriority(selected);
+                        taskPriorityView.setPriority(selected);
+                    }
+                });
+            }
+        });
     }
     
     public void saveTaskChanges(View view) {
