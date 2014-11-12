@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 /**

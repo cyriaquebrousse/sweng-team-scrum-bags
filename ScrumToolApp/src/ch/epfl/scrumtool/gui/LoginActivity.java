@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.settings.ApplicationSettings;

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;

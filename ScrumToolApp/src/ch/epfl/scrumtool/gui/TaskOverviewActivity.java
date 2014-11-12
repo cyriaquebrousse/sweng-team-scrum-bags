@@ -61,7 +61,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
             }
         };
         
-        Client.getScrumClient().loadIssues(task,issuesLoaded);
+        Client.getScrumClient().loadIssues(task, issuesLoaded);
         
         initViews();
         updateViews();
