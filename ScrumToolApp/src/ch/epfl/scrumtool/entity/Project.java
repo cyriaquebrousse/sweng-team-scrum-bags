@@ -100,10 +100,11 @@ public final class Project implements Serializable {
          * @param name
          *            the name to set
          */
-        public void setName(String name) {
+        public Project.Builder setName(String name) {
             if (name != null) {
                 this.name = name;
             }
+            return this;
         }
 
         /**
@@ -117,10 +118,11 @@ public final class Project implements Serializable {
          * @param description
          *            the description to set
          */
-        public void setDescription(String description) {
+        public Project.Builder setDescription(String description) {
             if (description != null) {
                 this.description = description;
             }
+            return this;
         }
 
         /**
@@ -134,8 +136,9 @@ public final class Project implements Serializable {
          * @param id
          *            the id to set
          */
-        public void setKey(String id) {
+        public Project.Builder setKey(String id) {
             this.keyb = id;
+            return this;
         }
 
         public Project build() {

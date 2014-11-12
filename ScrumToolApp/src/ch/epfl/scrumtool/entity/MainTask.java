@@ -101,10 +101,11 @@ public final class MainTask extends AbstractTask implements Serializable {
             return id;
         }
 
-        public void setKey(String id) {
+        public MainTask.Builder setKey(String id) {
             if (id != null) {
                 this.id = id;
             }
+            return this;
         }
 
         /**
@@ -118,10 +119,11 @@ public final class MainTask extends AbstractTask implements Serializable {
          * @param name
          *            the name to set
          */
-        public void setName(String name) {
+        public MainTask.Builder setName(String name) {
             if (name != null) {
                 this.name = name;
             }
+            return this;
         }
 
         /**
@@ -135,26 +137,29 @@ public final class MainTask extends AbstractTask implements Serializable {
          * @param description
          *            the description to set
          */
-        public void setDescription(String description) {
+        public MainTask.Builder setDescription(String description) {
             if (description != null) {
                 this.description = description;
             }
+            return this;
         }
 
         public Status getStatus() {
             return this.status;
         }
 
-        public void setStatus(Status status) {
+        public MainTask.Builder setStatus(Status status) {
             this.status = status;
+            return this;
         }
 
         public Priority getPriority() {
             return priority;
         }
 
-        public void setPriority(Priority priority) {
+        public MainTask.Builder setPriority(Priority priority) {
             this.priority = priority;
+            return this;
         }
 
         public MainTask build() {

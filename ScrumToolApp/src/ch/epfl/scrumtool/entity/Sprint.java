@@ -79,8 +79,9 @@ public final class Sprint {
          * @param id
          *            the id to set
          */
-        public void setKey(String id) {
+        public Sprint.Builder setKey(String id) {
             this.keyb = id;
+            return this;
         }
 
         /**
@@ -94,20 +95,22 @@ public final class Sprint {
          * @param issue
          *            the issue to add
          */
-        public void addIssue(Issue issue) {
+        public Sprint.Builder addIssue(Issue issue) {
             if (issue != null) {
                 this.issues.add(issue);
             }
+            return this;
         }
 
         /**
          * @param issue
          *            the issue to remove
          */
-        public void removeIssue(Issue issue) {
+        public Sprint.Builder removeIssue(Issue issue) {
             if (issue != null) {
                 this.issues.remove(issue);
             }
+            return this;
         }
 
         /**
@@ -121,10 +124,11 @@ public final class Sprint {
          * @param deadline
          *            the deadline to set
          */
-        public void setDeadline(long deadline) {
+        public Sprint.Builder setDeadline(long deadline) {
             if (deadlineIsValid(deadline)) {
                 this.deadline = deadline;
             }
+            return this;
         }
 
         /**

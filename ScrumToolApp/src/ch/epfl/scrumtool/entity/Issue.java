@@ -89,8 +89,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param id
          */
-        public void setKey(String id) {
+        public Issue.Builder setKey(String id) {
             this.key = id;
+            return this;
         }
 
         /**
@@ -103,8 +104,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param name
          */
-        public void setName(String name) {
+        public Issue.Builder setName(String name) {
             this.name = name;
+            return this;
         }
 
         /**
@@ -117,8 +119,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param description
          */
-        public void setDescription(String description) {
+        public Issue.Builder setDescription(String description) {
             this.description = description;
+            return this;
         }
 
         /**
@@ -131,8 +134,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param status
          */
-        public void setStatus(Status status) {
+        public Issue.Builder setStatus(Status status) {
             this.status = status;
+            return this;
         }
 
         /**
@@ -145,8 +149,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param estimatedTime
          */
-        public void setEstimatedTime(float estimatedTime) {
+        public Issue.Builder setEstimatedTime(float estimatedTime) {
             this.estimatedTime = estimatedTime;
+            return this;
         }
 
         /**
@@ -159,8 +164,9 @@ public final class Issue extends AbstractTask implements Serializable {
         /**
          * @param player
          */
-        public void setPlayer(Player player) {
+        public Issue.Builder setPlayer(Player player) {
             this.player = player;
+            return this;
         }
 
         /**

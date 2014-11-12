@@ -117,10 +117,11 @@ public final class Player implements Serializable {
          * @param user
          *            the user to set
          */
-        public void setUser(User user) {
+        public Player.Builder setUser(User user) {
             if (user != null) {
                 this.user = user;
             }
+            return this;
         }
 
         /**
@@ -133,10 +134,11 @@ public final class Player implements Serializable {
         /**
          * @param role
          */
-        public void setRole(Role role) {
+        public Player.Builder setRole(Role role) {
             if (role != null) {
                 this.role = role;
             }
+            return this;
         }
 
         /**
@@ -150,8 +152,9 @@ public final class Player implements Serializable {
          * @param id
          *            the id to set
          */
-        public void setKey(String id) {
+        public Player.Builder setKey(String id) {
             this.keyb = id;
+            return this;
         }
 
         /**
@@ -164,8 +167,9 @@ public final class Player implements Serializable {
         /**
          * @param isAdmin
          */
-        public void setIsAdmin(boolean isAdmin) {
+        public Player.Builder setIsAdmin(boolean isAdmin) {
             this.isAdmin = isAdmin;
+            return this;
         }
 
         /**

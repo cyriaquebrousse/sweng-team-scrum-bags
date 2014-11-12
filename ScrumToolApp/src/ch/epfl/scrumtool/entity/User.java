@@ -74,8 +74,9 @@ public final class User implements Serializable {
         /**
          * @param email
          */
-        public void setEmail(String email) {
+        public User.Builder setEmail(String email) {
             this.email = email;
+            return this;
         }
 
         /**
@@ -88,8 +89,9 @@ public final class User implements Serializable {
         /**
          * @param name
          */
-        public void setName(String name) {
+        public User.Builder setName(String name) {
             this.name = name;
+            return this;
         }
 
         /**
