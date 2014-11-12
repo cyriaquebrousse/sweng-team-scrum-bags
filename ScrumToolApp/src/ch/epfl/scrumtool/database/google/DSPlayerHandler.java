@@ -23,6 +23,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
  * @author aschneuw
@@ -35,10 +36,10 @@ public class DSPlayerHandler implements PlayerHandler {
             final Callback<Player> callback) {
         ScrumPlayer scrumPlayer = new ScrumPlayer();
         scrumPlayer.setAdminFlag(player.isAdmin());
-        Date date = new Date();
         scrumPlayer.setIssues(new ArrayList<ScrumIssue>());
-        scrumPlayer.setLastModDate(date.getTime());
         scrumPlayer.setRole(player.getRole().name());
+        Date date = new Date();
+        scrumPlayer.setLastModDate(date.getTime());
 
         try {
             scrumPlayer.setLastModUser(Session.getCurrentSession().getUser()
@@ -84,8 +85,38 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void update(final Player modified, final Player ref,
             final Callback<Boolean> callback) {
-        // TODO Auto-generated method stub
+        try {
+            final GoogleSession session = (GoogleSession) Session
+                    .getCurrentSession();
+            final ScrumPlayer scrumPlayer = new ScrumPlayer();
+            scrumPlayer.setKey(modified.getKey());
+            scrumPlayer.setAdminFlag(modified.isAdmin());
+            scrumPlayer.setRole(modified.getRole().name());
+            scrumPlayer.setLastModDate((new Date()).getTime());
+            scrumPlayer.setLastModUser(session.getUser().getEmail());
 
+            new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
+                @Override
+                protected OperationStatus doInBackground(ScrumPlayer... params) {
+                    OperationStatus opStat = null;
+                    try {
+                        Scrumtool service = session.getAuthServiceObject();
+                        opStat = service.updateScrumPlayer(params[0])
+                                .execute();
+                    } catch (IOException e) {
+                        callback.failure("Connection error");
+                    }
+                    return opStat;
+                }
+
+                @Override
+                protected void onPostExecute(OperationStatus result) {
+                    callback.interactionDone(result.getSuccess());
+                }
+            }.execute(scrumPlayer);
+        } catch (NotAuthenticatedException e) {
+            callback.failure("Not authenticated");
+        }
     }
 
     @Override
@@ -144,8 +175,8 @@ public class DSPlayerHandler implements PlayerHandler {
                 ArrayList<Player> players = new ArrayList<Player>();
                 for (ScrumPlayer s : resultItems) {
                     User.Builder userBuilder = new User.Builder();
-                    userBuilder.setEmail(s.getUser().getEmail())
-                            .setName(s.getUser().getName());
+                    userBuilder.setEmail(s.getUser().getEmail()).setName(
+                            s.getUser().getName());
                     Player.Builder playerBuilder = new Player.Builder();
                     playerBuilder.setKey(s.getKey())
                             .setIsAdmin(s.getAdminFlag())
