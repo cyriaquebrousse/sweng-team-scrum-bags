@@ -112,7 +112,7 @@ public class TaskEditActivity extends Activity {
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().updateMainTask(task, parentProject, new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().updateMainTask(task, null, parentProject, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {

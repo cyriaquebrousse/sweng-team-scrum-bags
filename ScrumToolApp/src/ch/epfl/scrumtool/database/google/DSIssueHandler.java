@@ -91,7 +91,7 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void update(final Issue modified, final Callback<Boolean> callback) {
+    public void update(final Issue modified, final Issue ref, final Callback<Boolean> callback) {
         final ScrumIssue changes = new ScrumIssue();
         changes.setKey(modified.getKey());
         changes.setName(modified.getName());

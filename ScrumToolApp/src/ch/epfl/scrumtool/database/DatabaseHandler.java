@@ -19,6 +19,7 @@ public interface DatabaseHandler<A> {
     /**
      * Loads an object of type A from the database.
      * 
+     * 
      * @param key
      * @param dbC
      */
@@ -27,10 +28,12 @@ public interface DatabaseHandler<A> {
     /**
      * Updates an object of type A on the database.
      * 
+     * Do not remove the ref parameter, can be usefull later
+     * 
      * @param modified
      * @param dbC
      */
-    void update(final A object, final Callback<Boolean> cB);
+    void update(final A object, final A ref, final Callback<Boolean> cB);
 
     /**
      * Removes an object of type A from the database.

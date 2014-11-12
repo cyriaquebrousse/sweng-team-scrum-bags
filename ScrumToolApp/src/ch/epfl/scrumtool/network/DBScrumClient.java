@@ -32,8 +32,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateUser(User user, Callback<Boolean> callback) {
-        databaseHandlers.getUserHandler().update(user, callback);
+    public void updateUser(User user, User ref, Callback<Boolean> callback) {
+        databaseHandlers.getUserHandler().update(user, ref, callback);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
 
-    public void updateProject(Project project, Callback<Boolean> callback) {
-        databaseHandlers.getProjectHandler().update(project, callback);
+    public void updateProject(Project project, Project ref, Callback<Boolean> callback) {
+        databaseHandlers.getProjectHandler().update(project, ref, callback);
 
 
     }
@@ -73,8 +73,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateMainTask(MainTask task, Project project, Callback<Boolean> callback) {
-        databaseHandlers.getMainTaskHandler().update(task, project, callback);
+    public void updateMainTask(MainTask task, MainTask ref, Project project, Callback<Boolean> callback) {
+        databaseHandlers.getMainTaskHandler().update(task, ref, project, callback);
     }
 
     @Override
@@ -111,8 +111,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateIssue(Issue issue, Callback<Boolean> callback) {
-        databaseHandlers.getIssueHandler().update(issue, callback);
+    public void updateIssue(Issue issue, Issue ref, Callback<Boolean> callback) {
+        databaseHandlers.getIssueHandler().update(issue, ref, callback);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateSprint(Sprint sprint, Callback<Boolean> callback) {
-        databaseHandlers.getSprintHandler().update(sprint, callback);
+    public void updateSprint(Sprint sprint, Sprint ref, Callback<Boolean> callback) {
+        databaseHandlers.getSprintHandler().update(sprint, ref, callback);
     }
 
     @Override

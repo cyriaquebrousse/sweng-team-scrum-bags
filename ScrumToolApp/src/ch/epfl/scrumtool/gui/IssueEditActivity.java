@@ -95,6 +95,6 @@ public class IssueEditActivity extends Activity {
             }
         };
 
-        Client.getScrumClient().updateIssue(issue, issueUpdated);
+        Client.getScrumClient().updateIssue(issue, original, issueUpdated);
     }
 }
