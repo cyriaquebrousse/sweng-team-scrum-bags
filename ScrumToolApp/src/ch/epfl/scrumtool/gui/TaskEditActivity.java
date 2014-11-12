@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
@@ -88,17 +89,23 @@ public class TaskEditActivity extends Activity {
 
     private void insertTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().insertMainTask(task, parentProject, new Callback<MainTask>() {
+        
+        DefaultGUICallback<MainTask> taskInserted = new DefaultGUICallback<MainTask>(this) {
+
             @Override
             public void interactionDone(MainTask object) {
                 TaskEditActivity.this.finish();
             }
-        });
+            
+        };
+        Client.getScrumClient().insertMainTask(task, parentProject, taskInserted);
     }
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().updateMainTask(task, original, new Callback<Boolean>() {
+        
+        DefaultGUICallback<Boolean> updatedTask = new DefaultGUICallback<Boolean>(this) {
+            
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
@@ -107,7 +114,9 @@ public class TaskEditActivity extends Activity {
                     Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        };
+        
+        Client.getScrumClient().updateMainTask(task, original, updatedTask);
     }
 
     private boolean nameIsValid() {

@@ -14,4 +14,9 @@ public interface Callback<A> {
      * @param object
      */
     void interactionDone(A object);
+    
+    
+    void failure(final String errorMessage);
+    
+    
 }

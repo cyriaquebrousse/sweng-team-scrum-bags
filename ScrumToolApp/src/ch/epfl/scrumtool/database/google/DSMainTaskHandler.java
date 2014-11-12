@@ -29,6 +29,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
     @Override
     public void insert(final MainTask maintask, final Project project,
             final Callback<MainTask> callback) {
+    	
         ScrumMainTask scrumMaintask = new ScrumMainTask();
         scrumMaintask.setName(maintask.getName());
         scrumMaintask.setDescription(maintask.getDescription());

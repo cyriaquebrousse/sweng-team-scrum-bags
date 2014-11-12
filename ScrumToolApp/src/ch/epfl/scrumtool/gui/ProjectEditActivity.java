@@ -10,6 +10,7 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
@@ -74,26 +75,34 @@ public class ProjectEditActivity extends Activity {
     
     private void insertProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().insertProject(project, new Callback<Project>() {
+        
+        final DefaultGUICallback<Project> projectIserted = new DefaultGUICallback<Project>(this) {
+            
             @Override
             public void interactionDone(Project object) {
                 ProjectEditActivity.this.finish();
+                
             }
-        });
+        };
+        Client.getScrumClient().insertProject(project, projectIserted);
     }
 
     private void updateProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().updateProject(project, original, new Callback<Boolean>() {
+        
+        DefaultGUICallback<Boolean> projectUpdated = new DefaultGUICallback<Boolean>(this) {
+            
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
                     ProjectEditActivity.this.finish();
                 } else {
                     Toast.makeText(ProjectEditActivity.this, "Could not update project", Toast.LENGTH_SHORT).show();
-                }
+                }                
             }
-        });
+        };
+        
+        Client.getScrumClient().updateProject(project, original, projectUpdated);
     }
 
     private boolean titleIsValid() {

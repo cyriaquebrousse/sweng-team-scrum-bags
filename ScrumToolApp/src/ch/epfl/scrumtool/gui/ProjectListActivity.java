@@ -15,8 +15,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
 
@@ -33,10 +33,11 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectlist);
 
-        Client.getScrumClient().loadProjects(new Callback<List<Project>>() {
+        
+        final DefaultGUICallback<List<Project>> projectsLoaded = new DefaultGUICallback<List<Project>>(this) {
+            
             @Override
             public void interactionDone(final List<Project> projectList) {
-                
                 adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
                 listView = (ListView) findViewById(R.id.project_list);
                 registerForContextMenu(listView);
@@ -56,8 +57,12 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
                 });
 
                 adapter.notifyDataSetChanged();
+                
             }
-        });
+        };
+        
+        
+        Client.getScrumClient().loadProjects(projectsLoaded);
     }
     
     @Override
@@ -100,11 +105,15 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
      *            the project to delete
      */
     private void deleteProject(Project project) {
-        Client.getScrumClient().deleteProject(project, new Callback<Boolean>() {
+        
+        DefaultGUICallback<Boolean> projectDeleted = new DefaultGUICallback<Boolean>(this) {
+            
             @Override
             public void interactionDone(Boolean object) {
                 adapter.notifyDataSetChanged();
+                
             }
-        });
+        };
+        Client.getScrumClient().deleteProject(project, projectDeleted);
     }
 }
