@@ -91,7 +91,6 @@ public class TaskEditActivity extends Activity {
             
             taskBuilder.setName(newName);
             taskBuilder.setDescription(newDescription);
-            taskBuilder.setKey("random task id "+ new Random().nextInt()); // FIXME task id
             taskBuilder.setStatus(Status.READY_FOR_ESTIMATION);
             taskBuilder.setPriority(taskPriorityView.getPriority());
             
@@ -132,7 +131,7 @@ public class TaskEditActivity extends Activity {
             }
         };
         
-        Client.getScrumClient().updateMainTask(task, original, updatedTask);
+        Client.getScrumClient().updateMainTask(task, parentProject, updatedTask);
     }
 
     private boolean nameIsValid() {

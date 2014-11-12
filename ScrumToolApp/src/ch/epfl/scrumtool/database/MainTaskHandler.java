@@ -29,4 +29,8 @@ public interface MainTaskHandler extends DatabaseHandler<MainTask> {
      */
     void insert(final MainTask object, final Project project,
             final Callback<MainTask> cB);
+    
+    void update(final MainTask object, final Project project,
+            final Callback<Boolean> cb);
 }
+

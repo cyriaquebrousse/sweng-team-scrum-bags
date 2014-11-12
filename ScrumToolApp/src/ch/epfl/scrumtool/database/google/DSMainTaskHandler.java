@@ -110,8 +110,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                         maintaskBuilder
                                 .setPriority(ch.epfl.scrumtool.entity.Priority.NORMAL);
                         maintaskBuilder
-                                .setStatus(ch.epfl.scrumtool.entity.Status
-                                        .valueOf(s.getStatus()));
+                                .setStatus(ch.epfl.scrumtool.entity.Status.FINISHED);
                         mainTasks.add(maintaskBuilder.build());
                     }
                     callback.interactionDone(mainTasks);
@@ -128,8 +127,8 @@ public class DSMainTaskHandler implements MainTaskHandler {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void update(final MainTask modified, final MainTask ref,
+
+    public void update(final MainTask modified, final Project ref,
             final Callback<Boolean> callback) {
         final ScrumMainTask changes = new ScrumMainTask();
         changes.setKey(modified.getKey());
@@ -155,10 +154,9 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 try {
                     session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.updateScrumMainTask(params[0]).execute();
+                    opStat = service.updateScrumMainTask(ref.getKey(), params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    callback.failure("Connection Error");
                 }
                 return opStat;
             }
@@ -170,8 +168,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
              */
             @Override
             protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(Boolean.valueOf(result.getSuccess()));
-                super.onPostExecute(result);
+                callback.interactionDone(result.getSuccess());
             }
 
         };
@@ -216,5 +213,15 @@ public class DSMainTaskHandler implements MainTaskHandler {
     public void insert(MainTask maintask, Callback<MainTask> cB) {
         throw new UnsupportedOperationException();
     }
+
+    /* (non-Javadoc)
+     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
+     */
+    @Override
+    public void update(MainTask object, MainTask reference, Callback<Boolean> cB) {
+        // TODO Auto-generated method stub
+        
+    }
+
 
 }

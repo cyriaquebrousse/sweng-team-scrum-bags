@@ -79,6 +79,7 @@ public final class MainTask extends AbstractTask implements Serializable {
         private Priority priority;
 
         public Builder() {
+            this.id = "";
             this.name = "";
             this.description = "";
             this.status = Status.READY_FOR_ESTIMATION;

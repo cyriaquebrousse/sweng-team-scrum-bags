@@ -71,8 +71,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateMainTask(MainTask task, MainTask ref, Callback<Boolean> callback) {
-        databaseHandlers.getMainTaskHandler().update(task, ref, callback);
+    public void updateMainTask(MainTask task, Project project, Callback<Boolean> callback) {
+        databaseHandlers.getMainTaskHandler().update(task, project, callback);
 
     }
 
@@ -80,6 +80,7 @@ public class DBScrumClient implements ScrumClient {
     public void deleteMainTask(MainTask task, Callback<Boolean> callback) {
         databaseHandlers.getMainTaskHandler().remove(task, callback);
     }
+    
 
     @Override
     public void loadIssues(MainTask task, Callback<List<Issue>> callback) {

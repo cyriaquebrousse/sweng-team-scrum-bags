@@ -37,7 +37,7 @@ public interface ScrumClient {
     // Maintask methods
     void loadBacklog(final Project project, final Callback<List<MainTask>> callback);
     void insertMainTask(final MainTask task, final Project project, final Callback<MainTask> callback);
-    void updateMainTask(final MainTask task, final MainTask ref, final Callback<Boolean> callback);
+    void updateMainTask(final MainTask task, final Project project, final Callback<Boolean> callback);
     void deleteMainTask(final MainTask task, final Callback<Boolean> callback);
     
     // Issue methods
