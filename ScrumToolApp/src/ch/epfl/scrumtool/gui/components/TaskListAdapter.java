@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 /**
@@ -34,7 +35,7 @@ public final class TaskListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public MainTask getItem(int position) {
         return taskList.get(position);
     }
 

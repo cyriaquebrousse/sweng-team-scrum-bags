@@ -4,9 +4,15 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -18,7 +24,7 @@ import ch.epfl.scrumtool.network.Client;
 /**
  * @author Cyriaque Brousse
  */
-public class BacklogActivity extends BaseMenuActivity<MainTask> {
+public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMenuItemClickListener {
 
     private ListView listView;
     private Project project;
@@ -38,18 +44,23 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> {
                 adapter = new TaskListAdapter(BacklogActivity.this, taskList);
 
                 listView = (ListView) findViewById(R.id.backlog_tasklist);
+                registerForContextMenu(listView);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent openTaskIntent = new Intent(view.getContext(), TaskOverviewActivity.class);
-                        MainTask task = taskList.get(position);
-                        openTaskIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
-                        startActivity(openTaskIntent);
+                        Intent openTaskOverviewIntent = new Intent(
+                                view.getContext(),
+                                TaskOverviewActivity.class);
+
+                        MainTask mainTask = taskList.get(position);
+                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
+                        startActivity(openTaskOverviewIntent);
                     }
                 });
 
                 adapter.notifyDataSetChanged();
+                
             }
         };
         Client.getScrumClient().loadBacklog(project, maintasksLoaded);
@@ -60,7 +71,46 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> {
         super.onRestart();
         onCreate(null); // TODO right way to do this (cyriaque)
     }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_entity_edit:
+                openEditElementActivity(adapter.getItem(info.position));
+                return true;
+            case R.id.action_entity_delete:
+                deleteMainTask(adapter.getItem(info.position));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+    
+    /**
+     * @param project
+     *            the project to delete
+     */
+    private void deleteMainTask(MainTask mainTask) {
+        
+        DefaultGUICallback<Boolean> projectDeleted = new DefaultGUICallback<Boolean>(this) {
+            
+            @Override
+            public void interactionDone(Boolean object) {
+                adapter.notifyDataSetChanged();
+                
+            }
+        };
+        Client.getScrumClient().deleteProject(project, projectDeleted);
+    }
+    
     @Override
     void openEditElementActivity(MainTask task) {
         Intent openTaskEditIntent = new Intent(this, TaskEditActivity.class);
