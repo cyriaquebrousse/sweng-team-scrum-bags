@@ -11,6 +11,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
@@ -46,9 +47,10 @@ public class DBScrumClient implements ScrumClient {
         databaseHandlers.getProjectHandler().insert(project, callback);
     }
 
-    @Override
+
     public void updateProject(Project project, Callback<Boolean> callback) {
         databaseHandlers.getProjectHandler().update(project, callback);
+
 
     }
 
@@ -73,7 +75,6 @@ public class DBScrumClient implements ScrumClient {
     @Override
     public void updateMainTask(MainTask task, Project project, Callback<Boolean> callback) {
         databaseHandlers.getMainTaskHandler().update(task, project, callback);
-
     }
 
     @Override
@@ -99,11 +100,13 @@ public class DBScrumClient implements ScrumClient {
 
     @Override
     public void addIssue(Issue issue, Sprint sprint, Callback<Boolean> callback) {
-        databaseHandlers.getIssueHandler().assignIssueToSprint(issue, sprint, callback);
+        databaseHandlers.getIssueHandler().assignIssueToSprint(issue, sprint,
+                callback);
     }
 
     @Override
-    public void removeIssue(Issue issue, Sprint sprint, Callback<Boolean> callback) {
+    public void removeIssue(Issue issue, Sprint sprint,
+            Callback<Boolean> callback) {
         databaseHandlers.getIssueHandler().removeIssue(issue, sprint, callback);
     }
 
@@ -123,7 +126,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void insertSprint(Sprint sprint, Project project, Callback<Sprint> callback) {
+    public void insertSprint(Sprint sprint, Project project,
+            Callback<Sprint> callback) {
         databaseHandlers.getSprintHandler().insert(sprint, project, callback);
     }
 
@@ -142,8 +146,10 @@ public class DBScrumClient implements ScrumClient {
         databaseHandlers.getPlayerHandler().loadPlayers(project, callback);
     }
 
+    @Deprecated
     @Override
-    public void addPlayer(Player player, Project project, Callback<Player> callback) {
+    public void addPlayer(Player player, Project project,
+            Callback<Player> callback) {
         databaseHandlers.getPlayerHandler().insert(player, project, callback);
     }
 
@@ -151,4 +157,12 @@ public class DBScrumClient implements ScrumClient {
     public void removePlayer(Player player, Callback<Boolean> callback) {
         databaseHandlers.getPlayerHandler().remove(player, callback);
     }
+
+    @Override
+    public void addPlayerToProject(Project project, String userEmail,
+            Role role, Callback<Player> callback) {
+        databaseHandlers.getPlayerHandler().addPlayerToProject(project,
+                userEmail, role, callback);
+    }
+
 }

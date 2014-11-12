@@ -7,6 +7,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 
 /**
  * @author Arno
@@ -30,4 +31,16 @@ public interface PlayerHandler extends DatabaseHandler<Player> {
      * @param cB
      */
     void loadPlayers(final Project project, final Callback<List<Player>> cB);
+
+    /**
+     * Add a User to a Project (via a Player)
+     * 
+     * @param project
+     * @param userEmail
+     * @param role
+     * @param callback
+     */
+    void addPlayerToProject(final Project project, final String userEmail,
+            final Role role, final Callback<Player> callback);
+
 }

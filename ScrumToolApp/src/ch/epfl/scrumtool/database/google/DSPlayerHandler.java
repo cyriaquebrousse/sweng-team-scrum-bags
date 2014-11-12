@@ -22,8 +22,10 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
 /**
  * @author aschneuw
@@ -100,8 +102,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     OperationStatus opStat = null;
                     try {
                         Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.updateScrumPlayer(params[0])
-                                .execute();
+                        opStat = service.updateScrumPlayer(params[0]).execute();
                     } catch (IOException e) {
                         callback.failure("Connection error");
                     }
@@ -191,6 +192,53 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void insert(Player player, Callback<Player> callback) {
         throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * Add a new Player to a Project
+     */
+    @Override
+    public void addPlayerToProject(final Project project,
+            final String userEmail, final Role role,
+            final Callback<Player> callback) {
+        ScrumProject scrumProject = new ScrumProject();
+        scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
+        scrumProject.setDescription(project.getDescription());
+        scrumProject.setName(project.getName());
+        scrumProject.setLastModDate((new Date()).getTime());
+        try {
+            scrumProject.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO This exception should probably be handled elsewhere
+            e.printStackTrace();
+        }
+
+        new AsyncTask<ScrumProject, Void, OperationStatus>() {
+            @Override
+            protected OperationStatus doInBackground(ScrumProject... params) {
+                OperationStatus opStatus = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
+                    opStatus = service.addPlayerToProject(userEmail,
+                            role.name(), params[0]).execute();
+                } catch (IOException | NotAuthenticatedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStatus;
+            }
+
+            @Override
+            protected void onPostExecute(OperationStatus opStat) {
+                Player.Builder playerBuilder = new Player.Builder();
+                playerBuilder.setKey(opStat.getKey());
+                callback.interactionDone(playerBuilder.build());
+            }
+        }.execute(scrumProject);
 
     }
 }

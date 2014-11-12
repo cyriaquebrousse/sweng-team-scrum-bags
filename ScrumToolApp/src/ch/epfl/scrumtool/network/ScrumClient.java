@@ -10,6 +10,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
@@ -33,6 +34,7 @@ public interface ScrumClient {
     void loadPlayers(final Project project, final Callback<List<Player>> callback);
     void addPlayer(final Player player, final Project project, final Callback<Player> callback);
     void removePlayer(final Player player, final Callback<Boolean> callback);
+    void addPlayerToProject(final Project project, final String userEmail, final Role role, final Callback<Player> callback);
     
     // Maintask methods
     void loadBacklog(final Project project, final Callback<List<MainTask>> callback);
