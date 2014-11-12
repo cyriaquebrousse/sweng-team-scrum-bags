@@ -62,7 +62,6 @@ public class ProjectEditActivity extends Activity {
             
             projectBuilder.setName(newTitle);
             projectBuilder.setDescription(newDescription);
-            projectBuilder.setKey("this is a random id "+ new Random().nextInt()); // FIXME project id
             
             if (original == null) {
                 insertProject();
