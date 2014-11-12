@@ -14,12 +14,14 @@ import ch.epfl.scrumtool.database.PlayerHandler;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
@@ -31,12 +33,13 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void insert(final Player player, final Project project,
             final Callback<Player> callback) {
-
         ScrumPlayer scrumPlayer = new ScrumPlayer();
         scrumPlayer.setAdminFlag(player.isAdmin());
         Date date = new Date();
+        scrumPlayer.setIssues(new ArrayList<ScrumIssue>());
         scrumPlayer.setLastModDate(date.getTime());
-        scrumPlayer.setLastModDate(date.getTime());
+        scrumPlayer.setRole(player.getRole().name());
+
         try {
             scrumPlayer.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());
@@ -44,9 +47,8 @@ public class DSPlayerHandler implements PlayerHandler {
             // TODO This exception should probably be handled elsewhere
             e.printStackTrace();
         }
-        scrumPlayer.setRole(player.getRole().name());
 
-        AsyncTask<ScrumPlayer, Void, OperationStatus> task = new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
+        new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(ScrumPlayer... params) {
                 OperationStatus opStatus = null;
@@ -62,10 +64,15 @@ public class DSPlayerHandler implements PlayerHandler {
                 }
                 return opStatus;
             }
-        };
-        task.execute(scrumPlayer);
 
-        // TODO finish this method
+            @Override
+            protected void onPostExecute(OperationStatus opStat) {
+                Player.Builder playerBuilder = new Player.Builder(player);
+                playerBuilder.setKey(opStat.getKey());
+                callback.interactionDone(playerBuilder.build());
+            }
+        }.execute(scrumPlayer);
+
     }
 
     @Override
@@ -82,16 +89,37 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void remove(Player object, Callback<Boolean> callback) {
-        // TODO Auto-generated method stub
+    public void remove(final Player player, final Callback<Boolean> callback) {
+        new AsyncTask<String, Void, OperationStatus>() {
+
+            @Override
+            protected OperationStatus doInBackground(String... params) {
+                OperationStatus opStat = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    opStat = session.getAuthServiceObject()
+                            .removeScrumProject(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStat;
+            }
+
+            @Override
+            protected void onPostExecute(OperationStatus result) {
+                callback.interactionDone(result.getSuccess());
+            }
+
+        }.execute(player.getKey());
 
     }
 
-    
     @Override
     public void loadPlayers(final Project project,
             final Callback<List<Player>> calback) {
-        AsyncTask<String, Void, CollectionResponseScrumPlayer> task = new AsyncTask<String, Void, CollectionResponseScrumPlayer>() {
+        new AsyncTask<String, Void, CollectionResponseScrumPlayer>() {
             @Override
             protected CollectionResponseScrumPlayer doInBackground(
                     String... params) {
@@ -115,18 +143,19 @@ public class DSPlayerHandler implements PlayerHandler {
                 List<ScrumPlayer> resultItems = result.getItems();
                 ArrayList<Player> players = new ArrayList<Player>();
                 for (ScrumPlayer s : resultItems) {
+                    User.Builder userBuilder = new User.Builder();
+                    userBuilder.setEmail(s.getUser().getEmail())
+                            .setName(s.getUser().getName());
                     Player.Builder playerBuilder = new Player.Builder();
-                    playerBuilder.setKey(s.getKey());
-                    playerBuilder.setIsAdmin(s.getAdminFlag());
-                    playerBuilder.setRole(Role.valueOf(s.getRole()));
-                    // pB.setUser(s.getUser()); TODO transform ScrumPlayer into User
+                    playerBuilder.setKey(s.getKey())
+                            .setIsAdmin(s.getAdminFlag())
+                            .setRole(Role.valueOf(s.getRole()))
+                            .setUser(userBuilder.build());
                     players.add(playerBuilder.build());
                 }
                 calback.interactionDone(players);
             }
-        };
-
-        task.execute(project.getKey());
+        }.execute(project.getKey());
     }
 
     @Override

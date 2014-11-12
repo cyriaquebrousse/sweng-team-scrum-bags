@@ -18,6 +18,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
 /**
  * 
@@ -34,6 +35,7 @@ public class DSProjectHandler implements ProjectHandler {
         scrumProject.setName(project.getName());
         scrumProject.setPlayers(new ArrayList<ScrumPlayer>());
         scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
+        scrumProject.setSprints(new ArrayList<ScrumSprint>());
         Date date = new Date();
         scrumProject.setLastModDate(date.getTime());
         try {
@@ -79,17 +81,10 @@ public class DSProjectHandler implements ProjectHandler {
     public void update(final Project modified, final Project ref,
             final Callback<Boolean> callback) {
         // TODO Auto-generated method stub
-        // UpdateProjectTask task = new UpdateProjectTask(dbC);
-        // task.execute(modified);
-
     }
 
     @Override
     public void remove(final Project project, final Callback<Boolean> callback) {
-        // TODO why pass a Project and not a String?
-        // RemoveProjectTask task = new RemoveProjectTask(dbC);
-        // task.execute(object);
-
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
