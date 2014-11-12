@@ -21,17 +21,14 @@ public final class Issue extends AbstractTask implements Serializable {
      * @param name
      * @param description
      * @param status
+     * @param priority
      * @param estimatedTime
      * @param player
      */
-    private Issue(String key, String name, String description, Status status,
+    private Issue(String key, String name, String description, Status status, Priority priority,
             float estimatedTime, Player player) {
-        super(key, name, description, status);
-        // if (player == null) {
-        // throw new NullPointerException("Issue.Constructor");
-        // }
+        super(key, name, description, status, priority);
         this.estimatedTime = estimatedTime;
-
         this.player = player;
 
     }
@@ -61,6 +58,7 @@ public final class Issue extends AbstractTask implements Serializable {
         private String name;
         private String description;
         private Status status;
+        private Priority priority;
         private float estimatedTime;
         private Player player;
 
@@ -75,6 +73,7 @@ public final class Issue extends AbstractTask implements Serializable {
             this.name = otherIssue.getName();
             this.description = otherIssue.getDescription();
             this.status = otherIssue.getStatus();
+            this.priority = otherIssue.getPriority();
             this.estimatedTime = otherIssue.estimatedTime;
             this.player = otherIssue.player;
         }
@@ -138,6 +137,21 @@ public final class Issue extends AbstractTask implements Serializable {
             this.status = status;
             return this;
         }
+        
+        /**
+         * @return the status
+         */
+        public Priority getPriority() {
+            return this.priority;
+        }
+
+        /**
+         * @param status
+         */
+        public Issue.Builder setPriority(Priority priority) {
+            this.priority = priority;
+            return this;
+        }
 
         /**
          * @return the estimated time
@@ -174,7 +188,7 @@ public final class Issue extends AbstractTask implements Serializable {
          */
         public Issue build() {
             return new Issue(this.key, this.name, this.description,
-                    this.status, this.estimatedTime, this.player);
+                    this.status , this.priority, this.estimatedTime, this.player);
         }
 
     }

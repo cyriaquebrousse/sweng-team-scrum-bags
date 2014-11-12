@@ -10,6 +10,7 @@ import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
@@ -76,7 +77,8 @@ public class DSMainTaskHandler implements MainTaskHandler {
     @Override
     public void loadMainTasks(final Project project,
             final Callback<List<MainTask>> callback) {
-        AsyncTask<String, Void, CollectionResponseScrumMainTask> task = new AsyncTask<String, Void, CollectionResponseScrumMainTask>() {
+        AsyncTask<String, Void, CollectionResponseScrumMainTask> task = 
+                new AsyncTask<String, Void, CollectionResponseScrumMainTask>() {
             @Override
             protected CollectionResponseScrumMainTask doInBackground(
                     String... params) {
@@ -105,12 +107,8 @@ public class DSMainTaskHandler implements MainTaskHandler {
                         maintaskBuilder.setDescription(s.getDescription());
                         maintaskBuilder.setKey(s.getKey());
                         maintaskBuilder.setName(s.getName());
-                        // TODO a getPriority method and a status(String)
-                        // constructor
-                        maintaskBuilder
-                                .setPriority(ch.epfl.scrumtool.entity.Priority.NORMAL);
-                        maintaskBuilder
-                                .setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
+                        maintaskBuilder.setPriority(Priority.valueOf(s.getPriority()));
+                        maintaskBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         mainTasks.add(maintaskBuilder.build());
                     }
                     callback.interactionDone(mainTasks);
@@ -135,6 +133,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
         changes.setName(modified.getName());
         changes.setDescription(modified.getDescription());
         changes.setStatus(modified.getStatus().name());
+        changes.setPriority(modified.getPriority().name());
         Date date = new Date();
         changes.setLastModDate(date.getTime());
         try {
@@ -161,11 +160,6 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 return opStat;
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-             */
             @Override
             protected void onPostExecute(OperationStatus result) {
                 callback.interactionDone(result.getSuccess());
@@ -194,17 +188,11 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 return opStat;
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-             */
             @Override
             protected void onPostExecute(OperationStatus result) {
                 callback.interactionDone(Boolean.valueOf(result.getSuccess()));
                 super.onPostExecute(result);
             }
-
         };
         task.execute(maintask.getKey());
     }
@@ -214,9 +202,6 @@ public class DSMainTaskHandler implements MainTaskHandler {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
-     */
     @Override
     public void update(MainTask object, Callback<Boolean> cB) {
         throw new UnsupportedOperationException(); 

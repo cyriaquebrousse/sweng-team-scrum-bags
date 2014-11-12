@@ -12,7 +12,6 @@ public final class MainTask extends AbstractTask implements Serializable {
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
     
-    private Priority priority;
 
     /**
      * @param name
@@ -22,18 +21,11 @@ public final class MainTask extends AbstractTask implements Serializable {
      * @param priority
      */
     private MainTask(String id, String name, String description, Status status, Priority priority) {
-        super(id, name, description, status);
+        super(id, name, description, status, priority);
         if (priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        this.priority = priority;
-    }
-
-    /**
-     * @return the priority
-     */
-    public Priority getPriority() {
-        return priority;
+        //this.priority = priority;
     }
 
     public int getIssuesFinishedCount() {

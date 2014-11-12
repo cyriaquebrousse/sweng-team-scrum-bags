@@ -10,6 +10,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
@@ -41,6 +42,7 @@ public class DSIssueHandler implements IssueHandler {
             scrumIssue.setDescription(issue.getDescription());
             scrumIssue.setStatus(issue.getStatus().name());
             scrumIssue.setEstimation(issue.getEstimatedTime());
+            scrumIssue.setPriority(issue.getPriority().name());
 
             ScrumPlayer scrumPlayer = new ScrumPlayer();
             scrumPlayer.setKey(issue.getPlayer().getKey());
@@ -96,6 +98,7 @@ public class DSIssueHandler implements IssueHandler {
         changes.setDescription(modified.getDescription());
         changes.setStatus(modified.getStatus().name());
         changes.setEstimation(modified.getEstimatedTime());
+        changes.setPriority(modified.getPriority().name());
         Date date = new Date();
         changes.setLastModDate(date.getTime());
         try {
@@ -201,7 +204,7 @@ public class DSIssueHandler implements IssueHandler {
                         issueBuilder.setDescription(s.getDescription());
                         issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         issueBuilder.setEstimatedTime(s.getEstimation());
-                        // TODO status(string) constructor
+                        issueBuilder.setPriority(Priority.valueOf(s.getPriority()));
                         issues.add(issueBuilder.build());
                     }
                     callback.interactionDone(issues);
@@ -245,7 +248,7 @@ public class DSIssueHandler implements IssueHandler {
                         issueBuilder.setDescription(s.getDescription());
                         issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         issueBuilder.setEstimatedTime(s.getEstimation());
-                        // TODO status(string) constructor
+                        issueBuilder.setPriority(Priority.valueOf(s.getPriority()));
                         issues.add(issueBuilder.build());
                     }
                     cB.interactionDone(issues);
