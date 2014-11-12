@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.Random;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -104,23 +102,17 @@ public class TaskEditActivity extends Activity {
 
     private void insertTask() {
         MainTask task = taskBuilder.build();
-        
-        DefaultGUICallback<MainTask> taskInserted = new DefaultGUICallback<MainTask>(this) {
-
+        Client.getScrumClient().insertMainTask(task, parentProject, new DefaultGUICallback<MainTask>(this) {
             @Override
             public void interactionDone(MainTask object) {
                 TaskEditActivity.this.finish();
             }
-            
-        };
-        Client.getScrumClient().insertMainTask(task, parentProject, taskInserted);
+        });
     }
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        
-        DefaultGUICallback<Boolean> updatedTask = new DefaultGUICallback<Boolean>(this) {
-            
+        Client.getScrumClient().updateMainTask(task, parentProject, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
@@ -129,9 +121,7 @@ public class TaskEditActivity extends Activity {
                     Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
                 }
             }
-        };
-        
-        Client.getScrumClient().updateMainTask(task, parentProject, updatedTask);
+        });
     }
 
     private boolean nameIsValid() {

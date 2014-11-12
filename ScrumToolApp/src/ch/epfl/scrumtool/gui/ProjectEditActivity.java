@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.Random;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -73,23 +71,17 @@ public class ProjectEditActivity extends Activity {
     
     private void insertProject() {
         Project project = projectBuilder.build();
-        
-        final DefaultGUICallback<Project> projectIserted = new DefaultGUICallback<Project>(this) {
-            
+        Client.getScrumClient().insertProject(project, new DefaultGUICallback<Project>(this) {
             @Override
             public void interactionDone(Project object) {
                 ProjectEditActivity.this.finish();
-                
             }
-        };
-        Client.getScrumClient().insertProject(project, projectIserted);
+        });
     }
 
     private void updateProject() {
         Project project = projectBuilder.build();
-        
-        DefaultGUICallback<Boolean> projectUpdated = new DefaultGUICallback<Boolean>(this) {
-            
+        Client.getScrumClient().updateProject(project, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
@@ -98,9 +90,7 @@ public class ProjectEditActivity extends Activity {
                     Toast.makeText(ProjectEditActivity.this, "Could not update project", Toast.LENGTH_SHORT).show();
                 }                
             }
-        };
-        
-        Client.getScrumClient().updateProject(project, projectUpdated);
+        });
     }
 
     private boolean titleIsValid() {
