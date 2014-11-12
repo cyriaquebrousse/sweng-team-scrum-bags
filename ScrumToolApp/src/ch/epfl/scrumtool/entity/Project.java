@@ -81,6 +81,7 @@ public final class Project implements Serializable {
         public Builder() {
             this.name = "";
             this.description = "";
+            this.keyb = "";
         }
 
         public Builder(Project other) {

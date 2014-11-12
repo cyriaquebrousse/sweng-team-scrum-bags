@@ -80,7 +80,37 @@ public class DSProjectHandler implements ProjectHandler {
     @Override
     public void update(final Project modified, final Project ref,
             final Callback<Boolean> callback) {
-        // TODO Auto-generated method stub
+        try {
+            final GoogleSession session = (GoogleSession) Session.getCurrentSession();
+            final ScrumProject scrumProject = new ScrumProject();
+            scrumProject.setDescription(modified.getDescription());
+            scrumProject.setKey(modified.getKey());
+            scrumProject.setLastModDate((new Date()).getTime());
+            scrumProject.setLastModUser(session.getUser().getEmail());
+            scrumProject.setName(modified.getName());
+
+            AsyncTask<ScrumProject, Void, OperationStatus> task = new AsyncTask<ScrumProject, Void, OperationStatus>(){
+                @Override
+                protected OperationStatus doInBackground(ScrumProject... params) {
+                    OperationStatus opStat = null;
+                    try {
+                        Scrumtool service = session.getAuthServiceObject();
+                        opStat = service.updateScrumProject(params[0]).execute();
+                    } catch (IOException e) {
+                        callback.failure("Connection error");
+                    }
+                    return opStat;
+                }
+
+                @Override
+                protected void onPostExecute(OperationStatus result) {
+                    callback.interactionDone(result.getSuccess());
+                }
+            };
+            task.execute(scrumProject);
+        } catch (NotAuthenticatedException e) {
+            callback.failure("Not authenticated");
+        }
     }
 
     @Override
@@ -103,35 +133,28 @@ public class DSProjectHandler implements ProjectHandler {
 
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-             */
             @Override
             protected void onPostExecute(OperationStatus result) {
                 callback.interactionDone(result.getSuccess());
             }
         };
         task.execute(project.getKey());
-
     }
 
     @Override
     public void loadProjects(final Callback<List<Project>> callback) {
-        AsyncTask<Void, Void, CollectionResponseScrumProject> task = new AsyncTask<Void, Void, CollectionResponseScrumProject>() {
+        AsyncTask<Void, Void, CollectionResponseScrumProject> task = 
+                new AsyncTask<Void, Void, CollectionResponseScrumProject>() {
             protected CollectionResponseScrumProject doInBackground(
                     Void... params) {
-                GoogleSession session;
                 CollectionResponseScrumProject projects = null;
                 try {
-                    session = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    projects = service.loadProjects(
+                    final GoogleSession session = (GoogleSession) Session.getCurrentSession();
+                    projects = session.getAuthServiceObject().loadProjects(
                             session.getUser().getEmail()).execute();
+
                 } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    callback.failure("Error");
                 }
                 return projects;
             }
@@ -148,7 +171,7 @@ public class DSProjectHandler implements ProjectHandler {
                         projectBuilder.setKey(sP.getKey());
                         projects.add(projectBuilder.build());
                     }
-                }
+                } 
                 callback.interactionDone(projects);
             }
         };
