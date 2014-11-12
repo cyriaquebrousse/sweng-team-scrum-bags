@@ -131,7 +131,7 @@ public class TaskEditActivity extends Activity {
             }
         };
         
-        Client.getScrumClient().updateMainTask(task, parentProject, updatedTask);
+        Client.getScrumClient().updateMainTask(task, original, parentProject, updatedTask);
     }
 
     private boolean nameIsValid() {

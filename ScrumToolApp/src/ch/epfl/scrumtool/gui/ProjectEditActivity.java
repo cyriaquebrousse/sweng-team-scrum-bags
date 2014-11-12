@@ -100,7 +100,7 @@ public class ProjectEditActivity extends Activity {
             }
         };
         
-        Client.getScrumClient().updateProject(project, projectUpdated);
+        Client.getScrumClient().updateProject(project, null, projectUpdated);
     }
 
     private boolean titleIsValid() {

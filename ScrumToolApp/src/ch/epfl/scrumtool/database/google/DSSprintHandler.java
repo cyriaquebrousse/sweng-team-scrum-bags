@@ -43,7 +43,7 @@ public class DSSprintHandler implements SprintHandler {
     /**
      * Updates the ref Sprint to be the modified Sprint.
      */
-    public void update(final Sprint modified, final Callback<Boolean> dbC) {
+    public void update(final Sprint modified, final Sprint ref, final Callback<Boolean> dbC) {
         // TODO Auto-generated method stub
     }
 

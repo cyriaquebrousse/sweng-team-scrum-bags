@@ -127,7 +127,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
 
-    public void update(final MainTask modified, final Project ref,
+    public void update(final MainTask modified, final MainTask ref, final Project project,
             final Callback<Boolean> callback) {
         final ScrumMainTask changes = new ScrumMainTask();
         changes.setKey(modified.getKey());
@@ -154,7 +154,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 try {
                     session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.updateScrumMainTask(ref.getKey(), params[0]).execute();
+                    opStat = service.updateScrumMainTask(project.getKey(), params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     callback.failure("Connection Error");
                 }
@@ -203,10 +203,12 @@ public class DSMainTaskHandler implements MainTaskHandler {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
+     */
     @Override
-    public void update(MainTask object, Callback<Boolean> cB) {
-        throw new UnsupportedOperationException(); 
+    public void update(MainTask object, MainTask ref, Callback<Boolean> cB) {
+        throw new UnsupportedOperationException();
     }
-
 
 }

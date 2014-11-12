@@ -86,14 +86,18 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(User modified, Callback<Boolean> callback) {
+    public void update(User modified, User ref, Callback<Boolean> callback) {
         // TODO Auto-generated method stub
 
     }
 
+    /* (non-Javadoc)
+     * @see ch.epfl.scrumtool.database.DatabaseHandler#remove(java.lang.Object, ch.epfl.scrumtool.database.Callback)
+     */
     @Override
-    public void remove(User user, Callback<Boolean> callback) {
+    public void remove(User object, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
+        
     }
 
 }
