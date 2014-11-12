@@ -31,60 +31,58 @@ public class DSIssueHandler implements IssueHandler {
     public void insert(final Issue issue, final Callback<Issue> callback) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void insert(final Issue issue, final MainTask maintask, final Callback<Issue> callback) {
-        
-        scrumIssue = new ScrumIssue();
-        scrumIssue.setName(issue.getName());
-        scrumIssue.setDescription(issue.getDescription());
-        scrumIssue.setStatus(issue.getStatus().name());
-        scrumIssue.setEstimation(issue.getEstimatedTime());
-        
-        ScrumPlayer scrumPlayer = new ScrumPlayer();
-        scrumPlayer.setKey(issue.getPlayer().getKey());
-        scrumPlayer.setAdminFlag(false);
-        scrumPlayer.setRole(issue.getPlayer().getRole().name());
-        
-        Date date = new Date();
-        scrumIssue.setLastModDate(date.getTime());
-        scrumPlayer.setLastModDate(date.getTime());
         try {
-            scrumIssue.setLastModUser(Session.getCurrentSession().getUser()
-                    .getEmail());
+
+            scrumIssue = new ScrumIssue();
+            scrumIssue.setName(issue.getName());
+            scrumIssue.setDescription(issue.getDescription());
+            scrumIssue.setStatus(issue.getStatus().name());
+            scrumIssue.setEstimation(issue.getEstimatedTime());
+
+            ScrumPlayer scrumPlayer = new ScrumPlayer();
+            scrumPlayer.setKey(issue.getPlayer().getKey());
+            scrumPlayer.setAdminFlag(false);
+            scrumPlayer.setRole(issue.getPlayer().getRole().name());
+
+            Date date = new Date();
+            scrumIssue.setLastModDate(date.getTime());
+            scrumPlayer.setLastModDate(date.getTime());
+            
+            final GoogleSession session = (GoogleSession) Session.getCurrentSession();
+            
+            scrumIssue.setLastModUser(session.getUser().getEmail());
             scrumPlayer.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-        } catch (NotAuthenticatedException e) {
-            // TODO : redirecting to the login activity if not connected
-            e.printStackTrace();
-        }
-        
-        scrumIssue.setAssignedPlayer(scrumPlayer);
-        
-        AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
-            @Override
-            protected OperationStatus doInBackground(ScrumIssue... params) {
-                OperationStatus opStat = null;
-                try {
-                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumIssue(maintask.getKey(), params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO : redirecting to the login activity if not connected
-                    e.printStackTrace();
+            scrumIssue.setAssignedPlayer(scrumPlayer);
+
+            AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
+                @Override
+                protected OperationStatus doInBackground(ScrumIssue... params) {
+                    OperationStatus opStat = null;
+                    try {
+                       
+                        Scrumtool service = session.getAuthServiceObject();
+                        opStat = service.insertScrumIssue(maintask.getKey(), params[0]).execute();
+                    } catch (IOException e) {
+                        callback.failure("Issue could not be inserted on the Database");
+                    }
+                    return opStat;
                 }
-                return opStat;
-            }
-            @Override
-            protected void onPostExecute(OperationStatus opStat) {
-                Issue.Builder issueBuilder = new Issue.Builder(issue);
-                issueBuilder.setKey(opStat.getKey());
-                callback.interactionDone(issueBuilder.build());
-            }
-        };
-        task.execute(scrumIssue);
+                @Override
+                protected void onPostExecute(OperationStatus opStat) {
+                    Issue.Builder issueBuilder = new Issue.Builder(issue);
+                    issueBuilder.setKey(opStat.getKey());
+                    callback.interactionDone(issueBuilder.build());
+                }
+            };
+            task.execute(scrumIssue);
+        } catch (NotAuthenticatedException e) {
+            callback.failure("Not authenticated");
+        }
     }
-    
-    
+
     @Override
     public void load(final String issueKey, final Callback<Issue> callback) {
         throw new UnsupportedOperationException();
@@ -259,7 +257,7 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void assignIssueToSprint(final Issue issue, final Sprint sprint, Callback<Boolean> cB) {
-       
+
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(String... params) {
@@ -274,7 +272,7 @@ public class DSIssueHandler implements IssueHandler {
                 }
                 return opStat;
             }
-            
+
         };
         task.execute(issue.getKey(), sprint.getKey());
     }
@@ -282,7 +280,7 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void removeIssue(Issue issue, Sprint sprint, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

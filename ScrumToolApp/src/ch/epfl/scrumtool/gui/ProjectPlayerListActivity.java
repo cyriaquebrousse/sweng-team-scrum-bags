@@ -13,11 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
@@ -28,40 +28,42 @@ import ch.epfl.scrumtool.network.Client;
 public class ProjectPlayerListActivity extends Activity {
 
     private Project project;
-    
+
     private ListView listView;
     private PlayerListAdapter adapter;
-    
+
     private EditText newPlayerEmailView;
     private Player.Builder playerBuilder;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_player_list);
-        
+
         initProject();
         initAddPlayerBlock();
-        
-        Client.getScrumClient().loadPlayers(project, new Callback<List<Player>>() {
+
+
+        DefaultGUICallback<List<Player>> playersLoaded = new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(final List<Player> playerList) {
                 adapter = new PlayerListAdapter(ProjectPlayerListActivity.this, playerList);
                 listView = (ListView) findViewById(R.id.project_playerlist);
                 listView.setAdapter(adapter);
-                
+
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Toast.makeText(ProjectPlayerListActivity.this, "User clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
-                
+
                 adapter.notifyDataSetChanged();
             }
-        });
+        };
+        Client.getScrumClient().loadPlayers(project, playersLoaded);
     }
-    
+
     private void initProject() {
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         if (project != null) {
@@ -71,19 +73,19 @@ public class ProjectPlayerListActivity extends Activity {
             this.finish();
         }
     }
-    
+
     private void initAddPlayerBlock() {
         newPlayerEmailView = (EditText) findViewById(R.id.player_list_add_playeremail);
-        
+
         playerBuilder = new Player.Builder();
     }
-    
+
     public void addPlayer(View view) {
         InputVerifiers.updateTextViewAfterValidityCheck(newPlayerEmailView, emailIsValid(), getResources());
-        
+
         if (emailIsValid()) {
             String email = newPlayerEmailView.getText().toString();
-            
+
             User.Builder userBuilder = new User.Builder();
             userBuilder.setEmail(email);
             userBuilder.setName(email.toUpperCase()); // TODO real name
@@ -91,24 +93,28 @@ public class ProjectPlayerListActivity extends Activity {
             playerBuilder.setKey("random player id "+ new Random().nextInt());
             playerBuilder.setIsAdmin(false);
             playerBuilder.setRole(Role.DEVELOPER); // TODO real role
-            
+
             insertPlayer();
         }
     }
-    
+
     private void insertPlayer() {
         Player player = playerBuilder.build();
-        Client.getScrumClient().addPlayer(player, project, new Callback<Player>() {
+        DefaultGUICallback<Player> playerAdded = new DefaultGUICallback<Player>(this) {
+
             @Override
             public void interactionDone(Player object) {
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();                
             }
-        });
+        };
+
+
+        Client.getScrumClient().addPlayer(player, project, playerAdded);
     }
-    
+
     private void deletePlayer(Player player) {
-        Client.getScrumClient().removePlayer(player, new Callback<Boolean>() {
-            
+        DefaultGUICallback<Boolean> playerRemoved = new DefaultGUICallback<Boolean>(this) {
+
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
@@ -116,11 +122,13 @@ public class ProjectPlayerListActivity extends Activity {
                 } else {
                     Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
                             Toast.LENGTH_SHORT).show();
-                }
+                }                
             }
-        });
+        };
+
+        Client.getScrumClient().removePlayer(player, playerRemoved);
     }
-    
+
     private boolean emailIsValid() {
         String email = newPlayerEmailView.getText().toString();
         return email != null && email.length() > 4 && email.contains("@") && email.length() < 255;

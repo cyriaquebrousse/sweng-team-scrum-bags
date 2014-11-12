@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
@@ -67,7 +68,8 @@ public class LoginActivity extends Activity {
     }
     
     private void login(String accName) {
-        sessionBuilder.build(accName, new Callback<Boolean>() {
+        DefaultGUICallback<Boolean> loginOK = new DefaultGUICallback<Boolean>(this) {
+            
             @Override
             public void interactionDone(Boolean object) {
                 if (LoginActivity.this.progDialog != null) {
@@ -80,6 +82,8 @@ public class LoginActivity extends Activity {
                 }
                 
             }
-        });
+        };
+        
+        sessionBuilder.build(accName, loginOK);
     }
 }

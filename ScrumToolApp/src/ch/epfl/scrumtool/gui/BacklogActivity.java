@@ -9,9 +9,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
 import ch.epfl.scrumtool.network.Client;
 
@@ -19,24 +19,24 @@ import ch.epfl.scrumtool.network.Client;
  * @author Cyriaque Brousse
  */
 public class BacklogActivity extends BaseMenuActivity<MainTask> {
-    
+
     private ListView listView;
     private Project project;
-    
+
     private TaskListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
-        
+
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        Client.getScrumClient().loadBacklog(project, new Callback<List<MainTask>>() {
+
+        final DefaultGUICallback<List<MainTask>> maintasksLoaded = new DefaultGUICallback<List<MainTask>>(this) {
             @Override
             public void interactionDone(final List<MainTask> taskList) {
-                
                 adapter = new TaskListAdapter(BacklogActivity.this, taskList);
-                
+
                 listView = (ListView) findViewById(R.id.backlog_tasklist);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
@@ -48,12 +48,13 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> {
                         startActivity(openTaskIntent);
                     }
                 });
-                
+
                 adapter.notifyDataSetChanged();
             }
-        });
+        };
+        Client.getScrumClient().loadBacklog(project, maintasksLoaded);
     }
-    
+
     @Override
     protected void onRestart() {
         super.onRestart();

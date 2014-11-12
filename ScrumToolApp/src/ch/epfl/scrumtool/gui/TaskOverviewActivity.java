@@ -10,9 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
@@ -39,7 +39,9 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
         setContentView(R.layout.activity_task_overview);
 
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        Client.getScrumClient().loadIssues(task, new Callback<List<Issue>>() {
+        
+        DefaultGUICallback<List<Issue>> issuesLoaded = new DefaultGUICallback<List<Issue>>(this) {
+            
             @Override
             public void interactionDone(final List<Issue> issueList) {
                 adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
@@ -57,7 +59,9 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> {
                 
                 adapter.notifyDataSetChanged();
             }
-        });
+        };
+        
+        Client.getScrumClient().loadIssues(task,issuesLoaded);
         
         initViews();
         updateViews();

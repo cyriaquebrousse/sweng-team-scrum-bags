@@ -163,6 +163,12 @@ public class GoogleSession extends Session {
                         callback.interactionDone(Boolean.FALSE);
                     }
                 }
+
+                @Override
+                public void failure(String errorMessage) {
+                    // TODO Auto-generated method stub
+                    
+                }
             });
         }
     }
