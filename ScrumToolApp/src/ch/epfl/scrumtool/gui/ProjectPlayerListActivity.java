@@ -33,7 +33,7 @@ public class ProjectPlayerListActivity extends Activity {
     private PlayerListAdapter adapter;
 
     private EditText newPlayerEmailView;
-    private Player.Builder playerBuilder;
+//    private Player.Builder playerBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class ProjectPlayerListActivity extends Activity {
     private void initAddPlayerBlock() {
         newPlayerEmailView = (EditText) findViewById(R.id.player_list_add_playeremail);
 
-        playerBuilder = new Player.Builder();
+//        playerBuilder = new Player.Builder();
     }
 
     public void addPlayer(View view) {
@@ -85,21 +85,22 @@ public class ProjectPlayerListActivity extends Activity {
 
         if (emailIsValid()) {
             String email = newPlayerEmailView.getText().toString();
+            Role role = Role.DEVELOPER; // TODO Role picker or default role for newcomers
+            
+//            User.Builder userBuilder = new User.Builder();
+//            userBuilder.setEmail(email);
+//            userBuilder.setName(email.toUpperCase()); // TODO real name
+//            playerBuilder.setUser(userBuilder.build());
+//            playerBuilder.setKey("random player id "+ new Random().nextInt());
+//            playerBuilder.setIsAdmin(false);
+//            playerBuilder.setRole(Role.DEVELOPER); // TODO real role
 
-            User.Builder userBuilder = new User.Builder();
-            userBuilder.setEmail(email);
-            userBuilder.setName(email.toUpperCase()); // TODO real name
-            playerBuilder.setUser(userBuilder.build());
-            playerBuilder.setKey("random player id "+ new Random().nextInt());
-            playerBuilder.setIsAdmin(false);
-            playerBuilder.setRole(Role.DEVELOPER); // TODO real role
-
-            insertPlayer();
+            insertPlayer(email, role);
         }
     }
 
-    private void insertPlayer() {
-        Player player = playerBuilder.build();
+    private void insertPlayer(String userEmail, Role role) {
+//        Player player = playerBuilder.build();
         DefaultGUICallback<Player> playerAdded = new DefaultGUICallback<Player>(this) {
 
             @Override
@@ -109,7 +110,7 @@ public class ProjectPlayerListActivity extends Activity {
         };
 
 
-        Client.getScrumClient().addPlayer(player, project, playerAdded);
+        Client.getScrumClient().addPlayerToProject(project, userEmail, role,  playerAdded);
     }
 
     private void deletePlayer(Player player) {

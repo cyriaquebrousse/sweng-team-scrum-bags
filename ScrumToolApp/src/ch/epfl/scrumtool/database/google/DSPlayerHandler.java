@@ -36,46 +36,7 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void insert(final Player player, final Project project,
             final Callback<Player> callback) {
-        ScrumPlayer scrumPlayer = new ScrumPlayer();
-        scrumPlayer.setAdminFlag(player.isAdmin());
-        scrumPlayer.setIssues(new ArrayList<ScrumIssue>());
-        scrumPlayer.setRole(player.getRole().name());
-        Date date = new Date();
-        scrumPlayer.setLastModDate(date.getTime());
-
-        try {
-            scrumPlayer.setLastModUser(Session.getCurrentSession().getUser()
-                    .getEmail());
-        } catch (NotAuthenticatedException e) {
-            // TODO This exception should probably be handled elsewhere
-            e.printStackTrace();
-        }
-
-        new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
-            @Override
-            protected OperationStatus doInBackground(ScrumPlayer... params) {
-                OperationStatus opStatus = null;
-                try {
-                    GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStatus = service.insertScrumPlayer(project.getKey(),
-                            player.getKey(), params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStatus;
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus opStat) {
-                Player.Builder playerBuilder = new Player.Builder(player);
-                playerBuilder.setKey(opStat.getKey());
-                callback.interactionDone(playerBuilder.build());
-            }
-        }.execute(scrumPlayer);
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
