@@ -83,8 +83,7 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void update(final Player modified, final Player ref,
-            final Callback<Boolean> callback) {
+    public void update(final Player modified, final Callback<Boolean> callback) {
         try {
             final GoogleSession session = (GoogleSession) Session
                     .getCurrentSession();

@@ -110,7 +110,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                         maintaskBuilder
                                 .setPriority(ch.epfl.scrumtool.entity.Priority.NORMAL);
                         maintaskBuilder
-                                .setStatus(ch.epfl.scrumtool.entity.Status.FINISHED);
+                                .setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         mainTasks.add(maintaskBuilder.build());
                     }
                     callback.interactionDone(mainTasks);
@@ -218,9 +218,8 @@ public class DSMainTaskHandler implements MainTaskHandler {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void update(MainTask object, MainTask reference, Callback<Boolean> cB) {
-        // TODO Auto-generated method stub
-        
+    public void update(MainTask object, Callback<Boolean> cB) {
+        throw new UnsupportedOperationException(); 
     }
 
 

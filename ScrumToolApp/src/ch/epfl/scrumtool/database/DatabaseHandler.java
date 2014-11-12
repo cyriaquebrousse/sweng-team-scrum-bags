@@ -30,7 +30,7 @@ public interface DatabaseHandler<A> {
      * @param modified
      * @param dbC
      */
-    void update(final A object, final A reference, final Callback<Boolean> cB);
+    void update(final A object, final Callback<Boolean> cB);
 
     /**
      * Removes an object of type A from the database.

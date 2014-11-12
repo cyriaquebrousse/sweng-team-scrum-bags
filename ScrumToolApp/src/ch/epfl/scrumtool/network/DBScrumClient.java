@@ -31,8 +31,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateUser(User user, User ref, Callback<Boolean> callback) {
-        databaseHandlers.getUserHandler().update(user, ref, callback);
+    public void updateUser(User user, Callback<Boolean> callback) {
+        databaseHandlers.getUserHandler().update(user, callback);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateProject(Project project, Project ref, Callback<Boolean> callback) {
-        databaseHandlers.getProjectHandler().update(project, ref, callback);
+    public void updateProject(Project project, Callback<Boolean> callback) {
+        databaseHandlers.getProjectHandler().update(project, callback);
 
     }
 
@@ -108,8 +108,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateIssue(Issue issue, Issue reference, Callback<Boolean> callback) {
-        databaseHandlers.getIssueHandler().update(issue, reference, callback);
+    public void updateIssue(Issue issue, Callback<Boolean> callback) {
+        databaseHandlers.getIssueHandler().update(issue, callback);
     }
 
     @Override
@@ -128,9 +128,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateSprint(Sprint sprint, Sprint reference,
-            Callback<Boolean> callback) {
-        databaseHandlers.getSprintHandler().update(sprint, reference, callback);
+    public void updateSprint(Sprint sprint, Callback<Boolean> callback) {
+        databaseHandlers.getSprintHandler().update(sprint, callback);
     }
 
     @Override

@@ -78,8 +78,7 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void update(final Project modified, final Project ref,
-            final Callback<Boolean> callback) {
+    public void update(final Project modified, final Callback<Boolean> callback) {
         try {
             final GoogleSession session = (GoogleSession) Session.getCurrentSession();
             final ScrumProject scrumProject = new ScrumProject();

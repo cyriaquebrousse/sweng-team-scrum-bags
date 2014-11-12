@@ -86,7 +86,7 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(User modified, User ref, Callback<Boolean> callback) {
+    public void update(User modified, Callback<Boolean> callback) {
         // TODO Auto-generated method stub
 
     }

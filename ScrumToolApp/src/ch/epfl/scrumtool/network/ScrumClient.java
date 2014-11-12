@@ -21,12 +21,12 @@ public interface ScrumClient {
     
     // User methods
     void deleteUser(final User user, final Callback<Boolean> callback);
-    void updateUser(final User user, final User ref, final Callback<Boolean> callback);
+    void updateUser(final User user, final Callback<Boolean> callback);
     
     // Project methods
     void loadProjects(final Callback<List<Project>> callback);
     void insertProject(final Project project, final Callback<Project> callback);
-    void updateProject(final Project project, final Project ref, final Callback<Boolean> callback);
+    void updateProject(final Project project, final Callback<Boolean> callback);
     void deleteProject(final Project project, final Callback<Boolean> callback);
     
     // Player methods
@@ -46,12 +46,12 @@ public interface ScrumClient {
     void insertIssue(final MainTask task, final Issue issue, final Callback<Issue> callback);
     void addIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
     void removeIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
-    void updateIssue(final Issue issue, final Issue reference, Callback<Boolean> callback);
+    void updateIssue(final Issue issue, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);
     void insertSprint(final Sprint sprint, final Project project, final Callback<Sprint> callback);
-    void updateSprint(final Sprint sprint, final Sprint reference, final Callback<Boolean> callback);
+    void updateSprint(final Sprint sprint, final Callback<Boolean> callback);
     void deleteSprint(final Sprint sprint, final Callback<Boolean> callback);
 }
