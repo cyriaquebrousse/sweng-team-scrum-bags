@@ -165,6 +165,7 @@ public class DSPlayerHandler implements PlayerHandler {
             final String userEmail, final Role role,
             final Callback<Player> callback) {
         ScrumProject scrumProject = new ScrumProject();
+        scrumProject.setKey(project.getKey());
         scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
         scrumProject.setDescription(project.getDescription());
         scrumProject.setName(project.getName());

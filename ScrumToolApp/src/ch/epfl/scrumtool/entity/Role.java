@@ -10,7 +10,8 @@ public enum Role {
     PRODUCT_OWNER("Product Owner", true),
     STAKEHOLDER("Stakeholder", false),
     SCRUM_MASTER("Scrum Master", true),
-    DEVELOPER("Developer", true);
+    DEVELOPER("Developer", true),
+    INVITED("Invited", true);
 
     private final String value;
     private final boolean canAccessIssues;

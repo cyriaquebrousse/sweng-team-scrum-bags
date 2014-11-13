@@ -83,7 +83,7 @@ public class ProjectPlayerListActivity extends Activity {
 
         if (emailIsValid()) {
             String email = newPlayerEmailView.getText().toString();
-            Role role = Role.DEVELOPER; // TODO Role picker or default role for newcomers
+            Role role = Role.INVITED; // default role for newcomers
             
 //            User.Builder userBuilder = new User.Builder();
 //            userBuilder.setEmail(email);
