@@ -60,9 +60,9 @@ public class LoginActivity extends Activity {
         }
     }
 
-    private void openProjectListActivityAndFinish() {
-        Intent openProjectListIntent = new Intent(this, ProjectListActivity.class);
-        startActivity(openProjectListIntent);
+    private void openFirstActivityAndFinish() {
+        Intent intent = new Intent(this, DashbordActivity.class);
+        startActivity(intent);
         finish();
     }
     
@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
                     LoginActivity.this.progDialog.dismiss();
                 }
                 if (object.booleanValue()) {
-                    LoginActivity.this.openProjectListActivityAndFinish();
+                    LoginActivity.this.openFirstActivityAndFinish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
                 }

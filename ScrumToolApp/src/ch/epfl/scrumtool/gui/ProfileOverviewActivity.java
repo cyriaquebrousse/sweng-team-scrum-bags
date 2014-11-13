@@ -35,12 +35,16 @@ public class ProfileOverviewActivity extends Activity {
 
         // Get the connected user, and the user to display
         try {
-            @SuppressWarnings("unused")
             User userConnected = Session.getCurrentSession().getUser();
-            User userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
+            User userProfile;
+            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
+                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
+            } else {
+                userProfile = userConnected;
+            }
 
             // Create the adapter
-            // TODO : Change static getter by getProjectsSharedWith(userConnected)
+            // TODO : Change empty list by getProjectsSharedWith(userConnected)
             adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
 
             // Get Views

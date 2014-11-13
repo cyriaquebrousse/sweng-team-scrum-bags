@@ -90,6 +90,10 @@
             android:name=".gui.IssueEditActivity"
             android:label="@string/title_activity_issue_edit" >
         </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.DashbordActivity"
+            android:label="@string/title_activity_dashbord" >
+        </activity>
     </application>
 
 </manifest>

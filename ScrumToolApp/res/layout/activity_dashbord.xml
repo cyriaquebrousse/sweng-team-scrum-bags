@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <!-- Go to Project List -->
+    <Button
+        android:id="@+id/dashboard_button_project_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_space"
+        android:background="@drawable/fluid_button"
+        android:onClick="openProjectList"
+        android:text="@string/button_dashboard_project_list" />
+
+    <!-- Go to Players -->
+    <Button
+        android:id="@+id/dashboard_button_my_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_space"
+        android:layout_below="@id/dashboard_button_project_list"
+        android:background="@drawable/fluid_button"
+        android:onClick="openMyProfile"
+        android:text="@string/button_dashboard_my_profile" />
+
+</RelativeLayout>
