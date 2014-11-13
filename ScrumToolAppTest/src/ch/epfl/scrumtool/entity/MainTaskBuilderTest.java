@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ch.epfl.scrumtool.entity.MainTask.Builder;
+
 public class MainTaskBuilderTest extends TestCase{
     
     private static final String id = "007";
@@ -21,7 +23,9 @@ public class MainTaskBuilderTest extends TestCase{
 
     @Test
     public void testBuilderMainTask() {
-        fail("Not yet implemented");
+        MainTask mainTask = build.build();
+        MainTask.Builder newBuilder = new MainTask.Builder(mainTask);
+        assertNotNull(newBuilder);
     }
 
     @Test
