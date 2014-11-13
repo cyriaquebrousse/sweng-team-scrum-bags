@@ -16,6 +16,10 @@ public interface Callback<A> {
     void interactionDone(A object);
     
     
+    /**
+     * Function to call when the database operation failed
+     * @param errorMessage
+     */
     void failure(final String errorMessage);
     
     
