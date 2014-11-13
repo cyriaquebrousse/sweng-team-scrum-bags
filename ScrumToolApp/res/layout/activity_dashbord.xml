@@ -14,7 +14,7 @@
         android:onClick="openProjectList"
         android:text="@string/button_dashboard_project_list" />
 
-    <!-- Go to Players -->
+    <!-- Go to My Profile -->
     <Button
         android:id="@+id/dashboard_button_my_profile"
         android:layout_width="match_parent"
@@ -24,5 +24,16 @@
         android:background="@drawable/fluid_button"
         android:onClick="openMyProfile"
         android:text="@string/button_dashboard_my_profile" />
+    
+    <!-- Go to Edit My Profile -->
+    <Button
+        android:id="@+id/dashboard_button_edit_my_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_space"
+        android:layout_below="@id/dashboard_button_my_profile"
+        android:background="@drawable/fluid_button"
+        android:onClick="openEditMyProfile"
+        android:text="@string/button_dashboard_edit_my_profile" />
 
 </RelativeLayout>

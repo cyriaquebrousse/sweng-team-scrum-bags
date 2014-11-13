@@ -91,8 +91,12 @@
             android:label="@string/title_activity_issue_edit" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.DashbordActivity"
+            android:name=".gui.DashbordActivity"
             android:label="@string/title_activity_dashbord" >
+        </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.ProfileEditActivity"
+            android:label="@string/title_activity_profile_edit" >
         </activity>
     </application>
 

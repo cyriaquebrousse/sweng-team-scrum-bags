@@ -28,4 +28,9 @@ public class DashbordActivity extends Activity {
         Intent intent = new Intent(this, ProfileOverviewActivity.class);
         startActivity(intent);
     }
+    
+    public void openEditMyProfile(View view) {
+        Intent intent = new Intent(this, ProfileEditActivity.class);
+        startActivity(intent);
+    }
 }
