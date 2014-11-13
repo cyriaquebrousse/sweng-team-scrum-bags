@@ -46,7 +46,8 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void update(final Player modified, final Player ref, final Callback<Boolean> callback) {
+    public void update(final Player modified, final Player ref,
+            final Callback<Boolean> callback) {
         try {
             final GoogleSession session = (GoogleSession) Session
                     .getCurrentSession();
@@ -176,28 +177,38 @@ public class DSPlayerHandler implements PlayerHandler {
             e.printStackTrace();
         }
 
-        new AsyncTask<ScrumProject, Void, OperationStatus>() {
+        new AsyncTask<ScrumProject, Void, ScrumPlayer>() {
             @Override
-            protected OperationStatus doInBackground(ScrumProject... params) {
-                OperationStatus opStatus = null;
+            protected ScrumPlayer doInBackground(ScrumProject... params) {
+                ScrumPlayer scrumPlayer = null;
                 try {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStatus = service.addPlayerToProject(userEmail,
+                    scrumPlayer = service.addPlayerToProject(userEmail,
                             role.name(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                return opStatus;
+                return scrumPlayer;
             }
 
             @Override
-            protected void onPostExecute(OperationStatus opStat) {
-                Player.Builder playerBuilder = new Player.Builder();
-                playerBuilder.setKey(opStat.getKey());
-                callback.interactionDone(playerBuilder.build());
+            protected void onPostExecute(ScrumPlayer scrumPlayer) {
+                if (scrumPlayer != null) {
+                    User.Builder userBuilder = new User.Builder();
+                    userBuilder.setEmail(scrumPlayer.getUser().getEmail())
+                            .setName(scrumPlayer.getUser().getName());
+                    Player.Builder playerBuilder = new Player.Builder();
+                    playerBuilder.setKey(scrumPlayer.getKey())
+                            .setRole(Role.valueOf(scrumPlayer.getRole()))
+                            .setUser(userBuilder.build())
+                            .setIsAdmin(scrumPlayer.getAdminFlag());
+                    callback.interactionDone(playerBuilder.build());
+                } else {
+                    callback.failure("Unable to create client");
+                }
             }
         }.execute(scrumProject);
 
