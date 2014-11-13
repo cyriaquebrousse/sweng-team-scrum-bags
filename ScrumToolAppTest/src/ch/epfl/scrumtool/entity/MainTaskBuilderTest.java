@@ -1,14 +1,22 @@
 package ch.epfl.scrumtool.entity;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import org.junit.Test;
 
-public class MainTaskBuilderTest {
+public class MainTaskBuilderTest extends TestCase{
+    
+    private static final String id = "007";
+    private static final String name = "main task name";
+    private static final String description = "this is a description";
+    private static final Status status = Status.READY_FOR_SPRINT;
+    private static final Priority priority = Priority.URGENT;
+    
+    private static final MainTask.Builder build = new MainTask.Builder();
 
     @Test
     public void testBuilder() {
-        fail("Not yet implemented");
+        assertNotNull(build);
     }
 
     @Test
@@ -18,57 +26,68 @@ public class MainTaskBuilderTest {
 
     @Test
     public void testGetKey() {
-        fail("Not yet implemented");
+        build.setKey(id);
+        assertEquals(build.getKey(), id);
     }
 
     @Test
     public void testSetKey() {
-        fail("Not yet implemented");
+        build.setKey(id);
+        assertEquals(build.getKey(), id);
     }
 
     @Test
     public void testGetName() {
-        fail("Not yet implemented");
+        build.setName(name);
+        assertEquals(build.getName(), name);
     }
 
     @Test
     public void testSetName() {
-        fail("Not yet implemented");
+        build.setName(name);
+        assertEquals(build.getName(), name);
     }
 
     @Test
     public void testGetDescription() {
-        fail("Not yet implemented");
+        build.setDescription(description);
+        assertEquals(build.getDescription(), description);
     }
 
     @Test
     public void testSetDescription() {
-        fail("Not yet implemented");
+        build.setDescription(description);
+        assertEquals(build.getDescription(), description);
     }
 
     @Test
     public void testGetStatus() {
-        fail("Not yet implemented");
+        build.setStatus(status);
+        assertEquals(build.getStatus(), status);
     }
 
     @Test
     public void testSetStatus() {
-        fail("Not yet implemented");
+        build.setStatus(status);
+        assertEquals(build.getStatus(), status);
     }
 
     @Test
     public void testGetPriority() {
-        fail("Not yet implemented");
+        build.setPriority(priority);
+        assertEquals(build.getPriority(), priority);
     }
 
     @Test
     public void testSetPriority() {
-        fail("Not yet implemented");
+        build.setPriority(priority);
+        assertEquals(build.getPriority(), priority);
     }
 
     @Test
     public void testBuild() {
-        fail("Not yet implemented");
+        MainTask mainTask = build.build();
+        assertNotNull(mainTask);
     }
 
 }
