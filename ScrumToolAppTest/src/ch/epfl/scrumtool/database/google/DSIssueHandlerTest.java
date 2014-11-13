@@ -1,58 +1,53 @@
-package ch.epfl.scrumtool.entity;
+package ch.epfl.scrumtool.database.google;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MainTaskTest {
+public class DSIssueHandlerTest {
 
     @Test
-    public void testHashCode() {
+    public void testInsertIssueCallbackOfIssue() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetEstimatedTime() {
+    public void testInsertIssueMainTaskCallbackOfIssue() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testEqualsObject() {
+    public void testLoad() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetIssuesFinishedCount() {
+    public void testUpdate() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testAbstractTask() {
+    public void testRemove() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetName() {
+    public void testLoadIssuesMainTaskCallbackOfListOfIssue() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetDescription() {
+    public void testLoadIssuesSprintCallbackOfListOfIssue() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetStatus() {
+    public void testAssignIssueToSprint() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetKey() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetPriority() {
+    public void testRemoveIssue() {
         fail("Not yet implemented");
     }
 

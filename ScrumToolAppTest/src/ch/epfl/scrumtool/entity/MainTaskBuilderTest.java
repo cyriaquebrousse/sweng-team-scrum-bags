@@ -4,45 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MainTaskTest {
+public class MainTaskBuilderTest {
 
     @Test
-    public void testHashCode() {
+    public void testBuilder() {
         fail("Not yet implemented");
     }
 
     @Test
-    public void testGetEstimatedTime() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testEqualsObject() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetIssuesFinishedCount() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testAbstractTask() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetName() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetDescription() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetStatus() {
+    public void testBuilderMainTask() {
         fail("Not yet implemented");
     }
 
@@ -52,7 +22,52 @@ public class MainTaskTest {
     }
 
     @Test
+    public void testSetKey() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetName() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testSetName() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetDescription() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testSetDescription() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetStatus() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testSetStatus() {
+        fail("Not yet implemented");
+    }
+
+    @Test
     public void testGetPriority() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testSetPriority() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testBuild() {
         fail("Not yet implemented");
     }
 
