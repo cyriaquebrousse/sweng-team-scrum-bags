@@ -38,8 +38,7 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param mainTask
      * @param cB
      */
-    void insert(final Issue issue, final MainTask mainTask,
-            final Callback<Issue> cB);
+    void insert(final Issue issue, final MainTask mainTask, final Callback<Issue> cB);
 
     /**
      * Add an Issue to a Sprint

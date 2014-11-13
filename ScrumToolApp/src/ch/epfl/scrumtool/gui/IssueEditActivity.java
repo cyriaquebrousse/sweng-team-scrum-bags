@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,11 +10,15 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Cyriaque Brousse
+ * @author Cyriaque Brousse, sylb
  */
 public class IssueEditActivity extends Activity {
 
@@ -20,6 +26,7 @@ public class IssueEditActivity extends Activity {
     private EditText issueDescriptionView;
     private EditText issueEstimationView;
     private EditText issueAssigneeView;
+    private Player player;
 
     /** If {@code null} then we are in create mode, otherwise in edit mode*/
     private Issue original;
@@ -63,7 +70,30 @@ public class IssueEditActivity extends Activity {
     }
 
     public void saveIssueChanges(View view) {
-        // TODO auto-generated method stub
+        InputVerifiers.updateTextViewAfterValidityCheck(issueNameView, nameIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid(), getResources());
+
+        if (nameIsValid() && descriptionIsValid()) {
+            String newName = issueNameView.getText().toString();
+            String newDescription = issueDescriptionView.getText().toString();
+
+            issueBuilder.setKey("");
+            issueBuilder.setName(newName);
+            issueBuilder.setDescription(newDescription);
+            issueBuilder.setEstimatedTime(0); // TODO change this value
+            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO get this value from the user
+            issueBuilder.setPriority(Priority.NORMAL); // TODO get this value from the user
+
+//            TODO we need a kind of a "player selector" and give this player to the issue 
+//            issueBuilder.setPlayer(player);
+
+
+            if (original == null) {
+                insertIssue();
+            } else {
+                updateIssue();
+            }
+        }
     }
 
     private void insertIssue() {
@@ -77,7 +107,7 @@ public class IssueEditActivity extends Activity {
 
             }
         };
-        Client.getScrumClient().insertIssue(parentTask, issue, issueInserted);
+        Client.getScrumClient().insertIssue(issue, parentTask, issueInserted);
     }
 
     private void updateIssue() {
@@ -96,5 +126,16 @@ public class IssueEditActivity extends Activity {
         };
 
         Client.getScrumClient().updateIssue(issue, original, issueUpdated);
+    }
+
+    private boolean nameIsValid() {
+        String name = issueNameView.getText().toString();
+        return name != null && name.length() > 0
+                && name.length() < 50; // TODO put a meaningful value (cyriaque)
+    }
+
+    private boolean descriptionIsValid() {
+        String description = issueDescriptionView.getText().toString();
+        return description != null && description.length() > 0;
     }
 }

@@ -19,7 +19,6 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -43,22 +42,16 @@ public class DSIssueHandler implements IssueHandler {
             scrumIssue.setStatus(issue.getStatus().name());
             scrumIssue.setEstimation(issue.getEstimatedTime());
             scrumIssue.setPriority(issue.getPriority().name());
-
-            ScrumPlayer scrumPlayer = new ScrumPlayer();
-            scrumPlayer.setKey(issue.getPlayer().getKey());
-            scrumPlayer.setAdminFlag(false);
-            scrumPlayer.setRole(issue.getPlayer().getRole().name());
-
+//          TODO uncomment this lines when the gui will be working
+//            scrumIssue.setAssignedPlayer(issue.getPlayer().getKey());
+            
             Date date = new Date();
             scrumIssue.setLastModDate(date.getTime());
-            scrumPlayer.setLastModDate(date.getTime());
             
             final GoogleSession session = (GoogleSession) Session.getCurrentSession();
             
             scrumIssue.setLastModUser(session.getUser().getEmail());
-            scrumPlayer.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-            scrumIssue.setAssignedPlayer(scrumPlayer);
-
+            
             AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
                 @Override
                 protected OperationStatus doInBackground(ScrumIssue... params) {

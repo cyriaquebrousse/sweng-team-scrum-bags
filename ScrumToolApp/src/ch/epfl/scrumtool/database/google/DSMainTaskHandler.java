@@ -204,7 +204,8 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
     /* (non-Javadoc)
-     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
+     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object,
+     *  java.lang.Object, ch.epfl.scrumtool.database.Callback)
      */
     @Override
     public void update(MainTask object, MainTask ref, Callback<Boolean> cB) {

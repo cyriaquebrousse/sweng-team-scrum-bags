@@ -94,7 +94,7 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void insertIssue(MainTask task, Issue issue, Callback<Issue> callback) {
+    public void insertIssue(Issue issue, MainTask task, Callback<Issue> callback) {
         databaseHandlers.getIssueHandler().insert(issue, task, callback);
     }
 

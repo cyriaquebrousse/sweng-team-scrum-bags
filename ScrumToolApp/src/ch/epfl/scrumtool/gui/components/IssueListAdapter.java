@@ -38,7 +38,7 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         Issue issue = getList().get(position);
         name.setText(issue.getName());
 
-        assignee.setText(issue.getPlayer().getUser().getName());
+//        assignee.setText(issue.getPlayer().getUser().getName());
         estimation.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
         estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
