@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.entity.Issue;
@@ -84,7 +85,8 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void update(final Issue modified, final Issue ref, final Callback<Boolean> callback) {
+    public void update(final Issue modified, final Issue ref, final MainTask mainTask,
+            final Callback<Boolean> callback) {
         final ScrumIssue changes = new ScrumIssue();
         changes.setKey(modified.getKey());
         changes.setName(modified.getName());
@@ -106,12 +108,12 @@ public class DSIssueHandler implements IssueHandler {
             @Override
             protected OperationStatus doInBackground(
                     ScrumIssue... params) {
-                GoogleSession s;
+                GoogleSession session;
                 OperationStatus opStat = null;
                 try {
-                    s = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
-                    opStat = service.updateScrumIssue(params[0]).execute();
+                    session = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
+                    opStat = service.updateScrumIssue(mainTask.getKey(), params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -124,7 +126,6 @@ public class DSIssueHandler implements IssueHandler {
             @Override
             protected void onPostExecute(OperationStatus result) {
                 callback.interactionDone(Boolean.valueOf(result.getSuccess()));
-                super.onPostExecute(result);
             }
         };
         task.execute(changes);
@@ -277,6 +278,16 @@ public class DSIssueHandler implements IssueHandler {
     public void removeIssue(Issue issue, Sprint sprint, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
 
+    }
+
+    /* (non-Javadoc)
+     * @see ch.epfl.scrumtool.database.DatabaseHandler#update(java.lang.Object, java.lang.Object, ch.epfl.scrumtool.database.Callback)
+     */
+    @Override
+    public void update(Issue object, Issue ref, Callback<Boolean> cB) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+        
     }
 
 }

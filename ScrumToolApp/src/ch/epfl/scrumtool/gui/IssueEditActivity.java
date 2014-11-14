@@ -77,7 +77,6 @@ public class IssueEditActivity extends Activity {
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
 
-            issueBuilder.setKey("");
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(0); // TODO change this value
@@ -112,9 +111,7 @@ public class IssueEditActivity extends Activity {
 
     private void updateIssue() {
         Issue issue = issueBuilder.build();
-
-        final DefaultGUICallback<Boolean> issueUpdated = new DefaultGUICallback<Boolean>(this) {
-
+        Client.getScrumClient().updateIssue(issue, null, parentTask, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
@@ -123,9 +120,7 @@ public class IssueEditActivity extends Activity {
                     Toast.makeText(IssueEditActivity.this, "Could not update issue", Toast.LENGTH_SHORT).show();
                 }
             }
-        };
-
-        Client.getScrumClient().updateIssue(issue, original, issueUpdated);
+        });
     }
 
     private boolean nameIsValid() {

@@ -48,7 +48,7 @@ public interface ScrumClient {
     void insertIssue(final Issue issue, final MainTask task, final Callback<Issue> callback);
     void addIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
     void removeIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
-    void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
+    void updateIssue(final Issue issue, final Issue ref, final MainTask mainTask, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
      
     // Sprint methods

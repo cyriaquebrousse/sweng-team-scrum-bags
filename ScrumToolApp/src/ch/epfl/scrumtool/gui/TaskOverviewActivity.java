@@ -134,6 +134,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnM
     @Override
     void openEditElementActivity(Issue issue) {
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
+        openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
         startActivity(openIssueEditIntent);
     }

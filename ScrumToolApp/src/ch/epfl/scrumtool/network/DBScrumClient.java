@@ -111,8 +111,8 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateIssue(Issue issue, Issue ref, Callback<Boolean> callback) {
-        databaseHandlers.getIssueHandler().update(issue, ref, callback);
+    public void updateIssue(Issue issue, Issue ref, MainTask mainTask, Callback<Boolean> callback) {
+        databaseHandlers.getIssueHandler().update(issue, ref, mainTask, callback);
     }
 
     @Override

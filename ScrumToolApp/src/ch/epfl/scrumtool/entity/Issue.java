@@ -63,6 +63,7 @@ public final class Issue extends AbstractTask implements Serializable {
         private Player player;
 
         public Builder() {
+            this.key = "";
             this.name = "";
             this.description = "";
             this.estimatedTime = 0f;
