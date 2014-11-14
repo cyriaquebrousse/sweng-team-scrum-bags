@@ -21,7 +21,7 @@ public class IssueOverviewActivity extends Activity {
     private TextView descriptionView;
     private TextView statusView;
     private Stamp estimationStamp;
-    private TextView assigneeName;
+//    private TextView assigneeName;
 
     private Issue issue;
 
@@ -36,17 +36,17 @@ public class IssueOverviewActivity extends Activity {
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
-        assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
+//        assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
         
-        assigneeName.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                User assignee = issue.getPlayer().getUser();
-                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
-                startActivity(openProfileIntent);
-            }
-        });
+//        assigneeName.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
+//                User assignee = issue.getPlayer().getUser();
+//                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
+//                startActivity(openProfileIntent);
+//            }
+//        });
 
         updateViews();
     }
@@ -55,8 +55,8 @@ public class IssueOverviewActivity extends Activity {
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());
-        assigneeName.setText(issue.getPlayer().getUser().getName());
-        assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        assigneeName.setText(issue.getPlayer().getUser().getName());
+//        assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
