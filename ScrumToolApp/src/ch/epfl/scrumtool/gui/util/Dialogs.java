@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.Status;
 
 /**
  * @author Cyriaque Brousse
@@ -39,7 +40,7 @@ public class Dialogs {
     private static String[] initPriorities() {
         String[] priorities = new String[Priority.values().length];
         for (int i = 0; i < priorities.length; i++) {
-            priorities[i] = Priority.values()[i].toString();
+            priorities[i] = InputVerifiers.capitalize(Priority.values()[i].toString());
         }
         return priorities;
     }
@@ -63,9 +64,33 @@ public class Dialogs {
     private static String[] initRoles() {
         String[] roles = new String[Role.values().length];
         for (int i = 0; i < roles.length; i++) {
-            roles[i] = Role.values()[i].toString();
+            roles[i] = InputVerifiers.capitalize(Role.values()[i].toString());
         }
         return roles;
+    }
+    
+    public static void showStatusEditDialog(Activity parent, final DialogCallback<Status> callback) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(parent);
+        String[] statuses = initStatuses();
+        
+        builder.setTitle("Set status");
+        builder.setItems(statuses, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callback.onSelected(Status.values()[which]);
+                dialog.dismiss();
+            }
+        });
+        
+        builder.create().show();
+    }
+    
+    private static String[] initStatuses() {
+        String[] statuses = new String[Status.values().length];
+        for (int i = 0; i < statuses.length; i++) {
+            statuses[i] = InputVerifiers.capitalize(Status.values()[i].toString());
+        }
+        return statuses;
     }
     
 }

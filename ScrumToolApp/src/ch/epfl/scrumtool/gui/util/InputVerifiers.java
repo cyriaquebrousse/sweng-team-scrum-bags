@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui.util;
 
+import java.util.Locale;
+
 import android.content.res.Resources;
 import android.widget.EditText;
 import ch.epfl.scrumtool.R;
@@ -28,5 +30,10 @@ public final class InputVerifiers {
     public static boolean textEditNonNullNotEmpty(EditText view) {
         return view != null
             && view.getText().length() > 0;
+    }
+    
+    public static String capitalize(String s) {
+        s = s.toLowerCase(Locale.ENGLISH);
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 }
