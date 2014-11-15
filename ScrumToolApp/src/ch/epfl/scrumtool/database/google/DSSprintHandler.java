@@ -86,7 +86,7 @@ public class DSSprintHandler implements SprintHandler {
                 for (ScrumSprint s : resultItems) {
                     Sprint.Builder sB = new Sprint.Builder();
                     sB.setKey(s.getKey());
-                    sB.setDeadline(s.getDate().getValue()); // TODO
+                    //sB.setDeadline(s.getDate().getValue()); // TODO
                     // Not so
                     // sure
                     // about
