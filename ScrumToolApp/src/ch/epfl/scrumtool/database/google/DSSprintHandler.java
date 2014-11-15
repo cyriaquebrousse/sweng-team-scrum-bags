@@ -34,7 +34,7 @@ public class DSSprintHandler implements SprintHandler {
     public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
         ScrumSprint scrumSprint = new ScrumSprint();
-        scrumSprint.setDate(sprint.getDeadline().getTime());
+        scrumSprint.setDate(sprint.getDeadline());
         scrumSprint.setIssues(new ArrayList<ScrumIssue>());
         Date date = new Date();
         scrumSprint.setLastModDate(date.getTime());
@@ -92,7 +92,7 @@ public class DSSprintHandler implements SprintHandler {
             final ScrumSprint scrumSprint = new ScrumSprint();
             scrumSprint.setKey(modified.getKey());
             scrumSprint.setName(modified.getTitle());
-            scrumSprint.setDate(modified.getDeadline().getTime());
+            scrumSprint.setDate(modified.getDeadline());
             scrumSprint.setLastModDate((new Date()).getTime());
             scrumSprint.setLastModUser(session.getUser().getEmail());
 
@@ -186,7 +186,7 @@ public class DSSprintHandler implements SprintHandler {
                     Sprint.Builder sprintBuilder = new Sprint.Builder();
                     sprintBuilder.setKey(s.getKey());
                     sprintBuilder.setTitle(s.getName());
-                    sprintBuilder.setDeadline(new Date(s.getDate()));
+                    sprintBuilder.setDeadline(s.getDate());
                     sprints.add(sprintBuilder.build());
                 }
                 callback.interactionDone(sprints);

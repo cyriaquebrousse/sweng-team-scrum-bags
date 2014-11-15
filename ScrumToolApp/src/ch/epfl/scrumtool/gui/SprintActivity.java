@@ -31,7 +31,7 @@ public class SprintActivity extends Activity {
     private int sprintMonth = 0;
     private int sprintDay = 0;
     
-    private Date sprintDeadline;
+    private long sprintDeadline;
     private String name = null;
     
     private TextView sprintDate;
@@ -65,18 +65,17 @@ public class SprintActivity extends Activity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
     
-    @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
         name = sprintName.getText().toString();
-        if (sprintYear != sprintDeadline.getYear()) {
-            sprintDeadline.setYear(sprintYear);
-        }
-        if (sprintMonth != sprintDeadline.getMonth()) {
-            sprintDeadline.setMonth(sprintMonth);
-        }
-        if (sprintDay != sprintDeadline.getDate()) {
-            sprintDeadline.setDate(sprintDay);
-        }
+//        if (sprintYear != sprintDeadline.getYear()) {
+//            sprintDeadline.setYear(sprintYear);
+//        }
+//        if (sprintMonth != sprintDeadline.getMonth()) {
+//            sprintDeadline.setMonth(sprintMonth);
+//        }
+//        if (sprintDay != sprintDeadline.getDate()) {
+//            sprintDeadline.setDate(sprintDay);
+//        }
         InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
         if (nameIsValid()) {
@@ -138,7 +137,7 @@ public class SprintActivity extends Activity {
     }
     
     private boolean dateIsValid() {
-        return sprintDeadline != null && sprintDeadline.after(new Date());
+        return new Date().before(new Date(sprintDeadline));
     }
     
     private void initOriginalAndParentTask() {
@@ -164,9 +163,8 @@ public class SprintActivity extends Activity {
         sprintName.setText(sprintBuilder.getTitle());
     }
     
-    @SuppressWarnings("deprecation")
     private String getDate(Sprint.Builder builder) {
-        final Date d = builder.getDeadline();
+        final Date d = new Date(builder.getDeadline());
         return d.getDate() + "/" + d.getMonth() + "/" + d.getYear();
     }
 }

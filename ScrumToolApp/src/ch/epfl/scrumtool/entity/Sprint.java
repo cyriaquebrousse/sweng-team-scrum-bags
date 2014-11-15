@@ -14,12 +14,12 @@ import ch.epfl.scrumtool.network.Client;
  */
 
 public final class Sprint implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -5819472452849232304L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
     
     private final String key;
     private final String title;
-    private final Date deadline;
+    private final long deadline;
 
     /**
      * Constructs a new sprint
@@ -30,7 +30,7 @@ public final class Sprint implements Serializable {
      *            the deadline in milliseconds. Must be non-negative
      * @see java.util.Date#getTime()
      */
-    private Sprint(String id, String title, Date deadline) {
+    private Sprint(String id, String title, long deadline) {
         this.key = id;
         this.title = title;
         this.deadline = deadline;
@@ -40,7 +40,7 @@ public final class Sprint implements Serializable {
      * @return the deadline in milliseconds
      * @see java.util.Date#getTime()
      */
-    public Date getDeadline() {
+    public long getDeadline() {
         return deadline;
     }
 
@@ -117,13 +117,12 @@ public final class Sprint implements Serializable {
 
         private String keyb;
         private String title;
-
-        private Date deadline;
+        private long deadline;
 
         public Builder() {
             this.keyb = "";
             this.title = "";
-            this.deadline = new Date();
+            this.deadline = new Date().getTime();
         }
 
         /**
@@ -154,15 +153,16 @@ public final class Sprint implements Serializable {
         /**
          * @return the deadLine
          */
-        public Date getDeadline() {
+        public long getDeadline() {
             return deadline;
         }
 
         /**
          * @param deadline
-         *            the deadline to set
+         *            the deadline to set, in milliseconds
+         * @see Date#getTime()
          */
-        public Sprint.Builder setDeadline(Date deadline) {
+        public Sprint.Builder setDeadline(long deadline) {
             this.deadline = deadline;
             return this;
         }
