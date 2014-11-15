@@ -61,7 +61,7 @@ public class LoginActivity extends Activity {
     }
 
     private void openFirstActivityAndFinish() {
-        Intent intent = new Intent(this, DashbordActivity.class);
+        Intent intent = new Intent(this, DashboardActivity.class);
         startActivity(intent);
         finish();
     }

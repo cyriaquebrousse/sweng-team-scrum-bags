@@ -7,16 +7,14 @@ import android.view.View;
 import ch.epfl.scrumtool.R;
 
 /**
- * 
  * @author ketsio
- *
  */
-public class DashbordActivity extends Activity {
+public class DashboardActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashbord);
+        setContentView(R.layout.activity_dashboard);
     }
 
     public void openProjectList(View view) {

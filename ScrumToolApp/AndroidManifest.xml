@@ -95,7 +95,7 @@
             android:label="@string/title_activity_dashbord" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.ProfileEditActivity"
+            android:name=".gui.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit" >
         </activity>
     </application>
