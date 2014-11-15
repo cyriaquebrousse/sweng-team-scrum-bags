@@ -8,11 +8,13 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.DatePickerFragment;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import ch.epfl.scrumtool.network.Client;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -66,9 +68,15 @@ public class SprintActivity extends Activity {
     @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
         name = sprintName.getText().toString();
-        sprintDeadline.setYear(sprintYear);
-        sprintDeadline.setMonth(sprintMonth);
-        sprintDeadline.setDate(sprintDay);
+        if (sprintYear != sprintDeadline.getYear()) {
+            sprintDeadline.setYear(sprintYear);
+        }
+        if (sprintMonth != sprintDeadline.getMonth()) {
+            sprintDeadline.setMonth(sprintMonth);
+        }
+        if (sprintDay != sprintDeadline.getDate()) {
+            sprintDeadline.setDate(sprintDay);
+        }
         InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
         if (nameIsValid()) {
@@ -88,6 +96,13 @@ public class SprintActivity extends Activity {
         } else {
             Toast.makeText(SprintActivity.this, "Invalid name", Toast.LENGTH_SHORT).show();
         }
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
     
     private void insertSprint() {
