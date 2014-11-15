@@ -28,7 +28,7 @@ public class SprintActivity extends Activity {
     private int sprintMonth = 0;
     private int sprintDay = 0;
     
-    private Date sprintDeadline = new Date();
+    private Date sprintDeadline;
     private String name = null;
     
     private TextView sprintDate;
