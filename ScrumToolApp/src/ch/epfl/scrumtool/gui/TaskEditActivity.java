@@ -14,9 +14,8 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.util.Dialogs;
-import ch.epfl.scrumtool.gui.util.Dialogs.PriorityDialogCallback;
+import ch.epfl.scrumtool.gui.util.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -68,7 +67,7 @@ public class TaskEditActivity extends Activity {
         taskPriorityView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialogs.showTaskPriorityEditDialog(TaskEditActivity.this, new PriorityDialogCallback() {
+                Dialogs.showTaskPriorityEditDialog(TaskEditActivity.this, new DialogCallback<Priority>() {
                     @Override
                     public void onSelected(Priority selected) {
                         taskBuilder.setPriority(selected);

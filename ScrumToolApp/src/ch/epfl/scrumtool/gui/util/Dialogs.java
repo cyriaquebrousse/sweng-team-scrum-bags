@@ -13,12 +13,13 @@ public class Dialogs {
     
     /**
      * @author Cyriaque Brousse
+     * @param <E> entity we deal with here
      */
-    public interface PriorityDialogCallback {
-        void onSelected(Priority selected);
+    public interface DialogCallback<E> {
+        void onSelected(E selected);
     }
-    
-    public static void showTaskPriorityEditDialog(Activity parent, final PriorityDialogCallback callback) {
+
+    public static void showTaskPriorityEditDialog(Activity parent, final DialogCallback<Priority> callback) {
         AlertDialog.Builder builder = new AlertDialog.Builder(parent);
         String[] priorities = initPriorities();
         
@@ -41,4 +42,6 @@ public class Dialogs {
         }
         return priorities;
     }
+    
+    
 }
