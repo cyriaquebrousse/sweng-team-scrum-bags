@@ -41,5 +41,6 @@ public class SprintListActivity extends Activity {
         if (project == null) {
             throw new NullPointerException("Parent project cannot be null");
         }
+        setTitle(R.string.title_activity_sprint_list);
     }
 }
