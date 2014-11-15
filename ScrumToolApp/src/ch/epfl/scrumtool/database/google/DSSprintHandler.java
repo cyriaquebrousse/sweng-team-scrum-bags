@@ -127,7 +127,7 @@ public class DSSprintHandler implements SprintHandler {
     /**
      * Removes a Sprint from the datastore.
      */
-    public void remove(final Sprint sprint, final Callback<Boolean> callback) {
+    public void remove(final String sprint, final Callback<Boolean> callback) {
         new AsyncTask<String, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(String... params) {
@@ -149,7 +149,7 @@ public class DSSprintHandler implements SprintHandler {
             protected void onPostExecute(OperationStatus result) {
                 callback.interactionDone(result.getSuccess());
             }
-        }.execute(sprint.getKey());
+        }.execute(sprint);
     }
 
     /**
@@ -159,8 +159,7 @@ public class DSSprintHandler implements SprintHandler {
      * @param dbC
      */
     @Override
-    public void loadSprints(final Project project,
-            final Callback<List<Sprint>> callback) {
+    public void loadSprints(final String project, final Callback<List<Sprint>> callback) {
         new AsyncTask<String, Void, CollectionResponseScrumSprint>() {
             @Override
             protected CollectionResponseScrumSprint doInBackground(
@@ -191,7 +190,7 @@ public class DSSprintHandler implements SprintHandler {
                 }
                 callback.interactionDone(sprints);
             }
-        }.execute(project.getKey());
+        }.execute(project);
     }
 
     @Override

@@ -98,7 +98,7 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(final User user, User ref, final Callback<Boolean> callback) {
+    public void update(final User user, final User ref, final Callback<Boolean> callback) {
         AsyncTask<ScrumUser, Void, OperationStatus> task = new AsyncTask<ScrumUser, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(ScrumUser... params) {
@@ -143,7 +143,7 @@ public class DSUserHandler implements UserHandler {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#remove(java.lang.Object, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void remove(User object, Callback<Boolean> cB) {
+    public void remove(String user, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
         
     }

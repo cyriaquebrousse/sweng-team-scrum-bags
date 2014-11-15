@@ -16,21 +16,21 @@ public interface MainTaskHandler extends DatabaseHandler<MainTask> {
     /**
      * Load the Maintask of a Project
      * 
-     * @param project
+     * @param projectKey
      * @param cB
      */
-    void loadMainTasks(final Project project, Callback<List<MainTask>> cB);
+    void loadMainTasks(final String projectKey, Callback<List<MainTask>> cB);
 
     /**
      * Insert a Maintask in a Project
      * @param object
-     * @param project
+     * @param projectKey
      * @param cB
      */
-    void insert(final MainTask object, final Project project,
+    void insert(final MainTask object, final String projectKey,
             final Callback<MainTask> cB);
     
-    void update(final MainTask object, final MainTask ref, final Project project,
+    void update(final MainTask object, final MainTask ref, final String project,
             final Callback<Boolean> cb);
 }
 

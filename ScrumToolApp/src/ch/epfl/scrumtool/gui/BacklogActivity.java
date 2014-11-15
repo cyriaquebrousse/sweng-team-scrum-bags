@@ -63,7 +63,7 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMen
                 
             }
         };
-        Client.getScrumClient().loadBacklog(project, maintasksLoaded);
+        Client.getScrumClient().loadBacklog(project.getKey(), maintasksLoaded);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMen
      *            the project to delete
      */
     private void deleteMainTask(final MainTask mainTask) {
-        Client.getScrumClient().deleteMainTask(mainTask, new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().removeMainTask(mainTask.getKey(), new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 adapter.remove(mainTask);
