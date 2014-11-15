@@ -65,6 +65,7 @@ public class SprintActivity extends Activity {
     
     @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
+        name = sprintName.getText().toString();
         InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
         if (nameIsValid()) {
@@ -72,7 +73,6 @@ public class SprintActivity extends Activity {
                 sprintDeadline.setYear(sprintYear);
                 sprintDeadline.setMonth(sprintMonth);
                 sprintDeadline.setDate(sprintDay);
-                name = sprintName.getText().toString();
                 
                 sprintBuilder.setDeadline(sprintDeadline);
                 sprintBuilder.setTitle(name);
@@ -103,7 +103,6 @@ public class SprintActivity extends Activity {
     }
     
     private void updateSprint() {
-
         Sprint newSprint = sprintBuilder.build();
         newSprint.update(null, new DefaultGUICallback<Boolean>(this) {
             
