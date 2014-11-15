@@ -12,12 +12,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="@string/sprint_name" />
 
         <EditText
             android:id="@+id/editName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
             android:hint="@string/sprint_edit_name" >
 
             <requestFocus />
@@ -31,12 +33,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="@string/sprint_date" />
 
         <TextView
             android:id="@+id/sprintDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
             android:text="@string/no_date_selected" />
 
         <Button

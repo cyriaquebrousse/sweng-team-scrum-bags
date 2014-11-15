@@ -5,6 +5,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -113,10 +114,10 @@ public final class Project implements Serializable {
     /**
      * Load the sprints of this project from the DS
      * 
-     * @param callback
+     * @param defaultGUICallback
      */
-    public void loadSprints(final Callback<List<Sprint>> callback) {
-        Client.getScrumClient().loadSprints(this, callback);
+    public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
+        Client.getScrumClient().loadSprints(this, defaultGUICallback);
     }
 
     /**
