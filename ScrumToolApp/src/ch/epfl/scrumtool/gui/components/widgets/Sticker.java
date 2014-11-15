@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 
@@ -34,8 +33,7 @@ public class Sticker extends TextView {
         Resources res = context.getResources();
 
         // Getting the attributes from the set
-        TypedArray attributes = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.Sticker, 0, 0);
+        TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Sticker, 0, 0);
         boolean bold = attributes.getBoolean(R.styleable.Sticker_sticker_bold, false);
         int color = attributes.getColor(R.styleable.Sticker_sticker_color, res.getColor(R.color.Gray));
         String text = attributes.getString(R.styleable.Sticker_sticker_text);
@@ -44,7 +42,6 @@ public class Sticker extends TextView {
         // Customizing the text view
         int padding = (int) res.getDimension(R.dimen.sticker_padding);
         setPadding(padding, padding, padding, padding);
-        setTextSize(TypedValue.COMPLEX_UNIT_SP, res.getDimension(R.dimen.sticker_text_size));
         setTextColor(res.getColor(R.color.White));
         
         setStickerText(text);
