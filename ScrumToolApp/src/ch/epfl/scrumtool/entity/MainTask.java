@@ -1,6 +1,10 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
@@ -8,10 +12,9 @@ import java.io.Serializable;
  */
 
 public final class MainTask extends AbstractTask implements Serializable {
-    
+
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
-    
 
     /**
      * @param name
@@ -20,12 +23,13 @@ public final class MainTask extends AbstractTask implements Serializable {
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status, Priority priority) {
+    private MainTask(String id, String name, String description, Status status,
+            Priority priority) {
         super(id, name, description, status, priority);
         if (priority == null) {
             throw new NullPointerException("MainTask.Constructor");
         }
-        //this.priority = priority;
+        // this.priority = priority;
     }
 
     public int getIssuesFinishedCount() {
@@ -58,6 +62,46 @@ public final class MainTask extends AbstractTask implements Serializable {
     }
 
     /**
+     * Creates the maintask in the DS
+     * 
+     * @param project
+     * @param callback
+     */
+    public void insert(final Project project, final Callback<MainTask> callback) {
+        Client.getScrumClient().insertMainTask(this, project, callback);
+    }
+
+    /**
+     * Updates the maintask in the DS
+     * 
+     * @param ref
+     * @param project
+     * @param callback
+     */
+    public void update(final MainTask ref, final Project project,
+            final Callback<Boolean> callback) {
+        Client.getScrumClient().updateMainTask(this, ref, project, callback);
+    }
+
+    /**
+     * Removes the maintask form the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteMainTask(this, callback);
+    }
+
+    /**
+     * Loads the issues of this maintask from the DS
+     * 
+     * @param callback
+     */
+    public void loadIssues(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssues(this, callback);
+    }
+
+    /**
      * Builder class for the MainTask object
      * 
      * @author zenhaeus
@@ -77,7 +121,7 @@ public final class MainTask extends AbstractTask implements Serializable {
             this.status = Status.READY_FOR_ESTIMATION;
             this.priority = Priority.NORMAL;
         }
-        
+
         public Builder(MainTask task) {
             this.id = task.getKey();
             this.name = task.getName();

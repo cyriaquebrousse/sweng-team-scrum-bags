@@ -99,12 +99,13 @@ public class SprintActivity extends Activity {
                 SprintActivity.this.finish();
             }
         };
-        Client.getScrumClient().insertSprint(sprint, project.getKey(),  sprintInserted);
+        sprint.insert(project, sprintInserted);
     }
     
     private void updateSprint() {
+
         Sprint newSprint = sprintBuilder.build();
-        Client.getScrumClient().updateSprint(newSprint, sprint, new DefaultGUICallback<Boolean>(this) {
+        newSprint.update(null, new DefaultGUICallback<Boolean>(this) {
             
             @Override
             public void interactionDone(Boolean success) {

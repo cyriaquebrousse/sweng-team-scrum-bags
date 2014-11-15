@@ -2,6 +2,9 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
+
 /**
  * @author Vincent, zenhaeus
  * 
@@ -23,10 +26,10 @@ public final class Player implements Serializable {
         super();
         if (key == null) {
             throw new NullPointerException("Key cannot be null");
-        } 
+        }
         if (user == null) {
             throw new NullPointerException("User cannot be null");
-        } 
+        }
         if (role == null) {
             throw new NullPointerException("Role cannot be null");
         }
@@ -76,6 +79,25 @@ public final class Player implements Serializable {
     @Override
     public int hashCode() {
         return key.hashCode();
+    }
+
+    /**
+     * Update the player in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Player ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updatePlayer(this, ref, callback);
+    }
+
+    /**
+     * Removes the player from the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().removePlayer(this, callback);
     }
 
     /**

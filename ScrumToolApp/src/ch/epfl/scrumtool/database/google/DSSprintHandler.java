@@ -31,7 +31,7 @@ public class DSSprintHandler implements SprintHandler {
     /**
      * Inserts a Sprint on the server.
      */
-    public void insert(final Sprint sprint, final String project,
+    public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
         ScrumSprint scrumSprint = new ScrumSprint();
         scrumSprint.setDate(sprint.getDeadline().getTime());
@@ -54,7 +54,7 @@ public class DSSprintHandler implements SprintHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumSprint(project, params[0])
+                    opStat = service.insertScrumSprint(project.getKey(), params[0])
                             .execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block

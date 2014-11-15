@@ -59,7 +59,7 @@ public class ProjectPlayerListActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         };
-        Client.getScrumClient().loadPlayers(project, playersLoaded);
+        project.loadPlayers(playersLoaded);
     }
 
     private void initProject() {
@@ -74,8 +74,6 @@ public class ProjectPlayerListActivity extends Activity {
 
     private void initAddPlayerBlock() {
         newPlayerEmailView = (EditText) findViewById(R.id.player_list_add_playeremail);
-
-//        playerBuilder = new Player.Builder();
     }
 
     public void addPlayer(View view) {
@@ -84,21 +82,12 @@ public class ProjectPlayerListActivity extends Activity {
         if (emailIsValid()) {
             String email = newPlayerEmailView.getText().toString();
             Role role = Role.INVITED; // default role for newcomers
-            
-//            User.Builder userBuilder = new User.Builder();
-//            userBuilder.setEmail(email);
-//            userBuilder.setName(email.toUpperCase()); // TODO real name
-//            playerBuilder.setUser(userBuilder.build());
-//            playerBuilder.setKey("random player id "+ new Random().nextInt());
-//            playerBuilder.setIsAdmin(false);
-//            playerBuilder.setRole(Role.DEVELOPER); // TODO real role
 
             insertPlayer(email, role);
         }
     }
 
     private void insertPlayer(String userEmail, Role role) {
-//        Player player = playerBuilder.build();
         DefaultGUICallback<Player> playerAdded = new DefaultGUICallback<Player>(this) {
 
             @Override
@@ -107,12 +96,11 @@ public class ProjectPlayerListActivity extends Activity {
             }
         };
 
-
-        Client.getScrumClient().addPlayerToProject(project, userEmail, role,  playerAdded);
+        project.addPlayer(userEmail, role, playerAdded);
     }
 
     private void deletePlayer(final Player player) {
-        Client.getScrumClient().removePlayer(player, new DefaultGUICallback<Boolean>(this) {
+        player.remove(new DefaultGUICallback<Boolean>(this) {
 
             @Override
             public void interactionDone(Boolean success) {

@@ -2,6 +2,9 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
+
 /**
  * A class that represent an Issue (child of a Maintask)
  * 
@@ -25,8 +28,8 @@ public final class Issue extends AbstractTask implements Serializable {
      * @param estimatedTime
      * @param player
      */
-    private Issue(String key, String name, String description, Status status, Priority priority,
-            float estimatedTime, Player player) {
+    private Issue(String key, String name, String description, Status status,
+            Priority priority, float estimatedTime, Player player) {
         super(key, name, description, status, priority);
         this.estimatedTime = estimatedTime;
         this.player = player;
@@ -45,6 +48,37 @@ public final class Issue extends AbstractTask implements Serializable {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Creates the issue in the DS
+     * 
+     * @param task
+     * @param callback
+     */
+    public void insert(final MainTask task, final Callback<Issue> callback) {
+        Client.getScrumClient().insertIssue(this, task, callback);
+    }
+
+    /**
+     * Updates the issue in the DS
+     * 
+     * @param ref
+     * @param mainTask
+     * @param callback
+     */
+    public void update(final Issue ref, final MainTask mainTask,
+            Callback<Boolean> callback) {
+        Client.getScrumClient().updateIssue(this, ref, mainTask, callback);
+    }
+
+    /**
+     * Removes the issue from the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteIssue(this, callback);
     }
 
     /**
@@ -138,7 +172,7 @@ public final class Issue extends AbstractTask implements Serializable {
             this.status = status;
             return this;
         }
-        
+
         /**
          * @return the status
          */
@@ -189,7 +223,7 @@ public final class Issue extends AbstractTask implements Serializable {
          */
         public Issue build() {
             return new Issue(this.key, this.name, this.description,
-                    this.status , this.priority, this.estimatedTime, this.player);
+                    this.status, this.priority, this.estimatedTime, this.player);
         }
 
     }

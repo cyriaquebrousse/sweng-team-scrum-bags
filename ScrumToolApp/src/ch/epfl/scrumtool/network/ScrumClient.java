@@ -33,6 +33,7 @@ public interface ScrumClient {
     // Player methods
     void loadPlayers(final Project project, final Callback<List<Player>> callback);
     void addPlayer(final Player player, final Project project, final Callback<Player> callback);
+    void updatePlayer(final Player player, final Player ref, final Callback<Boolean> callback);
     void removePlayer(final Player player, final Callback<Boolean> callback);
     void addPlayerToProject(final Project project, final String userEmail, final Role role, final Callback<Player> callback);
     
@@ -53,7 +54,7 @@ public interface ScrumClient {
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);
-    void insertSprint(final Sprint sprint, final String project, final Callback<Sprint> callback);
+    void insertSprint(final Sprint sprint, final Project project, final Callback<Sprint> callback);
     void updateSprint(final Sprint sprint, final Sprint ref, final Callback<Boolean> callback);
     void deleteSprint(final Sprint sprint, final Callback<Boolean> callback);
 }

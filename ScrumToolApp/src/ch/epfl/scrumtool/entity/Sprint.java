@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
+
 /**
  * @author ketsio, zenhaeus
  * @author Cyriaque Brousse
@@ -53,6 +56,55 @@ public final class Sprint implements Serializable {
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Creates the sprint in the DS
+     * 
+     * @param project
+     * @param callback
+     */
+    public void insert(final Project project, final Callback<Sprint> callback) {
+        Client.getScrumClient().insertSprint(this, project, callback);
+    }
+
+    /**
+     * Updates the sprint in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Sprint ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updateSprint(this, ref, callback);
+    }
+
+    /**
+     * Removes the sprint from the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteSprint(this, callback);
+    }
+
+    /**
+     * Adds an issue to the sprint in the DS
+     * 
+     * @param issue
+     * @param callback
+     */
+    public void addIssue(final Issue issue, final Callback<Boolean> callback) {
+        Client.getScrumClient().addIssue(issue, this, callback);
+    }
+
+    /**
+     * Removes the issue from the sprints in the DS
+     * 
+     * @param issue
+     * @param callback
+     */
+    public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
+        Client.getScrumClient().removeIssue(issue, this, callback);
     }
 
     /**

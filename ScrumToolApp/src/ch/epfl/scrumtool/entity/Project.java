@@ -1,8 +1,11 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
@@ -57,12 +60,83 @@ public final class Project implements Serializable {
         return key;
     }
 
-    @Deprecated // TODO create a method in ScrumClient and delete this one.
+    /**
+     * Creates the project in the DS
+     * 
+     * @param callback
+     */
+    public void insert(final Callback<Project> callback) {
+        Client.getScrumClient().insertProject(this, callback);
+    }
+
+    /**
+     * updates the project in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Project ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updateProject(this, ref, callback);
+    }
+
+    /**
+     * Deletes the project in the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteProject(this, callback);
+    }
+
+    /**
+     * Adds a player to this project in the DS
+     * 
+     * @param userEmail
+     * @param role
+     * @param callback
+     */
+    public void addPlayer(final String userEmail, final Role role,
+            final Callback<Player> callback) {
+        Client.getScrumClient().addPlayerToProject(this, userEmail, role,
+                callback);
+    }
+
+    /**
+     * Loads the players from the DS
+     * 
+     * @param callback
+     */
+    public void loadPlayers(final Callback<List<Player>> callback) {
+        Client.getScrumClient().loadPlayers(this, callback);
+    }
+
+    /**
+     * Load the sprints of this project from the DS
+     * 
+     * @param callback
+     */
+    public void loadSprints(final Callback<List<Sprint>> callback) {
+        Client.getScrumClient().loadSprints(this, callback);
+    }
+
+    /**
+     * Load the backlog of this project from the DS
+     * 
+     * @param project
+     * @param callback
+     */
+    public void loadBacklog(final Callback<List<MainTask>> callback) {
+        Client.getScrumClient().loadBacklog(this, callback);
+    }
+
+    @Deprecated
+    // TODO create a method in ScrumClient and delete this one.
     public int getChangesCount(User user) {
         return 0;
     }
 
-    @Deprecated // TODO create a method in ScrumClient and delete this one.
+    @Deprecated
+    // TODO create a method in ScrumClient and delete this one.
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
         return Role.DEVELOPER;
     }

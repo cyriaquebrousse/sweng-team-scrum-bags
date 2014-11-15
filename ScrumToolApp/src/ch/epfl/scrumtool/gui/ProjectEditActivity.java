@@ -71,7 +71,7 @@ public class ProjectEditActivity extends Activity {
     
     private void insertProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().insertProject(project, new DefaultGUICallback<Project>(this) {
+        project.insert(new DefaultGUICallback<Project>(this) {
             @Override
             public void interactionDone(Project object) {
                 ProjectEditActivity.this.finish();
@@ -81,7 +81,7 @@ public class ProjectEditActivity extends Activity {
 
     private void updateProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().updateProject(project, null, new DefaultGUICallback<Boolean>(this) {
+        project.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {

@@ -126,7 +126,7 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void insertSprint(Sprint sprint, String project,
+    public void insertSprint(Sprint sprint, Project project,
             Callback<Sprint> callback) {
         databaseHandlers.getSprintHandler().insert(sprint, project, callback);
     }
@@ -151,6 +151,11 @@ public class DBScrumClient implements ScrumClient {
     public void addPlayer(Player player, Project project,
             Callback<Player> callback) {
         databaseHandlers.getPlayerHandler().insert(player, project, callback);
+    }
+    
+    @Override
+    public void updatePlayer(Player player, Player ref, Callback<Boolean> callback) {
+        databaseHandlers.getPlayerHandler().update(player, ref, callback);
     }
 
     @Override

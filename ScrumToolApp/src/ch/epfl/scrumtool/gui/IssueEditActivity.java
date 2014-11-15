@@ -106,12 +106,12 @@ public class IssueEditActivity extends Activity {
 
             }
         };
-        Client.getScrumClient().insertIssue(issue, parentTask, issueInserted);
+        issue.insert(parentTask, issueInserted);
     }
 
     private void updateIssue() {
         Issue issue = issueBuilder.build();
-        Client.getScrumClient().updateIssue(issue, null, parentTask, new DefaultGUICallback<Boolean>(this) {
+        issue.update(null, parentTask, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {

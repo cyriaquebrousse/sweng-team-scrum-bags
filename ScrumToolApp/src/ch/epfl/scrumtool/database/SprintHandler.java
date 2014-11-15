@@ -28,7 +28,7 @@ public interface SprintHandler extends DatabaseHandler<Sprint> {
      * @param project
      * @param cB
      */
-    void insert(final Sprint sprint, final String project,
+    void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> cB);
 
 }

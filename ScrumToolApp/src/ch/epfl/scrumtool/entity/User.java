@@ -3,6 +3,9 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
+
 /**
  * @author vincent, aschneuw, zenhaeus
  * 
@@ -53,7 +56,7 @@ public final class User implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     /**
      * 
      * @return family / last name
@@ -61,15 +64,15 @@ public final class User implements Serializable {
     public String getLastName() {
         return lastName;
     }
-    
+
     /**
      * 
      * @return concatenation of name & family Name separated with a space
      */
     public String fullname() {
-        return name +" "+ lastName;
+        return name + " " + lastName;
     }
-    
+
     /**
      * 
      * @return the birthday date
@@ -77,7 +80,7 @@ public final class User implements Serializable {
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
-    
+
     /**
      * 
      * @return company name
@@ -85,7 +88,7 @@ public final class User implements Serializable {
     public String getCompanyName() {
         return companyName;
     }
-    
+
     /**
      * 
      * @return job Title
@@ -95,12 +98,29 @@ public final class User implements Serializable {
     }
 
     /**
+     * Updates the user on the DS
+     * 
+     * @param callback
+     */
+    public void update(final Callback<Boolean> callback) {
+        Client.getScrumClient().updateUser(this, null, callback);
+    }
+
+    /**
+     * Removes the user from the DS
+     * 
+     * @param callback
+     */
+    public void remove(Callback<Boolean> callback) {
+        Client.getScrumClient().deleteUser(this, callback);
+    }
+
+    /**
      * Builder class for the User object
      * 
      * @author zenhaeus
      * 
      */
-
     public static class Builder {
         private String email;
         private String name;
@@ -157,7 +177,7 @@ public final class User implements Serializable {
             this.name = name;
             return this;
         }
-        
+
         /**
          * 
          * @return
@@ -165,7 +185,7 @@ public final class User implements Serializable {
         public String getLastName() {
             return lastName;
         }
-        
+
         /**
          * 
          * @param lastName
@@ -175,7 +195,7 @@ public final class User implements Serializable {
             this.lastName = lastName;
             return this;
         }
-        
+
         /**
          * 
          * @return jobTitle
@@ -183,7 +203,7 @@ public final class User implements Serializable {
         public String getJobTitle() {
             return jobTitle;
         }
-        
+
         /**
          * 
          * @param jobTitle
@@ -193,7 +213,7 @@ public final class User implements Serializable {
             this.jobTitle = jobTitle;
             return this;
         }
-        
+
         /**
          * 
          * @return company Name
@@ -201,7 +221,7 @@ public final class User implements Serializable {
         public String getCompanyName() {
             return this.companyName;
         }
-        
+
         /**
          * 
          * @param companyName
@@ -211,7 +231,7 @@ public final class User implements Serializable {
             this.companyName = companyName;
             return this;
         }
-        
+
         /**
          * 
          * @return birthday Date
@@ -221,7 +241,7 @@ public final class User implements Serializable {
             newDate.setTime(this.dateOfBirth.getTime());
             return newDate;
         }
-        
+
         /**
          * 
          * @param dateOfBirth
@@ -232,7 +252,7 @@ public final class User implements Serializable {
             this.dateOfBirth.setTime(dateOfBirth.getTime());
             return this;
         }
-        
+
         @Override
         public boolean equals(Object o) {
             if (o == null || !(o instanceof User)) {
@@ -252,10 +272,10 @@ public final class User implements Serializable {
          */
 
         public User build() {
-            return new User(this.email, this.name, this.lastName, this.dateOfBirth, this.jobTitle, this.companyName);
+            return new User(this.email, this.name, this.lastName,
+                    this.dateOfBirth, this.jobTitle, this.companyName);
         }
 
     }
-
 
 }
