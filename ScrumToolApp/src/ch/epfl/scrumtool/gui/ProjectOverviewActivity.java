@@ -45,8 +45,7 @@ public class ProjectOverviewActivity extends Activity {
     }
 
     public void openSprints(View view) {
-        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
-        openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(openSprintsIntent);
+//        Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+//        startActivity(openSprintsIntent);
     }
 }
