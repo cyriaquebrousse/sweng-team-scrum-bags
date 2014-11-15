@@ -54,5 +54,11 @@
         android:text="Save"
         android:onClick="saveIssueChanges" />
 
+    <Spinner
+        android:id="@+id/players_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/issue_assignee_edit" />
 
 </RelativeLayout>

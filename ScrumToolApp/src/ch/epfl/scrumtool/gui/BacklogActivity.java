@@ -54,7 +54,7 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMen
                                 TaskOverviewActivity.class);
 
                         MainTask mainTask = taskList.get(position);
-                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
+                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask).putExtra(Project.SERIALIZABLE_NAME, project);
                         startActivity(openTaskOverviewIntent);
                     }
                 });
