@@ -66,13 +66,13 @@ public class SprintActivity extends Activity {
     @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
         name = sprintName.getText().toString();
+        sprintDeadline.setYear(sprintYear);
+        sprintDeadline.setMonth(sprintMonth);
+        sprintDeadline.setDate(sprintDay);
         InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
         if (nameIsValid()) {
             if (dateIsValid()) {
-                sprintDeadline.setYear(sprintYear);
-                sprintDeadline.setMonth(sprintMonth);
-                sprintDeadline.setDate(sprintDay);
                 
                 sprintBuilder.setDeadline(sprintDeadline);
                 sprintBuilder.setTitle(name);
