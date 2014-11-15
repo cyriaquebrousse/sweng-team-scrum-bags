@@ -28,7 +28,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 public class DSMainTaskHandler implements MainTaskHandler {
 
     @Override
-    public void insert(final MainTask maintask, final Project project,
+    public void insert(final MainTask maintask, final String project,
             final Callback<MainTask> callback) {
     	
         ScrumMainTask scrumMaintask = new ScrumMainTask();
@@ -55,7 +55,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumMainTask(project.getKey(),
+                    opStat = service.insertScrumMainTask(project,
                             params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
@@ -76,7 +76,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
     @Override
-    public void loadMainTasks(final Project project,
+    public void loadMainTasks(final String project,
             final Callback<List<MainTask>> callback) {
         AsyncTask<String, Void, CollectionResponseScrumMainTask> task = 
                 new AsyncTask<String, Void, CollectionResponseScrumMainTask>() {
@@ -118,7 +118,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 }
             }
         };
-        task.execute(project.getKey());
+        task.execute(project);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
 
-    public void update(final MainTask modified, final MainTask ref, final Project project,
+    public void update(final MainTask modified, final MainTask ref, final String project,
             final Callback<Boolean> callback) {
         final ScrumMainTask changes = new ScrumMainTask();
         changes.setKey(modified.getKey());
@@ -154,7 +154,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 try {
                     session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.updateScrumMainTask(project.getKey(), params[0]).execute();
+                    opStat = service.updateScrumMainTask(project, params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     callback.failure("Connection Error");
                 }
@@ -171,7 +171,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
     @Override
-    public void remove(final MainTask maintask, final Callback<Boolean> callback) {
+    public void remove(final String maintask, final Callback<Boolean> callback) {
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
@@ -195,7 +195,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 super.onPostExecute(result);
             }
         };
-        task.execute(maintask.getKey());
+        task.execute(maintask);
     }
 
     @Override

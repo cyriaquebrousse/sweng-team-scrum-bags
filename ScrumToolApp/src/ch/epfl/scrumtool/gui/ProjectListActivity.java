@@ -100,7 +100,7 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
      *            the project to delete
      */
     private void deleteProject(final Project project) {
-        Client.getScrumClient().deleteProject(project, new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().removeProject(project.getKey(), new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 adapter.remove(project);

@@ -5,7 +5,6 @@ package ch.epfl.scrumtool.database;
 
 import java.util.List;
 
-import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 
 /**
@@ -16,10 +15,10 @@ public interface SprintHandler extends DatabaseHandler<Sprint> {
     /**
      * Load the Sprints of a Project
      * 
-     * @param project
+     * @param projectKey
      * @param cB
      */
-    void loadSprints(final Project project, final Callback<List<Sprint>> cB);
+    void loadSprints(final String projectKey, final Callback<List<Sprint>> cB);
 
     /**
      * Insert a Sprint in a Project

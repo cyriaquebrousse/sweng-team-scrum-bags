@@ -106,7 +106,7 @@ public class IssueEditActivity extends Activity {
 
             }
         };
-        Client.getScrumClient().insertIssue(issue, parentTask, issueInserted);
+        Client.getScrumClient().insertIssue(issue, parentTask.getKey(), issueInserted);
     }
 
     private void updateIssue() {
