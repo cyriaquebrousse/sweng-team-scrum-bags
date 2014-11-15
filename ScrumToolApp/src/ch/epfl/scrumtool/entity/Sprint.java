@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,8 @@ import java.util.Set;
 
 public final class Sprint {
     private final String key;
-    private final long deadline;
+    private final String title;
+    private final Date deadline;
 
     /**
      * Constructs a new sprint
@@ -21,12 +23,9 @@ public final class Sprint {
      *            the deadline in milliseconds. Must be non-negative
      * @see java.util.Date#getTime()
      */
-    private Sprint(String id, long deadline) {
-        if (id == null || !deadlineIsValid(deadline)) {
-            throw new IllegalArgumentException(
-                    "Deadline was invalid or no id was provided");
-        }
+    private Sprint(String id, String title, Date deadline) {
         this.key = id;
+        this.title = title;
         this.deadline = deadline;
     }
 
@@ -34,7 +33,7 @@ public final class Sprint {
      * @return the deadline in milliseconds
      * @see java.util.Date#getTime()
      */
-    public long getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
@@ -46,6 +45,13 @@ public final class Sprint {
     }
 
     /**
+     * @return
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
@@ -54,11 +60,14 @@ public final class Sprint {
     public static class Builder {
 
         private String keyb;
-        private long deadline;
-        private Set<Issue> issues;
+        private String title;
+
+        private Date deadline;
 
         public Builder() {
-            this.issues = new HashSet<Issue>();
+            this.keyb = "";
+            this.title = "";
+            this.deadline = new Date();
         }
 
         /**
@@ -66,6 +75,8 @@ public final class Sprint {
          */
         public Builder(Sprint otherSprint) {
             this.deadline = otherSprint.deadline;
+            this.title = otherSprint.title;
+            this.keyb = otherSprint.key;
         }
 
         /**
@@ -85,38 +96,9 @@ public final class Sprint {
         }
 
         /**
-         * @return the issues
-         */
-        public Set<Issue> getIssues() {
-            return new HashSet<>(this.issues);
-        }
-
-        /**
-         * @param issue
-         *            the issue to add
-         */
-        public Sprint.Builder addIssue(Issue issue) {
-            if (issue != null) {
-                this.issues.add(issue);
-            }
-            return this;
-        }
-
-        /**
-         * @param issue
-         *            the issue to remove
-         */
-        public Sprint.Builder removeIssue(Issue issue) {
-            if (issue != null) {
-                this.issues.remove(issue);
-            }
-            return this;
-        }
-
-        /**
          * @return the deadLine
          */
-        public long getDeadline() {
+        public Date getDeadline() {
             return deadline;
         }
 
@@ -124,10 +106,17 @@ public final class Sprint {
          * @param deadline
          *            the deadline to set
          */
-        public Sprint.Builder setDeadline(long deadline) {
-            if (deadlineIsValid(deadline)) {
-                this.deadline = deadline;
-            }
+        public Sprint.Builder setDeadline(Date deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Sprint.Builder setTitle(String newTitle) {
+            this.title = newTitle;
             return this;
         }
 
@@ -135,17 +124,8 @@ public final class Sprint {
          * @return
          */
         public Sprint build() {
-            return new Sprint(this.keyb, this.deadline);
+            return new Sprint(this.keyb, this.title, this.deadline);
         }
-    }
-
-    /**
-     * @param deadline
-     *            the deadline whose validity is to be checked
-     * @return true if the deadline is valid, false otherwise
-     */
-    private static boolean deadlineIsValid(long deadline) {
-        return deadline >= 0;
     }
 
     @Override
