@@ -91,7 +91,7 @@
             android:label="@string/title_activity_issue_edit" >
         </activity>
         <activity
-            android:name=".gui.DashbordActivity"
+            android:name=".gui.DashboardActivity"
             android:label="@string/title_activity_dashbord" >
         </activity>
         <activity
