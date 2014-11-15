@@ -102,9 +102,8 @@ public class SprintActivity extends Activity {
     }
     
     private void updateSprint() {
-        Sprint sprint = sprintBuilder.build();
-        // TODO really not sure about the null here...
-        Client.getScrumClient().updateSprint(sprint, null, new DefaultGUICallback<Boolean>(this) {
+        Sprint newSprint = sprintBuilder.build();
+        Client.getScrumClient().updateSprint(newSprint, sprint, new DefaultGUICallback<Boolean>(this) {
             
             @Override
             public void interactionDone(Boolean success) {
