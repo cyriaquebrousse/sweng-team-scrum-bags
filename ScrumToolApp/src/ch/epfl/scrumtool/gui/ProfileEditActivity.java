@@ -8,7 +8,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.gui.components.widgets.DatePickerFragment;
+import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 
 /**
  * 

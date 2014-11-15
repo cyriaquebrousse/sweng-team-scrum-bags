@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components.widgets;
+package ch.epfl.scrumtool.gui.components;
 
 import java.util.Calendar;
 
