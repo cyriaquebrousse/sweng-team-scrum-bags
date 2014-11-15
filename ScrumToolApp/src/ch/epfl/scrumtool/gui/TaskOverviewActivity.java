@@ -39,11 +39,14 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnM
     
     private MainTask task;
     private IssueListAdapter adapter;
+    private Project project;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
+        
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
 
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
@@ -136,6 +139,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnM
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
         openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
+        openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openIssueEditIntent);
     }
 

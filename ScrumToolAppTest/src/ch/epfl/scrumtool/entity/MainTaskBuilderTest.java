@@ -4,8 +4,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import ch.epfl.scrumtool.entity.MainTask.Builder;
-
 public class MainTaskBuilderTest extends TestCase{
     
     private static final String id = "007";

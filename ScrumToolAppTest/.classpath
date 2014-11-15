@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="/home/uleo/Sweng2014/android-test-kit-1e71a17c26e3/bin/espresso-standalone/espresso-1.1-bundled.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ScrumToolApp"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>

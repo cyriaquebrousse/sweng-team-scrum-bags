@@ -4,16 +4,24 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
+import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
@@ -27,6 +35,11 @@ public class IssueEditActivity extends Activity {
     private EditText issueEstimationView;
     private EditText issueAssigneeView;
     private Player player;
+    
+    private Project project;
+    private PlayerListAdapter adapter;
+    private Spinner spinner;
+
 
     /** If {@code null} then we are in create mode, otherwise in edit mode*/
     private Issue original;
@@ -37,9 +50,33 @@ public class IssueEditActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_edit);
-
+        
         initOriginalAndParentTask();
         initViews();
+        initProject();
+
+        DefaultGUICallback<List<Player>> playersLoaded = new DefaultGUICallback<List<Player>>(
+                this) {
+            @Override
+            public void interactionDone(List<Player> playerList) {
+                adapter = new PlayerListAdapter(IssueEditActivity.this,
+                        playerList);
+                spinner = (Spinner) findViewById(R.id.players_spinner);
+                spinner.setAdapter(adapter);
+            }
+
+        };
+        Client.getScrumClient().loadPlayers(project, playersLoaded);
+    }
+
+    private void initProject() {
+        Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        if (project != null) {
+            this.project = project;
+        } else {
+            Log.e("ProjectPlayerList", "null project passed");
+            this.finish();
+        }
     }
 
     private void initOriginalAndParentTask() {
@@ -76,12 +113,14 @@ public class IssueEditActivity extends Activity {
         if (nameIsValid() && descriptionIsValid()) {
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
+            float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
 
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
-            issueBuilder.setEstimatedTime(0); // TODO change this value
+            issueBuilder.setEstimatedTime(newEstimation);
             issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO get this value from the user
             issueBuilder.setPriority(Priority.NORMAL); // TODO get this value from the user
+            issueBuilder.setPlayer((Player) spinner.getSelectedItem());
 
 //            TODO we need a kind of a "player selector" and give this player to the issue 
 //            issueBuilder.setPlayer(player);
