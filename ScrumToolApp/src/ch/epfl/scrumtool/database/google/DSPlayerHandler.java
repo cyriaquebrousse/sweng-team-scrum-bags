@@ -178,16 +178,16 @@ public class DSPlayerHandler implements PlayerHandler {
             e.printStackTrace();
         }
 
-        new AsyncTask<ScrumProject, Void, ScrumPlayer>() {
+        new AsyncTask<String, Void, ScrumPlayer>() {
             @Override
-            protected ScrumPlayer doInBackground(ScrumProject... params) {
+            protected ScrumPlayer doInBackground(String... params) {
                 ScrumPlayer scrumPlayer = null;
                 try {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    scrumPlayer = service.addPlayerToProject(userEmail,
-                            role.name(), params[0]).execute();
+                    scrumPlayer = service.addPlayerToProject(params[0],
+                            userEmail, role.name()).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -211,7 +211,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     callback.failure("Unable to create client");
                 }
             }
-        }.execute(scrumProject);
+        }.execute(scrumProject.getKey());
 
     }
 }
