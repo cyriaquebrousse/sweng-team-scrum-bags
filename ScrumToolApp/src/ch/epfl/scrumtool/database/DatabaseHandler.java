@@ -38,8 +38,8 @@ public interface DatabaseHandler<A> {
     /**
      * Removes an object of type A from the database.
      * 
-     * @param sprintKey
+     * @param object
      * @param dbC
      */
-    void remove(final String sprintKey, final Callback<Boolean> cB);
+    void remove(final A object, final Callback<Boolean> cB);
 }

@@ -82,7 +82,7 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void remove(final String player, final Callback<Boolean> callback) {
+    public void remove(final Player player, final Callback<Boolean> callback) {
         new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
@@ -105,12 +105,13 @@ public class DSPlayerHandler implements PlayerHandler {
                 callback.interactionDone(result.getSuccess());
             }
 
-        }.execute(player);
+        }.execute(player.getKey());
 
     }
 
     @Override
-    public void loadPlayers(final String project, final Callback<List<Player>> calback) {
+    public void loadPlayers(final Project project,
+            final Callback<List<Player>> calback) {
         new AsyncTask<String, Void, CollectionResponseScrumPlayer>() {
             @Override
             protected CollectionResponseScrumPlayer doInBackground(
@@ -147,7 +148,7 @@ public class DSPlayerHandler implements PlayerHandler {
                 }
                 calback.interactionDone(players);
             }
-        }.execute(project);
+        }.execute(project.getKey());
     }
 
     @Override
@@ -160,20 +161,33 @@ public class DSPlayerHandler implements PlayerHandler {
      * Add a new Player to a Project
      */
     @Override
-    public void addPlayerToProject(final String project,
+    public void addPlayerToProject(final Project project,
             final String userEmail, final Role role,
             final Callback<Player> callback) {
+        ScrumProject scrumProject = new ScrumProject();
+        scrumProject.setKey(project.getKey());
+        scrumProject.setBacklog(new ArrayList<ScrumMainTask>());
+        scrumProject.setDescription(project.getDescription());
+        scrumProject.setName(project.getName());
+        scrumProject.setLastModDate((new Date()).getTime());
+        try {
+            scrumProject.setLastModUser(Session.getCurrentSession().getUser()
+                    .getEmail());
+        } catch (NotAuthenticatedException e) {
+            // TODO This exception should probably be handled elsewhere
+            e.printStackTrace();
+        }
 
-        new AsyncTask<String, Void, ScrumPlayer>() {
+        new AsyncTask<ScrumProject, Void, ScrumPlayer>() {
             @Override
-            protected ScrumPlayer doInBackground(String... params) {
+            protected ScrumPlayer doInBackground(ScrumProject... params) {
                 ScrumPlayer scrumPlayer = null;
                 try {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    scrumPlayer = service.addPlayerToProject(params[0], userEmail,
-                            role.name()).execute();
+                    scrumPlayer = service.addPlayerToProject(userEmail,
+                            role.name(), params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -197,7 +211,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     callback.failure("Unable to create client");
                 }
             }
-        }.execute(project);
+        }.execute(scrumProject);
 
     }
 }

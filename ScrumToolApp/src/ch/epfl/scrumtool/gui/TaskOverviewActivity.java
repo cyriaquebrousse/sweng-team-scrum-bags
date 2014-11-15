@@ -46,7 +46,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnM
         setContentView(R.layout.activity_task_overview);
 
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        Client.getScrumClient().loadIssuesFromMaintask(task.getKey(), new DefaultGUICallback<List<Issue>>(this) {
+        Client.getScrumClient().loadIssues(task, new DefaultGUICallback<List<Issue>>(this) {
             
             @Override
             public void interactionDone(final List<Issue> issueList) {
@@ -123,7 +123,7 @@ public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnM
      *            the project to delete
      */
     private void deleteIssue(final Issue issue) {
-        Client.getScrumClient().removeIssue(issue.getKey(), new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().deleteIssue(issue, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 adapter.remove(issue);

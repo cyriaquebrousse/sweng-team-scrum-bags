@@ -59,7 +59,7 @@ public class ProjectPlayerListActivity extends Activity {
                 adapter.notifyDataSetChanged();
             }
         };
-        Client.getScrumClient().loadPlayers(project.getKey(), playersLoaded);
+        Client.getScrumClient().loadPlayers(project, playersLoaded);
     }
 
     private void initProject() {
@@ -108,11 +108,11 @@ public class ProjectPlayerListActivity extends Activity {
         };
 
 
-        Client.getScrumClient().addPlayerToProject(project.getKey(), userEmail, role,  playerAdded);
+        Client.getScrumClient().addPlayerToProject(project, userEmail, role,  playerAdded);
     }
 
     private void deletePlayer(final Player player) {
-        Client.getScrumClient().removePlayer(player.getKey(), new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().removePlayer(player, new DefaultGUICallback<Boolean>(this) {
 
             @Override
             public void interactionDone(Boolean success) {

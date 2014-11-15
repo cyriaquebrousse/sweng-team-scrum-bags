@@ -34,7 +34,7 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void insert(final Issue issue, final String maintask, final Callback<Issue> callback) {
+    public void insert(final Issue issue, final MainTask maintask, final Callback<Issue> callback) {
         try {
 
             scrumIssue = new ScrumIssue();
@@ -60,7 +60,7 @@ public class DSIssueHandler implements IssueHandler {
                     try {
                        
                         Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.insertScrumIssue(maintask, params[0]).execute();
+                        opStat = service.insertScrumIssue(maintask.getKey(), params[0]).execute();
                     } catch (IOException e) {
                         callback.failure("Issue could not be inserted on the Database");
                     }
@@ -132,7 +132,7 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void remove(final String issue, final Callback<Boolean> callback) {
+    public void remove(final Issue issue, final Callback<Boolean> callback) {
         AsyncTask<String, Void, OperationStatus> task = 
                 new AsyncTask<String, Void, OperationStatus>() {
 
@@ -162,11 +162,11 @@ public class DSIssueHandler implements IssueHandler {
             }
 
         };
-        task.execute(issue);
+        task.execute(issue.getKey());
     }
 
     @Override
-    public void loadIssuesFromMaintask(final String mainTask, final Callback<List<Issue>> callback) {
+    public void loadIssues(final MainTask mainTask, final Callback<List<Issue>> callback) {
         AsyncTask<String, Void, CollectionResponseScrumIssue> task =
                 new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
@@ -205,11 +205,11 @@ public class DSIssueHandler implements IssueHandler {
                 }
             }
         };
-        task.execute(mainTask);
+        task.execute(mainTask.getKey());
     }
 
     @Override
-    public void loadIssuesFromSprint(final String sprint, final Callback<List<Issue>> cB) {
+    public void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB) {
         AsyncTask<String, Void, CollectionResponseScrumIssue> task =
                 new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
@@ -249,11 +249,11 @@ public class DSIssueHandler implements IssueHandler {
                 }
             }
         };
-        task.execute(sprint);
+        task.execute(sprint.getKey());
     }
 
     @Override
-    public void assignIssueToSprint(final Issue issue, final String sprint, Callback<Boolean> cB) {
+    public void assignIssueToSprint(final Issue issue, final Sprint sprint, Callback<Boolean> cB) {
 
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
             @Override
@@ -262,7 +262,7 @@ public class DSIssueHandler implements IssueHandler {
                 try {
                     GoogleSession session = (GoogleSession) Session.getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertIssueInSprint(issue.getKey(), sprint).execute();
+                    opStat = service.insertIssueInSprint(issue.getKey(), sprint.getKey()).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
                     e.printStackTrace();
@@ -271,11 +271,11 @@ public class DSIssueHandler implements IssueHandler {
             }
 
         };
-        task.execute(issue.getKey(), sprint);
+        task.execute(issue.getKey(), sprint.getKey());
     }
 
     @Override
-    public void removeIssueFromSprint(final String issue, final String sprint, final Callback<Boolean> cB) {
+    public void removeIssue(Issue issue, Sprint sprint, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
 
     }

@@ -102,7 +102,7 @@ public class TaskEditActivity extends Activity {
 
     private void insertTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().insertMainTask(task, parentProject.getKey(), new DefaultGUICallback<MainTask>(this) {
+        Client.getScrumClient().insertMainTask(task, parentProject, new DefaultGUICallback<MainTask>(this) {
             @Override
             public void interactionDone(MainTask object) {
                 TaskEditActivity.this.finish();
@@ -112,7 +112,7 @@ public class TaskEditActivity extends Activity {
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().updateMainTask(task, null, parentProject.getKey(), new DefaultGUICallback<Boolean>(this) {
+        Client.getScrumClient().updateMainTask(task, null, parentProject, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {

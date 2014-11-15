@@ -113,7 +113,7 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void remove(final String project, final Callback<Boolean> callback) {
+    public void remove(final Project project, final Callback<Boolean> callback) {
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
@@ -137,7 +137,7 @@ public class DSProjectHandler implements ProjectHandler {
                 callback.interactionDone(result.getSuccess());
             }
         };
-        task.execute(project);
+        task.execute(project.getKey());
     }
 
     @Override

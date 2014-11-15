@@ -27,20 +27,20 @@ public interface PlayerHandler extends DatabaseHandler<Player> {
     /**
      * Load the Players of a Project
      * 
-     * @param projectKey
+     * @param project
      * @param cB
      */
-    void loadPlayers(final String projectKey, final Callback<List<Player>> cB);
+    void loadPlayers(final Project project, final Callback<List<Player>> cB);
 
     /**
      * Add a User to a Project (via a Player)
      * 
-     * @param projectKey
+     * @param project
      * @param userEmail
      * @param role
      * @param callback
      */
-    void addPlayerToProject(final String projectKey, final String userEmail,
+    void addPlayerToProject(final Project project, final String userEmail,
             final Role role, final Callback<Player> callback);
 
 }

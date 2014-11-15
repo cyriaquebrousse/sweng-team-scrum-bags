@@ -3,9 +3,6 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.network.Client;
-
 /**
  * @author vincent, aschneuw, zenhaeus
  * 
@@ -95,14 +92,6 @@ public final class User implements Serializable {
      */
     public String getJobTitle() {
         return this.jobTitle;
-    }
-    
-    public void update(final User ref, final Callback<Boolean> callback){
-        Client.getScrumClient().updateUser(this, ref, callback);
-    }
-    
-    public void remove(Callback<Boolean> callback) {
-        Client.getScrumClient().removeUser(this.getEmail(), callback);
     }
 
     /**
