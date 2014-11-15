@@ -53,7 +53,7 @@ public interface ScrumClient {
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);
-    void insertSprint(final Sprint sprint, final Project project, final Callback<Sprint> callback);
+    void insertSprint(final Sprint sprint, final String project, final Callback<Sprint> callback);
     void updateSprint(final Sprint sprint, final Sprint ref, final Callback<Boolean> callback);
     void deleteSprint(final Sprint sprint, final Callback<Boolean> callback);
 }

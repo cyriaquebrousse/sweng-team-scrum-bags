@@ -28,16 +28,7 @@ public interface SprintHandler extends DatabaseHandler<Sprint> {
      * @param project
      * @param cB
      */
-    void insert(final Sprint sprint, final Project project,
+    void insert(final Sprint sprint, final String project,
             final Callback<Sprint> cB);
 
-    /**
-     * Removes a Sprint from a Project
-     * 
-     * @param sprint
-     * @param project
-     * @param cB
-     */
-    void removeSprint(final Sprint sprint, final Project project,
-            final Callback<Boolean> cB);
 }

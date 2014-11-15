@@ -126,7 +126,7 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void insertSprint(Sprint sprint, Project project,
+    public void insertSprint(Sprint sprint, String project,
             Callback<Sprint> callback) {
         databaseHandlers.getSprintHandler().insert(sprint, project, callback);
     }
