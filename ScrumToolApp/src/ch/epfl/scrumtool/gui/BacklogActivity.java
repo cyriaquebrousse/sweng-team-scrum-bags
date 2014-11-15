@@ -5,21 +5,20 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ListView;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.TaskListAdapter;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -49,12 +48,12 @@ public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMen
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent openTaskOverviewIntent = new Intent(
-                                view.getContext(),
+                        Intent openTaskOverviewIntent = new Intent(view.getContext(),
                                 TaskOverviewActivity.class);
 
                         MainTask mainTask = taskList.get(position);
-                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask).putExtra(Project.SERIALIZABLE_NAME, project);
+                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
+                        openTaskOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
                         startActivity(openTaskOverviewIntent);
                     }
                 });

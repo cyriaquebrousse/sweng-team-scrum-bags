@@ -4,11 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,7 +14,6 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
@@ -26,19 +21,18 @@ import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Cyriaque Brousse, sylb
+ * @author Cyriaque Brousse
+ * @author sylb
  */
 public class IssueEditActivity extends Activity {
 
     private EditText issueNameView;
     private EditText issueDescriptionView;
     private EditText issueEstimationView;
-    private EditText issueAssigneeView;
     private Player player;
     
-    private Project project;
     private PlayerListAdapter adapter;
-    private Spinner spinner;
+    private Spinner issueAssigneeSpinner;
 
 
     /** If {@code null} then we are in create mode, otherwise in edit mode*/
@@ -53,30 +47,15 @@ public class IssueEditActivity extends Activity {
         
         initOriginalAndParentTask();
         initViews();
-        initProject();
 
-        DefaultGUICallback<List<Player>> playersLoaded = new DefaultGUICallback<List<Player>>(
-                this) {
+        Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        Client.getScrumClient().loadPlayers(project, new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(List<Player> playerList) {
-                adapter = new PlayerListAdapter(IssueEditActivity.this,
-                        playerList);
-                spinner = (Spinner) findViewById(R.id.players_spinner);
-                spinner.setAdapter(adapter);
+                adapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
+                issueAssigneeSpinner.setAdapter(adapter);
             }
-
-        };
-        Client.getScrumClient().loadPlayers(project, playersLoaded);
-    }
-
-    private void initProject() {
-        Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project != null) {
-            this.project = project;
-        } else {
-            Log.e("ProjectPlayerList", "null project passed");
-            this.finish();
-        }
+        });
     }
 
     private void initOriginalAndParentTask() {
@@ -98,12 +77,16 @@ public class IssueEditActivity extends Activity {
         issueNameView = (EditText) findViewById(R.id.issue_name_edit);
         issueDescriptionView = (EditText) findViewById(R.id.issue_description_edit);
         issueEstimationView = (EditText) findViewById(R.id.issue_estimation_edit);
-        issueAssigneeView = (EditText) findViewById(R.id.issue_assignee_edit);
+        issueAssigneeSpinner = (Spinner) findViewById(R.id.issue_assignee_spinner);
 
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
-        //issueAssigneeView.setText(issueBuilder.getPlayer().getUser().getName()); //FIXME assignee
+        if (issueBuilder.getPlayer() == null) {
+            issueAssigneeSpinner.setSelection(0);
+        } else {
+            issueAssigneeSpinner.setSelection(adapter.getList().indexOf(issueBuilder.getPlayer()));
+        }
     }
 
     public void saveIssueChanges(View view) {
@@ -120,11 +103,7 @@ public class IssueEditActivity extends Activity {
             issueBuilder.setEstimatedTime(newEstimation);
             issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO get this value from the user
             issueBuilder.setPriority(Priority.NORMAL); // TODO get this value from the user
-            issueBuilder.setPlayer((Player) spinner.getSelectedItem());
-
-//            TODO we need a kind of a "player selector" and give this player to the issue 
-//            issueBuilder.setPlayer(player);
-
+            issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
 
             if (original == null) {
                 insertIssue();
@@ -136,16 +115,12 @@ public class IssueEditActivity extends Activity {
 
     private void insertIssue() {
         Issue issue = issueBuilder.build();
-
-        final DefaultGUICallback<Issue> issueInserted = new DefaultGUICallback<Issue>(this) {
-
+        issue.insert(parentTask, new DefaultGUICallback<Issue>(this) {
             @Override
-            public void interactionDone(Issue object) {
+            public void interactionDone(Issue issue) {
                 IssueEditActivity.this.finish();
-
             }
-        };
-        issue.insert(parentTask, issueInserted);
+        });
     }
 
     private void updateIssue() {

@@ -18,7 +18,6 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
@@ -31,7 +30,6 @@ public class ProjectPlayerListActivity extends Activity {
     private PlayerListAdapter adapter;
 
     private EditText newPlayerEmailView;
-//    private Player.Builder playerBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,6 @@ public class ProjectPlayerListActivity extends Activity {
 
         initProject();
         initAddPlayerBlock();
-
 
         DefaultGUICallback<List<Player>> playersLoaded = new DefaultGUICallback<List<Player>>(this) {
             @Override
@@ -88,15 +85,12 @@ public class ProjectPlayerListActivity extends Activity {
     }
 
     private void insertPlayer(String userEmail, Role role) {
-        DefaultGUICallback<Player> playerAdded = new DefaultGUICallback<Player>(this) {
-
+        project.addPlayer(userEmail, role, new DefaultGUICallback<Player>(this) {
             @Override
-            public void interactionDone(Player object) {
-                adapter.add(object);
+            public void interactionDone(Player player) {
+                adapter.add(player);
             }
-        };
-
-        project.addPlayer(userEmail, role, playerAdded);
+        });
     }
 
     private void deletePlayer(final Player player) {

@@ -35,13 +35,18 @@
         android:inputType="numberDecimal"
         android:maxLines="1" />
     
-    <EditText
-        android:id="@+id/issue_assignee_edit"
+    <TextView
+        android:id="@+id/issue_assignee_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_estimation_edit"
-        android:hint="Assigned player"
-        android:maxLines="1" />
+        android:text="Assignee" />
+    
+    <Spinner
+        android:id="@+id/issue_assignee_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_assignee_label" />
     
     <!-- "Save" button -->
     <!-- This button is temporary -->
@@ -53,12 +58,5 @@
         android:layout_alignParentStart="true"
         android:text="Save"
         android:onClick="saveIssueChanges" />
-
-    <Spinner
-        android:id="@+id/players_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/issue_assignee_edit" />
 
 </RelativeLayout>
