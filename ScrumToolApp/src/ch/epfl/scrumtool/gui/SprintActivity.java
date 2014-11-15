@@ -7,6 +7,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.DatePickerFragment;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -63,18 +64,28 @@ public class SprintActivity extends Activity {
     
     @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
-        sprintDeadline.setYear(sprintYear);
-        sprintDeadline.setMonth(sprintMonth);
-        sprintDeadline.setDate(sprintDay);
-        name = sprintName.getText().toString();
+        InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
-        sprintBuilder.setDeadline(sprintDeadline);
-        sprintBuilder.setTitle(name);
-        
-        if (sprint == null) {
-            insertSprint();
+        if (nameIsValid()) {
+            if (dateIsValid()) {
+                sprintDeadline.setYear(sprintYear);
+                sprintDeadline.setMonth(sprintMonth);
+                sprintDeadline.setDate(sprintDay);
+                name = sprintName.getText().toString();
+                
+                sprintBuilder.setDeadline(sprintDeadline);
+                sprintBuilder.setTitle(name);
+                
+                if (sprint == null) {
+                    insertSprint();
+                } else {
+                    updateSprint();
+                }
+            } else {
+                Toast.makeText(SprintActivity.this, "Invalid date", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            updateSprint();
+            Toast.makeText(SprintActivity.this, "Invalid name", Toast.LENGTH_SHORT).show();
         }
     }
     
@@ -104,5 +115,14 @@ public class SprintActivity extends Activity {
                 }
             }
         });
+    }
+    
+    private boolean nameIsValid() {
+        final int maxLength = 50;
+        return name != null && name.length() > 0 && name.length() < maxLength;
+    }
+    
+    private boolean dateIsValid() {
+        return sprintDeadline != null && sprintDeadline.after(new Date());
     }
 }
