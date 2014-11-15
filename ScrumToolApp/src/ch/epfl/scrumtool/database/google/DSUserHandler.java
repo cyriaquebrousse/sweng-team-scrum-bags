@@ -59,30 +59,7 @@ public class DSUserHandler implements UserHandler {
 
     @Override
     public void load(final String userKey, final Callback<User> callback) {
-        AsyncTask<String, Void, ScrumUser> task = new AsyncTask<String, Void, ScrumUser>() {
-            @Override
-            protected ScrumUser doInBackground(String... params) {
-                Scrumtool service = GoogleSession.getServiceObject();
-                ScrumUser user = null;
-                try {
-                    user = service.getScrumUser(params[0]).execute();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return user;
-            }
-
-            @Override
-            protected void onPostExecute(ScrumUser scrumUser) {
-                User.Builder userBuilder = new User.Builder();
-                userBuilder.setName(scrumUser.getName());
-                userBuilder.setEmail(scrumUser.getEmail());
-                User user = userBuilder.build();
-                callback.interactionDone(user);
-            }
-        };
-        task.execute(userKey);
+        throw new UnsupportedOperationException();
     }
 
     @Override
