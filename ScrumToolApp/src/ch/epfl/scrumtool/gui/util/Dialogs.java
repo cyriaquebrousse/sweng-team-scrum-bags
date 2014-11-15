@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Role;
 
 /**
  * @author Cyriaque Brousse
@@ -43,5 +44,28 @@ public class Dialogs {
         return priorities;
     }
     
+    public static void showRoleEditDialog(Activity parent, final DialogCallback<Role> callback) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(parent);
+        String[] roles = initRoles();
+        
+        builder.setTitle("Set role");
+        builder.setItems(roles, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                callback.onSelected(Role.values()[which]);
+                dialog.dismiss();
+            }
+        });
+        
+        builder.create().show();
+    }
+    
+    private static String[] initRoles() {
+        String[] roles = new String[Role.values().length];
+        for (int i = 0; i < roles.length; i++) {
+            roles[i] = Role.values()[i].toString();
+        }
+        return roles;
+    }
     
 }
