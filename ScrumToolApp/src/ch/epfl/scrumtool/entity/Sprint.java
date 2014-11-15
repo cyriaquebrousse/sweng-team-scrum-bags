@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +10,10 @@ import java.util.Set;
  * @author Cyriaque Brousse
  */
 
-public final class Sprint {
+public final class Sprint implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
+    
     private final String key;
     private final String title;
     private final Date deadline;

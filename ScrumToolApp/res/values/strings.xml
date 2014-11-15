@@ -20,7 +20,8 @@
     <string name="title_activity_issue_edit">Edit issue</string>
     <string name="title_activity_issue_edit_new">New issue</string>
     <string name="title_activity_sprint_list">Sprint list</string>
-    <string name="title_activity_sprint">Sprint</string>
+    <string name="title_activity_sprint">New sprint</string>
+    <string name="title_activity_sprint_edit">Edit sprint</string>
     <string name="title_activity_user_list">User list</string>
     <string name="title_activity_project_player_list">Player list</string>
     <string name="title_activity_profile_overview">Profile overview</string>

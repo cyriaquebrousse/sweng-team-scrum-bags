@@ -44,8 +44,9 @@ public class SprintActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint);
-        sprintDate = (TextView) findViewById(R.id.sprintDate);
-        sprintName = (EditText) findViewById(R.id.editName);
+        
+        initOriginalAndParentTask();
+        initViews();
     }
     
     public void showDatePickerDialog(View v) {
@@ -123,5 +124,34 @@ public class SprintActivity extends Activity {
     
     private boolean dateIsValid() {
         return sprintDeadline != null && sprintDeadline.after(new Date());
+    }
+    
+    private void initOriginalAndParentTask() {
+        sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
+        if (sprint == null) {
+            sprintBuilder = new Sprint.Builder();
+            setTitle(R.string.title_activity_sprint);
+        } else {
+            sprintBuilder = new Sprint.Builder(sprint);
+            setTitle(R.string.title_activity_sprint_edit);
+        }
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        if (project == null) {
+            throw new NullPointerException("Parent project cannot be null");
+        }
+    }
+    
+    private void initViews() {
+        sprintDate = (TextView) findViewById(R.id.sprintDate);
+        sprintName = (EditText) findViewById(R.id.editName);
+        
+        sprintDate.setText(getDate(sprintBuilder));
+        sprintName.setText(sprintBuilder.getTitle());
+    }
+    
+    @SuppressWarnings("deprecation")
+    private String getDate(Sprint.Builder builder) {
+        final Date d = builder.getDeadline();
+        return d.getDate() + "/" + d.getMonth() + "/" + d.getYear();
     }
 }
