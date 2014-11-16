@@ -78,12 +78,7 @@ public class DSUserHandler implements UserHandler {
                     builder.setJobTitle(jobTitle);
                 }
                      
-                Long dateOfBirth = b.getDateOfBirth();
-                if (dateOfBirth != null) {
-                    Date date = new Date();
-                    date.setTime(dateOfBirth);
-                    builder.setDateOfBirth(date);
-                }
+                builder.setDateOfBirth(b.getDateOfBirth());
 
                 User user = builder.build();
                 callback.interactionDone(user);
@@ -127,7 +122,7 @@ public class DSUserHandler implements UserHandler {
         
         ScrumUser dbUser = new ScrumUser();
         dbUser.setCompanyName(user.getCompanyName());
-        dbUser.setDateOfBirth(user.getDateOfBirth().getTime());
+        dbUser.setDateOfBirth(user.getDateOfBirth());
         dbUser.setJobTitle(user.getJobTitle());
 
         dbUser.setLastModDate((new Date()).getTime());

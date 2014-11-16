@@ -19,7 +19,7 @@ public final class User implements Serializable {
     private final String email;
     private final String name;
     private final String lastName;
-    private final Date dateOfBirth;
+    private final long dateOfBirth;
     private final String jobTitle;
     private final String companyName;
 
@@ -28,11 +28,10 @@ public final class User implements Serializable {
      * @param name
      * @param projects
      */
-    private User(String email, String name, String lastName, Date dateOfBirth,
+    private User(String email, String name, String lastName, long dateOfBirth,
             String jobTitle, String companyName) {
         if (email == null || name == null || lastName == null
-                || dateOfBirth == null || jobTitle == null
-                || companyName == null) {
+                || jobTitle == null || companyName == null) {
             throw new NullPointerException("User.Constructor");
         }
         this.email = email;
@@ -77,7 +76,7 @@ public final class User implements Serializable {
      * 
      * @return the birthday date
      */
-    public Date getDateOfBirth() {
+    public long getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -126,7 +125,7 @@ public final class User implements Serializable {
         private String name;
         private String lastName;
         private String jobTitle;
-        private Date dateOfBirth;
+        private long dateOfBirth;
         private String companyName;
 
         public Builder() {
@@ -135,7 +134,7 @@ public final class User implements Serializable {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
-            this.dateOfBirth = new Date();
+            this.dateOfBirth = (new Date()).getTime();
         }
 
         public Builder(User otherUser) {
@@ -143,8 +142,7 @@ public final class User implements Serializable {
             this.name = otherUser.name;
             this.lastName = otherUser.lastName;
             this.jobTitle = otherUser.jobTitle;
-            this.dateOfBirth = new Date();
-            this.dateOfBirth.setTime(otherUser.dateOfBirth.getTime());
+            this.dateOfBirth = otherUser.dateOfBirth;
             this.companyName = otherUser.companyName;
         }
 
@@ -246,10 +244,8 @@ public final class User implements Serializable {
          * 
          * @return birthday Date
          */
-        public Date getDateOfBirth() {
-            Date newDate = new Date();
-            newDate.setTime(this.dateOfBirth.getTime());
-            return newDate;
+        public long getDateOfBirth() {
+            return dateOfBirth;
         }
 
         /**
@@ -257,11 +253,8 @@ public final class User implements Serializable {
          * @param dateOfBirth
          * @return current Builder instance
          */
-        public User.Builder setDateOfBirth(Date dateOfBirth) {
-            if (dateOfBirth != null) {
-                this.dateOfBirth = new Date();
-                this.dateOfBirth.setTime(dateOfBirth.getTime());
-            }
+        public User.Builder setDateOfBirth(long dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
             return this;
         }
 
