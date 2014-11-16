@@ -116,6 +116,10 @@ public final class Player implements Serializable {
          * 
          */
         public Builder() {
+            this.isAdmin = false;
+            this.role = Role.INVITED;
+            this.keyb = "";
+
         }
 
         /**
@@ -175,7 +179,9 @@ public final class Player implements Serializable {
          *            the id to set
          */
         public Player.Builder setKey(String id) {
-            this.keyb = id;
+            if (id != null) {
+                this.keyb = id;
+            }
             return this;
         }
 

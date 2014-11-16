@@ -159,7 +159,9 @@ public final class User implements Serializable {
          * @param email
          */
         public User.Builder setEmail(String email) {
-            this.email = email;
+            if (email != null) {
+                this.email = email;
+            }
             return this;
         }
 
@@ -174,7 +176,9 @@ public final class User implements Serializable {
          * @param name
          */
         public User.Builder setName(String name) {
-            this.name = name;
+            if (name != null) {
+                this.name = name;
+            }
             return this;
         }
 
@@ -192,7 +196,9 @@ public final class User implements Serializable {
          * @return current Builder instance
          */
         public User.Builder setLastName(String lastName) {
-            this.lastName = lastName;
+            if (lastName != null) {
+                this.lastName = lastName;
+            }
             return this;
         }
 
@@ -210,7 +216,9 @@ public final class User implements Serializable {
          * @return current Builder instance
          */
         public User.Builder setJobTitle(String jobTitle) {
-            this.jobTitle = jobTitle;
+            if (jobTitle != null) {
+                this.jobTitle = jobTitle;
+            }
             return this;
         }
 
@@ -228,7 +236,9 @@ public final class User implements Serializable {
          * @return current Builder instance
          */
         public User.Builder setCompanyName(String companyName) {
-            this.companyName = companyName;
+            if (companyName != null) {
+                this.companyName = companyName;
+            }
             return this;
         }
 
@@ -248,8 +258,10 @@ public final class User implements Serializable {
          * @return current Builder instance
          */
         public User.Builder setDateOfBirth(Date dateOfBirth) {
-            this.dateOfBirth = new Date();
-            this.dateOfBirth.setTime(dateOfBirth.getTime());
+            if (dateOfBirth != null) {
+                this.dateOfBirth = new Date();
+                this.dateOfBirth.setTime(dateOfBirth.getTime());
+            }
             return this;
         }
 

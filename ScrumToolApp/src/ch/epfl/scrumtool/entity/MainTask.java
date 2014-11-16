@@ -26,10 +26,6 @@ public final class MainTask extends AbstractTask implements Serializable {
     private MainTask(String id, String name, String description, Status status,
             Priority priority) {
         super(id, name, description, status, priority);
-        if (priority == null) {
-            throw new NullPointerException("MainTask.Constructor");
-        }
-        // this.priority = priority;
     }
 
     public int getIssuesFinishedCount() {
@@ -138,9 +134,9 @@ public final class MainTask extends AbstractTask implements Serializable {
             return id;
         }
 
-        public MainTask.Builder setKey(String id) {
-            if (id != null) {
-                this.id = id;
+        public MainTask.Builder setKey(String key) {
+            if (key != null) {
+                this.id = key;
             }
             return this;
         }
@@ -186,7 +182,9 @@ public final class MainTask extends AbstractTask implements Serializable {
         }
 
         public MainTask.Builder setStatus(Status status) {
-            this.status = status;
+            if (status != null) {
+                this.status = status;
+            }
             return this;
         }
 
@@ -195,7 +193,9 @@ public final class MainTask extends AbstractTask implements Serializable {
         }
 
         public MainTask.Builder setPriority(Priority priority) {
-            this.priority = priority;
+            if (priority != null) {
+                this.priority = priority;
+            }
             return this;
         }
 

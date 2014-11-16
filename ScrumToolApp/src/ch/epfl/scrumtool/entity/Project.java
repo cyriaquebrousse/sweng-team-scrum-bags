@@ -25,8 +25,6 @@ public final class Project implements Serializable {
         if (key == null || name == null || description == null) {
             throw new NullPointerException("Project.Constructor");
         }
-
-        // TODO check that admin in players
         this.key = key;
         this.name = name;
         this.description = description;
@@ -116,7 +114,8 @@ public final class Project implements Serializable {
      * 
      * @param defaultGUICallback
      */
-    public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
+    public void loadSprints(
+            final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
         Client.getScrumClient().loadSprints(this, defaultGUICallback);
     }
 
@@ -213,7 +212,9 @@ public final class Project implements Serializable {
          *            the id to set
          */
         public Project.Builder setKey(String id) {
-            this.keyb = id;
+            if (id != null) {
+                this.keyb = id;
+            }
             return this;
         }
 

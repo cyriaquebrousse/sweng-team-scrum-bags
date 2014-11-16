@@ -101,6 +101,8 @@ public final class Issue extends AbstractTask implements Serializable {
             this.name = "";
             this.description = "";
             this.estimatedTime = 0f;
+            this.priority = Priority.NORMAL;
+            this.status = Status.READY_FOR_ESTIMATION;
         }
 
         public Builder(Issue otherIssue) {
@@ -121,10 +123,12 @@ public final class Issue extends AbstractTask implements Serializable {
         }
 
         /**
-         * @param id
+         * @param key
          */
-        public Issue.Builder setKey(String id) {
-            this.key = id;
+        public Issue.Builder setKey(String key) {
+            if (key != null) {
+                this.key = key;
+            }
             return this;
         }
 
@@ -139,7 +143,9 @@ public final class Issue extends AbstractTask implements Serializable {
          * @param name
          */
         public Issue.Builder setName(String name) {
-            this.name = name;
+            if (name != null) {
+                this.name = name;
+            }
             return this;
         }
 
@@ -154,7 +160,9 @@ public final class Issue extends AbstractTask implements Serializable {
          * @param description
          */
         public Issue.Builder setDescription(String description) {
-            this.description = description;
+            if (description != null) {
+                this.description = description;
+            }
             return this;
         }
 
@@ -169,7 +177,9 @@ public final class Issue extends AbstractTask implements Serializable {
          * @param status
          */
         public Issue.Builder setStatus(Status status) {
-            this.status = status;
+            if (status != null) {
+                this.status = status;
+            }
             return this;
         }
 
@@ -184,7 +194,9 @@ public final class Issue extends AbstractTask implements Serializable {
          * @param status
          */
         public Issue.Builder setPriority(Priority priority) {
-            this.priority = priority;
+            if (priority != null) {
+                this.priority = priority;
+            }
             return this;
         }
 
@@ -214,7 +226,9 @@ public final class Issue extends AbstractTask implements Serializable {
          * @param player
          */
         public Issue.Builder setPlayer(Player player) {
-            this.player = player;
+            if (player != null) {
+                this.player = player;
+            }
             return this;
         }
 

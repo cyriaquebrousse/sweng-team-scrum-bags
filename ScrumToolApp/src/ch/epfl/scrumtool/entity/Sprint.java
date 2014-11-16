@@ -16,7 +16,7 @@ import ch.epfl.scrumtool.network.Client;
 public final class Sprint implements Serializable {
     private static final long serialVersionUID = -5819472452849232304L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
-    
+
     private final String key;
     private final String title;
     private final long deadline;
@@ -146,7 +146,9 @@ public final class Sprint implements Serializable {
          *            the id to set
          */
         public Sprint.Builder setKey(String id) {
-            this.keyb = id;
+            if (id != null) {
+                this.keyb = id;
+            }
             return this;
         }
 
@@ -172,7 +174,9 @@ public final class Sprint implements Serializable {
         }
 
         public Sprint.Builder setTitle(String newTitle) {
-            this.title = newTitle;
+            if (newTitle != null) {
+                this.title = newTitle;
+            }
             return this;
         }
 
