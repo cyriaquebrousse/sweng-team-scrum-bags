@@ -20,6 +20,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -34,7 +35,8 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void insert(final Issue issue, final MainTask maintask, final Callback<Issue> callback) {
+    public void insert(final Issue issue, final MainTask maintask,
+            final Callback<Issue> callback) {
         try {
 
             scrumIssue = new ScrumIssue();
@@ -43,28 +45,33 @@ public class DSIssueHandler implements IssueHandler {
             scrumIssue.setStatus(issue.getStatus().name());
             scrumIssue.setEstimation(issue.getEstimatedTime());
             scrumIssue.setPriority(issue.getPriority().name());
-            scrumIssue.setAssignedPlayer(issue.getPlayer().getKey());
-            
-            Date date = new Date();
-            scrumIssue.setLastModDate(date.getTime());
-            
-            final GoogleSession session = (GoogleSession) Session.getCurrentSession();
-            
+            scrumIssue.setLastModDate((new Date()).getTime());
+
+            final GoogleSession session = (GoogleSession) Session
+                    .getCurrentSession();
+
             scrumIssue.setLastModUser(session.getUser().getEmail());
-            
+            final String playerKey;
+            if (issue.getPlayer() != null) {
+                playerKey = issue.getPlayer().getKey();
+            } else {
+                playerKey = null;
+            }
             AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
                 @Override
                 protected OperationStatus doInBackground(ScrumIssue... params) {
                     OperationStatus opStat = null;
                     try {
-                       
+
                         Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.insertScrumIssue(maintask.getKey(), params[0]).execute();
+                        opStat = service.insertScrumIssue(maintask.getKey(),
+                                playerKey, params[0]).execute();
                     } catch (IOException e) {
                         callback.failure("Issue could not be inserted on the Database");
                     }
                     return opStat;
                 }
+
                 @Override
                 protected void onPostExecute(OperationStatus opStat) {
                     Issue.Builder issueBuilder = new Issue.Builder(issue);
@@ -84,7 +91,8 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void update(final Issue modified, final Issue ref, final Callback<Boolean> callback) {
+    public void update(final Issue modified, final Issue ref,
+            final Callback<Boolean> callback) {
         final ScrumIssue changes = new ScrumIssue();
         changes.setKey(modified.getKey());
         changes.setName(modified.getName());
@@ -94,6 +102,9 @@ public class DSIssueHandler implements IssueHandler {
         changes.setPriority(modified.getPriority().name());
         Date date = new Date();
         changes.setLastModDate(date.getTime());
+        final ScrumPlayer scrumPlayer = new ScrumPlayer();
+        scrumPlayer.setKey(modified.getPlayer().getKey());
+        changes.setAssignedPlayer(scrumPlayer); //scrumPlayer has only it's key set
         try {
             changes.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());
@@ -101,11 +112,9 @@ public class DSIssueHandler implements IssueHandler {
             // TODO : redirecting to the login activity if not connected
             e.printStackTrace();
         }
-        AsyncTask<ScrumIssue, Void, OperationStatus> task = 
-                new AsyncTask<ScrumIssue, Void, OperationStatus>() {
+        AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
             @Override
-            protected OperationStatus doInBackground(
-                    ScrumIssue... params) {
+            protected OperationStatus doInBackground(ScrumIssue... params) {
                 GoogleSession session;
                 OperationStatus opStat = null;
                 try {
@@ -118,7 +127,10 @@ public class DSIssueHandler implements IssueHandler {
                 }
                 return opStat;
             }
-            /* (non-Javadoc)
+
+            /*
+             * (non-Javadoc)
+             * 
              * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
              */
             @Override
@@ -131,12 +143,10 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void remove(final Issue issue, final Callback<Boolean> callback) {
-        AsyncTask<String, Void, OperationStatus> task = 
-                new AsyncTask<String, Void, OperationStatus>() {
+        AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
 
             @Override
-            protected OperationStatus doInBackground(
-                    String... params) {
+            protected OperationStatus doInBackground(String... params) {
                 GoogleSession session;
                 OperationStatus opStat = null;
                 try {
@@ -150,7 +160,9 @@ public class DSIssueHandler implements IssueHandler {
                 return opStat;
             }
 
-            /* (non-Javadoc)
+            /*
+             * (non-Javadoc)
+             * 
              * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
              */
             @Override
@@ -164,12 +176,13 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void loadIssues(final MainTask mainTask, final Callback<List<Issue>> callback) {
-        AsyncTask<String, Void, CollectionResponseScrumIssue> task =
-                new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
+    public void loadIssues(final MainTask mainTask,
+            final Callback<List<Issue>> callback) {
+        AsyncTask<String, Void, CollectionResponseScrumIssue> task = new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
             @Override
-            protected CollectionResponseScrumIssue doInBackground(String... params) {
+            protected CollectionResponseScrumIssue doInBackground(
+                    String... params) {
                 GoogleSession session;
                 CollectionResponseScrumIssue issues = null;
 
@@ -194,9 +207,11 @@ public class DSIssueHandler implements IssueHandler {
                         issueBuilder.setKey(s.getKey());
                         issueBuilder.setName(s.getName());
                         issueBuilder.setDescription(s.getDescription());
-                        issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
+                        issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status
+                                .valueOf(s.getStatus()));
                         issueBuilder.setEstimatedTime(s.getEstimation());
-                        issueBuilder.setPriority(Priority.valueOf(s.getPriority()));
+                        issueBuilder.setPriority(Priority.valueOf(s
+                                .getPriority()));
                         issues.add(issueBuilder.build());
                     }
                     callback.interactionDone(issues);
@@ -208,11 +223,11 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB) {
-        AsyncTask<String, Void, CollectionResponseScrumIssue> task =
-                new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
+        AsyncTask<String, Void, CollectionResponseScrumIssue> task = new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
             @Override
-            protected CollectionResponseScrumIssue doInBackground(String... params) {
+            protected CollectionResponseScrumIssue doInBackground(
+                    String... params) {
                 GoogleSession session;
                 CollectionResponseScrumIssue issues = null;
 
@@ -238,9 +253,11 @@ public class DSIssueHandler implements IssueHandler {
                         issueBuilder.setKey(s.getKey());
                         issueBuilder.setName(s.getName());
                         issueBuilder.setDescription(s.getDescription());
-                        issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
+                        issueBuilder.setStatus(ch.epfl.scrumtool.entity.Status
+                                .valueOf(s.getStatus()));
                         issueBuilder.setEstimatedTime(s.getEstimation());
-                        issueBuilder.setPriority(Priority.valueOf(s.getPriority()));
+                        issueBuilder.setPriority(Priority.valueOf(s
+                                .getPriority()));
                         issues.add(issueBuilder.build());
                     }
                     cB.interactionDone(issues);
@@ -251,16 +268,19 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void assignIssueToSprint(final Issue issue, final Sprint sprint, Callback<Boolean> cB) {
+    public void assignIssueToSprint(final Issue issue, final Sprint sprint,
+            Callback<Boolean> cB) {
 
         AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
             @Override
             protected OperationStatus doInBackground(String... params) {
                 OperationStatus opStat = null;
                 try {
-                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertIssueInSprint(issue.getKey(), sprint.getKey()).execute();
+                    opStat = service.insertIssueInSprint(issue.getKey(),
+                            sprint.getKey()).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO : redirecting to the login activity if not connected
                     e.printStackTrace();
