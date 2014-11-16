@@ -55,6 +55,7 @@ public class ProjectEditActivity extends Activity {
         InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid(), getResources());
         
         if (titleIsValid() && descriptionIsValid()) {
+            findViewById(R.id.project_edit_button_next).setEnabled(false);
             String newTitle = projectTitleView.getText().toString();
             String newDescription = projectDescriptionView.getText().toString();
             

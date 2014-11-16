@@ -83,6 +83,7 @@ public class TaskEditActivity extends Activity {
         InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid(), getResources());
         
         if (nameIsValid() && descriptionIsValid()) {
+            findViewById(R.id.task_edit_button_next).setEnabled(false);
             String newName = taskNameView.getText().toString();
             String newDescription = taskDescriptionView.getText().toString();
             

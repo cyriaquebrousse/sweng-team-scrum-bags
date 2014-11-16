@@ -94,6 +94,7 @@ public class IssueEditActivity extends Activity {
         InputVerifiers.updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid(), getResources());
 
         if (nameIsValid() && descriptionIsValid()) {
+            findViewById(R.id.issue_edit_button_next).setEnabled(false);
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
             float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
