@@ -43,8 +43,7 @@ public class DSIssueHandler implements IssueHandler {
             scrumIssue.setStatus(issue.getStatus().name());
             scrumIssue.setEstimation(issue.getEstimatedTime());
             scrumIssue.setPriority(issue.getPriority().name());
-//          TODO uncomment this lines when the gui will be working
-//            scrumIssue.setAssignedPlayer(issue.getPlayer().getKey());
+            scrumIssue.setAssignedPlayer(issue.getPlayer().getKey());
             
             Date date = new Date();
             scrumIssue.setLastModDate(date.getTime());
