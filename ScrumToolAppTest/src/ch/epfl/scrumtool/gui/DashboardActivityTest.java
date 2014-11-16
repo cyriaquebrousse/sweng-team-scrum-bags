@@ -11,11 +11,11 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  * @author LeoWirz
  * 
  */
-public class DashbordActivityTest extends
-        ActivityInstrumentationTestCase2<DashbordActivity> {
+public class DashboardActivityTest extends
+        ActivityInstrumentationTestCase2<DashboardActivity> {
 
-    public DashbordActivityTest() {
-        super(DashbordActivity.class);
+    public DashboardActivityTest() {
+        super(DashboardActivity.class);
     }
 
     @Override
