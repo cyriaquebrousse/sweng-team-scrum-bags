@@ -60,8 +60,5 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      */
     void removeIssue(final Issue issue, final Sprint sprint,
             final Callback<Boolean> cB);
-    
-    void update(final Issue issue, final Issue ref, final MainTask mainTask,
-            final Callback<Boolean> cb);
 
 }

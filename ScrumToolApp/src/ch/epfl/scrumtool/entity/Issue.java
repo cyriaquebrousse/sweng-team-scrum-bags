@@ -67,9 +67,8 @@ public final class Issue extends AbstractTask implements Serializable {
      * @param mainTask
      * @param callback
      */
-    public void update(final Issue ref, final MainTask mainTask,
-            Callback<Boolean> callback) {
-        Client.getScrumClient().updateIssue(this, ref, mainTask, callback);
+    public void update(final Issue ref, Callback<Boolean> callback) {
+        Client.getScrumClient().updateIssue(this, ref, callback);
     }
 
     /**

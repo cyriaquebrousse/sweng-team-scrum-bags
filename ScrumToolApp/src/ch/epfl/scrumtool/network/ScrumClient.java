@@ -40,7 +40,7 @@ public interface ScrumClient {
     // Maintask methods
     void loadBacklog(final Project project, final Callback<List<MainTask>> callback);
     void insertMainTask(final MainTask task, final Project project, final Callback<MainTask> callback);
-    void updateMainTask(final MainTask task, final MainTask ref, final Project project, final Callback<Boolean> callback);
+    void updateMainTask(final MainTask task, final MainTask ref, final Callback<Boolean> callback);
     void deleteMainTask(final MainTask task, final Callback<Boolean> callback);
     
     // Issue methods
@@ -49,7 +49,7 @@ public interface ScrumClient {
     void insertIssue(final Issue issue, final MainTask task, final Callback<Issue> callback);
     void addIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
     void removeIssue(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
-    void updateIssue(final Issue issue, final Issue ref, final MainTask mainTask, Callback<Boolean> callback);
+    void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
      
     // Sprint methods

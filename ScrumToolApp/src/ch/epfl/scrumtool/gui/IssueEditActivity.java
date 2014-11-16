@@ -125,7 +125,7 @@ public class IssueEditActivity extends Activity {
 
     private void updateIssue() {
         Issue issue = issueBuilder.build();
-        issue.update(null, parentTask, new DefaultGUICallback<Boolean>(this) {
+        issue.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {

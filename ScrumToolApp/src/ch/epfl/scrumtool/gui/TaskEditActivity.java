@@ -111,7 +111,7 @@ public class TaskEditActivity extends Activity {
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        task.update(null, parentProject, new DefaultGUICallback<Boolean>(this) {
+        task.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
