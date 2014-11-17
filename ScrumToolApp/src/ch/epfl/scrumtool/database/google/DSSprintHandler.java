@@ -34,6 +34,7 @@ public class DSSprintHandler implements SprintHandler {
     public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
         ScrumSprint scrumSprint = new ScrumSprint();
+        scrumSprint.setName(sprint.getTitle());
         scrumSprint.setDate(sprint.getDeadline());
         scrumSprint.setIssues(new ArrayList<ScrumIssue>());
         Date date = new Date();
