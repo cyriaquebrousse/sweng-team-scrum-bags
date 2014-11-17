@@ -98,6 +98,10 @@
             android:name=".gui.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit" >
         </activity>
+        <activity
+            android:name=".SprintOverviewActivity"
+            android:label="@string/title_activity_sprint_overview" >
+        </activity>
     </application>
 
 </manifest>

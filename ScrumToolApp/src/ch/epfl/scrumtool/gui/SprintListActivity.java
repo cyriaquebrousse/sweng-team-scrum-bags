@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui;
 import java.util.List;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.SprintOverviewActivity;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -24,7 +25,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
  * @author AlexVeuthey
  *
  */
-public class SprintListActivity extends BaseListMenuActivity<Project> implements OnMenuItemClickListener {
+public class SprintListActivity extends BaseListMenuActivity<Sprint> implements OnMenuItemClickListener {
 
     private Project project;
     
@@ -43,7 +44,7 @@ public class SprintListActivity extends BaseListMenuActivity<Project> implements
         project.loadSprints(new DefaultGUICallback<List<Sprint>>(this) {
 
             @Override
-            public void interactionDone(List<Sprint> sprintList) {
+            public void interactionDone(final List<Sprint> sprintList) {
                 adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
                 listView = (ListView) findViewById(R.id.sprintList);
                 listView.setAdapter(adapter);
@@ -51,7 +52,13 @@ public class SprintListActivity extends BaseListMenuActivity<Project> implements
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(SprintListActivity.this, "Sprint clicked", Toast.LENGTH_SHORT).show();
+                        Intent openSprintOverviewIntent = new Intent(
+                                view.getContext(),
+                                SprintOverviewActivity.class);
+
+                        Sprint sprint = sprintList.get(position);
+                        openSprintOverviewIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+                        startActivity(openSprintOverviewIntent);
                     }
                 });
 
@@ -61,11 +68,12 @@ public class SprintListActivity extends BaseListMenuActivity<Project> implements
         });
     }
     
-    /*public void createSprint(View view) {
-        Intent createSprintIntent = new Intent(this, SprintActivity.class);
+    @Override
+    public void openCreateElementActivity() {
+        Intent createSprintIntent = new Intent(this, SprintEditActivity.class);
         createSprintIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(createSprintIntent);
-    }*/
+    }
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -82,7 +90,7 @@ public class SprintListActivity extends BaseListMenuActivity<Project> implements
     }
 
     @Override
-    void openEditElementActivity(Project optionalElementToEdit) {
+    void openEditElementActivity(Sprint optionalElementToEdit) {
         // TODO Auto-generated method stub
         Toast.makeText(SprintListActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
     }

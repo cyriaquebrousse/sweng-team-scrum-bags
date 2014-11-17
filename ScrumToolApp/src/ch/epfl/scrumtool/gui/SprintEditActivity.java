@@ -24,7 +24,7 @@ import android.widget.Toast;
  * @author AlexVeuthey
  *
  */
-public class SprintActivity extends BaseMenuActivity {
+public class SprintEditActivity extends BaseMenuActivity {
 
     private int sprintYear = 0;
     private int sprintMonth = 0;
@@ -92,10 +92,10 @@ public class SprintActivity extends BaseMenuActivity {
                     updateSprint();
                 }
             } else {
-                Toast.makeText(SprintActivity.this, "Invalid date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SprintEditActivity.this, "Invalid date", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(SprintActivity.this, "Invalid name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SprintEditActivity.this, "Invalid name", Toast.LENGTH_SHORT).show();
         }
     }
     
@@ -112,7 +112,7 @@ public class SprintActivity extends BaseMenuActivity {
 
             @Override
             public void interactionDone(Sprint object) {
-                SprintActivity.this.finish();
+                SprintEditActivity.this.finish();
             }
         };
         sprint.insert(project, sprintInserted);
@@ -125,9 +125,9 @@ public class SprintActivity extends BaseMenuActivity {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
-                    SprintActivity.this.finish();
+                    SprintEditActivity.this.finish();
                 } else {
-                    Toast.makeText(SprintActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SprintEditActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
                 }
             }
         });
