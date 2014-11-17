@@ -137,7 +137,7 @@ public class DSSprintHandler implements SprintHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     opStat = session.getAuthServiceObject()
-                            .removeScrumProject(params[0]).execute();
+                            .removeScrumSprint(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
