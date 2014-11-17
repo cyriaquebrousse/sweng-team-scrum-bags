@@ -12,8 +12,9 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 /**
- * Abstracts the concept of our menus, which are similar throughout the
- * application
+ * The BaseMenuActivity class is an Activity that has a standard action bar 
+ * which provides functionalities which should be accessible from most 
+ * activities inside the ScrumToolApp.
  * 
  * @author Cyriaque Brousse, zenhaeus
  */
@@ -49,6 +50,12 @@ public abstract class BaseMenuActivity extends Activity implements OnMenuItemCli
     }
     
     
+    /**
+     * Shows the overflow menu that contains the standard
+     * overflow menu items
+     * @param v
+     *          view that the popup menu is attached to
+     */
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
@@ -57,6 +64,10 @@ public abstract class BaseMenuActivity extends Activity implements OnMenuItemCli
         popup.show();
     }
     
+    /**
+     * Logs out the current user by destroying the current 
+     * session and redirecting to the LoginActivity
+     */
     private void logoutAndOpenLoginActivity() {
         Session.destroyCurrentSession(this);
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
