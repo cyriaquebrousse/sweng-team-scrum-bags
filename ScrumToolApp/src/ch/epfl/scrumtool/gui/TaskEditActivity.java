@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +19,7 @@ import ch.epfl.scrumtool.gui.util.InputVerifiers;
 /**
  * @author Cyriaque Brousse
  */
-public class TaskEditActivity extends Activity {
+public class TaskEditActivity extends BaseMenuActivity {
     
     private EditText taskNameView;
     private EditText taskDescriptionView;

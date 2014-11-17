@@ -27,7 +27,7 @@ import ch.epfl.scrumtool.gui.components.widgets.Slate;
 /**
  * @author Cyriaque Brousse
  */
-public class TaskOverviewActivity extends BaseMenuActivity<Issue> implements OnMenuItemClickListener {
+public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
     private TextView nameView;
     private TextView descriptionView;

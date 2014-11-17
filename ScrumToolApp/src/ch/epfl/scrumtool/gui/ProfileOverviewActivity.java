@@ -2,7 +2,7 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +20,7 @@ import ch.epfl.scrumtool.network.Session;
 /**
  * @author ketsio
  */
-public class ProfileOverviewActivity extends Activity {
+public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
 
     private TextView nameView;
     private TextView emailView;
@@ -42,6 +42,8 @@ public class ProfileOverviewActivity extends Activity {
             } else {
                 userProfile = userConnected;
             }
+            
+            setOverviewElement(userProfile);
 
             // Create the adapter
             // TODO : Change empty list by getProjectsSharedWith(userConnected)
@@ -73,5 +75,11 @@ public class ProfileOverviewActivity extends Activity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    void openEditElementActivity(User optionalElementToEdit) {
+        Intent intent = new Intent(this, ProfileEditActivity.class);
+        startActivity(intent);
     }
 }

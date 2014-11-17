@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +21,7 @@ import ch.epfl.scrumtool.gui.util.InputVerifiers;
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectPlayerListActivity extends Activity {
+public class ProjectPlayerListActivity extends BaseMenuActivity {
 
     private Project project;
 

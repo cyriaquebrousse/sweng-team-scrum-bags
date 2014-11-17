@@ -24,7 +24,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
  * @author AlexVeuthey
  *
  */
-public class SprintListActivity extends BaseMenuActivity<Project> implements OnMenuItemClickListener {
+public class SprintListActivity extends BaseListMenuActivity<Project> implements OnMenuItemClickListener {
 
     private Project project;
     

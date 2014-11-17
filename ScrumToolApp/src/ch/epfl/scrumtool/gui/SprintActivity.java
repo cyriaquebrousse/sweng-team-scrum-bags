@@ -25,7 +25,7 @@ import android.widget.Toast;
  * @author AlexVeuthey
  *
  */
-public class SprintActivity extends Activity {
+public class SprintActivity extends BaseMenuActivity {
 
     private int sprintYear = 0;
     private int sprintMonth = 0;

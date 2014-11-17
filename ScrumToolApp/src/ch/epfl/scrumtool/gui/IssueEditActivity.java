@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,7 +23,7 @@ import ch.epfl.scrumtool.network.Client;
  * @author Cyriaque Brousse
  * @author sylb
  */
-public class IssueEditActivity extends Activity {
+public class IssueEditActivity extends BaseMenuActivity {
 
     private EditText issueNameView;
     private EditText issueDescriptionView;

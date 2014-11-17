@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,7 @@ import ch.epfl.scrumtool.entity.Project;
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectOverviewActivity extends Activity {
+public class ProjectOverviewActivity extends BaseMenuActivity {
 
     private TextView nameView;
     private TextView descriptionView;

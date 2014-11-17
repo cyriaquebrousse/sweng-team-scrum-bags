@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -23,7 +22,7 @@ import ch.epfl.scrumtool.network.Client;
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectListActivity extends BaseMenuActivity<Project> implements OnMenuItemClickListener {
+public class ProjectListActivity extends BaseListMenuActivity<Project> {
 
     private ListView listView;
     private ProjectListAdapter adapter;

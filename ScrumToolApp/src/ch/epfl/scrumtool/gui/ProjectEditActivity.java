@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,12 +8,11 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectEditActivity extends Activity {
+public class ProjectEditActivity extends BaseMenuActivity {
     
     private EditText projectTitleView;
     private EditText projectDescriptionView;

@@ -23,7 +23,7 @@ import ch.epfl.scrumtool.gui.components.TaskListAdapter;
 /**
  * @author Cyriaque Brousse
  */
-public class BacklogActivity extends BaseMenuActivity<MainTask> implements OnMenuItemClickListener {
+public class BacklogActivity extends BaseListMenuActivity<MainTask> implements OnMenuItemClickListener {
 
     private ListView listView;
     private Project project;

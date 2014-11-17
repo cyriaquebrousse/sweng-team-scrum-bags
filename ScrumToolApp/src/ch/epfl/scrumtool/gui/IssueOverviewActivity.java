@@ -1,21 +1,15 @@
 package ch.epfl.scrumtool.gui;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
  * @author Cyriaque Brousse
  */
-public class IssueOverviewActivity extends Activity {
+public class IssueOverviewActivity extends BaseMenuActivity {
 
     private TextView nameView;
     private TextView descriptionView;
