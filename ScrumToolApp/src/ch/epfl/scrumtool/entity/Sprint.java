@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -105,6 +106,15 @@ public final class Sprint implements Serializable {
      */
     public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
         Client.getScrumClient().removeIssueFromSprint(issue, this, callback);
+    }
+
+    /**
+     * Load the issues of this sprint from the DS
+     * 
+     * @param callback
+     */
+    public void loadIssues(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssues(this, callback);
     }
 
     /**
