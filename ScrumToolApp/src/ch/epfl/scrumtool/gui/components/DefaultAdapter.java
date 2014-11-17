@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui.components;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import android.widget.BaseAdapter;
@@ -9,11 +10,12 @@ import android.widget.BaseAdapter;
  * @author Cyriaque Brousse
  * @param <E> entity type
  */
-public abstract class DefaultAdapter<E> extends BaseAdapter {
+public abstract class DefaultAdapter<E extends Comparable<E>> extends BaseAdapter {
     
     private List<E> list;
     
     public DefaultAdapter(final List<E> list) {
+        Collections.sort(list);
         this.list = list;
     }
     
@@ -38,11 +40,13 @@ public abstract class DefaultAdapter<E> extends BaseAdapter {
     
     public final void add(E elem) {
         list.add(elem);
+        Collections.sort(list);
         notifyDataSetChanged();
     }
     
     public final void addAll(Collection<E> elems) {
         list.addAll(elems);
+        Collections.sort(list);
         notifyDataSetChanged();
     }
     
