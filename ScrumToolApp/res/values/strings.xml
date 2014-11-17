@@ -80,5 +80,7 @@
     <string name="no_date_selected">No date selected</string>
     <string name="sprint_row_name">Sprint name</string>
     <string name="sprint_row_date">dd/mm/yyyy</string>
+    <string name="sprint_overview_default_name">Sprint name</string>
+    <string name="sprint_overview_default_deadline">Sprint deadline</string>
 
 </resources>
