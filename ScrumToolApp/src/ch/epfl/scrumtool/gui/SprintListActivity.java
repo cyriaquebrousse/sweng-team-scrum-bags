@@ -88,6 +88,8 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             throw new NullPointerException("Parent project cannot be null");
         }
     }
+    
+    // TODO delete element via context menu
 
     @Override
     void openEditElementActivity(Sprint optionalElementToEdit) {

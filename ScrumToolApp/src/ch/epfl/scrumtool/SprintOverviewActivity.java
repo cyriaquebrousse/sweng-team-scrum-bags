@@ -25,6 +25,8 @@ public class SprintOverviewActivity extends Activity {
         
         initActivity();
         initViews();
+        
+        // TODO sprint.loadIssues(callback...)
     }
     
     private void initViews() {
@@ -34,6 +36,10 @@ public class SprintOverviewActivity extends Activity {
         name.setText(sprint.getTitle());
         deadline.setText(getDeadline());
     }
+    
+    // TODO edit sprint via the toolbar
+    
+    // TODO delete sprint via the toolbar
     
     private void initActivity() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
