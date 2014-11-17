@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Role;
 
 /**
  * @author Cyriaque Brousse
@@ -22,6 +23,14 @@ public final class PlayerListAdapter extends DefaultAdapter<Player> {
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void setRole(Role newRole, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.listrow_player, parent, false);
+        }
+        TextView role = (TextView) convertView.findViewById(R.id.player_row_role);
+        role.setText(newRole.toString());
+    }
+    
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
