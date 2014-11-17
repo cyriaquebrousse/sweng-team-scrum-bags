@@ -8,7 +8,6 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -31,7 +30,7 @@ public class SprintActivity extends BaseMenuActivity {
     private int sprintMonth = 0;
     private int sprintDay = 0;
     
-    private long sprintDeadline;
+    private long sprintDeadline = new Date().getTime();
     private String name = null;
     
     private TextView sprintDate;
@@ -65,17 +64,20 @@ public class SprintActivity extends BaseMenuActivity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
     
+    @SuppressWarnings("deprecation")
     public void sprintEditDone(View v) {
         name = sprintName.getText().toString();
-//        if (sprintYear != sprintDeadline.getYear()) {
-//            sprintDeadline.setYear(sprintYear);
-//        }
-//        if (sprintMonth != sprintDeadline.getMonth()) {
-//            sprintDeadline.setMonth(sprintMonth);
-//        }
-//        if (sprintDay != sprintDeadline.getDate()) {
-//            sprintDeadline.setDate(sprintDay);
-//        }
+        final Date chosen = new Date();
+        if (sprintYear != chosen.getYear()) {
+            chosen.setYear(sprintYear);
+        }
+        if (sprintMonth != chosen.getMonth()) {
+            chosen.setMonth(sprintMonth);
+        }
+        if (sprintDay != chosen.getDate()) {
+            chosen.setDate(sprintDay);
+        }
+        sprintDeadline = chosen.getTime();
         InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
         
         if (nameIsValid()) {
@@ -136,14 +138,18 @@ public class SprintActivity extends BaseMenuActivity {
         return name != null && name.length() > 0 && name.length() < maxLength;
     }
     
+    @SuppressWarnings("deprecation")
     private boolean dateIsValid() {
-        return new Date().before(new Date(sprintDeadline));
+        final Date yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return yesterday.before(new Date(sprintDeadline));
     }
     
     private void initOriginalAndParentTask() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
+            sprintBuilder.setDeadline(sprintDeadline);
             setTitle(R.string.title_activity_sprint);
         } else {
             sprintBuilder = new Sprint.Builder(sprint);
@@ -163,6 +169,7 @@ public class SprintActivity extends BaseMenuActivity {
         sprintName.setText(sprintBuilder.getTitle());
     }
     
+    @SuppressWarnings("deprecation")
     private String getDate(Sprint.Builder builder) {
         final Date d = new Date(builder.getDeadline());
         return d.getDate() + "/" + d.getMonth() + "/" + d.getYear();
