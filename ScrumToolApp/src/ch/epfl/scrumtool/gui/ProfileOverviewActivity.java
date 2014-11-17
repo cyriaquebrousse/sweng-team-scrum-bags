@@ -23,8 +23,12 @@ import ch.epfl.scrumtool.network.Session;
 public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
 
     private TextView nameView;
+    private TextView jobTitleView;
+    private TextView companyNameView;
     private TextView emailView;
     private ListView sharedProjectsListView;
+    
+    private User userProfile;
 
     private SharedProjectAdapter adapter;
 
@@ -36,7 +40,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
         // Get the connected user, and the user to display
         try {
             User userConnected = Session.getCurrentSession().getUser();
-            User userProfile;
+            
             if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
                 userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
             } else {
@@ -49,14 +53,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
             // TODO : Change empty list by getProjectsSharedWith(userConnected)
             adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
 
-            // Get Views
-            nameView = (TextView) findViewById(R.id.profile_name);
-            emailView = (TextView) findViewById(R.id.profile_email);
-            sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
-
-            // Set Views
-            nameView.setText(userProfile.getName());
-            emailView.setText(userProfile.getEmail());
+            initViews();
 
             sharedProjectsListView.setAdapter(adapter);
             sharedProjectsListView
@@ -75,6 +72,30 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
             e.printStackTrace();
         }
 
+    }
+    
+    public void initViews() {
+
+        // Get Views
+        nameView = (TextView) findViewById(R.id.profile_name);
+        jobTitleView = (TextView) findViewById(R.id.profile_jobtitle);
+        companyNameView = (TextView) findViewById(R.id.profile_company);
+        emailView = (TextView) findViewById(R.id.profile_email);
+        sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
+
+        // Set Views
+        nameView.setText(userProfile.fullname());
+        emailView.setText(userProfile.getEmail());
+        if (userProfile.getJobTitle().length() > 0) {
+            jobTitleView.setText(userProfile.getJobTitle());
+        } else {
+            findViewById(R.id.profile_field_jobtitle).setVisibility(View.INVISIBLE);
+        }
+        if (userProfile.getCompanyName().length() > 0) {
+            companyNameView.setText(userProfile.getCompanyName());
+        } else {
+            findViewById(R.id.profile_field_company).setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
