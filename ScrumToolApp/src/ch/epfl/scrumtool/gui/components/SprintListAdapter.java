@@ -33,9 +33,11 @@ public class SprintListAdapter extends DefaultAdapter<Sprint> {
         TextView date = (TextView) convertView.findViewById(R.id.sprint_row_date);
         
         Sprint sprint = getList().get(position);
-        name.setText(sprint.getTitle());
+        
         Calendar deadline = Calendar.getInstance();
         deadline.setTimeInMillis(sprint.getDeadline());
+        
+        name.setText(sprint.getTitle());
         date.setText(deadlineAsString(deadline));
         
         return convertView;
