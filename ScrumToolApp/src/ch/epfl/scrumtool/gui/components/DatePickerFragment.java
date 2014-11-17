@@ -34,6 +34,6 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear,
             int dayOfMonth) {
-        // Do something with the data
+        
     }
 }
