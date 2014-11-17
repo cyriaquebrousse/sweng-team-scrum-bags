@@ -212,20 +212,20 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     
     @Override
     public int compareTo(Sprint that) {
-        final int BEFORE = -1;
-        final int EQUAL = 0;
-        final int AFTER = 1;
+        final int before = -1;
+        final int equal = 0;
+        final int after = 1;
         
         if (this == that) {
-            return EQUAL;
+            return equal;
         }
         
         if (this.getDeadline() < that.getDeadline()) {
-            return BEFORE;
+            return before;
         }
         
         if (this.getDeadline() > that.getDeadline()) {
-            return AFTER;
+            return after;
         }
         
         int comparison = this.getTitle().compareTo(that.getTitle());

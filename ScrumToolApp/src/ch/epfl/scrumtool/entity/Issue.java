@@ -274,7 +274,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param sprint
          */
         public Issue.Builder setSprint(Sprint sprint) {
-            if(sprint != null) {
+            if (sprint != null) {
                 this.sprint = sprint;
             }
             return this;
@@ -302,17 +302,21 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
 
     @Override
     public int compareTo(Issue that) {
-        final int EQUAL = 0;
+        final int equal = 0;
         
         if (this == that) {
-            return EQUAL;
+            return equal;
         }
         
         int comparison = this.getStatus().compareTo(that.getStatus());
-        if (comparison != EQUAL) return comparison;
+        if (comparison != equal) {
+            return comparison;
+        }
         
         comparison = this.getPriority().compareTo(that.getPriority());
-        if (comparison != EQUAL) return comparison;
+        if (comparison != equal) {
+            return comparison;
+        }
         
         comparison = this.getName().compareTo(that.getName());
         return comparison;

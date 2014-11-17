@@ -212,15 +212,17 @@ public final class Player implements Serializable, Comparable<Player> {
 
     @Override
     public int compareTo(Player that) {
-        final int EQUAL = 0;
+        final int equal = 0;
         
         if (this == that) {
-            return EQUAL;
+            return equal;
         }
         
         
         int comparison = this.getUser().compareTo(that.getUser());
-        if (comparison != EQUAL) return comparison;
+        if (comparison != equal) {
+            return comparison;
+        }
         
         comparison = this.getRole().compareTo(that.getRole());
         return comparison;

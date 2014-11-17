@@ -206,17 +206,21 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
 
     @Override
     public int compareTo(MainTask that) {
-        final int EQUAL = 0;
+        final int equal = 0;
         
         if (this == that) {
-            return EQUAL;
+            return equal;
         }
         
         int comparison = this.getStatus().compareTo(that.getStatus());
-        if (comparison != EQUAL) return comparison;
+        if (comparison != equal) {
+            return comparison;
+        }
         
         comparison = this.getPriority().compareTo(that.getPriority());
-        if (comparison != EQUAL) return comparison;
+        if (comparison != equal) {
+            return comparison;
+        }
         
         comparison = this.getName().compareTo(that.getName());
         return comparison;
