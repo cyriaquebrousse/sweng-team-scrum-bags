@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
@@ -15,7 +16,8 @@ public class IssueOverviewActivity extends BaseMenuActivity {
     private TextView descriptionView;
     private TextView statusView;
     private Stamp estimationStamp;
-//    private TextView assigneeName;
+    private TextView assigneeName;
+    private TextView sprintView;
 
     private Issue issue;
 
@@ -30,7 +32,8 @@ public class IssueOverviewActivity extends BaseMenuActivity {
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
-//        assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
+        assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
+        sprintView = (TextView) findViewById(R.id.issue_sprint_label);
         
 //        assigneeName.setOnClickListener(new OnClickListener() {
 //            @Override
@@ -51,6 +54,7 @@ public class IssueOverviewActivity extends BaseMenuActivity {
         statusView.setText(issue.getStatus().toString());
 //        assigneeName.setText(issue.getPlayer().getUser().getName());
 //        assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        sprintView.setText(issue.getSprint().getTitle());
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));

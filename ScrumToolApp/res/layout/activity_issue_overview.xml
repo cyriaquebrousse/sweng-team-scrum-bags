@@ -18,7 +18,7 @@
         android:maxLines="1"
         android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
-
+    
     <!-- Status -->
     <TextView
         android:id="@+id/issue_status"
@@ -52,7 +52,7 @@
         android:maxLines="1"
         android:text="@string/issue_assignee_label"
         android:textStyle="bold" />
-
+    
     <!-- Assignee profile picture -->
     <TextView
         android:id="@+id/issue_assignee_picture"
@@ -86,6 +86,15 @@
             android:id="@+id/issue_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        
+         
     </ScrollView>
+
+    <TextView
+        android:id="@+id/issue_sprint_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_estimation_stamp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

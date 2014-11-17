@@ -21,6 +21,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -57,6 +58,12 @@ public class DSIssueHandler implements IssueHandler {
             } else {
                 playerKey = null;
             }
+            final String sprintKey;
+            if (issue.getSprint() != null) {
+                sprintKey = issue.getSprint().getKey();
+            } else {
+                sprintKey = null;
+            }
             AsyncTask<ScrumIssue, Void, OperationStatus> task = new AsyncTask<ScrumIssue, Void, OperationStatus>() {
                 @Override
                 protected OperationStatus doInBackground(ScrumIssue... params) {
@@ -64,7 +71,7 @@ public class DSIssueHandler implements IssueHandler {
                     try {
 
                         Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.insertScrumIssue(maintask.getKey(),
+                        opStat = service.insertScrumIssue(sprintKey, maintask.getKey(),
                                 playerKey, params[0]).execute();
                     } catch (IOException e) {
                         callback.failure("Issue could not be inserted on the Database");
@@ -105,6 +112,9 @@ public class DSIssueHandler implements IssueHandler {
         final ScrumPlayer scrumPlayer = new ScrumPlayer();
         scrumPlayer.setKey(modified.getPlayer().getKey());
         changes.setAssignedPlayer(scrumPlayer); //scrumPlayer has only it's key set
+        final ScrumSprint scrumSprint = new ScrumSprint();
+        scrumSprint.setKey(modified.getSprint().getKey());
+        changes.setSprint(scrumSprint);
         try {
             changes.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());

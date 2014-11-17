@@ -18,6 +18,7 @@ public final class Issue extends AbstractTask implements Serializable {
 
     private float estimatedTime;
     private Player player;
+    private Sprint sprint;
 
     /**
      * @param key
@@ -29,10 +30,11 @@ public final class Issue extends AbstractTask implements Serializable {
      * @param player
      */
     private Issue(String key, String name, String description, Status status,
-            Priority priority, float estimatedTime, Player player) {
+            Priority priority, float estimatedTime, Player player, Sprint sprint) {
         super(key, name, description, status, priority);
         this.estimatedTime = estimatedTime;
         this.player = player;
+        this.sprint = sprint;
 
     }
 
@@ -48,6 +50,10 @@ public final class Issue extends AbstractTask implements Serializable {
      */
     public Player getPlayer() {
         return player;
+    }
+    
+    public Sprint getSprint() {
+        return sprint;
     }
 
     /**
@@ -116,6 +122,7 @@ public final class Issue extends AbstractTask implements Serializable {
         private Priority priority;
         private float estimatedTime;
         private Player player;
+        private Sprint sprint;
 
         public Builder() {
             this.key = "";
@@ -134,6 +141,7 @@ public final class Issue extends AbstractTask implements Serializable {
             this.priority = otherIssue.getPriority();
             this.estimatedTime = otherIssue.estimatedTime;
             this.player = otherIssue.player;
+            this.sprint = otherIssue.sprint;
         }
 
         /**
@@ -252,13 +260,32 @@ public final class Issue extends AbstractTask implements Serializable {
             }
             return this;
         }
+        
+        /**
+         * 
+         * @return the sprint
+         */
+        public Sprint getSprint() {
+            return sprint;
+        }
+        
+        /**
+         * 
+         * @param sprint
+         */
+        public Issue.Builder setSprint(Sprint sprint) {
+            if(sprint != null) {
+                this.sprint = sprint;
+            }
+            return this;
+        }
 
         /**
          * @return
          */
         public Issue build() {
             return new Issue(this.key, this.name, this.description,
-                    this.status, this.priority, this.estimatedTime, this.player);
+                    this.status, this.priority, this.estimatedTime, this.player, this.sprint);
         }
 
     }

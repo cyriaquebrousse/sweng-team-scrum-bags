@@ -13,9 +13,11 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
+import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.network.Client;
 
@@ -30,8 +32,10 @@ public class IssueEditActivity extends BaseMenuActivity {
     private EditText issueEstimationView;
     private Player player;
     
-    private PlayerListAdapter adapter;
+    private PlayerListAdapter playerAdapter;
+    private SprintListAdapter sprintAdapter;
     private Spinner issueAssigneeSpinner;
+    private Spinner sprintSpinner;
 
 
     /** If {@code null} then we are in create mode, otherwise in edit mode*/
@@ -51,8 +55,16 @@ public class IssueEditActivity extends BaseMenuActivity {
         Client.getScrumClient().loadPlayers(project, new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(List<Player> playerList) {
-                adapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
-                issueAssigneeSpinner.setAdapter(adapter);
+                playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
+                issueAssigneeSpinner.setAdapter(playerAdapter);
+            }
+        });
+        
+        Client.getScrumClient().loadSprints(project, new DefaultGUICallback<List<Sprint>>(this) {
+            @Override
+            public void interactionDone(List<Sprint> sprintList) {
+                sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
+                sprintSpinner.setAdapter(sprintAdapter);
             }
         });
     }
@@ -77,6 +89,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueDescriptionView = (EditText) findViewById(R.id.issue_description_edit);
         issueEstimationView = (EditText) findViewById(R.id.issue_estimation_edit);
         issueAssigneeSpinner = (Spinner) findViewById(R.id.issue_assignee_spinner);
+        sprintSpinner = (Spinner) findViewById(R.id.sprint_spinner);
 
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
@@ -84,7 +97,12 @@ public class IssueEditActivity extends BaseMenuActivity {
         if (issueBuilder.getPlayer() == null) {
             issueAssigneeSpinner.setSelection(0);
         } else {
-            issueAssigneeSpinner.setSelection(adapter.getList().indexOf(issueBuilder.getPlayer()));
+            issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
+        }
+        if(issueBuilder.getSprint() == null) {
+            sprintSpinner.setSelection(0);
+        } else {
+            sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
         }
     }
 
@@ -104,6 +122,7 @@ public class IssueEditActivity extends BaseMenuActivity {
             issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO get this value from the user
             issueBuilder.setPriority(Priority.NORMAL); // TODO get this value from the user
             issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
+            issueBuilder.setSprint((Sprint) sprintSpinner.getSelectedItem());
 
             if (original == null) {
                 insertIssue();

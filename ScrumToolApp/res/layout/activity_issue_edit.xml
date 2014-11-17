@@ -48,6 +48,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_assignee_label" />
     
+    <TextView
+        android:id="@+id/sprint_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/issue_assignee_spinner"
+        android:text="Sprint" />
+    
+    <Spinner
+        android:id="@+id/sprint_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sprint_label" />
+    
     <!-- "Save" button -->
     <!-- This button is temporary -->
     <Button
