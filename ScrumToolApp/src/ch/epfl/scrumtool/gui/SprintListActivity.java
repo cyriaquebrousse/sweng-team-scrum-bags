@@ -119,8 +119,9 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     
     @Override
     void openEditElementActivity(Sprint sprint) {
-        Intent openTaskEditIntent = new Intent(this, SprintOverviewActivity.class);
-        openTaskEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        startActivity(openTaskEditIntent);
+        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
+        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openSprintEditIntent);
     }
 }

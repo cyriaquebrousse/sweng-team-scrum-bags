@@ -10,6 +10,7 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -89,6 +90,7 @@ public class SprintEditActivity extends BaseMenuActivity {
                 if (sprint == null) {
                     insertSprint();
                 } else {
+                    Log.d("test", "test");
                     updateSprint();
                 }
             } else {

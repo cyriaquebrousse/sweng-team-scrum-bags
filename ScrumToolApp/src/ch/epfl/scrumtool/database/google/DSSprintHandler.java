@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.SprintHandler;
@@ -93,6 +94,7 @@ public class DSSprintHandler implements SprintHandler {
             final ScrumSprint scrumSprint = new ScrumSprint();
             scrumSprint.setKey(modified.getKey());
             scrumSprint.setName(modified.getTitle());
+            Log.d("test", scrumSprint.getName());
             scrumSprint.setDate(modified.getDeadline());
             scrumSprint.setLastModDate((new Date()).getTime());
             scrumSprint.setLastModUser(session.getUser().getEmail());
