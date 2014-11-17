@@ -94,7 +94,7 @@ public final class Sprint implements Serializable {
      * @param callback
      */
     public void addIssue(final Issue issue, final Callback<Boolean> callback) {
-        Client.getScrumClient().addIssue(issue, this, callback);
+        Client.getScrumClient().addIssueToSprint(issue, this, callback);
     }
 
     /**
@@ -104,7 +104,7 @@ public final class Sprint implements Serializable {
      * @param callback
      */
     public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssue(issue, this, callback);
+        Client.getScrumClient().removeIssueFromSprint(issue, this, callback);
     }
 
     /**

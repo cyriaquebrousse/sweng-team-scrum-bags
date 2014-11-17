@@ -99,13 +99,13 @@ public class DBScrumClient implements ScrumClient {
     }
 
     @Override
-    public void addIssue(Issue issue, Sprint sprint, Callback<Boolean> callback) {
+    public void addIssueToSprint(Issue issue, Sprint sprint, Callback<Boolean> callback) {
         databaseHandlers.getIssueHandler().assignIssueToSprint(issue, sprint,
                 callback);
     }
 
     @Override
-    public void removeIssue(Issue issue, Sprint sprint,
+    public void removeIssueFromSprint(Issue issue, Sprint sprint,
             Callback<Boolean> callback) {
         databaseHandlers.getIssueHandler().removeIssue(issue, sprint, callback);
     }

@@ -79,6 +79,14 @@ public final class Issue extends AbstractTask implements Serializable {
     public void remove(final Callback<Boolean> callback) {
         Client.getScrumClient().deleteIssue(this, callback);
     }
+    
+    public void addToSprint(final Sprint sprint, final Callback<Boolean> callback) {
+        Client.getScrumClient().addIssueToSprint(this, sprint, callback);
+    }
+    
+    public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
+        Client.getScrumClient().removeIssueFromSprint(this, sprint, callback);
+    }
 
     /**
      * A Builder for the Issue
