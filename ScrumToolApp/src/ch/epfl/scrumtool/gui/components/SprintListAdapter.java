@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui.components;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -33,9 +34,15 @@ public class SprintListAdapter extends DefaultAdapter<Sprint> {
         
         Sprint sprint = getList().get(position);
         name.setText(sprint.getTitle());
-        date.setText(date.getText().toString());
+        Calendar deadline = Calendar.getInstance();
+        deadline.setTimeInMillis(sprint.getDeadline());
+        date.setText(deadlineAsString(deadline));
         
         return convertView;
     }
-
+    
+    private String deadlineAsString(Calendar deadline) {
+        return deadline.get(Calendar.DAY_OF_MONTH) + "/" + deadline.get(Calendar.MONTH)
+                + "/" + deadline.get(Calendar.YEAR);
+    }
 }

@@ -1,7 +1,10 @@
-package ch.epfl.scrumtool;
+package ch.epfl.scrumtool.gui;
 
 import java.util.Calendar;
 
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.R.id;
+import ch.epfl.scrumtool.R.layout;
 import ch.epfl.scrumtool.entity.Sprint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,7 +14,7 @@ import android.widget.TextView;
  * @author AlexVeuthey
  *
  */
-public class SprintOverviewActivity extends Activity {
+public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
     private Sprint sprint;
     
@@ -34,10 +37,8 @@ public class SprintOverviewActivity extends Activity {
         deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
         
         name.setText(sprint.getTitle());
-        deadline.setText(getDeadline());
+        deadline.setText(getDeadline(sprint.getDeadline()));
     }
-    
-    // TODO edit sprint via the toolbar
     
     // TODO delete sprint via the toolbar
     
@@ -48,10 +49,15 @@ public class SprintOverviewActivity extends Activity {
         }
     }
     
-    private String getDeadline() {
-        Calendar deadline = Calendar.getInstance();
-        deadline.setTimeInMillis(sprint.getDeadline());
-        return "" + deadline.get(Calendar.DAY_OF_MONTH) + "/" 
-            + deadline.get(Calendar.MONTH) + "/" + deadline.get(Calendar.YEAR);
+    private String getDeadline(long deadline) {
+        Calendar deadlineAsCal = Calendar.getInstance();
+        deadlineAsCal.setTimeInMillis(deadline);
+        return "" + deadlineAsCal.get(Calendar.DAY_OF_MONTH) + "/" 
+            + deadlineAsCal.get(Calendar.MONTH) + "/" + deadlineAsCal.get(Calendar.YEAR);
+    }
+
+    @Override
+    void openEditElementActivity(Object optionalElementToEdit) {
+        // TODO edit sprint via the toolbar
     }
 }
