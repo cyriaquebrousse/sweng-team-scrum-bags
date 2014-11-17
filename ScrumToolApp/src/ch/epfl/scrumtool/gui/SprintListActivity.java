@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.SprintOverviewActivity;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -12,11 +13,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
@@ -47,6 +50,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             public void interactionDone(final List<Sprint> sprintList) {
                 adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
                 listView = (ListView) findViewById(R.id.sprintList);
+                registerForContextMenu(listView);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener(new OnItemClickListener() {
@@ -81,6 +85,21 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_entity_edit:
+                openEditElementActivity(adapter.getItem(info.position));
+                return true;
+            case R.id.action_entity_delete:
+                deleteSprint(adapter.getItem(info.position));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
     
     private void initProject() {
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
@@ -89,11 +108,19 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         }
     }
     
-    // TODO delete element via context menu
-
+    private void deleteSprint(final Sprint sprint) {
+        sprint.remove(new DefaultGUICallback<Boolean>(this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                adapter.remove(sprint);
+            }
+        });
+    }
+    
     @Override
-    void openEditElementActivity(Sprint optionalElementToEdit) {
-        // TODO Auto-generated method stub
-        Toast.makeText(SprintListActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+    void openEditElementActivity(Sprint sprint) {
+        Intent openTaskEditIntent = new Intent(this, SprintOverviewActivity.class);
+        openTaskEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        startActivity(openTaskEditIntent);
     }
 }

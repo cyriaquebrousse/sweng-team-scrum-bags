@@ -102,6 +102,10 @@
             android:name=".SprintOverviewActivity"
             android:label="@string/title_activity_sprint_overview" >
         </activity>
+        <activity
+            android:name=".gui.SprintEditActivity"
+            android:label="@string/title_activity_issue_edit" >
+        </activity>
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class SprintListAdapter extends DefaultAdapter<Sprint> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listrow_player, parent, false);
+            convertView = inflater.inflate(R.layout.listrow_sprint, parent, false);
         }
         
         TextView name = (TextView) convertView.findViewById(R.id.sprint_row_name);
