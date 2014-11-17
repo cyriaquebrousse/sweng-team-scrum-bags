@@ -1,27 +1,21 @@
 package ch.epfl.scrumtool.gui;
 
 import java.util.Calendar;
-import java.util.List;
 
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 
 /**
  * @author AlexVeuthey
  *
  */
-public class SprintOverviewActivity extends BaseOverviewMenuActivity<Sprint> {
+public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
     private Sprint sprint;
     private Project project;
@@ -94,7 +88,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity<Sprint> {
     }
 
     @Override
-    void openEditElementActivity(Sprint optionalElementToEdit) {
+    void openEditElementActivity() {
         Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
         openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
         openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);

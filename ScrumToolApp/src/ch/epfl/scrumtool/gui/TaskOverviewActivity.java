@@ -62,6 +62,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
                         Issue issue = issueList.get(position);
                         openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+                        openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+                        openIssueIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
                         startActivity(openIssueIntent);
                     }
                 });

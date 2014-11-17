@@ -10,7 +10,7 @@ import ch.epfl.scrumtool.entity.Project;
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectOverviewActivity extends BaseMenuActivity {
+public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
 
     private TextView nameView;
     private TextView descriptionView;
@@ -49,5 +49,12 @@ public class ProjectOverviewActivity extends BaseMenuActivity {
         Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
         openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openSprintsIntent);
+    }
+
+    @Override
+    void openEditElementActivity() {
+        Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
+        openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openProjectEditIntent);
     }
 }

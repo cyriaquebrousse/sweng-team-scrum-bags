@@ -20,7 +20,7 @@ import ch.epfl.scrumtool.network.Session;
 /**
  * @author ketsio
  */
-public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
+public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
 
     private TextView nameView;
     private TextView jobTitleView;
@@ -47,8 +47,6 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
                 userProfile = userConnected;
             }
             
-            setOverviewElement(userProfile);
-
             // Create the adapter
             // TODO : Change empty list by getProjectsSharedWith(userConnected)
             adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
@@ -99,7 +97,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity<User> {
     }
 
     @Override
-    void openEditElementActivity(User optionalElementToEdit) {
+    void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);
         startActivity(intent);
     }

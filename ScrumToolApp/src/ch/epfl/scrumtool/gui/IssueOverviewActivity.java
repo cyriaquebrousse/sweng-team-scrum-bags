@@ -1,16 +1,18 @@
 package ch.epfl.scrumtool.gui;
 
-import android.graphics.Paint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
  * @author Cyriaque Brousse
  */
-public class IssueOverviewActivity extends BaseMenuActivity {
+public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
     private TextView nameView;
     private TextView descriptionView;
@@ -20,6 +22,8 @@ public class IssueOverviewActivity extends BaseMenuActivity {
     private TextView sprintView;
 
     private Issue issue;
+    private MainTask parentTask;
+    private Project parentProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class IssueOverviewActivity extends BaseMenuActivity {
         setContentView(R.layout.activity_issue_overview);
 
         issue = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
+        parentProject = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
 
         nameView = (TextView) findViewById(R.id.issue_name);
         descriptionView = (TextView) findViewById(R.id.issue_desc);
@@ -58,5 +64,15 @@ public class IssueOverviewActivity extends BaseMenuActivity {
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
+    }
+
+    @Override
+    void openEditElementActivity() {
+        Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
+        openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+        openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, parentTask);
+        openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, parentProject);
+        startActivity(openIssueEditIntent);
+        
     }
 }

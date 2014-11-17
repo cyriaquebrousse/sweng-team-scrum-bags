@@ -99,7 +99,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         } else {
             issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
         }
-        if(issueBuilder.getSprint() == null) {
+        if (issueBuilder.getSprint() == null) {
             sprintSpinner.setSelection(0);
         } else {
             sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));

@@ -10,11 +10,8 @@ import ch.epfl.scrumtool.R;
  * that display overviews of entities.
  * 
  * @author zenhaeus
- * @param <E>
- *            type of the entity that is displayed in the child activitie's overview
  */
-public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity {
-    private E overviewElement = null;
+public abstract class BaseOverviewMenuActivity extends BaseMenuActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,20 +28,11 @@ public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity {
         
         switch (item.getItemId()) {
             case Menu.FIRST:
-                openEditElementActivity(overviewElement);
+                openEditElementActivity();
                 return true;
             default:
                 return false;
         }
-    }
-    
-    /**
-     * Sets object that should be edited when clicking 
-     * the edit menu button
-     * @param overviewElement
-     */
-    public void setOverviewElement(E overviewElement) {
-        this.overviewElement = overviewElement;
     }
     
     /**
@@ -53,6 +41,6 @@ public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity {
      * @param optionToEdit
      *            the element to edit
      */
-    abstract void openEditElementActivity(E optionalElementToEdit);
+    abstract void openEditElementActivity();
     
 }
