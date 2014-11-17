@@ -2,9 +2,7 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
@@ -14,7 +12,7 @@ import ch.epfl.scrumtool.network.Client;
  * @author Cyriaque Brousse
  */
 
-public final class Sprint implements Serializable {
+public final class Sprint implements Serializable, Comparable<Sprint> {
     private static final long serialVersionUID = -5819472452849232304L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
 
@@ -210,5 +208,28 @@ public final class Sprint implements Serializable {
     @Override
     public int hashCode() {
         return key.hashCode();
+    }
+    
+    @Override
+    public int compareTo(Sprint that) {
+        final int BEFORE = -1;
+        final int EQUAL = 0;
+        final int AFTER = 1;
+        
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        if (this.getDeadline() < that.getDeadline()) {
+            return BEFORE;
+        }
+        
+        if (this.getDeadline() > that.getDeadline()) {
+            return AFTER;
+        }
+        
+        int comparison = this.getTitle().compareTo(that.getTitle());
+        
+        return comparison;
     }
 }

@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.network.Client;
  * 
  */
 
-public final class User implements Serializable {
+public final class User implements Serializable, Comparable<User> {
 
     private static final long serialVersionUID = 7681922700115023885L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.USER";
@@ -258,20 +258,6 @@ public final class User implements Serializable {
             return this;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (o == null || !(o instanceof User)) {
-                return false;
-            }
-            User other = (User) o;
-            return other.getEmail().equals(this.getEmail());
-        }
-
-        @Override
-        public int hashCode() {
-            return email.hashCode();
-        }
-
         /**
          * @return the projects
          */
@@ -282,5 +268,34 @@ public final class User implements Serializable {
         }
 
     }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof User)) {
+            return false;
+        }
+        User other = (User) o;
+        return other.getEmail().equals(this.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return email.hashCode();
+    }
+
+    @Override
+    public int compareTo(User that) {
+        final int EQUAL = 0;
+        
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        int comparison = this.getLastName().compareTo(that.getLastName());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getName().compareTo(that.getName());
+        return comparison;
+    }
+
 
 }

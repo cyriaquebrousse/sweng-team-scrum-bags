@@ -11,6 +11,12 @@ import ch.epfl.scrumtool.R;
  */
 public enum Priority implements Serializable {
     
+    /*
+     * The order of definition also specifies the natural 
+     * order of the enum values, which means:
+     * 
+     * LOW < NORMAL < HIGH < URGENT
+     */
     LOW(R.color.blue, "LOW"),
     NORMAL(R.color.darkgreen, "NORMAL"),
     HIGH(R.color.Orange, "HIGH"),

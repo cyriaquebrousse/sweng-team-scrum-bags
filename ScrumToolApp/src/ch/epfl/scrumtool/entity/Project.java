@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.network.Client;
 /**
  * @author Vincent, zenhaeus
  */
-public final class Project implements Serializable {
+public final class Project implements Serializable, Comparable<Project> {
 
     private static final long serialVersionUID = -4181818270822077982L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
@@ -235,6 +235,19 @@ public final class Project implements Serializable {
     @Override
     public int hashCode() {
         return key.hashCode();
+    }
+
+    @Override
+    public int compareTo(Project that) {
+        final int EQUAL = 0;
+
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        int comparison = this.getName().compareTo(that.getName());
+        
+        return comparison;
     }
 
 }

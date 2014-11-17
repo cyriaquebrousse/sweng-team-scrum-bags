@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.network.Client;
  * @author Vincent, zenhaeus
  * 
  */
-public final class Issue extends AbstractTask implements Serializable {
+public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
 
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.ISSUE";
     private static final long serialVersionUID = -1590796103232831763L;
@@ -298,6 +298,24 @@ public final class Issue extends AbstractTask implements Serializable {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public int compareTo(Issue that) {
+        final int EQUAL = 0;
+        
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        int comparison = this.getStatus().compareTo(that.getStatus());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getPriority().compareTo(that.getPriority());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getName().compareTo(that.getName());
+        return comparison;
     }
 
 }

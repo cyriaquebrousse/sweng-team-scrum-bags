@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.network.Client;
  * 
  */
 
-public final class MainTask extends AbstractTask implements Serializable {
+public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
 
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
@@ -45,16 +45,6 @@ public final class MainTask extends AbstractTask implements Serializable {
         // }
         // }
         return estimated ? estimation : -1;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof MainTask && super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     /**
@@ -202,5 +192,33 @@ public final class MainTask extends AbstractTask implements Serializable {
             return new MainTask(this.id, this.name, this.description,
                     this.status, this.priority);
         }
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MainTask && super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public int compareTo(MainTask that) {
+        final int EQUAL = 0;
+        
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        int comparison = this.getStatus().compareTo(that.getStatus());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getPriority().compareTo(that.getPriority());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getName().compareTo(that.getName());
+        return comparison;
     }
 }

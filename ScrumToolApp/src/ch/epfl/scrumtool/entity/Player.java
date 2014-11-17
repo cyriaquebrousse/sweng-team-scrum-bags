@@ -9,7 +9,7 @@ import ch.epfl.scrumtool.network.Client;
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player implements Serializable {
+public final class Player implements Serializable, Comparable<Player> {
 
     private static final long serialVersionUID = -1373129649658028177L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PLAYER";
@@ -65,20 +65,6 @@ public final class Player implements Serializable {
      */
     public boolean isAdmin() {
         return this.isAdmin;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || !(o instanceof Player)) {
-            return false;
-        }
-        Player other = (Player) o;
-        return other.key.equals(this.key);
-    }
-
-    @Override
-    public int hashCode() {
-        return key.hashCode();
     }
 
     /**
@@ -208,6 +194,36 @@ public final class Player implements Serializable {
         public Player build() {
             return new Player(this.keyb, this.user, this.role, this.isAdmin);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Player)) {
+            return false;
+        }
+        Player other = (Player) o;
+        return other.key.equals(this.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
+
+    @Override
+    public int compareTo(Player that) {
+        final int EQUAL = 0;
+        
+        if (this == that) {
+            return EQUAL;
+        }
+        
+        
+        int comparison = this.getUser().compareTo(that.getUser());
+        if (comparison != EQUAL) return comparison;
+        
+        comparison = this.getRole().compareTo(that.getRole());
+        return comparison;
     }
 
 }

@@ -6,7 +6,13 @@ package ch.epfl.scrumtool.entity;
  * @author ketsio
  */
 public enum Role {
-    
+
+    /*
+     * The order of definition also specifies the natural 
+     * order of the enum values, which means:
+     * 
+     * PRODUCT_OWNER < STAKEHOLDER < ... < INVITED
+     */
     PRODUCT_OWNER("Product Owner", true),
     STAKEHOLDER("Stakeholder", false),
     SCRUM_MASTER("Scrum Master", true),
