@@ -64,7 +64,9 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
                             public void onSelected(Role selected) {
                                 adapter.setRole(selected, view, listView);
                                 Player player = adapter.getItem(position);
-                                player.update(player, new Callback<Boolean>() {
+                                Player.Builder builder = new Player.Builder(player);
+                                builder.setRole(selected);
+                                builder.build().update(null, new Callback<Boolean>() {
                                     
                                     @Override
                                     public void interactionDone(Boolean object) {

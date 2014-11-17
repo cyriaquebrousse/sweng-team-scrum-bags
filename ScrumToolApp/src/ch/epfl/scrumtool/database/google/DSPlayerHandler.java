@@ -92,7 +92,7 @@ public class DSPlayerHandler implements PlayerHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     opStat = session.getAuthServiceObject()
-                            .removeScrumProject(params[0]).execute();
+                            .removeScrumPlayer(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
