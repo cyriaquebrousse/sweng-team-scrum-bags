@@ -31,7 +31,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     private int sprintMonth = 0;
     private int sprintDay = 0;
     
-    private Calendar today = Calendar.getInstance();
+    private final Calendar today = Calendar.getInstance();
     private long sprintDeadline = today.getTimeInMillis();
     private String name = null;
     
