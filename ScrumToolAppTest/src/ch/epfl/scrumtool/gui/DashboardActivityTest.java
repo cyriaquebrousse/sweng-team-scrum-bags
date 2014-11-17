@@ -35,11 +35,4 @@ public class DashboardActivityTest extends
                 matches(isClickable()));
         onView(withId(R.id.dashboard_button_my_profile)).perform(click());
     }
-
-    public void testEditProfilButton() {
-        onView(withId(R.id.dashboard_button_edit_my_profile)).check(
-                matches(isClickable()));
-        onView(withId(R.id.dashboard_button_edit_my_profile)).perform(click());
-    }
-
 }
