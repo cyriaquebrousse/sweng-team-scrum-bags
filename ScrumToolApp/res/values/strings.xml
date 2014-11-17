@@ -34,7 +34,6 @@
     <string name="button_login">Login</string>
     <string name="button_add_task">add task</string>
     <string name="sprint_pick_date_button">Pick a date</string>
-    <string name="sprint_edit_done">Done</string>
     <string name="create_sprint_button">Create a new Sprint</string>
     <string name="button_dashboard_project_list">See all projects</string>
     <string name="button_dashboard_my_profile">My profile</string>
