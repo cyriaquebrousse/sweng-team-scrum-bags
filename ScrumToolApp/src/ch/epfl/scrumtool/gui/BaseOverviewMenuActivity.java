@@ -2,21 +2,18 @@ package ch.epfl.scrumtool.gui;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 
 /**
- * Abstracts the concept of our menus, which are similar throughout the
- * application
- * 
- * This class 
+ * This class is an extension of our {@link BaseMenuActivity} that adds
+ * further functionalities to the action bar which are needed in activities
+ * that display overviews of entities.
  * 
  * @author zenhaeus
  * @param <E>
- *            type of the entity we are mainly dealing with in this activity
- *            (e.g. Project)
+ *            type of the entity that is displayed in the child activitie's overview
  */
-public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity implements OnMenuItemClickListener {
+public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity {
     private E overviewElement = null;
     
     @Override
@@ -41,12 +38,13 @@ public abstract class BaseOverviewMenuActivity<E> extends BaseMenuActivity imple
         }
     }
     
+    /**
+     * Sets object that should be edited when clicking 
+     * the edit menu button
+     * @param overviewElement
+     */
     public void setOverviewElement(E overviewElement) {
         this.overviewElement = overviewElement;
-    }
-    
-    public E getOverviewElement() {
-        return this.overviewElement;
     }
     
     /**
