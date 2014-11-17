@@ -65,7 +65,8 @@
     <string name="action_logout">Logout</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
-
+    <string name="action_show_profile">My Profile</string>
+    
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
 

@@ -42,7 +42,10 @@ public abstract class BaseMenuActivity extends Activity implements OnMenuItemCli
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                logoutAndOpenLoginActivity();
+                this.logoutAndOpenLoginActivity();
+                return true;
+            case R.id.action_show_profile:
+                this.openProfileOverviewActivity();
                 return true;
             default:
                 return false;
@@ -73,6 +76,14 @@ public abstract class BaseMenuActivity extends Activity implements OnMenuItemCli
         Intent openLoginIntent = new Intent(this, LoginActivity.class);
         startActivity(openLoginIntent);
         this.finish();
+    }
+    
+    /**
+     * Opens the {@link ProfileOverviewActivity}
+     */
+    private void openProfileOverviewActivity() {
+        Intent intent = new Intent(this, ProfileOverviewActivity.class);
+        startActivity(intent);
     }
     
 }
