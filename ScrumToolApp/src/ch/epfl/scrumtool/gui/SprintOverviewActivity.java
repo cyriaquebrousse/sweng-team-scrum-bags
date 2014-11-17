@@ -3,10 +3,9 @@ package ch.epfl.scrumtool.gui;
 import java.util.Calendar;
 
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.R.id;
-import ch.epfl.scrumtool.R.layout;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,9 +13,10 @@ import android.widget.TextView;
  * @author AlexVeuthey
  *
  */
-public class SprintOverviewActivity extends BaseOverviewMenuActivity {
+public class SprintOverviewActivity extends BaseOverviewMenuActivity<Sprint> {
 
     private Sprint sprint;
+    private Project project;
     
     private TextView name;
     private TextView deadline;
@@ -47,6 +47,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         if (sprint == null) {
             throw new NullPointerException("Clicked Sprint cannot be null");
         }
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        if (project == null) {
+            throw new NullPointerException("Parent project cannot be null");
+        }
     }
     
     private String getDeadline(long deadline) {
@@ -57,7 +61,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     }
 
     @Override
-    void openEditElementActivity(Object optionalElementToEdit) {
-        // TODO edit sprint via the toolbar
+    void openEditElementActivity(Sprint optionalElementToEdit) {
+        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
+        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openSprintEditIntent);
     }
 }

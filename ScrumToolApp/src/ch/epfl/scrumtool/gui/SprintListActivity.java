@@ -59,6 +59,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
 
                         Sprint sprint = sprintList.get(position);
                         openSprintOverviewIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+                        openSprintOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
                         startActivity(openSprintOverviewIntent);
                     }
                 });
