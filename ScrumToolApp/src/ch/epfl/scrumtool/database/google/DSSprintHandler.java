@@ -54,8 +54,8 @@ public class DSSprintHandler implements SprintHandler {
                     GoogleSession session = (GoogleSession) Session
                             .getCurrentSession();
                     Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumSprint(project.getKey(), params[0])
-                            .execute();
+                    opStat = service.insertScrumSprint(project.getKey(),
+                            params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -182,12 +182,14 @@ public class DSSprintHandler implements SprintHandler {
             protected void onPostExecute(CollectionResponseScrumSprint result) {
                 List<ScrumSprint> resultItems = result.getItems();
                 ArrayList<Sprint> sprints = new ArrayList<Sprint>();
-                for (ScrumSprint s : resultItems) {
-                    Sprint.Builder sprintBuilder = new Sprint.Builder();
-                    sprintBuilder.setKey(s.getKey());
-                    sprintBuilder.setTitle(s.getName());
-                    sprintBuilder.setDeadline(s.getDate());
-                    sprints.add(sprintBuilder.build());
+                if (resultItems != null) {
+                    for (ScrumSprint s : resultItems) {
+                        Sprint.Builder sprintBuilder = new Sprint.Builder();
+                        sprintBuilder.setKey(s.getKey());
+                        sprintBuilder.setTitle(s.getName());
+                        sprintBuilder.setDeadline(s.getDate());
+                        sprints.add(sprintBuilder.build());
+                    }
                 }
                 callback.interactionDone(sprints);
             }
