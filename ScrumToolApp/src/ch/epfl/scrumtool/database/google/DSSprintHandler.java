@@ -185,6 +185,7 @@ public class DSSprintHandler implements SprintHandler {
             protected void onPostExecute(CollectionResponseScrumSprint result) {
                 List<ScrumSprint> resultItems = result.getItems();
                 ArrayList<Sprint> sprints = new ArrayList<Sprint>();
+                
                 if (resultItems != null) {
                     for (ScrumSprint s : resultItems) {
                         Sprint.Builder sprintBuilder = new Sprint.Builder();
