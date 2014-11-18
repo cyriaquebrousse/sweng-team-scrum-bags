@@ -87,7 +87,6 @@ public class ProfileEditActivity extends Activity {
     }
 
     public void saveUserChanges(View view) {
-        Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
 
         checkNullableMinAndMax(firstNameView);
         checkNullableMinAndMax(lastNameView);
