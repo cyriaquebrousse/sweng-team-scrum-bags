@@ -109,12 +109,18 @@ public class ProfileEditActivity extends Activity {
             userBuilder.setCompanyName(companyNameView.getText().toString());
             // TODO : transforme day/month/year to (long) time
             
-            User userToUpdate = userBuilder.build();
+            final User userToUpdate = userBuilder.build();
             userToUpdate.update(new DefaultGUICallback<Boolean>(this) {
                 @Override
                 public void interactionDone(Boolean success) {
                     if (success.booleanValue()) {
-                        ProfileEditActivity.this.finish();
+                        try {
+                            Session.getCurrentSession().setUser(userToUpdate);
+                            ProfileEditActivity.this.finish();
+                        } catch (NotAuthenticatedException e) {
+                            // TODO Redirection vers login
+                            e.printStackTrace();
+                        }
                     } else {
                         Toast.makeText(ProfileEditActivity.this, "Could not edit profile", Toast.LENGTH_SHORT).show();
                     }

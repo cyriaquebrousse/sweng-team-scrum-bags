@@ -14,7 +14,7 @@ import ch.epfl.scrumtool.settings.ApplicationSettings;
 public abstract class Session {
     private static Session currentSession = null;
 
-    private final User user;
+    private User user;
 
     /**
      * @param user
@@ -33,6 +33,16 @@ public abstract class Session {
      */
     public User getUser() {
         return user;
+    }
+    
+    /**
+     * Set the current user when editing
+     * @param updatedUser
+     */
+    public void setUser(User updatedUser) {
+        if (updatedUser != null && updatedUser.getEmail() == user.getEmail()) {
+            this.user = updatedUser;
+        }
     }
 
     /**
