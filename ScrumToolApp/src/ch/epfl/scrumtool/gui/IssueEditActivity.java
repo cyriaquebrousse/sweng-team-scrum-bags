@@ -55,6 +55,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         Client.getScrumClient().loadPlayers(project, new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(List<Player> playerList) {
+                playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
                 issueAssigneeSpinner.setAdapter(playerAdapter);
             }
@@ -63,6 +64,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         Client.getScrumClient().loadSprints(project, new DefaultGUICallback<List<Sprint>>(this) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
+                sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
                 sprintSpinner.setAdapter(sprintAdapter);
             }

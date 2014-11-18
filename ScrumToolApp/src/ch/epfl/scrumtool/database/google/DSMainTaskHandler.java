@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
 import ch.epfl.scrumtool.entity.MainTask;

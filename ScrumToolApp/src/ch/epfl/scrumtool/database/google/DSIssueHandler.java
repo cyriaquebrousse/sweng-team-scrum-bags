@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.entity.Issue;
@@ -71,8 +70,9 @@ public class DSIssueHandler implements IssueHandler {
                     try {
 
                         Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.insertScrumIssue(sprintKey, maintask.getKey(),
-                                playerKey, params[0]).execute();
+                        
+                        opStat = service.insertScrumIssue(maintask.getKey(), params[0])
+                                .setPlayerKey(playerKey).setSprintKey(sprintKey).execute();
                     } catch (IOException e) {
                         callback.failure("Issue could not be inserted on the Database");
                     }
@@ -188,7 +188,8 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void loadIssues(final MainTask mainTask,
             final Callback<List<Issue>> callback) {
-        AsyncTask<String, Void, CollectionResponseScrumIssue> task = new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
+        AsyncTask<String, Void, CollectionResponseScrumIssue> task = 
+                new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
             @Override
             protected CollectionResponseScrumIssue doInBackground(
@@ -234,7 +235,8 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB) {
-        AsyncTask<String, Void, CollectionResponseScrumIssue> task = new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
+        AsyncTask<String, Void, CollectionResponseScrumIssue> task = 
+                new AsyncTask<String, Void, CollectionResponseScrumIssue>() {
 
             @Override
             protected CollectionResponseScrumIssue doInBackground(

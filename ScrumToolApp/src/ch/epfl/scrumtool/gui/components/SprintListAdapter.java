@@ -34,11 +34,16 @@ public class SprintListAdapter extends DefaultAdapter<Sprint> {
         
         Sprint sprint = getList().get(position);
         
-        Calendar deadline = Calendar.getInstance();
-        deadline.setTimeInMillis(sprint.getDeadline());
-        
-        name.setText(sprint.getTitle());
-        date.setText(deadlineAsString(deadline));
+        if (sprint != null) {
+            Calendar deadline = Calendar.getInstance();
+            deadline.setTimeInMillis(sprint.getDeadline());
+
+            name.setText(sprint.getTitle());
+            date.setText(deadlineAsString(deadline));
+        } else {
+            name.setText(R.string.no_sprint);
+            date.setText("");
+        }
         
         return convertView;
     }

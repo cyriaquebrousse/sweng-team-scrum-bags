@@ -218,14 +218,17 @@ public final class Player implements Serializable, Comparable<Player> {
             return equal;
         }
         
-        
-        int comparison = this.getUser().compareTo(that.getUser());
-        if (comparison != equal) {
+        if (that != null) {
+            int comparison = this.getUser().compareTo(that.getUser());
+            if (comparison != equal) {
+                return comparison;
+            }
+            
+            comparison = this.getRole().compareTo(that.getRole());
             return comparison;
+        } else {
+            return 0;
         }
-        
-        comparison = this.getRole().compareTo(that.getRole());
-        return comparison;
     }
 
 }

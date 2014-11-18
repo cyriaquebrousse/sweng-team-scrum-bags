@@ -41,8 +41,14 @@ public final class PlayerListAdapter extends DefaultAdapter<Player> {
         TextView role = (TextView) convertView.findViewById(R.id.player_row_role);
 
         Player player = getList().get(position);
-        name.setText(player.getUser().getName());
-        role.setText(player.getRole().toString());
+        
+        if (player != null) {
+            name.setText(player.getUser().getName());
+            role.setText(player.getRole().toString());
+        } else {
+            name.setText(R.string.no_player);
+            role.setText("");
+        }
         
         return convertView;
     }
