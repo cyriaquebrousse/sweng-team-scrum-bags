@@ -35,14 +35,22 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
 
+        final View progressBar = findViewById(R.id.waiting_task_list);
+        listView = (ListView) findViewById(R.id.backlog_tasklist);
+        listView.setEmptyView(progressBar);
+
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
 
         final DefaultGUICallback<List<MainTask>> maintasksLoaded = new DefaultGUICallback<List<MainTask>>(this) {
             @Override
             public void interactionDone(final List<MainTask> taskList) {
-                adapter = new TaskListAdapter(BacklogActivity.this, taskList);
+                if (taskList.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
+                    View emptyList = findViewById(R.id.empty_task_list);
+                    listView.setEmptyView(emptyList);
+                }
 
-                listView = (ListView) findViewById(R.id.backlog_tasklist);
+                adapter = new TaskListAdapter(BacklogActivity.this, taskList);
                 registerForContextMenu(listView);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
@@ -59,7 +67,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                 });
 
                 adapter.notifyDataSetChanged();
-                
             }
         };
         project.loadBacklog(maintasksLoaded);

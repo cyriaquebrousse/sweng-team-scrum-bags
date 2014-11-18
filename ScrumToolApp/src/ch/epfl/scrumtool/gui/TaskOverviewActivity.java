@@ -44,16 +44,24 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
-        
-        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
 
+        final View progressBar = findViewById(R.id.waiting_issue_list);
+        listView = (ListView) findViewById(R.id.task_issues_list);
+        listView.setEmptyView(progressBar);
+
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
+
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            
             @Override
             public void interactionDone(final List<Issue> issueList) {
+                if (issueList.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
+                    View emptyList = findViewById(R.id.empty_issue_list);
+                    listView.setEmptyView(emptyList);
+                }
+
                 adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
-                listView = (ListView) findViewById(R.id.task_issues_list);
                 registerForContextMenu(listView);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {

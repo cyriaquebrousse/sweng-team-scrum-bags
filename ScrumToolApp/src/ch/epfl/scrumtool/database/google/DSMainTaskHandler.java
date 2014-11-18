@@ -112,10 +112,9 @@ public class DSMainTaskHandler implements MainTaskHandler {
                         maintaskBuilder.setStatus(ch.epfl.scrumtool.entity.Status.valueOf(s.getStatus()));
                         mainTasks.add(maintaskBuilder.build());
                     }
-                    callback.interactionDone(mainTasks);
-                } else {
-                    Log.d("test", "warning the task list is empty");
                 }
+                // TODO better error handling
+                callback.interactionDone(mainTasks);
             }
         };
         task.execute(project.getKey());
@@ -202,7 +201,5 @@ public class DSMainTaskHandler implements MainTaskHandler {
     public void insert(MainTask maintask, Callback<MainTask> cB) {
         throw new UnsupportedOperationException();
     }
-
-
 
 }

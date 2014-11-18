@@ -170,7 +170,8 @@ public class DSProjectHandler implements ProjectHandler {
                         projectBuilder.setKey(sP.getKey());
                         projects.add(projectBuilder.build());
                     }
-                } 
+                }
+                // TODO better error handling
                 callback.interactionDone(projects);
             }
         };

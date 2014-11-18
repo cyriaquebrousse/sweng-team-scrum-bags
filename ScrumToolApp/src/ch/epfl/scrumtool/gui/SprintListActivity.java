@@ -40,13 +40,22 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         initProject();
         
         setTitle(R.string.title_activity_sprint_list);
-        
+
+        final View progressBar = findViewById(R.id.waiting_sprint_list);
+        listView = (ListView) findViewById(R.id.sprintList);
+        listView.setEmptyView(progressBar);
+
         project.loadSprints(new DefaultGUICallback<List<Sprint>>(this) {
 
             @Override
             public void interactionDone(final List<Sprint> sprintList) {
+                if (sprintList.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
+                    View emptyList = findViewById(R.id.empty_sprint_list);
+                    listView.setEmptyView(emptyList);
+                }
+
                 adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
-                listView = (ListView) findViewById(R.id.sprintList);
                 registerForContextMenu(listView);
                 listView.setAdapter(adapter);
 

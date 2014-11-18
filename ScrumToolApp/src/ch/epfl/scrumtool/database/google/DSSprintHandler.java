@@ -194,6 +194,7 @@ public class DSSprintHandler implements SprintHandler {
                         sprints.add(sprintBuilder.build());
                     }
                 }
+                // TODO better error handling
                 callback.interactionDone(sprints);
             }
         }.execute(project.getKey());

@@ -12,5 +12,18 @@
         android:layout_height="wrap_content"
         android:divider="@color/list_divider"
         android:dividerHeight="1dp" />
-
+    <ProgressBar 
+        android:id="@+id/waiting_task_list"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.ProgressBar.Large"/>
+    <TextView 
+        android:id="@+id/empty_task_list"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="There are no tasks in the Backlog."
+        android:visibility="gone"/>
+    
 </RelativeLayout>

@@ -30,14 +30,23 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectlist);
+        setContentView(R.layout.activity_project_list);
+        
+        final View progressBar = findViewById(R.id.waiting_project_list);
+        listView = (ListView) findViewById(R.id.project_list);
+        listView.setEmptyView(progressBar);
         
         Client.getScrumClient().loadProjects(new DefaultGUICallback<List<Project>>(this) {
             
             @Override
             public void interactionDone(final List<Project> projectList) {
+                if (projectList.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
+                    View emptyList = findViewById(R.id.empty_project_list);
+                    listView.setEmptyView(emptyList);
+                }
+
                 adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
-                listView = (ListView) findViewById(R.id.project_list);
                 registerForContextMenu(listView);
                 listView.setAdapter(adapter);
 

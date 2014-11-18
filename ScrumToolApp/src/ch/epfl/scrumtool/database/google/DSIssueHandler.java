@@ -224,8 +224,9 @@ public class DSIssueHandler implements IssueHandler {
                                 .getPriority()));
                         issues.add(issueBuilder.build());
                     }
-                    callback.interactionDone(issues);
                 }
+                // TODO better error handling
+                callback.interactionDone(issues);
             }
         };
         task.execute(mainTask.getKey());
