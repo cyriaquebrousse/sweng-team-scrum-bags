@@ -1,14 +1,21 @@
 package ch.epfl.scrumtool.gui;
 
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 
 /**
@@ -33,7 +40,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         initActivity();
         initViews();
         
-        /*sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
+        sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
 
             @Override
             public void interactionDone(final List<Issue> issueList) {
@@ -54,7 +61,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 adapter.notifyDataSetChanged();
             }
             
-        });*/
+        });
+        
+        initViews();
+        updateViews();
     }
     
     private void initViews() {
@@ -65,7 +75,13 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadline.setText(getDeadline(sprint.getDeadline()));
     }
     
-    // TODO delete sprint via the toolbar
+    private void updateViews() {
+        name = (TextView) findViewById(R.id.sprint_overview_name);
+        deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
+        
+        name.setText(sprint.getTitle());
+        deadline.setText(getDeadline(sprint.getDeadline()));
+    }
     
     // TODO add issues to the Sprint
     
@@ -97,7 +113,15 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
     @Override
     void deleteElement() {
-        // TODO Auto-generated method stub
-        
+        sprint.remove(new DefaultGUICallback<Boolean>(this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (success) {
+                    SprintOverviewActivity.this.finish();
+                } else {
+                    Toast.makeText(SprintOverviewActivity.this, "Could not delete sprint", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
