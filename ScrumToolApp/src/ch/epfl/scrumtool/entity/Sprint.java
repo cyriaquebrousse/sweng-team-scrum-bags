@@ -216,20 +216,24 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         final int equal = 0;
         final int after = 1;
         
-        if (this == that) {
-            return equal;
-        }
-        
-        if (this.getDeadline() < that.getDeadline()) {
-            return before;
-        }
-        
-        if (this.getDeadline() > that.getDeadline()) {
+        if(that != null) {
+            if (this == that) {
+                return equal;
+            }
+            
+            if (this.getDeadline() < that.getDeadline()) {
+                return before;
+            }
+            
+            if (this.getDeadline() > that.getDeadline()) {
+                return after;
+            }
+            
+            int comparison = this.getTitle().compareTo(that.getTitle());
+            
+            return comparison;
+        } else {
             return after;
         }
-        
-        int comparison = this.getTitle().compareTo(that.getTitle());
-        
-        return comparison;
     }
 }
