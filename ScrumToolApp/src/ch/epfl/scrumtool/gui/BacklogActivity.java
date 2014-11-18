@@ -40,6 +40,7 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         listView.setEmptyView(progressBar);
 
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        this.setTitle(project.getName());
 
         final DefaultGUICallback<List<MainTask>> maintasksLoaded = new DefaultGUICallback<List<MainTask>>(this) {
             @Override

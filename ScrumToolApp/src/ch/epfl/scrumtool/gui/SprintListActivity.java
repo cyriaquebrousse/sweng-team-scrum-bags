@@ -39,7 +39,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         
         initProject();
         
-        setTitle(R.string.title_activity_sprint_list);
+        this.setTitle(project.getName());
 
         final View progressBar = findViewById(R.id.waiting_sprint_list);
         listView = (ListView) findViewById(R.id.sprintList);

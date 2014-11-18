@@ -44,13 +44,12 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
 
         // Get the connected user, and the user to display
         try {
-            User userConnected = Session.getCurrentSession().getUser();
-            
             if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
                 userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
             } else {
-                userProfile = userConnected;
+                userProfile = Session.getCurrentSession().getUser();;
             }
+            this.setTitle(userProfile.getName());
             
             // Create the adapter
             // TODO : Change empty list by getProjectsSharedWith(userConnected)

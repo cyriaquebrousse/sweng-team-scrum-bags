@@ -29,6 +29,7 @@ public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
 
         project = (Project) getIntent().getSerializableExtra(
                 Project.SERIALIZABLE_NAME);
+        this.setTitle(project.getName());
 
         nameView = (TextView) findViewById(R.id.project_title);
         descriptionView = (TextView) findViewById(R.id.project_description);

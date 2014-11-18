@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.setTitle("Welcome");
 
         sessionBuilder = new GoogleSession.Builder(this);
         String accName = ApplicationSettings.getCachedUser(this);

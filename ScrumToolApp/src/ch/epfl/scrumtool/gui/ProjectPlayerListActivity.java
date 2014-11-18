@@ -48,6 +48,8 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
 
         initProject();
         initAddPlayerBlock();
+        
+        this.setTitle(project.getName());
 
         DefaultGUICallback<List<Player>> playersLoaded = new DefaultGUICallback<List<Player>>(this) {
             @Override

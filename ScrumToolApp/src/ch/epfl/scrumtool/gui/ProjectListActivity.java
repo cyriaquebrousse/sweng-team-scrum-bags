@@ -32,6 +32,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list);
         
+        this.setTitle("Projects");
+        
         final View progressBar = findViewById(R.id.waiting_project_list);
         listView = (ListView) findViewById(R.id.project_list);
         listView.setEmptyView(progressBar);

@@ -52,6 +52,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
 
+        this.setTitle(task.getName());
+        
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
             public void interactionDone(final List<Issue> issueList) {

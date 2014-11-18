@@ -40,6 +40,8 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         initActivity();
         initViews();
         
+        this.setTitle(sprint.getTitle());
+        
         sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
 
             @Override
