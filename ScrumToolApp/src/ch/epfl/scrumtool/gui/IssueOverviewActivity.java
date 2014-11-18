@@ -1,12 +1,17 @@
 package ch.epfl.scrumtool.gui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
@@ -78,7 +83,23 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
     @Override
     void deleteElement() {
-        // TODO Auto-generated method stub
-        
+        new AlertDialog.Builder(this).setTitle("Delete Issue")
+            .setMessage("Do you really want to delete this issue?")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = IssueOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Boolean>(context) {
+                        @Override
+                        public void interactionDone(Boolean success) {
+                            Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 }
