@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -18,7 +19,7 @@ public class ApplicationSettings {
      * @return String
      * Returns the cached user id
      */
-    public static String getCachedUser(Activity context) {
+    public static String getCachedUser(Context context) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCES, 0);
         return settings.getString(USER_PREF_KEY, null);
     }
@@ -27,7 +28,7 @@ public class ApplicationSettings {
      * Removes the currently cached user from settings
      * @param context
      */
-    public static void removeCachedUser(Activity context) {
+    public static void removeCachedUser(Context context) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCES, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(USER_PREF_KEY);

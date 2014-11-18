@@ -9,19 +9,21 @@
     tools:context="ch.epfl.scrumtool.gui.SprintListActivity" >
     
     <ListView
-         >
-        
-        
-        
-    </ListView>
-    
-    <Button
-    android:id="@+id/button1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true"
-    android:text="@string/create_sprint_button"
-    android:onClick="createSprint" />
+        android:id="@+id/sprintList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ProgressBar 
+        android:id="@+id/waiting_sprint_list"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.ProgressBar.Large"/>
+    <TextView 
+        android:id="@+id/empty_sprint_list"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="There are no sprints for this project."
+        android:visibility="gone"/>
     
 </RelativeLayout>

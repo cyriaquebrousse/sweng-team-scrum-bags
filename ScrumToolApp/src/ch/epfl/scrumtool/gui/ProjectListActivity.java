@@ -13,17 +13,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectListActivity extends BaseMenuActivity<Project> implements OnMenuItemClickListener {
+public class ProjectListActivity extends BaseListMenuActivity<Project> {
 
     private ListView listView;
     private ProjectListAdapter adapter;
@@ -31,14 +30,25 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectlist);
-
-        Client.getScrumClient().loadProjects(new Callback<List<Project>>() {
+        setContentView(R.layout.activity_project_list);
+        
+        this.setTitle("Projects");
+        
+        final View progressBar = findViewById(R.id.waiting_project_list);
+        listView = (ListView) findViewById(R.id.project_list);
+        listView.setEmptyView(progressBar);
+        
+        Client.getScrumClient().loadProjects(new DefaultGUICallback<List<Project>>(this) {
+            
             @Override
             public void interactionDone(final List<Project> projectList) {
-                
+                if (projectList.isEmpty()) {
+                    progressBar.setVisibility(View.GONE);
+                    View emptyList = findViewById(R.id.empty_project_list);
+                    listView.setEmptyView(emptyList);
+                }
+
                 adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
-                listView = (ListView) findViewById(R.id.project_list);
                 registerForContextMenu(listView);
                 listView.setAdapter(adapter);
 
@@ -99,11 +109,11 @@ public class ProjectListActivity extends BaseMenuActivity<Project> implements On
      * @param project
      *            the project to delete
      */
-    private void deleteProject(Project project) {
-        Client.getScrumClient().deleteProject(project, new Callback<Boolean>() {
+    private void deleteProject(final Project project) {
+        project.remove(new DefaultGUICallback<Boolean>(this) {
             @Override
-            public void interactionDone(Boolean object) {
-                adapter.notifyDataSetChanged();
+            public void interactionDone(Boolean success) {
+                adapter.remove(project);
             }
         });
     }

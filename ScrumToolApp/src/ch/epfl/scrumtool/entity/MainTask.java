@@ -11,12 +11,10 @@ import ch.epfl.scrumtool.network.Client;
  * 
  */
 
-public final class MainTask extends AbstractTask implements Serializable {
-    
+public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
+
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
-    
-    private Priority priority;
 
     /**
      * @param name
@@ -27,38 +25,11 @@ public final class MainTask extends AbstractTask implements Serializable {
      */
     private MainTask(String id, String name, String description, Status status,
             Priority priority) {
-        super(id, name, description, status);
-        if (priority == null) {
-            throw new NullPointerException("MainTask.Constructor");
-        }
-        this.priority = priority;
-    }
-
-
-    /**
-     * @return the subtasks
-     */
-    public void loadIssues(Callback<List<Issue>> callback) {
-        Client.getScrumClient().loadIssues(this, callback);
-    }
-
-    // TODO save and remove methods for issues
-
-    /**
-     * @return the priority
-     */
-    public Priority getPriority() {
-        return priority;
+        super(id, name, description, status, priority);
     }
 
     public int getIssuesFinishedCount() {
-        int count = 0;
-        // for (Issue i : issues) {
-        // if (i.getStatus() == Status.FINISHED) {
-        // ++count;
-        // }
-        // }
-        return count;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public float getEstimatedTime() {
@@ -76,14 +47,43 @@ public final class MainTask extends AbstractTask implements Serializable {
         return estimated ? estimation : -1;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof MainTask && super.equals(o);
+    /**
+     * Creates the maintask in the DS
+     * 
+     * @param project
+     * @param callback
+     */
+    public void insert(final Project project, final Callback<MainTask> callback) {
+        Client.getScrumClient().insertMainTask(this, project, callback);
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    /**
+     * Updates the maintask in the DS
+     * 
+     * @param ref
+     * @param project
+     * @param callback
+     */
+    public void update(final MainTask ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updateMainTask(this, ref, callback);
+    }
+
+    /**
+     * Removes the maintask form the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteMainTask(this, callback);
+    }
+
+    /**
+     * Loads the issues of this maintask from the DS
+     * 
+     * @param callback
+     */
+    public void loadIssues(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssues(this, callback);
     }
 
     /**
@@ -100,12 +100,13 @@ public final class MainTask extends AbstractTask implements Serializable {
         private Priority priority;
 
         public Builder() {
+            this.id = "";
             this.name = "";
             this.description = "";
             this.status = Status.READY_FOR_ESTIMATION;
             this.priority = Priority.NORMAL;
         }
-        
+
         public Builder(MainTask task) {
             this.id = task.getKey();
             this.name = task.getName();
@@ -118,14 +119,15 @@ public final class MainTask extends AbstractTask implements Serializable {
          * 
          * @return the id
          */
-        public String getId() {
+        public String getKey() {
             return id;
         }
 
-        public void setId(String id) {
-            if (id != null) {
-                this.id = id;
+        public MainTask.Builder setKey(String key) {
+            if (key != null) {
+                this.id = key;
             }
+            return this;
         }
 
         /**
@@ -139,10 +141,11 @@ public final class MainTask extends AbstractTask implements Serializable {
          * @param name
          *            the name to set
          */
-        public void setName(String name) {
+        public MainTask.Builder setName(String name) {
             if (name != null) {
                 this.name = name;
             }
+            return this;
         }
 
         /**
@@ -156,37 +159,70 @@ public final class MainTask extends AbstractTask implements Serializable {
          * @param description
          *            the description to set
          */
-        public void setDescription(String description) {
+        public MainTask.Builder setDescription(String description) {
             if (description != null) {
                 this.description = description;
             }
+            return this;
         }
 
-        /**
-         * 
-         * @return the status
-         */
         public Status getStatus() {
             return this.status;
         }
 
-        public void setStatus(Status status) {
-            if (status.isAValidStatus()) {
+        public MainTask.Builder setStatus(Status status) {
+            if (status != null) {
                 this.status = status;
             }
+            return this;
         }
 
         public Priority getPriority() {
             return priority;
         }
 
-        public void setPriority(Priority priority) {
-            this.priority = priority;
+        public MainTask.Builder setPriority(Priority priority) {
+            if (priority != null) {
+                this.priority = priority;
+            }
+            return this;
         }
 
         public MainTask build() {
             return new MainTask(this.id, this.name, this.description,
                     this.status, this.priority);
         }
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof MainTask && super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public int compareTo(MainTask that) {
+        final int equal = 0;
+        
+        if (this == that) {
+            return equal;
+        }
+        
+        int comparison = this.getStatus().compareTo(that.getStatus());
+        if (comparison != equal) {
+            return comparison;
+        }
+        
+        comparison = this.getPriority().compareTo(that.getPriority());
+        if (comparison != equal) {
+            return comparison;
+        }
+        
+        comparison = this.getName().compareTo(that.getName());
+        return comparison;
     }
 }

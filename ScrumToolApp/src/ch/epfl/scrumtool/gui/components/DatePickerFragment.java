@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components.widgets;
+package ch.epfl.scrumtool.gui.components;
 
 import java.util.Calendar;
 
@@ -34,6 +34,6 @@ public class DatePickerFragment extends DialogFragment
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear,
             int dayOfMonth) {
-        // Do something with the data
+        
     }
 }

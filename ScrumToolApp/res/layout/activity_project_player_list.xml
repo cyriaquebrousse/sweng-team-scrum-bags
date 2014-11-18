@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_list_add_playeremail"
             android:layout_alignParentEnd="true"
-            android:text="Add" />
+            android:text="Add"
+            android:onClick="addPlayer" />
     </RelativeLayout>
 
     <!-- Current project players list -->

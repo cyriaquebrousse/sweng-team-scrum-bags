@@ -53,28 +53,55 @@
 	        android:layout_height="wrap_content"
 	        android:padding="@dimen/space" >
 	        
-	        <LinearLayout 
-	            android:orientation="horizontal"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="@dimen/space" >
-	            
-	            <TextView 
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content" 
-	                android:layout_weight="0.4"
-	                android:text="@string/username"
-	                android:textSize="@dimen/default_text_size"
-	                android:textStyle="bold" />
-	            
-	            <TextView 
-	                android:id="@+id/profile_username"
-	                android:layout_width="0dp"
-	                android:layout_height="wrap_content" 
-	                android:layout_weight="0.6"
-	                android:textSize="@dimen/default_text_size" />
-	            
-	        </LinearLayout>
+            <LinearLayout 
+                android:id="@+id/profile_field_jobtitle"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space" >
+                
+                <TextView 
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="0.4"
+                    android:text="@string/jobtitle"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+                
+                <TextView 
+                    android:id="@+id/profile_jobtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="0.6"
+                    android:textSize="@dimen/default_text_size" />
+                
+            </LinearLayout>
+            
+            
+            <LinearLayout 
+                android:id="@+id/profile_field_company"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space" >
+                
+                <TextView 
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="0.4"
+                    android:text="@string/company"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+                
+                <TextView 
+                    android:id="@+id/profile_company"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" 
+                    android:layout_weight="0.6"
+                    android:textSize="@dimen/default_text_size" />
+                
+            </LinearLayout>
+            
 	        
 	        
 	        <LinearLayout 

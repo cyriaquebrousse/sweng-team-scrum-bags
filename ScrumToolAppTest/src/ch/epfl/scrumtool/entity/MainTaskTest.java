@@ -1,100 +1,73 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.entity;
-
-
-import org.junit.Test;
 
 import junit.framework.TestCase;
 
-/**
- * @author Vincent
- *
- */
-public class MainTaskTest extends TestCase {
+import org.junit.Test;
 
-    /**
-     * @param name
-     */
-    public MainTaskTest(String name) {
-        super(name);
-    }
+public class MainTaskTest extends TestCase{
+    
+    private static final String KEY_1 = "ID1";
+    private static final String NAME_1 = "name1";
+    private static final String DESCRIPTION_1 = "description";
+    private static final Status STATUS_1 = Status.READY_FOR_ESTIMATION;
+    private static final Priority PRIORITY_1 = Priority.NORMAL;
+    
+    private static final MainTask mainTask = new MainTask.Builder()
+        .setKey(KEY_1)
+        .setName(NAME_1)
+        .setDescription(DESCRIPTION_1)
+        .setStatus(STATUS_1)
+        .setPriority(PRIORITY_1)
+        .build();
     
     @Test
-    public void testEquals() {
+    public void testHashCode() {
         fail("Not yet implemented");
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#getEstimatedTime()}.
-     */
     @Test
     public void testGetEstimatedTime() {
         fail("Not yet implemented");
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#MainTask(long, java.lang.String, java.lang.String, ch.epfl.scrumtool.entity.Status, java.util.Set, ch.epfl.scrumtool.entity.Priority)}.
-     */
     @Test
-    public void testMainTaskLongStringStringStatusSetOfIssuePriority() {
-        fail("Not yet implemented");
+    public void testEqualsObject() {
+        MainTask mainTask2 = mainTask;
+        assertEquals(mainTask, mainTask2);
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#MainTask(ch.epfl.scrumtool.entity.MainTask)}.
-     */
-    @Test
-    public void testMainTaskMainTask() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#getIssues()}.
-     */
-    @Test
-    public void testGetIssues() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#addIssue(ch.epfl.scrumtool.entity.Issue)}.
-     */
-    @Test
-    public void testAddIssue() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#removeIssue(ch.epfl.scrumtool.entity.Issue)}.
-     */
-    @Test
-    public void testRemoveIssue() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#getPriority()}.
-     */
-    @Test
-    public void testGetPriority() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#setPriority(ch.epfl.scrumtool.entity.Priority)}.
-     */
-    @Test
-    public void testSetPriority() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.MainTask#getIssuesFinishedCount()}.
-     */
     @Test
     public void testGetIssuesFinishedCount() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testAbstractTask() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetName() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetDescription() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetStatus() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetKey() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testGetPriority() {
         fail("Not yet implemented");
     }
 

@@ -3,117 +3,66 @@
  */
 package ch.epfl.scrumtool.entity;
 
-import org.junit.Test;
-
 import junit.framework.TestCase;
 
 /**
- * @author Vincent
- * 
+ * @author LeoWirz
+ *
  */
 public class AbstractTaskTest extends TestCase {
+    
+    private final static String KEY = "key1";
+    private final static String NAME = "name1";
+    private final static String DESCRIPTION = "description1";
+    private final static Status STATUS = Status.READY_FOR_ESTIMATION;
+    private final static Priority PRIORITY = Priority.NORMAL;
 
-    /**
-     * @param name
-     */
-    public AbstractTaskTest(String name) {
-        super(name);
-    }
-
-    @Test
-    public void testEquals() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#AbstractTask(long, java.lang.String, java.lang.String, ch.epfl.scrumtool.entity.Status)}
-     * .
-     */
-    @Test
+    @SuppressWarnings("serial")
+    private final static AbstractTask abstractTask = new AbstractTask(KEY, NAME, DESCRIPTION, STATUS, PRIORITY) {
+        
+        @Override
+        public float getEstimatedTime() {
+            return 0;
+        }
+    };
+    
     public void testAbstractTask() {
-        fail("Not yet implemented");
+        assertNotNull(abstractTask);
     }
 
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#getEstimatedTime()}.
-     */
-    @Test
     public void testGetEstimatedTime() {
-        fail("Not yet implemented");
+        float time = abstractTask.getEstimatedTime();
+        assertEquals(time, 0f);
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getName()}.
-     */
-    @Test
     public void testGetName() {
-        fail("Not yet implemented");
+        String name = abstractTask.getName();
+        assertEquals(name, NAME);
     }
 
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#setName(java.lang.String)}.
-     */
-    @Test
-    public void testSetName() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#getDescription()}.
-     */
-    @Test
     public void testGetDescription() {
-        fail("Not yet implemented");
+        String description = abstractTask.getDescription();
+        assertEquals(description, DESCRIPTION);
     }
 
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#setDescription(java.lang.String)}
-     * .
-     */
-    @Test
-    public void testSetDescription() {
-        fail("Not yet implemented");
-    }
-
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getStatus()}
-     * .
-     */
-    @Test
     public void testGetStatus() {
-        fail("Not yet implemented");
+        Status status = abstractTask.getStatus();
+        assertEquals(status, STATUS);
     }
 
-    /**
-     * Test method for
-     * {@link ch.epfl.scrumtool.entity.AbstractTask#setStatus(ch.epfl.scrumtool.entity.Status)}
-     * .
-     */
-    @Test
-    public void testSetStatus() {
-        fail("Not yet implemented");
+    public void testGetKey() {
+        String key = abstractTask.getKey();
+        assertEquals(key, KEY);
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#getId()}.
-     */
-    @Test
-    public void testGetId() {
-        fail("Not yet implemented");
+    public void testGetPriority() {
+        Priority priority = abstractTask.getPriority();
+        assertEquals(priority, PRIORITY);
     }
 
-    /**
-     * Test method for {@link ch.epfl.scrumtool.entity.AbstractTask#setId(long)}
-     * .
-     */
-    @Test
-    public void testSetId() {
-        fail("Not yet implemented");
+    public void testEqualsObject() {
+        AbstractTask abstractTask2 = abstractTask;
+        assertTrue(abstractTask.equals(abstractTask2));
     }
 
 }

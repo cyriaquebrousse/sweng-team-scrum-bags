@@ -9,7 +9,7 @@
     <color name="list_row_hover_end_color">#FFebeef0</color>
     
     <!-- Backgrounds -->
-    <color name="profile_background">@color/whitesmoke</color>
+    <color name="profile_background">#FFEDEDED</color>
     
     <!-- Shades -->
     <color name="shade_main">@color/green</color>

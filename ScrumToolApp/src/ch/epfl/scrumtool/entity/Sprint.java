@@ -1,11 +1,10 @@
 package ch.epfl.scrumtool.entity;
 
-import java.util.HashSet;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DatabaseHandler;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -13,8 +12,12 @@ import ch.epfl.scrumtool.network.Client;
  * @author Cyriaque Brousse
  */
 
-public final class Sprint {
-    private final String id;
+public final class Sprint implements Serializable, Comparable<Sprint> {
+    private static final long serialVersionUID = -5819472452849232304L;
+    public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
+
+    private final String key;
+    private final String title;
     private final long deadline;
 
     /**
@@ -26,11 +29,9 @@ public final class Sprint {
      *            the deadline in milliseconds. Must be non-negative
      * @see java.util.Date#getTime()
      */
-    private Sprint(String id, long deadline) {
-        if (id == null || !deadlineIsValid(deadline)) {
-            throw new IllegalArgumentException("Deadline was invalid or no id was provided");
-        }
-        this.id = id;
+    private Sprint(String id, String title, long deadline) {
+        this.key = id;
+        this.title = title;
         this.deadline = deadline;
     }
 
@@ -45,33 +46,73 @@ public final class Sprint {
     /**
      * @return the id
      */
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     /**
-     * The set of issues is returned in a callback
+     * @return
      */
-    public void loadIssues(DatabaseHandler<Sprint> db, Callback<List<Issue>> callback) {
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Creates the sprint in the DS
+     * 
+     * @param project
+     * @param callback
+     */
+    public void insert(final Project project, final Callback<Sprint> callback) {
+        Client.getScrumClient().insertSprint(this, project, callback);
+    }
+
+    /**
+     * Updates the sprint in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Sprint ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updateSprint(this, ref, callback);
+    }
+
+    /**
+     * Removes the sprint from the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteSprint(this, callback);
+    }
+
+    /**
+     * Adds an issue to the sprint in the DS
+     * 
+     * @param issue
+     * @param callback
+     */
+    public void addIssue(final Issue issue, final Callback<Boolean> callback) {
+        Client.getScrumClient().addIssueToSprint(issue, this, callback);
+    }
+
+    /**
+     * Removes the issue from the sprints in the DS
+     * 
+     * @param issue
+     * @param callback
+     */
+    public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
+        Client.getScrumClient().removeIssueFromSprint(issue, this, callback);
+    }
+
+    /**
+     * Load the issues of this sprint from the DS
+     * 
+     * @param callback
+     */
+    public void loadIssues(final Callback<List<Issue>> callback) {
         Client.getScrumClient().loadIssues(this, callback);
-    }
-    
-    /**
-     * Add existing Issue to this Sprint
-     * @param db
-     * @param callback
-     */
-    public void addIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
-        Client.getScrumClient().addIssue(issue, this, callback);
-    }
-
-    /**
-     * Removes existing Issue to this Sprint
-     * @param db
-     * @param callback
-     */
-    public void removeIssue(Issue issue, DatabaseHandler<Sprint> db, Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssue(issue, this, callback);
     }
 
     /**
@@ -81,59 +122,42 @@ public final class Sprint {
      */
 
     public static class Builder {
-        
-        private String id;
+
+        private String keyb;
+        private String title;
         private long deadline;
-        private Set<Issue> issues;
 
         public Builder() {
-            this.issues = new HashSet<Issue>();
+            this.keyb = "";
+            this.title = "";
+            this.deadline = new Date().getTime();
         }
 
+        /**
+         * @param otherSprint
+         */
         public Builder(Sprint otherSprint) {
             this.deadline = otherSprint.deadline;
+            this.title = otherSprint.title;
+            this.keyb = otherSprint.key;
         }
 
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * @return the issues
-         */
-        public Set<Issue> getIssues() {
-            return new HashSet<>(this.issues);
-        }
-
-        /**
-         * @param issue
-         *            the issue to add
-         */
-        public void addIssue(Issue issue) {
-            if (issue != null) {
-                this.issues.add(issue);
+        public Sprint.Builder setKey(String id) {
+            if (id != null) {
+                this.keyb = id;
             }
-        }
-
-        /**
-         * @param issue
-         *            the issue to remove
-         */
-        public void removeIssue(Issue issue) {
-            if (issue != null) {
-                this.issues.remove(issue);
-            }
+            return this;
         }
 
         /**
@@ -145,26 +169,31 @@ public final class Sprint {
 
         /**
          * @param deadline
-         *            the deadline to set
+         *            the deadline to set, in milliseconds
+         * @see Date#getTime()
          */
-        public void setDeadline(long deadline) {
-            if (deadlineIsValid(deadline)) {
-                this.deadline = deadline;
+        public Sprint.Builder setDeadline(long deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Sprint.Builder setTitle(String newTitle) {
+            if (newTitle != null) {
+                this.title = newTitle;
             }
+            return this;
         }
 
+        /**
+         * @return
+         */
         public Sprint build() {
-            return new Sprint(this.id, this.deadline);
+            return new Sprint(this.keyb, this.title, this.deadline);
         }
-    }
-
-    /**
-     * @param deadline
-     *            the deadline whose validity is to be checked
-     * @return true if the deadline is valid, false otherwise
-     */
-    private static boolean deadlineIsValid(long deadline) {
-        return deadline >= 0;
     }
 
     @Override
@@ -173,11 +202,38 @@ public final class Sprint {
             return false;
         }
         Sprint other = (Sprint) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
     }
     
     @Override
-    public int hashCode() {
-        return id.hashCode();
+    public int compareTo(Sprint that) {
+        final int before = -1;
+        final int equal = 0;
+        final int after = 1;
+        
+        if(that != null) {
+            if (this == that) {
+                return equal;
+            }
+            
+            if (this.getDeadline() < that.getDeadline()) {
+                return before;
+            }
+            
+            if (this.getDeadline() > that.getDeadline()) {
+                return after;
+            }
+            
+            int comparison = this.getTitle().compareTo(that.getTitle());
+            
+            return comparison;
+        } else {
+            return after;
+        }
     }
 }

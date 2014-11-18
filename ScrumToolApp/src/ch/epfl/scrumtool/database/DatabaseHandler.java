@@ -3,7 +3,7 @@ package ch.epfl.scrumtool.database;
 /**
  * 
  * @author aschneuw
- *
+ * 
  * @param <A>
  */
 
@@ -17,7 +17,8 @@ public interface DatabaseHandler<A> {
     void insert(final A object, final Callback<A> cB);
 
     /**
-     * loads an object of type A from the database.
+     * Loads an object of type A from the database.
+     * 
      * 
      * @param key
      * @param dbC
@@ -27,10 +28,12 @@ public interface DatabaseHandler<A> {
     /**
      * Updates an object of type A on the database.
      * 
+     * Do not remove the ref parameter, can be usefull later
+     * 
      * @param modified
      * @param dbC
      */
-    void update(final A object, final A reference, final Callback<Boolean> cB);
+    void update(final A object, final A ref, final Callback<Boolean> cB);
 
     /**
      * Removes an object of type A from the database.

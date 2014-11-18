@@ -12,21 +12,23 @@ public abstract class AbstractTask implements Serializable {
     private String name;
     private String description;
     private Status status;
+    private Priority priority;
 
     /**
      * @param key
      * @param name
      * @param description
      */
-    public AbstractTask(String key, String name, String description, Status status) {
+    public AbstractTask(String key, String name, String description, Status status, Priority priority) {
         super();
-        if (key == null || name == null || description == null || status == null) {
+        if (key == null || name == null || description == null || status == null || priority == null) {
             throw new NullPointerException("AbstractTask.Constructor");
         }
         this.key = key;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.priority = priority;
     }
 
     /**
@@ -62,6 +64,13 @@ public abstract class AbstractTask implements Serializable {
 
     public String getKey() {
         return key;
+    }
+    
+    /**
+     * @return the priority
+     */
+    public Priority getPriority() {
+        return this.priority;
     }
 
     @Override

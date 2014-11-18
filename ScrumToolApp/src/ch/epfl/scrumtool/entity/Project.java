@@ -2,37 +2,30 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Random;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
  */
-public final class Project implements Serializable {
+public final class Project implements Serializable, Comparable<Project> {
 
     private static final long serialVersionUID = -4181818270822077982L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
-    private final String id;
+    private final String key;
     private final String name;
     private final String description;
 
-    /**
-     * @param name
-     * @param description
-     * @param admin
-     */
-    private Project(String id, String name, String description) {
+    private Project(String key, String name, String description) {
         super();
-        if (id == null || name == null || description == null) {
+        if (key == null || name == null || description == null) {
             throw new NullPointerException("Project.Constructor");
         }
-
-        // TODO check that admin in players
-        this.id = id;
+        this.key = key;
         this.name = name;
         this.description = description;
     }
@@ -50,57 +43,101 @@ public final class Project implements Serializable {
     public String getDescription() {
         return this.description;
     }
-    
+
     /**
      * @return the admin
      */
     public Player getAdmin() {
         // TODO query database to get admin
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
-     * Load the Players of this Project
+     * @return the key
+     */
+    public String getKey() {
+        return key;
+    }
+
+    /**
+     * Creates the project in the DS
+     * 
      * @param callback
      */
-    public void loadPlayers(Callback<List<Player>> callback) {
+    public void insert(final Callback<Project> callback) {
+        Client.getScrumClient().insertProject(this, callback);
+    }
+
+    /**
+     * updates the project in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Project ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updateProject(this, ref, callback);
+    }
+
+    /**
+     * Deletes the project in the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().deleteProject(this, callback);
+    }
+
+    /**
+     * Adds a player to this project in the DS
+     * 
+     * @param userEmail
+     * @param role
+     * @param callback
+     */
+    public void addPlayer(final String userEmail, final Role role,
+            final Callback<Player> callback) {
+        Client.getScrumClient().addPlayerToProject(this, userEmail, role,
+                callback);
+    }
+
+    /**
+     * Loads the players from the DS
+     * 
+     * @param callback
+     */
+    public void loadPlayers(final Callback<List<Player>> callback) {
         Client.getScrumClient().loadPlayers(this, callback);
     }
 
     /**
-     * Load the Backlog of this Project
+     * Load the sprints of this project from the DS
+     * 
+     * @param defaultGUICallback
+     */
+    public void loadSprints(
+            final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
+        Client.getScrumClient().loadSprints(this, defaultGUICallback);
+    }
+
+    /**
+     * Load the backlog of this project from the DS
+     * 
+     * @param project
      * @param callback
      */
-    public void loadBacklog(Callback<List<MainTask>> callback) {
+    public void loadBacklog(final Callback<List<MainTask>> callback) {
         Client.getScrumClient().loadBacklog(this, callback);
     }
-    
-    /**
-     * @param callback
-     */
-    public void loadSprints(Callback<List<Sprint>> callback) {
-        Client.getScrumClient().loadSprints(this, callback);
-    }
-    
-    // TODO save and remove methods for collections (same style as load methods above)
 
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
+    @Deprecated
+    // TODO create a method in ScrumClient and delete this one.
     public int getChangesCount(User user) {
-        // TODO implement changes count + javadoc
-        Random r = new Random();
-        final int twenty = 20;
-        return r.nextInt(twenty);
+        return 0;
     }
 
+    @Deprecated
+    // TODO create a method in ScrumClient and delete this one.
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-        // TODO Database Call + javadoc
-    	
         return Role.DEVELOPER;
     }
 
@@ -108,20 +145,21 @@ public final class Project implements Serializable {
      * Builder class for Project object
      * 
      * @author zenhaeus
-     *
+     * 
      */
     public static class Builder {
-        private String id;
+        private String keyb;
         private String name;
         private String description;
 
         public Builder() {
             this.name = "";
             this.description = "";
+            this.keyb = "";
         }
-        
+
         public Builder(Project other) {
-            this.id = other.id;
+            this.keyb = other.key;
             this.name = other.name;
             this.description = other.description;
         }
@@ -137,10 +175,11 @@ public final class Project implements Serializable {
          * @param name
          *            the name to set
          */
-        public void setName(String name) {
+        public Project.Builder setName(String name) {
             if (name != null) {
                 this.name = name;
             }
+            return this;
         }
 
         /**
@@ -154,40 +193,33 @@ public final class Project implements Serializable {
          * @param description
          *            the description to set
          */
-        public void setDescription(String description) {
+        public Project.Builder setDescription(String description) {
             if (description != null) {
                 this.description = description;
             }
+            return this;
         }
 
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
+        public Project.Builder setKey(String id) {
+            if (id != null) {
+                this.keyb = id;
+            }
+            return this;
         }
 
-        public int getChangesCount(User user) {
-            // TODO implement changes count + javadoc
-            final int ten = 10;
-            return Math.abs(user.hashCode()) % ten;
-        }
-
-        public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-            // TODO Database Call + javadoc
-            return Role.DEVELOPER;
-        }
-        
         public Project build() {
-            return new Project(this.id, this.name, this.description);
+            return new Project(this.keyb, this.name, this.description);
         }
     }
 
@@ -197,12 +229,25 @@ public final class Project implements Serializable {
             return false;
         }
         Project other = (Project) o;
-        return other.id.equals(this.id);
+        return other.key.equals(this.key);
     }
-    
+
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return key.hashCode();
+    }
+
+    @Override
+    public int compareTo(Project that) {
+        final int equal = 0;
+
+        if (this == that) {
+            return equal;
+        }
+        
+        int comparison = this.getName().compareTo(that.getName());
+        
+        return comparison;
     }
 
 }

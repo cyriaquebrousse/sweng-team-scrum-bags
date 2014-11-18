@@ -6,19 +6,27 @@
 
     <!-- Activity Titles -->
     <string name="title_activity_main">ScrumToolApp</string>
-    <string name="title_activity_backlog">Backlog</string>
-    <string name="title_activity_project_overview">Project overview</string>
+    <string name="title_activity_dashbord">DashbordActivity</string>
     <string name="title_activity_projectList">Projects</string>
-    <string name="title_activity_task">Task</string>
-    <string name="title_activity_user_list">User list</string>
-    <string name="title_activity_task_overview">Task overview</string>
-    <string name="title_activity_issue_overview">Issue overview</string>
-    <string name="title_activity_profile_overview">Profile overview</string>
-    <string name="title_activity_sprint">Sprint</string>
+    <string name="title_activity_project_overview">Project overview</string>
     <string name="title_activity_project_edit">Edit project</string>
     <string name="title_activity_project_edit_new">New project</string>
+    <string name="title_activity_backlog">Backlog</string>
+    <string name="title_activity_task_overview">Task overview</string>
+    <string name="title_activity_task">Task</string>
     <string name="title_activity_task_edit">Edit task</string>
     <string name="title_activity_task_edit_new">New task</string>
+    <string name="title_activity_issue_overview">Issue overview</string>
+    <string name="title_activity_issue_edit">Edit issue</string>
+    <string name="title_activity_issue_edit_new">New issue</string>
+    <string name="title_activity_sprint_list">Sprint list</string>
+    <string name="title_activity_sprint">New sprint</string>
+    <string name="title_activity_sprint_edit">Edit sprint</string>
+    <string name="title_activity_user_list">User list</string>
+    <string name="title_activity_project_player_list">Player list</string>
+    <string name="title_activity_profile_overview">Profile overview</string>
+    <string name="title_activity_profile_edit">ProfileEditActivity</string>
+    <string name="title_activity_sprint_overview">Sprint</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
@@ -27,13 +35,23 @@
     <string name="button_login">Login</string>
     <string name="button_add_task">add task</string>
     <string name="sprint_pick_date_button">Pick a date</string>
-    <string name="sprint_edit_done">Done</string>
     <string name="create_sprint_button">Create a new Sprint</string>
+    <string name="button_dashboard_project_list">See all projects</string>
+    <string name="button_dashboard_my_profile">My profile</string>
+    <string name="button_dashboard_edit_my_profile">Edit my profile</string>
+    <string name="button_edit">edit</string>
+    <string name="button_save">save</string>
 
     <!-- Titles -->
     <string name="shared_projects">Shared Projects</string>
     <string name="email">email</string>
     <string name="username">username</string>
+    <string name="firstname">firstname</string>
+    <string name="lastname">lastname</string>
+    <string name="dateofbirth">date of birth</string>
+    <string name="company">company name</string>
+    <string name="jobtitle">job title</string>
+    <string name="gender">gender</string>
 
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
@@ -47,7 +65,8 @@
     <string name="action_logout">Logout</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
-
+    <string name="action_show_profile">My Profile</string>
+    
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
 
@@ -59,7 +78,12 @@
     <string name="sprint_name">Name</string>
     <string name="sprint_edit_name">Enter a name</string>
     <string name="sprint_date">Date</string>
-    <string name="title_activity_project_player_list">Player list</string>
-    <string name="title_activity_sprint_list">Sprint list</string>
+    <string name="no_date_selected">No date selected</string>
+    <string name="sprint_row_name">Sprint name</string>
+    <string name="sprint_row_date">dd/mm/yyyy</string>
+    <string name="sprint_overview_default_name">Sprint name</string>
+    <string name="sprint_overview_default_deadline">Sprint deadline</string>
+    <string name="no_player">No player assigned</string>
+    <string name="no_sprint">No sprint assigned</string>
 
 </resources>

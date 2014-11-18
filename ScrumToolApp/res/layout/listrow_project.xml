@@ -23,7 +23,8 @@
         android:layout_alignTop="@id/project_row_icon"
         android:layout_toEndOf="@id/project_row_icon"
         android:textSize="@dimen/list_row_name"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLines="1" />
 
     <!-- Project description -->
     <TextView

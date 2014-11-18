@@ -2,17 +2,19 @@ package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
 
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.network.Client;
 
 /**
  * @author Vincent, zenhaeus
  * 
  */
-public final class Player implements Serializable {
-    
+public final class Player implements Serializable, Comparable<Player> {
+
     private static final long serialVersionUID = -1373129649658028177L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PLAYER";
-    
-    private final String id;
+
+    private final String key;
     private final User user;
     private final Role role;
     private final boolean isAdmin;
@@ -20,12 +22,18 @@ public final class Player implements Serializable {
     /**
      * @param user
      */
-    private Player(String id, User user, Role role, boolean isAdmin) {
+    private Player(String key, User user, Role role, boolean isAdmin) {
         super();
-        if (id == null || user == null || role == null) {
-            throw new NullPointerException("Player.Constructor");
+        if (key == null) {
+            throw new NullPointerException("Key cannot be null");
         }
-        this.id = id;
+        if (user == null) {
+            throw new NullPointerException("User cannot be null");
+        }
+        if (role == null) {
+            throw new NullPointerException("Role cannot be null");
+        }
+        this.key = key;
         this.user = user;
         this.role = role;
         this.isAdmin = isAdmin;
@@ -48,52 +56,68 @@ public final class Player implements Serializable {
     /**
      * @return the id
      */
-    public String getId() {
-        return this.id;
+    public String getKey() {
+        return this.key;
     }
-    
+
     /**
      * @return admin Flag
      */
     public boolean isAdmin() {
-    	return this.isAdmin;
+        return this.isAdmin;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || !(o instanceof Player)) {
-            return false;
-        }
-        Player other = (Player) o;
-        return other.id.equals(this.id);
+    /**
+     * Update the player in the DS
+     * 
+     * @param ref
+     * @param callback
+     */
+    public void update(final Player ref, final Callback<Boolean> callback) {
+        Client.getScrumClient().updatePlayer(this, ref, callback);
     }
-    
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-	}
+
+    /**
+     * Removes the player from the DS
+     * 
+     * @param callback
+     */
+    public void remove(final Callback<Boolean> callback) {
+        Client.getScrumClient().removePlayer(this, callback);
+    }
 
     /**
      * Builder Class for Player Object
+     * 
      * @author zenhaeus
-     *
+     * 
      */
     public static class Builder {
         private User user;
-        private String id;
+        private String keyb;
         private Role role;
         private boolean isAdmin;
 
+        /**
+         * 
+         */
         public Builder() {
+            this.isAdmin = false;
+            this.role = Role.INVITED;
+            this.keyb = "";
+
         }
-        
+
+        /**
+         * @param otherPlayer
+         */
         public Builder(Player otherPlayer) {
             this.user = otherPlayer.user;
-            this.id = otherPlayer.id;
+            this.keyb = otherPlayer.key;
             this.role = otherPlayer.role;
             this.isAdmin = otherPlayer.isAdmin;
         }
-        
+
         /**
          * @return the user
          */
@@ -105,10 +129,11 @@ public final class Player implements Serializable {
          * @param user
          *            the user to set
          */
-        public void setUser(User user) {
+        public Player.Builder setUser(User user) {
             if (user != null) {
                 this.user = user;
             }
+            return this;
         }
 
         /**
@@ -118,48 +143,91 @@ public final class Player implements Serializable {
             return role;
         }
 
-        public void setRole(Role role) {
+        /**
+         * @param role
+         */
+        public Player.Builder setRole(Role role) {
             if (role != null) {
                 this.role = role;
             }
+            return this;
         }
 
         /**
          * @return the id
          */
-        public String getId() {
-            return id;
+        public String getKey() {
+            return keyb;
         }
 
         /**
          * @param id
          *            the id to set
          */
-        public void setId(String id) {
-            this.id = id;
+        public Player.Builder setKey(String id) {
+            if (id != null) {
+                this.keyb = id;
+            }
+            return this;
         }
-        
+
         /**
          * @return isAdmin
          */
         public boolean isAdmin() {
             return this.isAdmin;
         }
-        
+
         /**
          * @param isAdmin
          */
-        public void setIsAdmin(boolean isAdmin) {
+        public Player.Builder setIsAdmin(boolean isAdmin) {
             this.isAdmin = isAdmin;
+            return this;
         }
-        
-        
+
         /**
          * Creates and returns a new immutable instance of Player
+         * 
          * @return
          */
         public Player build() {
-            return new Player(this.id, this.user, this.role, this.isAdmin);
+            return new Player(this.keyb, this.user, this.role, this.isAdmin);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof Player)) {
+            return false;
+        }
+        Player other = (Player) o;
+        return other.key.equals(this.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode();
+    }
+
+    @Override
+    public int compareTo(Player that) {
+        final int equal = 0;
+        
+        if (this == that) {
+            return equal;
+        }
+        
+        if (that != null) {
+            int comparison = this.getUser().compareTo(that.getUser());
+            if (comparison != equal) {
+                return comparison;
+            }
+            
+            comparison = this.getRole().compareTo(that.getRole());
+            return comparison;
+        } else {
+            return 0;
         }
     }
 

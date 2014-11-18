@@ -13,13 +13,19 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.PlayerHandler;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
 /**
  * @author aschneuw
@@ -28,83 +34,94 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 public class DSPlayerHandler implements PlayerHandler {
 
     @Override
-    public void insert(final Player object, final Project project, final Callback<Player> dbC) {
-
-        ScrumPlayer player = new ScrumPlayer();
-        player.setAdminFlag(object.isAdmin());
-        Date date = new Date();
-        player.setLastModDate(date.getTime());
-        player.setLastModDate(date.getTime());
-        try {
-            player.setLastModUser(Session.getCurrentSession().getUser()
-                    .getEmail());
-        } catch (NotAuthenticatedException e) {
-            // TODO This exception should probably be handled elsewhere
-            e.printStackTrace();
-        }
-        player.setRole(object.getRole().name());
-        
-
-        AsyncTask<ScrumPlayer, Void, OperationStatus> task = new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
-            @Override
-            protected OperationStatus doInBackground(ScrumPlayer... params) {
-                OperationStatus opStatus = null;
-                try {
-                    GoogleSession s = (GoogleSession) Session
-                            .getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
-                    opStatus = service.insertScrumPlayer(project.getId(), object.getId(), params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStatus;
-            }
-        };
-        task.execute(player);
-
-        // TODO finish this method
+    public void insert(final Player player, final Project project,
+            final Callback<Player> callback) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void load(final String key, final Callback<Player> dbC) {
+    public void load(final String playerKey, final Callback<Player> callback) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
     public void update(final Player modified, final Player ref,
-            final Callback<Boolean> dbC) {
-        // TODO Auto-generated method stub
+            final Callback<Boolean> callback) {
+        try {
+            final GoogleSession session = (GoogleSession) Session
+                    .getCurrentSession();
+            final ScrumPlayer scrumPlayer = new ScrumPlayer();
+            scrumPlayer.setKey(modified.getKey());
+            scrumPlayer.setAdminFlag(modified.isAdmin());
+            scrumPlayer.setRole(modified.getRole().name());
+            scrumPlayer.setLastModDate((new Date()).getTime());
+            scrumPlayer.setLastModUser(session.getUser().getEmail());
 
+            new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
+                @Override
+                protected OperationStatus doInBackground(ScrumPlayer... params) {
+                    OperationStatus opStat = null;
+                    try {
+                        Scrumtool service = session.getAuthServiceObject();
+                        opStat = service.updateScrumPlayer(params[0]).execute();
+                    } catch (IOException e) {
+                        callback.failure("Connection error");
+                    }
+                    return opStat;
+                }
+
+                @Override
+                protected void onPostExecute(OperationStatus result) {
+                    callback.interactionDone(result.getSuccess());
+                }
+            }.execute(scrumPlayer);
+        } catch (NotAuthenticatedException e) {
+            callback.failure("Not authenticated");
+        }
     }
 
     @Override
-    public void remove(Player object, Callback<Boolean> dbC) {
-        // TODO Auto-generated method stub
+    public void remove(final Player player, final Callback<Boolean> callback) {
+        new AsyncTask<String, Void, OperationStatus>() {
+
+            @Override
+            protected OperationStatus doInBackground(String... params) {
+                OperationStatus opStat = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    opStat = session.getAuthServiceObject()
+                            .removeScrumPlayer(params[0]).execute();
+                } catch (NotAuthenticatedException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStat;
+            }
+
+            @Override
+            protected void onPostExecute(OperationStatus result) {
+                callback.interactionDone(result.getSuccess());
+            }
+
+        }.execute(player.getKey());
 
     }
 
-    /**
-     * Loads the players of the passed project
-     * 
-     * @param projectKey
-     * @param dbC
-     */
     @Override
     public void loadPlayers(final Project project,
-            final Callback<List<Player>> cB) {
-        AsyncTask<String, Void, CollectionResponseScrumPlayer> task = 
-                new AsyncTask<String, Void, CollectionResponseScrumPlayer>() {
+            final Callback<List<Player>> calback) {
+        new AsyncTask<String, Void, CollectionResponseScrumPlayer>() {
             @Override
             protected CollectionResponseScrumPlayer doInBackground(
                     String... params) {
-                GoogleSession s;
+                GoogleSession session;
                 CollectionResponseScrumPlayer players = null;
 
                 try {
-                    s = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = s.getAuthServiceObject();
+                    session = (GoogleSession) Session.getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
                     players = service.loadPlayers(params[0]).execute();
                 } catch (NotAuthenticatedException | IOException e) {
                     // TODO Auto-generated catch block
@@ -119,23 +136,68 @@ public class DSPlayerHandler implements PlayerHandler {
                 List<ScrumPlayer> resultItems = result.getItems();
                 ArrayList<Player> players = new ArrayList<Player>();
                 for (ScrumPlayer s : resultItems) {
-                    Player.Builder pB = new Player.Builder();
-                    pB.setId(s.getKey());
-                    pB.setIsAdmin(s.getAdminFlag());
-                    // pB.setRole(s.getRole()); TODO get role and get user
-                    // pB.setUser(s.getUser());
-                    players.add(pB.build());
+                    User.Builder userBuilder = new User.Builder();
+                    userBuilder.setEmail(s.getUser().getEmail()).setName(
+                            s.getUser().getName());
+                    Player.Builder playerBuilder = new Player.Builder();
+                    playerBuilder.setKey(s.getKey())
+                            .setIsAdmin(s.getAdminFlag())
+                            .setRole(Role.valueOf(s.getRole()))
+                            .setUser(userBuilder.build());
+                    players.add(playerBuilder.build());
                 }
-                cB.interactionDone(players);
+                calback.interactionDone(players);
             }
-        };
-
-        task.execute(project.getId());
+        }.execute(project.getKey());
     }
 
     @Override
-    public void insert(Player object, Callback<Player> cB) {
+    public void insert(Player player, Callback<Player> callback) {
         throw new UnsupportedOperationException();
-        
+
+    }
+
+    /**
+     * Add a new Player to a Project
+     */
+    @Override
+    public void addPlayerToProject(final Project project,
+            final String userEmail, final Role role,
+            final Callback<Player> callback) {
+        new AsyncTask<String, Void, ScrumPlayer>() {
+            @Override
+            protected ScrumPlayer doInBackground(String... params) {
+                ScrumPlayer scrumPlayer = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session
+                            .getCurrentSession();
+                    Scrumtool service = session.getAuthServiceObject();
+                    scrumPlayer = service.addPlayerToProject(project.getKey(),
+                            userEmail, role.name()).execute();
+                } catch (IOException | NotAuthenticatedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return scrumPlayer;
+            }
+
+            @Override
+            protected void onPostExecute(ScrumPlayer scrumPlayer) {
+                if (scrumPlayer != null) {
+                    User.Builder userBuilder = new User.Builder();
+                    userBuilder.setEmail(scrumPlayer.getUser().getEmail())
+                            .setName(scrumPlayer.getUser().getName());
+                    Player.Builder playerBuilder = new Player.Builder();
+                    playerBuilder.setKey(scrumPlayer.getKey())
+                            .setRole(Role.valueOf(scrumPlayer.getRole()))
+                            .setUser(userBuilder.build())
+                            .setIsAdmin(scrumPlayer.getAdminFlag());
+                    callback.interactionDone(playerBuilder.build());
+                } else {
+                    callback.failure("Unable to create client");
+                }
+            }
+        }.execute();
+
     }
 }

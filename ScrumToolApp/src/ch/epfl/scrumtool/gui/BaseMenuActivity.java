@@ -12,15 +12,13 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 /**
- * Abstracts the concept of our menus, which are similar throughout the
- * application
+ * The BaseMenuActivity class is an Activity that has a standard action bar 
+ * which provides functionalities which should be accessible from most 
+ * activities inside the ScrumToolApp.
  * 
- * @author Cyriaque Brousse
- * @param <E>
- *            type of the entity we are mainly dealing with in this activity
- *            (e.g. Project)
+ * @author Cyriaque Brousse, zenhaeus
  */
-public abstract class BaseMenuActivity<E> extends Activity implements OnMenuItemClickListener {
+public abstract class BaseMenuActivity extends Activity implements OnMenuItemClickListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,17 +29,12 @@ public abstract class BaseMenuActivity<E> extends Activity implements OnMenuItem
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_new:
-                openCreateElementActivity();
-                return true;
             case R.id.action_overflow:
                 View v = (View) findViewById(R.id.action_overflow);
                 showPopup(v);
                 return true;
-            case R.id.action_logout:
-                return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return false;
         }
     }
     
@@ -49,7 +42,10 @@ public abstract class BaseMenuActivity<E> extends Activity implements OnMenuItem
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                logoutAndOpenLoginActivity();
+                this.logoutAndOpenLoginActivity();
+                return true;
+            case R.id.action_show_profile:
+                this.openProfileOverviewActivity();
                 return true;
             default:
                 return false;
@@ -58,20 +54,11 @@ public abstract class BaseMenuActivity<E> extends Activity implements OnMenuItem
     
     
     /**
-     * Opens an activity to edit an element of type <E>
-     * 
-     * @param optionToEdit
-     *            the element to edit
+     * Shows the overflow menu that contains the standard
+     * overflow menu items
+     * @param v
+     *          view that the popup menu is attached to
      */
-    abstract void openEditElementActivity(E optionalElementToEdit);
-    
-    /**
-     * Opens an activity to create a new element of type <E>
-     */
-    void openCreateElementActivity() {
-        openEditElementActivity(null);
-    }
-    
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         popup.setOnMenuItemClickListener(this);
@@ -80,11 +67,21 @@ public abstract class BaseMenuActivity<E> extends Activity implements OnMenuItem
         popup.show();
     }
     
+    /**
+     * Logs out the current user by destroying the current 
+     * session and redirecting to the LoginActivity
+     */
     private void logoutAndOpenLoginActivity() {
         Session.destroyCurrentSession(this);
-        Intent openLoginIntent = new Intent(this, LoginActivity.class);
-        startActivity(openLoginIntent);
         this.finish();
+    }
+    
+    /**
+     * Opens the {@link ProfileOverviewActivity}
+     */
+    private void openProfileOverviewActivity() {
+        Intent intent = new Intent(this, ProfileOverviewActivity.class);
+        startActivity(intent);
     }
     
 }

@@ -58,6 +58,7 @@
         android:layout_marginBottom="@dimen/small_space"
         android:layout_below="@id/project_button_backlog"
         android:background="@drawable/fluid_button"
+        android:onClick="openPlayerList"
         android:text="@string/button_players_show" />
 
     <!-- Go to Sprints -->

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Author: Loris Leiva -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/profile_background"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <LinearLayout
+        android:id="@+id/profile_edit_main_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/profile_edit_picture"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight=".35"
+            android:background="@color/DarkGray" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight=".65"
+            android:background="@color/White"
+            android:orientation="vertical"
+            android:padding="@dimen/space" >
+
+            <!-- First Name -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/firstname"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profile_edit_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/firstname"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+
+            <!-- Last Name -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lastname"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profile_edit_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/lastname"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_edit_main_frame"
+        android:background="@color/White" >
+
+        <LinearLayout
+            android:id="@+id/profile_edit_characteristic_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/space" >
+
+            <!-- Date of Birth -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dateofbirth"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/profile_edit_dateofbirth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        android:text="@string/no_date_selected" />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:onClick="showDatePickerDialog"
+                        android:text="@string/button_edit" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Gender -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profile_edit_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/gender"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+
+            <!-- Company Name -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/company"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profile_edit_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/company"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+
+            <!-- Job Title -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jobtitle"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profile_edit_jobtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/jobtitle"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+
+            <!-- Email (static) -->
+            <!--
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/profile_edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
+            -->
+
+
+            <!-- Submit Button -->
+
+            <Button
+                android:id="@+id/profile_edit_submit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/small_space"
+                android:background="@drawable/fluid_button"
+                android:onClick="saveUserChanges"
+                android:text="@string/button_save" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

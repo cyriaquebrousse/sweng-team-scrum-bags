@@ -7,7 +7,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
@@ -17,35 +16,15 @@ import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 /**
  * @author ketsio
  */
-public final class SharedProjectAdapter extends BaseAdapter {
-    
-    @SuppressWarnings("unused")
-    private Activity activity;
+public final class SharedProjectAdapter extends DefaultAdapter<Project> {
     
     private LayoutInflater inflater;
-    private List<Project> sharedProjects;
     private User user;
 
-    public SharedProjectAdapter(final Activity activity, List<Project> sharedProjects, User user) {
-        this.activity = activity;
-        this.sharedProjects = sharedProjects;
+    public SharedProjectAdapter(final Activity activity, final List<Project> sharedProjects, final User user) {
+        super(sharedProjects);
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.user = user;
-    }
-
-    @Override
-    public int getCount() {
-        return sharedProjects.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return sharedProjects.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     @Override
@@ -57,7 +36,7 @@ public final class SharedProjectAdapter extends BaseAdapter {
         TextView projectName = (TextView) convertView.findViewById(R.id.shared_project_row_name);
         TextView projectRole = (TextView) convertView.findViewById(R.id.shared_project_row_role);
 
-        Project project = sharedProjects.get(position);
+        Project project = getList().get(position);
         projectName.setText(project.getName());
         try {
             projectRole.setText(project.getRoleFor(user).toString());

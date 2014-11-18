@@ -11,14 +11,24 @@ import ch.epfl.scrumtool.entity.User;
 
 /**
  * @author Arno
- *
+ * 
  */
 public interface ProjectManager {
+    /**
+     * Load the Projects of a User
+     * 
+     * @param user
+     * @param cB
+     */
     void loadProjects(User user, Callback<List<Project>> cB);
+
+    /**
+     * Update a Project
+     */
     void updateProject();
+
+    /**
+     * Delete a Project
+     */
     void deleteProject();
-    
-    
-    
-    
 }

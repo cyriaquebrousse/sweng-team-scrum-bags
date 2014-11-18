@@ -8,9 +8,15 @@ import ch.epfl.scrumtool.R;
  * @author ketsio
  */
 public enum Status implements Serializable {
-    
-    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"), 
-    IN_SPRINT(R.color.Salmon, "In sprint"), 
+
+    /*
+     * The order of definition also specifies the natural 
+     * order of the enum values, which means:
+     * 
+     * READY_FOR_SPRINT < IN_SPRINT < READY_FOR_ESTIMATION < FINISHED
+     */
+    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"),
+    IN_SPRINT(R.color.Salmon, "In sprint"),
     READY_FOR_ESTIMATION(R.color.Lime, "Ready for estimation"),
     FINISHED(R.color.Cyan, "Finished");
 
@@ -20,11 +26,6 @@ public enum Status implements Serializable {
     Status(int colorRef, String stringValue) {
         this.colorRef = colorRef;
         this.stringValue = stringValue;
-    }
-
-    public boolean isAValidStatus() {
-        return this.equals(READY_FOR_SPRINT) || this.equals(IN_SPRINT) 
-                || this.equals(READY_FOR_ESTIMATION) || this.equals(FINISHED);
     }
 
     /**

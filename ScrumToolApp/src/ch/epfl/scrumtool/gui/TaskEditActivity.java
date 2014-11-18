@@ -1,24 +1,25 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.Random;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
-import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.gui.util.Dialogs;
+import ch.epfl.scrumtool.gui.util.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
  */
-public class MainTaskEditActivity extends Activity {
+public class TaskEditActivity extends BaseMenuActivity {
     
     private EditText taskNameView;
     private EditText taskDescriptionView;
@@ -32,7 +33,7 @@ public class MainTaskEditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_task_edit);
+        setContentView(R.layout.activity_task_edit);
         
         initOriginalAndParentProject();
         initViews();
@@ -61,19 +62,32 @@ public class MainTaskEditActivity extends Activity {
         taskNameView.setText(taskBuilder.getName());
         taskDescriptionView.setText(taskBuilder.getDescription());
         taskPriorityView.setPriority(taskBuilder.getPriority());
+        
+        taskPriorityView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialogs.showTaskPriorityEditDialog(TaskEditActivity.this, new DialogCallback<Priority>() {
+                    @Override
+                    public void onSelected(Priority selected) {
+                        taskBuilder.setPriority(selected);
+                        taskPriorityView.setPriority(selected);
+                    }
+                });
+            }
+        });
     }
     
     public void saveTaskChanges(View view) {
-        updateTextViewAfterValidityCheck(taskNameView, nameIsValid());
-        updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid());
+        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid(), getResources());
         
         if (nameIsValid() && descriptionIsValid()) {
+            findViewById(R.id.task_edit_button_next).setEnabled(false);
             String newName = taskNameView.getText().toString();
             String newDescription = taskDescriptionView.getText().toString();
             
             taskBuilder.setName(newName);
             taskBuilder.setDescription(newDescription);
-            taskBuilder.setId("random task id "+ new Random().nextInt()); // FIXME task id
             taskBuilder.setStatus(Status.READY_FOR_ESTIMATION);
             taskBuilder.setPriority(taskPriorityView.getPriority());
             
@@ -87,23 +101,23 @@ public class MainTaskEditActivity extends Activity {
 
     private void insertTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().insertMainTask(task, parentProject, new Callback<MainTask>() {
+        task.insert(parentProject, new DefaultGUICallback<MainTask>(this) {
             @Override
             public void interactionDone(MainTask object) {
-                MainTaskEditActivity.this.finish();
+                TaskEditActivity.this.finish();
             }
         });
     }
     
     private void updateTask() {
         MainTask task = taskBuilder.build();
-        Client.getScrumClient().updateMainTask(task, original, new Callback<Boolean>() {
+        task.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
-                    MainTaskEditActivity.this.finish();
+                    TaskEditActivity.this.finish();
                 } else {
-                    Toast.makeText(MainTaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,20 +132,5 @@ public class MainTaskEditActivity extends Activity {
     private boolean descriptionIsValid() {
         String description = taskDescriptionView.getText().toString();
         return description != null && description.length() > 0;
-    }
-    
-    /**
-     * Warn the user that incorrect input was entered in the specified text
-     * field
-     * 
-     * @param view
-     *            the text field in which the error sign will be displayed
-     */
-    private void updateTextViewAfterValidityCheck(EditText view, boolean inputValid) {
-        if (!inputValid) {
-            view.setError(getResources().getString(R.string.error_field_required));
-        } else {
-            view.setError(null);
-        }
     }
 }

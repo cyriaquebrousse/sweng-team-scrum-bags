@@ -1,21 +1,18 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.Random;
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectEditActivity extends Activity {
+public class ProjectEditActivity extends BaseMenuActivity {
     
     private EditText projectTitleView;
     private EditText projectDescriptionView;
@@ -52,16 +49,16 @@ public class ProjectEditActivity extends Activity {
     }
 
     public void saveProjectChanges(View view) {
-        updateTextViewAfterValidityCheck(projectTitleView, titleIsValid());
-        updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid());
+        InputVerifiers.updateTextViewAfterValidityCheck(projectTitleView, titleIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid(), getResources());
         
         if (titleIsValid() && descriptionIsValid()) {
+            findViewById(R.id.project_edit_button_next).setEnabled(false);
             String newTitle = projectTitleView.getText().toString();
             String newDescription = projectDescriptionView.getText().toString();
             
             projectBuilder.setName(newTitle);
             projectBuilder.setDescription(newDescription);
-            projectBuilder.setId("this is a random id "+ new Random().nextInt()); // FIXME project id
             
             if (original == null) {
                 insertProject();
@@ -73,7 +70,7 @@ public class ProjectEditActivity extends Activity {
     
     private void insertProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().insertProject(project, new Callback<Project>() {
+        project.insert(new DefaultGUICallback<Project>(this) {
             @Override
             public void interactionDone(Project object) {
                 ProjectEditActivity.this.finish();
@@ -83,14 +80,14 @@ public class ProjectEditActivity extends Activity {
 
     private void updateProject() {
         Project project = projectBuilder.build();
-        Client.getScrumClient().updateProject(project, original, new Callback<Boolean>() {
+        project.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
                     ProjectEditActivity.this.finish();
                 } else {
                     Toast.makeText(ProjectEditActivity.this, "Could not update project", Toast.LENGTH_SHORT).show();
-                }
+                }                
             }
         });
     }
@@ -104,20 +101,5 @@ public class ProjectEditActivity extends Activity {
     private boolean descriptionIsValid() {
         String description = projectDescriptionView.getText().toString();
         return description != null && description.length() > 0;
-    }
-    
-    /**
-     * Warn the user that incorrect input was entered in the specified text
-     * field
-     * 
-     * @param view
-     *            the text field in which the error sign will be displayed
-     */
-    private void updateTextViewAfterValidityCheck(EditText view, boolean inputValid) {
-        if (!inputValid) {
-            view.setError(getResources().getString(R.string.error_field_required));
-        } else {
-            view.setError(null);
-        }
     }
 }
