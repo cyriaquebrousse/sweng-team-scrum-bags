@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -21,6 +23,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.Dialogs;
@@ -51,11 +54,24 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
             public void interactionDone(final List<Player> playerList) {
                 adapter = new PlayerListAdapter(ProjectPlayerListActivity.this, playerList);
                 listView = (ListView) findViewById(R.id.project_playerlist);
-                registerForContextMenu(listView);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                        Intent openUserOverviewIntent = new Intent(
+                                view.getContext(),
+                                ProfileOverviewActivity.class);
+
+                        User user = playerList.get(position).getUser();
+                        openUserOverviewIntent.putExtra(User.SERIALIZABLE_NAME, user);
+                        startActivity(openUserOverviewIntent);
+                    }
+                });
+                listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent,
+                            final View view, final int position, long id) {
                         Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
                             @Override
                             public void onSelected(Role selected) {
@@ -80,9 +96,9 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
                                 
                             }
                         });
+                        return true;
                     }
                 });
-
                 adapter.notifyDataSetChanged();
             }
         };
@@ -122,29 +138,6 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
             }
         });
     }
-    
-    
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_context, menu);
-    }
-    
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-//            case R.id.action_entity_edit:
-//                openEditElementActivity(adapter.getItem(info.position));
-//                return true;
-            case R.id.action_entity_delete:
-                deletePlayer(adapter.getItem(info.position));
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
 
     private void deletePlayer(final Player player) {
         player.remove(new DefaultGUICallback<Boolean>(this) {
@@ -157,15 +150,6 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
                     Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
                             Toast.LENGTH_SHORT).show();
                 }                
-            }
-        });
-    }
-    
-    void openEditElementActivity(Player player) {
-        Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
-            @Override
-            public void onSelected(Role selected) {
-//                adapter.setRole(selected, view, listView);
             }
         });
     }
