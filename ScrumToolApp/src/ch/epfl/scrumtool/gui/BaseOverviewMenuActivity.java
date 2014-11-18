@@ -12,12 +12,17 @@ import ch.epfl.scrumtool.R;
  * @author zenhaeus
  */
 public abstract class BaseOverviewMenuActivity extends BaseMenuActivity {
+    private static final int EDIT_ID = Menu.FIRST;
+    private static final int DELETE_ID = Menu.FIRST + 1;
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        menu.add(0, Menu.FIRST, Menu.NONE, "Edit")
+        menu.add(Menu.NONE, EDIT_ID, Menu.NONE, R.string.action_edit)
             .setIcon(R.drawable.ic_menu_edit)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu.add(Menu.NONE, DELETE_ID, Menu.NONE, R.string.action_delete)
+            .setIcon(R.drawable.ic_menu_delete)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return super.onCreateOptionsMenu(menu);
     }
@@ -27,8 +32,12 @@ public abstract class BaseOverviewMenuActivity extends BaseMenuActivity {
         super.onOptionsItemSelected(item);
         
         switch (item.getItemId()) {
-            case Menu.FIRST:
+            case EDIT_ID:
                 openEditElementActivity();
+                return true;
+            case DELETE_ID:
+                item.setEnabled(false);
+                deleteElement();
                 return true;
             default:
                 return false;
@@ -43,4 +52,9 @@ public abstract class BaseOverviewMenuActivity extends BaseMenuActivity {
      */
     abstract void openEditElementActivity();
     
+    
+    /**
+     * Deletes the element in the overview activity
+     */
+    abstract void deleteElement();
 }

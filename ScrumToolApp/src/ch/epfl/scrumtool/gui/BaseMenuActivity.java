@@ -73,8 +73,6 @@ public abstract class BaseMenuActivity extends Activity implements OnMenuItemCli
      */
     private void logoutAndOpenLoginActivity() {
         Session.destroyCurrentSession(this);
-        Intent openLoginIntent = new Intent(this, LoginActivity.class);
-        startActivity(openLoginIntent);
         this.finish();
     }
     

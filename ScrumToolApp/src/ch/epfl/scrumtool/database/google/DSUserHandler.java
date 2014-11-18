@@ -99,8 +99,7 @@ public class DSUserHandler implements UserHandler {
             protected OperationStatus doInBackground(ScrumUser... params) {
                 OperationStatus opStat = null;
                 try {
-                    GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
+                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
                     params[0].setLastModUser(session.getUser().getEmail());
                     opStat = session.getAuthServiceObject().updateScrumUser(params[0]).execute();
                 } catch (IOException | NotAuthenticatedException e) {
@@ -138,9 +137,36 @@ public class DSUserHandler implements UserHandler {
      * @see ch.epfl.scrumtool.database.DatabaseHandler#remove(java.lang.Object, ch.epfl.scrumtool.database.Callback)
      */
     @Override
-    public void remove(User object, Callback<Boolean> cB) {
-        // TODO Auto-generated method stub
+    public void remove(final User user, final Callback<Boolean> callback) {
+        AsyncTask<ScrumUser, Void, OperationStatus> task = new AsyncTask<ScrumUser, Void, OperationStatus>() {
+
+            @Override
+            protected OperationStatus doInBackground(ScrumUser... params) {
+                OperationStatus opStat = null;
+                try {
+                    GoogleSession session = (GoogleSession) Session.getCurrentSession();
+                    opStat = session.getAuthServiceObject().removeScrumUser(params[0].getEmail()).execute();
+                } catch (IOException | NotAuthenticatedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return opStat;
+            }
+            
+            @Override
+            protected void onPostExecute(OperationStatus b) {
+                if (b != null) {
+                    callback.interactionDone(b.getSuccess());
+                } else {
+                    callback.failure("Error, could not delete user.");
+                }
+            }
+
+        };
+        ScrumUser tmpUser = new ScrumUser();
+        tmpUser.setEmail(user.getEmail());
         
+        task.execute(tmpUser);
     }
 
 }

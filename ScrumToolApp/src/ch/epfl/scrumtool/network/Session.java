@@ -1,8 +1,10 @@
 package ch.epfl.scrumtool.network;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
@@ -50,12 +52,16 @@ public abstract class Session {
      * Destroys current session
      * @param context
      */
-    public static void destroyCurrentSession(Activity context) {
+    public static void destroyCurrentSession(Context context) {
         /*
          *  Remove our user from the settings, otherwise the AccountPicker will be 
          *  skipped in the LoginActivity
          */
         ApplicationSettings.removeCachedUser(context);
+        
+        Intent openLoginIntent = new Intent(context, LoginActivity.class);
+        context.startActivity(openLoginIntent);
+
         currentSession = null;
     }
 }

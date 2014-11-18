@@ -75,4 +75,10 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         startActivity(openIssueEditIntent);
         
     }
+
+    @Override
+    void deleteElement() {
+        // TODO Auto-generated method stub
+        
+    }
 }

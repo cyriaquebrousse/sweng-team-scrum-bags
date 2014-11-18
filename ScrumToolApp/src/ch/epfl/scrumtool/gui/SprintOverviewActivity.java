@@ -94,4 +94,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openSprintEditIntent);
     }
+
+    @Override
+    void deleteElement() {
+        // TODO Auto-generated method stub
+        
+    }
 }

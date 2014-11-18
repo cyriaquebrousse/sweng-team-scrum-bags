@@ -1,11 +1,16 @@
 package ch.epfl.scrumtool.gui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 
 /**
  * @author Cyriaque Brousse
@@ -56,5 +61,27 @@ public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openProjectEditIntent);
+    }
+
+    @Override
+    void deleteElement() {
+        new AlertDialog.Builder(this).setTitle("Delete Project")
+            .setMessage("Do you really want to delete this project?")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = ProjectOverviewActivity.this;
+                    project.remove(new DefaultGUICallback<Boolean>(context) {
+                        @Override
+                        public void interactionDone(Boolean success) {
+                            Toast.makeText(context, "Project deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 }

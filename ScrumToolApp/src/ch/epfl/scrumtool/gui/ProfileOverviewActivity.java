@@ -2,6 +2,9 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +17,9 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
+import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 
 /**
@@ -100,5 +105,29 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    void deleteElement() {
+        new AlertDialog.Builder(this).setTitle("Delete User")
+            .setMessage("Do you really want to delete this User? "
+                    + "This will remove your account and you will lose your access to projects.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = ProfileOverviewActivity.this;
+                    userProfile.remove(new DefaultGUICallback<Boolean>(context) {
+                        @Override
+                        public void interactionDone(Boolean success) {
+                            Toast.makeText(context , "User deleted", Toast.LENGTH_SHORT).show();
+                            GoogleSession.destroyCurrentSession(context);
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 }

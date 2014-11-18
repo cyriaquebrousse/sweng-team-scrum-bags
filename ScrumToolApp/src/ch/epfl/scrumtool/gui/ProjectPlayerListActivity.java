@@ -2,22 +2,19 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
-import com.google.android.gms.games.PlayerBuffer;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -27,8 +24,8 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.util.Dialogs;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
 import ch.epfl.scrumtool.gui.util.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.gui.util.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse, sylb
