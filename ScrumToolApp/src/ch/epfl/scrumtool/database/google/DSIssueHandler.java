@@ -110,11 +110,19 @@ public class DSIssueHandler implements IssueHandler {
         Date date = new Date();
         changes.setLastModDate(date.getTime());
         final ScrumPlayer scrumPlayer = new ScrumPlayer();
-        scrumPlayer.setKey(modified.getPlayer().getKey());
-        changes.setAssignedPlayer(scrumPlayer); //scrumPlayer has only it's key set
+        if (modified.getPlayer() != null) {
+            scrumPlayer.setKey(modified.getPlayer().getKey());
+            changes.setAssignedPlayer(scrumPlayer); //scrumPlayer has only it's key set
+        } else {
+            changes.setAssignedPlayer(null);
+        }
         final ScrumSprint scrumSprint = new ScrumSprint();
-        scrumSprint.setKey(modified.getSprint().getKey());
-        changes.setSprint(scrumSprint);
+        if (modified.getSprint() != null) {
+            scrumSprint.setKey(modified.getSprint().getKey());
+            changes.setSprint(scrumSprint);
+        } else {
+            changes.setSprint(null);
+        }
         try {
             changes.setLastModUser(Session.getCurrentSession().getUser()
                     .getEmail());
