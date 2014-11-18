@@ -100,6 +100,12 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             findViewById(R.id.profile_field_company).setVisibility(View.INVISIBLE);
         }
     }
+    
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null); // TODO right way to do it? (loris)
+    }
 
     @Override
     void openEditElementActivity() {
