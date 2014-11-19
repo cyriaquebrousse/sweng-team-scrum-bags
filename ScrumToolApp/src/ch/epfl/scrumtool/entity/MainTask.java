@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -85,6 +86,15 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public void loadIssues(final Callback<List<Issue>> callback) {
         Client.getScrumClient().loadIssues(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder class for the MainTask object

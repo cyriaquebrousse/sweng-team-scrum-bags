@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -113,6 +114,15 @@ public final class User implements Serializable, Comparable<User> {
     public void remove(Callback<Boolean> callback) {
         Client.getScrumClient().deleteUser(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder class for the User object

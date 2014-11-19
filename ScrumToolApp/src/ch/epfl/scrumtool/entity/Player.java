@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -85,6 +86,15 @@ public final class Player implements Serializable, Comparable<Player> {
     public void remove(final Callback<Boolean> callback) {
         Client.getScrumClient().removePlayer(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder Class for Player Object

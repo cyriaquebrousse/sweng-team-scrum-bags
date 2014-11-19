@@ -107,6 +107,14 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
             final Callback<Boolean> callback) {
         Client.getScrumClient().removeIssueFromSprint(this, sprint, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
 
     /**
      * A Builder for the Issue
