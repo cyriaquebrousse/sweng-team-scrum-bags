@@ -3,8 +3,7 @@
  */
 package ch.epfl.scrumtool.database.google.operations;
 
-import java.io.IOException;
-
+import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
 /**
@@ -16,5 +15,5 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  */
 
 public interface ScrumToolOperation<A, B> {
-    B execute(A arg, Scrumtool service) throws IOException;
+    B execute(A arg, Scrumtool service) throws ScrumToolException;
 }
