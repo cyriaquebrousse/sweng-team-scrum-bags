@@ -18,7 +18,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
  * 
  */
 public class DSUserHandler implements UserHandler {
-
     @Override
     public void loginUser(final String email, final Callback<User> callback) {
         DSExecArgs.Factory<String, ScrumUser, User> builder = 

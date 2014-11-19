@@ -11,7 +11,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
  */
 public class ProjectConverters {
 
-    public static final EntityConverter<ScrumProject, Project> SCRUMPROJECT_TO_PROJECT = new EntityConverter<ScrumProject, Project>() {
+    public static final EntityConverter<ScrumProject, Project> SCRUMPROJECT_TO_PROJECT = 
+            new EntityConverter<ScrumProject, Project>() {
 
         @Override
         public Project convert(ScrumProject dbProject) {
@@ -39,7 +40,8 @@ public class ProjectConverters {
 
     };
 
-    public static final EntityConverter<Project, ScrumProject> PROJECT_TO_SCRUMPROJECT = new EntityConverter<Project, ScrumProject>() {
+    public static final EntityConverter<Project, ScrumProject> PROJECT_TO_SCRUMPROJECT = 
+            new EntityConverter<Project, ScrumProject>() {
 
         @Override
         public ScrumProject convert(Project project) {
@@ -47,13 +49,28 @@ public class ProjectConverters {
 
             ScrumProject dbProject = new ScrumProject();
 
-            dbProject.setKey(project.getKey());
+            if (!project.getKey().equals("")) {
+                dbProject.setKey(project.getKey());
+            }
+            
             dbProject.setName(project.getName());
             dbProject.setDescription(project.getDescription());
             // Currently we don't need LastModDate and LasModUser
             return dbProject;
         }
 
+    };
+
+    public static final EntityConverter<OperationStatusEntity<Project>, Project> OPSTATPROJECT_TO_PROJECT = 
+            new EntityConverter<OperationStatusEntity<Project>, Project>() {
+
+        @Override
+        public Project convert(OperationStatusEntity<Project> a) {
+            return a.getEntity()
+                    .getBuilder()
+                    .setKey(a.getOpStat().getKey())
+                    .build();
+        }
     };
 
 }

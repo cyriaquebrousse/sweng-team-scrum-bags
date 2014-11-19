@@ -6,7 +6,6 @@ import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
@@ -17,7 +16,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  * 
  */
 public class IssueConverters {
-    public static final EntityConverter<ScrumIssue, Issue> SCRUMISSUE_TO_ISSUE = new EntityConverter<ScrumIssue, Issue>() {
+    public static final EntityConverter<ScrumIssue, Issue> SCRUMISSUE_TO_ISSUE = 
+            new EntityConverter<ScrumIssue, Issue>() {
 
         @Override
         public Issue convert(ScrumIssue dbIssue) {
@@ -71,7 +71,8 @@ public class IssueConverters {
 
     };
 
-    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE = new EntityConverter<Issue, ScrumIssue>() {
+    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE = 
+            new EntityConverter<Issue, ScrumIssue>() {
 
         @Override
         public ScrumIssue convert(Issue issue) {

@@ -14,7 +14,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
  */
 public class PlayerConverters {
 
-    public static final EntityConverter<ScrumPlayer, Player> SCRUMPLAYER_TO_PLAYER = new EntityConverter<ScrumPlayer, Player>() {
+    public static final EntityConverter<ScrumPlayer, Player> SCRUMPLAYER_TO_PLAYER = 
+            new EntityConverter<ScrumPlayer, Player>() {
 
         @Override
         public Player convert(ScrumPlayer dbPlayer) {
@@ -46,7 +47,8 @@ public class PlayerConverters {
         }
     };
 
-    public static final EntityConverter<Player, ScrumPlayer> PLAYER_TO_SCRUMPLAYER = new EntityConverter<Player, ScrumPlayer>() {
+    public static final EntityConverter<Player, ScrumPlayer> PLAYER_TO_SCRUMPLAYER = 
+            new EntityConverter<Player, ScrumPlayer>() {
 
         @Override
         public ScrumPlayer convert(Player player) {

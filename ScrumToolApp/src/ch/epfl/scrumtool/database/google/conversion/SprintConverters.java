@@ -10,7 +10,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  * 
  */
 public class SprintConverters {
-    public static final EntityConverter<ScrumSprint, Sprint> SCRUMSPRINT_TO_SPRINT = new EntityConverter<ScrumSprint, Sprint>() {
+    public static final EntityConverter<ScrumSprint, Sprint> SCRUMSPRINT_TO_SPRINT = 
+            new EntityConverter<ScrumSprint, Sprint>() {
 
         @Override
         public Sprint convert(ScrumSprint dbSprint) {
@@ -34,7 +35,8 @@ public class SprintConverters {
         }
     };
 
-    public static final EntityConverter<Sprint, ScrumSprint> SPRINT_TO_SCRUMSPRINT = new EntityConverter<Sprint, ScrumSprint>() {
+    public static final EntityConverter<Sprint, ScrumSprint> SPRINT_TO_SCRUMSPRINT = 
+            new EntityConverter<Sprint, ScrumSprint>() {
 
         @Override
         public ScrumSprint convert(Sprint sprint) {

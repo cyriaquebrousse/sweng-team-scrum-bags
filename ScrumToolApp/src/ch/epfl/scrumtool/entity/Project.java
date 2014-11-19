@@ -128,6 +128,15 @@ public final class Project implements Serializable, Comparable<Project> {
     public void loadBacklog(final Callback<List<MainTask>> callback) {
         Client.getScrumClient().loadBacklog(this, callback);
     }
+    
+    
+    /**
+     * 
+     * @return Project.Builder
+     */
+    public Builder getBuilder() {
+        return new Builder(this);
+    }
 
     @Deprecated
     // TODO create a method in ScrumClient and delete this one.
