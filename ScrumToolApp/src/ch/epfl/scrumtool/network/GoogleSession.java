@@ -113,6 +113,7 @@ public class GoogleSession extends Session {
         private GoogleAccountCredential googleCredential = null;
         
         /**
+         * Constructor for Google Session Builder
          * @param context
          */
         public Builder(LoginActivity context) {
@@ -132,9 +133,8 @@ public class GoogleSession extends Session {
          * @param accountName
          * @param authCallback
          */
-        public void build(String accountName, Callback<Boolean> authCallback) {
+        public void build(final String accountName, final Callback<Boolean> authCallback) {
             DSUserHandler userHandler = new DSUserHandler();
-            final Callback<Boolean> callback = authCallback;
             googleCredential.setSelectedAccountName(accountName);
             /*
              * If the server successfully logs in the user (insert user in case of 
@@ -148,26 +148,25 @@ public class GoogleSession extends Session {
                     if (user != null) {
                         new GoogleSession(user, googleCredential);
                         
-                        DBHandlers.Builder handlersBuilder = new DBHandlers.Builder();
-                        handlersBuilder.setIssueHandler(new DSIssueHandler());
-                        handlersBuilder.setMaintaskHandler(new DSMainTaskHandler());
-                        handlersBuilder.setPlayerHandler(new DSPlayerHandler());
-                        handlersBuilder.setProjectHandler(new DSProjectHandler());
-                        handlersBuilder.setSprintHandler(new DSSprintHandler());
-                        handlersBuilder.setUserHandler(new DSUserHandler());
+                        DBHandlers.Builder handlersBuilder = new DBHandlers.Builder()
+                            .setIssueHandler(new DSIssueHandler())
+                            .setMaintaskHandler(new DSMainTaskHandler())
+                            .setPlayerHandler(new DSPlayerHandler())
+                            .setProjectHandler(new DSProjectHandler())
+                            .setSprintHandler(new DSSprintHandler())
+                            .setUserHandler(new DSUserHandler());
                         
                         Client.setScrumClient(new DBScrumClient(handlersBuilder.build()));
 
-                        callback.interactionDone(Boolean.TRUE);
+                        authCallback.interactionDone(Boolean.TRUE);
                     } else {
-                        callback.interactionDone(Boolean.FALSE);
+                        authCallback.interactionDone(Boolean.FALSE);
                     }
                 }
 
                 @Override
                 public void failure(String errorMessage) {
-                    // TODO Auto-generated method stub
-                    
+                    authCallback.interactionDone(Boolean.FALSE);
                 }
             });
         }
