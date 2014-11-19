@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/player_row_icon"
         android:src="@drawable/default_avatar"
-        android:contentDescription="@string/user_avatar"
+        android:contentDescription="@string/user_avatar_description"
         android:scaleType="fitXY"
         android:layout_width="45dp"
         android:layout_height="45dp"
