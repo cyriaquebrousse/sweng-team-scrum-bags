@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.database.google.operations;
 
+import ch.epfl.scrumtool.exception.ScrumToolException;
+
 /**
  * 
  * @author aschneuw
@@ -9,7 +11,7 @@ package ch.epfl.scrumtool.database.google.operations;
  */
 
 public final class TaskResult<A> {
-    private Exception exception;  
+    private ScrumToolException exception;  
     
     private A result;  
   
@@ -17,7 +19,7 @@ public final class TaskResult<A> {
         this.result = result;  
     }  
   
-    public TaskResult(final Exception exception) {  
+    public TaskResult(final ScrumToolException exception) {  
         this.exception = exception;  
     }  
   
@@ -25,7 +27,7 @@ public final class TaskResult<A> {
         return exception == null;  
     }  
   
-    public Exception getException() {  
+    public ScrumToolException getException() {  
         return exception;  
     }  
   

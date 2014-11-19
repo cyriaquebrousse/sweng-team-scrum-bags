@@ -14,11 +14,11 @@ public class DeleteException extends ScrumToolException {
         super();
     }
     
-    public DeleteException(String message) {
-        super(message);
+    public DeleteException(String message, String guiMessage) {
+        super(message, guiMessage);
     }
 
-    public DeleteException(Throwable throwable) {
-        super(throwable);
+    public DeleteException(Throwable throwable, String guiMessage) {
+        super(throwable, guiMessage);
     }
 }

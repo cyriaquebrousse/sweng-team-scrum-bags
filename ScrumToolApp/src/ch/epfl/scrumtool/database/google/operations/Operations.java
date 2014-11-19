@@ -26,7 +26,7 @@ public final class Operations {
             try {
                 return service.loginUser(arg).execute();
             } catch (IOException e) {
-                throw new LoginException(e);
+                throw new LoginException(e, "Login failed");
             }
         }
     };
@@ -39,7 +39,7 @@ public final class Operations {
             try {
                 return service.updateScrumUser(scrumUser).execute();
             } catch (IOException e) {
-                throw new UpdateException(e);
+                throw new UpdateException(e, "User update failed");
             }
         }
     };

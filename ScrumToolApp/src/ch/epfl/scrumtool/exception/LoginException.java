@@ -14,11 +14,11 @@ public class LoginException extends ScrumToolException{
         super();
     }
     
-    public LoginException(String message) {
-        super(message);
+    public LoginException(String message, String guiMessage) {
+        super(message, guiMessage);
     }
 
-    public LoginException(Throwable throwable) {
-        super(throwable);
+    public LoginException(Throwable throwable, String guiMessage) {
+        super(throwable, guiMessage);
     }
 }

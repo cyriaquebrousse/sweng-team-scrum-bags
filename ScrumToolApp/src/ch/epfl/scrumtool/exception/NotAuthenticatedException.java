@@ -11,12 +11,12 @@ public class NotAuthenticatedException extends ScrumToolException {
         super();
     }
     
-    public NotAuthenticatedException(String message) {
-        super(message);
+    public NotAuthenticatedException(String message, String guiMessage) {
+        super(message, guiMessage);
     }
 
-    public NotAuthenticatedException(Throwable throwable) {
-        super(throwable);
+    public NotAuthenticatedException(Throwable throwable, String guiMessage) {
+        super(throwable, guiMessage);
     }
 
     

@@ -22,6 +22,7 @@ public final class DSOperationExecutor {
                     return new TaskResult<B>(serverResult);
                     
                 } catch (ScrumToolException e) {
+                    e.printStackTrace();
                     return new TaskResult<B>(e);
                 }
             }
@@ -32,7 +33,7 @@ public final class DSOperationExecutor {
                     C convertedResult = args.getConverter().convert(result.getResult());
                     args.getCallback().interactionDone(convertedResult);
                 } else {
-                    args.getCallback().failure(result.getException().getMessage());
+                    args.getCallback().failure(result.getException().getGUIMessage());
 
                 }
             }

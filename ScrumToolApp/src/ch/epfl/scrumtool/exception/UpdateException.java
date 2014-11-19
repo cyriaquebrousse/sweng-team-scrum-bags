@@ -4,7 +4,7 @@
 package ch.epfl.scrumtool.exception;
 
 /**
- * @author Arno
+ * @author aschneuw
  *
  */
 public class UpdateException extends ScrumToolException{
@@ -14,11 +14,11 @@ public class UpdateException extends ScrumToolException{
         super();
     }
     
-    public UpdateException(String message) {
-        super(message);
+    public UpdateException(String message, String guiMessage) {
+        super(message, guiMessage);
     }
 
-    public UpdateException(Throwable throwable) {
-        super(throwable);
+    public UpdateException(Throwable throwable, String guiMessage) {
+        super(throwable, guiMessage);
     }
 }

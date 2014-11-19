@@ -15,12 +15,12 @@ public class InsertException extends ScrumToolException{
         super();
     }
     
-    public InsertException(String message) {
-        super(message);
+    public InsertException(String message, String guiMessage) {
+        super(message, guiMessage);
     }
 
-    public InsertException(Throwable throwable) {
-        super(throwable);
+    public InsertException(Throwable throwable, String guiMessage) {
+        super(throwable, guiMessage);
     }
     
     
