@@ -50,8 +50,8 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            this.progDialog = ProgressDialog.show(this, "Signing in...", "", true, false);
             String accName = (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME);
+            this.progDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
             
             ApplicationSettings.saveCachedUser(this, accName);
             
