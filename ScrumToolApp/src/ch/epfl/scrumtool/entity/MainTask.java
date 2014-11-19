@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**

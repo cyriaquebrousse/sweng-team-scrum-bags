@@ -3,7 +3,6 @@ package ch.epfl.scrumtool.entity;
 import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**

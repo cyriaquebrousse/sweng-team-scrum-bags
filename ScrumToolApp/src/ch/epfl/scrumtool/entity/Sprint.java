@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.entity.Issue.Builder;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -226,7 +225,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         final int equal = 0;
         final int after = 1;
         
-        if(that != null) {
+        if (that != null) {
             if (this == that) {
                 return equal;
             }
