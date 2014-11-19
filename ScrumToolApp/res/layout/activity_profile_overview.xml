@@ -14,24 +14,27 @@
         android:layout_width="match_parent" 
         android:layout_height="wrap_content" >
         
-        <TextView
+        <ImageView
+            android:src="@drawable/default_avatar"
+            android:contentDescription="@string/user_avatar"
             android:id="@+id/profile_picture"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="110dp"
             android:layout_weight=".35"
-            android:background="@color/DarkGray" />
+            android:background="@color/DarkGray"
+            android:scaleType="fitXY" />
         
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="110dp"
             android:layout_weight=".65"
             android:background="@color/White" >
             
             <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/space"
                 android:textSize="@dimen/header_title_size"
                 android:textStyle="bold" />

@@ -85,5 +85,6 @@
     <string name="sprint_overview_default_deadline">Sprint deadline</string>
     <string name="no_player">No player assigned</string>
     <string name="no_sprint">No sprint assigned</string>
+    <string name="user_avatar">User Avatar</string>
 
 </resources>
