@@ -21,7 +21,7 @@ import ch.epfl.scrumtool.network.Session;
  * @author ketsio
  * 
  */
-public class ProfileEditActivity extends Activity {
+public class ProfileEditActivity extends ScrumToolActivity {
 
     private int dobYear = -1;
     private int dobMonth = -1;

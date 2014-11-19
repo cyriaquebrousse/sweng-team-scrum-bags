@@ -20,20 +20,8 @@ import android.widget.Toast;
  * 
  * @author Cyriaque Brousse, zenhaeus
  */
-public abstract class BaseMenuActivity extends Activity implements OnMenuItemClickListener {
+public abstract class BaseMenuActivity extends ScrumToolActivity implements OnMenuItemClickListener {
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        
-        try {
-            Session.getCurrentSession();
-        } catch (NotAuthenticatedException e) {
-            Toast.makeText(this, "Authentication failed! Attempting new login.", Toast.LENGTH_SHORT).show();
-            Session.relogin(this);
-        }
-    }
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_general, menu);

@@ -82,7 +82,8 @@ public class LoginActivity extends Activity {
                 if (object.booleanValue()) {
                     LoginActivity.this.openFirstActivityAndFinish(nextActivity);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Login failed - Check Internet Connection", Toast.LENGTH_LONG).show();
+                    findViewById(R.id.button_login).setVisibility(View.VISIBLE);
                 }
                 
             }
