@@ -5,18 +5,15 @@ package ch.epfl.scrumtool.database.google;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.PlayerHandler;
-import ch.epfl.scrumtool.database.google.containers.InsertPlayerContainer;
 import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
-import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
-import ch.epfl.scrumtool.database.google.operations.Operations;
+import ch.epfl.scrumtool.database.google.operations.PlayerOperations;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
@@ -55,7 +52,7 @@ public class DSPlayerHandler implements PlayerHandler {
                 MODE.AUTHENTICATED);
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
-        builder.setOperation(Operations.UPDATE_PLAYER);
+        builder.setOperation(PlayerOperations.UPDATE_PLAYER);
         DSOperationExecutor.execute(modified, builder.build());
     }
 
@@ -65,7 +62,7 @@ public class DSPlayerHandler implements PlayerHandler {
                 MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
-        factory.setOperation(Operations.DELETE_PLAYER);
+        factory.setOperation(PlayerOperations.DELETE_PLAYER);
         DSOperationExecutor.execute(player.getKey(), factory.build());
     }
 

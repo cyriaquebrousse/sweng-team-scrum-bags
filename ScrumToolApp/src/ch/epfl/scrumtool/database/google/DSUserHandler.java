@@ -7,7 +7,7 @@ import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
-import ch.epfl.scrumtool.database.google.operations.Operations;
+import ch.epfl.scrumtool.database.google.operations.UserOperations;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
@@ -24,7 +24,7 @@ public class DSUserHandler implements UserHandler {
                 new DSExecArgs.Factory<String, ScrumUser, User>(MODE.UNAUTHETICATED);
         builder.setCallback(callback);
         builder.setConverter(UserConverters.SCRUMUSER_TO_USER);
-        builder.setOperation(Operations.LOGIN_USER);
+        builder.setOperation(UserOperations.LOGIN_USER);
         DSOperationExecutor.execute(email, builder.build());
     }
 
@@ -34,7 +34,7 @@ public class DSUserHandler implements UserHandler {
                 new DSExecArgs.Factory<User, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
-        builder.setOperation(Operations.UPDATE_USER);
+        builder.setOperation(UserOperations.UPDATE_USER);
         DSOperationExecutor.execute(modified, builder.build());
     }
 
@@ -44,7 +44,7 @@ public class DSUserHandler implements UserHandler {
                 new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
-        factory.setOperation(Operations.DELETE_USER);
+        factory.setOperation(UserOperations.DELETE_USER);
         DSOperationExecutor.execute(user.getEmail(), factory.build());
     }
     
