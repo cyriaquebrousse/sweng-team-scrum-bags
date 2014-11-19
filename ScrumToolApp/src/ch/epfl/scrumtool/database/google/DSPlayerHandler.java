@@ -11,6 +11,13 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.PlayerHandler;
+import ch.epfl.scrumtool.database.google.containers.InsertPlayerContainer;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.Operations;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
@@ -44,65 +51,22 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void update(final Player modified, final Player ref,
             final Callback<Boolean> callback) {
-        try {
-            final GoogleSession session = (GoogleSession) Session
-                    .getCurrentSession();
-            final ScrumPlayer scrumPlayer = new ScrumPlayer();
-            scrumPlayer.setKey(modified.getKey());
-            scrumPlayer.setAdminFlag(modified.isAdmin());
-            scrumPlayer.setRole(modified.getRole().name());
-            scrumPlayer.setLastModDate((new Date()).getTime());
-            scrumPlayer.setLastModUser(session.getUser().getEmail());
-
-            new AsyncTask<ScrumPlayer, Void, OperationStatus>() {
-                @Override
-                protected OperationStatus doInBackground(ScrumPlayer... params) {
-                    OperationStatus opStat = null;
-                    try {
-                        Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.updateScrumPlayer(params[0]).execute();
-                    } catch (IOException e) {
-                        callback.failure("Connection error");
-                    }
-                    return opStat;
-                }
-
-                @Override
-                protected void onPostExecute(OperationStatus result) {
-                    callback.interactionDone(result.getSuccess());
-                }
-            }.execute(scrumPlayer);
-        } catch (NotAuthenticatedException e) {
-            callback.failure("Not authenticated");
-        }
+        DSExecArgs.Factory<Player, OperationStatus, Boolean> builder = new DSExecArgs.Factory<Player, OperationStatus, Boolean>(
+                MODE.AUTHENTICATED);
+        builder.setCallback(callback);
+        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setOperation(Operations.UPDATE_PLAYER);
+        DSOperationExecutor.execute(modified, builder.build());
     }
 
     @Override
     public void remove(final Player player, final Callback<Boolean> callback) {
-        new AsyncTask<String, Void, OperationStatus>() {
-
-            @Override
-            protected OperationStatus doInBackground(String... params) {
-                OperationStatus opStat = null;
-                try {
-                    GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
-                    opStat = session.getAuthServiceObject()
-                            .removeScrumPlayer(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStat;
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(result.getSuccess());
-            }
-
-        }.execute(player.getKey());
-
+        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = new DSExecArgs.Factory<String, OperationStatus, Boolean>(
+                MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setOperation(Operations.DELETE_PLAYER);
+        DSOperationExecutor.execute(player.getKey(), factory.build());
     }
 
     @Override
@@ -194,6 +158,5 @@ public class DSPlayerHandler implements PlayerHandler {
                 }
             }
         }.execute();
-
     }
 }

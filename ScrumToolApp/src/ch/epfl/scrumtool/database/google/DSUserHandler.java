@@ -29,7 +29,7 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(User modified, User ref, Callback<Boolean> callback) {
+    public void update(final User modified, final User ref, final Callback<Boolean> callback) {
         DSExecArgs.Factory<User, OperationStatus, Boolean> builder =
                 new DSExecArgs.Factory<User, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
@@ -54,7 +54,7 @@ public class DSUserHandler implements UserHandler {
     }
     
     @Override
-    public void insert(User user, Callback<User> callback) {
+    public void insert(final User user, final Callback<User> callback) {
         throw new UnsupportedOperationException();
     }
 }
