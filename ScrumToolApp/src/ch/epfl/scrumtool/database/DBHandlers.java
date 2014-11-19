@@ -89,8 +89,9 @@ public final class DBHandlers {
         /**
          * @param issueHandlr
          */
-        public void setIssueHandler(IssueHandler issueHandlr) {
+        public Builder setIssueHandler(IssueHandler issueHandlr) {
             this.issueHandlr = issueHandlr;
+            return this;
         }
 
         /**
@@ -103,8 +104,9 @@ public final class DBHandlers {
         /**
          * @param maintaskHandlr
          */
-        public void setMaintaskHandler(MainTaskHandler maintaskHandlr) {
+        public Builder setMaintaskHandler(MainTaskHandler maintaskHandlr) {
             this.maintaskHandlr = maintaskHandlr;
+            return this;
         }
 
         /**
@@ -117,8 +119,9 @@ public final class DBHandlers {
         /**
          * @param playerHandlr
          */
-        public void setPlayerHandler(PlayerHandler playerHandlr) {
+        public Builder setPlayerHandler(PlayerHandler playerHandlr) {
             this.playerHandlr = playerHandlr;
+            return this;
         }
 
         /**
@@ -131,8 +134,9 @@ public final class DBHandlers {
         /**
          * @param projectHandlr
          */
-        public void setProjectHandler(ProjectHandler projectHandlr) {
+        public Builder setProjectHandler(ProjectHandler projectHandlr) {
             this.projectHandlr = projectHandlr;
+            return this;
         }
 
         /**
@@ -145,8 +149,9 @@ public final class DBHandlers {
         /**
          * @param sprintHandlr
          */
-        public void setSprintHandler(SprintHandler sprintHandlr) {
+        public Builder setSprintHandler(SprintHandler sprintHandlr) {
             this.sprintHandlr = sprintHandlr;
+            return this;
         }
 
         /**
@@ -159,8 +164,9 @@ public final class DBHandlers {
         /**
          * @param userHandlr
          */
-        public void setUserHandler(UserHandler userHandlr) {
+        public Builder setUserHandler(UserHandler userHandlr) {
             this.userHandlr = userHandlr;
+            return this;
         }
 
         /**
