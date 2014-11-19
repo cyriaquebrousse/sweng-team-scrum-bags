@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.DeleteException;
 import ch.epfl.scrumtool.exception.LoginException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
@@ -40,6 +41,19 @@ public final class Operations {
                 return service.updateScrumUser(scrumUser).execute();
             } catch (IOException e) {
                 throw new UpdateException(e, "User update failed");
+            }
+        }
+    };
+    
+    
+    public static final ScrumToolOperation<String, OperationStatus> DELETE_USER = 
+            new ScrumToolOperation<String, OperationStatus>() {
+        @Override
+        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+            try {
+                return service.removeScrumUser(arg).execute();
+            } catch (IOException e) {
+                throw new DeleteException(e, "User deletion failed");
             }
         }
     };
