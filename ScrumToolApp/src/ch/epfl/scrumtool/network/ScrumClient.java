@@ -35,7 +35,8 @@ public interface ScrumClient {
     void addPlayer(final Player player, final Project project, final Callback<Player> callback);
     void updatePlayer(final Player player, final Player ref, final Callback<Boolean> callback);
     void removePlayer(final Player player, final Callback<Boolean> callback);
-    void addPlayerToProject(final Project project, final String userEmail, final Role role, final Callback<Player> callback);
+    void addPlayerToProject(final Project project, final String userEmail, 
+            final Role role, final Callback<Player> callback);
     
     // Maintask methods
     void loadBacklog(final Project project, final Callback<List<MainTask>> callback);

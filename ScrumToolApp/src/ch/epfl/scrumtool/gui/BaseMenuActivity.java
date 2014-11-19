@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.Session;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.Toast;
 
 /**
  * The BaseMenuActivity class is an Activity that has a standard action bar 
@@ -20,6 +22,18 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
  */
 public abstract class BaseMenuActivity extends Activity implements OnMenuItemClickListener {
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        try {
+            Session.getCurrentSession();
+        } catch (NotAuthenticatedException e) {
+            Toast.makeText(this, "Authentication failed! Attempting new login.", Toast.LENGTH_SHORT).show();
+            Session.relogin(this);
+        }
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_general, menu);
