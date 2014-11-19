@@ -8,6 +8,11 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
+import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.IssueOperations;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
@@ -161,36 +166,12 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void remove(final Issue issue, final Callback<Boolean> callback) {
-        AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
-
-            @Override
-            protected OperationStatus doInBackground(String... params) {
-                GoogleSession session;
-                OperationStatus opStat = null;
-                try {
-                    session = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.removeScrumIssue(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStat;
-            }
-
-            /*
-             * (non-Javadoc)
-             * 
-             * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-             */
-            @Override
-            protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(Boolean.valueOf(result.getSuccess()));
-                super.onPostExecute(result);
-            }
-
-        };
-        task.execute(issue.getKey());
+        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
+                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setOperation(IssueOperations.DELETE_ISSUE);
+        DSOperationExecutor.execute(issue.getKey(), factory.build());
     }
 
     @Override

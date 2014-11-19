@@ -6,10 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.SprintHandler;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.SprintOperations;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
@@ -88,41 +92,12 @@ public class DSSprintHandler implements SprintHandler {
      */
     public void update(final Sprint modified, final Sprint ref,
             final Callback<Boolean> callback) {
-        try {
-            final GoogleSession session = (GoogleSession) Session
-                    .getCurrentSession();
-            final ScrumSprint scrumSprint = new ScrumSprint();
-            scrumSprint.setKey(modified.getKey());
-            scrumSprint.setTitle(modified.getTitle());
-            Log.d("test", scrumSprint.getTitle());
-            scrumSprint.setDate(modified.getDeadline());
-            scrumSprint.setLastModDate((new Date()).getTime());
-            scrumSprint.setLastModUser(session.getUser().getEmail());
-
-            new AsyncTask<ScrumSprint, Void, OperationStatus>() {
-
-                @Override
-                protected OperationStatus doInBackground(ScrumSprint... params) {
-                    OperationStatus opStat = null;
-                    try {
-                        Scrumtool service = session.getAuthServiceObject();
-                        opStat = service.updateScrumSprint(params[0]).execute();
-                    } catch (IOException e) {
-                        callback.failure("Connection error");
-                    }
-                    return opStat;
-                }
-
-                @Override
-                protected void onPostExecute(OperationStatus result) {
-                    callback.interactionDone(result.getSuccess());
-                }
-            }.execute(scrumSprint);
-
-        } catch (NotAuthenticatedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        DSExecArgs.Factory<Sprint, OperationStatus, Boolean> builder =
+                new DSExecArgs.Factory<Sprint, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        builder.setCallback(callback);
+        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setOperation(SprintOperations.UPDATE_SPRINT);
+        DSOperationExecutor.execute(modified, builder.build());
 
     }
 
@@ -131,28 +106,12 @@ public class DSSprintHandler implements SprintHandler {
      * Removes a Sprint from the datastore.
      */
     public void remove(final Sprint sprint, final Callback<Boolean> callback) {
-        new AsyncTask<String, Void, OperationStatus>() {
-            @Override
-            protected OperationStatus doInBackground(String... params) {
-                OperationStatus opStat = null;
-                try {
-                    GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
-                    opStat = session.getAuthServiceObject()
-                            .removeScrumSprint(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStat;
-
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(result.getSuccess());
-            }
-        }.execute(sprint.getKey());
+        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
+                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setOperation(SprintOperations.DELETE_SPRINT);
+        DSOperationExecutor.execute(sprint.getKey(), factory.build());
     }
 
     /**

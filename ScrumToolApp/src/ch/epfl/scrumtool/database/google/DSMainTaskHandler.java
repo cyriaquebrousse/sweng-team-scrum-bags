@@ -8,6 +8,11 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.MainTaskOperations;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
@@ -127,73 +132,22 @@ public class DSMainTaskHandler implements MainTaskHandler {
 
     public void update(final MainTask modified, final MainTask ref, 
             final Callback<Boolean> callback) {
-        final ScrumMainTask changes = new ScrumMainTask();
-        changes.setKey(modified.getKey());
-        changes.setName(modified.getName());
-        changes.setDescription(modified.getDescription());
-        changes.setStatus(modified.getStatus().name());
-        changes.setPriority(modified.getPriority().name());
-        Date date = new Date();
-        changes.setLastModDate(date.getTime());
-        try {
-            changes.setLastModUser(Session.getCurrentSession().getUser()
-                    .getEmail());
-        } catch (NotAuthenticatedException e) {
-            // TODO : redirecting to the login activity if not connected
-            e.printStackTrace();
-        }
-
-        AsyncTask<ScrumMainTask, Void, OperationStatus> task = new AsyncTask<ScrumMainTask, Void, OperationStatus>() {
-
-            @Override
-            protected OperationStatus doInBackground(ScrumMainTask... params) {
-                GoogleSession session;
-                OperationStatus opStat = null;
-                try {
-                    session = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.updateScrumMainTask(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    callback.failure("Connection Error");
-                }
-                return opStat;
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(result.getSuccess());
-            }
-
-        };
-        task.execute(changes);
+        DSExecArgs.Factory<MainTask, OperationStatus, Boolean> builder =
+                new DSExecArgs.Factory<MainTask, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        builder.setCallback(callback);
+        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setOperation(MainTaskOperations.UPDATE_MAINTASK);
+        DSOperationExecutor.execute(modified, builder.build());
     }
 
     @Override
     public void remove(final MainTask maintask, final Callback<Boolean> callback) {
-        AsyncTask<String, Void, OperationStatus> task = new AsyncTask<String, Void, OperationStatus>() {
-
-            @Override
-            protected OperationStatus doInBackground(String... params) {
-                GoogleSession session;
-                OperationStatus opStat = null;
-                try {
-                    session = (GoogleSession) Session.getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.removeScrumMainTask(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStat;
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus result) {
-                callback.interactionDone(Boolean.valueOf(result.getSuccess()));
-                super.onPostExecute(result);
-            }
-        };
-        task.execute(maintask.getKey());
+        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
+                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setOperation(MainTaskOperations.DELETE_MAINTASK);
+        DSOperationExecutor.execute(maintask.getKey(), factory.build());
     }
 
     @Override

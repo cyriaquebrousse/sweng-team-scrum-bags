@@ -1,5 +1,16 @@
 package ch.epfl.scrumtool.database.google.operations;
 
+import java.io.IOException;
+
+import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
+import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.exception.DeleteException;
+import ch.epfl.scrumtool.exception.ScrumToolException;
+import ch.epfl.scrumtool.exception.UpdateException;
+import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+
 /**
  * Operations for Sprint
  * 
@@ -7,5 +18,29 @@ package ch.epfl.scrumtool.database.google.operations;
  *
  */
 public class SprintOperations {
-
+    public static final ScrumToolOperation<Sprint, OperationStatus> UPDATE_SPRINT = 
+            new ScrumToolOperation<Sprint, OperationStatus>() {
+        @Override
+        public OperationStatus execute(Sprint arg, Scrumtool service) throws ScrumToolException {
+            ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg);
+            try {
+                return service.updateScrumSprint(scrumSprint).execute();
+            } catch (IOException e) {
+                throw new UpdateException(e, "Sprint update failed");
+            }
+        }
+    };
+    
+    
+    public static final ScrumToolOperation<String, OperationStatus> DELETE_SPRINT = 
+            new ScrumToolOperation<String, OperationStatus>() {
+        @Override
+        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+            try {
+                return service.removeScrumSprint(arg).execute();
+            } catch (IOException e) {
+                throw new DeleteException(e, "Sprint deletion failed");
+            }
+        }
+    };
 }

@@ -19,7 +19,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
  */
 public class PlayerOperations {
 
-    public static final ScrumToolOperation<InsertPlayerContainer, ScrumPlayer> INSERT_PLAYER_TO_PROJECT = new ScrumToolOperation<InsertPlayerContainer, ScrumPlayer>() {
+    public static final ScrumToolOperation<InsertPlayerContainer, ScrumPlayer> INSERT_PLAYER_TO_PROJECT =
+            new ScrumToolOperation<InsertPlayerContainer, ScrumPlayer>() {
 
         @Override
         public ScrumPlayer execute(InsertPlayerContainer arg, Scrumtool service)
@@ -34,7 +35,8 @@ public class PlayerOperations {
         }
     };
 
-    public static final ScrumToolOperation<Player, OperationStatus> UPDATE_PLAYER = new ScrumToolOperation<Player, OperationStatus>() {
+    public static final ScrumToolOperation<Player, OperationStatus> UPDATE_PLAYER =
+            new ScrumToolOperation<Player, OperationStatus>() {
         @Override
         public OperationStatus execute(Player arg, Scrumtool service)
                 throws ScrumToolException {
@@ -48,7 +50,8 @@ public class PlayerOperations {
         }
     };
 
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_PLAYER = new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, OperationStatus> DELETE_PLAYER =
+            new ScrumToolOperation<String, OperationStatus>() {
         @Override
         public OperationStatus execute(String arg, Scrumtool service)
                 throws ScrumToolException {
