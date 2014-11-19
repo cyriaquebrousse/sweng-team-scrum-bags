@@ -4,49 +4,49 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
 import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
+ * Ensures convertion betwen ScrumUser and User
+ * 
  * @author aschneuw
- *
+ * 
  */
-public final class Converters {
-    public static final EntityConverter<ScrumUser, User> SCRUMUSER_TO_USER = 
-            new EntityConverter<ScrumUser, User>() {
-        
+public final class UserConverters {
+    public static final EntityConverter<ScrumUser, User> SCRUMUSER_TO_USER = new EntityConverter<ScrumUser, User>() {
+
         @Override
-        public User convert(ScrumUser b) {
-            assert b != null;
-            
+        public User convert(ScrumUser dbUser) {
+            assert dbUser != null;
+
             User.Builder builder = new User.Builder();
 
-            String email = b.getEmail();
+            String email = dbUser.getEmail();
             if (email != null) {
-                builder.setEmail(b.getEmail());
+                builder.setEmail(dbUser.getEmail());
             }
 
-            String name = b.getName();
+            String name = dbUser.getName();
             if (name != null) {
                 builder.setName(name);
             }
-            
-            String lastName = b.getLastName();
+
+            String lastName = dbUser.getLastName();
             if (lastName != null) {
                 builder.setLastName(lastName);
             }
 
-            String companyName = b.getCompanyName();
+            String companyName = dbUser.getCompanyName();
             if (companyName != null) {
                 builder.setCompanyName(companyName);
             }
 
-            String jobTitle = b.getJobTitle();
+            String jobTitle = dbUser.getJobTitle();
             if (jobTitle != null) {
                 builder.setJobTitle(jobTitle);
             }
-                 
-            Long dateOfBirth = b.getDateOfBirth();
+
+            Long dateOfBirth = dbUser.getDateOfBirth();
             if (dateOfBirth != null) {
                 builder.setDateOfBirth(dateOfBirth);
             }
@@ -54,9 +54,9 @@ public final class Converters {
             return builder.build();
         }
     };
-    
+
     public static final EntityConverter<User, ScrumUser> USER_TO_SCRUMUSER = new EntityConverter<User, ScrumUser>() {
-        
+
         @Override
         public ScrumUser convert(User user) {
             assert user != null;
@@ -67,7 +67,7 @@ public final class Converters {
             dbUser.setDateOfBirth(user.getDateOfBirth());
             dbUser.setJobTitle(user.getJobTitle());
 
-            // Currently doesn't put timestamps to to ScrumUser
+            // Currently we don't need LastModDate and LastModUser
 
             dbUser.setEmail(user.getEmail());
             dbUser.setLastName(user.getLastName());
@@ -76,15 +76,4 @@ public final class Converters {
             return dbUser;
         }
     };
-    
-    public static final EntityConverter<OperationStatus, Boolean> OPSTAT_TO_BOOLEAN = 
-            new EntityConverter<OperationStatus, Boolean>() {
-        
-        @Override
-        public Boolean convert(OperationStatus a) {
-            return a.getSuccess();
-        }
-    };
-    
-    
 }

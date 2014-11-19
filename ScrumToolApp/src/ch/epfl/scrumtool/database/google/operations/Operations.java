@@ -5,7 +5,7 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.conversion.Converters;
+import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
@@ -31,8 +31,9 @@ public final class Operations {
         @Override
         public OperationStatus execute(User arg, Scrumtool service)
                 throws IOException {
-            ScrumUser scrumUser = Converters.USER_TO_SCRUMUSER.convert(arg);
+            ScrumUser scrumUser = UserConverters.USER_TO_SCRUMUSER.convert(arg);
             return service.updateScrumUser(scrumUser).execute();
+
         }
     };
 }

@@ -5,7 +5,8 @@ import java.io.IOException;
 import android.os.AsyncTask;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.UserHandler;
-import ch.epfl.scrumtool.database.google.conversion.Converters;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.Operations;
@@ -36,7 +37,7 @@ public class DSUserHandler implements UserHandler {
                 new DSExecArgs.Factory<String, ScrumUser, User>(MODE.UNAUTHETICATED);
         
         builder.setCallback(callback);
-        builder.setConverter(Converters.SCRUMUSER_TO_USER);
+        builder.setConverter(UserConverters.SCRUMUSER_TO_USER);
         builder.setOperation(Operations.LOGIN_USER);
         
         DSOperationExecutor.execute(email, builder.build());
@@ -52,7 +53,7 @@ public class DSUserHandler implements UserHandler {
         DSExecArgs.Factory<User, OperationStatus, Boolean> builder =
                 new DSExecArgs.Factory<User, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(Converters.OPSTAT_TO_BOOLEAN);
+        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(Operations.UPDATE_USER);
         DSOperationExecutor.execute(modified, builder.build());
     }

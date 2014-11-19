@@ -21,11 +21,7 @@ import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
 /**
  * @author aschneuw
