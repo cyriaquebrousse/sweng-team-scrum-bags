@@ -9,6 +9,7 @@ import ch.epfl.scrumtool.database.google.conversion.Converters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.Operations;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.network.GoogleSession;
@@ -31,8 +32,8 @@ public class DSUserHandler implements UserHandler {
     
     @Override
     public void loginUser(final String email, final Callback<User> callback) {
-        DSExecArgs.Builder<String, ScrumUser, User> builder = 
-                new DSExecArgs.Builder<String, ScrumUser, User>();
+        DSExecArgs.Factory<String, ScrumUser, User> builder = 
+                new DSExecArgs.Factory<String, ScrumUser, User>(MODE.UNAUTHETICATED);
         
         builder.setCallback(callback);
         builder.setConverter(Converters.SCRUMUSER_TO_USER);
@@ -48,8 +49,8 @@ public class DSUserHandler implements UserHandler {
 
     @Override
     public void update(User modified, User ref, Callback<Boolean> callback) {
-        DSExecArgs.Builder<User, OperationStatus, Boolean> builder =
-                new DSExecArgs.Builder<User, OperationStatus, Boolean>();
+        DSExecArgs.Factory<User, OperationStatus, Boolean> builder =
+                new DSExecArgs.Factory<User, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
         builder.setConverter(Converters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(Operations.UPDATE_USER);

@@ -3,15 +3,26 @@
  */
 package ch.epfl.scrumtool.database.google.operations;
 
-import java.io.IOException;
+import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
  * 
- * @author Arno
+ * @author aschneuw
  *
  * @param <A>
  * @param <B>
  */
-public interface DatastoreOperation<A, B> {
-    B execute(final A a) throws IOException;
+public abstract class DatastoreOperation<A, B> {
+    private final ScrumToolOperation<A, B> operation;
+    
+
+    public DatastoreOperation(final ScrumToolOperation<A, B> operation) {
+        this.operation = operation;
+    }
+    
+    public ScrumToolOperation<A, B> getOperation() {
+        return operation;
+    }
+    
+    public abstract B execute(A a) throws ScrumToolException;
 }

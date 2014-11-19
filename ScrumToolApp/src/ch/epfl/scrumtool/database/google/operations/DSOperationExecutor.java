@@ -3,9 +3,8 @@
  */
 package ch.epfl.scrumtool.database.google.operations;
 
-import java.io.IOException;
-
 import android.os.AsyncTask;
+import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
  * @author aschneuw
@@ -14,28 +13,27 @@ import android.os.AsyncTask;
 public final class DSOperationExecutor {
     @SuppressWarnings("unchecked")
     public static <A, B, C> void execute(final A a, final DSExecArgs<A, B, C> args) {
-        AsyncTask<A, Void, B> task = new AsyncTask<A, Void, B>() {
+        AsyncTask<A, Void, TaskResult<B>> task = new AsyncTask<A, Void, TaskResult<B>>() {
 
             @Override
-            protected B doInBackground(final A... params) {
-                B returnObject = null;
+            protected TaskResult<B> doInBackground(final A... params) {
                 try {
-                    returnObject = args.getOperation().execute(params[0]);
-                } catch (IOException e) {
-                    args.getCallback().failure("FAIL");
+                    B serverResult = args.getOperation().execute(params[0]);
+                    return new TaskResult<B>(serverResult);
+                    
+                } catch (ScrumToolException e) {
+                    return new TaskResult<B>(e);
                 }
-                return returnObject;
             }
-                        
-            
-            
+
             @Override
-            protected void onPostExecute(final B result) {
-                if (result == null) {
-                    args.getCallback().failure("Invalid result");
-                } else {
-                    C convertedResult = args.getConverter().convert(result);
+            protected void onPostExecute(final TaskResult<B> result) {
+                if (result.isValid()) {
+                    C convertedResult = args.getConverter().convert(result.getResult());
                     args.getCallback().interactionDone(convertedResult);
+                } else {
+                    args.getCallback().failure(result.getException().getMessage());
+
                 }
             }
         };

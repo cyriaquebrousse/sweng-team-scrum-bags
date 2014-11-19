@@ -8,16 +8,16 @@ package ch.epfl.scrumtool.database.google.operations;
  * @param <A>
  */
 
-public final class OperationResult<A> {
+public final class TaskResult<A> {
     private Exception exception;  
     
     private A result;  
   
-    public OperationResult(final A result) {  
+    public TaskResult(final A result) {  
         this.result = result;  
     }  
   
-    public OperationResult(final Exception exception) {  
+    public TaskResult(final Exception exception) {  
         this.exception = exception;  
     }  
   

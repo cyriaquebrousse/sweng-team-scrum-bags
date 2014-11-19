@@ -5,10 +5,11 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
+import ch.epfl.scrumtool.exception.DSExecArgsException;
 
 /**
  * 
- * @author Arno
+ * @author aschneuw
  *
  * @param <A>
  * @param <B>
@@ -18,13 +19,25 @@ public final class DSExecArgs<A, B, C> {
     private final DatastoreOperation<A, B> operation;
     private final EntityConverter<B, C> converter;
     private final Callback<C> callback;
-    
-    private DSExecArgs(DSExecArgs.Builder<A, B, C> builder) {
+
+    private DSExecArgs(DSExecArgs.Factory<A, B, C> builder) {
+        if (builder.operation == null) {
+            throw new DSExecArgsException("Operation cannot be null");
+        }
+        
+        if (builder.converter == null) {
+            throw new DSExecArgsException("Converter cannot be null");
+        }
+        
+        if (builder.callback == null) {
+            throw new DSExecArgsException("Callback cannot be null");
+        }
+        
         this.operation = builder.operation;
         this.converter = builder.converter;
         this.callback = builder.callback;
     }
-    
+
     /**
      * @return the operation
      */
@@ -54,11 +67,30 @@ public final class DSExecArgs<A, B, C> {
      * @param <B>
      * @param <C>
      */
-    public static class Builder<A, B, C> {
+    public static class Factory<A, B, C> {
+        /**
+         * 
+         * @author aschneuw
+         *
+         */
+        public static enum MODE {
+            AUTHENTICATED, 
+            UNAUTHETICATED
+        };
+
         private DatastoreOperation<A, B> operation;
         private EntityConverter<B, C> converter;
         private Callback<C> callback;
-        
+        private final MODE mode;
+
+
+        /**
+         * 
+         */
+        public Factory(final MODE mode) {
+            this.mode = mode;
+        }
+
         /**
          * @return the operation
          */
@@ -68,8 +100,17 @@ public final class DSExecArgs<A, B, C> {
         /**
          * @param operation the operation to set
          */
-        public DSExecArgs.Builder<A, B, C> setOperation(DatastoreOperation<A, B> operation) {
-            this.operation = operation;
+        public DSExecArgs.Factory<A, B, C> setOperation(ScrumToolOperation<A, B> operation) {
+            switch (mode) {
+                case AUTHENTICATED : 
+                    this.operation = new AuthenticatedOperation<A, B>(operation);
+                    break;
+                case UNAUTHETICATED: 
+                    this.operation = new UnauthenticatedOperation<A, B>(operation);
+                    break;
+                default: 
+                    break;
+            }
             return this;
         }
         /**
@@ -81,7 +122,7 @@ public final class DSExecArgs<A, B, C> {
         /**
          * @param converter the converter to set
          */
-        public DSExecArgs.Builder<A, B, C> setConverter(EntityConverter<B, C> converter) {
+        public DSExecArgs.Factory<A, B, C> setConverter(EntityConverter<B, C> converter) {
             this.converter = converter;
             return this;
         }
@@ -94,19 +135,13 @@ public final class DSExecArgs<A, B, C> {
         /**
          * @param callback the callback to set
          */
-        public DSExecArgs.Builder<A, B, C> setCallback(Callback<C> callback) {
+        public DSExecArgs.Factory<A, B, C> setCallback(Callback<C> callback) {
             this.callback = callback;
             return this;
         }
-        
+
         public DSExecArgs<A, B, C> build() {
-            if (converter != null && callback != null && operation != null) {
-                return new DSExecArgs<>(this);
-            } else {
-                return null;
-            }
-            
-            //TODO ExceptionHandling
+            return new DSExecArgs<>(this);
         }
     }
 }
