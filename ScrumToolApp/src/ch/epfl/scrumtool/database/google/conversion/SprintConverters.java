@@ -44,12 +44,27 @@ public class SprintConverters {
 
             ScrumSprint dbSprint = new ScrumSprint();
 
-            dbSprint.setKey(sprint.getKey());
+            if (!sprint.getKey().equals("")) {
+                dbSprint.setKey(sprint.getKey());
+            }
+            
             dbSprint.setTitle(sprint.getTitle());
             dbSprint.setDate(sprint.getDeadline());
             // Currently we don't need LastModDate and LasModUser
 
             return dbSprint;
+        }
+    };
+    
+    public static final EntityConverter<OperationStatusEntity<Sprint>, Sprint> OPSTATSPRINT_TO_SPRINT = 
+            new EntityConverter<OperationStatusEntity<Sprint>, Sprint>() {
+
+        @Override
+        public Sprint convert(OperationStatusEntity<Sprint> a) {
+            return a.getEntity()
+                    .getBuilder()
+                    .setKey(a.getOpStat().getKey())
+                    .build();
         }
     };
 

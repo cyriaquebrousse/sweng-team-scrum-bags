@@ -1,29 +1,22 @@
 package ch.epfl.scrumtool.database.google;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import android.os.AsyncTask;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.SprintHandler;
+import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
+import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.conversion.OperationStatusEntity;
+import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.SprintOperations;
-import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.network.GoogleSession;
-import ch.epfl.scrumtool.network.Session;
-import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
 /**
  * 
@@ -38,52 +31,13 @@ public class DSSprintHandler implements SprintHandler {
      */
     public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
-        ScrumSprint scrumSprint = new ScrumSprint();
-        scrumSprint.setTitle(sprint.getTitle());
-        scrumSprint.setDate(sprint.getDeadline());
-        scrumSprint.setIssues(new ArrayList<ScrumIssue>());
-        Date date = new Date();
-        scrumSprint.setLastModDate(date.getTime());
-        try {
-            scrumSprint.setLastModUser(Session.getCurrentSession().getUser()
-                    .getEmail());
-        } catch (NotAuthenticatedException e) {
-            // TODO This exception should probably be handled elsewhere
-            e.printStackTrace();
-        }
-
-        new AsyncTask<ScrumSprint, Void, OperationStatus>() {
-            @Override
-            protected OperationStatus doInBackground(ScrumSprint... params) {
-                OperationStatus opStat = null;
-                try {
-                    GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    opStat = service.insertScrumSprint(project.getKey(),
-                            params[0]).execute();
-                } catch (IOException | NotAuthenticatedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return opStat;
-            }
-
-            @Override
-            protected void onPostExecute(OperationStatus opStat) {
-                Sprint.Builder sprintBuilder = new Sprint.Builder(sprint);
-                sprintBuilder.setKey(opStat.getKey());
-                callback.interactionDone(sprintBuilder.build());
-            }
-        }.execute(scrumSprint);
-    }
-
-    @Override
-    /**
-     * Loads a Sprint from its key (String).
-     */
-    public void load(final String key, final Callback<Sprint> cB) {
-        throw new UnsupportedOperationException();
+        InsertSprintArgs args = new InsertSprintArgs(project.getKey(), sprint);
+        DSExecArgs.Factory<InsertSprintArgs, OperationStatusEntity<Sprint>, Sprint> factory = 
+                new DSExecArgs.Factory<InsertSprintArgs, OperationStatusEntity<Sprint>, Sprint>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(SprintConverters.OPSTATSPRINT_TO_SPRINT);
+        factory.setOperation(SprintOperations.INSERT_SPRINT);
+        DSOperationExecutor.execute(args, factory.build());
     }
 
     @Override
@@ -98,7 +52,6 @@ public class DSSprintHandler implements SprintHandler {
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(SprintOperations.UPDATE_SPRINT);
         DSOperationExecutor.execute(modified, builder.build());
-
     }
 
     @Override
@@ -123,46 +76,24 @@ public class DSSprintHandler implements SprintHandler {
     @Override
     public void loadSprints(final Project project,
             final Callback<List<Sprint>> callback) {
-        new AsyncTask<String, Void, CollectionResponseScrumSprint>() {
-            @Override
-            protected CollectionResponseScrumSprint doInBackground(
-                    String... params) {
-                CollectionResponseScrumSprint sprints = null;
-                try {
-                    final GoogleSession session = (GoogleSession) Session
-                            .getCurrentSession();
-                    Scrumtool service = session.getAuthServiceObject();
-                    sprints = service.loadSprints(params[0]).execute();
-                } catch (NotAuthenticatedException | IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                return sprints;
-            }
-
-            @Override
-            protected void onPostExecute(CollectionResponseScrumSprint result) {
-                List<ScrumSprint> resultItems = result.getItems();
-                ArrayList<Sprint> sprints = new ArrayList<Sprint>();
-                
-                if (resultItems != null) {
-                    for (ScrumSprint s : resultItems) {
-                        Sprint.Builder sprintBuilder = new Sprint.Builder();
-                        sprintBuilder.setKey(s.getKey());
-                        sprintBuilder.setTitle(s.getTitle());
-                        sprintBuilder.setDeadline(s.getDate());
-                        sprints.add(sprintBuilder.build());
-                    }
-                }
-                // TODO better error handling
-                callback.interactionDone(sprints);
-            }
-        }.execute(project.getKey());
+        DSExecArgs.Factory<String, CollectionResponseScrumSprint, List<Sprint>> factory = 
+                new DSExecArgs.Factory<String, CollectionResponseScrumSprint, List<Sprint>>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(CollectionResponseConverters.SPRINTS);
+        factory.setOperation(SprintOperations.LOAD_SPRINT);
+        DSOperationExecutor.execute(project.getKey(), factory.build());
     }
 
     @Override
     public void insert(final Sprint object, final Callback<Sprint> cB) {
         throw new UnsupportedOperationException();
-
+    }
+    
+    @Override
+    /**
+     * Loads a Sprint from its key (String).
+     */
+    public void load(final String key, final Callback<Sprint> cB) {
+        throw new UnsupportedOperationException();
     }
 }
