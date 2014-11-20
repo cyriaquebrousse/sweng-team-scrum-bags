@@ -1,17 +1,17 @@
-package ch.epfl.scrumtool.database.google;
+package ch.epfl.scrumtool.database.google.handlers;
 
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
 import ch.epfl.scrumtool.database.google.containers.InsertMainTaskArgs;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
-import ch.epfl.scrumtool.database.google.conversion.MaintaskConverters;
+import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusEntity;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
-import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.MainTaskOperations;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
@@ -27,12 +27,13 @@ public class DSMainTaskHandler implements MainTaskHandler {
     public void insert(final MainTask mainTask, final Project project,
             final Callback<MainTask> callback) {
         InsertMainTaskArgs args = new InsertMainTaskArgs(project.getKey(), mainTask);
-        DSExecArgs.Factory<InsertMainTaskArgs, OperationStatusEntity<MainTask>, MainTask> factory = 
-                new DSExecArgs.Factory<InsertMainTaskArgs, OperationStatusEntity<MainTask>, MainTask>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<InsertMainTaskArgs, InsertResponse<MainTask>, MainTask> factory = 
+                new DSExecArgs.Factory<InsertMainTaskArgs, 
+                InsertResponse<MainTask>, MainTask>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(MaintaskConverters.OPSTATMAINTASK_TO_MAINTASK);
+        factory.setConverter(MainTaskConverters.OPSTATMAINTASK_TO_MAINTASK);
         factory.setOperation(MainTaskOperations.INSERT_MAINTASK);
-        DSOperationExecutor.execute(args, factory.build());
+        OperationExecutor.execute(args, factory.build());
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
         factory.setCallback(callback);
         factory.setConverter(CollectionResponseConverters.MAINTASKS);
         factory.setOperation(MainTaskOperations.LOAD_MAINTASKS);
-        DSOperationExecutor.execute(project.getKey(), factory.build());
+        OperationExecutor.execute(project.getKey(), factory.build());
                 
     }
 
@@ -54,7 +55,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(MainTaskOperations.UPDATE_MAINTASK);
-        DSOperationExecutor.execute(modified, builder.build());
+        OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
@@ -64,7 +65,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(MainTaskOperations.DELETE_MAINTASK);
-        DSOperationExecutor.execute(maintask.getKey(), factory.build());
+        OperationExecutor.execute(maintask.getKey(), factory.build());
     }
 
     @Override

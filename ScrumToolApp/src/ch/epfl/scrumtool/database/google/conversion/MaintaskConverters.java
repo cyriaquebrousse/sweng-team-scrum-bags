@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
@@ -11,7 +12,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
  * @author vincent
  * 
  */
-public class MaintaskConverters {
+public class MainTaskConverters {
     /**
      * Converts a ScrumMainTask into a MainTask
      */
@@ -79,11 +80,11 @@ public class MaintaskConverters {
         }
     };
     
-    public static final EntityConverter<OperationStatusEntity<MainTask>, MainTask> OPSTATMAINTASK_TO_MAINTASK = 
-            new EntityConverter<OperationStatusEntity<MainTask>, MainTask>() {
+    public static final EntityConverter<InsertResponse<MainTask>, MainTask> OPSTATMAINTASK_TO_MAINTASK = 
+            new EntityConverter<InsertResponse<MainTask>, MainTask>() {
 
         @Override
-        public MainTask convert(OperationStatusEntity<MainTask> a) {
+        public MainTask convert(InsertResponse<MainTask> a) {
             return a.getEntity()
                     .getBuilder()
                     .setKey(a.getOpStat().getKey())

@@ -2,7 +2,7 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.containers.InsertPlayerContainer;
+import ch.epfl.scrumtool.database.google.containers.InsertPlayerArgs;
 import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.exception.DeleteException;
@@ -19,11 +19,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
  */
 public class PlayerOperations {
 
-    public static final ScrumToolOperation<InsertPlayerContainer, ScrumPlayer> INSERT_PLAYER_TO_PROJECT =
-            new ScrumToolOperation<InsertPlayerContainer, ScrumPlayer>() {
+    public static final ScrumToolOperation<InsertPlayerArgs, ScrumPlayer> INSERT_PLAYER_TO_PROJECT =
+            new ScrumToolOperation<InsertPlayerArgs, ScrumPlayer>() {
 
         @Override
-        public ScrumPlayer execute(InsertPlayerContainer arg, Scrumtool service)
+        public ScrumPlayer execute(InsertPlayerArgs arg, Scrumtool service)
                 throws ScrumToolException {
             try {
                 return service.addPlayerToProject(arg.getProjectKey(),

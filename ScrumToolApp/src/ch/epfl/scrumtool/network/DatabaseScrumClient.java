@@ -6,7 +6,7 @@ package ch.epfl.scrumtool.network;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DBHandlers;
+import ch.epfl.scrumtool.database.DatabaseHandlers;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -19,10 +19,10 @@ import ch.epfl.scrumtool.entity.User;
  * @author aschneuw
  * 
  */
-public class DBScrumClient implements ScrumClient {
-    private final DBHandlers databaseHandlers;
+public class DatabaseScrumClient implements ScrumClient {
+    private final DatabaseHandlers databaseHandlers;
 
-    public DBScrumClient(DBHandlers dbHandlers) {
+    public DatabaseScrumClient(DatabaseHandlers dbHandlers) {
         this.databaseHandlers = dbHandlers;
     }
 

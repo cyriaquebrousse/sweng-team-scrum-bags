@@ -5,7 +5,7 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusEntity;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.ProjectConverters;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.DeleteException;
@@ -39,14 +39,14 @@ public final class ProjectOperations {
         
     };
     
-    public static final ScrumToolOperation<Project, OperationStatusEntity<Project>> INSERT_PROJECT = 
-            new ScrumToolOperation<Project, OperationStatusEntity<Project>>() {
+    public static final ScrumToolOperation<Project, InsertResponse<Project>> INSERT_PROJECT = 
+            new ScrumToolOperation<Project, InsertResponse<Project>>() {
         @Override
-        public OperationStatusEntity<Project> execute(Project arg, Scrumtool service) throws ScrumToolException {
+        public InsertResponse<Project> execute(Project arg, Scrumtool service) throws ScrumToolException {
             try {
                 ScrumProject insert = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-                return new OperationStatusEntity<Project>(arg, service.insertScrumProject(insert).execute());
+                return new InsertResponse<Project>(arg, service.insertScrumProject(insert).execute());
                 
             } catch (IOException e) {
                 throw new InsertException(e, "Project insertion failed");

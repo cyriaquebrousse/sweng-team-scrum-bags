@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
@@ -61,11 +62,11 @@ public class ProjectConverters {
 
     };
 
-    public static final EntityConverter<OperationStatusEntity<Project>, Project> OPSTATPROJECT_TO_PROJECT = 
-            new EntityConverter<OperationStatusEntity<Project>, Project>() {
+    public static final EntityConverter<InsertResponse<Project>, Project> OPSTATPROJECT_TO_PROJECT = 
+            new EntityConverter<InsertResponse<Project>, Project>() {
 
         @Override
-        public Project convert(OperationStatusEntity<Project> a) {
+        public Project convert(InsertResponse<Project> a) {
             return a.getEntity()
                     .getBuilder()
                     .setKey(a.getOpStat().getKey())

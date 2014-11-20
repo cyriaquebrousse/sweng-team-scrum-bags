@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.database.google;
+package ch.epfl.scrumtool.database.google.handlers;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.UserHandler;
@@ -6,7 +6,7 @@ import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
-import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.UserOperations;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
@@ -25,7 +25,7 @@ public class DSUserHandler implements UserHandler {
         builder.setCallback(callback);
         builder.setConverter(UserConverters.SCRUMUSER_TO_USER);
         builder.setOperation(UserOperations.LOGIN_USER);
-        DSOperationExecutor.execute(email, builder.build());
+        OperationExecutor.execute(email, builder.build());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DSUserHandler implements UserHandler {
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(UserOperations.UPDATE_USER);
-        DSOperationExecutor.execute(modified, builder.build());
+        OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class DSUserHandler implements UserHandler {
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(UserOperations.DELETE_USER);
-        DSOperationExecutor.execute(user.getEmail(), factory.build());
+        OperationExecutor.execute(user.getEmail(), factory.build());
     }
     
     @Override

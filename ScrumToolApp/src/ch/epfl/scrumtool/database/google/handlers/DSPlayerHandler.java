@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.scrumtool.database.google;
+package ch.epfl.scrumtool.database.google.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.PlayerHandler;
 import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
-import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.PlayerOperations;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.entity.Player;
@@ -53,7 +53,7 @@ public class DSPlayerHandler implements PlayerHandler {
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(PlayerOperations.UPDATE_PLAYER);
-        DSOperationExecutor.execute(modified, builder.build());
+        OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class DSPlayerHandler implements PlayerHandler {
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(PlayerOperations.DELETE_PLAYER);
-        DSOperationExecutor.execute(player.getKey(), factory.build());
+        OperationExecutor.execute(player.getKey(), factory.build());
     }
 
     @Override

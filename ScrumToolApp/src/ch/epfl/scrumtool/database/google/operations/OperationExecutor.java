@@ -10,7 +10,7 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
  * @author aschneuw
  * 
  */
-public final class DSOperationExecutor {
+public final class OperationExecutor {
     @SuppressWarnings("unchecked")
     public static <A, B, C> void execute(final A a, final DSExecArgs<A, B, C> args) {
         AsyncTask<A, Void, TaskResult<B>> task = new AsyncTask<A, Void, TaskResult<B>>() {

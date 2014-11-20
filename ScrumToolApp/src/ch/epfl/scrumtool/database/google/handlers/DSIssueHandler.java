@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.database.google;
+package ch.epfl.scrumtool.database.google.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
-import ch.epfl.scrumtool.database.google.operations.DSOperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.IssueOperations;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -171,7 +171,7 @@ public class DSIssueHandler implements IssueHandler {
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(IssueOperations.DELETE_ISSUE);
-        DSOperationExecutor.execute(issue.getKey(), factory.build());
+        OperationExecutor.execute(issue.getKey(), factory.build());
     }
 
     @Override

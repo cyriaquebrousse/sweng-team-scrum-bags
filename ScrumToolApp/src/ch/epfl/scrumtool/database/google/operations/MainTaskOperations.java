@@ -3,8 +3,8 @@ package ch.epfl.scrumtool.database.google.operations;
 import java.io.IOException;
 
 import ch.epfl.scrumtool.database.google.containers.InsertMainTaskArgs;
-import ch.epfl.scrumtool.database.google.conversion.MaintaskConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusEntity;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.exception.DeleteException;
 import ch.epfl.scrumtool.exception.InsertException;
@@ -27,7 +27,7 @@ public class MainTaskOperations {
             new ScrumToolOperation<MainTask, OperationStatus>() {
         @Override
         public OperationStatus execute(MainTask arg, Scrumtool service) throws ScrumToolException {
-            ScrumMainTask scrumMainTask = MaintaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg);
+            ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg);
             try {
                 return service.updateScrumMainTask(scrumMainTask).execute();
             } catch (IOException e) {
@@ -61,18 +61,18 @@ public class MainTaskOperations {
         }
     };
     
-    public static final ScrumToolOperation<InsertMainTaskArgs, OperationStatusEntity<MainTask>> INSERT_MAINTASK = 
-            new ScrumToolOperation<InsertMainTaskArgs, OperationStatusEntity<MainTask>>() {
+    public static final ScrumToolOperation<InsertMainTaskArgs, InsertResponse<MainTask>> INSERT_MAINTASK = 
+            new ScrumToolOperation<InsertMainTaskArgs, InsertResponse<MainTask>>() {
 
         @Override
-        public OperationStatusEntity<MainTask> execute(InsertMainTaskArgs arg,
+        public InsertResponse<MainTask> execute(InsertMainTaskArgs arg,
                 Scrumtool service) throws ScrumToolException {
             try {
-                ScrumMainTask scrumMainTask = MaintaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg.getMainTask());
+                ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg.getMainTask());
                 OperationStatus serverAnswer = 
                         service.insertScrumMainTask(arg.getProjectKey(), scrumMainTask).execute();
-                OperationStatusEntity<MainTask> response = 
-                        new OperationStatusEntity<MainTask>(arg.getMainTask(), serverAnswer);
+                InsertResponse<MainTask> response = 
+                        new InsertResponse<MainTask>(arg.getMainTask(), serverAnswer);
                 return response;
 
             } catch (IOException e) {

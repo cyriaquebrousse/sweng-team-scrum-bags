@@ -51,7 +51,7 @@ public class CollectionResponseConverters {
             ArrayList<MainTask> maintasks = new ArrayList<MainTask>();
             if (dbMainTasks != null && dbMainTasks.getItems() != null) {
                 for (ScrumMainTask i : dbMainTasks.getItems()) {
-                    MainTask tmp = MaintaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(i);
+                    MainTask tmp = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(i);
                     maintasks.add(tmp);
                 }
             }

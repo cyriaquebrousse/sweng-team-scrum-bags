@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
@@ -56,11 +57,11 @@ public class SprintConverters {
         }
     };
     
-    public static final EntityConverter<OperationStatusEntity<Sprint>, Sprint> OPSTATSPRINT_TO_SPRINT = 
-            new EntityConverter<OperationStatusEntity<Sprint>, Sprint>() {
+    public static final EntityConverter<InsertResponse<Sprint>, Sprint> OPSTATSPRINT_TO_SPRINT = 
+            new EntityConverter<InsertResponse<Sprint>, Sprint>() {
 
         @Override
-        public Sprint convert(OperationStatusEntity<Sprint> a) {
+        public Sprint convert(InsertResponse<Sprint> a) {
             return a.getEntity()
                     .getBuilder()
                     .setKey(a.getOpStat().getKey())

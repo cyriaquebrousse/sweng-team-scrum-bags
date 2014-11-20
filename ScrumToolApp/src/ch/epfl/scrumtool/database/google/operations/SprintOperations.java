@@ -3,7 +3,7 @@ package ch.epfl.scrumtool.database.google.operations;
 import java.io.IOException;
 
 import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusEntity;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.DeleteException;
@@ -48,16 +48,16 @@ public class SprintOperations {
         }
     };
     
-    public static final ScrumToolOperation<InsertSprintArgs, OperationStatusEntity<Sprint>> INSERT_SPRINT =
-            new ScrumToolOperation<InsertSprintArgs, OperationStatusEntity<Sprint>>() {
+    public static final ScrumToolOperation<InsertSprintArgs, InsertResponse<Sprint>> INSERT_SPRINT =
+            new ScrumToolOperation<InsertSprintArgs, InsertResponse<Sprint>>() {
                 
         @Override
-        public OperationStatusEntity<Sprint> execute(InsertSprintArgs arg,
+        public InsertResponse<Sprint> execute(InsertSprintArgs arg,
                 Scrumtool service) throws ScrumToolException {
             try {
                 ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg.getSprint());
                 OperationStatus opStat = service.insertScrumSprint(arg.getProjectKey(), scrumSprint).execute();
-                OperationStatusEntity<Sprint> response = new OperationStatusEntity<Sprint>(arg.getSprint(), opStat);
+                InsertResponse<Sprint> response = new InsertResponse<Sprint>(arg.getSprint(), opStat);
                 return response;
             } catch (IOException e) {
                 throw new InsertException(e, "Sprint Insertion failed");

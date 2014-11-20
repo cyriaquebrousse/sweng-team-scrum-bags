@@ -7,7 +7,7 @@ package ch.epfl.scrumtool.database;
  * @author aschneuw
  * 
  */
-public final class DBHandlers {
+public final class DatabaseHandlers {
     private final IssueHandler issueHandler;
     private final MainTaskHandler mainTaskHandler;
     private final PlayerHandler playerHandler;
@@ -15,7 +15,7 @@ public final class DBHandlers {
     private final SprintHandler sprintHandler;
     private final UserHandler userHandler;
 
-    private DBHandlers(DBHandlers.Builder builder) {
+    private DatabaseHandlers(DatabaseHandlers.Builder builder) {
         issueHandler = builder.issueHandlr;
         mainTaskHandler = builder.maintaskHandlr;
         playerHandler = builder.playerHandlr;
@@ -174,8 +174,8 @@ public final class DBHandlers {
          * 
          * @return an immutable DBHandlers
          */
-        public DBHandlers build() {
-            return new DBHandlers(this);
+        public DatabaseHandlers build() {
+            return new DatabaseHandlers(this);
         }
     }
 }

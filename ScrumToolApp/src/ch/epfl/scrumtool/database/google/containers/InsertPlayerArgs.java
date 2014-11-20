@@ -10,12 +10,12 @@ import ch.epfl.scrumtool.entity.Role;
  * @author vincent
  *
  */
-public class InsertPlayerContainer {
+public class InsertPlayerArgs {
     private Project project;
     private String userEmail;
     private Role role;
     
-    public InsertPlayerContainer(Project project, String userEmail, Role role) {
+    public InsertPlayerArgs(Project project, String userEmail, Role role) {
         this.project = project;
         this.userEmail = userEmail;
         this.role = role;

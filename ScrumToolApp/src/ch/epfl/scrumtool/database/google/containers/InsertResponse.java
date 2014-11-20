@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ch.epfl.scrumtool.database.google.conversion;
+package ch.epfl.scrumtool.database.google.containers;
 
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
@@ -10,14 +10,14 @@ import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
  *
  * @param <A>
  */
-public class OperationStatusEntity<A> {
+public class InsertResponse<A> {
     private final A entity;
     private final OperationStatus opStat;
     
     /**
      * 
      */
-    public OperationStatusEntity(final A entity, final OperationStatus opStat) {
+    public InsertResponse(final A entity, final OperationStatus opStat) {
         if (entity == null) {
             throw new NullPointerException("Entity can't be null");
         }

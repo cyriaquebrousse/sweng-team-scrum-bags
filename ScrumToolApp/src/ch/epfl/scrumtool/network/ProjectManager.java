@@ -10,7 +10,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 
 /**
- * @author Arno
+ * @author aschneuw
  * 
  */
 public interface ProjectManager {

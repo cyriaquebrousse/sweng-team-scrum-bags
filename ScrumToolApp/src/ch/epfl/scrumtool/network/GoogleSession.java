@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import android.content.Intent;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.DBHandlers;
+import ch.epfl.scrumtool.database.DatabaseHandlers;
 import ch.epfl.scrumtool.database.google.AppEngineUtils;
-import ch.epfl.scrumtool.database.google.DSIssueHandler;
-import ch.epfl.scrumtool.database.google.DSMainTaskHandler;
-import ch.epfl.scrumtool.database.google.DSPlayerHandler;
-import ch.epfl.scrumtool.database.google.DSProjectHandler;
-import ch.epfl.scrumtool.database.google.DSSprintHandler;
-import ch.epfl.scrumtool.database.google.DSUserHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSIssueHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSMainTaskHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSPlayerHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSProjectHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSSprintHandler;
+import ch.epfl.scrumtool.database.google.handlers.DSUserHandler;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -148,7 +148,7 @@ public class GoogleSession extends Session {
                     if (user != null) {
                         new GoogleSession(user, googleCredential);
                         
-                        DBHandlers.Builder handlersBuilder = new DBHandlers.Builder()
+                        DatabaseHandlers.Builder handlersBuilder = new DatabaseHandlers.Builder()
                             .setIssueHandler(new DSIssueHandler())
                             .setMaintaskHandler(new DSMainTaskHandler())
                             .setPlayerHandler(new DSPlayerHandler())
@@ -156,7 +156,7 @@ public class GoogleSession extends Session {
                             .setSprintHandler(new DSSprintHandler())
                             .setUserHandler(new DSUserHandler());
                         
-                        Client.setScrumClient(new DBScrumClient(handlersBuilder.build()));
+                        Client.setScrumClient(new DatabaseScrumClient(handlersBuilder.build()));
 
                         authCallback.interactionDone(Boolean.TRUE);
                     } else {
