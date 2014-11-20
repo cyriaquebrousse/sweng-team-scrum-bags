@@ -1,8 +1,10 @@
 package ch.epfl.scrumtool.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +42,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         initActivity();
         initViews();
         
-        this.setTitle(sprint.getTitle());
+        setTitle(sprint.getTitle());
         
         sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
 
@@ -74,7 +76,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
         
         name.setText(sprint.getTitle());
-        deadline.setText(getDeadline(sprint.getDeadline()));
+        setDeadlineText();
     }
     
     private void updateViews() {
@@ -82,7 +84,15 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
         
         name.setText(sprint.getTitle());
-        deadline.setText(getDeadline(sprint.getDeadline()));
+        setDeadlineText();
+    }
+    
+    @SuppressLint("SimpleDateFormat")
+    private void setDeadlineText() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(sprint.getDeadline());
+        deadline.setText(sdf.format(date.getTime()));
     }
     
     // TODO add issues to the Sprint
@@ -96,13 +106,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         if (project == null) {
             throw new NullPointerException("Parent project cannot be null");
         }
-    }
-    
-    private String getDeadline(long deadline) {
-        Calendar deadlineAsCal = Calendar.getInstance();
-        deadlineAsCal.setTimeInMillis(deadline);
-        return "" + deadlineAsCal.get(Calendar.DAY_OF_MONTH) + "/" 
-            + deadlineAsCal.get(Calendar.MONTH) + "/" + deadlineAsCal.get(Calendar.YEAR);
     }
 
     @Override
