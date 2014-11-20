@@ -1,10 +1,10 @@
 package ch.epfl.scrumtool.gui;
 
-import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.network.Session;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * @author zenhaeus
@@ -25,10 +25,8 @@ public abstract class ScrumToolActivity extends Activity {
     }
     
     private void checkSession() {
-        try {
-            Session.getCurrentSession();
-        } catch (NotAuthenticatedException e) {
-            Toast.makeText(this, "Authentication failed! Attempting new login.", Toast.LENGTH_SHORT).show();
+        if (Client.getScrumClient() == null) {
+            Toast.makeText(this, "Session lost! Attempting new login.", Toast.LENGTH_SHORT).show();
             Session.relogin(this);
         }
     }
