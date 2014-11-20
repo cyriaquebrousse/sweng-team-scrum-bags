@@ -65,7 +65,10 @@ public class MaintaskConverters {
 
             ScrumMainTask dbMainTask = new ScrumMainTask();
 
-            dbMainTask.setKey(maintask.getKey());
+            if (!maintask.getKey().equals("")) {
+                dbMainTask.setKey(maintask.getKey());
+            }
+            
             dbMainTask.setName(maintask.getName());
             dbMainTask.setDescription(maintask.getDescription());
             dbMainTask.setPriority(maintask.getPriority().name());
@@ -73,6 +76,18 @@ public class MaintaskConverters {
             // Currently we don't need LastModDate and LastModUser
 
             return dbMainTask;
+        }
+    };
+    
+    public static final EntityConverter<OperationStatusEntity<MainTask>, MainTask> OPSTATMAINTASK_TO_MAINTASK = 
+            new EntityConverter<OperationStatusEntity<MainTask>, MainTask>() {
+
+        @Override
+        public MainTask convert(OperationStatusEntity<MainTask> a) {
+            return a.getEntity()
+                    .getBuilder()
+                    .setKey(a.getOpStat().getKey())
+                    .build();
         }
     };
 }
