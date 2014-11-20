@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.util;
+package ch.epfl.scrumtool.util.gui;
 
 import java.util.Locale;
 

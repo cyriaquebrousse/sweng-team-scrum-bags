@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.util;
+package ch.epfl.scrumtool.util.gui;
 
 import android.app.Activity;
 import android.app.AlertDialog;

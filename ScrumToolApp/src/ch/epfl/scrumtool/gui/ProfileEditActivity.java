@@ -13,8 +13,8 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.util.Validator;
 import ch.epfl.scrumtool.network.Session;
+import ch.epfl.scrumtool.util.gui.Validator;
 
 /**
  * 

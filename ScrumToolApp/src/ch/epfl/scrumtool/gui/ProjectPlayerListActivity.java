@@ -26,9 +26,9 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
-import ch.epfl.scrumtool.gui.util.Dialogs;
-import ch.epfl.scrumtool.gui.util.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
+import ch.epfl.scrumtool.util.gui.Dialogs;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 
 /**
  * @author Cyriaque Brousse, sylb

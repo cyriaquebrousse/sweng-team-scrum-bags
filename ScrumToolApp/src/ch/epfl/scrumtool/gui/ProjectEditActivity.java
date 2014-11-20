@@ -7,7 +7,7 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
