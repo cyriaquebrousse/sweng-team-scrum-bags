@@ -9,6 +9,7 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,8 +38,8 @@ public class SprintEditActivity extends BaseMenuActivity {
     private Calendar chosen = Calendar.getInstance();
     
     // Views
-    private TextView sprintDate;
-    private EditText sprintName;
+    private TextView sprintDateView;
+    private EditText sprintNameView;
     
     // Entities
     // If null, we are in insert mode, otherwise in edit mode.
@@ -51,7 +52,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint);
         
-        initOriginalAndParentTask();
+        initOriginalAndParentProject();
         initViews();
     }
     
@@ -73,9 +74,9 @@ public class SprintEditActivity extends BaseMenuActivity {
     }
     
     public void sprintEditDone(View v) {
-        name = sprintName.getText().toString();
+        name = sprintNameView.getText().toString();
         sprintDeadline = chosen.getTimeInMillis();
-        InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(sprintNameView, nameIsValid(), getResources());
         
         if (nameIsValid()) {
             if (dateIsValid()) {
@@ -104,7 +105,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
     
-    private void initOriginalAndParentTask() {
+    private void initOriginalAndParentProject() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
@@ -117,16 +118,14 @@ public class SprintEditActivity extends BaseMenuActivity {
             setTitle(name);
         }
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project == null) {
-            throw new NullPointerException("Parent project cannot be null");
-        }
+        throwIfNull("Parent project cannot be null", project);
     }
     
     private void initViews() {
-        sprintDate = (TextView) findViewById(R.id.sprintDate);
-        sprintName = (EditText) findViewById(R.id.editName);
+        sprintDateView = (TextView) findViewById(R.id.sprintDate);
+        sprintNameView = (EditText) findViewById(R.id.editName);
 
-        sprintName.setText(sprintBuilder.getTitle());
+        sprintNameView.setText(sprintBuilder.getTitle());
         
         final Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprintBuilder.getDeadline());
@@ -164,7 +163,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     
     private void setDeadlineText(Calendar date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-        sprintDate.setText(sdf.format(date.getTime()));
+        sprintDateView.setText(sdf.format(date.getTime()));
     }
     
     // CHECKS

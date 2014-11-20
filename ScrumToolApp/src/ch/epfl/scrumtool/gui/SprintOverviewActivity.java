@@ -19,6 +19,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author AlexVeuthey
@@ -99,13 +100,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     
     private void initActivity() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
-        if (sprint == null) {
-            throw new NullPointerException("Clicked Sprint cannot be null");
-        }
+        throwIfNull("Sprint cannot be null", sprint);
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project == null) {
-            throw new NullPointerException("Parent project cannot be null");
-        }
+        throwIfNull("Parent project cannot be null", project);
     }
 
     @Override

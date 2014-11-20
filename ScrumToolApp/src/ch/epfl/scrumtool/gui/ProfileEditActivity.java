@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;

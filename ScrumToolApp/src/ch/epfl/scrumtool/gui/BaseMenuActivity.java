@@ -1,9 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.network.Session;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,7 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.Toast;
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * The BaseMenuActivity class is an Activity that has a standard action bar 

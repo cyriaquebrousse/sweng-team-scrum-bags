@@ -7,6 +7,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -110,9 +111,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     
     private void initProject() {
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project == null) {
-            throw new NullPointerException("Parent project cannot be null");
-        }
+        throwIfNull("Parent project cannot be null", project);
     }
     
     private void deleteSprint(final Sprint sprint) {

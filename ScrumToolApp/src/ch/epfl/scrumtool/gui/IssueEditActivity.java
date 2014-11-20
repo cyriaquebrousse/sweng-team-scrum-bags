@@ -20,6 +20,7 @@ import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Cyriaque Brousse
@@ -81,9 +82,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         }
 
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        if (parentTask == null) {
-            throw new NullPointerException("Parent task cannot be null");
-        }
+        throwIfNull("Parent task cannot be null", parentTask);
     }
 
     private void initViews() {

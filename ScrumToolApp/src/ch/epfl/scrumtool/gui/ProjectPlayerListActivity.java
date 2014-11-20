@@ -5,13 +5,8 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
@@ -27,8 +22,8 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.util.gui.Dialogs;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse, sylb

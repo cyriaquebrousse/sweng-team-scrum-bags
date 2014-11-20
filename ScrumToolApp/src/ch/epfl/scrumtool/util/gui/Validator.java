@@ -1,9 +1,7 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.util.gui;
 
 import android.widget.TextView;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author ketsio
@@ -43,9 +41,8 @@ public enum Validator {
     }
 
     private static void check(TextView view, Validator v) {
-        if (view == null) {
-            throw new NullPointerException();
-        }
+        throwIfNull("Cannot check null view", view);
+        
         CharSequence text = view.getText();
 
         switch (v) {
