@@ -111,6 +111,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
         openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openSprintEditIntent);
+        updateViews();
     }
 
     @Override
@@ -125,5 +126,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 }
             }
         });
+        updateViews();
     }
 }

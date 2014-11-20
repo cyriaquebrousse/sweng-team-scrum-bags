@@ -57,6 +57,7 @@ public class SprintEditActivity extends BaseMenuActivity {
             
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                updateDate(view);
                 sprintYear = year;
                 sprintMonth = monthOfYear + 1; // monthOfYear start at 0
                 sprintDay = dayOfMonth;
@@ -118,6 +119,12 @@ public class SprintEditActivity extends BaseMenuActivity {
             }
         };
         sprint.insert(project, sprintInserted);
+    }
+    
+    private void updateDate(DatePicker view) {
+        Calendar oldDate = Calendar.getInstance();
+        oldDate.setTimeInMillis(sprintDeadline);
+        view.updateDate(oldDate.get(Calendar.YEAR), oldDate.get(Calendar.MONTH), oldDate.get(Calendar.DAY_OF_MONTH));
     }
     
     private void updateSprint() {
