@@ -48,8 +48,8 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void update(final Player modified, final Player ref,
             final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Player, OperationStatus, Boolean> builder = new DSExecArgs.Factory<Player, OperationStatus, Boolean>(
-                MODE.AUTHENTICATED);
+        DSExecArgs.Factory<Player, OperationStatus, Boolean> builder = 
+                new DSExecArgs.Factory<Player, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
         builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         builder.setOperation(PlayerOperations.UPDATE_PLAYER);
@@ -58,8 +58,8 @@ public class DSPlayerHandler implements PlayerHandler {
 
     @Override
     public void remove(final Player player, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = new DSExecArgs.Factory<String, OperationStatus, Boolean>(
-                MODE.AUTHENTICATED);
+        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
+                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(PlayerOperations.DELETE_PLAYER);
