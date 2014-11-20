@@ -7,6 +7,7 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Vincent, zenhaeus
@@ -21,10 +22,8 @@ public final class Project implements Serializable, Comparable<Project> {
     private final String description;
 
     private Project(String key, String name, String description) {
-        super();
-        if (key == null || name == null || description == null) {
-            throw new NullPointerException("Project.Constructor");
-        }
+        throwIfNull("Project constructor parameters cannot be null", key, name, description);
+        
         this.key = key;
         this.name = name;
         this.description = description;

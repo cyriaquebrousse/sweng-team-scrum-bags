@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author ketsio, zenhaeus
@@ -23,14 +24,16 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     /**
      * Constructs a new sprint
      * 
-     * @param id
+     * @param key
      *            the unique identifier
      * @param deadline
      *            the deadline in milliseconds. Must be non-negative
      * @see java.util.Date#getTime()
      */
-    private Sprint(String id, String title, long deadline) {
-        this.key = id;
+    private Sprint(String key, String title, long deadline) {
+        throwIfNull("Sprint constructor parameters cannot be null", key, title);
+        
+        this.key = key;
         this.title = title;
         this.deadline = deadline;
     }
@@ -143,7 +146,10 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         }
 
         /**
+         * Copy constructor
+         * 
          * @param otherSprint
+         *            the sprint to copy
          */
         public Builder(Sprint otherSprint) {
             this.deadline = otherSprint.deadline;

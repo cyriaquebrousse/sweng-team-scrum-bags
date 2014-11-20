@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Vincent, zenhaeus
@@ -19,20 +20,9 @@ public final class Player implements Serializable, Comparable<Player> {
     private final Role role;
     private final boolean isAdmin;
 
-    /**
-     * @param user
-     */
     private Player(String key, User user, Role role, boolean isAdmin) {
-        super();
-        if (key == null) {
-            throw new NullPointerException("Key cannot be null");
-        }
-        if (user == null) {
-            throw new NullPointerException("User cannot be null");
-        }
-        if (role == null) {
-            throw new NullPointerException("Role cannot be null");
-        }
+        throwIfNull("Player constructor parameters cannot be null", key, user, role);
+        
         this.key = key;
         this.user = user;
         this.role = role;
@@ -107,14 +97,10 @@ public final class Player implements Serializable, Comparable<Player> {
         private Role role;
         private boolean isAdmin;
 
-        /**
-         * 
-         */
         public Builder() {
             this.isAdmin = false;
             this.role = Role.INVITED;
             this.keyb = "";
-
         }
 
         /**

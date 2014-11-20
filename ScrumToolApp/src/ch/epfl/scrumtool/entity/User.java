@@ -5,6 +5,7 @@ import java.util.Date;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author vincent, aschneuw, zenhaeus
@@ -30,10 +31,9 @@ public final class User implements Serializable, Comparable<User> {
      */
     private User(String email, String name, String lastName, long dateOfBirth,
             String jobTitle, String companyName) {
-        if (email == null || name == null || lastName == null
-                || jobTitle == null || companyName == null) {
-            throw new NullPointerException("User.Constructor");
-        }
+        throwIfNull("User constructor parameters cannot be null",
+                email, name, lastName, jobTitle, companyName);
+        
         this.email = email;
         this.name = name;
         this.lastName = lastName;
