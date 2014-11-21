@@ -1,52 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<FrameLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:paddingLeft="15dp"
-     android:paddingRight="15dp"
-     android:descendantFocusability="beforeDescendants">
-    <RelativeLayout
-        android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_card_background"
+    android:padding="@dimen/list_row_padding" >
+
+    <!-- Project icon -->
+    <ImageView
+        android:id="@+id/project_row_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:background="@color/whitesmoke"
+        android:contentDescription="@string/project_image_description"
+        android:scaleType="fitXY"
+        android:src="@drawable/default_project" />
+
+    <!-- Project name -->
+    <TextView
+        android:id="@+id/project_row_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/list_row_padding"
-        android:background="@drawable/selector_card_background" >
-    
-        <!-- Project icon -->
-        <ImageView
-            android:id="@+id/project_row_icon"
-            android:src="@drawable/default_project"
-            android:contentDescription="@string/project_image_description"
-            android:scaleType="fitXY"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="8dp"
-            android:background="@color/whitesmoke" />
-    
-        <!-- Project name -->
-        <TextView
-            android:id="@+id/project_row_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/project_row_icon"
-            android:layout_toEndOf="@id/project_row_icon"
-            android:textSize="@dimen/list_row_name"
-            android:textStyle="bold"
-            android:maxLines="1" />
-    
-        <!-- Project description -->
-        <TextView
-            android:id="@+id/project_row_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/project_row_name"
-            android:layout_marginTop="1dip"
-            android:layout_toEndOf="@id/project_row_icon"
-            android:maxLines="1"
-            android:textSize="@dimen/list_row_desc" />
-    
-    </RelativeLayout>
-</FrameLayout>
+        android:layout_alignTop="@id/project_row_icon"
+        android:layout_toEndOf="@id/project_row_icon"
+        android:maxLines="1"
+        android:textSize="@dimen/list_row_name"
+        android:textStyle="bold" />
+
+    <!-- Project description -->
+    <TextView
+        android:id="@+id/project_row_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/project_row_name"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@id/project_row_icon"
+        android:maxLines="1"
+        android:textSize="@dimen/list_row_desc" />
+
+</RelativeLayout>
