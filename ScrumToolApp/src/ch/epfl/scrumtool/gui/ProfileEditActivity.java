@@ -1,5 +1,9 @@
 package ch.epfl.scrumtool.gui;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
@@ -22,10 +26,12 @@ import ch.epfl.scrumtool.util.gui.Validator;
  */
 public class ProfileEditActivity extends ScrumToolActivity {
 
-    private int dobYear = -1;
-    private int dobMonth = -1;
-    private int dobDay = -1;
+    
+    // Date of birth
+    private Calendar calendar = Calendar.getInstance();
+    private long dateOfBirthChosen = calendar.getTimeInMillis();
 
+    // Views
     private TextView dobDateDisplay;
     private EditText firstNameView;
     private EditText lastNameView;
@@ -44,9 +50,15 @@ public class ProfileEditActivity extends ScrumToolActivity {
             connectedUser = Session.getCurrentSession().getUser();
         } catch (NotAuthenticatedException e) {
             // TODO Redirection to login page
+            e.printStackTrace();
+            this.finish();
         }
 
         initViews();
+        
+        if (connectedUser.getDateOfBirth() > 0) {
+            dateOfBirthChosen = connectedUser.getDateOfBirth();
+        }
     }
 
     private void initViews() {
@@ -76,12 +88,18 @@ public class ProfileEditActivity extends ScrumToolActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                dobYear = year;
-                dobMonth = monthOfYear + 1; // monthOfYear start at 0
-                dobDay = dayOfMonth;
-                dobDateDisplay.setText(dobDay + "/" + dobMonth + "/" + dobYear);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                dateOfBirthChosen = calendar.getTimeInMillis();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+                dobDateDisplay.setText(sdf.format(calendar.getTime()));
             }
         };
+        Bundle args = new Bundle();
+        args.putLong("long", dateOfBirthChosen);
+        newFragment.setArguments(args);
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
@@ -105,7 +123,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
             userBuilder.setLastName(lastNameView.getText().toString());
             userBuilder.setJobTitle(jobTitleView.getText().toString());
             userBuilder.setCompanyName(companyNameView.getText().toString());
-            // TODO : transforme day/month/year to (long) time
+            userBuilder.setDateOfBirth(dateOfBirthChosen);
             
             final User userToUpdate = userBuilder.build();
             userToUpdate.update(new DefaultGUICallback<Boolean>(this) {

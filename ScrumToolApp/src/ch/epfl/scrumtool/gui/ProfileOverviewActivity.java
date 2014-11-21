@@ -1,6 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,6 +32,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     private TextView nameView;
     private TextView jobTitleView;
     private TextView companyNameView;
+    private TextView dateOfBirthView;
     private TextView emailView;
     private ListView sharedProjectsListView;
     
@@ -50,7 +53,6 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             }
             this.setTitle(userProfile.getName());
             
-            // Create the adapter
             // TODO : Change empty list by getProjectsSharedWith(userConnected)
             adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
 
@@ -81,6 +83,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         nameView = (TextView) findViewById(R.id.profile_name);
         jobTitleView = (TextView) findViewById(R.id.profile_jobtitle);
         companyNameView = (TextView) findViewById(R.id.profile_company);
+        dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
         sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
 
@@ -90,12 +93,18 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         if (userProfile.getJobTitle().length() > 0) {
             jobTitleView.setText(userProfile.getJobTitle());
         } else {
-            findViewById(R.id.profile_field_jobtitle).setVisibility(View.INVISIBLE);
+            findViewById(R.id.profile_field_jobtitle).setVisibility(View.GONE);
         }
         if (userProfile.getCompanyName().length() > 0) {
             companyNameView.setText(userProfile.getCompanyName());
         } else {
-            findViewById(R.id.profile_field_company).setVisibility(View.INVISIBLE);
+            findViewById(R.id.profile_field_company).setVisibility(View.GONE);
+        }
+        if (userProfile.getDateOfBirth() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+            dateOfBirthView.setText(sdf.format(userProfile.getDateOfBirth()));
+        } else {
+            findViewById(R.id.profile_field_date_of_birth).setVisibility(View.GONE);
         }
     }
     
