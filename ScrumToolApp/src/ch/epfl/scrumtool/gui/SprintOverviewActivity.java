@@ -1,10 +1,12 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +21,6 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author AlexVeuthey
@@ -88,9 +89,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         setDeadlineText();
     }
     
-    @SuppressLint("SimpleDateFormat")
     private void setDeadlineText() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                .getString(R.string.format_date), Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprint.getDeadline());
         deadline.setText(sdf.format(date.getTime()));

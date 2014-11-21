@@ -69,6 +69,9 @@
     
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
+    
+    <!-- Formats -->
+    <string name="format_date">dd MMM yyyy</string>
 
     <!-- Others -->
     <string name="hello_world">Hello world!</string>

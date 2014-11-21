@@ -101,7 +101,8 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             findViewById(R.id.profile_field_company).setVisibility(View.GONE);
         }
         if (userProfile.getDateOfBirth() > 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                    .getString(R.string.format_date), Locale.ENGLISH);
             dateOfBirthView.setText(sdf.format(userProfile.getDateOfBirth()));
         } else {
             findViewById(R.id.profile_field_date_of_birth).setVisibility(View.GONE);

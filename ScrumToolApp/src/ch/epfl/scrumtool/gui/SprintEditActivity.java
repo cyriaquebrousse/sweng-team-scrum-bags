@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.gui;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
@@ -162,7 +163,8 @@ public class SprintEditActivity extends BaseMenuActivity {
     }
     
     private void setDeadlineText(Calendar date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                .getString(R.string.format_date), Locale.ENGLISH);
         sprintDateView.setText(sdf.format(date.getTime()));
     }
     

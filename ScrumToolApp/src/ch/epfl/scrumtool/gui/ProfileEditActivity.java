@@ -58,6 +58,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
         
         if (connectedUser.getDateOfBirth() > 0) {
             dateOfBirthChosen = connectedUser.getDateOfBirth();
+            updateDateOfBirth();
         }
     }
 
@@ -82,6 +83,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
             companyNameView.setText(connectedUser.getCompanyName());
         }
     }
+    
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment() {
@@ -93,8 +95,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 dateOfBirthChosen = calendar.getTimeInMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-                dobDateDisplay.setText(sdf.format(calendar.getTime()));
+                updateDateOfBirth();
             }
         };
         Bundle args = new Bundle();
@@ -145,12 +146,10 @@ public class ProfileEditActivity extends ScrumToolActivity {
         }
     }
     
-    // Shortcut
-    private void checkNullableMinAndMax(EditText view) {
-        Validator.check(view, 
-                Validator.NULLABLE,
-                Validator.MIN_SIZE.setParam(2),
-                Validator.MAX_SIZE.setParam(250));
-    }
 
+    private void updateDateOfBirth() {
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                .getString(R.string.format_date), Locale.ENGLISH);
+        dobDateDisplay.setText(sdf.format(dateOfBirthChosen));
+    }
 }
