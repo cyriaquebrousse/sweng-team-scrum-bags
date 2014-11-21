@@ -62,8 +62,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
                         Intent openProjectOverviewIntent = new Intent(
                                 view.getContext(),
                                 ProjectOverviewActivity.class);
-
-                        Project project = projectList.get(position);
+                        // Reduce postion by one to take empty HeaderView into account
+                        Project project = projectList.get(position-1);
                         openProjectOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
                         startActivity(openProjectOverviewIntent);
                     }
