@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -39,13 +40,16 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         listView.setEmptyView(progressBar);
         
         Client.getScrumClient().loadProjects(new DefaultGUICallback<List<Project>>(this) {
-            
+            private final Activity that = ProjectListActivity.this;
             @Override
             public void interactionDone(final List<Project> projectList) {
                 if (projectList.isEmpty()) {
                     progressBar.setVisibility(View.GONE);
                     View emptyList = findViewById(R.id.empty_project_list);
                     listView.setEmptyView(emptyList);
+                } else {
+                    listView.addFooterView(new View(that));
+                    listView.addHeaderView(new View(that));
                 }
 
                 adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);

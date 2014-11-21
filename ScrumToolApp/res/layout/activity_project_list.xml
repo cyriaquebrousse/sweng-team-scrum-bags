@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/LightGreen"
     tools:context="ch.epfl.scrumtool.gui.ProjectListActivity" >
     
     <ListView
         android:id="@+id/project_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp" />
+        android:divider="@null"
+        android:dividerHeight="20dp"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="true" />
     <ProgressBar 
         android:id="@+id/waiting_project_list"
         android:layout_height="wrap_content"
