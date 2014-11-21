@@ -6,22 +6,22 @@
     
     <!-- Go to Project List -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/dashboard_button_project_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_space"
-        android:background="@drawable/fluid_button"
         android:onClick="openProjectList"
         android:text="@string/button_dashboard_project_list" />
 
     <!-- Go to My Profile -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/dashboard_button_my_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_space"
         android:layout_below="@id/dashboard_button_project_list"
-        android:background="@drawable/fluid_button"
+        android:layout_marginBottom="@dimen/small_space"
         android:onClick="openMyProfile"
         android:text="@string/button_dashboard_my_profile" />
 

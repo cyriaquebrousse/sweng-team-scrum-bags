@@ -44,34 +44,34 @@
 
     <!-- Go to Backlog -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/project_button_backlog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/project_description"
         android:layout_marginBottom="@dimen/small_space"
-        android:background="@drawable/fluid_button"
         android:onClick="openBacklog"
         android:text="@string/button_backlog_show" />
 
     <!-- Go to Players -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/project_button_players"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_space"
         android:layout_below="@id/project_button_backlog"
-        android:background="@drawable/fluid_button"
         android:onClick="openPlayerList"
         android:text="@string/button_players_show" />
 
     <!-- Go to Sprints -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/project_button_sprints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/project_button_players"
         android:layout_marginBottom="@dimen/small_space"
-        android:background="@drawable/fluid_button"
         android:text="@string/button_sprints_show"
         android:onClick="openSprints" />
 
