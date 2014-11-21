@@ -105,10 +105,10 @@ public class ProfileEditActivity extends ScrumToolActivity {
 
     public void saveUserChanges(View view) {
 
-        checkNullableMinAndMax(firstNameView);
-        checkNullableMinAndMax(lastNameView);
-        checkNullableMinAndMax(jobTitleView);
-        checkNullableMinAndMax(companyNameView);
+        Validator.checkNullableMinAndMax(firstNameView, Validator.SHORT_TEXT);
+        Validator.checkNullableMinAndMax(lastNameView, Validator.SHORT_TEXT);
+        Validator.checkNullableMinAndMax(jobTitleView, Validator.SHORT_TEXT);
+        Validator.checkNullableMinAndMax(companyNameView, Validator.SHORT_TEXT);
         // TODO : gender not a member of user yet
         
         if (firstNameView.getError() == null 
