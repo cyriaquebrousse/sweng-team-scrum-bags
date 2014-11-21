@@ -2,10 +2,10 @@
 <resources>
 
     <!-- Main -->
-    <string name="app_name">Scrum Tool App</string>
+    <string name="app_name">Murcs</string>
 
     <!-- Activity Titles -->
-    <string name="title_activity_main">ScrumToolApp</string>
+    <string name="title_activity_main">Murcs</string>
     <string name="title_activity_dashbord">DashbordActivity</string>
     <string name="title_activity_projectList">Projects</string>
     <string name="title_activity_project_overview">Project overview</string>
