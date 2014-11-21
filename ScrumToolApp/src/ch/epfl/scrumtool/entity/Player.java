@@ -81,7 +81,7 @@ public final class Player implements Serializable, Comparable<Player> {
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
 

@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
@@ -67,6 +68,18 @@ public class PlayerConverters {
             return dbPlayer;
         }
 
+    };
+    
+    public static final EntityConverter<InsertResponse<Player>, Player> OPSTATPLAYER_TO_PLAYER = 
+            new EntityConverter<InsertResponse<Player>, Player>() {
+
+        @Override
+        public Player convert(InsertResponse<Player> a) {
+            return a.getEntity()
+                    .getBuilder()
+                    .setKey(a.getOpStat().getKey())
+                    .build();
+        }
     };
 
 }

@@ -2,12 +2,18 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
+import ch.epfl.scrumtool.database.google.containers.InsertIssueArgs;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.exception.DeleteException;
+import ch.epfl.scrumtool.exception.InsertException;
+import ch.epfl.scrumtool.exception.LoadException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
+import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 
@@ -18,6 +24,50 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
  *
  */
 public class IssueOperations {
+    
+    public static final ScrumToolOperation<InsertIssueArgs, InsertResponse<Issue>> INSERT_ISSUE_MAINTASK = 
+            new ScrumToolOperation<InsertIssueArgs, InsertResponse<Issue>>() {
+        @Override
+        public InsertResponse<Issue> execute(InsertIssueArgs arg, Scrumtool service) throws ScrumToolException {
+            try {
+                final String playerKey;
+                if (arg.getIssue().getPlayer() != null) {
+                    playerKey = arg.getIssue().getPlayer().getKey();
+                } else {
+                    playerKey = null;
+                }
+                final String sprintKey;
+                if (arg.getIssue().getSprint() != null) {
+                    sprintKey = arg.getIssue().getSprint().getKey();
+                } else {
+                    sprintKey = null;
+                }
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getIssue());
+                insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
+                return new InsertResponse<Issue>(arg.getIssue(),
+                        service.insertScrumIssue(arg.getKey(), insert)
+                        .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
+                
+            } catch (IOException e) {
+                throw new InsertException(e, "Issue insertion failed");
+            }
+        }
+    };
+    
+    public static final ScrumToolOperation<InsertIssueArgs, OperationStatus> INSERT_ISSUE_SPRINT = 
+            new ScrumToolOperation<InsertIssueArgs, OperationStatus>() {
+        @Override
+        public OperationStatus execute(InsertIssueArgs arg, Scrumtool service) throws ScrumToolException {
+            try {
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getIssue());
+                insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
+                return service.insertIssueInSprint(arg.getIssue().getKey(), arg.getKey()).execute();
+                
+            } catch (IOException e) {
+                throw new InsertException(e, "Issue insertion failed");
+            }
+        }
+    };
 
     public static final ScrumToolOperation<Issue, OperationStatus> UPDATE_ISSUE = 
             new ScrumToolOperation<Issue, OperationStatus>() {
@@ -41,6 +91,32 @@ public class IssueOperations {
                 return service.removeScrumIssue(arg).execute();
             } catch (IOException e) {
                 throw new DeleteException(e, "Issue deletion failed");
+            }
+        }
+    };
+    
+    public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_MAINTASK = 
+            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+
+        @Override
+        public CollectionResponseScrumIssue execute(String arg, Scrumtool service) throws ScrumToolException {
+            try {
+                return service.loadIssuesByMainTask(arg).execute();
+            } catch (IOException e) {
+                throw new LoadException(e, "Loading issue list failed");
+            }
+        }
+    };
+    
+    public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_SPRINT = 
+            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+
+        @Override
+        public CollectionResponseScrumIssue execute(String arg, Scrumtool service) throws ScrumToolException {
+            try {
+                return service.loadIssuesBySprint(arg).execute();
+            } catch (IOException e) {
+                throw new LoadException(e, "Loading issue list failed");
             }
         }
     };

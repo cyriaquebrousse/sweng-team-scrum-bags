@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
@@ -80,7 +81,9 @@ public class IssueConverters {
 
             ScrumIssue dbIssue = new ScrumIssue();
 
-            dbIssue.setKey(issue.getKey());
+            if (!issue.getKey().equals("")) {
+                dbIssue.setKey(issue.getKey());
+            }
             dbIssue.setDescription(issue.getDescription());
             dbIssue.setName(issue.getName());
             dbIssue.setEstimation(issue.getEstimatedTime());
@@ -88,15 +91,35 @@ public class IssueConverters {
             dbIssue.setStatus(issue.getStatus().name());
 
             ScrumPlayer dbPlayer = new ScrumPlayer();
-            dbPlayer.setKey(issue.getPlayer().getKey());
+            if (issue.getPlayer() != null) {
+                dbPlayer.setKey(issue.getPlayer().getKey());
+            } else {
+                dbPlayer = null;
+            }
             dbIssue.setAssignedPlayer(dbPlayer);
 
             ScrumSprint dbSprint = new ScrumSprint();
-            dbSprint.setKey(issue.getSprint().getKey());
+            if (issue.getSprint() != null) {
+                dbSprint.setKey(issue.getSprint().getKey());
+            } else {
+                dbSprint = null;
+            }
             dbIssue.setSprint(dbSprint);
             // Currently we don't need LastModDate and LasModUser
 
             return dbIssue;
+        }
+    };
+    
+    public static final EntityConverter<InsertResponse<Issue>, Issue> OPSTATISSUE_TO_ISSUE = 
+            new EntityConverter<InsertResponse<Issue>, Issue>() {
+
+        @Override
+        public Issue convert(InsertResponse<Issue> a) {
+            return a.getEntity()
+                    .getBuilder()
+                    .setKey(a.getOpStat().getKey())
+                    .build();
         }
     };
 
