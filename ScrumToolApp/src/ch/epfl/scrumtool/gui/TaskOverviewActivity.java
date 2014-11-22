@@ -9,23 +9,31 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
+import ch.epfl.scrumtool.util.gui.Dialogs;
+import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
- * @author Cyriaque Brousse
+ * @author Cyriaque Brousse, sylb
  */
 public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
@@ -35,11 +43,12 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private Slate statusSlate;
     private Slate estimationSlate;
     private ListView listView;
-    
+
     private MainTask task;
     private IssueListAdapter adapter;
     private Project project;
-    
+    private MainTask.Builder taskBuilder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +62,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
 
         this.setTitle(task.getName());
-        
+
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
             public void interactionDone(final List<Issue> issueList) {
@@ -77,11 +86,11 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         startActivity(openIssueIntent);
                     }
                 });
-                
+
                 adapter.notifyDataSetChanged();
             }
         });
-        
+
         initViews();
         updateViews();
     }
@@ -92,8 +101,68 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
+
+        nameView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this, new PopupCallback() {
+                    @Override
+                    public void onModified(String userInput) {
+                        taskBuilder = new MainTask.Builder(task);
+                        taskBuilder.setName(userInput);
+                        nameView.setText(userInput);
+                        updateTask();
+                    }
+                });
+            }
+        });
+
+        descriptionView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this, new PopupCallback() {
+                    @Override
+                    public void onModified(String userInput) {
+                        taskBuilder = new MainTask.Builder(task);
+                        taskBuilder.setName(userInput);
+                        descriptionView.setText(userInput);
+                        updateTask();
+                    }
+                });
+            }
+        });
+
+        prioritySticker.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialogs.showTaskPriorityEditDialog(TaskOverviewActivity.this, new DialogCallback<Priority>() {
+                    @Override
+                    public void onSelected(Priority selected) {
+                        taskBuilder = new MainTask.Builder(task);
+                        taskBuilder.setPriority(selected);
+                        prioritySticker.setPriority(selected);
+                        updateTask();
+                    }
+                });
+            }
+        });
+
+        statusSlate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialogs.showStatusEditDialog(TaskOverviewActivity.this, new DialogCallback<Status>() {
+                    @Override
+                    public void onSelected(Status selected) {
+                        taskBuilder = new MainTask.Builder(task);
+                        taskBuilder.setStatus(selected);
+                        statusSlate.setText(selected.toString());
+                        updateTask();
+                    }
+                });
+            }
+        });
     }
-    
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -109,7 +178,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         float estimatedTime = task.getEstimatedTime();
         estimationSlate.setText(estimatedTime < 0 ? "?" : Float.toString(estimatedTime) + " hours");
     }
-    
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -121,17 +190,17 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.action_entity_edit:
-                openEditElementActivity(adapter.getItem(info.position));
-                return true;
-            case R.id.action_entity_delete:
-                deleteIssue(adapter.getItem(info.position));
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+        case R.id.action_entity_edit:
+            openEditElementActivity(adapter.getItem(info.position));
+            return true;
+        case R.id.action_entity_delete:
+            deleteIssue(adapter.getItem(info.position));
+            return true;
+        default:
+            return super.onContextItemSelected(item);
         }
     }
-    
+
     /**
      * @param project
      *            the project to delete
@@ -144,7 +213,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             }
         });
     }
-    
+
     @Override
     void openEditElementActivity(Issue issue) {
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
@@ -152,6 +221,20 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
         openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openIssueEditIntent);
+    }
+
+    private void updateTask() {
+
+        taskBuilder.build().update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (!success.booleanValue()) {
+                    Toast.makeText(TaskOverviewActivity.this, 
+                            "Could not update task", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
 }
