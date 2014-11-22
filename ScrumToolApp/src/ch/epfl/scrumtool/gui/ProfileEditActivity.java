@@ -20,9 +20,7 @@ import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Validator;
 
 /**
- * 
  * @author ketsio
- * 
  */
 public class ProfileEditActivity extends ScrumToolActivity {
 

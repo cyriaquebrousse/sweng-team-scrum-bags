@@ -26,7 +26,8 @@ import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
- * @author Cyriaque Brousse, sylb
+ * @author Cyriaque Brousse
+ * @author sylb
  */
 public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMenuItemClickListener {
 
@@ -107,6 +108,7 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
         if (project != null) {
             this.project = project;
         } else {
+            // XXX incorrect way of doing it
             Log.e("ProjectPlayerList", "null project passed");
             this.finish();
         }

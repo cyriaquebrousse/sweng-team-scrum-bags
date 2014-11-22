@@ -24,7 +24,6 @@ import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 
 /**
  * @author AlexVeuthey
- *
  */
 public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 

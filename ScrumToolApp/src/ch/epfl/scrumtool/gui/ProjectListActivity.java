@@ -11,7 +11,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -68,9 +68,17 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
+    private void init() {
         setContentView(R.layout.activity_project_list);
-        
-        this.setTitle("Projects");
         
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_list);
         swipeLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -93,12 +101,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         Client.getScrumClient().loadProjects(callback);
     }
     
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do it? (cyriaque)
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);

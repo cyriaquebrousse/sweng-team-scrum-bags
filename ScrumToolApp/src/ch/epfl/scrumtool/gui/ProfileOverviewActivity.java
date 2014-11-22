@@ -43,7 +43,18 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
+    private void init() {
         setContentView(R.layout.activity_profile_overview);
+        
         // Get the connected user, and the user to display
         try {
             if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
@@ -74,10 +85,9 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             this.finish();
             e.printStackTrace();
         }
-
     }
     
-    public void initViews() {
+    private void initViews() {
 
         // Get Views
         nameView = (TextView) findViewById(R.id.profile_name);
@@ -109,12 +119,6 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         }
     }
     
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do it? (loris)
-    }
-
     @Override
     void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);

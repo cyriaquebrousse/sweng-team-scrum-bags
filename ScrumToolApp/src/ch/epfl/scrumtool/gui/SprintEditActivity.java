@@ -24,9 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 
  * @author AlexVeuthey
- *
  */
 public class SprintEditActivity extends BaseMenuActivity {
 

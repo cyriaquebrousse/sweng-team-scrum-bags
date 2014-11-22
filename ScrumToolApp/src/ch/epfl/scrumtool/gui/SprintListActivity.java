@@ -22,9 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 /**
- * 
  * @author AlexVeuthey
- *
  */
 public class SprintListActivity extends BaseListMenuActivity<Sprint> implements OnMenuItemClickListener {
 

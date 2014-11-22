@@ -8,7 +8,6 @@ import ch.epfl.scrumtool.network.Session;
 
 /**
  * @author zenhaeus
- *
  */
 public abstract class ScrumToolActivity extends Activity {
 

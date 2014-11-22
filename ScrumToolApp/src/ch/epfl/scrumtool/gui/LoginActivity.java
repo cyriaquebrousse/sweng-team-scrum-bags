@@ -15,7 +15,9 @@ import ch.epfl.scrumtool.settings.ApplicationSettings;
 /**
  * A login screen that offers login via OAuth 2.0 using the phones Google Accounts
  * 
- * @author Cyriaque Brousse, aschneuw, zenhaeus
+ * @author Cyriaque Brousse
+ * @author aschneuw
+ * @author zenhaeus
  */
 public class LoginActivity extends Activity {
 
@@ -59,7 +61,7 @@ public class LoginActivity extends Activity {
             
             this.login(accName, FIRST_ACTIVITY);
         } else {
-            Toast.makeText(this, "Please choose an acccount", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please choose an account", Toast.LENGTH_LONG).show();
         }
     }
 

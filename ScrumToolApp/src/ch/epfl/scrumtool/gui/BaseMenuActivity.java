@@ -15,7 +15,8 @@ import ch.epfl.scrumtool.network.Session;
  * which provides functionalities which should be accessible from most 
  * activities inside the ScrumToolApp.
  * 
- * @author Cyriaque Brousse, zenhaeus
+ * @author Cyriaque Brousse
+ * @author zenhaeus
  */
 public abstract class BaseMenuActivity extends ScrumToolActivity implements OnMenuItemClickListener {
 

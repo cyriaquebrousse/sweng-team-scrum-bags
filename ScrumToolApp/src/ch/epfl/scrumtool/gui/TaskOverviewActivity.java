@@ -33,7 +33,8 @@ import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
- * @author Cyriaque Brousse, sylb
+ * @author Cyriaque Brousse
+ * @author sylb
  */
 public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
@@ -52,6 +53,16 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
+    private void init() {
         setContentView(R.layout.activity_task_overview);
 
         final View progressBar = findViewById(R.id.waiting_issue_list);
@@ -163,12 +174,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         });
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do it? (cyriaque)
-    }
-
     private void updateViews() {
         nameView.setText(task.getName());
         descriptionView.setText(task.getDescription());
@@ -190,14 +195,14 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-        case R.id.action_entity_edit:
-            openEditElementActivity(adapter.getItem(info.position));
-            return true;
-        case R.id.action_entity_delete:
-            deleteIssue(adapter.getItem(info.position));
-            return true;
-        default:
-            return super.onContextItemSelected(item);
+            case R.id.action_entity_edit:
+                openEditElementActivity(adapter.getItem(info.position));
+                return true;
+            case R.id.action_entity_delete:
+                deleteIssue(adapter.getItem(info.position));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 
@@ -224,7 +229,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     private void updateTask() {
-
         taskBuilder.build().update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(Boolean success) {
@@ -234,7 +238,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 }
             }
         });
-
     }
 
 }

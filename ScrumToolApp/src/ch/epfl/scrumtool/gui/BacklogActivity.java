@@ -30,10 +30,10 @@ import ch.epfl.scrumtool.gui.components.TaskListAdapter;
 public class BacklogActivity extends BaseListMenuActivity<MainTask> implements OnMenuItemClickListener {
 
     private ListView listView;
-    private Project project;
+    private TaskListAdapter adapter;
     private SwipeRefreshLayout swipeLayout;
 
-    private TaskListAdapter adapter;
+    private Project project;
     private final DefaultGUICallback<List<MainTask>> callback = new DefaultGUICallback<List<MainTask>>(this) {
         @Override
         public void interactionDone(final List<MainTask> taskList) {
@@ -70,6 +70,16 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
+    private void init() {
         setContentView(R.layout.activity_backlog);
 
         listView = (ListView) findViewById(R.id.backlog_tasklist);
@@ -94,12 +104,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         project.loadBacklog(callback);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do this (cyriaque)
-    }
-    
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
