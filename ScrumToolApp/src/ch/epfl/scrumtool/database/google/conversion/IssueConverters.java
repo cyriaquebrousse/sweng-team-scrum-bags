@@ -90,21 +90,21 @@ public class IssueConverters {
             dbIssue.setPriority(issue.getPriority().name());
             dbIssue.setStatus(issue.getStatus().name());
 
-            ScrumPlayer dbPlayer = new ScrumPlayer();
-            if (issue.getPlayer() != null) {
-                dbPlayer.setKey(issue.getPlayer().getKey());
-            } else {
-                dbPlayer = null;
-            }
-            dbIssue.setAssignedPlayer(dbPlayer);
-
-            ScrumSprint dbSprint = new ScrumSprint();
-            if (issue.getSprint() != null) {
-                dbSprint.setKey(issue.getSprint().getKey());
-            } else {
-                dbSprint = null;
-            }
-            dbIssue.setSprint(dbSprint);
+//            ScrumPlayer dbPlayer = new ScrumPlayer();
+//            if (issue.getPlayer() != null) {
+//                dbPlayer.setKey(issue.getPlayer().getKey());
+//            } else {
+//                dbPlayer = null;
+//            }
+//            dbIssue.setAssignedPlayer(dbPlayer);
+//
+//            ScrumSprint dbSprint = new ScrumSprint();
+//            if (issue.getSprint() != null) {
+//                dbSprint.setKey(issue.getSprint().getKey());
+//            } else {
+//                dbSprint = null;
+//            }
+//            dbIssue.setSprint(dbSprint);
             // Currently we don't need LastModDate and LasModUser
 
             return dbIssue;
