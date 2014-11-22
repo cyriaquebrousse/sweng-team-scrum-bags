@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
-import android.view.ViewGroup.LayoutParams;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,7 +36,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         @Override
         public void interactionDone(final List<Project> projectList) {
             swipeLayout.setRefreshing(false);
-            Log.d(ProjectListActivity.class.toString(), "projectList.size() : " + projectList.size());
             adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
             listView.setAdapter(adapter);
 
@@ -83,9 +80,9 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
                 swipeLayout.setRefreshing(false);
             }
         });
-        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, 
-                android.R.color.holo_green_light, 
-                android.R.color.holo_orange_light, 
+        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         swipeLayout.setRefreshing(true);
         
