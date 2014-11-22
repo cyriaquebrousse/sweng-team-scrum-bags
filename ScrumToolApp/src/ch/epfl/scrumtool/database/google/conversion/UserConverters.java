@@ -4,6 +4,7 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
@@ -50,6 +51,13 @@ public final class UserConverters {
             if (dateOfBirth != null) {
                 builder.setDateOfBirth(dateOfBirth);
             }
+            
+            String gender = dbUser.getGender();
+            if (gender != null) {
+                builder.setGender(Gender.valueOf(gender));
+            } else {
+                builder.setGender(Gender.UNKNOWN);
+            }
 
             return builder.build();
         }
@@ -72,6 +80,9 @@ public final class UserConverters {
             dbUser.setEmail(user.getEmail());
             dbUser.setLastName(user.getLastName());
             dbUser.setName(user.getName());
+            if (user.getGender() != Gender.UNKNOWN) {
+                dbUser.setGender(user.getGender().name());
+            }
 
             return dbUser;
         }

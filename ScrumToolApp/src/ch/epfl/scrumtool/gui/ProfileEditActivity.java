@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -123,6 +124,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
             userBuilder.setJobTitle(jobTitleView.getText().toString());
             userBuilder.setCompanyName(companyNameView.getText().toString());
             userBuilder.setDateOfBirth(dateOfBirthChosen);
+            userBuilder.setGender(Gender.UNKNOWN);
             
             final User userToUpdate = userBuilder.build();
             userToUpdate.update(new DefaultGUICallback<Boolean>(this) {
