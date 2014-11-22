@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import ch.epfl.scrumtool.R;
@@ -52,4 +53,5 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
     void openCreateElementActivity() {
         openEditElementActivity(null);
     }
+    
 }

@@ -11,11 +11,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
@@ -30,21 +28,24 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
 
     private ListView listView;
     private ProjectListAdapter adapter;
-    private SwipeRefreshLayout swipeLayout;
+    private SwipeRefreshLayout listViewLayout;
+    private SwipeRefreshLayout emptyViewLayout;
+
     private Callback<List<Project>> callback = new DefaultGUICallback<List<Project>>(this) {
         @Override
         public void interactionDone(final List<Project> projectList) {
-            swipeLayout.setRefreshing(false);
-            adapter = new ProjectListAdapter(ProjectListActivity.this, projectList);
+            ProjectListActivity that = ProjectListActivity.this;
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            
+            adapter = new ProjectListAdapter(that, projectList);
+            listView.setEmptyView(emptyViewLayout);
             listView.setAdapter(adapter);
 
-            if (projectList.isEmpty()) {
-                TextView emptyList = new TextView(ProjectListActivity.this);
-                emptyList.setText("There are no projects");
-                emptyList.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-                listView.addFooterView(emptyList);
-            } else {
+            if (!projectList.isEmpty()) {
                 registerForContextMenu(listView);
+            } else {
+                emptyViewLayout.setVisibility(View.VISIBLE);
             }
 
             adapter.notifyDataSetChanged();
@@ -54,39 +55,45 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        init();
-    }
-
-    private void init() {
         setContentView(R.layout.activity_project_list);
         
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_list);
-        swipeLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Client.getScrumClient().loadProjects(callback);
-                swipeLayout.setRefreshing(false);
-            }
-        });
-        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        swipeLayout.setRefreshing(true);
+        this.setTitle("Projects");
         
+        listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_list);
+        onCreateSwipeToRefresh(listViewLayout);
+        emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_project_list);
+        onCreateSwipeToRefresh(emptyViewLayout);
+        
+        emptyViewLayout.setVisibility(View.INVISIBLE);
+
         listView = (ListView) findViewById(R.id.project_list);
         listView.addFooterView(new View(this));
         listView.addHeaderView(new View(this));
-
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listViewLayout.setRefreshing(true);
         Client.getScrumClient().loadProjects(callback);
     }
     
+    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Client.getScrumClient().loadProjects(callback);
+                refreshLayout.setRefreshing(false);
+            }
+        });
+        refreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -121,11 +128,11 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
      *            the project to delete
      */
     private void deleteProject(final Project project) {
-        swipeLayout.setRefreshing(true);
+        listViewLayout.setRefreshing(true);
         project.remove(new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
-                swipeLayout.setRefreshing(false);
+                listViewLayout.setRefreshing(false);
                 adapter.remove(project);
             }
         });

@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_update_backlog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.scrumtool.gui.BacklogActivity" >
+    tools:context="ch.epfl.scrumtool.gui.ProjectListActivity" >
 
-    <ListView
-        android:id="@+id/backlog_tasklist"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_update_backlog"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp" />
-    
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent"
+        tools:context="ch.epfl.scrumtool.gui.BacklogActivity" >
+
+        <ListView
+            android:id="@+id/backlog_tasklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/swipe_update_empty_backlog_tasklist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/empty_backlog_tasklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="There are no Taks for this Project" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
