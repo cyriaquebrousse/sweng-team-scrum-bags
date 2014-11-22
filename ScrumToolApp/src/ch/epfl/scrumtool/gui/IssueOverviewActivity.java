@@ -4,13 +4,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
@@ -46,17 +50,19 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
         assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
-        sprintView = (TextView) findViewById(R.id.issue_sprint_label);
+        sprintView = (TextView) findViewById(R.id.issue_sprint);
         
-//        assigneeName.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-//                User assignee = issue.getPlayer().getUser();
-//                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
-//                startActivity(openProfileIntent);
-//            }
-//        });
+        if (issue.getPlayer() != null) {
+            assigneeName.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
+                    User assignee = issue.getPlayer().getUser();
+                    openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
+                    startActivity(openProfileIntent);
+                }
+            });
+        }
 
         updateViews();
     }
@@ -65,9 +71,19 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());
-//        assigneeName.setText(issue.getPlayer().getUser().getName());
-//        assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-//        sprintView.setText(issue.getSprint().getTitle());
+        
+        if (issue.getPlayer() != null) {
+            assigneeName.setText(issue.getPlayer().getUser().getName());
+            assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        } else {
+            assigneeName.setText("No player assigned");
+        }
+        if (issue.getSprint() != null) {
+            sprintView.setText(issue.getSprint().getTitle());
+        } else {
+            sprintView.setText("No sprint assigned");
+        }
+        
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
