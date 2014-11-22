@@ -26,6 +26,7 @@
     <color name="button_text">#FFFFFFFF</color>
 
     <!-- Standard colors -->
+    <color name="transparent">#00000000</color>
     <color name="blue">#FF33B5E5</color>
     <color name="purple">#FFAA66CC</color>
     <color name="green">#FF99CC00</color>

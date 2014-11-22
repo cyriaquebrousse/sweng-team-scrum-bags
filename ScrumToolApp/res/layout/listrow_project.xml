@@ -1,44 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_card_background"
-    android:padding="@dimen/list_row_padding" >
-
-    <!-- Project icon -->
-    <ImageView
-        android:id="@+id/project_row_icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="8dp"
-        android:background="@color/whitesmoke"
-        android:contentDescription="@string/project_image_description"
-        android:scaleType="fitXY"
-        android:src="@drawable/default_project" />
-
-    <!-- Project name -->
-    <TextView
-        android:id="@+id/project_row_name"
-        android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/space"
+    android:background="@color/LightGrey" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/project_row_icon"
-        android:layout_toEndOf="@id/project_row_icon"
-        android:maxLines="1"
-        android:textSize="@dimen/list_row_name"
-        android:textStyle="bold" />
+        android:padding="@dimen/list_row_padding" >
 
-    <!-- Project description -->
-    <TextView
-        android:id="@+id/project_row_description"
-        android:layout_width="wrap_content"
+        <!-- Project icon -->
+        <ImageView
+            android:id="@+id/project_row_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="8dp"
+            android:background="@color/whitesmoke"
+            android:contentDescription="@string/project_image_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_project" />
+
+        <!-- Project name -->
+        <TextView
+            android:id="@+id/project_row_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/project_row_icon"
+            android:layout_toEndOf="@id/project_row_icon"
+            android:maxLines="1"
+            android:text="name"
+            android:textSize="@dimen/list_row_name"
+            android:textStyle="bold" />
+
+        <!-- Project description -->
+        <TextView
+            android:id="@+id/project_row_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/project_row_name"
+            android:layout_marginTop="1dip"
+            android:layout_toEndOf="@id/project_row_icon"
+            android:text="description"
+            android:textSize="@dimen/list_row_desc" />
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/project_row_name"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@id/project_row_icon"
-        android:maxLines="1"
-        android:textSize="@dimen/list_row_desc" />
+        android:orientation="horizontal" >
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/project_row_backlog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:scaleType="center"
+            android:src="@drawable/backlog"
+            android:focusable="false"
+            android:onClick="openBacklog" />
+        
+        <ImageButton
+            android:id="@+id/project_row_sprints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/sprint"
+            android:layout_weight=".33"
+            android:focusable="false" />
+        
+        <ImageButton
+            android:id="@+id/project_row_players"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/player"
+            android:layout_weight=".33"
+            android:focusable="false" />
+    </LinearLayout>
+
+</LinearLayout>

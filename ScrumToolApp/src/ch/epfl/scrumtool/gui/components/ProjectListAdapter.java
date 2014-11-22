@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
@@ -31,10 +32,17 @@ public final class ProjectListAdapter extends DefaultAdapter<Project> {
 
         TextView name = (TextView) convertView.findViewById(R.id.project_row_name);
         TextView desc = (TextView) convertView.findViewById(R.id.project_row_description);
+        
+        ImageButton backlogButton = (ImageButton) convertView.findViewById(R.id.project_row_backlog);
+        ImageButton sprintsButton = (ImageButton) convertView.findViewById(R.id.project_row_sprints);
+        ImageButton playersButton = (ImageButton) convertView.findViewById(R.id.project_row_players);
 
         Project project = getList().get(position);
         name.setText(project.getName());
         desc.setText(project.getDescription());
+        backlogButton.setFocusable(false);
+        sprintsButton.setFocusable(false);
+        playersButton.setFocusable(false);
 
         return convertView;
     }
