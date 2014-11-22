@@ -6,11 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
  * @author Cyriaque Brousse
@@ -21,6 +24,7 @@ public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
     private TextView descriptionView;
 
     private Project project;
+    private Project.Builder projectBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,36 @@ public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
 
         nameView.setText(project.getName());
         descriptionView.setText(project.getDescription());
+        
+        nameView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyText(ProjectOverviewActivity.this, new PopupCallback() {
+                    @Override
+                    public void onModified(String userInput) {
+                        projectBuilder = new Project.Builder(project);
+                        projectBuilder.setName(userInput);
+                        nameView.setText(userInput);
+                        updateProject();
+                    }
+                });
+            }
+        });
+        
+        descriptionView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyText(ProjectOverviewActivity.this, new PopupCallback() {
+                    @Override
+                    public void onModified(String userInput) {
+                        projectBuilder = new Project.Builder(project);
+                        projectBuilder.setDescription(userInput);
+                        descriptionView.setText(userInput);
+                        updateProject();
+                    }
+                });
+            }
+        });
     }
 
     public void openBacklog(View view) {
@@ -84,5 +118,19 @@ public class ProjectOverviewActivity extends BaseOverviewMenuActivity {
                 }
             })
             .setNegativeButton(android.R.string.no, null).show();
+    }
+    
+    private void updateProject() {
+
+        projectBuilder.build().update(null, new DefaultGUICallback<Boolean>(ProjectOverviewActivity.this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (!success.booleanValue()) {
+                    Toast.makeText(ProjectOverviewActivity.this, 
+                            "Could not update task", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 }
