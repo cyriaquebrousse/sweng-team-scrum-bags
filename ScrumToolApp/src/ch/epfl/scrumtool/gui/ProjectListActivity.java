@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
@@ -47,19 +46,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
             } else {
                 registerForContextMenu(listView);
             }
-
-            listView.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent openProjectOverviewIntent = new Intent(
-                            view.getContext(),
-                            ProjectOverviewActivity.class);
-                    // Reduce postion by one to take empty HeaderView into account
-                    Project project = projectList.get(position - 1);
-                    openProjectOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-                    startActivity(openProjectOverviewIntent);
-                }
-            });
 
             adapter.notifyDataSetChanged();
         }

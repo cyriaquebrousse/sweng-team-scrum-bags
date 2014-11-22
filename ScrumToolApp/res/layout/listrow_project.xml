@@ -33,7 +33,6 @@
             android:layout_alignTop="@id/project_row_icon"
             android:layout_toEndOf="@id/project_row_icon"
             android:maxLines="1"
-            android:text="name"
             android:textSize="@dimen/list_row_name"
             android:textStyle="bold" />
 
@@ -45,7 +44,6 @@
             android:layout_below="@id/project_row_name"
             android:layout_marginTop="1dip"
             android:layout_toEndOf="@id/project_row_icon"
-            android:text="description"
             android:textSize="@dimen/list_row_desc" />
     </RelativeLayout>
     
@@ -54,33 +52,42 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
+        <!-- Backlog button -->
         <ImageButton
             android:id="@+id/project_row_backlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".33"
-            android:scaleType="center"
-            android:src="@drawable/backlog"
+            android:contentDescription="@string/backlog_button_description"
             android:focusable="false"
-            android:onClick="openBacklog" />
-        
+            android:onClick="openBacklog"
+            android:scaleType="center"
+            android:src="@drawable/backlog" />
+
+        <!-- Sprints button -->
         <ImageButton
             android:id="@+id/project_row_sprints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:src="@drawable/sprint"
             android:layout_weight=".33"
-            android:focusable="false" />
-        
+            android:contentDescription="@string/sprints_button_description"
+            android:focusable="false"
+            android:onClick="openSprints"
+            android:scaleType="center"
+            android:src="@drawable/sprint" />
+
+        <!-- Players button -->
         <ImageButton
             android:id="@+id/project_row_players"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:src="@drawable/player"
             android:layout_weight=".33"
-            android:focusable="false" />
+            android:contentDescription="@string/players_button_description"
+            android:focusable="false"
+            android:onClick="openPlayers"
+            android:scaleType="center"
+            android:src="@drawable/player" />
+
     </LinearLayout>
 
 </LinearLayout>

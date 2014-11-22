@@ -88,7 +88,10 @@
     <string name="sprint_overview_default_deadline">Sprint deadline</string>
     <string name="no_player">No player assigned</string>
     <string name="no_sprint">No sprint assigned</string>
-    <string name="user_avatar_description">User Avatar</string>
-    <string name="project_image_description">Project Image</string>
+    <string name="user_avatar_description">User avatar</string>
+    <string name="project_image_description">Project image</string>
+    <string name="sprints_button_description">Sprints button</string>
+    <string name="players_button_description">Players button</string>
+    <string name="backlog_button_description">Backlog button</string>
 
 </resources>
