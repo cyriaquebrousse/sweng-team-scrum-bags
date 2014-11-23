@@ -104,10 +104,10 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_entity_edit:
-                openEditElementActivity(adapter.getItem(info.position-1));
+                openEditElementActivity(adapter.getItem(info.position));
                 return true;
             case R.id.action_entity_delete:
-                deleteProject(adapter.getItem(info.position-1));
+                deleteProject(adapter.getItem(info.position));
                 return true;
             default:
                 return super.onContextItemSelected(item);
