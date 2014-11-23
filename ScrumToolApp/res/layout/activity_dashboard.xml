@@ -1,28 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
-    
-    <!-- Go to Project List -->
-    <Button
-        style="@style/fluid_button"
-        android:id="@+id/dashboard_button_project_list"
+    android:orientation="vertical"
+    android:padding="@dimen/space"
+    android:background="@color/shadeB"
+    tools:context="ch.epfl.scrumtool.gui.DashboardActivity" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:layout_marginBottom="@dimen/space"
+        android:background="@color/White"
+        android:gravity="center"
+        android:text="issues summary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:layout_marginBottom="@dimen/space"
+        android:background="@color/White"
+        android:gravity="center"
+        android:text="project summary" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/small_space"
-        android:onClick="openProjectList"
-        android:text="@string/button_dashboard_project_list" />
+        android:orientation="horizontal" >
 
-    <!-- Go to My Profile -->
-    <Button
-        style="@style/fluid_button"
-        android:id="@+id/dashboard_button_my_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dashboard_button_project_list"
-        android:layout_marginBottom="@dimen/small_space"
-        android:onClick="openMyProfile"
-        android:text="@string/button_dashboard_my_profile" />
+        <!-- Go to Project List -->
+        <Button
+            android:id="@+id/dashboard_button_project_list"
+            style="@style/fluid_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_marginEnd="@dimen/space"
+            android:onClick="openProjectList"
+            android:text="@string/button_dashboard_project_list" />
 
-</RelativeLayout>
+        <!-- Go to My Profile -->
+        <Button
+            android:id="@+id/dashboard_button_my_profile"
+            style="@style/fluid_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:onClick="openMyProfile"
+            android:text="@string/button_dashboard_my_profile" />
+    </LinearLayout>
+
+</LinearLayout>
