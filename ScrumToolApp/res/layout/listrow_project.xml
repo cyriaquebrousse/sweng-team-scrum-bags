@@ -6,12 +6,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/space"
-    android:background="@color/LightGrey" >
+    android:background="@color/White" >
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/list_row_padding" >
+        android:paddingBottom="@dimen/list_row_padding" >
 
         <!-- Project icon -->
         <ImageView
@@ -49,43 +49,51 @@
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal" >
 
         <!-- Backlog button -->
         <ImageButton
+            style="@style/fluid_button"
             android:id="@+id/project_row_backlog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight=".33"
             android:contentDescription="@string/backlog_button_description"
             android:focusable="false"
             android:onClick="openBacklog"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/small_space"
             android:src="@drawable/backlog" />
 
         <!-- Sprints button -->
         <ImageButton
+            style="@style/fluid_button"
             android:id="@+id/project_row_sprints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight=".33"
             android:contentDescription="@string/sprints_button_description"
             android:focusable="false"
             android:onClick="openSprints"
-            android:scaleType="center"
+            android:layout_marginStart="@dimen/space"
+            android:layout_marginEnd="@dimen/space"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/small_space"
             android:src="@drawable/sprint" />
 
         <!-- Players button -->
         <ImageButton
+            style="@style/fluid_button"
             android:id="@+id/project_row_players"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight=".33"
             android:contentDescription="@string/players_button_description"
             android:focusable="false"
             android:onClick="openPlayers"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/small_space"
             android:src="@drawable/player" />
 
     </LinearLayout>
