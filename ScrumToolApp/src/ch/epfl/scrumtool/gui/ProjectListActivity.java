@@ -67,8 +67,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         emptyViewLayout.setVisibility(View.INVISIBLE);
 
         listView = (ListView) findViewById(R.id.project_list);
-        listView.addFooterView(new View(this));
-        listView.addHeaderView(new View(this));
     }
     
     @Override

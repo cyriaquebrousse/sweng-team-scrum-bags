@@ -11,6 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/swipe_update_project_list"
+        android:padding="@dimen/space"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
         
@@ -19,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            android:dividerHeight="20dp"
+            android:dividerHeight="@dimen/space"
             android:listSelector="@android:color/transparent"
             android:cacheColorHint="@android:color/transparent"
             android:headerDividersEnabled="true"
@@ -29,6 +30,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/swipe_update_empty_project_list"
+        android:padding="@dimen/space"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" >
