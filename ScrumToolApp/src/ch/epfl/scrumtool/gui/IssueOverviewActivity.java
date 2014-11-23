@@ -91,6 +91,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         updateViews();
     }
 
+
     private void updateViews() {
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
@@ -212,7 +213,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     }
 
     private void updateIssue() {
-        issueBuilder.build().update(null, new DefaultGUICallback<Boolean>(IssueOverviewActivity.this) {
+        issue = issueBuilder.build();
+        issue.update(null, new DefaultGUICallback<Boolean>(IssueOverviewActivity.this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (!success.booleanValue()) {

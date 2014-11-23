@@ -135,7 +135,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                     @Override
                     public void onModified(String userInput) {
                         taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setName(userInput);
+                        taskBuilder.setDescription(userInput);
                         descriptionView.setText(userInput);
                         updateTask();
                     }
@@ -229,7 +229,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     private void updateTask() {
-        taskBuilder.build().update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
+        task = taskBuilder.build();
+        task.update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (!success.booleanValue()) {

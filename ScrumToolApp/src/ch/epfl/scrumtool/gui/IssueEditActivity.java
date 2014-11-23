@@ -59,6 +59,12 @@ public class IssueEditActivity extends BaseMenuActivity {
                 playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
                 issueAssigneeSpinner.setAdapter(playerAdapter);
+                
+                if (issueBuilder.getPlayer() == null) {
+                    issueAssigneeSpinner.setSelection(0);
+                } else {
+                    issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
+                }
             }
         });
         
@@ -68,6 +74,12 @@ public class IssueEditActivity extends BaseMenuActivity {
                 sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
                 sprintSpinner.setAdapter(sprintAdapter);
+                
+                if (issueBuilder.getSprint() == null) {
+                    sprintSpinner.setSelection(0);
+                } else {
+                    sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
+                }
             }
         });
     }
@@ -95,16 +107,8 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
-        if (issueBuilder.getPlayer() == null) {
-            issueAssigneeSpinner.setSelection(0);
-        } else {
-            issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
-        }
-        if (issueBuilder.getSprint() == null) {
-            sprintSpinner.setSelection(0);
-        } else {
-            sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
-        }
+        
+        
     }
 
     public void saveIssueChanges(View view) {
