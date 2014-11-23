@@ -7,6 +7,7 @@ import java.util.Locale;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -69,6 +70,12 @@ public class ProfileEditActivity extends ScrumToolActivity {
         jobTitleView = (EditText) findViewById(R.id.profile_edit_jobtitle);
         companyNameView = (EditText) findViewById(R.id.profile_edit_company);
         dobDateDisplay = (TextView) findViewById(R.id.profile_edit_dateofbirth);
+        dobDateDisplay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
         
         // init the gender spinner
         genderView = (Spinner) findViewById(R.id.profile_edit_gender);
