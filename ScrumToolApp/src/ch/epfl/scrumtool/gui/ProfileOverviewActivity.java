@@ -34,6 +34,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     private TextView companyNameView;
     private TextView dateOfBirthView;
     private TextView emailView;
+    private TextView genderView;
     private ListView sharedProjectsListView;
     
     private User userProfile;
@@ -95,6 +96,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         companyNameView = (TextView) findViewById(R.id.profile_company);
         dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
+        genderView = (TextView) findViewById(R.id.profile_gender);
         sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
 
         // Set Views
@@ -116,6 +118,15 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             dateOfBirthView.setText(sdf.format(userProfile.getDateOfBirth()));
         } else {
             findViewById(R.id.profile_field_date_of_birth).setVisibility(View.GONE);
+        }
+        switch (userProfile.getGender()) {
+            case MALE:
+            case FEMALE:
+                genderView.setText(userProfile.getGender().toString().toLowerCase(Locale.ENGLISH));
+                break;
+            default:
+                findViewById(R.id.profile_field_gender).setVisibility(View.GONE);
+                break;
         }
     }
     

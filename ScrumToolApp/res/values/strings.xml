@@ -93,5 +93,13 @@
     <string name="sprints_button_description">Sprints button</string>
     <string name="players_button_description">Players button</string>
     <string name="backlog_button_description">Backlog button</string>
+    
+    <!-- String Arrays -->
+    
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Undefined</item>
+    </string-array>
 
 </resources>

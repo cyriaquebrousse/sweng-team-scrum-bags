@@ -123,6 +123,29 @@
                     android:layout_weight="0.6"
                     android:textSize="@dimen/default_text_size" />
             </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/profile_field_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:text="@string/gender"
+                    android:textSize="@dimen/default_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/profile_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:textSize="@dimen/default_text_size" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -7,8 +7,10 @@ import java.util.Locale;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
@@ -36,7 +38,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
     private EditText lastNameView;
     private EditText jobTitleView;
     private EditText companyNameView;
-    private EditText genderView;
+    private Spinner genderView;
 
     private User connectedUser;
 
@@ -66,8 +68,15 @@ public class ProfileEditActivity extends ScrumToolActivity {
         lastNameView = (EditText) findViewById(R.id.profile_edit_lastname);
         jobTitleView = (EditText) findViewById(R.id.profile_edit_jobtitle);
         companyNameView = (EditText) findViewById(R.id.profile_edit_company);
-        genderView = (EditText) findViewById(R.id.profile_edit_gender);
         dobDateDisplay = (TextView) findViewById(R.id.profile_edit_dateofbirth);
+        
+        // init the gender spinner
+        genderView = (Spinner) findViewById(R.id.profile_edit_gender);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.gender_options,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderView.setAdapter(adapter);
 
         if (connectedUser.getName().length() > 0) {
             firstNameView.setText(connectedUser.getName());
@@ -80,6 +89,17 @@ public class ProfileEditActivity extends ScrumToolActivity {
         }
         if (connectedUser.getCompanyName().length() > 0) {
             companyNameView.setText(connectedUser.getCompanyName());
+        }
+        switch(connectedUser.getGender()) {
+            case MALE:
+                genderView.setSelection(0);
+                break;
+            case FEMALE:
+                genderView.setSelection(1);
+                break;
+            default: 
+                genderView.setSelection(2);
+                break;
         }
     }
     
@@ -109,7 +129,6 @@ public class ProfileEditActivity extends ScrumToolActivity {
         Validator.checkNullableMinAndMax(lastNameView, Validator.SHORT_TEXT);
         Validator.checkNullableMinAndMax(jobTitleView, Validator.SHORT_TEXT);
         Validator.checkNullableMinAndMax(companyNameView, Validator.SHORT_TEXT);
-        // TODO : gender not a member of user yet
         
         if (firstNameView.getError() == null 
                 && lastNameView.getError() == null
@@ -124,7 +143,19 @@ public class ProfileEditActivity extends ScrumToolActivity {
             userBuilder.setJobTitle(jobTitleView.getText().toString());
             userBuilder.setCompanyName(companyNameView.getText().toString());
             userBuilder.setDateOfBirth(dateOfBirthChosen);
-            userBuilder.setGender(Gender.UNKNOWN);
+            
+            int genderValue = genderView.getSelectedItemPosition();
+            switch (genderValue) {
+                case 0:
+                    userBuilder.setGender(Gender.MALE);
+                    break;
+                case 1:
+                    userBuilder.setGender(Gender.FEMALE);
+                    break;
+                default:
+                    userBuilder.setGender(Gender.UNKNOWN);
+                    break;
+            } 
             
             final User userToUpdate = userBuilder.build();
             userToUpdate.update(new DefaultGUICallback<Boolean>(this) {
