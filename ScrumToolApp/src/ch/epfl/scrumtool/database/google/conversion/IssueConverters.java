@@ -71,8 +71,8 @@ public class IssueConverters {
         }
 
     };
-
-    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE = 
+    
+    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE_INSERT = 
             new EntityConverter<Issue, ScrumIssue>() {
 
         @Override
@@ -90,21 +90,45 @@ public class IssueConverters {
             dbIssue.setPriority(issue.getPriority().name());
             dbIssue.setStatus(issue.getStatus().name());
 
-//            ScrumPlayer dbPlayer = new ScrumPlayer();
-//            if (issue.getPlayer() != null) {
-//                dbPlayer.setKey(issue.getPlayer().getKey());
-//            } else {
-//                dbPlayer = null;
-//            }
-//            dbIssue.setAssignedPlayer(dbPlayer);
-//
-//            ScrumSprint dbSprint = new ScrumSprint();
-//            if (issue.getSprint() != null) {
-//                dbSprint.setKey(issue.getSprint().getKey());
-//            } else {
-//                dbSprint = null;
-//            }
-//            dbIssue.setSprint(dbSprint);
+            return dbIssue;
+        }
+    };
+
+    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE_UPDATE = 
+            new EntityConverter<Issue, ScrumIssue>() {
+
+        @Override
+        public ScrumIssue convert(Issue issue) {
+            assert issue != null;
+
+            ScrumIssue dbIssue = new ScrumIssue();
+
+            if (!issue.getKey().equals("")) {
+                dbIssue.setKey(issue.getKey());
+            }
+            dbIssue.setDescription(issue.getDescription());
+            dbIssue.setName(issue.getName());
+            dbIssue.setEstimation(issue.getEstimatedTime());
+            dbIssue.setPriority(issue.getPriority().name());
+            dbIssue.setStatus(issue.getStatus().name());
+
+            ScrumPlayer dbPlayer;
+            if (issue.getPlayer() != null) {
+                dbPlayer = new ScrumPlayer();
+                dbPlayer.setKey(issue.getPlayer().getKey());
+            } else {
+                dbPlayer = null;
+            }
+            dbIssue.setAssignedPlayer(dbPlayer);
+
+            ScrumSprint dbSprint;
+            if (issue.getSprint() != null) {
+                dbSprint = new ScrumSprint();
+                dbSprint.setKey(issue.getSprint().getKey());
+            } else {
+                dbSprint = null;
+            }
+            dbIssue.setSprint(dbSprint);
             // Currently we don't need LastModDate and LasModUser
 
             return dbIssue;

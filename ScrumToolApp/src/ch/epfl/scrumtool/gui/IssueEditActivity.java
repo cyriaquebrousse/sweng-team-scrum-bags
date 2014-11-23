@@ -31,7 +31,6 @@ public class IssueEditActivity extends BaseMenuActivity {
     private EditText issueNameView;
     private EditText issueDescriptionView;
     private EditText issueEstimationView;
-    private Player player;
     
     private PlayerListAdapter playerAdapter;
     private SprintListAdapter sprintAdapter;
@@ -107,7 +106,6 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
-        
         
     }
 

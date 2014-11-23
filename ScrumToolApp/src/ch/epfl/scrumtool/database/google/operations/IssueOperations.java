@@ -42,7 +42,7 @@ public class IssueOperations {
                 } else {
                     sprintKey = null;
                 }
-                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getIssue());
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return new InsertResponse<Issue>(arg.getIssue(),
                         service.insertScrumIssue(arg.getKey(), insert)
@@ -59,7 +59,7 @@ public class IssueOperations {
         @Override
         public OperationStatus execute(InsertIssueArgs arg, Scrumtool service) throws ScrumToolException {
             try {
-                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getIssue());
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return service.insertIssueInSprint(arg.getIssue().getKey(), arg.getKey()).execute();
                 
@@ -69,16 +69,44 @@ public class IssueOperations {
         }
     };
 
+//    public static final ScrumToolOperation<Issue, OperationStatus> UPDATE_ISSUE = 
+//            new ScrumToolOperation<Issue, OperationStatus>() {
+//        @Override
+//        public OperationStatus execute(Issue arg, Scrumtool service) throws ScrumToolException {
+//            ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
+//            try {
+//                return service.updateScrumIssue(scrumIssue).execute();
+//            } catch (IOException e) {
+//                throw new UpdateException(e, "Issue update failed");
+//            }
+//        }
+//    };
+    
     public static final ScrumToolOperation<Issue, OperationStatus> UPDATE_ISSUE = 
-            new ScrumToolOperation<Issue, OperationStatus>() {
+          new ScrumToolOperation<Issue, OperationStatus>() {
         @Override
         public OperationStatus execute(Issue arg, Scrumtool service) throws ScrumToolException {
-            ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
-            try {
-                return service.updateScrumIssue(scrumIssue).execute();
-            } catch (IOException e) {
-                throw new UpdateException(e, "Issue update failed");
-            }
+         
+                final String playerKey;
+                if (arg.getPlayer() != null) {
+                    playerKey = arg.getPlayer().getKey();
+                } else {
+                    playerKey = null;
+                }
+                final String sprintKey;
+                if (arg.getSprint() != null) {
+                    sprintKey = arg.getSprint().getKey();
+                } else {
+                    sprintKey = null;
+                }
+                ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE_UPDATE.convert(arg);
+                scrumIssue.setLastModUser(Session.getCurrentSession().getUser().getEmail());
+                try {
+                    return service.updateScrumIssue(scrumIssue)
+                          .setPlayerKey(playerKey).setSprintKey(sprintKey).execute();
+                } catch (IOException e) {
+                    throw new UpdateException(e, "Issue update failed");
+                }
         }
     };
     
