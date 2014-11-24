@@ -18,6 +18,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
@@ -113,9 +114,19 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void removeIssue(Issue issue, Sprint sprint, Callback<Boolean> cB) {
+    public void removeIssueFromSprint(Issue issue, Callback<Boolean> cB) {
         // TODO Auto-generated method stub
 
     }
+
+    @Override
+    public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
+        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory = 
+                new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>>(MODE.AUTHENTICATED);
+        factory.setCallback(cB);
+        factory.setConverter(CollectionResponseConverters.ISSUES);
+        factory.setOperation(IssueOperations.LOAD_ISSUES_USER);
+        OperationExecutor.execute(user.getEmail(), factory.build());
+     }
 
 }

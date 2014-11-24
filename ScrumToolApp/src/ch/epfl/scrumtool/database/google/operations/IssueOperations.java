@@ -163,4 +163,16 @@ public class IssueOperations {
             }
         
     };
+    
+    public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_USER = 
+            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+        @Override
+        public CollectionResponseScrumIssue execute(String arg, Scrumtool service) throws ScrumToolException {
+            try {
+                return service.loadIssuesForUser(arg).execute();
+            } catch (IOException e) {
+                throw new ScrumToolException(e, "Error loading issues for user");
+            }
+        }
+    };
 }
