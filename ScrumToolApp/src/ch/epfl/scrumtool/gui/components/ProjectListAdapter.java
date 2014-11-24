@@ -12,17 +12,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.util.gui.Animations;
 
 /**
  * @author Cyriaque Brousse
  */
 public final class ProjectListAdapter extends DefaultAdapter<Project> {
 
-    private LayoutInflater inflater;
+    private final Activity activity;
+    private final LayoutInflater inflater;
     
     public ProjectListAdapter(final Activity activity, final List<Project> projectList) {
         super(projectList);
         this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.activity = activity;
     }
 
     @Override
@@ -53,7 +56,13 @@ public final class ProjectListAdapter extends DefaultAdapter<Project> {
         headerBlock.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                detailsBlock.setVisibility(detailsBlock.isShown() ? View.GONE : View.VISIBLE);
+                if (detailsBlock.isShown()) {
+                    Animations.slideUp(activity, detailsBlock);
+                    detailsBlock.setVisibility(View.GONE);
+                } else {
+                    detailsBlock.setVisibility(View.VISIBLE);
+                    Animations.slideDown(activity, detailsBlock);
+                }
             }
         });
 
