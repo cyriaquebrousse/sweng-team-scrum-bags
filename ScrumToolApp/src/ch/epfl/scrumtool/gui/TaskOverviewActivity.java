@@ -116,7 +116,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(TaskOverviewActivity.this, new PopupCallback() {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this, "name", new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         taskBuilder = new MainTask.Builder(task);
@@ -131,7 +131,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(TaskOverviewActivity.this, new PopupCallback() {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this, "description", new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         taskBuilder = new MainTask.Builder(task);

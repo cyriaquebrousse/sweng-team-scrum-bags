@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
@@ -21,29 +23,46 @@ public class TextViewModifiers {
         void onModified(String userInput);
     }
     
-    public static void modifyText(Activity parent, final PopupCallback callback) {
+    public static void modifyText(final Activity parent, final String fieldName, final PopupCallback callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
         View popupView = inflater.inflate(R.layout.popupmodifiers, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(parent);
-
-        alertDialogBuilder.setView(popupView);
+        final AlertDialog alertDialog = new AlertDialog.Builder(parent)
+            .setView(popupView)
+            .setTitle("Enter the new " + fieldName + " : ")
+            .setPositiveButton(android.R.string.ok, null)
+            .create();
 
         final EditText userInput = (EditText) popupView.findViewById(R.id.popup_user_input);
 
-        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                callback.onModified(userInput.getText().toString());
-
+            public void onShow(DialogInterface dialog) {
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        InputVerifiers.updateTextViewAfterValidityCheck(userInput,
+                                nameIsValid(userInput), parent.getResources());
+                        if (nameIsValid(userInput)) {
+                            callback.onModified(userInput.getText().toString());
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        
         alertDialog.show();
+    }
+    
+    private static boolean nameIsValid(EditText editText) {
+        String stringValue = editText.getText().toString();
+        return stringValue != null && stringValue.length() > 0
+                && stringValue.length() < 50; // TODO put a meaningful value
     }
 
 }

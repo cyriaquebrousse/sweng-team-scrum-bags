@@ -146,7 +146,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, new PopupCallback() {
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, "name", new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         issueBuilder = new Issue.Builder(issue);
@@ -161,7 +161,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, new PopupCallback() {
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, "description", new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         issueBuilder = new Issue.Builder(issue);
