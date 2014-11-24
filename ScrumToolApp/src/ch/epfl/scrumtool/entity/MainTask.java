@@ -31,20 +31,21 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public int getIssuesFinishedCount() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
+    
+    @Override
     public float getEstimatedTime() {
-        float estimation = 0f;
-        // float issueEstimation;
+        throw new UnsupportedOperationException();
+    }
+
+    public float estimatedTime(final List<Issue> issueList) {
+
+        float total = 0;
+        for (Issue is: issueList) {
+            total += is.getEstimatedTime();
+        }
         boolean estimated = true;
-        // for (Issue i : issues) {
-        // issueEstimation = i.getEstimatedTime();
-        // if (issueEstimation < 0) {
-        // estimated = false;
-        // } else {
-        // estimation += issueEstimation;
-        // }
-        // }
-        return estimated ? estimation : -1;
+        
+        return estimated ? total : -1;
     }
 
     /**
@@ -234,4 +235,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         comparison = this.getName().compareTo(that.getName());
         return comparison;
     }
+
+ 
+    
 }

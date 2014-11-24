@@ -18,6 +18,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
@@ -27,6 +28,7 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
+import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
@@ -179,9 +181,24 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         descriptionView.setText(task.getDescription());
         prioritySticker.setPriority(task.getPriority());
         statusSlate.setText(task.getStatus().toString());
-
-        float estimatedTime = task.getEstimatedTime();
-        estimationSlate.setText(estimatedTime < 0 ? "?" : Float.toString(estimatedTime) + " hours");
+        
+        task.loadIssues(new Callback<List<Issue>>() {
+            
+            @Override
+            public void interactionDone(List<Issue> object) {
+                // TODO Auto-generated method stub
+                float estimatedTime = task.estimatedTime(object);
+                estimationSlate.setText(estimatedTime < estimatedTime ? "?" : Float.toString(estimatedTime) + " hours");
+            }
+            
+            @Override
+            public void failure(String errorMessage) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        
     }
 
     @Override

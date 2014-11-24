@@ -109,14 +109,6 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         Client.getScrumClient().removeIssueFromSprint(this, callback);
     }
     
-    public float estimatedTime(final List<Issue> issueList) {
-        float total = 0;
-        for (Issue is: issueList) {
-            total += is.getEstimatedTime();
-        }
-        return total;
-    }
-    
     /**
      * Get new instance of Builder
      * @return
