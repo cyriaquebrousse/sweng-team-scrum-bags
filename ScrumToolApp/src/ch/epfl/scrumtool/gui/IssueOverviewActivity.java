@@ -94,12 +94,12 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             assigneeName.setText(issue.getPlayer().getUser().getName());
             assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
-            assigneeName.setText("No player assigned");
+            assigneeName.setText(R.string.no_player);
         }
         if (issue.getSprint() != null) {
             sprintView.setText(issue.getSprint().getTitle());
         } else {
-            sprintView.setText("No sprint assigned");
+            sprintView.setText(R.string.no_sprint);
         }
 
         estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
@@ -200,7 +200,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         if (selected != null) {
                             sprintView.setText(selected.getTitle().toString());
                         } else {
-                            sprintView.setText("No sprint assigned");
+                            sprintView.setText(R.string.no_sprint);
                         }
                         updateIssue();
                     }
@@ -220,7 +220,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             if (selected != null) {
                                 assigneeName.setText(selected.getUser().getName());
                             } else {
-                                assigneeName.setText("No player assigned");
+                                assigneeName.setText(R.string.no_player);
                             }
                             updateIssue();
                         }
