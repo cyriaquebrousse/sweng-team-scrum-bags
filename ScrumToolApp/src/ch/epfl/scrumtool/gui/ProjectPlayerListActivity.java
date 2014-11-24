@@ -138,19 +138,23 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
         });
     }
 
-    private void deletePlayer(final Player player) {
-        player.remove(new DefaultGUICallback<Boolean>(this) {
+    private void deletePlayer(View view) {
+        final int position = listView.getPositionForView(view);
+        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+            final Player player = (Player) listView.getAdapter().getItem(position);
+            player.remove(new DefaultGUICallback<Boolean>(this) {
 
-            @Override
-            public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    adapter.remove(player);
-                } else {
-                    Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
+                @Override
+                public void interactionDone(Boolean success) {
+                    if (success.booleanValue()) {
+                        adapter.remove(player);
+                    } else {
+                        Toast.makeText(ProjectPlayerListActivity.this, "Could not delete player",
                             Toast.LENGTH_SHORT).show();
-                }                
-            }
-        });
+                    }                
+                }
+            });
+        }
     }
 
     private boolean emailIsValid() {
