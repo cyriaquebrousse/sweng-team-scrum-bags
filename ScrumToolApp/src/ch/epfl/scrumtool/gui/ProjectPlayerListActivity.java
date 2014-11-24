@@ -34,7 +34,6 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
     private Project project;
     private ListView listView;
     private PlayerListAdapter adapter;
-
     private EditText newPlayerEmailView;
 
     @Override
@@ -138,7 +137,7 @@ public class ProjectPlayerListActivity extends BaseMenuActivity implements OnMen
         });
     }
 
-    private void deletePlayer(View view) {
+    public void deletePlayer(View view) {
         final int position = listView.getPositionForView(view);
         if (position >= 0 && position != AdapterView.INVALID_POSITION) {
             final Player player = (Player) listView.getAdapter().getItem(position);
