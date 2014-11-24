@@ -264,9 +264,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param player
          */
         public Issue.Builder setPlayer(Player player) {
-            if (player != null) {
-                this.player = player;
-            }
+            this.player = player;
             return this;
         }
         
@@ -283,9 +281,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param sprint
          */
         public Issue.Builder setSprint(Sprint sprint) {
-            if (sprint != null) {
-                this.sprint = sprint;
-            }
+            this.sprint = sprint;
             return this;
         }
 
