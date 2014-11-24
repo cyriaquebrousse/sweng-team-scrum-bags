@@ -79,6 +79,12 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     }
     
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null);
+    }
+    
+    @Override
     public void openCreateElementActivity() {
         Intent createSprintIntent = new Intent(this, SprintEditActivity.class);
         createSprintIntent.putExtra(Project.SERIALIZABLE_NAME, project);

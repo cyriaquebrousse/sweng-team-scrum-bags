@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.util.gui.InputVerifiers;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -63,6 +64,7 @@ public class SprintEditActivity extends BaseMenuActivity {
                 chosen.set(Calendar.YEAR, year);
                 chosen.set(Calendar.MONTH, monthOfYear);
                 chosen.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                sprintDeadline = chosen.getTimeInMillis();
                 setDeadlineText(chosen);
             }
         };
@@ -86,7 +88,6 @@ public class SprintEditActivity extends BaseMenuActivity {
                 if (sprint == null) {
                     insertSprint();
                 } else {
-                    Log.d("test", "test");
                     updateSprint();
                 }
             } else {
@@ -138,6 +139,7 @@ public class SprintEditActivity extends BaseMenuActivity {
 
             @Override
             public void interactionDone(Sprint object) {
+                passResult(object);
                 SprintEditActivity.this.finish();
             }
         };
@@ -146,18 +148,25 @@ public class SprintEditActivity extends BaseMenuActivity {
     
     // =========== UPDATE ============
     private void updateSprint() {
-        Sprint sprint = sprintBuilder.build();
+        final Sprint sprint = sprintBuilder.build();
         sprint.update(null, new DefaultGUICallback<Boolean>(this) {
             
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
+                    passResult(sprint);
                     SprintEditActivity.this.finish();
                 } else {
                     Toast.makeText(SprintEditActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+    
+    private void passResult(Sprint sprint) {
+        Intent data = new Intent();
+        data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        setResult(1, data);
     }
     
     private void setDeadlineText(Calendar date) {

@@ -27,11 +27,13 @@ import ch.epfl.scrumtool.gui.components.IssueListAdapter;
  */
 public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
+    // Entities
     private Sprint sprint;
     private Project project;
     
-    private TextView name;
-    private TextView deadline;
+    // Views
+    private static TextView name;
+    private static TextView deadline;
     private ListView listView;
     private IssueListAdapter adapter;
     
@@ -67,9 +69,12 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             }
             
         });
-        
-        initViews();
-        updateViews();
+    }
+    
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null);
     }
     
     private void initViews() {
@@ -77,15 +82,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
         
         name.setText(sprint.getTitle());
+        System.out.println("initViews : " + sprint.getTitle());
         setDeadlineText();
-    }
-    
-    private void updateViews() {
-        name = (TextView) findViewById(R.id.sprint_overview_name);
-        deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
-        
-        name.setText(sprint.getTitle());
-        setDeadlineText();
+        setTitle(sprint.getTitle());
     }
     
     private void setDeadlineText() {
@@ -110,8 +109,16 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
         openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
         openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(openSprintEditIntent);
-        updateViews();
+        startActivityForResult(openSprintEditIntent, 1);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            sprint = (Sprint) data.getSerializableExtra(Sprint.SERIALIZABLE_NAME);
+            throwIfNull("Sprint cannot be null", sprint);
+            initViews();
+        }
     }
 
     @Override
@@ -126,6 +133,5 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 }
             }
         });
-        updateViews();
     }
 }
