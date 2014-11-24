@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.os.Bundle;
@@ -18,9 +20,7 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
-import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.gui.InputVerifiers;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Cyriaque Brousse
@@ -52,7 +52,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         initViews();
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        Client.getScrumClient().loadPlayers(project, new DefaultGUICallback<List<Player>>(this) {
+        project.loadPlayers(new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(List<Player> playerList) {
                 playerList.add(0, null);
@@ -67,7 +67,7 @@ public class IssueEditActivity extends BaseMenuActivity {
             }
         });
         
-        Client.getScrumClient().loadSprints(project, new DefaultGUICallback<List<Sprint>>(this) {
+        project.loadSprints(new DefaultGUICallback<List<Sprint>>(this) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
                 sprintList.add(0, null);

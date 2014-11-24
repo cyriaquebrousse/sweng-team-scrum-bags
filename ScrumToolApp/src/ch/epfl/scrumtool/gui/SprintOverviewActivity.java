@@ -97,14 +97,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             public void onClick(View v) {
                 TextViewModifiers.modifyText(SprintOverviewActivity.this, "name",
                         nameView.getText().toString(), new PopupCallback() {
-                    @Override
-                    public void onModified(String userInput) {
-                        sprintBuilder = new Sprint.Builder(sprint);
-                        sprintBuilder.setTitle(userInput);
-                        nameView.setText(userInput);
-                        updateSprint();
-                    }
-                });
+                            @Override
+                            public void onModified(String userInput) {
+                                sprintBuilder = new Sprint.Builder(sprint);
+                                sprintBuilder.setTitle(userInput);
+                                nameView.setText(userInput);
+                                updateSprint();
+                            }
+                        });
             }
         });
         
@@ -192,7 +192,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
-    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback ) {
+    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback) {
         DialogFragment newFragment = new DatePickerFragment() {
             
             @Override

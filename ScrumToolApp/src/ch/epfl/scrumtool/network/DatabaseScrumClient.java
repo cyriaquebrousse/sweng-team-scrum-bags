@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.network;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 
 /**
  * @author aschneuw

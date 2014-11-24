@@ -12,22 +12,25 @@ import android.widget.EditText;
 
 /**
  * @author sylb
- *
  */
 public class TextViewModifiers {
 
+    /**
+     * @author sylb
+     */
     public interface PopupCallback  {
         void onModified(String userInput);
     }
     
-    public static void modifyText(final Activity parent, final String fieldName, final String oldValue, final PopupCallback callback) {
+    public static void modifyText(final Activity parent, final String fieldName,
+            final String oldValue, final PopupCallback callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
-        View popupView = inflater.inflate(R.layout.popupmodifiers, null);
+        View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
 
         final AlertDialog alertDialog = new AlertDialog.Builder(parent)
             .setView(popupView)
-            .setTitle("Enter the new " + fieldName + " : ")
+            .setTitle("Enter the new " + fieldName + ": ")
             .setPositiveButton(android.R.string.ok, null)
             .create();
 

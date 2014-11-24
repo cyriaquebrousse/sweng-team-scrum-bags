@@ -4,6 +4,7 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
@@ -107,6 +108,14 @@ public final class User implements Serializable, Comparable<User> {
     
     public Gender getGender() {
         return this.gender;
+    }
+    
+    /**
+     * Gets the issues for a specified user
+     * @param callback
+     */
+    public void loadIssuesForUser(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssuesForUser(this, callback);
     }
 
     /**

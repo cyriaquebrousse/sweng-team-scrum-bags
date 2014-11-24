@@ -25,10 +25,9 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
-import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.gui.Dialogs;
-import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
@@ -82,7 +81,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         }
 
         initializeListeners();
-
         updateViews();
     }
 
@@ -148,14 +146,14 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             public void onClick(View v) {
                 TextViewModifiers.modifyText(IssueOverviewActivity.this, "name",
                         nameView.getText().toString(), new PopupCallback() {
-                    @Override
-                    public void onModified(String userInput) {
-                        issueBuilder = new Issue.Builder(issue);
-                        issueBuilder.setName(userInput);
-                        nameView.setText(userInput);
-                        updateIssue();
-                    }
-                });
+                            @Override
+                            public void onModified(String userInput) {
+                                issueBuilder = new Issue.Builder(issue);
+                                issueBuilder.setName(userInput);
+                                nameView.setText(userInput);
+                                updateIssue();
+                            }
+                        });
             }
         });
 
@@ -164,14 +162,14 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             public void onClick(View v) {
                 TextViewModifiers.modifyText(IssueOverviewActivity.this, "description",
                         descriptionView.getText().toString(), new PopupCallback() {
-                    @Override
-                    public void onModified(String userInput) {
-                        issueBuilder = new Issue.Builder(issue);
-                        issueBuilder.setDescription(userInput);
-                        descriptionView.setText(userInput);
-                        updateIssue();
-                    }
-                });
+                            @Override
+                            public void onModified(String userInput) {
+                                issueBuilder = new Issue.Builder(issue);
+                                issueBuilder.setDescription(userInput);
+                                descriptionView.setText(userInput);
+                                updateIssue();
+                            }
+                        });
             }
         });
 
@@ -244,7 +242,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     public void showPlayerSelector(final Activity parent, final DialogCallback<Player> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
 
-        Client.getScrumClient().loadPlayers(parentProject, new DefaultGUICallback<List<Player>>(this) {
+        parentProject.loadPlayers(new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(final List<Player> playerList) {
                 builder.setTitle("Set Player");
@@ -266,7 +264,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     public void showSprintSelector(final Activity parent, final DialogCallback<Sprint> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
 
-        Client.getScrumClient().loadSprints(parentProject, new DefaultGUICallback<List<Sprint>>(parent) {
+        parentProject.loadSprints(new DefaultGUICallback<List<Sprint>>(parent) {
             @Override
             public void interactionDone(final List<Sprint> sprintList) {
                 builder.setTitle("Set Sprint");
@@ -274,7 +272,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 sprintAdapter = new SprintListAdapter(parent, sprintList);
 
                 builder.setAdapter(sprintAdapter, new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         callback.onSelected(sprintAdapter.getItem(which));

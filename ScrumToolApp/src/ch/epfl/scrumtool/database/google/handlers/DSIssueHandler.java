@@ -121,12 +121,12 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
-        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory = 
+        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory =
                 new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>>(MODE.AUTHENTICATED);
         factory.setCallback(cB);
         factory.setConverter(CollectionResponseConverters.ISSUES);
         factory.setOperation(IssueOperations.LOAD_ISSUES_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
-     }
+    }
 
 }

@@ -142,14 +142,14 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             public void onClick(View v) {
                 TextViewModifiers.modifyText(TaskOverviewActivity.this, "name",
                         nameView.getText().toString(), new PopupCallback() {
-                    @Override
-                    public void onModified(String userInput) {
-                        taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setName(userInput);
-                        nameView.setText(userInput);
-                        updateTask();
-                    }
-                });
+                            @Override
+                            public void onModified(String userInput) {
+                                taskBuilder = new MainTask.Builder(task);
+                                taskBuilder.setName(userInput);
+                                nameView.setText(userInput);
+                                updateTask();
+                            }
+                        });
             }
         });
 
@@ -158,14 +158,14 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             public void onClick(View v) {
                 TextViewModifiers.modifyText(TaskOverviewActivity.this, "description",
                         descriptionView.getText().toString(), new PopupCallback() {
-                    @Override
-                    public void onModified(String userInput) {
-                        taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setDescription(userInput);
-                        descriptionView.setText(userInput);
-                        updateTask();
-                    }
-                });
+                            @Override
+                            public void onModified(String userInput) {
+                                taskBuilder = new MainTask.Builder(task);
+                                taskBuilder.setDescription(userInput);
+                                descriptionView.setText(userInput);
+                                updateTask();
+                            }
+                        });
             }
         });
 
@@ -214,8 +214,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 estimationSlate.setText(estimatedTime < estimatedTime ? "?" : Float.toString(estimatedTime) + " hours");
             }
         });
-        
-        
     }
 
     @Override

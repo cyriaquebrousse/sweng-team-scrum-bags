@@ -28,7 +28,6 @@ import ch.epfl.scrumtool.util.gui.Validator;
  */
 public class ProfileEditActivity extends ScrumToolActivity {
 
-    
     // Date of birth
     private Calendar calendar = Calendar.getInstance();
     private long dateOfBirthChosen = calendar.getTimeInMillis();
@@ -99,13 +98,13 @@ public class ProfileEditActivity extends ScrumToolActivity {
         }
         switch(connectedUser.getGender()) {
             case MALE:
-                genderView.setSelection(0);
+                genderView.setSelection(Gender.MALE.ordinal());
                 break;
             case FEMALE:
-                genderView.setSelection(1);
+                genderView.setSelection(Gender.FEMALE.ordinal());
                 break;
             default: 
-                genderView.setSelection(2);
+                genderView.setSelection(Gender.UNKNOWN.ordinal());
                 break;
         }
     }
