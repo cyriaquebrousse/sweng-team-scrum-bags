@@ -19,15 +19,9 @@ public class MainTaskTest extends TestCase{
         .setStatus(STATUS_1)
         .setPriority(PRIORITY_1)
         .build();
-    
-    @Test
-    public void testHashCode() {
-        fail("Not yet implemented");
-    }
 
-    @Test
+    @Test(expected=UnsupportedOperationException.class)
     public void testGetEstimatedTime() {
-        fail("Not yet implemented");
     }
 
     @Test
@@ -36,39 +30,38 @@ public class MainTaskTest extends TestCase{
         assertEquals(mainTask, mainTask2);
     }
 
-    @Test
+    @Test(expected=UnsupportedOperationException.class)
     public void testGetIssuesFinishedCount() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testAbstractTask() {
-        fail("Not yet implemented");
     }
 
     @Test
     public void testGetName() {
-        fail("Not yet implemented");
+        String name = mainTask.getName();
+        assertEquals(name, NAME_1);
     }
 
     @Test
     public void testGetDescription() {
-        fail("Not yet implemented");
+        String description = mainTask.getDescription();
+        assertEquals(description, DESCRIPTION_1);
     }
 
     @Test
     public void testGetStatus() {
-        fail("Not yet implemented");
+        Status status = mainTask.getStatus();
+        assertEquals(status, STATUS_1);
     }
 
     @Test
     public void testGetKey() {
-        fail("Not yet implemented");
+        String key = mainTask.getKey();
+        assertEquals(key, KEY_1);
     }
 
     @Test
     public void testGetPriority() {
-        fail("Not yet implemented");
+        Priority priority = mainTask.getPriority();
+        assertEquals(priority, PRIORITY_1);
     }
 
 }
