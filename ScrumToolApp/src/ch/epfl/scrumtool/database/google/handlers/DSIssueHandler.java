@@ -16,6 +16,7 @@ import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.IssueOperations;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
@@ -100,6 +101,15 @@ public class DSIssueHandler implements IssueHandler {
         factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
         factory.setOperation(IssueOperations.INSERT_ISSUE_SPRINT);
         OperationExecutor.execute(args, factory.build());
+    }
+    
+    public void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback) {
+        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory = 
+                new Factory<String, CollectionResponseScrumIssue, List<Issue>>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(CollectionResponseConverters.ISSUES);
+        factory.setOperation(IssueOperations.LOAD_ISSUES_NO_SPRINT);
+        OperationExecutor.execute(project.getKey(), factory.build());
     }
 
     @Override

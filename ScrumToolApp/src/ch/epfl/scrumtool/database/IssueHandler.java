@@ -7,6 +7,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 
 /**
@@ -30,6 +31,15 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param cB
      */
     void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB);
+    
+    
+    /**
+     * Load the issues that are not assigned to a Sprint from the datastore
+     * 
+     * @param project
+     * @param callback
+     */
+    void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback);
 
     /**
      * Insert an Issue in the datastore

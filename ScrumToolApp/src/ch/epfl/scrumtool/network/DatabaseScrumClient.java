@@ -170,4 +170,10 @@ public class DatabaseScrumClient implements ScrumClient {
                 userEmail, role, callback);
     }
 
+    @Override
+    public void loadUnsprintedIssues(Project project,
+            Callback<List<Issue>> callback) {
+        databaseHandlers.getIssueHandler().loadUnsprintedIssues(project, callback);
+    }
+
 }

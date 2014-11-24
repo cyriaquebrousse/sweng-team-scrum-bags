@@ -52,6 +52,7 @@ public interface ScrumClient {
     void removeIssueFromSprint(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
     void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
+    void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback);
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);

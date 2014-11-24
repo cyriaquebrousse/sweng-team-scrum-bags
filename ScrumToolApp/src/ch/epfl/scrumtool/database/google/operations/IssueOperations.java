@@ -148,4 +148,19 @@ public class IssueOperations {
             }
         }
     };
+    
+    public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_NO_SPRINT =
+            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+
+            @Override
+            public CollectionResponseScrumIssue execute(String arg,
+                        Scrumtool service) throws ScrumToolException {
+                try {
+                    return service.loadUnsprintedIssuesForProject(arg).execute();
+                } catch (IOException e) {
+                    throw new LoadException(e, "Loading issue list failed");
+                }
+            }
+        
+    };
 }

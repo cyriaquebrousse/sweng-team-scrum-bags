@@ -121,11 +121,19 @@ public final class Project implements Serializable, Comparable<Project> {
     /**
      * Load the backlog of this project from the DS
      * 
-     * @param project
      * @param callback
      */
     public void loadBacklog(final Callback<List<MainTask>> callback) {
         Client.getScrumClient().loadBacklog(this, callback);
+    }
+    
+    /**
+     * Load all issues that are not yet assigned to any Sprint
+     * 
+     * @param callback
+     */
+    public void loadUnsprintedIssues(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadUnsprintedIssues(this, callback);
     }
     
     
