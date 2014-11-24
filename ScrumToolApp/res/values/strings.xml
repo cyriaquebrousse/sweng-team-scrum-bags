@@ -93,6 +93,7 @@
     <string name="sprints_button_description">Sprints button</string>
     <string name="players_button_description">Players button</string>
     <string name="backlog_button_description">Backlog button</string>
+    <string name="sprint_overview_issue_add">Add an issue</string>
     
     <!-- String Arrays -->
     

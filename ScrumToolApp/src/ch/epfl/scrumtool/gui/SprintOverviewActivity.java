@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
@@ -36,8 +37,12 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     // Entities
     private Sprint sprint;
     private Project project;
-    
     private Sprint.Builder sprintBuilder;
+    
+    private Issue issue;
+    private Issue.Builder issueBuilder;
+    
+    // Calendar
     private Calendar chosen = Calendar.getInstance();
     private final Calendar today = Calendar.getInstance();
     private long sprintDeadline = today.getTimeInMillis();
@@ -46,7 +51,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private static TextView nameView;
     private static TextView deadlineView;
     private ListView listView;
-    private IssueListAdapter adapter;
+    private IssueListAdapter issueListAdapter;
+    private IssueListAdapter issueSpinnerAdapter;
+    private Spinner issueSpinner;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +69,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
             @Override
             public void interactionDone(final List<Issue> issueList) {
-                adapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
                 listView = (ListView) findViewById(R.id.sprint_overview_issue_list);
                 registerForContextMenu(listView);
-                listView.setAdapter(adapter);
+                listView.setAdapter(issueListAdapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,9 +83,19 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                     }
                 });
                 
-                adapter.notifyDataSetChanged();
+                issueListAdapter.notifyDataSetChanged();
             }
             
+        });
+        
+        project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
+            @Override
+            public void interactionDone(List<Issue> issueList) {
+                issueList.add(0, null);
+                issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                issueSpinner.setAdapter(issueSpinnerAdapter);
+                issueSpinner.setSelection(0);
+            }
         });
     }
     
@@ -91,6 +108,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private void initViews() {
         nameView = (TextView) findViewById(R.id.sprint_overview_name);
         deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
+        issueSpinner = (Spinner) findViewById(R.id.issue_spinner);
+        
+        issueBuilder = new Issue.Builder((Issue) issueSpinner.getSelectedItem());
+        issueBuilder.setSprint(sprint);
+        updateIssue();
         
         nameView.setOnClickListener(new OnClickListener() {
             @Override
@@ -138,8 +160,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadlineView.setText(sdf.format(date.getTime()));
     }
     
-    // TODO add issues to the Sprint
-    
     private void initActivity() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
         throwIfNull("Sprint cannot be null", sprint);
@@ -178,6 +198,19 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
+    private void updateIssue() {
+        issue = issueBuilder.build();
+        issue.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (!success.booleanValue()) {
+                    Toast.makeText(SprintOverviewActivity.this, 
+                            "Could not update issue", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    
     private void updateSprint() {
         sprint = sprintBuilder.build();
         sprint.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
@@ -191,7 +224,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
-    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback ) {
+    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback) {
         DialogFragment newFragment = new DatePickerFragment() {
             
             @Override
