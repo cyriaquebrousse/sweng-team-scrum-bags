@@ -8,7 +8,6 @@
     tools:context=".gui.TaskOverviewActivity" >
 
     <!-- Task name -->
-
     <TextView
         android:id="@+id/task_name"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
         android:textStyle="bold" />
 
     <!-- Task priority -->
-
     <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
         android:id="@+id/task_priority"
         android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
 
     <!-- Task description -->
     <!-- TODO arbitrary height !!! -->
-
     <ScrollView
         android:id="@+id/task_desc_scrollview"
         android:layout_width="match_parent"
@@ -47,11 +44,7 @@
             android:layout_height="wrap_content" />
     </ScrollView>
 
-    <!-- Task deadline ??? -->
-
-
     <!-- Status and estimation slates -->
-
     <LinearLayout
         android:id="@+id/task_slates"
         android:layout_width="match_parent"
@@ -61,7 +54,6 @@
         android:weightSum="1" >
 
         <!-- Status -->
-
         <ch.epfl.scrumtool.gui.components.widgets.Slate
             android:id="@+id/task_slate_status"
             android:layout_width="wrap_content"
@@ -71,7 +63,6 @@
             custom:slate_title="Status" />
 
         <!-- Estimation -->
-
         <ch.epfl.scrumtool.gui.components.widgets.Slate
             android:id="@+id/task_slate_estimation"
             android:layout_width="wrap_content"
@@ -81,47 +72,36 @@
             android:layout_weight=".5" />
     </LinearLayout>
 
-    <!-- Issues list -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_issue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/task_slates" >
 
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_update_issue_list"
+        <!-- Issues list -->
+        <ListView
+            android:id="@+id/issue_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/space"
-            android:layout_below="@+id/task_slates" >
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <ListView
-                android:id="@+id/issue_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@null"
-                android:dividerHeight="@dimen/space"
-                android:footerDividersEnabled="true"
-                android:headerDividersEnabled="true"
-                android:listSelector="@android:color/transparent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_empty_issue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/task_slates"
+        android:gravity="center" >
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_update_empty_issue_list"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="@dimen/space"
-            android:layout_below="@+id/task_slates" >
+            android:layout_height="match_parent" >
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:id="@+id/empty_issue_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/empty_issue_list_hint" />
-            </ScrollView>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
+            <TextView
+                android:id="@+id/empty_issue_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/empty_issue_list_hint" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

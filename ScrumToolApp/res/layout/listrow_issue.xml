@@ -11,19 +11,17 @@
         android:layout_width="@dimen/stamp_width"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/issue_row_assignee"
-        android:layout_marginEnd="8dp"
-        android:gravity="center_vertical"
-        custom:stamp_content_quantity="42"
-        custom:stamp_content_unit="hours" />
+        android:layout_marginEnd="@dimen/space_list"
+        android:gravity="center_vertical"/>
 
     <!-- Issue name -->
     <TextView
         android:id="@+id/issue_row_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/space_list"
         android:layout_toEndOf="@id/issue_row_estimation"
-        android:maxLines="2"
+        android:maxLines="1"
         android:textStyle="bold" />
 
     <!-- Assignee -->

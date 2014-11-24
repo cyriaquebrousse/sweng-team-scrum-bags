@@ -211,7 +211,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             public void interactionDone(List<Issue> object) {
                 float estimatedTime = task.estimatedTime(object);
                 // FIXME not hours!
-                estimationSlate.setText(estimatedTime < estimatedTime ? "?" : Float.toString(estimatedTime) + " hours");
+                estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " hours");
             }
         });
     }
