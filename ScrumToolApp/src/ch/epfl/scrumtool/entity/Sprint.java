@@ -9,7 +9,8 @@ import ch.epfl.scrumtool.network.Client;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
- * @author ketsio, zenhaeus
+ * @author ketsio
+ * @author zenhaeus
  * @author Cyriaque Brousse
  */
 
@@ -132,7 +133,6 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * 
      * @author zenhaeus
      */
-
     public static class Builder {
 
         private String keyb;

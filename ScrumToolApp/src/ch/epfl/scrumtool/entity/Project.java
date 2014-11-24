@@ -10,7 +10,8 @@ import ch.epfl.scrumtool.network.Client;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
- * @author Vincent, zenhaeus
+ * @author Vincent
+ * @author zenhaeus
  */
 public final class Project implements Serializable, Comparable<Project> {
 
@@ -93,10 +94,8 @@ public final class Project implements Serializable, Comparable<Project> {
      * @param role
      * @param callback
      */
-    public void addPlayer(final String userEmail, final Role role,
-            final Callback<Player> callback) {
-        Client.getScrumClient().addPlayerToProject(this, userEmail, role,
-                callback);
+    public void addPlayer(final String userEmail, final Role role, final Callback<Player> callback) {
+        Client.getScrumClient().addPlayerToProject(this, userEmail, role, callback);
     }
 
     /**
@@ -113,8 +112,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * 
      * @param defaultGUICallback
      */
-    public void loadSprints(
-            final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
+    public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
         Client.getScrumClient().loadSprints(this, defaultGUICallback);
     }
 
@@ -147,12 +145,6 @@ public final class Project implements Serializable, Comparable<Project> {
 
     @Deprecated
     // TODO create a method in ScrumClient and delete this one.
-    public int getChangesCount(User user) {
-        return 0;
-    }
-
-    @Deprecated
-    // TODO create a method in ScrumClient and delete this one.
     public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
         return Role.DEVELOPER;
     }
@@ -161,7 +153,6 @@ public final class Project implements Serializable, Comparable<Project> {
      * Builder class for Project object
      * 
      * @author zenhaeus
-     * 
      */
     public static class Builder {
         private String keyb;

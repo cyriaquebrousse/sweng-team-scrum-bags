@@ -32,12 +32,6 @@ public abstract class AbstractTask implements Serializable {
         this.priority = priority;
     }
     
-    
-
-    /**
-     * 
-     * @return
-     */
     public abstract float getEstimatedTime();
 
     /**

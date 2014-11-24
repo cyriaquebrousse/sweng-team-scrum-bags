@@ -7,8 +7,8 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Vincent, zenhaeus
- * 
+ * @author Vincent
+ * @author zenhaeus
  */
 
 public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
@@ -244,7 +244,4 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         comparison = this.getName().compareTo(that.getName());
         return comparison;
     }
-
- 
-    
 }

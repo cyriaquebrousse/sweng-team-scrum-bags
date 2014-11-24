@@ -7,8 +7,8 @@ import ch.epfl.scrumtool.network.Client;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
- * @author Vincent, zenhaeus
- * 
+ * @author Vincent
+ * @author zenhaeus
  */
 public final class Player implements Serializable, Comparable<Player> {
 
@@ -51,7 +51,7 @@ public final class Player implements Serializable, Comparable<Player> {
     }
 
     /**
-     * @return admin Flag
+     * @return admin flag
      */
     public boolean isAdmin() {
         return this.isAdmin;
@@ -89,7 +89,6 @@ public final class Player implements Serializable, Comparable<Player> {
      * Builder Class for Player Object
      * 
      * @author zenhaeus
-     * 
      */
     public static class Builder {
         private User user;
@@ -225,5 +224,4 @@ public final class Player implements Serializable, Comparable<Player> {
             return 0;
         }
     }
-
 }

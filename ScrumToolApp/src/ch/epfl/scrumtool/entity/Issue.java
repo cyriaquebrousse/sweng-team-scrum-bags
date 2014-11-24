@@ -1,16 +1,15 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * A class that represent an Issue (child of a Maintask)
+ * A class that represents an Issue (child of a Maintask)
  * 
- * @author Vincent, zenhaeus
- * 
+ * @author Vincent
+ * @author zenhaeus
  */
 public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
 
@@ -93,8 +92,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void addToSprint(final Sprint sprint,
-            final Callback<Boolean> callback) {
+    public void addToSprint(final Sprint sprint, final Callback<Boolean> callback) {
         Client.getScrumClient().addIssueToSprint(this, sprint, callback);
     }
 
@@ -104,8 +102,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void removeFromSprint(final Sprint sprint,
-            final Callback<Boolean> callback) {
+    public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
         Client.getScrumClient().removeIssueFromSprint(this, callback);
     }
     
@@ -119,9 +116,6 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
 
     /**
      * A Builder for the Issue
-     * 
-     * @author
-     * 
      */
     public static class Builder {
         private String key;

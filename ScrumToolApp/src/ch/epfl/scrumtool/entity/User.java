@@ -9,15 +9,14 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author vincent, aschneuw, zenhaeus
- * 
+ * @author vincent
+ * @author aschneuw
+ * @author zenhaeus
  */
-
 public final class User implements Serializable, Comparable<User> {
     /**
-     * 
-     * @author aschneuw
      * Gender enum
+     * @author aschneuw
      */
     public enum Gender {MALE, FEMALE, UNKNOWN};
 
@@ -33,7 +32,7 @@ public final class User implements Serializable, Comparable<User> {
     private final Gender gender;
     
     private User(Builder builder) {
-        throwIfNull("User parameers cannot be null",
+        throwIfNull("User constructor parameters cannot be null",
                 builder.email,
                 builder.name,
                 builder.lastName,
@@ -141,7 +140,6 @@ public final class User implements Serializable, Comparable<User> {
      * Builder class for the User object
      * 
      * @author zenhaeus
-     * 
      */
     public static class Builder {
         private String email;
@@ -158,8 +156,8 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
-            this.dateOfBirth = (new Date()).getTime();
-            this.gender = Gender.MALE;
+            this.dateOfBirth = new Date().getTime();
+            this.gender = Gender.UNKNOWN;
         }
 
         public Builder(User otherUser) {
@@ -283,7 +281,6 @@ public final class User implements Serializable, Comparable<User> {
             return this;
         }
         
-        
         /**
          * 
          * @return gender
@@ -311,6 +308,7 @@ public final class User implements Serializable, Comparable<User> {
         }
 
     }
+    
     @Override
     public boolean equals(Object o) {
         if (o == null || !(o instanceof User)) {
@@ -341,6 +339,5 @@ public final class User implements Serializable, Comparable<User> {
         comparison = this.getName().compareTo(that.getName());
         return comparison;
     }
-
 
 }
