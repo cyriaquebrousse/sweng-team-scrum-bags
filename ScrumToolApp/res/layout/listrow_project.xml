@@ -11,8 +11,7 @@
     <RelativeLayout
         android:id="@+id/project_row_header_block"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/list_row_padding" >
+        android:layout_height="wrap_content" >
 
         <!-- Project icon -->
         <ImageView
@@ -20,7 +19,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_alignParentStart="true"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/list_row_padding"
             android:background="@color/whitesmoke"
             android:contentDescription="@string/project_image_description"
             android:scaleType="fitXY"
@@ -36,7 +35,6 @@
             android:layout_toEndOf="@id/project_row_icon"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="Project name"
             android:textSize="@dimen/list_row_name"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -45,7 +43,8 @@
         android:id="@+id/project_row_expanded_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingTop="@dimen/list_row_padding" >
 
         <!-- Project description -->
         <TextView
@@ -53,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:text="Lol\nfre\ndfez\n\fze\nfze\nfz\fze" />
+            android:paddingStart="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
