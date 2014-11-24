@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
@@ -106,6 +107,14 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public void removeFromSprint(final Sprint sprint,
             final Callback<Boolean> callback) {
         Client.getScrumClient().removeIssueFromSprint(this, callback);
+    }
+    
+    public float estimatedTime(final List<Issue> issueList) {
+        float total = 0;
+        for (Issue is: issueList) {
+            total += is.getEstimatedTime();
+        }
+        return total;
     }
     
     /**
