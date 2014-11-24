@@ -41,6 +41,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     
     private Issue issue;
     private Issue.Builder issueBuilder;
+    private boolean unsprintedIssues;
     
     // Calendar
     private Calendar chosen = Calendar.getInstance();
@@ -91,10 +92,19 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
             public void interactionDone(List<Issue> issueList) {
-                issueList.add(0, null);
-                issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
-                issueSpinner.setAdapter(issueSpinnerAdapter);
-                issueSpinner.setSelection(0);
+                if (issueList == null || issueList.isEmpty()) {
+                    unsprintedIssues = true;
+                    issueSpinner.setVisibility(View.GONE);
+                    
+                    TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
+                    issueAdd.setVisibility(View.GONE);
+                } else {
+                    unsprintedIssues = false;
+                    issueList.add(0, null);
+                    issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                    issueSpinner.setAdapter(issueSpinnerAdapter);
+                    issueSpinner.setSelection(0);
+                }
             }
         });
     }
@@ -110,9 +120,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
         issueSpinner = (Spinner) findViewById(R.id.issue_spinner);
         
-        issueBuilder = new Issue.Builder((Issue) issueSpinner.getSelectedItem());
-        issueBuilder.setSprint(sprint);
-        updateIssue();
+        if (unsprintedIssues) {
+            issueBuilder = new Issue.Builder((Issue) issueSpinner.getSelectedItem());
+            issueBuilder.setSprint(sprint);
+            updateIssue();
+        }
         
         nameView.setOnClickListener(new OnClickListener() {
             @Override
@@ -205,7 +217,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             public void interactionDone(Boolean success) {
                 if (!success.booleanValue()) {
                     Toast.makeText(SprintOverviewActivity.this, 
-                            "Could not update issue", Toast.LENGTH_SHORT).show();
+                            "Could not add issue to sprint", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -235,7 +247,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 sprintDeadline = chosen.getTimeInMillis();
                 callback.interactionDone(chosen);
                 deadlineView.setText(convertDeadlineToString(chosen));
-                
             }
         };
         Bundle args = new Bundle();
