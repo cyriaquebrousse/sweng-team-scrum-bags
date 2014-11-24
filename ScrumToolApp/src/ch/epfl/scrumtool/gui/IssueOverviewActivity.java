@@ -122,23 +122,23 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-        .setMessage("Do you really want to delete this issue?")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            .setMessage("Do you really want to delete this issue?")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = IssueOverviewActivity.this;
-                issue.remove(new DefaultGUICallback<Boolean>(context) {
-                    @Override
-                    public void interactionDone(Boolean success) {
-                        Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = IssueOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Boolean>(context) {
+                        @Override
+                        public void interactionDone(Boolean success) {
+                            Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void initializeListeners() {

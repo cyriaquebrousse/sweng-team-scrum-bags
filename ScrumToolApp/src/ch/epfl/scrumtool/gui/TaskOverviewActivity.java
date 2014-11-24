@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -46,48 +48,26 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private Slate statusSlate;
     private Slate estimationSlate;
     private ListView listView;
+    private SwipeRefreshLayout listViewLayout;
+    private SwipeRefreshLayout emptyViewLayout;
 
     private MainTask task;
     private IssueListAdapter adapter;
     private Project project;
     private MainTask.Builder taskBuilder;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-    }
+    private Callback<List<Issue>> callback = new DefaultGUICallback<List<Issue>>(this) {
+        @Override
+        public void interactionDone(final List<Issue> issueList) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        init();
-    }
+            adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
+            listView.setEmptyView(emptyViewLayout);
+            listView.setAdapter(adapter);
 
-    private void init() {
-        setContentView(R.layout.activity_task_overview);
-
-        final View progressBar = findViewById(R.id.waiting_issue_list);
-        listView = (ListView) findViewById(R.id.task_issues_list);
-        listView.setEmptyView(progressBar);
-
-        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-
-        this.setTitle(task.getName());
-
-        task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            @Override
-            public void interactionDone(final List<Issue> issueList) {
-                if (issueList.isEmpty()) {
-                    progressBar.setVisibility(View.GONE);
-                    View emptyList = findViewById(R.id.empty_issue_list);
-                    listView.setEmptyView(emptyList);
-                }
-
-                adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
+            if (!issueList.isEmpty()) {
                 registerForContextMenu(listView);
-                listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,14 +79,56 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         startActivity(openIssueIntent);
                     }
                 });
-
-                adapter.notifyDataSetChanged();
+            } else {
+                emptyViewLayout.setVisibility(View.VISIBLE);
             }
-        });
+
+            adapter.notifyDataSetChanged();
+        }
+    };
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_task_overview);
+
+        listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_issue_list);
+        onCreateSwipeToRefresh(listViewLayout);
+        emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_issue_list);
+        onCreateSwipeToRefresh(emptyViewLayout);
+
+        emptyViewLayout.setVisibility(View.INVISIBLE);
+
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
+
+        this.setTitle(task.getName());
 
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listViewLayout.setRefreshing(true);
+        task.loadIssues(callback);
         updateViews();
     }
+    
+    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                task.loadIssues(callback);
+                refreshLayout.setRefreshing(false);
+            }
+        });
+        refreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
 
     private void initViews() {
         nameView = (TextView) findViewById(R.id.task_name);
@@ -114,6 +136,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
+        listView = (ListView) findViewById(R.id.issue_list);
 
         nameView.setOnClickListener(new OnClickListener() {
             @Override
@@ -222,9 +245,11 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      *            the project to delete
      */
     private void deleteIssue(final Issue issue) {
+        listViewLayout.setRefreshing(true);
         issue.remove(new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
+                listViewLayout.setRefreshing(false);
                 adapter.remove(issue);
             }
         });

@@ -5,46 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ch.epfl.scrumtool.gui.ProjectListActivity" >
-    
 
-    <android.support.v4.widget.SwipeRefreshLayout 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_update_project_list"
-        android:padding="@dimen/space"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        
+        android:layout_height="match_parent"
+        android:padding="@dimen/space" >
+
         <ListView
             android:id="@+id/project_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
             android:divider="@null"
             android:dividerHeight="@dimen/space"
-            android:listSelector="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"
+            android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"
-            android:footerDividersEnabled="true" />
+            android:listSelector="@android:color/transparent" />
     </android.support.v4.widget.SwipeRefreshLayout>
-    <android.support.v4.widget.SwipeRefreshLayout 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_update_empty_project_list"
-        android:padding="@dimen/space"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center" >
-        
+        android:gravity="center"
+        android:padding="@dimen/space" >
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        
+            android:layout_height="match_parent" >
+
             <TextView
                 android:id="@+id/empty_project_list"
-                android:text="There are no projects for this user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:text="There are no projects for this user" />
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
