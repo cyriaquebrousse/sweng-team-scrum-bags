@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
@@ -36,8 +37,13 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     // Entities
     private Sprint sprint;
     private Project project;
-    
     private Sprint.Builder sprintBuilder;
+    
+    private Issue issue;
+    private Issue.Builder issueBuilder;
+    private boolean unsprintedIssues;
+    
+    // Calendar
     private Calendar chosen = Calendar.getInstance();
     private final Calendar today = Calendar.getInstance();
     private long sprintDeadline = today.getTimeInMillis();
@@ -46,7 +52,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private static TextView nameView;
     private static TextView deadlineView;
     private ListView listView;
-    private IssueListAdapter adapter;
+    private IssueListAdapter issueListAdapter;
+    private IssueListAdapter issueSpinnerAdapter;
+    private Spinner issueSpinner;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +70,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
             @Override
             public void interactionDone(final List<Issue> issueList) {
-                adapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
                 listView = (ListView) findViewById(R.id.sprint_overview_issue_list);
                 registerForContextMenu(listView);
-                listView.setAdapter(adapter);
+                listView.setAdapter(issueListAdapter);
                 listView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,9 +84,27 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                     }
                 });
                 
-                adapter.notifyDataSetChanged();
+                issueListAdapter.notifyDataSetChanged();
             }
             
+        });
+        
+        project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
+            @Override
+            public void interactionDone(List<Issue> issueList) {
+                if (issueList != null && !issueList.isEmpty()) {
+                    unsprintedIssues = false;
+                    
+                    issueList.add(0, null);
+                    issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                    issueSpinner.setAdapter(issueSpinnerAdapter);
+                    issueSpinner.setSelection(0);
+
+                    addIssueVisible(View.VISIBLE);
+                } else {
+                    unsprintedIssues = true;
+                }
+            }
         });
     }
     
@@ -88,9 +114,22 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         onCreate(null);
     }
     
+    private void addIssueVisible(int visibility) {
+        TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
+        issueAdd.setVisibility(visibility);
+        issueSpinner.setVisibility(visibility);
+    }
+    
     private void initViews() {
         nameView = (TextView) findViewById(R.id.sprint_overview_name);
         deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
+        issueSpinner = (Spinner) findViewById(R.id.issue_spinner);
+        
+        if (unsprintedIssues) {
+            issueBuilder = new Issue.Builder((Issue) issueSpinner.getSelectedItem());
+            issueBuilder.setSprint(sprint);
+            updateIssue();
+        }
         
         nameView.setOnClickListener(new OnClickListener() {
             @Override
@@ -129,6 +168,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setText(sprint.getTitle());
         setDeadlineText();
         setTitle(sprint.getTitle());
+        
+        // set the visibility to GONE by defaut so that it only shows up when the unsprinted Issues list is ready
+        addIssueVisible(View.GONE);
     }
     
     private void setDeadlineText() {
@@ -138,8 +180,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         date.setTimeInMillis(sprint.getDeadline());
         deadlineView.setText(sdf.format(date.getTime()));
     }
-    
-    // TODO add issues to the Sprint
     
     private void initActivity() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
@@ -179,6 +219,19 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
+    private void updateIssue() {
+        issue = issueBuilder.build();
+        issue.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (!success.booleanValue()) {
+                    Toast.makeText(SprintOverviewActivity.this, 
+                            "Could not add issue to sprint", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    
     private void updateSprint() {
         sprint = sprintBuilder.build();
         sprint.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
@@ -203,7 +256,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 sprintDeadline = chosen.getTimeInMillis();
                 callback.interactionDone(chosen);
                 deadlineView.setText(convertDeadlineToString(chosen));
-                
             }
         };
         Bundle args = new Bundle();
