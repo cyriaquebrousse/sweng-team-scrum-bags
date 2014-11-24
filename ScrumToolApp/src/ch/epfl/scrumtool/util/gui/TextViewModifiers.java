@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.util.gui;
 
 import ch.epfl.scrumtool.R;

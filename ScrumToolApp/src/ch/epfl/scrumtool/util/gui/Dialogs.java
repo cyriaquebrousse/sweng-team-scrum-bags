@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.entity.Status;
 /**
  * @author Cyriaque Brousse
  */
-public class Dialogs {
+public final class Dialogs {
     
     /**
      * @author Cyriaque Brousse
