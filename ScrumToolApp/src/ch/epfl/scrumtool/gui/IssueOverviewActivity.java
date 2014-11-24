@@ -47,10 +47,10 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     private MainTask parentTask;
     private Project parentProject;
     private Issue.Builder issueBuilder;
-    
+
     private SprintListAdapter sprintAdapter;
     private PlayerListAdapter playerAdapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,23 +122,23 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-            .setMessage("Do you really want to delete this issue?")
-            .setIcon(R.drawable.ic_dialog_alert)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        .setMessage("Do you really want to delete this issue?")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    final Context context = IssueOverviewActivity.this;
-                    issue.remove(new DefaultGUICallback<Boolean>(context) {
-                        @Override
-                        public void interactionDone(Boolean success) {
-                            Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    finish();
-                }
-            })
-            .setNegativeButton(android.R.string.no, null).show();
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = IssueOverviewActivity.this;
+                issue.remove(new DefaultGUICallback<Boolean>(context) {
+                    @Override
+                    public void interactionDone(Boolean success) {
+                        Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                finish();
+            }
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void initializeListeners() {
@@ -146,7 +146,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "name", new PopupCallback() {
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, "name",
+                        nameView.getText().toString(), new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         issueBuilder = new Issue.Builder(issue);
@@ -161,7 +162,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "description", new PopupCallback() {
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, "description",
+                        descriptionView.getText().toString(), new PopupCallback() {
                     @Override
                     public void onModified(String userInput) {
                         issueBuilder = new Issue.Builder(issue);
@@ -187,8 +189,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 });
             }
         });
-        
-        
+
+
         sprintView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,6 +205,25 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 });
             }
         });
+
+        if (issue.getPlayer() == null) {
+            assigneeName.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
+                        @Override
+                        public void onSelected(Player selected) {
+                            issueBuilder = new Issue.Builder(issue);
+                            issueBuilder.setPlayer(selected);
+                            if (issue.getPlayer() != null) {
+                                assigneeName.setText(issue.getPlayer().getUser().getName());
+                            }
+                            updateIssue();
+                        }
+                    });
+                }
+            });
+        }
 
 
     }
@@ -219,51 +240,50 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             }
         });
     }
-    
+
     public void showPlayerSelector(final Activity parent, final DialogCallback<Player> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
-        
-        builder.setTitle("Set Player");
+
         Client.getScrumClient().loadPlayers(parentProject, new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(final List<Player> playerList) {
+                builder.setTitle("Set Player");
+                playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(parent, playerList);
+
+                builder.setAdapter(playerAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.onSelected(playerAdapter.getItem(which));
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
-        
-        builder.setAdapter(playerAdapter, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onSelected(playerAdapter.getItem(which));
-                dialog.dismiss();
-            }
-        });
-        
-        builder.create().show();
     }
-    
+
     public void showSprintSelector(final Activity parent, final DialogCallback<Sprint> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
-        
-        builder.setTitle("Set Sprint");
+
         Client.getScrumClient().loadSprints(parentProject, new DefaultGUICallback<List<Sprint>>(parent) {
             @Override
             public void interactionDone(final List<Sprint> sprintList) {
+                builder.setTitle("Set Sprint");
+                sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(parent, sprintList);
+
+                builder.setAdapter(sprintAdapter, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.onSelected(sprintAdapter.getItem(which));
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
-        
-        builder.setAdapter(sprintAdapter, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onSelected(sprintAdapter.getItem(which));
-                dialog.dismiss();
-            }
-        });
-        
-        builder.create().show();
     }
-    
+
 }

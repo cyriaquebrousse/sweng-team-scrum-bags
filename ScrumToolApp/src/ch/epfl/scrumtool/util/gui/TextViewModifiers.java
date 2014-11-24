@@ -20,7 +20,7 @@ public class TextViewModifiers {
         void onModified(String userInput);
     }
     
-    public static void modifyText(final Activity parent, final String fieldName, final PopupCallback callback) {
+    public static void modifyText(final Activity parent, final String fieldName, final String oldValue, final PopupCallback callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
         View popupView = inflater.inflate(R.layout.popupmodifiers, null);
@@ -32,6 +32,7 @@ public class TextViewModifiers {
             .create();
 
         final EditText userInput = (EditText) popupView.findViewById(R.id.popup_user_input);
+        userInput.setText(oldValue);
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             
