@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -33,6 +34,9 @@ public final class ProjectListAdapter extends DefaultAdapter<Project> {
         TextView name = (TextView) convertView.findViewById(R.id.project_row_name);
         TextView desc = (TextView) convertView.findViewById(R.id.project_row_description);
         
+        final ViewGroup headerBlock = (ViewGroup) convertView.findViewById(R.id.project_row_header_block);
+        final ViewGroup detailsBlock = (ViewGroup) convertView.findViewById(R.id.project_row_expanded_block);
+        
         ImageButton backlogButton = (ImageButton) convertView.findViewById(R.id.project_row_backlog);
         ImageButton sprintsButton = (ImageButton) convertView.findViewById(R.id.project_row_sprints);
         ImageButton playersButton = (ImageButton) convertView.findViewById(R.id.project_row_players);
@@ -43,6 +47,15 @@ public final class ProjectListAdapter extends DefaultAdapter<Project> {
         backlogButton.setFocusable(false);
         sprintsButton.setFocusable(false);
         playersButton.setFocusable(false);
+        
+        detailsBlock.setVisibility(View.GONE);
+        headerBlock.setLongClickable(true);
+        headerBlock.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                detailsBlock.setVisibility(detailsBlock.isShown() ? View.GONE : View.VISIBLE);
+            }
+        });
 
         return convertView;
     }

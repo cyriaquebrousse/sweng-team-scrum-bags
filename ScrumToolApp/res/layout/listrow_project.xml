@@ -4,11 +4,12 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/White"
     android:orientation="vertical"
-    android:padding="@dimen/space"
-    android:background="@color/White" >
-    
+    android:padding="@dimen/space" >
+
     <RelativeLayout
+        android:id="@+id/project_row_header_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/list_row_padding" >
@@ -30,72 +31,80 @@
             android:id="@+id/project_row_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/project_row_icon"
+            android:layout_alignBottom="@+id/project_row_icon"
+            android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/project_row_icon"
+            android:gravity="center_vertical"
             android:maxLines="1"
+            android:text="Project name"
             android:textSize="@dimen/list_row_name"
             android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/project_row_expanded_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <!-- Project description -->
         <TextView
             android:id="@+id/project_row_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/project_row_name"
-            android:layout_marginTop="1dip"
-            android:layout_toEndOf="@id/project_row_icon"
-            android:textSize="@dimen/list_row_desc" />
-    </RelativeLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal" >
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="Lol\nfre\ndfez\n\fze\nfze\nfz\fze" />
 
-        <!-- Backlog button -->
-        <ImageButton
-            style="@style/fluid_button"
-            android:id="@+id/project_row_backlog"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".33"
-            android:contentDescription="@string/backlog_button_description"
-            android:focusable="false"
-            android:onClick="openBacklog"
-            android:scaleType="fitCenter"
-            android:padding="@dimen/small_space"
-            android:src="@drawable/backlog" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/space"
+            android:orientation="horizontal" >
 
-        <!-- Sprints button -->
-        <ImageButton
-            style="@style/fluid_button"
-            android:id="@+id/project_row_sprints"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".33"
-            android:contentDescription="@string/sprints_button_description"
-            android:focusable="false"
-            android:onClick="openSprints"
-            android:layout_marginStart="@dimen/space"
-            android:layout_marginEnd="@dimen/space"
-            android:scaleType="fitCenter"
-            android:padding="@dimen/small_space"
-            android:src="@drawable/sprint" />
+            <!-- Backlog button -->
+            <ImageButton
+                android:id="@+id/project_row_backlog"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".33"
+                android:contentDescription="@string/backlog_button_description"
+                android:focusable="false"
+                android:onClick="openBacklog"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/backlog" />
 
-        <!-- Players button -->
-        <ImageButton
-            style="@style/fluid_button"
-            android:id="@+id/project_row_players"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".33"
-            android:contentDescription="@string/players_button_description"
-            android:focusable="false"
-            android:onClick="openPlayers"
-            android:scaleType="fitCenter"
-            android:padding="@dimen/small_space"
-            android:src="@drawable/player" />
+            <!-- Sprints button -->
+            <ImageButton
+                android:id="@+id/project_row_sprints"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/space"
+                android:layout_marginStart="@dimen/space"
+                android:layout_weight=".33"
+                android:contentDescription="@string/sprints_button_description"
+                android:focusable="false"
+                android:onClick="openSprints"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sprint" />
 
+            <!-- Players button -->
+            <ImageButton
+                android:id="@+id/project_row_players"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".33"
+                android:contentDescription="@string/players_button_description"
+                android:focusable="false"
+                android:onClick="openPlayers"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/player" />
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

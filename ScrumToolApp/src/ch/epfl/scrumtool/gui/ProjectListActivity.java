@@ -57,8 +57,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_list);
         
-        this.setTitle("Projects");
-        
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_list);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_project_list);
