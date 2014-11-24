@@ -7,12 +7,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +22,14 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
- * @author AlexVeuthey
+ * @author AlexVeuthey, sylb
  */
 public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
@@ -32,9 +37,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private Sprint sprint;
     private Project project;
     
+    private Sprint.Builder sprintBuilder;
+    private Calendar chosen = Calendar.getInstance();
+    private final Calendar today = Calendar.getInstance();
+    private long sprintDeadline = today.getTimeInMillis();
+    
     // Views
-    private static TextView name;
-    private static TextView deadline;
+    private static TextView nameView;
+    private static TextView deadlineView;
     private ListView listView;
     private IssueListAdapter adapter;
     
@@ -79,10 +89,43 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     }
     
     private void initViews() {
-        name = (TextView) findViewById(R.id.sprint_overview_name);
-        deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
+        nameView = (TextView) findViewById(R.id.sprint_overview_name);
+        deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
         
-        name.setText(sprint.getTitle());
+        nameView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyText(SprintOverviewActivity.this, "name", new PopupCallback() {
+                    @Override
+                    public void onModified(String userInput) {
+                        sprintBuilder = new Sprint.Builder(sprint);
+                        sprintBuilder.setTitle(userInput);
+                        nameView.setText(userInput);
+                        updateSprint();
+                    }
+                });
+            }
+        });
+        
+        deadlineView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(deadlineView, new DefaultGUICallback<Calendar>(SprintOverviewActivity.this) {
+
+                    @Override
+                    public void interactionDone(Calendar deadline) {
+                        sprintBuilder = new Sprint.Builder(sprint);
+                        sprintBuilder.setDeadline(deadline.getTimeInMillis());
+                        String stringDeadline = convertDeadlineToString(deadline);
+                        deadlineView.setText(stringDeadline);
+                        updateSprint();
+                        
+                    }
+                });
+            }
+        });
+        
+        nameView.setText(sprint.getTitle());
         setDeadlineText();
         setTitle(sprint.getTitle());
     }
@@ -92,7 +135,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 .getString(R.string.format_date), Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprint.getDeadline());
-        deadline.setText(sdf.format(date.getTime()));
+        deadlineView.setText(sdf.format(date.getTime()));
     }
     
     // TODO add issues to the Sprint
@@ -134,4 +177,44 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             }
         });
     }
+    
+    private void updateSprint() {
+        sprint = sprintBuilder.build();
+        sprint.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
+            @Override
+            public void interactionDone(Boolean success) {
+                if (!success.booleanValue()) {
+                    Toast.makeText(SprintOverviewActivity.this, 
+                            "Could not update sprint", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    
+    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback ) {
+        DialogFragment newFragment = new DatePickerFragment() {
+            
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                chosen.set(Calendar.YEAR, year);
+                chosen.set(Calendar.MONTH, monthOfYear);
+                chosen.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                sprintDeadline = chosen.getTimeInMillis();
+                callback.interactionDone(chosen);
+                deadlineView.setText(convertDeadlineToString(chosen));
+                
+            }
+        };
+        Bundle args = new Bundle();
+        args.putLong("long", sprintDeadline);
+        newFragment.setArguments(args);
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    private String convertDeadlineToString(Calendar date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                .getString(R.string.format_date), Locale.ENGLISH);
+        return sdf.format(date.getTime());
+    }
+
 }
