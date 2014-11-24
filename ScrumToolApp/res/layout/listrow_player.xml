@@ -1,77 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/White"
-    android:orientation="horizontal"
-    android:padding="@dimen/space" 
-    android:baselineAligned="false">
-
-    <RelativeLayout
-        android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/list_row_padding" >
+    
+    <!-- User icon -->
+    <ImageView
+        android:id="@+id/player_row_icon"
+        android:src="@drawable/default_avatar"
+        android:contentDescription="@string/user_avatar_description"
+        android:scaleType="fitXY"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:background="@color/whitesmoke" />
+    
+    <!-- User name -->
+    <TextView
+        android:id="@+id/player_row_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".85"
-        android:paddingBottom="@dimen/list_row_padding" >
-
-        <!-- User icon -->
-
-        <ImageView
-            android:id="@+id/player_row_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="8dp"
-            android:background="@color/whitesmoke"
-            android:contentDescription="@string/user_avatar_description"
-            android:scaleType="fitXY"
-            android:src="@drawable/default_avatar" />
-
-        <!-- User name -->
-
-        <TextView
-            android:id="@+id/player_row_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/player_row_icon"
-            android:layout_toEndOf="@id/player_row_icon"
-            android:maxLines="1"
-            android:textSize="@dimen/list_row_name"
-            android:textStyle="bold" />
-
-        <!-- Player role in this project -->
-
-        <TextView
-            android:id="@+id/player_row_role"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/player_row_name"
-            android:layout_marginTop="1dip"
-            android:layout_toEndOf="@id/player_row_icon"
-            android:maxLines="1"
-            android:textSize="@dimen/list_row_desc"
-            android:textStyle="italic" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
+        android:layout_alignTop="@id/player_row_icon"
+        android:layout_toEndOf="@id/player_row_icon"
+        android:textSize="@dimen/list_row_name"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:text="User Name" />
+    
+    <!-- Player role in this project -->
+    <TextView
+        android:id="@+id/player_row_role"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".15" >
+        android:layout_below="@id/player_row_name"
+        android:layout_marginTop="1dip"
+        android:layout_toEndOf="@id/player_row_icon"
+        android:maxLines="1"
+        android:text="Scrum Master"
+        android:textSize="@dimen/list_row_desc"
+        android:textStyle="italic" />
 
-        <!-- remove button -->
-
-        <ImageButton
-            android:id="@+id/player_row_remove"
-            style="@style/fluid_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/player_remove_description"
-            android:focusable="false"
-            android:onClick="deletePlayer"
-            android:padding="@dimen/small_space"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_menu_delete" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
