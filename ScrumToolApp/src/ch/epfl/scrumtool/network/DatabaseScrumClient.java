@@ -14,6 +14,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 
 /**
  * @author aschneuw
@@ -175,4 +176,8 @@ public class DatabaseScrumClient implements ScrumClient {
         databaseHandlers.getIssueHandler().loadUnsprintedIssues(project, callback);
     }
 
+    @Override
+    public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
+        databaseHandlers.getIssueHandler().loadIssuesForUser(user, cB);
+    }
 }

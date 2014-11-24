@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  */
 public class AppEngineUtils {
     public static final String APP_NAME = "ScrumTool";
-    private static final String LOCAL_IP = "128.179.179.65";
+    private static final String LOCAL_IP = "10.0.0.10";
     /**
      * URL to default Google App Engine project
      */
@@ -24,7 +24,7 @@ public class AppEngineUtils {
     /**
      * If this is true the app will contact the local server
      */
-    private static final boolean TEST_LOCAL = true;
+    private static final boolean TEST_LOCAL = false;
 
     /**
      * Returns server URL If {@code}TEST_LOCAL is true then the local server url
