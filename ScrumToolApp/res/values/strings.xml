@@ -66,7 +66,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_show_profile">My Profile</string>
-    
+
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
     
@@ -93,9 +93,12 @@
     <string name="sprints_button_description">Sprints button</string>
     <string name="players_button_description">Players button</string>
     <string name="backlog_button_description">Backlog button</string>
-    
+    <string name="empty_backlog_hint">There are no Taks for this Project</string>
+    <string name="empty_project_list_hint">There are no projects for this user</string>
+    <string name="empty_issue_list_hint">There are no issues for this task</string>
+
     <!-- String Arrays -->
-    
+
     <string-array name="gender_options">
         <item>Male</item>
         <item>Female</item>

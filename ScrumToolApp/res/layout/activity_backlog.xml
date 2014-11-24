@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="There are no Taks for this Project" />
+                android:text="@string/empty_backlog_hint" />
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
