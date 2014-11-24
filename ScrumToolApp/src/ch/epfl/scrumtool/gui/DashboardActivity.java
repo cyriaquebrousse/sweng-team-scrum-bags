@@ -35,8 +35,7 @@ public class DashboardActivity extends BaseMenuActivity {
                 }
             });
         } catch (NotAuthenticatedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Session.relogin(this);
         }
     }
 

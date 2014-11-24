@@ -17,12 +17,20 @@
     </RelativeLayout>
 
     <!-- Current project players list -->
-    <ListView
-        android:id="@+id/project_playerlist"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_project_playerlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_list_addplayer_block"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp" />
+        android:layout_height="match_parent"
+        android:padding="@dimen/space"
+        android:layout_below="@+id/player_list_addplayer_block" >
+
+        <ListView
+            android:id="@+id/project_playerlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
