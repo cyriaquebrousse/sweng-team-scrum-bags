@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -82,7 +83,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadline = (TextView) findViewById(R.id.sprint_overview_deadline);
         
         name.setText(sprint.getTitle());
-        System.out.println("initViews : " + sprint.getTitle());
         setDeadlineText();
         setTitle(sprint.getTitle());
     }
