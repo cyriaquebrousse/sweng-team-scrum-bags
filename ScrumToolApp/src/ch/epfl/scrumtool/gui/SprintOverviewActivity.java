@@ -92,18 +92,17 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
             public void interactionDone(List<Issue> issueList) {
-                if (issueList == null || issueList.isEmpty()) {
-                    unsprintedIssues = true;
-                    issueSpinner.setVisibility(View.GONE);
-                    
-                    TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
-                    issueAdd.setVisibility(View.GONE);
-                } else {
+                if (issueList != null && !issueList.isEmpty()) {
                     unsprintedIssues = false;
+                    
                     issueList.add(0, null);
                     issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
                     issueSpinner.setAdapter(issueSpinnerAdapter);
                     issueSpinner.setSelection(0);
+
+                    addIssueVisible(View.VISIBLE);
+                } else {
+                    unsprintedIssues = true;
                 }
             }
         });
@@ -113,6 +112,12 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     protected void onRestart() {
         super.onRestart();
         onCreate(null);
+    }
+    
+    private void addIssueVisible(int visibility) {
+        TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
+        issueAdd.setVisibility(visibility);
+        issueSpinner.setVisibility(visibility);
     }
     
     private void initViews() {
@@ -162,6 +167,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setText(sprint.getTitle());
         setDeadlineText();
         setTitle(sprint.getTitle());
+        
+        // set the visibility to GONE by defaut so that it only shows up when the unsprinted Issues list is ready
+        addIssueVisible(View.GONE);
     }
     
     private void setDeadlineText() {
