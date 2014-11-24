@@ -182,20 +182,14 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         prioritySticker.setPriority(task.getPriority());
         statusSlate.setText(task.getStatus().toString());
         
-        task.loadIssues(new Callback<List<Issue>>() {
+        task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
             
             @Override
             public void interactionDone(List<Issue> object) {
-                // TODO Auto-generated method stub
                 float estimatedTime = task.estimatedTime(object);
                 estimationSlate.setText(estimatedTime < estimatedTime ? "?" : Float.toString(estimatedTime) + " hours");
             }
             
-            @Override
-            public void failure(String errorMessage) {
-                // TODO Auto-generated method stub
-                
-            }
         });
         
         
