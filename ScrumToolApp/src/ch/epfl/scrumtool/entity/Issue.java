@@ -105,7 +105,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      */
     public void removeFromSprint(final Sprint sprint,
             final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(this, sprint, callback);
+        Client.getScrumClient().removeIssueFromSprint(this, callback);
     }
     
     /**

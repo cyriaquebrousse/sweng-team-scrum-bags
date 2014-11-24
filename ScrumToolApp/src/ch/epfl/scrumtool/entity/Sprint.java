@@ -106,7 +106,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param callback
      */
     public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(issue, this, callback);
+        Client.getScrumClient().removeIssueFromSprint(issue, callback);
     }
 
     /**
