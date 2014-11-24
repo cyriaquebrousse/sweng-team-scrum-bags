@@ -23,13 +23,20 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status,
-            Priority priority) {
+    private MainTask(String id, String name, String description, Status status, Priority priority) {
         super(id, name, description, status, priority);
     }
 
-    public int getIssuesFinishedCount() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    // FIXME not the right way to do it: create super method getIssuesFinishedCount(void)
+    @Deprecated
+    public int getIssuesFinishedCount(final List<Issue> issues) {
+        int finishedCount = 0;
+        for (Issue i : issues) {
+            if (i.getStatus() == Status.FINISHED) {
+                finishedCount++;
+            }
+        }
+        return finishedCount;
     }
     
     @Override
@@ -37,15 +44,17 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         throw new UnsupportedOperationException();
     }
 
-    public float estimatedTime(final List<Issue> issueList) {
-
+    @Deprecated
+    // FIXME not the right way of proceeding
+    public float estimatedTime(final List<Issue> issues) {
         float total = 0;
-        for (Issue is: issueList) {
-            total += is.getEstimatedTime();
+        for (Issue i: issues) {
+            if (i.getStatus() != Status.FINISHED) {
+                total += i.getEstimatedTime();
+            }
         }
-        boolean estimated = true;
         
-        return estimated ? total : -1;
+        return (total != 0) ? total : -1;
     }
 
     /**
