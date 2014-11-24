@@ -96,7 +96,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onClick(View v) {
                 TextViewModifiers.modifyText(SprintOverviewActivity.this, "name",
-                        nameView.getText().toString(), new PopupCallback() {
+                        nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 sprintBuilder = new Sprint.Builder(sprint);

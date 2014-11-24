@@ -145,7 +145,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onClick(View v) {
                 TextViewModifiers.modifyText(IssueOverviewActivity.this, "name",
-                        nameView.getText().toString(), new PopupCallback() {
+                        nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 issueBuilder = new Issue.Builder(issue);
@@ -161,7 +161,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onClick(View v) {
                 TextViewModifiers.modifyText(IssueOverviewActivity.this, "description",
-                        descriptionView.getText().toString(), new PopupCallback() {
+                        descriptionView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 issueBuilder = new Issue.Builder(issue);
@@ -228,7 +228,22 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 }
             });
         }
-
+        
+        estimationStamp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyEstimation(IssueOverviewActivity.this,
+                        issue.getEstimatedTime(), new PopupCallback<Float>() {
+                            @Override
+                            public void onModified(Float userInput) {
+                                issueBuilder = new Issue.Builder(issue);
+                                issueBuilder.setEstimatedTime(userInput);
+                                estimationStamp.setQuantity((Float.toString(userInput)));
+                                updateIssue();
+                            }
+                        });
+            }
+        });
 
     }
 

@@ -141,7 +141,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             @Override
             public void onClick(View v) {
                 TextViewModifiers.modifyText(TaskOverviewActivity.this, "name",
-                        nameView.getText().toString(), new PopupCallback() {
+                        nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 taskBuilder = new MainTask.Builder(task);
@@ -157,7 +157,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             @Override
             public void onClick(View v) {
                 TextViewModifiers.modifyText(TaskOverviewActivity.this, "description",
-                        descriptionView.getText().toString(), new PopupCallback() {
+                        descriptionView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 taskBuilder = new MainTask.Builder(task);
