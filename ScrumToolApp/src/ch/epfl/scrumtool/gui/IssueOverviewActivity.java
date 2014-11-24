@@ -197,7 +197,11 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                     public void onSelected(Sprint selected) {
                         issueBuilder = new Issue.Builder(issue);
                         issueBuilder.setSprint(selected);
-                        sprintView.setText(selected.getTitle().toString());
+                        if (selected != null) {
+                            sprintView.setText(selected.getTitle().toString());
+                        } else {
+                            sprintView.setText("No sprint assigned");
+                        }
                         updateIssue();
                     }
                 });
@@ -213,8 +217,10 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         public void onSelected(Player selected) {
                             issueBuilder = new Issue.Builder(issue);
                             issueBuilder.setPlayer(selected);
-                            if (issue.getPlayer() != null) {
-                                assigneeName.setText(issue.getPlayer().getUser().getName());
+                            if (selected != null) {
+                                assigneeName.setText(selected.getUser().getName());
+                            } else {
+                                assigneeName.setText("No player assigned");
                             }
                             updateIssue();
                         }
