@@ -55,7 +55,7 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                     Intent openTaskOverviewIntent = new Intent(view.getContext(),
                             TaskOverviewActivity.class);
 
-                    MainTask mainTask = taskList.get(position - 1);
+                    MainTask mainTask = taskList.get(position);
                     openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
                     openTaskOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
                     startActivity(openTaskOverviewIntent);
@@ -84,13 +84,11 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         emptyViewLayout.setVisibility(View.INVISIBLE);
 
         listView = (ListView) findViewById(R.id.backlog_tasklist);
-        listView.addFooterView(new View(this));
-        listView.addHeaderView(new View(this));
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         listViewLayout.setRefreshing(true);
         project.loadBacklog(callback);
     }
@@ -122,10 +120,10 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_entity_edit:
-                openEditElementActivity(adapter.getItem(info.position - 1));
+                openEditElementActivity(adapter.getItem(info.position));
                 return true;
             case R.id.action_entity_delete:
-                deleteMainTask(adapter.getItem(info.position - 1));
+                deleteMainTask(adapter.getItem(info.position));
                 return true;
             default:
                 return super.onContextItemSelected(item);
