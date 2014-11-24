@@ -20,6 +20,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
@@ -204,14 +205,12 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         statusSlate.setText(task.getStatus().toString());
         
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            
             @Override
             public void interactionDone(List<Issue> object) {
                 float estimatedTime = task.estimatedTime(object);
                 // FIXME not hours!
                 estimationSlate.setText(estimatedTime < estimatedTime ? "?" : Float.toString(estimatedTime) + " hours");
             }
-            
         });
         
         
