@@ -2,10 +2,10 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,6 +14,8 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
@@ -42,23 +44,6 @@ public class DashboardActivity extends BaseMenuActivity {
     protected void onResume() {
         super.onResume();
         updateViews();
-        try {
-            Session.getCurrentSession().getUser().loadIssuesForUser(new Callback<List<TaskIssueProject>>() {
-                @Override
-                public void interactionDone(List<TaskIssueProject> issues) {
-                    for (TaskIssueProject p: issues) {
-                        Log.d("Isse", p.getIssue().getName());
-                    }
-                }
-                
-                @Override
-                public void failure(String errorMessage) {
-                    // TODO Auto-generated method stub
-                }
-            });
-        } catch (NotAuthenticatedException e) {
-            Session.relogin(this);
-        }
     }
 
     public void openProjectList(View view) {
@@ -74,15 +59,14 @@ public class DashboardActivity extends BaseMenuActivity {
 
     private Callback<List<TaskIssueProject>> issuesCallback = new DefaultGUICallback<List<TaskIssueProject>>(this) {
         @Override
-        public void interactionDone(final List<TaskIssueProject> issueList) {
-            final List<Issue> list = new ArrayList<Issue>();
-            for (TaskIssueProject p: issueList){
-                list.add(p.getIssue());
+        public void interactionDone(final List<TaskIssueProject> containerList) {
+            final List<Issue> issueList = new ArrayList<Issue>(containerList.size());
+            ListIterator<TaskIssueProject> it = containerList.listIterator();
+            while (it.hasNext()) {
+                issueList.add(it.nextIndex(), it.next().getIssue());
             }
             
-            
-            
-            adapter = new IssueListAdapter(DashboardActivity.this, list);
+            adapter = new IssueListAdapter(DashboardActivity.this, issueList);
             issueListView.setAdapter(adapter);
 
             if (!issueList.isEmpty()) {
@@ -90,11 +74,10 @@ public class DashboardActivity extends BaseMenuActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
-                        Issue issue = list.get(position);
-                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
-                        // TODO : need project and task
-                        //openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-                        //openIssueIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
+                        TaskIssueProject container = containerList.get(position);
+                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, container.getIssue());
+                        openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, container.getProject());
+                        openIssueIntent.putExtra(MainTask.SERIALIZABLE_NAME, container.getMainTask());
                         startActivity(openIssueIntent);
                     }
                 });
