@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -51,7 +52,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     // Views
     private static TextView nameView;
     private static TextView deadlineView;
-    private ListView listView;
+    private ListView issueListView;
     private IssueListAdapter issueListAdapter;
     private IssueListAdapter issueSpinnerAdapter;
     private Spinner issueSpinner;
@@ -71,10 +72,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void interactionDone(final List<Issue> issueList) {
                 issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
-                listView = (ListView) findViewById(R.id.sprint_overview_issue_list);
-                registerForContextMenu(listView);
-                listView.setAdapter(issueListAdapter);
-                listView.setOnItemClickListener(new OnItemClickListener() {
+                issueListView = (ListView) findViewById(R.id.sprint_overview_issue_list);
+                registerForContextMenu(issueListView);
+                issueListView.setAdapter(issueListAdapter);
+                issueListView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
@@ -93,19 +94,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void interactionDone(List<Issue> issueList) {
                 if (issueList != null && !issueList.isEmpty()) {
-                    unsprintedIssues = false;
-
-// FIXME this will cause a NullpointerException if when the adapter attempts to sort the list
-// since sorting of issues is don by status!
-//                    issueList.add(0, null);
+                    unsprintedIssues = true;
                     issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
                     issueSpinner.setAdapter(issueSpinnerAdapter);
-                    issueSpinner.setSelection(0);
-
                     addIssueVisible(View.VISIBLE);
                 } else {
-                    unsprintedIssues = true;
+                    unsprintedIssues = false;
                 }
+                initSpinner();
             }
         });
     }
@@ -122,16 +118,30 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         issueSpinner.setVisibility(visibility);
     }
     
+    private void initSpinner() {
+        issueSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                    int position, long id) {
+                if (unsprintedIssues) {
+                    Issue issue = (Issue) issueSpinner.getItemAtPosition(position);
+                    issueBuilder = new Issue.Builder(issue);
+                    issueBuilder.setSprint(sprint);
+                    updateIssue();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+    }
+    
     private void initViews() {
         nameView = (TextView) findViewById(R.id.sprint_overview_name);
         deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
         issueSpinner = (Spinner) findViewById(R.id.issue_spinner);
-        
-        if (unsprintedIssues) {
-            issueBuilder = new Issue.Builder((Issue) issueSpinner.getSelectedItem());
-            issueBuilder.setSprint(sprint);
-            updateIssue();
-        }
         
         nameView.setOnClickListener(new OnClickListener() {
             @Override
@@ -161,7 +171,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                         String stringDeadline = convertDeadlineToString(deadline);
                         deadlineView.setText(stringDeadline);
                         updateSprint();
-                        
                     }
                 });
             }
@@ -232,6 +241,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 }
             }
         });
+        List<Issue> list = issueSpinnerAdapter.getList();
+        int index = list.indexOf(issue);
+        list.remove(index);
+        issueListAdapter.add(issue);
+        if (list.size() < 1) {
+            addIssueVisible(View.GONE);
+            unsprintedIssues = false;
+        }
     }
     
     private void updateSprint() {

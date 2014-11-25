@@ -67,9 +67,11 @@ public class SprintEditActivity extends BaseMenuActivity {
                 setDeadlineText(chosen);
             }
         };
-        Bundle args = new Bundle();
-        args.putLong("long", sprintDeadline);
-        newFragment.setArguments(args);
+        if (sprintDeadline < Calendar.getInstance().getTimeInMillis()) {
+            Bundle args = new Bundle();
+            args.putLong("long", sprintDeadline);
+            newFragment.setArguments(args);
+        }
         newFragment.show(getFragmentManager(), "datePicker");
     }
     

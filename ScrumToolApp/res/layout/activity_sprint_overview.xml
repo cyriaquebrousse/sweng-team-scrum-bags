@@ -22,7 +22,6 @@
         android:textSize="15sp"
         android:textStyle="italic" />
     
-    
     <Spinner
         android:id="@+id/issue_spinner"
         android:layout_width="fill_parent"
@@ -43,7 +42,7 @@
     <ListView
         android:id="@+id/sprint_overview_issue_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/sprint_overview_deadline"
         android:layout_above="@id/sprint_overview_issue_add"
         android:layout_marginStart="20dp"
