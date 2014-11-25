@@ -96,6 +96,7 @@
     <string name="empty_backlog_hint">There are no Taks for this Project</string>
     <string name="empty_project_list_hint">There are no projects for this user</string>
     <string name="empty_issue_list_hint">There are no issues for this task</string>
+    <string name="empty_sprint_list_hint">There are no sprints for this project</string>
     <string name="sprint_overview_issue_add">Add an issue</string>
     
     <!-- String Arrays -->

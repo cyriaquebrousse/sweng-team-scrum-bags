@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -104,12 +106,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
         setContentView(R.layout.activity_project_player_list);
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project != null) {
-            this.project = project;
-            this.setTitle(project.getName());
-        } else {
-            throw new NullPointerException("serializableExtra Project.SERIALIZABLE_NAME == null");
-        }
+        throwIfNull("Parent object cannot be null", project);
+        
+        this.project = project;
+        this.setTitle(project.getName());
         
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_playerlist);
         onCreateSwipeToRefresh(listViewLayout);

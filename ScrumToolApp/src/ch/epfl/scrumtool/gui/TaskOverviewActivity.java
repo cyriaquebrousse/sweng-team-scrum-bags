@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.content.Intent;
@@ -90,15 +92,16 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_overview);
 
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
+        throwIfNull("Parent object cannot be null", project, task);
+        
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_issue_list);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_issue_list);
         onCreateSwipeToRefresh(emptyViewLayout);
 
         emptyViewLayout.setVisibility(View.INVISIBLE);
-
-        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
 
         this.setTitle(task.getName());
 

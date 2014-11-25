@@ -94,8 +94,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             public void interactionDone(List<Issue> issueList) {
                 if (issueList != null && !issueList.isEmpty()) {
                     unsprintedIssues = false;
-                    
-                    issueList.add(0, null);
+
+// FIXME this will cause a NullpointerException if when the adapter attempts to sort the list
+// since sorting of issues is don by status!
+//                    issueList.add(0, null);
                     issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
                     issueSpinner.setAdapter(issueSpinnerAdapter);
                     issueSpinner.setSelection(0);

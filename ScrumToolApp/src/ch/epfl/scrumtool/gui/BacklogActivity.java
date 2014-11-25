@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.content.Intent;
@@ -74,6 +76,8 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         listView = (ListView) findViewById(R.id.backlog_tasklist);
 
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        throwIfNull("Parent object cannot be null", project);
+
         this.setTitle(project.getName());
 
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_backlog);

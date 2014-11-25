@@ -112,6 +112,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * 
      * @param defaultGUICallback
      */
+    // FIXME should this really take a DefaultGUICallback as parameter and not just a Callback? (@zenhaeus)
     public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
         Client.getScrumClient().loadSprints(this, defaultGUICallback);
     }
