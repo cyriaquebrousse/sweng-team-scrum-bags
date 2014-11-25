@@ -182,6 +182,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         issueBuilder = new Issue.Builder(issue);
                         issueBuilder.setStatus(selected);
                         statusView.setText(selected.toString());
+                        estimationStamp.setColor(getResources().getColor(selected.getColorRef()));
                         updateIssue();
                     }
                 });
