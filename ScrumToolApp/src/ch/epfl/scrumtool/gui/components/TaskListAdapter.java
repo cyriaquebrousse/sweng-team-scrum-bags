@@ -44,7 +44,7 @@ public final class TaskListAdapter extends DefaultAdapter<MainTask>  {
         
         // Set views properties
         final MainTask task = getList().get(position);
-        //double percentageDone = (double) task.getIssuesFinishedCount() / (double) issues.size();//FIXME
+        // TODO : double percentageDone = (double) task.getIssuesFinishedCount() / (double) issues.size();
         double percentageDone = 0.0;
         
         priorityView.setPriority(task.getPriority());

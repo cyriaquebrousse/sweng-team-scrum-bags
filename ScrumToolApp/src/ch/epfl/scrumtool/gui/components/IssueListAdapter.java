@@ -41,7 +41,7 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         name.setText(issue.getName());
 
         Player optionAssignee = issue.getPlayer();
-        assignee.setText(optionAssignee != null ? optionAssignee.getUser().getName() : "<No one assigned>");
+        assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
         
         estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float.toString(issue.getEstimatedTime()));
         unit.setText(activity.getResources().getString(R.string.project_default_unit));

@@ -91,7 +91,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         statusView.setText(issue.getStatus().toString());
 
         if (issue.getPlayer() != null) {
-            assigneeName.setText(issue.getPlayer().getUser().getName());
+            assigneeName.setText(issue.getPlayer().getUser().fullname());
             assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             assigneeName.setText(R.string.no_player);

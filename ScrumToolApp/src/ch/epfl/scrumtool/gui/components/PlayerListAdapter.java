@@ -43,7 +43,7 @@ public final class PlayerListAdapter extends DefaultAdapter<Player> {
         Player player = getList().get(position);
         
         if (player != null) {
-            name.setText(player.getUser().getName());
+            name.setText(player.getUser().fullname());
             role.setText(player.getRole().toString());
         } else {
             name.setText(R.string.no_player);
