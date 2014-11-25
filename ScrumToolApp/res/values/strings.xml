@@ -98,6 +98,7 @@
     <string name="empty_issue_list_hint">There are no issues for this task</string>
     <string name="empty_sprint_list_hint">There are no sprints for this project</string>
     <string name="sprint_overview_issue_add">Add an issue</string>
+    <string name="issue_description_label">Description</string>
     
     <!-- String Arrays -->
 

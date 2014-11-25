@@ -238,7 +238,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             public void onModified(Float userInput) {
                                 issueBuilder = new Issue.Builder(issue);
                                 issueBuilder.setEstimatedTime(userInput);
-                                estimationStamp.setQuantity((Float.toString(userInput)));
+                                estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
                             }
                         });

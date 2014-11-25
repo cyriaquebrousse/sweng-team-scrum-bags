@@ -7,7 +7,8 @@
     android:background="@color/shadeB"
     tools:context="ch.epfl.scrumtool.gui.DashboardActivity" >
 
-    <TextView
+    <ListView
+        android:id="@+id/dashboard_issue_summary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
@@ -16,7 +17,8 @@
         android:gravity="center"
         android:text="issues summary" />
 
-    <TextView
+    <ListView
+        android:id="@+id/dashboard_project_summary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"

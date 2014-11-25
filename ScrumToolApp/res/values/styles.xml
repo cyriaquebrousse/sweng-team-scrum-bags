@@ -43,7 +43,12 @@
     <style name="image_button">
         <item name="android:background">@color/transparent</item>
     </style>
-
+    
+    <!-- Components -->
+    <style name="spaced_background">
+        <item name="android:padding">@dimen/space</item>
+        <item name="android:background">@color/shadeB</item>
+    </style>
 
     
 </resources>
