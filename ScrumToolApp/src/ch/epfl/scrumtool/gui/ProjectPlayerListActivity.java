@@ -11,10 +11,15 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
@@ -58,6 +63,8 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
             adapter = new PlayerListAdapter(ProjectPlayerListActivity.this, playerList);
             listView = (ListView) findViewById(R.id.project_playerlist);
             listView.setAdapter(adapter);
+            
+            
             listView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
@@ -68,35 +75,8 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
                     startActivity(openUserOverviewIntent);
                 }
             });
-            listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-                    Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
-                        @Override
-                        public void onSelected(Role selected) {
-                            adapter.setRole(selected, view, listView);
-                            Player player = adapter .getItem(position);
-                            Player.Builder builder = new Player.Builder(player);
-                            builder.setRole(selected);
-                            builder.build().update(null, new Callback<Boolean>() {
-                                @Override
-                                public void interactionDone(Boolean object) {
-                                    // TODO Auto-generated
-                                    // method stub
-                                    Log.d("test", "success");
-                                }
+            registerForContextMenu(listView);
 
-                                @Override
-                                public void failure(String errorMessage) {
-                                    Log.d("test", "failure");
-                                }
-                            });
-                        }
-                    });
-                    return true;
-                }
-            });
-            adapter.notifyDataSetChanged();
         }
     };
 
@@ -137,6 +117,28 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
         listViewLayout.setRefreshing(true);
         project.loadPlayers(callback);
     }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_entity_edit:
+                setRole(adapter.getItem(info.position));
+                return true;
+            case R.id.action_entity_delete:
+                deletePlayer(adapter.getItem(info.position));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 
     private void insertPlayer(String userEmail, Role role) {
         listViewLayout.setRefreshing(true);
@@ -145,6 +147,27 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
             public void interactionDone(Player player) {
                 listViewLayout.setRefreshing(false);
                 adapter.add(player);
+            }
+        });
+    }
+    
+    private void setRole(final Player player) {
+        Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
+            @Override
+            public void onSelected(final Role selected) {
+                Player.Builder builder = new Player.Builder(player);
+                builder.setRole(selected);
+                builder.build().update(null, new Callback<Boolean>() {
+                    @Override
+                    public void interactionDone(Boolean object) {
+                        project.loadPlayers(callback);
+                    }
+
+                    @Override
+                    public void failure(String errorMessage) {
+                        Log.d("test", "failure");
+                    }
+                });
             }
         });
     }
