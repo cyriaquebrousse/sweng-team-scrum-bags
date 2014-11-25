@@ -92,11 +92,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         
         project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
-            public void interactionDone(List<Issue> issueList) {
-                if (issueList != null && !issueList.isEmpty()) {
+            public void interactionDone(List<Issue> unsprintedIssuesList) {
+                if (unsprintedIssuesList != null && !unsprintedIssuesList.isEmpty()) {
+                    //unsprintedIssuesList.add(0, null); waiting for sylvain to tell me how to display something
+                    // else than an issue here (so that nothing gets assigned when onCreate() is called...
                     unsprintedIssues = true;
-                    issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+                    issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, unsprintedIssuesList);
                     issueSpinner.setAdapter(issueSpinnerAdapter);
+                    issueSpinner.setSelection(0);
                     addIssueVisible(View.VISIBLE);
                 } else {
                     unsprintedIssues = false;
@@ -123,11 +126,13 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
-                if (unsprintedIssues) {
-                    Issue issue = (Issue) issueSpinner.getItemAtPosition(position);
+                Issue issue = (Issue) issueSpinner.getItemAtPosition(position);
+                if (unsprintedIssues && issue != null) {
                     issueBuilder = new Issue.Builder(issue);
                     issueBuilder.setSprint(sprint);
                     updateIssue();
+                } else if (issue == null) {
+                    return;
                 }
             }
 
@@ -153,6 +158,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                                 sprintBuilder = new Sprint.Builder(sprint);
                                 sprintBuilder.setTitle(userInput);
                                 nameView.setText(userInput);
+                                setTitle(userInput);
                                 updateSprint();
                             }
                         });
