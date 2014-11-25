@@ -1,9 +1,13 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -27,56 +31,85 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
 
     private ListView listView;
     private Project project;
-
     private TaskListAdapter adapter;
+    private SwipeRefreshLayout listViewLayout;
+    private SwipeRefreshLayout emptyViewLayout;
+
+    private final DefaultGUICallback<List<MainTask>> callback = new DefaultGUICallback<List<MainTask>>(this) {
+        @Override
+        public void interactionDone(final List<MainTask> taskList) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+
+            adapter = new TaskListAdapter(BacklogActivity.this, taskList);
+            listView.setEmptyView(emptyViewLayout);
+            listView.setAdapter(adapter);
+
+            if (!taskList.isEmpty()) {
+                registerForContextMenu(listView);
+            } else {
+                emptyViewLayout.setVisibility(View.VISIBLE);
+            }
+
+            listView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent openTaskOverviewIntent = new Intent(view.getContext(),
+                            TaskOverviewActivity.class);
+
+                    MainTask mainTask = taskList.get(position);
+                    openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
+                    openTaskOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+                    startActivity(openTaskOverviewIntent);
+                }
+            });
+
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backlog);
 
-        final View progressBar = findViewById(R.id.waiting_task_list);
         listView = (ListView) findViewById(R.id.backlog_tasklist);
-        listView.setEmptyView(progressBar);
 
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        throwIfNull("Parent object cannot be null", project);
+
         this.setTitle(project.getName());
 
-        final DefaultGUICallback<List<MainTask>> maintasksLoaded = new DefaultGUICallback<List<MainTask>>(this) {
-            @Override
-            public void interactionDone(final List<MainTask> taskList) {
-                if (taskList.isEmpty()) {
-                    progressBar.setVisibility(View.GONE);
-                    View emptyList = findViewById(R.id.empty_task_list);
-                    listView.setEmptyView(emptyList);
-                }
+        listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_backlog);
+        onCreateSwipeToRefresh(listViewLayout);
+        emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_backlog_tasklist);
+        onCreateSwipeToRefresh(emptyViewLayout);
 
-                adapter = new TaskListAdapter(BacklogActivity.this, taskList);
-                registerForContextMenu(listView);
-                listView.setAdapter(adapter);
-                listView.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent openTaskOverviewIntent = new Intent(view.getContext(),
-                                TaskOverviewActivity.class);
+        emptyViewLayout.setVisibility(View.INVISIBLE);
 
-                        MainTask mainTask = taskList.get(position);
-                        openTaskOverviewIntent.putExtra(MainTask.SERIALIZABLE_NAME, mainTask);
-                        openTaskOverviewIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-                        startActivity(openTaskOverviewIntent);
-                    }
-                });
-
-                adapter.notifyDataSetChanged();
-            }
-        };
-        project.loadBacklog(maintasksLoaded);
+        listView = (ListView) findViewById(R.id.backlog_tasklist);
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do this (cyriaque)
+    protected void onResume() {
+        super.onResume();
+        listViewLayout.setRefreshing(true);
+        project.loadBacklog(callback);
+    }
+    
+    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                project.loadBacklog(callback);
+                refreshLayout.setRefreshing(false);
+            }
+        });
+        refreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
     
     @Override
@@ -106,9 +139,11 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
      *            the project to delete
      */
     private void deleteMainTask(final MainTask mainTask) {
+        listViewLayout.setRefreshing(true);
         mainTask.remove(new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
+                listViewLayout.setRefreshing(false);
                 adapter.remove(mainTask);
             }
         });

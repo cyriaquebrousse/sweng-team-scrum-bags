@@ -1,16 +1,19 @@
 package ch.epfl.scrumtool.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -21,24 +24,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 
  * @author AlexVeuthey
- *
  */
 public class SprintEditActivity extends BaseMenuActivity {
 
-    private int sprintYear = 0;
-    private int sprintMonth = 0;
-    private int sprintDay = 0;
-    
+    // Sprint description
+    private String name = null;
     private final Calendar today = Calendar.getInstance();
     private long sprintDeadline = today.getTimeInMillis();
-    private String name = null;
     
-    private TextView sprintDate;
-    private EditText sprintName;
+    // User chosen date
+    private Calendar chosen = Calendar.getInstance();
     
-    // if null, we are in insert mode, otherwise in edit mode.
+    // Views
+    private TextView sprintDateView;
+    private EditText sprintNameView;
+    
+    // Entities
+    // If null, we are in insert mode, otherwise in edit mode.
     private Sprint sprint;
     private Project project;
     private Sprint.Builder sprintBuilder;
@@ -48,7 +51,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint);
         
-        initOriginalAndParentTask();
+        initOriginalAndParentProject();
         initViews();
     }
     
@@ -57,29 +60,23 @@ public class SprintEditActivity extends BaseMenuActivity {
             
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                sprintYear = year;
-                sprintMonth = monthOfYear + 1; // monthOfYear start at 0
-                sprintDay = dayOfMonth;
-                sprintDate.setText(sprintDay + "/" + sprintMonth + "/" + sprintYear);
+                chosen.set(Calendar.YEAR, year);
+                chosen.set(Calendar.MONTH, monthOfYear);
+                chosen.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                sprintDeadline = chosen.getTimeInMillis();
+                setDeadlineText(chosen);
             }
         };
+        Bundle args = new Bundle();
+        args.putLong("long", sprintDeadline);
+        newFragment.setArguments(args);
         newFragment.show(getFragmentManager(), "datePicker");
     }
     
     public void sprintEditDone(View v) {
-        name = sprintName.getText().toString();
-        final Calendar chosen = (Calendar) today.clone();
-        if (sprintYear != chosen.get(Calendar.YEAR)) {
-            chosen.set(Calendar.YEAR, sprintYear);
-        }
-        if (sprintMonth != chosen.get(Calendar.MONTH)) {
-            chosen.set(Calendar.MONTH, sprintMonth);
-        }
-        if (sprintDay != chosen.get(Calendar.DAY_OF_MONTH)) {
-            chosen.set(Calendar.DAY_OF_MONTH, sprintDay);
-        }
+        name = sprintNameView.getText().toString();
         sprintDeadline = chosen.getTimeInMillis();
-        InputVerifiers.updateTextViewAfterValidityCheck(sprintName, nameIsValid(), getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(sprintNameView, nameIsValid(), getResources());
         
         if (nameIsValid()) {
             if (dateIsValid()) {
@@ -90,7 +87,6 @@ public class SprintEditActivity extends BaseMenuActivity {
                 if (sprint == null) {
                     insertSprint();
                 } else {
-                    Log.d("test", "test");
                     updateSprint();
                 }
             } else {
@@ -108,25 +104,56 @@ public class SprintEditActivity extends BaseMenuActivity {
         inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
     
+    private void initOriginalAndParentProject() {
+        sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
+        if (sprint == null) {
+            sprintBuilder = new Sprint.Builder();
+            sprintBuilder.setDeadline(sprintDeadline);
+            setTitle(R.string.title_activity_sprint);
+        } else {
+            sprintBuilder = new Sprint.Builder(sprint);
+            sprintDeadline = sprintBuilder.getDeadline();
+            name = sprintBuilder.getTitle();
+            setTitle(name);
+        }
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        throwIfNull("Parent project cannot be null", project);
+    }
+    
+    private void initViews() {
+        sprintDateView = (TextView) findViewById(R.id.sprintDate);
+        sprintNameView = (EditText) findViewById(R.id.editName);
+
+        sprintNameView.setText(sprintBuilder.getTitle());
+        
+        final Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(sprintBuilder.getDeadline());
+        setDeadlineText(date);
+    }
+    
+    // =========== INSERTION ===========
     private void insertSprint() {
         Sprint sprint = sprintBuilder.build();
         final DefaultGUICallback<Sprint> sprintInserted = new DefaultGUICallback<Sprint>(this) {
 
             @Override
             public void interactionDone(Sprint object) {
+                passResult(object);
                 SprintEditActivity.this.finish();
             }
         };
         sprint.insert(project, sprintInserted);
     }
     
+    // =========== UPDATE ============
     private void updateSprint() {
-        Sprint newSprint = sprintBuilder.build();
-        newSprint.update(null, new DefaultGUICallback<Boolean>(this) {
+        final Sprint sprint = sprintBuilder.build();
+        sprint.update(null, new DefaultGUICallback<Boolean>(this) {
             
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
+                    passResult(sprint);
                     SprintEditActivity.this.finish();
                 } else {
                     Toast.makeText(SprintEditActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
@@ -135,6 +162,19 @@ public class SprintEditActivity extends BaseMenuActivity {
         });
     }
     
+    private void passResult(Sprint sprint) {
+        Intent data = new Intent();
+        data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        setResult(1, data);
+    }
+    
+    private void setDeadlineText(Calendar date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                .getString(R.string.format_date), Locale.ENGLISH);
+        sprintDateView.setText(sdf.format(date.getTime()));
+    }
+    
+    // CHECKS
     private boolean nameIsValid() {
         final int maxLength = 50;
         return name != null && name.length() > 0 && name.length() < maxLength;
@@ -144,40 +184,10 @@ public class SprintEditActivity extends BaseMenuActivity {
         final int maxH = 23;
         final int maxMAndS = 59;
         final Calendar yesterday = (Calendar) today.clone();
-        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+        yesterday.add(Calendar.DAY_OF_YEAR, -1);
         yesterday.set(Calendar.HOUR, maxH);
         yesterday.set(Calendar.MINUTE, maxMAndS);
         yesterday.set(Calendar.SECOND, maxMAndS);
         return yesterday.getTimeInMillis() < sprintDeadline;
-    }
-    
-    private void initOriginalAndParentTask() {
-        sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
-        if (sprint == null) {
-            sprintBuilder = new Sprint.Builder();
-            sprintBuilder.setDeadline(sprintDeadline);
-            setTitle(R.string.title_activity_sprint);
-        } else {
-            sprintBuilder = new Sprint.Builder(sprint);
-            setTitle(R.string.title_activity_sprint_edit);
-        }
-        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (project == null) {
-            throw new NullPointerException("Parent project cannot be null");
-        }
-    }
-    
-    private void initViews() {
-        sprintDate = (TextView) findViewById(R.id.sprintDate);
-        sprintName = (EditText) findViewById(R.id.editName);
-        
-        sprintDate.setText(getDate(sprintBuilder));
-        sprintName.setText(sprintBuilder.getTitle());
-    }
-    
-    private String getDate(Sprint.Builder builder) {
-        final Calendar d = Calendar.getInstance();
-        d.setTimeInMillis(builder.getDeadline());
-        return d.get(Calendar.DAY_OF_MONTH) + "/" + d.get(Calendar.MONTH) + "/" + d.get(Calendar.YEAR);
     }
 }

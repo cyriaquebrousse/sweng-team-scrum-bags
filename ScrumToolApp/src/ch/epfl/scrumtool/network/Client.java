@@ -6,7 +6,7 @@ package ch.epfl.scrumtool.network;
 /**
  * Represents a Client for the database operations
  * 
- * @author Arno
+ * @author aschneuw
  * 
  */
 public final class Client {

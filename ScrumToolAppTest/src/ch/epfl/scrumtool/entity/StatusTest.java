@@ -1,19 +1,27 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.R;
 import junit.framework.TestCase;
 
 public class StatusTest extends TestCase {
-
-    public void testStatus() {
-        fail("Not yet implemented"); // TODO
-    }
+    
+    private final static Status readyForEstimation = Status.READY_FOR_ESTIMATION;
+    private final static Status readyForSprint = Status.READY_FOR_SPRINT;
+    private final static Status inSprint = Status.IN_SPRINT;
+    private final static Status finished = Status.FINISHED;
 
     public void testGetColorRef() {
-        fail("Not yet implemented"); // TODO
+        assertEquals(R.color.Lime, readyForEstimation.getColorRef());
+        assertEquals(R.color.Chartreuse, readyForSprint.getColorRef());
+        assertEquals(R.color.Salmon, inSprint.getColorRef());
+        assertEquals(R.color.Cyan, finished.getColorRef());
     }
 
     public void testToString() {
-        fail("Not yet implemented"); // TODO
+        assertEquals("Ready for estimation", readyForEstimation.toString());
+        assertEquals("Ready for sprint", readyForSprint.toString());
+        assertEquals("In sprint", inSprint.toString());
+        assertEquals("Finished", finished.toString());
     }
 
 }

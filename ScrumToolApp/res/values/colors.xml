@@ -12,15 +12,21 @@
     <color name="profile_background">#FFEDEDED</color>
     
     <!-- Shades -->
+    <color name="shadeA">#FFCC0000</color>
+    <color name="shadeB">#FFEDEDED</color>
+    <color name="shadeC">#FF8AD0EB</color>
+    <color name="shadeD">#FF29BCED</color>
+    <color name="shadeE">#FF000000</color>
+    
     <color name="shade_main">@color/green</color>
     <color name="shade_main_dark">@color/darkgreen</color>
-    <color name="shade_second">@color/blue</color>
-    <color name="shade_second_dark">@color/darkblue</color>
     
     <!-- Text Colors -->
     <color name="discrete_text">@color/DarkGray</color>
+    <color name="button_text">#FFFFFFFF</color>
 
     <!-- Standard colors -->
+    <color name="transparent">#00000000</color>
     <color name="blue">#FF33B5E5</color>
     <color name="purple">#FFAA66CC</color>
     <color name="green">#FF99CC00</color>

@@ -18,6 +18,8 @@ import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
  */
 public final class TaskListAdapter extends DefaultAdapter<MainTask>  {
     
+    private static final int ONE_HUNDRED = 100;
+    
     private Activity activity;
     private LayoutInflater inflater;
 
@@ -41,18 +43,15 @@ public final class TaskListAdapter extends DefaultAdapter<MainTask>  {
         View percentDoneBackgrd = (View) convertView.findViewById(R.id.task_row_percent_backgrd);
         
         // Set views properties
-        MainTask task = getList().get(position);
-        // FIXME: need database function task.getIssuesFinishedCount()
-        // double percentageDone = (double) task.getIssuesFinishedCount() / (double) task.getIssues().size();
-        double percentageDone = 0;
+        final MainTask task = getList().get(position);
+        //double percentageDone = (double) task.getIssuesFinishedCount() / (double) issues.size();//FIXME
+        double percentageDone = 0.0;
         
         priorityView.setPriority(task.getPriority());
         priorityView.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
         name.setText(task.getName());
         description.setText(task.getDescription());
-        final int hundred = 100;
-        status.setText((int) (percentageDone * hundred) + " %  -  "+ task.getStatus().toString());
-        
+        status.setText((int) (percentageDone * ONE_HUNDRED) + " %  -  "+ task.getStatus().toString());
         
         // Set background width according to # issues finished
         DisplayMetrics metrics = convertView.getContext().getResources().getDisplayMetrics();

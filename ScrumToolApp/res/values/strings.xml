@@ -2,10 +2,10 @@
 <resources>
 
     <!-- Main -->
-    <string name="app_name">Scrum Tool App</string>
+    <string name="app_name">Murcs</string>
 
     <!-- Activity Titles -->
-    <string name="title_activity_main">ScrumToolApp</string>
+    <string name="title_activity_main">Murcs</string>
     <string name="title_activity_dashbord">DashbordActivity</string>
     <string name="title_activity_projectList">Projects</string>
     <string name="title_activity_project_overview">Project overview</string>
@@ -66,9 +66,12 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_show_profile">My Profile</string>
-    
+
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
+    
+    <!-- Formats -->
+    <string name="format_date">dd MMM yyyy</string>
 
     <!-- Others -->
     <string name="hello_world">Hello world!</string>
@@ -85,5 +88,23 @@
     <string name="sprint_overview_default_deadline">Sprint deadline</string>
     <string name="no_player">No player assigned</string>
     <string name="no_sprint">No sprint assigned</string>
+    <string name="user_avatar_description">User avatar</string>
+    <string name="project_image_description">Project image</string>
+    <string name="sprints_button_description">Sprints button</string>
+    <string name="players_button_description">Players button</string>
+    <string name="backlog_button_description">Backlog button</string>
+    <string name="empty_backlog_hint">There are no Taks for this Project</string>
+    <string name="empty_project_list_hint">There are no projects for this user</string>
+    <string name="empty_issue_list_hint">There are no issues for this task</string>
+    <string name="empty_sprint_list_hint">There are no sprints for this project</string>
+    <string name="sprint_overview_issue_add">Add an issue</string>
+    
+    <!-- String Arrays -->
+
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Undefined</item>
+    </string-array>
 
 </resources>

@@ -9,12 +9,14 @@
     tools:context="ch.epfl.scrumtool.gui.ProjectEditActivity" >
 
     <!-- Project icon -->
-    <TextView
+    <ImageView
         android:id="@+id/project_icon"
+        android:src="@drawable/default_project"
+        android:contentDescription="@string/project_image_description"
+        android:scaleType="fitXY"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="@color/Gray"
-        android:text="[Icon]" />
+        android:background="@color/Gray" />
 
     <!-- Project title textedit -->
     <EditText
@@ -43,6 +45,7 @@
     <!-- "Save" button -->
     <!-- This button is temporary -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/project_edit_button_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

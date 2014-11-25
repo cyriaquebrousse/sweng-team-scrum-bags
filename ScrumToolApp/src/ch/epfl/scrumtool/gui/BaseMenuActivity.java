@@ -1,8 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.network.Session;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,15 +7,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * The BaseMenuActivity class is an Activity that has a standard action bar 
  * which provides functionalities which should be accessible from most 
  * activities inside the ScrumToolApp.
  * 
- * @author Cyriaque Brousse, zenhaeus
+ * @author Cyriaque Brousse
+ * @author zenhaeus
  */
-public abstract class BaseMenuActivity extends Activity implements OnMenuItemClickListener {
+public abstract class BaseMenuActivity extends ScrumToolActivity implements OnMenuItemClickListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

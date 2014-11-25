@@ -52,4 +52,5 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
     void openCreateElementActivity() {
         openEditElementActivity(null);
     }
+    
 }

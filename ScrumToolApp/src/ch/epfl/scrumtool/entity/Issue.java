@@ -6,10 +6,10 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * A class that represent an Issue (child of a Maintask)
+ * A class that represents an Issue (child of a Maintask)
  * 
- * @author Vincent, zenhaeus
- * 
+ * @author Vincent
+ * @author zenhaeus
  */
 public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
 
@@ -92,8 +92,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void addToSprint(final Sprint sprint,
-            final Callback<Boolean> callback) {
+    public void addToSprint(final Sprint sprint, final Callback<Boolean> callback) {
         Client.getScrumClient().addIssueToSprint(this, sprint, callback);
     }
 
@@ -103,16 +102,20 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void removeFromSprint(final Sprint sprint,
-            final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(this, sprint, callback);
+    public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
+        Client.getScrumClient().removeIssueFromSprint(this, callback);
+    }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
     }
 
     /**
      * A Builder for the Issue
-     * 
-     * @author
-     * 
      */
     public static class Builder {
         private String key;
@@ -255,9 +258,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param player
          */
         public Issue.Builder setPlayer(Player player) {
-            if (player != null) {
-                this.player = player;
-            }
+            this.player = player;
             return this;
         }
         
@@ -274,9 +275,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param sprint
          */
         public Issue.Builder setSprint(Sprint sprint) {
-            if (sprint != null) {
-                this.sprint = sprint;
-            }
+            this.sprint = sprint;
             return this;
         }
 

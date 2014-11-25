@@ -1,17 +1,25 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author vincent, aschneuw, zenhaeus
- * 
+ * @author vincent
+ * @author aschneuw
+ * @author zenhaeus
  */
-
 public final class User implements Serializable, Comparable<User> {
+    /**
+     * Gender enum
+     * @author aschneuw
+     */
+    public enum Gender {MALE, FEMALE, UNKNOWN};
 
     private static final long serialVersionUID = 7681922700115023885L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.USER";
@@ -22,24 +30,26 @@ public final class User implements Serializable, Comparable<User> {
     private final long dateOfBirth;
     private final String jobTitle;
     private final String companyName;
-
-    /**
-     * @param email
-     * @param name
-     * @param projects
-     */
-    private User(String email, String name, String lastName, long dateOfBirth,
-            String jobTitle, String companyName) {
-        if (email == null || name == null || lastName == null
-                || jobTitle == null || companyName == null) {
-            throw new NullPointerException("User.Constructor");
-        }
-        this.email = email;
-        this.name = name;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.jobTitle = jobTitle;
-        this.companyName = companyName;
+    private final Gender gender;
+    
+    private User(Builder builder) {
+        throwIfNull("User constructor parameters cannot be null",
+                builder.email,
+                builder.name,
+                builder.lastName,
+                builder.dateOfBirth,
+                builder.jobTitle,
+                builder.companyName,
+                builder.gender
+        );
+        
+        this.email = builder.email;
+        this.name = builder.name;
+        this.lastName = builder.lastName;
+        this.dateOfBirth = builder.dateOfBirth;
+        this.jobTitle = builder.jobTitle;
+        this.companyName = builder.companyName;
+        this.gender = builder.gender;
     }
 
     /**
@@ -95,6 +105,18 @@ public final class User implements Serializable, Comparable<User> {
     public String getJobTitle() {
         return this.jobTitle;
     }
+    
+    public Gender getGender() {
+        return this.gender;
+    }
+    
+    /**
+     * Gets the issues for a specified user
+     * @param callback
+     */
+    public void loadIssuesForUser(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadIssuesForUser(this, callback);
+    }
 
     /**
      * Updates the user on the DS
@@ -113,12 +135,20 @@ public final class User implements Serializable, Comparable<User> {
     public void remove(Callback<Boolean> callback) {
         Client.getScrumClient().deleteUser(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder class for the User object
      * 
      * @author zenhaeus
-     * 
      */
     public static class Builder {
         private String email;
@@ -127,6 +157,7 @@ public final class User implements Serializable, Comparable<User> {
         private String jobTitle;
         private long dateOfBirth;
         private String companyName;
+        private Gender gender;
 
         public Builder() {
             this.email = "";
@@ -134,7 +165,8 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
-            this.dateOfBirth = (new Date()).getTime();
+            this.dateOfBirth = new Date().getTime();
+            this.gender = Gender.UNKNOWN;
         }
 
         public Builder(User otherUser) {
@@ -257,17 +289,35 @@ public final class User implements Serializable, Comparable<User> {
             this.dateOfBirth = dateOfBirth;
             return this;
         }
+        
+        /**
+         * 
+         * @return gender
+         */
+        public Gender getGender() {
+            return this.gender;
+        }
+        
+        /**
+         * 
+         * @param gender
+         * @return
+         */
+        public User.Builder setGender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
 
         /**
          * @return the projects
          */
 
         public User build() {
-            return new User(this.email, this.name, this.lastName,
-                    this.dateOfBirth, this.jobTitle, this.companyName);
+            return new User(this);
         }
 
     }
+    
     @Override
     public boolean equals(Object o) {
         if (o == null || !(o instanceof User)) {
@@ -298,6 +348,5 @@ public final class User implements Serializable, Comparable<User> {
         comparison = this.getName().compareTo(that.getName());
         return comparison;
     }
-
 
 }

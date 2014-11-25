@@ -14,36 +14,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <!-- Email field -->
-        <EditText
-            android:id="@+id/player_list_add_playeremail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/player_list_add_button"
-            android:hint="Player email"
-            android:inputType="textEmailAddress" >
-
-            <requestFocus />
-        </EditText>
-
-        <!-- "Add" button -->
-        <Button
-            android:id="@+id/player_list_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/player_list_add_playeremail"
-            android:layout_alignParentEnd="true"
-            android:text="Add"
-            android:onClick="addPlayer" />
     </RelativeLayout>
 
     <!-- Current project players list -->
-    <ListView
-        android:id="@+id/project_playerlist"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_project_playerlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_list_addplayer_block"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp" />
+        android:layout_height="match_parent"
+        android:padding="@dimen/space"
+        android:layout_below="@+id/player_list_addplayer_block" >
+
+        <ListView
+            android:id="@+id/project_playerlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

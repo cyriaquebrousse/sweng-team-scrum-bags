@@ -1,23 +1,41 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.User.Gender;
 import junit.framework.TestCase;
 
 public class UserTest extends TestCase {
-
-    public void testHashCode() {
-        fail("Not yet implemented"); // TODO
-    }
+    
+    private final static String COMPANY_NAME = "Apple";
+    private final static long DATE = 0;
+    private final static String EMAIL = "email@email.ch";
+    private final static Gender GENDRE = Gender.UNKNOWN;
+    private final static String JOB = "CEO";
+    private final static String LAST_NAME = "Smith";
+    private final static String NAME = "Steve";
+    
+    
+    private static final User user = new User.Builder()
+    .setCompanyName(COMPANY_NAME)
+    .setDateOfBirth(DATE)
+    .setEmail(EMAIL)
+    .setGender(GENDRE)
+    .setJobTitle(JOB)
+    .setLastName(LAST_NAME)
+    .setName(NAME)
+    .build();
 
     public void testGetEmail() {
-        fail("Not yet implemented"); // TODO
+        String email = user.getEmail();
+        assertEquals(EMAIL, email);
     }
 
     public void testGetName() {
-        fail("Not yet implemented"); // TODO
-    }
+        String name = user.getName();
+        assertEquals(NAME, name);    }
 
     public void testEqualsObject() {
-        fail("Not yet implemented"); // TODO
+        User user2 = user;
+        assertTrue(user.equals(user2));
     }
 
 }

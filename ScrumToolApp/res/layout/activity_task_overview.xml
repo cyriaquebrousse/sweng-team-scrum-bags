@@ -12,9 +12,9 @@
         android:id="@+id/task_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space"
         android:layout_marginLeft="@dimen/space"
         android:layout_marginRight="@dimen/space"
+        android:layout_marginTop="@dimen/space"
         android:maxLines="1"
         android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
@@ -34,8 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_alignTop="@id/task_priority"
-        android:layout_marginStart="@dimen/space"
         android:layout_marginEnd="@dimen/space"
+        android:layout_marginStart="@dimen/space"
         android:layout_toEndOf="@id/task_priority" >
 
         <TextView
@@ -43,14 +43,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
-    
-    <!-- Task deadline ??? -->
-    
+
     <!-- Status and estimation slates -->
-    <LinearLayout android:id="@+id/task_slates"
-        android:layout_below="@id/task_desc_scrollview"
+    <LinearLayout
+        android:id="@+id/task_slates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/task_desc_scrollview"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -60,8 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            custom:slate_title="Status"
-            custom:slate_text="En sprint" />
+            custom:slate_text="En sprint"
+            custom:slate_title="Status" />
 
         <!-- Estimation -->
         <ch.epfl.scrumtool.gui.components.widgets.Slate
@@ -70,28 +69,39 @@
             android:layout_height="wrap_content"
             custom:slate_color="@color/BurlyWood"
             custom:slate_title="Estimation"
-            custom:slate_text="3 jours"
             android:layout_weight=".5" />
     </LinearLayout>
-    
-    <!-- Issues list -->
-    <ListView
-        android:id="@+id/task_issues_list"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_issue_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/task_slates" />
-    <ProgressBar 
-        android:id="@+id/waiting_issue_list"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        style="@android:style/Widget.ProgressBar.Large"/>
-    <TextView 
-        android:id="@+id/empty_issue_list"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="There are no issues for this task."
-        android:visibility="gone"/>
-    
+        android:layout_height="match_parent"
+        android:layout_below="@+id/task_slates" >
+
+        <!-- Issues list -->
+        <ListView
+            android:id="@+id/issue_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_empty_issue_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/task_slates"
+        android:gravity="center" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/empty_issue_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/empty_issue_list_hint" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

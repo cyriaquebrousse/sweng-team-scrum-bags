@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.os.Bundle;
@@ -18,8 +20,7 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
-import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
@@ -30,7 +31,6 @@ public class IssueEditActivity extends BaseMenuActivity {
     private EditText issueNameView;
     private EditText issueDescriptionView;
     private EditText issueEstimationView;
-    private Player player;
     
     private PlayerListAdapter playerAdapter;
     private SprintListAdapter sprintAdapter;
@@ -52,21 +52,33 @@ public class IssueEditActivity extends BaseMenuActivity {
         initViews();
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        Client.getScrumClient().loadPlayers(project, new DefaultGUICallback<List<Player>>(this) {
+        project.loadPlayers(new DefaultGUICallback<List<Player>>(this) {
             @Override
             public void interactionDone(List<Player> playerList) {
                 playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
                 issueAssigneeSpinner.setAdapter(playerAdapter);
+                
+                if (issueBuilder.getPlayer() == null) {
+                    issueAssigneeSpinner.setSelection(0);
+                } else {
+                    issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
+                }
             }
         });
         
-        Client.getScrumClient().loadSprints(project, new DefaultGUICallback<List<Sprint>>(this) {
+        project.loadSprints(new DefaultGUICallback<List<Sprint>>(this) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
                 sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
                 sprintSpinner.setAdapter(sprintAdapter);
+                
+                if (issueBuilder.getSprint() == null) {
+                    sprintSpinner.setSelection(0);
+                } else {
+                    sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
+                }
             }
         });
     }
@@ -81,9 +93,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         }
 
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        if (parentTask == null) {
-            throw new NullPointerException("Parent task cannot be null");
-        }
+        throwIfNull("Parent task cannot be null", parentTask);
     }
 
     private void initViews() {
@@ -96,16 +106,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
-        if (issueBuilder.getPlayer() == null) {
-            issueAssigneeSpinner.setSelection(0);
-        } else {
-            issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
-        }
-        if (issueBuilder.getSprint() == null) {
-            sprintSpinner.setSelection(0);
-        } else {
-            sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
-        }
+        
     }
 
     public void saveIssueChanges(View view) {

@@ -7,9 +7,11 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
- * @author Vincent, zenhaeus
+ * @author Vincent
+ * @author zenhaeus
  */
 public final class Project implements Serializable, Comparable<Project> {
 
@@ -21,10 +23,8 @@ public final class Project implements Serializable, Comparable<Project> {
     private final String description;
 
     private Project(String key, String name, String description) {
-        super();
-        if (key == null || name == null || description == null) {
-            throw new NullPointerException("Project.Constructor");
-        }
+        throwIfNull("Project constructor parameters cannot be null", key, name, description);
+        
         this.key = key;
         this.name = name;
         this.description = description;
@@ -94,10 +94,8 @@ public final class Project implements Serializable, Comparable<Project> {
      * @param role
      * @param callback
      */
-    public void addPlayer(final String userEmail, final Role role,
-            final Callback<Player> callback) {
-        Client.getScrumClient().addPlayerToProject(this, userEmail, role,
-                callback);
+    public void addPlayer(final String userEmail, final Role role, final Callback<Player> callback) {
+        Client.getScrumClient().addPlayerToProject(this, userEmail, role, callback);
     }
 
     /**
@@ -114,25 +112,36 @@ public final class Project implements Serializable, Comparable<Project> {
      * 
      * @param defaultGUICallback
      */
-    public void loadSprints(
-            final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
+    // FIXME should this really take a DefaultGUICallback as parameter and not just a Callback? (@zenhaeus)
+    public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
         Client.getScrumClient().loadSprints(this, defaultGUICallback);
     }
 
     /**
      * Load the backlog of this project from the DS
      * 
-     * @param project
      * @param callback
      */
     public void loadBacklog(final Callback<List<MainTask>> callback) {
         Client.getScrumClient().loadBacklog(this, callback);
     }
-
-    @Deprecated
-    // TODO create a method in ScrumClient and delete this one.
-    public int getChangesCount(User user) {
-        return 0;
+    
+    /**
+     * Load all issues that are not yet assigned to any Sprint
+     * 
+     * @param callback
+     */
+    public void loadUnsprintedIssues(final Callback<List<Issue>> callback) {
+        Client.getScrumClient().loadUnsprintedIssues(this, callback);
+    }
+    
+    
+    /**
+     * 
+     * @return Project.Builder
+     */
+    public Builder getBuilder() {
+        return new Builder(this);
     }
 
     @Deprecated
@@ -145,7 +154,6 @@ public final class Project implements Serializable, Comparable<Project> {
      * Builder class for Project object
      * 
      * @author zenhaeus
-     * 
      */
     public static class Builder {
         private String keyb;

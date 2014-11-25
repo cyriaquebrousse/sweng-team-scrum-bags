@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
@@ -38,7 +39,9 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         Issue issue = getList().get(position);
         name.setText(issue.getName());
 
-//        assignee.setText(issue.getPlayer().getUser().getName());
+        Player optionAssignee = issue.getPlayer();
+        assignee.setText(optionAssignee != null ? optionAssignee.getUser().getName() : "<No one assigned>");
+        
         estimation.setQuantity(Float.toString(issue.getEstimatedTime()));
         estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
         estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));

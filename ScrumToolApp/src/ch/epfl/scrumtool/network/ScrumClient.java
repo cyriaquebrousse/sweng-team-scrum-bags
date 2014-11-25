@@ -35,7 +35,8 @@ public interface ScrumClient {
     void addPlayer(final Player player, final Project project, final Callback<Player> callback);
     void updatePlayer(final Player player, final Player ref, final Callback<Boolean> callback);
     void removePlayer(final Player player, final Callback<Boolean> callback);
-    void addPlayerToProject(final Project project, final String userEmail, final Role role, final Callback<Player> callback);
+    void addPlayerToProject(final Project project, final String userEmail, 
+            final Role role, final Callback<Player> callback);
     
     // Maintask methods
     void loadBacklog(final Project project, final Callback<List<MainTask>> callback);
@@ -48,9 +49,11 @@ public interface ScrumClient {
     void loadIssues(final Sprint sprint, final Callback<List<Issue>> callback);
     void insertIssue(final Issue issue, final MainTask task, final Callback<Issue> callback);
     void addIssueToSprint(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
-    void removeIssueFromSprint(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
+    void removeIssueFromSprint(final Issue issue, final Callback<Boolean> callback);
     void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
+    void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback);
+    void loadIssuesForUser(final User user, final Callback<List<Issue>> cB);
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);

@@ -7,8 +7,8 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
- * @author Vincent, zenhaeus
- * 
+ * @author Vincent
+ * @author zenhaeus
  */
 
 public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
@@ -23,28 +23,38 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status,
-            Priority priority) {
+    private MainTask(String id, String name, String description, Status status, Priority priority) {
         super(id, name, description, status, priority);
     }
 
-    public int getIssuesFinishedCount() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    // FIXME not the right way to do it: create super method getIssuesFinishedCount(void)
+    @Deprecated
+    public int getIssuesFinishedCount(final List<Issue> issues) {
+        int finishedCount = 0;
+        for (Issue i : issues) {
+            if (i.getStatus() == Status.FINISHED) {
+                finishedCount++;
+            }
+        }
+        return finishedCount;
+    }
+    
+    @Override
+    public float getEstimatedTime() {
+        throw new UnsupportedOperationException();
     }
 
-    public float getEstimatedTime() {
-        float estimation = 0f;
-        // float issueEstimation;
-        boolean estimated = true;
-        // for (Issue i : issues) {
-        // issueEstimation = i.getEstimatedTime();
-        // if (issueEstimation < 0) {
-        // estimated = false;
-        // } else {
-        // estimation += issueEstimation;
-        // }
-        // }
-        return estimated ? estimation : -1;
+    @Deprecated
+    // FIXME not the right way of proceeding
+    public float estimatedTime(final List<Issue> issues) {
+        float total = 0;
+        for (Issue i: issues) {
+            if (i.getStatus() != Status.FINISHED) {
+                total += i.getEstimatedTime();
+            }
+        }
+        
+        return (total != 0) ? total : -1;
     }
 
     /**
@@ -85,6 +95,15 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public void loadIssues(final Callback<List<Issue>> callback) {
         Client.getScrumClient().loadIssues(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder class for the MainTask object

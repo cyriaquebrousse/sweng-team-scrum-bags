@@ -6,9 +6,11 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
- * @author ketsio, zenhaeus
+ * @author ketsio
+ * @author zenhaeus
  * @author Cyriaque Brousse
  */
 
@@ -23,14 +25,16 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     /**
      * Constructs a new sprint
      * 
-     * @param id
+     * @param key
      *            the unique identifier
      * @param deadline
      *            the deadline in milliseconds. Must be non-negative
      * @see java.util.Date#getTime()
      */
-    private Sprint(String id, String title, long deadline) {
-        this.key = id;
+    private Sprint(String key, String title, long deadline) {
+        throwIfNull("Sprint constructor parameters cannot be null", key, title);
+        
+        this.key = key;
         this.title = title;
         this.deadline = deadline;
     }
@@ -93,7 +97,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param callback
      */
     public void addIssue(final Issue issue, final Callback<Boolean> callback) {
-        Client.getScrumClient().addIssueToSprint(issue, this, callback);
+        issue.addToSprint(this, callback);
     }
 
     /**
@@ -103,7 +107,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param callback
      */
     public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(issue, this, callback);
+        issue.removeFromSprint(this, callback);
     }
 
     /**
@@ -114,13 +118,21 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     public void loadIssues(final Callback<List<Issue>> callback) {
         Client.getScrumClient().loadIssues(this, callback);
     }
+    
+    /**
+     * Get new instance of Builder
+     * @return
+     */
+    public Builder getBuilder() {
+        return new Builder();
+    }
+
 
     /**
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
      */
-
     public static class Builder {
 
         private String keyb;
@@ -134,7 +146,10 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         }
 
         /**
+         * Copy constructor
+         * 
          * @param otherSprint
+         *            the sprint to copy
          */
         public Builder(Sprint otherSprint) {
             this.deadline = otherSprint.deadline;
@@ -216,7 +231,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         final int equal = 0;
         final int after = 1;
         
-        if(that != null) {
+        if (that != null) {
             if (this == that) {
                 return equal;
             }

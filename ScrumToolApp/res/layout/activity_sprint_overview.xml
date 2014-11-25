@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-
+        
     <TextView
         android:id="@+id/sprint_overview_name"
         android:layout_width="wrap_content"
@@ -11,7 +11,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="15dp"
         android:textSize="20sp"
-        android:text="@string/sprint_overview_default_name"
         android:textStyle="bold" />
     
     <TextView
@@ -21,17 +20,33 @@
         android:layout_below="@id/sprint_overview_name"
         android:layout_marginStart="20dp"
         android:textSize="15sp"
-        android:textStyle="italic"
-        android:text="@string/sprint_overview_default_deadline" >
-    </TextView>
+        android:textStyle="italic" />
+    
+    
+    <Spinner
+        android:id="@+id/issue_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp" />
+    
+    <TextView
+        android:id="@+id/sprint_overview_issue_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/issue_spinner"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:textSize="20sp"
+        android:text="@string/sprint_overview_issue_add" />
     
     <ListView
         android:id="@+id/sprint_overview_issue_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/sprint_overview_deadline"
+        android:layout_above="@id/sprint_overview_issue_add"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/sprint_overview_deadline" >
-    </ListView>
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

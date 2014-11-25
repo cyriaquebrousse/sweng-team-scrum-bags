@@ -5,25 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ch.epfl.scrumtool.gui.ProjectListActivity" >
-    
-    <ListView
-        android:id="@+id/project_list"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_project_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp" />
-    <ProgressBar 
-        android:id="@+id/waiting_project_list"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        style="@android:style/Widget.ProgressBar.Large"/>
-    <TextView 
-        android:id="@+id/empty_project_list"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="There are no projects for this user."
-        android:visibility="gone"/>
-    
+        android:padding="@dimen/space" >
+
+        <ListView
+            android:id="@+id/project_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="@dimen/space"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:listSelector="@android:color/transparent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_update_empty_project_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/space" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/empty_project_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/empty_project_list_hint" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

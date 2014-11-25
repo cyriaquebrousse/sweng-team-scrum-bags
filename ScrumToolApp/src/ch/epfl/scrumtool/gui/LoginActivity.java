@@ -15,17 +15,21 @@ import ch.epfl.scrumtool.settings.ApplicationSettings;
 /**
  * A login screen that offers login via OAuth 2.0 using the phones Google Accounts
  * 
- * @author Cyriaque Brousse, aschneuw, zenhaeus
+ * @author Cyriaque Brousse
+ * @author aschneuw
+ * @author zenhaeus
  */
 public class LoginActivity extends Activity {
-    
+
     public static final int REQUEST_ACCOUNT_PICKER = 2;
+    private static final Class<? extends Activity> FIRST_ACTIVITY = DashboardActivity.class;
     private GoogleSession.Builder sessionBuilder;
     private ProgressDialog progDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_login);
         this.setTitle("Welcome");
 
@@ -33,7 +37,7 @@ public class LoginActivity extends Activity {
         String accName = ApplicationSettings.getCachedUser(this);
         if (accName != null) {
             findViewById(R.id.button_login).setVisibility(View.INVISIBLE);
-            login(accName);
+            login(accName, FIRST_ACTIVITY);
         }
     }
     
@@ -48,26 +52,28 @@ public class LoginActivity extends Activity {
     }
     
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            this.progDialog = ProgressDialog.show(this, "Signing in...", "", true, false);
             String accName = (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME);
+            this.progDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
             
             ApplicationSettings.saveCachedUser(this, accName);
             
-            this.login(accName);
+            this.login(accName, FIRST_ACTIVITY);
         } else {
-            Toast.makeText(this, "Please choose an acccount", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please choose an account", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void openFirstActivityAndFinish() {
-        Intent intent = new Intent(this, DashboardActivity.class);
-        startActivity(intent);
+    private void openFirstActivityAndFinish(final Class<? extends Activity> nextActivity) {
+        if (getCallingActivity() == null) {
+            Intent intent = new Intent(this, nextActivity);
+            startActivity(intent);
+        }
         finish();
     }
     
-    private void login(String accName) {
+    private void login(final String accName, final Class<? extends Activity> nextActivity) {
         DefaultGUICallback<Boolean> loginOK = new DefaultGUICallback<Boolean>(this) {
             
             @Override
@@ -76,9 +82,11 @@ public class LoginActivity extends Activity {
                     LoginActivity.this.progDialog.dismiss();
                 }
                 if (object.booleanValue()) {
-                    LoginActivity.this.openFirstActivityAndFinish();
+                    LoginActivity.this.openFirstActivityAndFinish(nextActivity);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Login failed - Check Internet Connection",
+                            Toast.LENGTH_LONG).show();
+                    findViewById(R.id.button_login).setVisibility(View.VISIBLE);
                 }
                 
             }

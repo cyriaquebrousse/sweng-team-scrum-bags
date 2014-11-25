@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="Sticker">
         <attr name="sticker_color" format="color" />
         <attr name="sticker_text" format="string" />
@@ -17,4 +18,11 @@
         <attr name="slate_title" format="string" />
         <attr name="slate_text" format="string" />
     </declare-styleable>
+    
+    <declare-styleable name="ExpandablePanel">
+        <attr name="expandablepanel_handle" format="reference" />
+        <attr name="expandablepanel_content" format="reference" />
+        <attr name="expandablepanel_collapsedHeight" format="dimension" />
+    </declare-styleable>
+
 </resources>

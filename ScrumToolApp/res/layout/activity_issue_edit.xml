@@ -64,6 +64,7 @@
     <!-- "Save" button -->
     <!-- This button is temporary -->
     <Button
+        style="@style/fluid_button"
         android:id="@+id/issue_edit_button_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

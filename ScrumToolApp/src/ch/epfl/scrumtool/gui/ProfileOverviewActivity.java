@@ -1,6 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,7 +32,9 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     private TextView nameView;
     private TextView jobTitleView;
     private TextView companyNameView;
+    private TextView dateOfBirthView;
     private TextView emailView;
+    private TextView genderView;
     private ListView sharedProjectsListView;
     
     private User userProfile;
@@ -40,18 +44,27 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_overview);
+        init();
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
+    private void init() {
+        setContentView(R.layout.activity_profile_overview);
+        
         // Get the connected user, and the user to display
         try {
             if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
                 userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
             } else {
-                userProfile = Session.getCurrentSession().getUser();;
+                userProfile = Session.getCurrentSession().getUser();
             }
             this.setTitle(userProfile.getName());
             
-            // Create the adapter
             // TODO : Change empty list by getProjectsSharedWith(userConnected)
             adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
 
@@ -73,16 +86,17 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             this.finish();
             e.printStackTrace();
         }
-
     }
     
-    public void initViews() {
+    private void initViews() {
 
         // Get Views
         nameView = (TextView) findViewById(R.id.profile_name);
         jobTitleView = (TextView) findViewById(R.id.profile_jobtitle);
         companyNameView = (TextView) findViewById(R.id.profile_company);
+        dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
+        genderView = (TextView) findViewById(R.id.profile_gender);
         sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
 
         // Set Views
@@ -91,21 +105,31 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         if (userProfile.getJobTitle().length() > 0) {
             jobTitleView.setText(userProfile.getJobTitle());
         } else {
-            findViewById(R.id.profile_field_jobtitle).setVisibility(View.INVISIBLE);
+            findViewById(R.id.profile_field_jobtitle).setVisibility(View.GONE);
         }
         if (userProfile.getCompanyName().length() > 0) {
             companyNameView.setText(userProfile.getCompanyName());
         } else {
-            findViewById(R.id.profile_field_company).setVisibility(View.INVISIBLE);
+            findViewById(R.id.profile_field_company).setVisibility(View.GONE);
+        }
+        if (userProfile.getDateOfBirth() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat(getResources()
+                    .getString(R.string.format_date), Locale.ENGLISH);
+            dateOfBirthView.setText(sdf.format(userProfile.getDateOfBirth()));
+        } else {
+            findViewById(R.id.profile_field_date_of_birth).setVisibility(View.GONE);
+        }
+        switch (userProfile.getGender()) {
+            case MALE:
+            case FEMALE:
+                genderView.setText(userProfile.getGender().toString().toLowerCase(Locale.ENGLISH));
+                break;
+            default:
+                findViewById(R.id.profile_field_gender).setVisibility(View.GONE);
+                break;
         }
     }
     
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null); // TODO right way to do it? (loris)
-    }
-
     @Override
     void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);

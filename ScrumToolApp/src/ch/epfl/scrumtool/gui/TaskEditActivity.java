@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,9 +13,9 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
-import ch.epfl.scrumtool.gui.util.Dialogs;
-import ch.epfl.scrumtool.gui.util.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.gui.util.InputVerifiers;
+import ch.epfl.scrumtool.util.gui.Dialogs;
+import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
@@ -49,9 +50,7 @@ public class TaskEditActivity extends BaseMenuActivity {
         }
         
         parentProject = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        if (parentProject == null) {
-            throw new NullPointerException("Parent project cannot be null");
-        }
+        throwIfNull("Parent project cannot be null", parentProject);
     }
     
     private void initViews() {

@@ -9,6 +9,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.User;
 
 /**
  * @author aschneuw
@@ -31,6 +32,15 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param cB
      */
     void loadIssues(final Sprint sprint, final Callback<List<Issue>> cB);
+    
+    
+    /**
+     * Load the issues that are not assigned to a Sprint from the datastore
+     * 
+     * @param project
+     * @param callback
+     */
+    void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback);
 
     /**
      * Insert an Issue in the datastore
@@ -58,7 +68,13 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param sprint
      * @param cB
      */
-    void removeIssue(final Issue issue, final Sprint sprint,
-            final Callback<Boolean> cB);
-
+    void removeIssueFromSprint(final Issue issue, final Callback<Boolean> cB);
+    
+    /**
+     * Loads a list of issues which don't have the state finished for a selected user
+     * @param user
+     * @param cB
+     */
+    
+    void loadIssuesForUser(final User user, final Callback<List<Issue>> cB);
 }

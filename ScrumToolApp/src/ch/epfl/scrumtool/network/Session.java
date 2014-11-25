@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import ch.epfl.scrumtool.entity.User;
@@ -68,10 +69,14 @@ public abstract class Session {
          *  skipped in the LoginActivity
          */
         ApplicationSettings.removeCachedUser(context);
-        
+        relogin((Activity) context);
+    }
+    
+    public static void relogin(Activity context) {
         Intent openLoginIntent = new Intent(context, LoginActivity.class);
-        context.startActivity(openLoginIntent);
+        context.startActivityForResult(openLoginIntent, 0);
 
         currentSession = null;
+        
     }
 }

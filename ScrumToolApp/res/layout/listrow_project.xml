@@ -1,49 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/list_row_padding" >
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:padding="@dimen/space" >
 
-    <!-- Project icon -->
-    <TextView
-        android:id="@+id/project_row_icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="8dp"
-        android:background="@color/whitesmoke" />
+    <RelativeLayout
+        android:id="@+id/project_row_header_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <!-- Project name -->
-    <TextView
-        android:id="@+id/project_row_name"
-        android:layout_width="wrap_content"
+        <!-- Project icon -->
+        <ImageView
+            android:id="@+id/project_row_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/list_row_padding"
+            android:background="@color/whitesmoke"
+            android:contentDescription="@string/project_image_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_project" />
+
+        <!-- Project name -->
+        <TextView
+            android:id="@+id/project_row_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/project_row_icon"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/project_row_icon"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textSize="@dimen/list_row_name"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/project_row_expanded_block"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/project_row_icon"
-        android:layout_toEndOf="@id/project_row_icon"
-        android:textSize="@dimen/list_row_name"
-        android:textStyle="bold"
-        android:maxLines="1" />
+        android:orientation="vertical"
+        android:paddingTop="@dimen/list_row_padding" >
 
-    <!-- Project description -->
-    <TextView
-        android:id="@+id/project_row_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/project_row_name"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@id/project_row_icon"
-        android:maxLines="1"
-        android:textSize="@dimen/list_row_desc" />
+        <!-- Project description -->
+        <TextView
+            android:id="@+id/project_row_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp" />
 
-    <!-- Number of new elements in project -->
-    <ch.epfl.scrumtool.gui.components.widgets.Sticker
-        android:id="@+id/project_row_newElemCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        custom:sticker_color="@color/darkgreen" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/space"
+            android:orientation="horizontal" >
 
-</RelativeLayout>
+            <!-- Backlog button -->
+            <ImageButton
+                android:id="@+id/project_row_backlog"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".33"
+                android:contentDescription="@string/backlog_button_description"
+                android:focusable="false"
+                android:onClick="openBacklog"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/backlog" />
+
+            <!-- Sprints button -->
+            <ImageButton
+                android:id="@+id/project_row_sprints"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/space"
+                android:layout_marginStart="@dimen/space"
+                android:layout_weight=".33"
+                android:contentDescription="@string/sprints_button_description"
+                android:focusable="false"
+                android:onClick="openSprints"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sprint" />
+
+            <!-- Players button -->
+            <ImageButton
+                android:id="@+id/project_row_players"
+                style="@style/image_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".33"
+                android:contentDescription="@string/players_button_description"
+                android:focusable="false"
+                android:onClick="openPlayers"
+                android:padding="@dimen/small_space"
+                android:scaleType="fitCenter"
+                android:src="@drawable/player" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

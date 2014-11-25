@@ -1,31 +1,49 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.User.Gender;
 import junit.framework.TestCase;
 
 public class PlayerTest extends TestCase {
 
-    public void testHashCode() {
-        fail("Not yet implemented"); // TODO
-    }
+    private static final User USER_1 = new User.Builder()
+            .setCompanyName("apple")
+            .setDateOfBirth(0)
+            .setEmail("email@email.com")
+            .setGender(Gender.UNKNOWN)
+            .setJobTitle("CEO")
+            .setLastName("Smith")
+            .setName("Steve").build();
+    private final static String KEY_1 = "key";
+    private final static Role ROLE_1 = Role.DEVELOPER;
+    private final static Player player = new Player.Builder()
+        .setIsAdmin(true)
+        .setKey(KEY_1)
+        .setRole(ROLE_1)
+        .setUser(USER_1)
+        .build();
 
     public void testGetUser() {
-        fail("Not yet implemented"); // TODO
+        User user = player.getUser();
+        assertEquals(USER_1, user);
     }
 
     public void testGetRole() {
-        fail("Not yet implemented"); // TODO
+        Role role = player.getRole();
+        assertEquals(ROLE_1, role);
     }
 
     public void testGetKey() {
-        fail("Not yet implemented"); // TODO
+        String key = player.getKey();
+        assertEquals(KEY_1, key);
     }
 
     public void testIsAdmin() {
-        fail("Not yet implemented"); // TODO
+        assertTrue(player.isAdmin());
     }
 
     public void testEqualsObject() {
-        fail("Not yet implemented"); // TODO
+        Player player2 = player;
+        assertTrue(player2.equals(player));
     }
 
 }

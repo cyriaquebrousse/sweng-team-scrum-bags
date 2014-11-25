@@ -19,7 +19,7 @@ public enum Role {
     DEVELOPER("Developer", true),
     INVITED("Invited", true);
 
-    private final String value;
+    private final String stringValue;
     private final boolean canAccessIssues;
 
     /**
@@ -27,17 +27,17 @@ public enum Role {
      * @param accessIssues
      */
     Role(String stringValue, boolean accessIssues) {
-        this.value = stringValue;
+        this.stringValue = stringValue;
         this.canAccessIssues = accessIssues;
     }
 
     @Override
     public String toString() {
-        return this.value;
+        return this.stringValue;
     }
 
     /**
-     * @return true if it has the rights to see issues, false else
+     * @return true if the user has the rights to see issues, false otherwise
      */
     public boolean canAccessIssues() {
         return canAccessIssues;
