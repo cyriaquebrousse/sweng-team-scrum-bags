@@ -26,5 +26,7 @@
     <dimen name="header_description_size">17sp</dimen>
     <dimen name="default_text_size">15sp</dimen>
     <dimen name="small_title">17sp</dimen>
+    <dimen name="estimation_quantity_text">17sp</dimen>
+    <dimen name="estimation_unit_text">14sp</dimen>
     
 </resources>

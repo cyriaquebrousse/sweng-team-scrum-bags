@@ -15,10 +15,10 @@ public enum Status implements Serializable {
      * 
      * READY_FOR_SPRINT < IN_SPRINT < READY_FOR_ESTIMATION < FINISHED
      */
-    READY_FOR_SPRINT(R.color.Chartreuse, "Ready for sprint"),
-    IN_SPRINT(R.color.Salmon, "In sprint"),
-    READY_FOR_ESTIMATION(R.color.Lime, "Ready for estimation"),
-    FINISHED(R.color.Cyan, "Finished");
+    READY_FOR_SPRINT(R.color.shadeD, "Ready for sprint"),
+    IN_SPRINT(android.R.color.holo_blue_dark, "In sprint"),
+    READY_FOR_ESTIMATION(android.R.color.holo_orange_light, "Ready for estimation"),
+    FINISHED(R.color.DarkGreen, "Finished");
 
     private int colorRef;
     private String stringValue;

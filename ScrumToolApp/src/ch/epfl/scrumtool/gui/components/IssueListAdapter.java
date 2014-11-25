@@ -11,7 +11,6 @@ import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 
 /**
  * @author Cyriaque Brousse
@@ -31,10 +30,12 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.listrow_issue, parent, false);
         }
-        
-        Stamp estimation = (Stamp) convertView.findViewById(R.id.issue_row_estimation);
+
+        TextView estimation = (TextView) convertView.findViewById(R.id.issue_row_quantity);
+        TextView unit = (TextView) convertView.findViewById(R.id.issue_row_unit);
         TextView name = (TextView) convertView.findViewById(R.id.issue_row_name);
         TextView assignee = (TextView) convertView.findViewById(R.id.issue_row_assignee);
+        View divider = (View) convertView.findViewById(R.id.issue_row_divider);
         
         Issue issue = getList().get(position);
         name.setText(issue.getName());
@@ -42,9 +43,9 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         Player optionAssignee = issue.getPlayer();
         assignee.setText(optionAssignee != null ? optionAssignee.getUser().getName() : "<No one assigned>");
         
-        estimation.setQuantity(Float.toString(issue.getEstimatedTime()));
-        estimation.setUnit(activity.getResources().getString(R.string.project_default_unit));
-        estimation.setColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
+        estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float.toString(issue.getEstimatedTime()));
+        unit.setText(activity.getResources().getString(R.string.project_default_unit));
+        divider.setBackgroundColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         
         return convertView;
     }
