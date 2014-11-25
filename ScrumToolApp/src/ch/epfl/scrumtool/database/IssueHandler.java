@@ -76,5 +76,5 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param cB
      */
     
-    void loadIssuesForUser(final User user, final Callback<List<Issue>> cB);
+    void loadIssuesForUser(final User user, final Callback<List<TaskIssueProject>> cB);
 }

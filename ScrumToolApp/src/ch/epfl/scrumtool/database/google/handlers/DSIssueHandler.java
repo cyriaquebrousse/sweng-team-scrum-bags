@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.database.google.handlers;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.database.google.containers.InsertIssueArgs;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
@@ -120,11 +121,11 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
-        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory =
-                new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>>(MODE.AUTHENTICATED);
+    public void loadIssuesForUser(User user, Callback<List<TaskIssueProject>> cB) {
+        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>> factory =
+                new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>>(MODE.AUTHENTICATED);
         factory.setCallback(cB);
-        factory.setConverter(CollectionResponseConverters.ISSUES);
+        factory.setConverter(IssueConverters.DASHBOARD_ISSUES);
         factory.setOperation(IssueOperations.LOAD_ISSUES_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
     }

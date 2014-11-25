@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandlers;
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -173,7 +174,7 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
+    public void loadIssuesForUser(User user, Callback<List<TaskIssueProject>> cB) {
         databaseHandlers.getIssueHandler().loadIssuesForUser(user, cB);
     }
 }

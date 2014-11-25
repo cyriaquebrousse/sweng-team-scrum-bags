@@ -1,11 +1,18 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
@@ -144,6 +151,24 @@ public class IssueConverters {
                     .getBuilder()
                     .setKey(a.getOpStat().getKey())
                     .build();
+        }
+    };
+    
+    public static EntityConverter<CollectionResponseScrumIssue, List<TaskIssueProject>> DASHBOARD_ISSUES = 
+            new EntityConverter<CollectionResponseScrumIssue, List<TaskIssueProject>>() {
+        
+        @Override
+        public List<TaskIssueProject> convert(CollectionResponseScrumIssue a) {
+            List<TaskIssueProject> issues = new ArrayList<TaskIssueProject>();
+            if (a != null && a.getItems() != null) {
+                for (ScrumIssue s: a.getItems()) {
+                    Issue issue = IssueConverters.SCRUMISSUE_TO_ISSUE.convert(s);
+                    MainTask mainTask = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(s.getMainTask());
+                    Project project = ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(s.getMainTask().getProject());
+                    issues.add(new TaskIssueProject(mainTask, project, issue));
+                }
+            }
+            return issues;
         }
     };
 

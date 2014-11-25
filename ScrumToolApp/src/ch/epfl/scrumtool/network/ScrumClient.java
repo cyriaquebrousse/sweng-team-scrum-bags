@@ -6,6 +6,7 @@ package ch.epfl.scrumtool.network;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -53,7 +54,7 @@ public interface ScrumClient {
     void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
     void deleteIssue(final Issue issue, final Callback<Boolean> callback);
     void loadUnsprintedIssues(final Project project, final Callback<List<Issue>> callback);
-    void loadIssuesForUser(final User user, final Callback<List<Issue>> cB);
+    void loadIssuesForUser(final User user, final Callback<List<TaskIssueProject>> cB);
      
     // Sprint methods
     void loadSprints(final Project project, final Callback<List<Sprint>> callback);
