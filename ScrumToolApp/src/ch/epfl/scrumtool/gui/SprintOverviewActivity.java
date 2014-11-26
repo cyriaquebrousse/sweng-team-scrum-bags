@@ -108,12 +108,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onCreate(null);
-    }
-    
     private void addIssueVisible(int visibility) {
         TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
         issueAdd.setVisibility(visibility);
@@ -190,12 +184,19 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         addIssueVisible(View.GONE);
     }
     
+    private void refreshViews() {
+        nameView.setText(sprint.getTitle());
+        setDeadlineText();
+        setTitle(sprint.getTitle());
+    }
+    
     private void setDeadlineText() {
         SimpleDateFormat sdf = new SimpleDateFormat(getResources()
                 .getString(R.string.format_date), Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprint.getDeadline());
         deadlineView.setText(sdf.format(date.getTime()));
+        deadlineView.postInvalidate();
     }
     
     private void initActivity() {
@@ -218,7 +219,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         if (requestCode == 1) {
             sprint = (Sprint) data.getSerializableExtra(Sprint.SERIALIZABLE_NAME);
             throwIfNull("Sprint cannot be null", sprint);
-            initViews();
+            refreshViews();
         }
     }
 
