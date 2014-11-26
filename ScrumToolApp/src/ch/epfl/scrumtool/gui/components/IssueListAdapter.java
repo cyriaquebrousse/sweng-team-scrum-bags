@@ -38,14 +38,17 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         View divider = (View) convertView.findViewById(R.id.issue_row_divider);
         
         Issue issue = getList().get(position);
-        name.setText(issue.getName());
-
-        Player optionAssignee = issue.getPlayer();
-        assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
-        
-        estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float.toString(issue.getEstimatedTime()));
-        unit.setText(activity.getResources().getString(R.string.project_default_unit));
-        divider.setBackgroundColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
+        if (issue == null) {
+            name.setText("No issue selected");
+            divider.setVisibility(View.GONE);
+        } else {
+            name.setText(issue.getName());
+            Player optionAssignee = issue.getPlayer();
+            assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
+            estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float.toString(issue.getEstimatedTime()));
+            unit.setText(activity.getResources().getString(R.string.project_default_unit));
+            divider.setBackgroundColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
+        }
         
         return convertView;
     }

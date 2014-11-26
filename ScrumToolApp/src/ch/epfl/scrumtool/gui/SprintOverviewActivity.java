@@ -94,8 +94,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void interactionDone(List<Issue> unsprintedIssuesList) {
                 if (unsprintedIssuesList != null && !unsprintedIssuesList.isEmpty()) {
-                    //unsprintedIssuesList.add(0, null); waiting for sylvain to tell me how to display something
-                    // else than an issue here (so that nothing gets assigned when onCreate() is called...
+                    unsprintedIssuesList.add(0, null);
                     unsprintedIssues = true;
                     issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, unsprintedIssuesList);
                     issueSpinner.setAdapter(issueSpinnerAdapter);
@@ -119,6 +118,9 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
         issueAdd.setVisibility(visibility);
         issueSpinner.setVisibility(visibility);
+        
+        issueAdd.postInvalidate();
+        issueSpinner.postInvalidate();
     }
     
     private void initSpinner() {
@@ -131,8 +133,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                     issueBuilder = new Issue.Builder(issue);
                     issueBuilder.setSprint(sprint);
                     updateIssue();
-                } else if (issue == null) {
-                    return;
                 }
             }
 
@@ -251,7 +251,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         int index = list.indexOf(issue);
         list.remove(index);
         issueListAdapter.add(issue);
-        if (list.size() < 1) {
+        if (list.size() < 2) {
             addIssueVisible(View.GONE);
             unsprintedIssues = false;
         }

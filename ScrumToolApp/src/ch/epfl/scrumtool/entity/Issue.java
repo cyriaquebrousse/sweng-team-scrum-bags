@@ -303,22 +303,26 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public int compareTo(Issue that) {
         final int equal = 0;
         
-        if (this == that) {
-            return equal;
-        }
-        
-        int comparison = this.getStatus().compareTo(that.getStatus());
-        if (comparison != equal) {
+        if (that != null) {
+            if (this == that) {
+                return equal;
+            }
+            
+            int comparison = this.getStatus().compareTo(that.getStatus());
+            if (comparison != equal) {
+                return comparison;
+            }
+            
+            comparison = this.getPriority().compareTo(that.getPriority());
+            if (comparison != equal) {
+                return comparison;
+            }
+            
+            comparison = this.getName().compareTo(that.getName());
             return comparison;
+        } else {
+            return 1;
         }
-        
-        comparison = this.getPriority().compareTo(that.getPriority());
-        if (comparison != equal) {
-            return comparison;
-        }
-        
-        comparison = this.getName().compareTo(that.getName());
-        return comparison;
     }
 
 }
