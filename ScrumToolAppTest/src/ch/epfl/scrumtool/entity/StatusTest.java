@@ -12,7 +12,7 @@ public class StatusTest extends TestCase {
 
     public void testGetColorRef() {
         assertEquals(android.R.color.holo_orange_light, readyForEstimation.getColorRef());
-        assertEquals(R.color.Chartreuse, readyForSprint.getColorRef());
+        assertEquals(R.color.shadeD, readyForSprint.getColorRef());
         assertEquals(android.R.color.holo_blue_dark, inSprint.getColorRef());
         assertEquals(R.color.DarkGreen, finished.getColorRef());
     }
