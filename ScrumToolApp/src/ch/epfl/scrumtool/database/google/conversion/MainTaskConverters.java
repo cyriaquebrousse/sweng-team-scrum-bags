@@ -49,6 +49,11 @@ public class MainTaskConverters {
             if (status != null) {
                 maintask.setStatus(Status.valueOf(status));
             }
+            
+            maintask.setFinishedIssues(dbMainTask.getIssuesFinished());
+            maintask.setFinishedIssueTime(dbMainTask.getTimeFinished());
+            maintask.setTotalIssues(dbMainTask.getTotalIssues());
+            maintask.setTotalIssueTime(dbMainTask.getTotalTime());
 
             return maintask.build();
         }

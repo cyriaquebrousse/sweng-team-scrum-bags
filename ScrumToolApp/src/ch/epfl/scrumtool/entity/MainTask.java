@@ -9,12 +9,47 @@ import ch.epfl.scrumtool.network.Client;
 /**
  * @author Vincent
  * @author zenhaeus
+ * @author aschneuw
  */
 
 public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
 
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
+    
+    
+    private final int totalIssues;
+    private final int finishedIssues;
+    private final float totalIssueTime;
+    private final float finishedIssueTime;
+
+    /**
+     * @return the totalIssues
+     */
+    public int getTotalIssues() {
+        return totalIssues;
+    }
+
+    /**
+     * @return the finishedIssues
+     */
+    public int getFinishedIssues() {
+        return finishedIssues;
+    }
+
+    /**
+     * @return the totalIssueTime
+     */
+    public float getTotalIssueTime() {
+        return totalIssueTime;
+    }
+
+    /**
+     * @return the finishedIssueTime
+     */
+    public float getFinishedIssueTime() {
+        return finishedIssueTime;
+    }
 
     /**
      * @param name
@@ -23,38 +58,30 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @param subtasks
      * @param priority
      */
-    private MainTask(String id, String name, String description, Status status, Priority priority) {
-        super(id, name, description, status, priority);
-    }
-
-    // FIXME not the right way to do it: create super method getIssuesFinishedCount(void)
-    @Deprecated
-    public int getIssuesFinishedCount(final List<Issue> issues) {
-        int finishedCount = 0;
-        for (Issue i : issues) {
-            if (i.getStatus() == Status.FINISHED) {
-                finishedCount++;
-            }
-        }
-        return finishedCount;
-    }
     
-    @Override
-    public float getEstimatedTime() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Deprecated
-    // FIXME not the right way of proceeding
-    public float estimatedTime(final List<Issue> issues) {
-        float total = 0;
-        for (Issue i: issues) {
-            if (i.getStatus() != Status.FINISHED) {
-                total += i.getEstimatedTime();
-            }
+    private MainTask(Builder builder) {
+        super(builder.id, builder.name, builder.description, builder.status, builder.priority);
+        
+        if (builder.finishedIssues < 0
+                || builder.finishedIssueTime < 0
+                || builder.totalIssues < 0 
+                || builder.totalIssueTime < 0) {
+            throw new IllegalArgumentException("Issue counter and times must be greater than 0");
         }
         
-        return (total != 0) ? total : -1;
+        if (builder.finishedIssues > builder.totalIssues) {
+            throw new IllegalArgumentException("Number of completed issues can't be greater "
+                        +"than the total number of issues");
+        }
+        if (builder.finishedIssueTime > builder.totalIssueTime) {
+            throw new IllegalArgumentException("Total estimated time can't be greater "
+                        +"than the total estimated time of finished issues");
+        }
+        
+        this.finishedIssues = builder.finishedIssues;
+        this.finishedIssueTime = builder.finishedIssueTime;
+        this.totalIssues = builder.totalIssues;
+        this.totalIssueTime = builder.totalIssueTime;
     }
 
     /**
@@ -103,6 +130,15 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public Builder getBuilder() {
         return new Builder();
     }
+    
+    
+    public float completedIssueRate() {
+        if (totalIssues == 0) {
+            return 0;
+        } else {
+            return finishedIssues / (float) totalIssues;
+        }
+    }
 
 
     /**
@@ -117,6 +153,70 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         private String description;
         private Status status;
         private Priority priority;
+        private int totalIssues;
+        private int finishedIssues;
+        private float totalIssueTime;
+        private float finishedIssueTime;
+
+        /**
+         * @return the totalIssues
+         */
+        public int getTotalIssues() {
+            return totalIssues;
+        }
+
+        /**
+         * @param totalIssues the totalIssues to set
+         */
+        public Builder setTotalIssues(int totalIssues) {
+            this.totalIssues = totalIssues;
+            return this;
+        }
+
+        /**
+         * @return the finishedIssues
+         */
+        public int getFinishedIssues() {
+            return finishedIssues;
+        }
+
+        /**
+         * @param finishedIssues the finishedIssues to set
+         */
+        public Builder setFinishedIssues(int finishedIssues) {
+            this.finishedIssues = finishedIssues;
+            return this;
+        }
+
+        /**
+         * @return the totalIssueTime
+         */
+        public float getTotalIssueTime() {
+            return totalIssueTime;
+        }
+
+        /**
+         * @param totalIssueTime the totalIssueTime to set
+         */
+        public Builder setTotalIssueTime(long totalIssueTime) {
+            this.totalIssueTime = totalIssueTime;
+            return this;
+        }
+
+        /**
+         * @return the finishedIssueTime
+         */
+        public float getFinishedIssueTime() {
+            return finishedIssueTime;
+        }
+
+        /**
+         * @param finishedIssueTime the finishedIssueTime to set
+         */
+        public Builder setFinishedIssueTime(long finishedIssueTime) {
+            this.finishedIssueTime = finishedIssueTime;
+            return this;
+        }
 
         public Builder() {
             this.id = "";
@@ -124,6 +224,10 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             this.description = "";
             this.status = Status.READY_FOR_ESTIMATION;
             this.priority = Priority.NORMAL;
+            this.finishedIssues = 0;
+            this.finishedIssueTime = 0;
+            this.totalIssues = 0;
+            this.totalIssueTime = 0;
         }
 
         public Builder(MainTask task) {
@@ -208,8 +312,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         }
 
         public MainTask build() {
-            return new MainTask(this.id, this.name, this.description,
-                    this.status, this.priority);
+            return new MainTask(this);
         }
     }
     

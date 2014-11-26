@@ -212,7 +212,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
             @Override
             public void interactionDone(List<Issue> object) {
-                float estimatedTime = task.estimatedTime(object);
+                //TODO fix
+                float estimatedTime = 0;
                 // FIXME not hours!
                 estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " hours");
             }
