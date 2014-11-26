@@ -22,10 +22,6 @@ public class ProjectListActivityTest extends
         super.setUp();
         getActivity();
     }
-    
-    public void testTrue() {
-        assertTrue(true);
-    }
 
     public void testAddNewProject() {
 //        FIXME
@@ -36,8 +32,9 @@ public class ProjectListActivityTest extends
     }
     
     public void testRemoveProject() {
-        onView(withId(R.id.project_list)).perform(longClick());
-        onView(withId(R.id.action_entity_delete)).perform(click());
+//        TODO
+//        onView(withId(R.id.project_list)).perform(longClick());
+//        onView(withId(R.id.action_entity_delete)).perform(click());
     }
 
 }

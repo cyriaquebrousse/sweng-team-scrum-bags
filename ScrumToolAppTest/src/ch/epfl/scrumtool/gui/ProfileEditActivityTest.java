@@ -12,7 +12,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  */
 public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<ProfileEditActivity> {
 
-    public ProfileEditActivityTest(Class<ProfileEditActivity> activityClass) {
+    public ProfileEditActivityTest() {
         super(ProfileEditActivity.class);
     }
     

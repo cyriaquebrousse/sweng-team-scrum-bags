@@ -3,21 +3,30 @@ package ch.epfl.scrumtool.entity;
 import junit.framework.TestCase;
 
 public class SprintTest extends TestCase {
-
-    public void testHashCode() {
-        fail("Not yet implemented"); // TODO
-    }
+    
+    private final static String TITLE = "title";
+    private final static String KEY = "key";
+    private final static long DEADLINE = 0;
+            
+    private final static Sprint sprint = new Sprint.Builder()
+    .setTitle(TITLE)
+    .setKey(KEY)
+    .setDeadline(DEADLINE)
+    .build();
 
     public void testGetDeadline() {
-        fail("Not yet implemented"); // TODO
+        long deadLine = sprint.getDeadline();
+        assertEquals(DEADLINE, deadLine);
     }
 
     public void testGetKey() {
-        fail("Not yet implemented"); // TODO
+        String key = sprint.getKey();
+        assertEquals(KEY, key);
     }
 
     public void testEqualsObject() {
-        fail("Not yet implemented"); // TODO
+        Sprint sprint2 = sprint;
+        assertTrue(sprint2.equals(sprint));
     }
 
 }
