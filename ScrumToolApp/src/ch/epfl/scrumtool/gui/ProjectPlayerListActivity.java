@@ -1,6 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.emailIsValid;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
 
 import java.util.List;
 
@@ -12,16 +14,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -37,17 +38,12 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
  * @author sylb
  */
-public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
-        implements OnMenuItemClickListener {
-
-    private static final int MAX_EMAIL_LENGTH = 255;
-    private static final int MIN_EMAIL_LENGTH = 4;
+public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> implements OnMenuItemClickListener {
 
     private Project project;
     private ListView listView;
@@ -187,17 +183,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
         });
     }
 
-    private boolean emailIsValid(String email) {
-        return email != null &&
-                email.length() > MIN_EMAIL_LENGTH &&
-                email.contains("@") &&
-                email.length() < MAX_EMAIL_LENGTH;
-    }
-
     @Override
     void openEditElementActivity(Player optionalElementToEdit) {
         LayoutInflater inflater = LayoutInflater.from(ProjectPlayerListActivity.this);
-        View popupView = inflater.inflate(R.layout.popupmodifiers, null);
+        View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
 
         final AlertDialog alertDialog = new AlertDialog.Builder(ProjectPlayerListActivity.this)
                 .setView(popupView)
@@ -215,12 +204,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player>
 
                     @Override
                     public void onClick(View v) {
-                        InputVerifiers.updateTextViewAfterValidityCheck(
-                                userInput, emailIsValid(userInput.getText().toString()),
+                        updateTextViewAfterValidityCheck(userInput, emailIsValid(userInput.getText().toString()),
                                 ProjectPlayerListActivity.this.getResources());
                         if (emailIsValid(userInput.getText().toString())) {
-                            insertPlayer(userInput.getText().toString(),
-                                    Role.INVITED);
+                            insertPlayer(userInput.getText().toString(), Role.INVITED);
                             alertDialog.dismiss();
                         }
                     }

@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -49,10 +51,14 @@ public class ProjectEditActivity extends BaseMenuActivity {
     }
 
     public void saveProjectChanges(View view) {
-        InputVerifiers.updateTextViewAfterValidityCheck(projectTitleView, titleIsValid(), getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid(), getResources());
         
-        if (titleIsValid() && descriptionIsValid()) {
+        boolean titleIsValid = entityNameIsValid(projectTitleView);
+        boolean descriptionIsValid = textEditNonNullNotEmpty(projectDescriptionView);
+        
+        InputVerifiers.updateTextViewAfterValidityCheck(projectTitleView, titleIsValid, getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid, getResources());
+        
+        if (titleIsValid && descriptionIsValid) {
             findViewById(R.id.project_edit_button_next).setEnabled(false);
             String newTitle = projectTitleView.getText().toString();
             String newDescription = projectDescriptionView.getText().toString();
@@ -87,19 +93,9 @@ public class ProjectEditActivity extends BaseMenuActivity {
                     ProjectEditActivity.this.finish();
                 } else {
                     Toast.makeText(ProjectEditActivity.this, "Could not update project", Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.project_edit_button_next).setEnabled(true);
                 }                
             }
         });
-    }
-
-    private boolean titleIsValid() {
-        String title = projectTitleView.getText().toString();
-        return title != null && title.length() > 0
-                && title.length() < 50; // TODO put a meaningful value (cyriaque)
-    }
-
-    private boolean descriptionIsValid() {
-        String description = projectDescriptionView.getText().toString();
-        return description != null && description.length() > 0;
     }
 }

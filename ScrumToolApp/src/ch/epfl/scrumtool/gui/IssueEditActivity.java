@@ -1,6 +1,9 @@
 package ch.epfl.scrumtool.gui;
 
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
 
 import java.util.List;
 
@@ -20,7 +23,6 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
@@ -110,10 +112,13 @@ public class IssueEditActivity extends BaseMenuActivity {
     }
 
     public void saveIssueChanges(View view) {
-        InputVerifiers.updateTextViewAfterValidityCheck(issueNameView, nameIsValid(), getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid(), getResources());
+        boolean nameIsValid = entityNameIsValid(issueNameView);
+        boolean descriptionIsValid = textEditNonNullNotEmpty(issueDescriptionView);
+        
+        updateTextViewAfterValidityCheck(issueNameView, nameIsValid, getResources());
+        updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid, getResources());
 
-        if (nameIsValid() && descriptionIsValid()) {
+        if (nameIsValid && descriptionIsValid) {
             findViewById(R.id.issue_edit_button_next).setEnabled(false);
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
@@ -122,8 +127,8 @@ public class IssueEditActivity extends BaseMenuActivity {
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(newEstimation);
-            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO get this value from the user
-            issueBuilder.setPriority(Priority.NORMAL); // TODO get this value from the user
+            setStatusAccordingToEstimation(newEstimation);
+            issueBuilder.setPriority(Priority.NORMAL); // TODO for now issue priorities are useless
             issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
             issueBuilder.setSprint((Sprint) sprintSpinner.getSelectedItem());
 
@@ -132,6 +137,14 @@ public class IssueEditActivity extends BaseMenuActivity {
             } else {
                 updateIssue();
             }
+        }
+    }
+
+    private void setStatusAccordingToEstimation(float estimation) {
+        if (estimation > 0) {
+            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
+        } else {
+            issueBuilder.setStatus(Status.READY_FOR_SPRINT);
         }
     }
 
@@ -154,19 +167,9 @@ public class IssueEditActivity extends BaseMenuActivity {
                     IssueEditActivity.this.finish();
                 } else {
                     Toast.makeText(IssueEditActivity.this, "Could not update issue", Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.issue_edit_button_next).setEnabled(true);
                 }
             }
         });
-    }
-
-    private boolean nameIsValid() {
-        String name = issueNameView.getText().toString();
-        return name != null && name.length() > 0
-                && name.length() < 50; // TODO put a meaningful value (cyriaque)
-    }
-
-    private boolean descriptionIsValid() {
-        String description = issueDescriptionView.getText().toString();
-        return description != null && description.length() > 0;
     }
 }

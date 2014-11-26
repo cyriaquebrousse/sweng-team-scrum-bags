@@ -1,6 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,10 +79,14 @@ public class TaskEditActivity extends BaseMenuActivity {
     }
     
     public void saveTaskChanges(View view) {
-        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid(), getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid(), getResources());
         
-        if (nameIsValid() && descriptionIsValid()) {
+        boolean nameIsValid = entityNameIsValid(taskNameView);
+        boolean descriptionIsValid = textEditNonNullNotEmpty(taskDescriptionView);
+        
+        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid, getResources());
+        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid, getResources());
+        
+        if (nameIsValid && descriptionIsValid) {
             findViewById(R.id.task_edit_button_next).setEnabled(false);
             String newName = taskNameView.getText().toString();
             String newDescription = taskDescriptionView.getText().toString();
@@ -117,19 +123,9 @@ public class TaskEditActivity extends BaseMenuActivity {
                     TaskEditActivity.this.finish();
                 } else {
                     Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.task_edit_button_next).setEnabled(true);
                 }
             }
         });
-    }
-
-    private boolean nameIsValid() {
-        String name = taskNameView.getText().toString();
-        return name != null && name.length() > 0
-                && name.length() < 50; // TODO put a meaningful value (cyriaque)
-    }
-    
-    private boolean descriptionIsValid() {
-        String description = taskDescriptionView.getText().toString();
-        return description != null && description.length() > 0;
     }
 }

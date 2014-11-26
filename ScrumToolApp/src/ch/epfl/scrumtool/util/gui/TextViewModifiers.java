@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.util.gui;
 
-import ch.epfl.scrumtool.R;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import ch.epfl.scrumtool.R;
 
 /**
  * @author sylb
@@ -48,9 +50,10 @@ public class TextViewModifiers {
                     
                     @Override
                     public void onClick(View v) {
-                        InputVerifiers.updateTextViewAfterValidityCheck(userInput,
-                                nameIsValid(userInput), parent.getResources());
-                        if (nameIsValid(userInput)) {
+                        boolean nameIsValid = entityNameIsValid(userInput);
+                        
+                        updateTextViewAfterValidityCheck(userInput, nameIsValid, parent.getResources());
+                        if (nameIsValid) {
                             callback.onModified(userInput.getText().toString());
                             alertDialog.dismiss();
                         }
@@ -96,12 +99,4 @@ public class TextViewModifiers {
         
         alertDialog.show();
     }
-    
-    private static boolean nameIsValid(EditText editText) {
-        String stringValue = editText.getText().toString();
-        return stringValue != null && stringValue.length() > 0
-                && stringValue.length() < 50; // TODO put a meaningful value
-    }
-    
-
 }
