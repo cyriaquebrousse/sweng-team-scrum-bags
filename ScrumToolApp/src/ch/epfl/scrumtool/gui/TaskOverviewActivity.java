@@ -209,15 +209,9 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         prioritySticker.setPriority(task.getPriority());
         statusSlate.setText(task.getStatus().toString());
         
-        task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            @Override
-            public void interactionDone(List<Issue> object) {
-                //TODO fix
-                float estimatedTime = 0;
-                // FIXME not hours!
-                estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " hours");
-            }
-        });
+        float estimatedTime = task.getTotalIssueTime();
+        String unit = getResources().getString(R.string.project_default_unit);
+        estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " " + unit);
     }
 
     @Override
