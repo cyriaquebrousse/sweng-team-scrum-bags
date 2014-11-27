@@ -9,7 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
@@ -17,8 +22,10 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.gui.components.DashboardProjectListAdapter;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.Session;
 
 /**
@@ -27,9 +34,19 @@ import ch.epfl.scrumtool.network.Session;
  */
 public class DashboardActivity extends BaseMenuActivity {
     
+    // Issues
     private ListView issueListView;
-    private ListView projectListView;
-    private IssueListAdapter adapter;
+    private TextView issueListEmptyView;
+    private IssueListAdapter issueAdapter;
+    
+    // Projects
+    private GridView projectListView;
+    private LinearLayout projectListEmptyView;
+    private DashboardProjectListAdapter projectAdapter;
+    
+    // Buttons
+    @SuppressWarnings("unused")
+    private Button seeAllProjectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +83,8 @@ public class DashboardActivity extends BaseMenuActivity {
                 issueList.add(it.nextIndex(), it.next().getIssue());
             }
             
-            adapter = new IssueListAdapter(DashboardActivity.this, issueList);
-            issueListView.setAdapter(adapter);
+            issueAdapter = new IssueListAdapter(DashboardActivity.this, issueList);
+            issueListView.setAdapter(issueAdapter);
 
             if (!issueList.isEmpty()) {
                 issueListView.setOnItemClickListener(new OnItemClickListener() {
@@ -82,18 +99,55 @@ public class DashboardActivity extends BaseMenuActivity {
                     }
                 });
             }
-            adapter.notifyDataSetChanged();
+            issueAdapter.notifyDataSetChanged();
         }
     };
     
+    private Callback<List<Project>> projectsCallback = new DefaultGUICallback<List<Project>>(this) {
+        @Override
+        public void interactionDone(final List<Project> projectList) {
+
+            List<Project> displayedProjectList = projectList;
+            if (projectList.size() == 1) {
+                projectListView.setNumColumns(1);
+            } else if (projectList.size() > 2) {
+                displayedProjectList = projectList.subList(0, 2);
+            }
+            
+            projectAdapter = new DashboardProjectListAdapter(DashboardActivity.this, displayedProjectList);
+            projectListView.setAdapter(projectAdapter);
+
+            projectAdapter.notifyDataSetChanged();
+        }
+    };
+    
+    public void openAddProject(View view) {
+        Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
+        startActivity(openProjectEditIntent);
+    }
+    
     private void initViews() {
+        // Buttons
+        seeAllProjectButton = (Button) findViewById(R.id.dashboard_button_project_list);
+        
+        // Issue List
         issueListView = (ListView) findViewById(R.id.dashboard_issue_summary);
-        projectListView = (ListView) findViewById(R.id.dashboard_project_summary);
+        issueListEmptyView = (TextView) findViewById(R.id.dashboard_issue_summary_empty);
+        issueListView.setEmptyView(issueListEmptyView);
+        
+        // Project List
+        projectListView = (GridView) findViewById(R.id.dashboard_project_summary);
+        projectListEmptyView = (LinearLayout) findViewById(R.id.dashboard_project_summary_empty);
+        projectListView.setEmptyView(projectListEmptyView);
+        
+        ImageView addImage = (ImageView) findViewById(R.id.dashboard_project_summary_add_image);
+        addImage.setColorFilter(getResources().getColor(R.color.DarkGray));
     }
     
     private void updateViews() {
         try {
             Session.getCurrentSession().getUser().loadIssuesForUser(issuesCallback);
+            Client.getScrumClient().loadProjects(projectsCallback);
         } catch (NotAuthenticatedException e) {
             Session.relogin(this);
         }
