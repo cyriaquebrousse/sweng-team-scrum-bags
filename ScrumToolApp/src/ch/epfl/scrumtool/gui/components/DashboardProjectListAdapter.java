@@ -16,8 +16,7 @@ import ch.epfl.scrumtool.entity.Project;
  * @author ketsio
  */
 public final class DashboardProjectListAdapter extends DefaultAdapter<Project> {
-    
-    @SuppressWarnings("unused")
+
     private final Activity activity;
     private final LayoutInflater inflater;
     
@@ -47,6 +46,8 @@ public final class DashboardProjectListAdapter extends DefaultAdapter<Project> {
         backlogButton.setFocusable(false);
         sprintsButton.setFocusable(false);
         playersButton.setFocusable(false);
+        
+        convertView.setBackgroundColor(activity.getResources().getColor(R.color.White));
 
         return convertView;
     }
