@@ -50,10 +50,15 @@ public class MainTaskConverters {
                 maintask.setStatus(Status.valueOf(status));
             }
             
-            maintask.setFinishedIssues(dbMainTask.getIssuesFinished());
-            maintask.setFinishedIssueTime(dbMainTask.getTimeFinished());
-            maintask.setTotalIssues(dbMainTask.getTotalIssues());
-            maintask.setTotalIssueTime(dbMainTask.getTotalTime());
+            int issuesFinished = dbMainTask.getIssuesFinished() == null ? 0 : dbMainTask.getIssuesFinished();
+            int totalIssues = dbMainTask.getTotalIssues() == null ? 0 : dbMainTask.getTotalIssues();
+            long timeFinished = dbMainTask.getTimeFinished() == null ? 0 : dbMainTask.getTimeFinished();
+            long totalTime = dbMainTask.getTotalTime() == null ? 0 : dbMainTask.getTotalTime();
+            
+            maintask.setFinishedIssues(issuesFinished);
+            maintask.setFinishedIssueTime(timeFinished);
+            maintask.setTotalIssues(totalIssues);
+            maintask.setTotalIssueTime(totalTime);
 
             return maintask.build();
         }

@@ -44,7 +44,8 @@ public final class TaskListAdapter extends DefaultAdapter<MainTask>  {
         
         // Set views properties
         final MainTask task = getList().get(position);
-        double percentageDone = (double) task.getFinishedIssues() / (double) task.getTotalIssues();
+        double percentageDone = task.getTotalIssues() == 0 ? 0 : (double) task
+                .getFinishedIssues() / (double) task.getTotalIssues();
         
         priorityView.setPriority(task.getPriority());
         priorityView.setColor(activity.getResources().getColor(task.getPriority().getColorRef()));
