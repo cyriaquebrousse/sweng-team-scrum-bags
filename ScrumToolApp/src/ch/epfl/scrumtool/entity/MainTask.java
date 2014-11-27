@@ -50,6 +50,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public float getFinishedIssueTime() {
         return finishedIssueTime;
     }
+    
 
     /**
      * @param name
@@ -138,6 +139,15 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         } else {
             return finishedIssues / (float) totalIssues;
         }
+    }
+    
+    public float issueTimeCompletionRate() {
+        if (totalIssueTime == 0) {
+            return 0;
+        } else {
+            return finishedIssueTime / totalIssueTime;
+        }
+        
     }
 
 
