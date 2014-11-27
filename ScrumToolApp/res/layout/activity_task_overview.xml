@@ -7,35 +7,42 @@
     android:layout_height="match_parent"
     android:background="@color/shadeB"
     android:orientation="vertical"
-    tools:context=".gui.TaskOverviewActivity" >
+    tools:context=".gui.TaskOverviewActivity" xmlns:app="http://schemas.android.com/apk/res/ch.epfl.scrumtool">
 
-    <RelativeLayout
-        android:layout_margin="@dimen/space"
-        android:background="@color/White"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space"
+        android:paddingBottom="@dimen/space"
+        android:paddingStart="1dp"
+        android:paddingEnd="0dp"
+        android:orientation="vertical"
+        android:background="@drawable/white_box" >
 
+        <!-- Task priority -->
+        <View 
+            android:id="@+id/task_priority_bar"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/shadeC"
+            />
+        
+        <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
+            android:id="@+id/task_priority"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <!-- Task name -->
 
         <TextView
             android:id="@+id/task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space"
-            android:layout_marginRight="@dimen/space"
-            android:layout_marginTop="@dimen/space"
+            android:layout_marginStart="@dimen/space"
+            android:layout_marginEnd="@dimen/space"
             android:maxLines="1"
             android:textSize="@dimen/header_title_size"
             android:textStyle="bold" />
-
-        <!-- Task priority -->
-
-        <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
-            android:id="@+id/task_priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/task_name"
-            android:layout_below="@+id/task_name" />
 
         <!-- Task description -->
         <!-- TODO arbitrary height !!! -->
@@ -43,11 +50,10 @@
         <ScrollView
             android:id="@+id/task_desc_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_alignTop="@id/task_priority"
+            android:layout_height="wrap_content"
+            android:maxHeight="70dp"
             android:layout_marginEnd="@dimen/space"
-            android:layout_marginStart="@dimen/space"
-            android:layout_toEndOf="@id/task_priority" >
+            android:layout_marginStart="@dimen/space" >
 
             <TextView
                 android:id="@+id/task_desc"
@@ -55,75 +61,81 @@
                 android:layout_height="wrap_content" />
         </ScrollView>
 
-        <!-- Status and estimation slates -->
 
-        <LinearLayout
-            android:id="@+id/task_slates"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/task_desc_scrollview"
-            android:orientation="horizontal"
-            android:weightSum="1" >
+    </LinearLayout>
 
-            <!-- Status -->
+    <!-- Status and estimation slates -->
 
-            <ch.epfl.scrumtool.gui.components.widgets.Slate
-                android:id="@+id/task_slate_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                custom:slate_text="En sprint"
-                custom:slate_title="Status" />
-
-            <!-- Estimation -->
-
-            <ch.epfl.scrumtool.gui.components.widgets.Slate
-                android:id="@+id/task_slate_estimation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                custom:slate_color="@color/BurlyWood"
-                custom:slate_title="Estimation" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <LinearLayout 
+    <LinearLayout
+        android:id="@+id/task_slates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/White" >
-        
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_update_issue_list"
+        android:layout_marginBottom="@dimen/space"
+        android:layout_marginEnd="@dimen/space"
+        android:layout_marginStart="@dimen/space"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <!-- Status -->
+
+        <ch.epfl.scrumtool.gui.components.widgets.Slate
+            android:id="@+id/task_slate_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:layout_marginEnd="@dimen/space"
+            custom:slate_color="@color/shadeD"
+            custom:slate_text="En sprint"
+            custom:slate_title="Status" />
+
+        <!-- Estimation -->
+
+        <ch.epfl.scrumtool.gui.components.widgets.Slate
+            android:id="@+id/task_slate_estimation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            custom:slate_color="@color/shadeD"
+            custom:slate_title="Estimation" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="vertical" >
 
-        <!-- Issues list -->
-
-        <ListView
-            android:id="@+id/issue_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_update_empty_issue_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" >
-
-        <ScrollView
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_update_issue_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/empty_issue_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/empty_issue_list_hint" />
-        </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <!-- Issues list -->
+
+            <ListView
+                android:id="@+id/issue_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_update_empty_issue_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/empty_issue_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/empty_issue_list_hint" />
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </LinearLayout>

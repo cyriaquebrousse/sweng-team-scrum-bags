@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui.components.widgets;
 
 import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.R;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
@@ -20,6 +21,11 @@ public class PrioritySticker extends Sticker {
     public PrioritySticker(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.res = context.getResources();
+
+        // Adjusting the padding
+        int smallSpace = res.getDimensionPixelSize(R.dimen.small_space);
+        int space = res.getDimensionPixelSize(R.dimen.space);
+        setPaddingRelative(space, smallSpace, space, smallSpace);
     }
     
     public void setPriority(Priority priority) {

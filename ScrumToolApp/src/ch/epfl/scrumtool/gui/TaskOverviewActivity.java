@@ -46,6 +46,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private TextView nameView;
     private TextView descriptionView;
     private PrioritySticker prioritySticker;
+    private View priorityBar;
     private Slate statusSlate;
     private Slate estimationSlate;
     private ListView listView;
@@ -136,6 +137,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         nameView = (TextView) findViewById(R.id.task_name);
         descriptionView = (TextView) findViewById(R.id.task_desc);
         prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
+        priorityBar = (View) findViewById(R.id.task_priority_bar);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
         listView = (ListView) findViewById(R.id.issue_list);
@@ -181,6 +183,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         taskBuilder = new MainTask.Builder(task);
                         taskBuilder.setPriority(selected);
                         prioritySticker.setPriority(selected);
+                        priorityBar.setBackgroundColor(getResources()
+                                .getColor(selected.getColorRef()));
                         updateTask();
                     }
                 });
@@ -207,6 +211,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         nameView.setText(task.getName());
         descriptionView.setText(task.getDescription());
         prioritySticker.setPriority(task.getPriority());
+        priorityBar.setBackgroundColor(getResources().getColor(task.getPriority().getColorRef()));
         statusSlate.setText(task.getStatus().toString());
         
         float estimatedTime = task.getTotalIssueTime();
