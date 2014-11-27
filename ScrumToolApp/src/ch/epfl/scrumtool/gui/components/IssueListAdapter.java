@@ -41,6 +41,9 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         if (issue == null) {
             name.setText("No issue selected");
             divider.setVisibility(View.GONE);
+            estimation.setVisibility(View.GONE);
+            assignee.setVisibility(View.GONE);
+            unit.setVisibility(View.GONE);
         } else {
             name.setText(issue.getName());
             Player optionAssignee = issue.getPlayer();
