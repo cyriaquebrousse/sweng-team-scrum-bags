@@ -154,7 +154,7 @@ public class IssueConverters {
         }
     };
     
-    public static EntityConverter<CollectionResponseScrumIssue, List<TaskIssueProject>> DASHBOARD_ISSUES = 
+    public static final EntityConverter<CollectionResponseScrumIssue, List<TaskIssueProject>> DASHBOARD_ISSUES = 
             new EntityConverter<CollectionResponseScrumIssue, List<TaskIssueProject>>() {
         
         @Override

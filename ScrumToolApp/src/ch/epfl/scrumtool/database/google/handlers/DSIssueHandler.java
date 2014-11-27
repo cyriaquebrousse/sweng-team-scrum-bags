@@ -123,7 +123,7 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void loadIssuesForUser(User user, Callback<List<TaskIssueProject>> cB) {
         DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>> factory =
-                new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>>(MODE.AUTHENTICATED);
+            new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>>(MODE.AUTHENTICATED);
         factory.setCallback(cB);
         factory.setConverter(IssueConverters.DASHBOARD_ISSUES);
         factory.setOperation(IssueOperations.LOAD_ISSUES_USER);

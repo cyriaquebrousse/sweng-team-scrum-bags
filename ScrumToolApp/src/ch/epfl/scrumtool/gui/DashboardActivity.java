@@ -45,7 +45,6 @@ public class DashboardActivity extends BaseMenuActivity {
     private DashboardProjectListAdapter projectAdapter;
     
     // Buttons
-    @SuppressWarnings("unused")
     private Button seeAllProjectButton;
 
     @Override
