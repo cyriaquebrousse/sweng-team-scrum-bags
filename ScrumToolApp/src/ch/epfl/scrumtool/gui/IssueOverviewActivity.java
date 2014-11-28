@@ -41,6 +41,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     private TextView descriptionView;
     private TextView statusView;
     private Stamp estimationStamp;
+    private TextView assigneeLabel;
     private TextView assigneeName;
     private TextView sprintView;
 
@@ -67,20 +68,9 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
+        assigneeLabel = (TextView) findViewById(R.id.issue_assignee_label);
         assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
         sprintView = (TextView) findViewById(R.id.issue_sprint);
-
-        if (issue.getPlayer() != null) {
-            assigneeName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                    User assignee = issue.getPlayer().getUser();
-                    openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
-                    startActivity(openProfileIntent);
-                }
-            });
-        }
 
         initializeListeners();
         updateViews();
@@ -199,6 +189,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 });
             }
         });
+        
+        
 
 
         sprintView.setOnClickListener(new OnClickListener() {
@@ -219,26 +211,32 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 });
             }
         });
+        
+        assigneeLabel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
+                    @Override
+                    public void onSelected(Player selected) {
+                        issueBuilder = new Issue.Builder(issue);
+                        issueBuilder.setPlayer(selected);
+                        if (selected != null) {
+                            assigneeName.setText(selected.getUser().getName());
+                            setPlayerListenerIfNotNul();
+                        } else {
+                            assigneeName.setText(R.string.no_player);
+                            setPlayerListenerIfNull();
+                        }
+                        updateIssue();
+                    }
+                });
+            }
+        });
 
         if (issue.getPlayer() == null) {
-            assigneeName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
-                        @Override
-                        public void onSelected(Player selected) {
-                            issueBuilder = new Issue.Builder(issue);
-                            issueBuilder.setPlayer(selected);
-                            if (selected != null) {
-                                assigneeName.setText(selected.getUser().getName());
-                            } else {
-                                assigneeName.setText(R.string.no_player);
-                            }
-                            updateIssue();
-                        }
-                    });
-                }
-            });
+            setPlayerListenerIfNull();
+        } else {
+            setPlayerListenerIfNotNul();
         }
         
         estimationStamp.setOnClickListener(new OnClickListener() {
@@ -257,6 +255,41 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             }
         });
 
+    }
+    
+    private void setPlayerListenerIfNull() {
+        assigneeName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
+                    @Override
+                    public void onSelected(Player selected) {
+                        issueBuilder = new Issue.Builder(issue);
+                        issueBuilder.setPlayer(selected);
+                        if (selected != null) {
+                            assigneeName.setText(selected.getUser().getName());
+                            setPlayerListenerIfNotNul();
+                        } else {
+                            assigneeName.setText(R.string.no_player);
+                            setPlayerListenerIfNull();
+                        }
+                        updateIssue();
+                    }
+                });
+            }
+        });
+    }
+    
+    private void setPlayerListenerIfNotNul() {
+        assigneeName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
+                User assignee = issue.getPlayer().getUser();
+                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
+                startActivity(openProfileIntent);
+            }
+        });
     }
 
     private void updateIssue() {
