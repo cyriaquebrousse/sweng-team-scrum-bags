@@ -124,6 +124,36 @@ public class DashboardActivity extends BaseMenuActivity {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         startActivity(openProjectEditIntent);
     }
+
+    public void openBacklog(View view) {
+        final int position = projectListView.getPositionForView(view);
+        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+            Project project = (Project) projectListView.getAdapter().getItem(position);
+            Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
+            openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openBacklogIntent);
+        }
+    }
+    
+    public void openSprints(View view) {
+        final int position = projectListView.getPositionForView(view);
+        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+            Project project = (Project) projectListView.getAdapter().getItem(position);
+            Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+            openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openSprintsIntent);
+        }
+    }
+    
+    public void openPlayers(View view) {
+        final int position = projectListView.getPositionForView(view);
+        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+            Project project = (Project) projectListView.getAdapter().getItem(position);
+            Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
+            openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openPlayerListIntent);
+        }
+    }
     
     private void initViews() {
         // Buttons
