@@ -51,6 +51,13 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         return finishedIssueTime;
     }
     
+    public int unfinishedIssues() {
+        return totalIssues - finishedIssues;
+    }
+    
+    public float unfinishedIssueTime() {
+        return totalIssueTime - finishedIssueTime;
+    }
 
     /**
      * @param name
