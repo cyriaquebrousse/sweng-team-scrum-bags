@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.app.Activity;
@@ -83,6 +85,15 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         initializeListeners();
         updateViews();
     }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            issue = (Issue) data.getSerializableExtra(Issue.SERIALIZABLE_NAME);
+            throwIfNull("Issue cannot be null", issue);
+            updateViews();
+        }
+    }
 
 
     private void updateViews() {
@@ -113,7 +124,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, parentTask);
         openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, parentProject);
-        startActivity(openIssueEditIntent);
+        startActivityForResult(openIssueEditIntent, 1);
 
     }
 
