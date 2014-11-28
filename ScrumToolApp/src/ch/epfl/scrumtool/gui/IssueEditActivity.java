@@ -7,6 +7,7 @@ import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValid
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -159,11 +160,12 @@ public class IssueEditActivity extends BaseMenuActivity {
     }
 
     private void updateIssue() {
-        Issue issue = issueBuilder.build();
+        final Issue issue = issueBuilder.build();
         issue.update(null, new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
                 if (success.booleanValue()) {
+                    passResult(issue);
                     IssueEditActivity.this.finish();
                 } else {
                     Toast.makeText(IssueEditActivity.this, "Could not update issue", Toast.LENGTH_SHORT).show();
@@ -171,5 +173,11 @@ public class IssueEditActivity extends BaseMenuActivity {
                 }
             }
         });
+    }
+    
+    private void passResult(Issue issue) {
+        Intent intent = new Intent();
+        intent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+        setResult(1, intent);
     }
 }
