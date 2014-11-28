@@ -22,9 +22,9 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.gui.components.DashboardIssueListAdapter;
 import ch.epfl.scrumtool.gui.components.DashboardProjectListAdapter;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.Session;
 
@@ -37,7 +37,7 @@ public class DashboardActivity extends BaseMenuActivity {
     // Issues
     private ListView issueListView;
     private TextView issueListEmptyView;
-    private IssueListAdapter issueAdapter;
+    private DashboardIssueListAdapter issueAdapter;
     
     // Projects
     private GridView projectListView;
@@ -45,6 +45,7 @@ public class DashboardActivity extends BaseMenuActivity {
     private DashboardProjectListAdapter projectAdapter;
     
     // Buttons
+    @SuppressWarnings("unused")
     private Button seeAllProjectButton;
 
     @Override
@@ -82,7 +83,7 @@ public class DashboardActivity extends BaseMenuActivity {
                 issueList.add(it.nextIndex(), it.next().getIssue());
             }
             
-            issueAdapter = new IssueListAdapter(DashboardActivity.this, issueList);
+            issueAdapter = new DashboardIssueListAdapter(DashboardActivity.this, issueList);
             issueListView.setAdapter(issueAdapter);
 
             if (!issueList.isEmpty()) {
