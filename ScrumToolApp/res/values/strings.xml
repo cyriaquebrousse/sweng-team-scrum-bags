@@ -40,15 +40,15 @@
     <string name="button_save">save</string>
 
     <!-- Titles -->
-    <string name="shared_projects">Shared Projects</string>
-    <string name="email">email</string>
-    <string name="username">username</string>
-    <string name="firstname">firstname</string>
-    <string name="lastname">lastname</string>
-    <string name="dateofbirth">date of birth</string>
-    <string name="company">company name</string>
-    <string name="jobtitle">job title</string>
-    <string name="gender">gender</string>
+    <string name="shared_projects">Shared projects</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="dateofbirth">Date of birth</string>
+    <string name="company">Company name</string>
+    <string name="jobtitle">Job title</string>
+    <string name="gender">Gender</string>
 
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
