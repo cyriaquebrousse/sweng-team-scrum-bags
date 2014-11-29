@@ -47,6 +47,7 @@ public final class ProjectListAdapter extends DefaultAdapter<Project> {
         Project project = getList().get(position);
         name.setText(project.getName());
         desc.setText(project.getDescription());
+        
         backlogButton.setFocusable(false);
         sprintsButton.setFocusable(false);
         playersButton.setFocusable(false);
