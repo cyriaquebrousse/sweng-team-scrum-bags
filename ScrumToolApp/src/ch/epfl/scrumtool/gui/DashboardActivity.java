@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,10 +43,6 @@ public class DashboardActivity extends BaseMenuActivity {
     private LinearLayout projectListEmptyView;
     private DashboardProjectListAdapter projectAdapter;
     
-    // Buttons
-    @SuppressWarnings("unused")
-    private Button seeAllProjectButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,9 +152,6 @@ public class DashboardActivity extends BaseMenuActivity {
     }
     
     private void initViews() {
-        // Buttons
-        seeAllProjectButton = (Button) findViewById(R.id.dashboard_button_project_list);
-        
         // Issue List
         issueListView = (ListView) findViewById(R.id.dashboard_issue_summary);
         issueListEmptyView = (TextView) findViewById(R.id.dashboard_issue_summary_empty);
