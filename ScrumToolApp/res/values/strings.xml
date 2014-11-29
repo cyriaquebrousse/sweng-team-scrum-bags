@@ -6,26 +6,23 @@
 
     <!-- Activity Titles -->
     <string name="title_activity_main">Murcs</string>
-    <string name="title_activity_dashbord">DashbordActivity</string>
+    <string name="title_activity_dashboard">Dashboard</string>
     <string name="title_activity_projectList">Projects</string>
-    <string name="title_activity_project_overview">Project overview</string>
     <string name="title_activity_project_edit">Edit project</string>
     <string name="title_activity_project_edit_new">New project</string>
     <string name="title_activity_backlog">Backlog</string>
     <string name="title_activity_task_overview">Task overview</string>
-    <string name="title_activity_task">Task</string>
     <string name="title_activity_task_edit">Edit task</string>
     <string name="title_activity_task_edit_new">New task</string>
     <string name="title_activity_issue_overview">Issue overview</string>
     <string name="title_activity_issue_edit">Edit issue</string>
     <string name="title_activity_issue_edit_new">New issue</string>
     <string name="title_activity_sprint_list">Sprint list</string>
-    <string name="title_activity_sprint">New sprint</string>
     <string name="title_activity_sprint_edit">Edit sprint</string>
     <string name="title_activity_user_list">User list</string>
     <string name="title_activity_project_player_list">Player list</string>
     <string name="title_activity_profile_overview">Profile overview</string>
-    <string name="title_activity_profile_edit">ProfileEditActivity</string>
+    <string name="title_activity_profile_edit">Edit profile</string>
     <string name="title_activity_sprint_overview">Sprint</string>
 
     <!-- Buttons -->

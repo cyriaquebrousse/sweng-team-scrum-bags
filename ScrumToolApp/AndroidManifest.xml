@@ -39,20 +39,8 @@
             android:label="@string/title_activity_backlog" >
         </activity>
         <activity
-            android:name=".gui.TaskActivity"
-            android:label="@string/title_activity_task" >
-        </activity>
-        <activity
             android:name=".gui.ProjectListActivity"
             android:label="@string/title_activity_projectList" >
-        </activity>
-        <activity
-            android:name=".gui.ProjectOverviewActivity"
-            android:label="@string/title_activity_project_overview" >
-        </activity>
-        <activity
-            android:name=".gui.UserListActivity"
-            android:label="@string/title_activity_user_list" >
         </activity>
         <activity
             android:name=".gui.TaskOverviewActivity"
@@ -65,10 +53,6 @@
         <activity
             android:name=".gui.ProfileOverviewActivity"
             android:label="@string/title_activity_profile_overview" >
-        </activity>
-        <activity
-            android:name=".gui.SprintActivity"
-            android:label="@string/title_activity_sprint" >
         </activity>
         <activity
             android:name=".gui.ProjectEditActivity"
@@ -92,14 +76,14 @@
         </activity>
         <activity
             android:name=".gui.DashboardActivity"
-            android:label="@string/title_activity_dashbord" >
+            android:label="@string/title_activity_dashboard" >
         </activity>
         <activity
             android:name=".gui.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.SprintOverviewActivity"
+            android:name=".gui.SprintOverviewActivity"
             android:label="@string/title_activity_sprint_overview" >
         </activity>
         <activity
