@@ -243,7 +243,9 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param estimatedTime
          */
         public Issue.Builder setEstimatedTime(float estimatedTime) {
-            this.estimatedTime = estimatedTime;
+            if (estimatedTime >= 0f) {
+                this.estimatedTime = estimatedTime;
+            }
             return this;
         }
 
