@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="libs/espresso-1.1-bundled.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="/home/vincent/Downloads/mockito-1.9.5.zip"/>
-	<classpathentry exported="true" kind="lib" path="/home/vincent/Documents/swengRepositories/sweng-2014-quizapp-release/SwEngQuizAppTest/libs/mockito-core-1.9.5.jar"/>
+	<classpathentry kind="lib" path="libs/mockito-core-1.9.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
