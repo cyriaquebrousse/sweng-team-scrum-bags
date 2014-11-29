@@ -1,18 +1,20 @@
 package ch.epfl.scrumtool.gui.components.widgets;
 
-import ch.epfl.scrumtool.entity.Priority;
-import ch.epfl.scrumtool.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Priority;
 
 /**
+ * Sticker that represents a Scrum priority (and nothing else)
+ * 
  * @author Cyriaque Brousse
+ * @see Sticker
+ * @see Priority
  */
 public class PrioritySticker extends Sticker {
     
     private Priority priority;
-    private Resources res;
     
     /**
      * @param context
@@ -20,22 +22,32 @@ public class PrioritySticker extends Sticker {
      */
     public PrioritySticker(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.res = context.getResources();
 
         // Adjusting the padding
-        int smallSpace = res.getDimensionPixelSize(R.dimen.small_space);
-        int space = res.getDimensionPixelSize(R.dimen.space);
+        int smallSpace = getResources().getDimensionPixelSize(R.dimen.small_space);
+        int space = getResources().getDimensionPixelSize(R.dimen.space);
         setPaddingRelative(space, smallSpace, space, smallSpace);
     }
     
     public void setPriority(Priority priority) {
+        assert priority != null;
+        
         this.priority = priority;
-        setStickerText(priority.toString());
-        setColor(res.getColor(priority.getColorRef()));
+        super.setStickerText(priority.toString());
+        super.setColor(getResources().getColor(priority.getColorRef()));
     }
     
     public Priority getPriority() {
         return priority;
     }
     
+    @Override
+    public final void setStickerText(String text) {
+        super.setStickerText(text);
+    }
+    
+    @Override
+    public final void setColor(int color) {
+        super.setColor(color);
+    }
 }

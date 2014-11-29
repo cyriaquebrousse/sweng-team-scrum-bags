@@ -19,17 +19,17 @@
         android:padding="@dimen/list_row_padding" >
 
         <!-- Priority -->
-        <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
+        <ch.epfl.scrumtool.gui.components.widgets.SingleSizePrioritySticker
             android:id="@+id/task_row_priority_sticker"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp" />
 
         <!-- Name -->
         <TextView
             android:id="@+id/task_row_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_list"
             android:layout_toEndOf="@id/task_row_priority_sticker"
             android:maxLines="1"
             android:textSize="@dimen/list_row_name"
