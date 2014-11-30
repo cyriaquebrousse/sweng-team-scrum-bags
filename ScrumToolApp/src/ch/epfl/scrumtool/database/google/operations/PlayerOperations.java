@@ -14,7 +14,6 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 
 /**
@@ -48,10 +47,10 @@ public class PlayerOperations {
         }
     };
 
-    public static final ScrumToolOperation<Player, OperationStatus> UPDATE_PLAYER =
-            new ScrumToolOperation<Player, OperationStatus>() {
+    public static final ScrumToolOperation<Player, Void> UPDATE_PLAYER =
+            new ScrumToolOperation<Player, Void>() {
         @Override
-        public OperationStatus execute(Player arg, Scrumtool service)
+        public Void execute(Player arg, Scrumtool service)
                 throws ScrumToolException {
             ScrumPlayer scrumPlayer = PlayerConverters.PLAYER_TO_SCRUMPLAYER
                     .convert(arg);
@@ -63,10 +62,10 @@ public class PlayerOperations {
         }
     };
 
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_PLAYER =
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_PLAYER =
+            new ScrumToolOperation<String, Void>() {
         @Override
-        public OperationStatus execute(String arg, Scrumtool service)
+        public Void execute(String arg, Scrumtool service)
                 throws ScrumToolException {
             try {
                 return service.removeScrumPlayer(arg).execute();

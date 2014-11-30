@@ -6,8 +6,8 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.ProjectHandler;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.conversion.ProjectConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.ProjectOperations;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
 /**
  * 
@@ -40,9 +39,9 @@ public class DSProjectHandler implements ProjectHandler {
 
     @Override
     public void update(final Project modified, final Project ref, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Project, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<Project, OperationStatus, Boolean>(MODE.AUTHENTICATED);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        DSExecArgs.Factory<Project, Void, Boolean> factory = 
+                new DSExecArgs.Factory<Project, Void, Boolean>(MODE.AUTHENTICATED);
+        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         factory.setCallback(callback);
         factory.setOperation(ProjectOperations.UPDATE_PROJECT);
         OperationExecutor.execute(modified, factory.build());
@@ -50,10 +49,10 @@ public class DSProjectHandler implements ProjectHandler {
 
     @Override
     public void remove(final Project project, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<String, Void, Boolean> factory = 
+                new Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         factory.setOperation(ProjectOperations.DELETE_PROJECT);
         OperationExecutor.execute(project.getKey(), factory.build());
     }

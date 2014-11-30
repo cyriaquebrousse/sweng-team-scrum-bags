@@ -149,7 +149,7 @@ public class IssueConverters {
         public Issue convert(InsertResponse<Issue> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getOpStat().getKey())
+                    .setKey(a.getkeyReponse().getKey())
                     .build();
         }
     };

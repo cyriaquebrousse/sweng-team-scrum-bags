@@ -12,7 +12,6 @@ import ch.epfl.scrumtool.exception.LoginException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
@@ -35,10 +34,10 @@ public final class UserOperations {
         }
     };
 
-    public static final ScrumToolOperation<User, OperationStatus> UPDATE_USER = 
-            new ScrumToolOperation<User, OperationStatus>() {
+    public static final ScrumToolOperation<User, Void> UPDATE_USER = 
+            new ScrumToolOperation<User, Void>() {
         @Override
-        public OperationStatus execute(User arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(User arg, Scrumtool service) throws ScrumToolException {
             ScrumUser scrumUser = UserConverters.USER_TO_SCRUMUSER.convert(arg);
             try {
                 return service.updateScrumUser(scrumUser).execute();
@@ -49,11 +48,12 @@ public final class UserOperations {
     };
     
     
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_USER = 
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_USER = 
+            new ScrumToolOperation<String, Void>() {
         @Override
-        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
             try {
+                
                 return service.removeScrumUser(arg).execute();
             } catch (IOException e) {
                 throw new DeleteException(e, "User deletion failed");

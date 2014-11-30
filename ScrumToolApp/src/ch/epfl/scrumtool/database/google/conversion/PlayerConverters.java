@@ -77,7 +77,7 @@ public class PlayerConverters {
         public Player convert(InsertResponse<Player> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getOpStat().getKey())
+                    .setKey(a.getkeyReponse().getKey())
                     .build();
         }
     };

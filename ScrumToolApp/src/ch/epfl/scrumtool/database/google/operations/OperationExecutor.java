@@ -4,6 +4,7 @@
 package ch.epfl.scrumtool.database.google.operations;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
@@ -11,6 +12,8 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
  * 
  */
 public final class OperationExecutor {
+    public static final String TAG = "Operation Executor";
+    
     @SuppressWarnings("unchecked")
     public static <A, B, C> void execute(final A a, final DSExecArgs<A, B, C> args) {
         AsyncTask<A, Void, TaskResult<B>> task = new AsyncTask<A, Void, TaskResult<B>>() {
@@ -22,7 +25,7 @@ public final class OperationExecutor {
                     return new TaskResult<B>(serverResult);
                     
                 } catch (ScrumToolException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "Execution failed", e);
                     return new TaskResult<B>(e);
                 }
             }

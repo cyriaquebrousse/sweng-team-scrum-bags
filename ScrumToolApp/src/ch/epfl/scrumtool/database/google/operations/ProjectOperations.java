@@ -16,7 +16,6 @@ import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
 /**
@@ -24,10 +23,10 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
  *
  */
 public final class ProjectOperations {
-    public static final ScrumToolOperation<Project, OperationStatus> UPDATE_PROJECT = 
-            new ScrumToolOperation<Project, OperationStatus>() {
+    public static final ScrumToolOperation<Project, Void> UPDATE_PROJECT = 
+            new ScrumToolOperation<Project, Void>() {
         @Override
-        public OperationStatus execute(Project arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(Project arg, Scrumtool service) throws ScrumToolException {
             try {
                 ScrumProject update = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
                 update.setLastModUser(Session.getCurrentSession().getUser().getEmail());
@@ -54,11 +53,11 @@ public final class ProjectOperations {
         }
     };
     
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_PROJECT = 
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_PROJECT = 
+            new ScrumToolOperation<String, Void>() {
                 
         @Override
-        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
             try {
                 return service.removeScrumProject(arg).execute();
             } catch (IOException e) {

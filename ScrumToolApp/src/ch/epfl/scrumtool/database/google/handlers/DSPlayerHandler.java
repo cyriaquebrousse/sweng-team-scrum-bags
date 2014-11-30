@@ -10,18 +10,17 @@ import ch.epfl.scrumtool.database.PlayerHandler;
 import ch.epfl.scrumtool.database.google.containers.InsertPlayerArgs;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
-import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
-import ch.epfl.scrumtool.database.google.operations.PlayerOperations;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
+import ch.epfl.scrumtool.database.google.operations.PlayerOperations;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
 /**
  * @author aschneuw
@@ -44,20 +43,20 @@ public class DSPlayerHandler implements PlayerHandler {
     @Override
     public void update(final Player modified, final Player ref,
             final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Player, OperationStatus, Boolean> builder = 
-                new DSExecArgs.Factory<Player, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<Player, Void, Boolean> builder = 
+                new DSExecArgs.Factory<Player, Void, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         builder.setOperation(PlayerOperations.UPDATE_PLAYER);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
     public void remove(final Player player, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<String, Void, Boolean> factory = 
+                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         factory.setOperation(PlayerOperations.DELETE_PLAYER);
         OperationExecutor.execute(player.getKey(), factory.build());
     }

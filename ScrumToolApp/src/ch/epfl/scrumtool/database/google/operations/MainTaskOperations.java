@@ -13,7 +13,7 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 
 /**
@@ -23,10 +23,10 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
  *
  */
 public class MainTaskOperations {
-    public static final ScrumToolOperation<MainTask, OperationStatus> UPDATE_MAINTASK = 
-            new ScrumToolOperation<MainTask, OperationStatus>() {
+    public static final ScrumToolOperation<MainTask, Void> UPDATE_MAINTASK = 
+            new ScrumToolOperation<MainTask, Void>() {
         @Override
-        public OperationStatus execute(MainTask arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(MainTask arg, Scrumtool service) throws ScrumToolException {
             ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg);
             try {
                 return service.updateScrumMainTask(scrumMainTask).execute();
@@ -36,10 +36,10 @@ public class MainTaskOperations {
         }
     };
     
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_MAINTASK = 
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_MAINTASK = 
+            new ScrumToolOperation<String, Void>() {
         @Override
-        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
             try {
                 return service.removeScrumMainTask(arg).execute();
             } catch (IOException e) {
@@ -69,7 +69,7 @@ public class MainTaskOperations {
                 Scrumtool service) throws ScrumToolException {
             try {
                 ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg.getMainTask());
-                OperationStatus serverAnswer = 
+                KeyResponse serverAnswer = 
                         service.insertScrumMainTask(arg.getProjectKey(), scrumMainTask).execute();
                 InsertResponse<MainTask> response = 
                         new InsertResponse<MainTask>(arg.getMainTask(), serverAnswer);

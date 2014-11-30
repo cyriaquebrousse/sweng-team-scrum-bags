@@ -4,11 +4,11 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.SprintHandler;
-import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
@@ -16,7 +16,6 @@ import ch.epfl.scrumtool.database.google.operations.SprintOperations;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
 /**
  * 
@@ -46,10 +45,10 @@ public class DSSprintHandler implements SprintHandler {
      */
     public void update(final Sprint modified, final Sprint ref,
             final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Sprint, OperationStatus, Boolean> builder =
-                new DSExecArgs.Factory<Sprint, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<Sprint, Void, Boolean> builder =
+                new DSExecArgs.Factory<Sprint, Void, Boolean>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         builder.setOperation(SprintOperations.UPDATE_SPRINT);
         OperationExecutor.execute(modified, builder.build());
     }
@@ -59,10 +58,10 @@ public class DSSprintHandler implements SprintHandler {
      * Removes a Sprint from the datastore.
      */
     public void remove(final Sprint sprint, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<String, Void, Boolean> factory = 
+                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
         factory.setOperation(SprintOperations.DELETE_SPRINT);
         OperationExecutor.execute(sprint.getKey(), factory.build());
     }

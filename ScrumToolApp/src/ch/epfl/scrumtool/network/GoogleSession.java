@@ -29,7 +29,7 @@ import com.google.api.client.json.gson.GsonFactory;
  * @author aschneuw
  * 
  */
-public class GoogleSession extends Session {
+public final class GoogleSession extends Session {
     public static final String CLIENT_ID = "756445222019-7ll8hq36aorbfbno1unp49ikle7kt1nv.apps.googleusercontent.com";
     private static Scrumtool dbService = null;
     private Scrumtool authDBService = null;
@@ -41,7 +41,7 @@ public class GoogleSession extends Session {
      * @param user
      * @param credential
      */
-    public GoogleSession(User user, GoogleAccountCredential credential) {
+    private GoogleSession(User user, GoogleAccountCredential credential) {
         super(user);
         this.googleCredential = credential;
     }
@@ -119,7 +119,10 @@ public class GoogleSession extends Session {
         public Builder(LoginActivity context) {
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.CLIENT_ID);
+            
         }
+        
+        
 
         /**
          * @return

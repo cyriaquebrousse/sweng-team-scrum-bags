@@ -2,8 +2,8 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.exception.DeleteException;
@@ -13,7 +13,7 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
 /**
@@ -23,10 +23,10 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  *
  */
 public class SprintOperations {
-    public static final ScrumToolOperation<Sprint, OperationStatus> UPDATE_SPRINT = 
-            new ScrumToolOperation<Sprint, OperationStatus>() {
+    public static final ScrumToolOperation<Sprint, Void> UPDATE_SPRINT = 
+            new ScrumToolOperation<Sprint, Void>() {
         @Override
-        public OperationStatus execute(Sprint arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(Sprint arg, Scrumtool service) throws ScrumToolException {
             ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg);
             try {
                 return service.updateScrumSprint(scrumSprint).execute();
@@ -36,10 +36,10 @@ public class SprintOperations {
         }
     };
     
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_SPRINT = 
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_SPRINT = 
+            new ScrumToolOperation<String, Void>() {
         @Override
-        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
             try {
                 return service.removeScrumSprint(arg).execute();
             } catch (IOException e) {
@@ -56,7 +56,7 @@ public class SprintOperations {
                 Scrumtool service) throws ScrumToolException {
             try {
                 ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg.getSprint());
-                OperationStatus opStat = service.insertScrumSprint(arg.getProjectKey(), scrumSprint).execute();
+                KeyResponse opStat = service.insertScrumSprint(arg.getProjectKey(), scrumSprint).execute();
                 InsertResponse<Sprint> response = new InsertResponse<Sprint>(arg.getSprint(), opStat);
                 return response;
             } catch (IOException e) {

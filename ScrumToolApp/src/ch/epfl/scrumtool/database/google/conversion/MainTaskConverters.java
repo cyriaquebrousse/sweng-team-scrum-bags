@@ -97,7 +97,7 @@ public class MainTaskConverters {
         public MainTask convert(InsertResponse<MainTask> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getOpStat().getKey())
+                    .setKey(a.getkeyReponse().getKey())
                     .build();
         }
     };

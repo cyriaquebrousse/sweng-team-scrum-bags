@@ -3,7 +3,7 @@
  */
 package ch.epfl.scrumtool.database.google.containers;
 
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 
 /**
  * @author aschneuw
@@ -12,25 +12,25 @@ import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
  */
 public class InsertResponse<A> {
     private final A entity;
-    private final OperationStatus opStat;
+    private final KeyResponse keyResponse;
     
     /**
      * 
      */
-    public InsertResponse(final A entity, final OperationStatus opStat) {
+    public InsertResponse(final A entity, final KeyResponse keyResponse) {
         if (entity == null) {
             throw new NullPointerException("Entity can't be null");
         }
         
-        if (opStat == null) {
-            throw new NullPointerException("OperationStatus needed");
+        if (keyResponse == null) {
+            throw new NullPointerException("KeyReponse needed");
         }
         
-        if (opStat.getKey() == null) {
-            throw new NullPointerException("OperationStatus needs a key");
+        if (keyResponse.getKey() == null) {
+            throw new NullPointerException("KeyResponse needs a key");
         }
         this.entity = entity;
-        this.opStat = opStat;
+        this.keyResponse = keyResponse;
     }
 
     /**
@@ -41,9 +41,9 @@ public class InsertResponse<A> {
     }
 
     /**
-     * @return the opStat
+     * @return the keyReponse
      */
-    public OperationStatus getOpStat() {
-        return opStat;
+    public KeyResponse getkeyReponse() {
+        return keyResponse;
     }
 }

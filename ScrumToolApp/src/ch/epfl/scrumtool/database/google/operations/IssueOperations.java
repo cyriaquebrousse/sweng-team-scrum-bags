@@ -9,13 +9,16 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.exception.DeleteException;
 import ch.epfl.scrumtool.exception.InsertException;
 import ch.epfl.scrumtool.exception.LoadException;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
+import ch.epfl.scrumtool.exception.NotFoundException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
+
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
 /**
  * Operations for Issue
@@ -54,10 +57,10 @@ public class IssueOperations {
         }
     };
     
-    public static final ScrumToolOperation<InsertIssueArgs, OperationStatus> INSERT_ISSUE_SPRINT = 
-            new ScrumToolOperation<InsertIssueArgs, OperationStatus>() {
+    public static final ScrumToolOperation<InsertIssueArgs, Void> INSERT_ISSUE_SPRINT = 
+            new ScrumToolOperation<InsertIssueArgs, Void>() {
         @Override
-        public OperationStatus execute(InsertIssueArgs arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(InsertIssueArgs arg, Scrumtool service) throws ScrumToolException {
             try {
                 ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
@@ -69,10 +72,10 @@ public class IssueOperations {
         }
     };
 
-//    public static final ScrumToolOperation<Issue, OperationStatus> UPDATE_ISSUE = 
-//            new ScrumToolOperation<Issue, OperationStatus>() {
+//    public static final ScrumToolOperation<Issue, KeyResponse> UPDATE_ISSUE = 
+//            new ScrumToolOperation<Issue, KeyResponse>() {
 //        @Override
-//        public OperationStatus execute(Issue arg, Scrumtool service) throws ScrumToolException {
+//        public KeyResponse execute(Issue arg, Scrumtool service) throws ScrumToolException {
 //            ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
 //            try {
 //                return service.updateScrumIssue(scrumIssue).execute();
@@ -82,10 +85,10 @@ public class IssueOperations {
 //        }
 //    };
     
-    public static final ScrumToolOperation<Issue, OperationStatus> UPDATE_ISSUE = 
-          new ScrumToolOperation<Issue, OperationStatus>() {
+    public static final ScrumToolOperation<Issue, Void> UPDATE_ISSUE = 
+          new ScrumToolOperation<Issue, Void>() {
         @Override
-        public OperationStatus execute(Issue arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(Issue arg, Scrumtool service) throws ScrumToolException {
          
                 final String playerKey;
                 if (arg.getPlayer() != null) {
@@ -111,10 +114,10 @@ public class IssueOperations {
     };
     
     
-    public static final ScrumToolOperation<String, OperationStatus> DELETE_ISSUE = 
-            new ScrumToolOperation<String, OperationStatus>() {
+    public static final ScrumToolOperation<String, Void> DELETE_ISSUE = 
+            new ScrumToolOperation<String, Void>() {
         @Override
-        public OperationStatus execute(String arg, Scrumtool service) throws ScrumToolException {
+        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
             try {
                 return service.removeScrumIssue(arg).execute();
             } catch (IOException e) {
@@ -171,6 +174,12 @@ public class IssueOperations {
             try {
                 return service.loadIssuesForUser(arg).execute();
             } catch (IOException e) {
+                if (e instanceof GoogleJsonResponseException) {
+                    switch (((GoogleJsonResponseException) e).getStatusCode()) {
+                    case 404: throw new NotFoundException(e, "Invalid user"); 
+                    case 401: throw new NotAuthenticatedException(e, "Not authenticated!");
+                    }
+                }
                 throw new ScrumToolException(e, "Error loading issues for user");
             }
         }

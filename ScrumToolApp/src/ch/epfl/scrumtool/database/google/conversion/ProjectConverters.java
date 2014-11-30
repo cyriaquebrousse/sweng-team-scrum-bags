@@ -69,7 +69,7 @@ public class ProjectConverters {
         public Project convert(InsertResponse<Project> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getOpStat().getKey())
+                    .setKey(a.getkeyReponse().getKey())
                     .build();
         }
     };
