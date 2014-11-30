@@ -8,11 +8,7 @@ import java.io.IOException;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.ProjectConverters;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.exception.DeleteException;
-import ch.epfl.scrumtool.exception.InsertException;
-import ch.epfl.scrumtool.exception.LoadException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
-import ch.epfl.scrumtool.exception.UpdateException;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
@@ -26,14 +22,10 @@ public final class ProjectOperations {
     public static final ScrumToolOperation<Project, Void> UPDATE_PROJECT = 
             new ScrumToolOperation<Project, Void>() {
         @Override
-        public Void execute(Project arg, Scrumtool service) throws ScrumToolException {
-            try {
+        public Void operation(Project arg, Scrumtool service) throws IOException, ScrumToolException {
                 ScrumProject update = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
                 update.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return service.updateScrumProject(update).execute();
-            } catch (IOException e) {
-                throw new UpdateException(e, "Project update failed");
-            }
         }
         
     };
@@ -41,15 +33,11 @@ public final class ProjectOperations {
     public static final ScrumToolOperation<Project, InsertResponse<Project>> INSERT_PROJECT = 
             new ScrumToolOperation<Project, InsertResponse<Project>>() {
         @Override
-        public InsertResponse<Project> execute(Project arg, Scrumtool service) throws ScrumToolException {
-            try {
+        public InsertResponse<Project> operation(Project arg, Scrumtool service)
+                throws IOException, ScrumToolException {
                 ScrumProject insert = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return new InsertResponse<Project>(arg, service.insertScrumProject(insert).execute());
-                
-            } catch (IOException e) {
-                throw new InsertException(e, "Project insertion failed");
-            }
         }
     };
     
@@ -57,12 +45,8 @@ public final class ProjectOperations {
             new ScrumToolOperation<String, Void>() {
                 
         @Override
-        public Void execute(String arg, Scrumtool service) throws ScrumToolException {
-            try {
+        public Void operation(String arg, Scrumtool service) throws IOException, ScrumToolException {
                 return service.removeScrumProject(arg).execute();
-            } catch (IOException e) {
-                throw new DeleteException(e, "Project deletion failed");
-            }
         }
     };
     
@@ -70,12 +54,9 @@ public final class ProjectOperations {
             new ScrumToolOperation<Void, CollectionResponseScrumProject>() {
 
         @Override
-        public CollectionResponseScrumProject execute(Void arg, Scrumtool service) throws ScrumToolException {
-            try {
+        public CollectionResponseScrumProject operation(Void arg, Scrumtool service)
+                throws ScrumToolException, IOException {
                 return service.loadProjects(Session.getCurrentSession().getUser().getEmail()).execute();
-            } catch (IOException e) {
-                throw new LoadException(e, "Loading project list failed");
-            }
         }
     };
 

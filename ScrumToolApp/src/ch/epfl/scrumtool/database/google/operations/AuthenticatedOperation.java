@@ -26,4 +26,5 @@ public final class AuthenticatedOperation<A, B> extends DatastoreOperation<A, B>
         final Scrumtool service = ((GoogleSession) Session.getCurrentSession()).getAuthServiceObject();
         return getOperation().execute(a, service);
     }
+
 }
