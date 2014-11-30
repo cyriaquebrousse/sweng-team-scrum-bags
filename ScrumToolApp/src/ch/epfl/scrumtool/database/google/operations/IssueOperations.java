@@ -72,18 +72,6 @@ public class IssueOperations {
         }
     };
 
-//    public static final ScrumToolOperation<Issue, KeyResponse> UPDATE_ISSUE = 
-//            new ScrumToolOperation<Issue, KeyResponse>() {
-//        @Override
-//        public KeyResponse execute(Issue arg, Scrumtool service) throws ScrumToolException {
-//            ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
-//            try {
-//                return service.updateScrumIssue(scrumIssue).execute();
-//            } catch (IOException e) {
-//                throw new UpdateException(e, "Issue update failed");
-//            }
-//        }
-//    };
     
     public static final ScrumToolOperation<Issue, Void> UPDATE_ISSUE = 
           new ScrumToolOperation<Issue, Void>() {
