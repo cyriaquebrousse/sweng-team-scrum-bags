@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:hint="Issue name" >
+        android:hint="@string/issue_edit_name_hint" >
 
         <requestFocus />
     </EditText>
@@ -24,16 +24,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_name_edit"
         android:inputType="textMultiLine"
-        android:hint="Issue description" />
+        android:hint="@string/issue_edit_description_hint" />
 
     <EditText
         android:id="@+id/issue_estimation_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_description_edit"
-        android:hint="Estimation"
         android:inputType="numberDecimal"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:hint="@string/issue_edit_estimation_hint" />
     
     <TextView
         android:id="@+id/issue_assignee_label"

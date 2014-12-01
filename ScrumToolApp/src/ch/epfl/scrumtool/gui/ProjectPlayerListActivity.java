@@ -192,7 +192,6 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 .setView(popupView)
                 .setTitle("Enter the new user's email address : ")
                 .setPositiveButton(android.R.string.ok, null).create();
-
         final EditText userInput = (EditText) popupView.findViewById(R.id.popup_user_input);
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
