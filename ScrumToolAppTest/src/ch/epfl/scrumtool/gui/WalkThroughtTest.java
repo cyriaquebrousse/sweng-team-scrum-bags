@@ -71,6 +71,12 @@ public class WalkThroughtTest extends
         
         addIssue("1","5");
         addIssue("2", "4");
+        
+        onView(withId(R.id.issue_list)).perform(pressBack());
+        onView(withId(R.id.backlog_tasklist)).perform(pressBack());
+        
+        removeProject();
+        
     }
 
     /**
@@ -79,6 +85,7 @@ public class WalkThroughtTest extends
     private void addPlayer() {
         //click on "+" button
         onView(withId(Menu.FIRST)).perform(click());
+        //write an e-mail
         onView(withId(R.id.popup_user_input)).perform(typeText("testee@test.ch"));
         onView(withText("OK")).perform(click());
     }
@@ -98,7 +105,6 @@ public class WalkThroughtTest extends
         onView(withId(R.id.issue_edit_button_next)).perform(click());
     }
 
-    @SuppressWarnings("unchecked")
     private void addTask(String number) throws InterruptedException {
         //click on "+" button
         onView(withId(Menu.FIRST)).perform(click());
@@ -128,8 +134,6 @@ public class WalkThroughtTest extends
 
     @SuppressWarnings("unchecked")
     public void removeProject() {
-        //click on projects button
-        onView(withId(R.id.dashboard_button_project_list)).perform(click());
         //long click on first project and click on "delete" menu
         onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list))).atPosition(0).perform(click());
         onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list))).atPosition(0).perform(longClick());
