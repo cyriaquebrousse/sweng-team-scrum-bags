@@ -11,7 +11,7 @@ import ch.epfl.scrumtool.entity.Project;
  * @author aschneuw
  *
  */
-public final class TaskIssueProject {
+public final class TaskIssueProject implements Comparable<TaskIssueProject> {
     private final MainTask mainTask;
     private final Project project;
     private final Issue issue;
@@ -44,6 +44,11 @@ public final class TaskIssueProject {
      */
     public Issue getIssue() {
         return issue;
+    }
+
+    @Override
+    public int compareTo(TaskIssueProject that) {
+        return getIssue().compareTo(that.getIssue());
     }
     
 }

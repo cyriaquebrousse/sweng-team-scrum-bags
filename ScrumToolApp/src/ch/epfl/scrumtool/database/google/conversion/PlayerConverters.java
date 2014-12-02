@@ -33,9 +33,9 @@ public class PlayerConverters {
                 builder.setIsAdmin(isAdmin);
             }
 
-            Role role = Role.valueOf(dbPlayer.getRole());
+            String role = dbPlayer.getRole();
             if (role != null) {
-                builder.setRole(role);
+                builder.setRole(Role.valueOf(role));
             }
 
             ScrumUser dbUser = dbPlayer.getUser();

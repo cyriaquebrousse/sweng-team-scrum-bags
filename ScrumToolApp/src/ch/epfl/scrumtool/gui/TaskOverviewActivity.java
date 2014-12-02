@@ -214,7 +214,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         priorityBar.setBackgroundColor(getResources().getColor(task.getPriority().getColorRef()));
         statusSlate.setText(task.getStatus().toString());
         
-        float estimatedTime = task.getTotalIssueTime();
+        float estimatedTime = task.unfinishedIssueTime();
         String unit = getResources().getString(R.string.project_default_unit);
         estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " " + unit);
     }

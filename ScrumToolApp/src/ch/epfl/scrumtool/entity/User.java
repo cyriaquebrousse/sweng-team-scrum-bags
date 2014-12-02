@@ -335,19 +335,15 @@ public final class User implements Serializable, Comparable<User> {
 
     @Override
     public int compareTo(User that) {
-        final int equal = 0;
-        
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
         
         int comparison = this.getLastName().compareTo(that.getLastName());
-        if (comparison != equal) {
+        if (comparison != 0) {
             return comparison;
         }
         
-        comparison = this.getName().compareTo(that.getName());
-        return comparison;
+        return this.getName().compareTo(that.getName());
     }
-
 }

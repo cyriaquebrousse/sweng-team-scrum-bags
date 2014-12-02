@@ -247,15 +247,10 @@ public final class Project implements Serializable, Comparable<Project> {
 
     @Override
     public int compareTo(Project that) {
-        final int equal = 0;
-
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
-        
-        int comparison = this.getName().compareTo(that.getName());
-        
-        return comparison;
+        return this.getName().compareTo(that.getName());
     }
 
 }

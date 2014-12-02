@@ -11,19 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Sprint;
 
 /**
  * @author ketsio
  */
-public final class DashboardIssueListAdapter extends DefaultAdapter<Issue> {
+public final class DashboardIssueListAdapter extends DefaultAdapter<TaskIssueProject> {
     private Activity activity;
     private LayoutInflater inflater;
 
     public DashboardIssueListAdapter(final Activity activity,
-            final List<Issue> issueList) {
-        super(issueList);
+            final List<TaskIssueProject> containerList) {
+        super(containerList);
         this.activity = activity;
         this.inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,7 +47,7 @@ public final class DashboardIssueListAdapter extends DefaultAdapter<Issue> {
                 .findViewById(R.id.issue_row_assignee);
         View divider = (View) convertView.findViewById(R.id.issue_row_divider);
 
-        Issue issue = getList().get(position);
+        Issue issue = getList().get(position).getIssue();
         if (issue == null) {
             name.setText("No issue selected");
             divider.setVisibility(View.GONE);

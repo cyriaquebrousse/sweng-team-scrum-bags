@@ -227,28 +227,18 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     
     @Override
     public int compareTo(Sprint that) {
-        final int before = -1;
-        final int equal = 0;
-        final int after = 1;
-        
-        if (that != null) {
-            if (this == that) {
-                return equal;
-            }
-            
-            if (this.getDeadline() < that.getDeadline()) {
-                return before;
-            }
-            
-            if (this.getDeadline() > that.getDeadline()) {
-                return after;
-            }
-            
-            int comparison = this.getTitle().compareTo(that.getTitle());
-            
-            return comparison;
-        } else {
-            return after;
+        if (that == null) {
+            return 1;
         }
+
+        if (this.getDeadline() < that.getDeadline()) {
+            return -1;
+        }
+
+        if (this.getDeadline() > that.getDeadline()) {
+            return 1;
+        }
+
+        return this.getTitle().compareTo(that.getTitle());
     }
 }

@@ -1,8 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,16 +70,11 @@ public class DashboardActivity extends BaseMenuActivity {
     private Callback<List<TaskIssueProject>> issuesCallback = new DefaultGUICallback<List<TaskIssueProject>>(this) {
         @Override
         public void interactionDone(final List<TaskIssueProject> containerList) {
-            final List<Issue> issueList = new ArrayList<Issue>(containerList.size());
-            ListIterator<TaskIssueProject> it = containerList.listIterator();
-            while (it.hasNext()) {
-                issueList.add(it.nextIndex(), it.next().getIssue());
-            }
             
-            issueAdapter = new DashboardIssueListAdapter(DashboardActivity.this, issueList);
+            issueAdapter = new DashboardIssueListAdapter(DashboardActivity.this, containerList);
             issueListView.setAdapter(issueAdapter);
 
-            if (!issueList.isEmpty()) {
+            if (!containerList.isEmpty()) {
                 issueListView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -105,7 +98,10 @@ public class DashboardActivity extends BaseMenuActivity {
             List<Project> displayedProjectList = projectList;
             if (projectList.size() == 1) {
                 projectListView.setNumColumns(1);
-            } else if (projectList.size() > 2) {
+            } else if (projectList.size() >= 2) {
+                projectListView.setNumColumns(2);
+            } 
+            if (projectList.size() > 2) {
                 displayedProjectList = projectList.subList(0, 2);
             }
             
