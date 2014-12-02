@@ -9,6 +9,7 @@ import java.util.List;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author vincent
@@ -43,6 +44,8 @@ public final class User implements Serializable, Comparable<User> {
                 builder.companyName,
                 builder.gender
         );
+        
+        Preconditions.throwIfInvalidEmail(builder.email);
         
         this.email = builder.email;
         this.name = builder.name;
@@ -325,7 +328,14 @@ public final class User implements Serializable, Comparable<User> {
             return false;
         }
         User other = (User) o;
-        return other.getEmail().equals(this.getEmail());
+        return 
+                other.getEmail().equals(this.getEmail())
+                && other.companyName == this.companyName
+                && other.dateOfBirth == this.dateOfBirth
+                && other.gender == this.gender
+                && other.jobTitle == this.jobTitle
+                && other.lastName == this.lastName
+                && other.name == this.name;
     }
 
     @Override

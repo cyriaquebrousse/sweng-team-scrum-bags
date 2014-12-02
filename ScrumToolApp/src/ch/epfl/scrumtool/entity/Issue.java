@@ -293,7 +293,16 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof Issue && super.equals(o);
+        if (!(o instanceof Issue)) {
+            return false;
+        }
+        
+        Issue otherIssue = (Issue) o;
+        
+        return super.equals(otherIssue)
+                && this.estimatedTime == otherIssue.estimatedTime
+                && this.player.equals(otherIssue.player)
+                && this.sprint.equals(otherIssue.sprint);
     }
 
     @Override

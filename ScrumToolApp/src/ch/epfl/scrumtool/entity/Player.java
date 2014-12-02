@@ -22,6 +22,9 @@ public final class Player implements Serializable, Comparable<Player> {
 
     private Player(String key, User user, Role role, boolean isAdmin) {
         throwIfNull("Player constructor parameters cannot be null", key, user, role);
+        if (isAdmin && role == Role.INVITED) {
+            throw new IllegalStateException("An invited player can't be a project administrator");
+        }
         
         this.key = key;
         this.user = user;
@@ -196,7 +199,10 @@ public final class Player implements Serializable, Comparable<Player> {
             return false;
         }
         Player other = (Player) o;
-        return other.key.equals(this.key);
+        return other.key.equals(this.key)
+                && other.isAdmin == this.isAdmin
+                && other.role == this.role
+                && other.user == this.user;
     }
 
     @Override

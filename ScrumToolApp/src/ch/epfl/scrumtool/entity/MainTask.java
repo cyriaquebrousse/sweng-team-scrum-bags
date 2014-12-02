@@ -63,7 +63,6 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @param name
      * @param description
      * @param status
-     * @param subtasks
      * @param priority
      */
     
@@ -156,7 +155,6 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         }
         
     }
-
 
     /**
      * Builder class for the MainTask object
@@ -335,7 +333,17 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     
     @Override
     public boolean equals(Object o) {
-        return o instanceof MainTask && super.equals(o);
+        if (!(o instanceof MainTask)) {
+            return false;
+        }
+        
+        MainTask otherMainTask = (MainTask) o;
+        
+        return super.equals(otherMainTask)
+                && this.finishedIssues == otherMainTask.finishedIssues
+                && this.finishedIssueTime == otherMainTask.finishedIssueTime
+                && this.totalIssues == otherMainTask.totalIssues
+                && this.totalIssueTime == otherMainTask.totalIssueTime;
     }
 
     @Override

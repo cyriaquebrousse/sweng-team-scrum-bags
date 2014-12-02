@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.util.Preconditions;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
@@ -33,7 +34,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      */
     private Sprint(String key, String title, long deadline) {
         throwIfNull("Sprint constructor parameters cannot be null", key, title);
-        
+        Preconditions.throwIfEmptyString("Sprint title must not be empty", title);
         this.key = key;
         this.title = title;
         this.deadline = deadline;
@@ -127,14 +128,12 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         return new Builder();
     }
 
-
     /**
      * Builder class for the Sprint object
      * 
      * @author zenhaeus
      */
     public static class Builder {
-
         private String keyb;
         private String title;
         private long deadline;
@@ -217,7 +216,9 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
             return false;
         }
         Sprint other = (Sprint) o;
-        return other.key.equals(this.key);
+        return other.key.equals(this.key)
+                && other.deadline == this.deadline
+                && other.title == this.title;
     }
 
     @Override

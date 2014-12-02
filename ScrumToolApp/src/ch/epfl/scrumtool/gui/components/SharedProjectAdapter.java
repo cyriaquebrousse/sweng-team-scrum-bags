@@ -38,11 +38,6 @@ public final class SharedProjectAdapter extends DefaultAdapter<Project> {
 
         Project project = getList().get(position);
         projectName.setText(project.getName());
-        try {
-            projectRole.setText(project.getRoleFor(user).toString());
-        } catch (NotAPlayerOfThisProjectException e) {
-            projectRole.setText("Could not retrieve the role");
-        }
 
         return convertView;
     }
