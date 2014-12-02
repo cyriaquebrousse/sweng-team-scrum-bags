@@ -16,6 +16,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumIssue and issue
@@ -31,6 +32,10 @@ public class IssueConverters {
         public Issue convert(ScrumIssue dbIssue) {
             assert dbIssue != null;
 
+            Preconditions.throwIfNull("Trying to convert a Issue with null parameters",
+                    dbIssue.getKey(), dbIssue.getName(), dbIssue.getDescription(), dbIssue.getEstimation(),
+                    dbIssue.getPriority());
+                    
             Issue.Builder issue = new Issue.Builder();
 
             String key = dbIssue.getKey();

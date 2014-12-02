@@ -6,6 +6,7 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumPlayer and Player
@@ -21,6 +22,10 @@ public class PlayerConverters {
         @Override
         public Player convert(ScrumPlayer dbPlayer) {
             assert dbPlayer != null;
+            
+            Preconditions.throwIfNull("Trying to convert a Player with null parameters",
+                    dbPlayer.getKey(), dbPlayer.getAdminFlag(), dbPlayer.getRole(), dbPlayer.getUser());
+                    
             Player.Builder builder = new Player.Builder();
 
             String key = dbPlayer.getKey();

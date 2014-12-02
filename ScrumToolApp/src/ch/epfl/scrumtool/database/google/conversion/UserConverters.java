@@ -6,6 +6,7 @@ package ch.epfl.scrumtool.database.google.conversion;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures convertion betwen ScrumUser and User
@@ -20,6 +21,9 @@ public final class UserConverters {
         public User convert(ScrumUser dbUser) {
             assert dbUser != null;
 
+            Preconditions.throwIfNull("Trying to convert a User with null parameters",
+                    dbUser.getEmail(), dbUser.getName());
+            
             User.Builder builder = new User.Builder();
 
             String email = dbUser.getEmail();

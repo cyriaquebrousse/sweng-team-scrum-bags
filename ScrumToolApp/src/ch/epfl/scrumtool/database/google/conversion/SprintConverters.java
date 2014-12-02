@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.database.google.conversion;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion bewteen ScurmSprint and Sprint
@@ -17,6 +18,10 @@ public class SprintConverters {
         @Override
         public Sprint convert(ScrumSprint dbSprint) {
             assert dbSprint != null;
+            
+            Preconditions.throwIfNull("Trying to convert a Sprint with null parameters",
+                    dbSprint.getKey(), dbSprint.getTitle(), dbSprint.getDate());
+
 
             Sprint.Builder sprint = new Sprint.Builder();
 

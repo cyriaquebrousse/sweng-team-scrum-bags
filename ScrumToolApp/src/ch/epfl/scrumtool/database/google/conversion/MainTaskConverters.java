@@ -5,6 +5,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversiont between ScrumMaintask and Maintask
@@ -23,6 +24,10 @@ public class MainTaskConverters {
         public MainTask convert(ScrumMainTask dbMainTask) {
             assert dbMainTask != null;
 
+            Preconditions.throwIfNull("Trying to convert a MainTask with null parameters",
+                    dbMainTask.getKey(), dbMainTask.getName(), dbMainTask.getDescription(), dbMainTask.getPriority(),
+                    dbMainTask.getStatus());
+                    
             MainTask.Builder maintask = new MainTask.Builder();
 
             String key = dbMainTask.getKey();
