@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -10,17 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.SharedProjectAdapter;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 
@@ -35,11 +29,8 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     private TextView dateOfBirthView;
     private TextView emailView;
     private TextView genderView;
-    private ListView sharedProjectsListView;
     
     private User userProfile;
-
-    private SharedProjectAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,25 +56,10 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
             }
             this.setTitle(userProfile.getName());
             
-            // TODO : Change empty list by getProjectsSharedWith(userConnected)
-            adapter = new SharedProjectAdapter(this, new ArrayList<Project>(), userProfile);
-
             initViews();
-
-            sharedProjectsListView.setAdapter(adapter);
-            sharedProjectsListView
-                    .setOnItemClickListener(new OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent,
-                                View view, int position, long id) {
-                            Toast.makeText(view.getContext(),
-                                    "Openning the project #" + position,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            
         } catch (NotAuthenticatedException e) {
-            // TODO : redirecting to the login activity if not connected
-            this.finish();
+            Session.relogin(this);
             e.printStackTrace();
         }
     }
@@ -97,7 +73,6 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
         genderView = (TextView) findViewById(R.id.profile_gender);
-        sharedProjectsListView = (ListView) findViewById(R.id.profile_shared_projects_list);
 
         // Set Views
         nameView.setText(userProfile.fullname());

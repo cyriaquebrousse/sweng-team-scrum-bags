@@ -168,27 +168,5 @@
                     android:textSize="@dimen/default_text_size" />
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/characteristic_frame"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/space"
-                android:paddingRight="@dimen/space"
-                android:paddingTop="@dimen/space"
-                android:text="@string/shared_projects"
-                android:textSize="@dimen/small_title" />
-
-            <ListView
-                android:id="@+id/profile_shared_projects_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </RelativeLayout>
-
 </RelativeLayout>
