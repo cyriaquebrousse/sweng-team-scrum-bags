@@ -24,6 +24,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
@@ -126,6 +127,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 if (unsprintedIssues && issue != null) {
                     issueBuilder = new Issue.Builder(issue);
                     issueBuilder.setSprint(sprint);
+                    issueBuilder.setStatus(Status.IN_SPRINT);
                     updateIssue();
                 }
             }

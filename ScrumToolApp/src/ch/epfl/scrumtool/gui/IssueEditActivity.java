@@ -132,6 +132,11 @@ public class IssueEditActivity extends BaseMenuActivity {
             issueBuilder.setPriority(Priority.NORMAL); // TODO for now issue priorities are useless
             issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
             issueBuilder.setSprint((Sprint) sprintSpinner.getSelectedItem());
+            if (sprintSpinner.getSelectedItem() != null) {
+                issueBuilder.setStatus(Status.IN_SPRINT);
+            } else {
+                issueBuilder.setStatus(Status.READY_FOR_SPRINT);
+            }
 
             if (original == null) {
                 insertIssue();

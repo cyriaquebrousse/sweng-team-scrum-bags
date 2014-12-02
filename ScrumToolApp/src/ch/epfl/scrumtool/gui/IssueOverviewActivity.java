@@ -203,10 +203,13 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         issueBuilder.setSprint(selected);
                         if (selected != null) {
                             sprintView.setText(selected.getTitle().toString());
+                            issueBuilder.setStatus(Status.IN_SPRINT);
                         } else {
                             sprintView.setText(R.string.no_sprint);
+                            issueBuilder.setStatus(Status.READY_FOR_SPRINT);
                         }
                         updateIssue();
+                        updateViews();
                     }
                 });
             }

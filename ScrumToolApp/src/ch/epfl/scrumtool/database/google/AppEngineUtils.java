@@ -12,7 +12,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 public class AppEngineUtils {
     public static final String APP_NAME = "ScrumTool";
 
-    private static final String LOCAL_IP = "192.168.10.24";
+    private static final String LOCAL_IP = "192.168.0.16";
     
     /**
      * URL to default Google App Engine project
