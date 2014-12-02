@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google.containers;
 
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Arguments for MainTask Insert operation
@@ -13,10 +14,8 @@ public class InsertMainTaskArgs {
     private final MainTask mainTask;
     
     public InsertMainTaskArgs(final String projectKey, MainTask mainTask) {
-        if (projectKey == null || mainTask == null) {
-            throw new NullPointerException();
-        }
-        
+        Preconditions.throwIfNull("Wrapper must contain a key and and MainTask", projectKey, mainTask);
+        Preconditions.throwIfEmptyString("Project key must be non-empty", projectKey);
         this.projectKey = projectKey;
         this.mainTask = mainTask;
     }

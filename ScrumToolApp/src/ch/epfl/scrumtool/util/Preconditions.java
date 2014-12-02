@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.util;
 
+import ch.epfl.scrumtool.util.gui.InputVerifiers;
+
 /**
  * @author Cyriaque Brousse
  */
@@ -21,4 +23,19 @@ public final class Preconditions {
             }
         }
     }
+    
+    public static void throwIfEmptyString(String message, String string) {
+        assert string != null;
+        if (string.length() == 0) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+    
+    public static void throwIfInvalidEmail(String email) {
+        assert email != null;
+        if (!InputVerifiers.emailIsValid(email)) {
+            throw new IllegalArgumentException("E-Mail address is invalid");
+        }
+    }
+    
 }

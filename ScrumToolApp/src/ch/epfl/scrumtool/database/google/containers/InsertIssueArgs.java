@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google.containers;
 
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Arguments for Issue insertion operation
@@ -13,9 +14,8 @@ public class InsertIssueArgs {
     private Issue issue;
     
     public InsertIssueArgs(final Issue issue, final String key) {
-        if (issue == null || key == null) {
-            throw new NullPointerException();
-        }
+        Preconditions.throwIfNull("InsertIssueArgs container must have valid wrapped objects", issue, key); 
+        Preconditions.throwIfEmptyString("Key must be nonemtpy", key);
         this.issue = issue;
         this.key = key;
     }

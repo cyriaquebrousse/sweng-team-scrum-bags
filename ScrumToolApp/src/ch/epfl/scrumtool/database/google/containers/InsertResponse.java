@@ -4,6 +4,7 @@
 package ch.epfl.scrumtool.database.google.containers;
 
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author aschneuw
@@ -18,17 +19,7 @@ public class InsertResponse<A> {
      * 
      */
     public InsertResponse(final A entity, final KeyResponse keyResponse) {
-        if (entity == null) {
-            throw new NullPointerException("Entity can't be null");
-        }
-        
-        if (keyResponse == null) {
-            throw new NullPointerException("KeyReponse needed");
-        }
-        
-        if (keyResponse.getKey() == null) {
-            throw new NullPointerException("KeyResponse needs a key");
-        }
+        Preconditions.throwIfNull("Must contain a valid entity and keyResponse", entity, keyResponse);
         this.entity = entity;
         this.keyResponse = keyResponse;
     }

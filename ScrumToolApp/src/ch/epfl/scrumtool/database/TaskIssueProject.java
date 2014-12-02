@@ -6,6 +6,7 @@ package ch.epfl.scrumtool.database;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author aschneuw
@@ -20,6 +21,7 @@ public final class TaskIssueProject implements Comparable<TaskIssueProject> {
      * 
      */
     public TaskIssueProject(final MainTask mainTask, final Project project, final Issue issue) {
+        Preconditions.throwIfNull("TaskIssueProject wrapper must have valid objects", mainTask, project, issue);
         this.mainTask = mainTask;
         this.project = project;
         this.issue = issue;
