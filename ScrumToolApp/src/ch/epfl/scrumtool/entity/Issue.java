@@ -111,7 +111,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
     /**

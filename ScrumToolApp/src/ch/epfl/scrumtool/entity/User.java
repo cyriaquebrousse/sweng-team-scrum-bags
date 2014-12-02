@@ -145,7 +145,7 @@ public final class User implements Serializable, Comparable<User> {
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
 

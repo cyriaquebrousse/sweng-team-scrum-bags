@@ -135,7 +135,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
     
     

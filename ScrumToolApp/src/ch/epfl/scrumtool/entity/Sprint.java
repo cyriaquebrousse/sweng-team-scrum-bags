@@ -125,7 +125,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
     /**
