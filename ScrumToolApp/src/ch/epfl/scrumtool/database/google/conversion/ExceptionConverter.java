@@ -28,8 +28,10 @@ public final class ExceptionConverter {
     public static ScrumToolException handle(IOException e) {
         if (e instanceof GoogleJsonResponseException) {
             switch (((GoogleJsonResponseException) e).getStatusCode()) {
-                case NOT_FOUND: return new NotFoundException(e, "Not found"); 
-                case UNAUTHROIZED: return new NotAuthenticatedException(e, "Not authenticated!");
+                case NOT_FOUND:
+                    return new NotFoundException(e, "Not found"); 
+                case UNAUTHROIZED:
+                    return new NotAuthenticatedException(e, "Not authenticated!");
                 default:
             }
         }
