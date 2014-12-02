@@ -180,6 +180,7 @@ public final class User implements Serializable, Comparable<User> {
             this.jobTitle = otherUser.jobTitle;
             this.dateOfBirth = otherUser.dateOfBirth;
             this.companyName = otherUser.companyName;
+            this.gender = otherUser.gender;
         }
 
         /**

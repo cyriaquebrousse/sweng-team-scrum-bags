@@ -1,7 +1,9 @@
 package ch.epfl.scrumtool.util.gui;
 
 import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import ch.epfl.scrumtool.R;
+
 
 /**
  * @author sylb
@@ -25,7 +28,25 @@ public class TextViewModifiers {
         void onModified(A userInput);
     }
     
-    public static void modifyText(final Activity parent, final String fieldName,
+    public enum FieldType {
+        
+        NAMEFIELD("name"),
+        DESCRIPTIONFIELD("description"),
+        OTHER("value");
+        
+        private String value;
+        
+        FieldType(String string) {
+            this.value = string;
+        }
+        
+        public FieldType setText(String text) {
+            this.value = text;
+            return this;
+        }
+    };
+    
+    public static void modifyText(final Activity parent, final FieldType fieldType,
             final String oldValue, final PopupCallback<String> callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
@@ -33,7 +54,7 @@ public class TextViewModifiers {
 
         final AlertDialog alertDialog = new AlertDialog.Builder(parent)
             .setView(popupView)
-            .setTitle("Enter the new " + fieldName + ": ")
+            .setTitle("Enter the new " + fieldType.value + ": ")
             .setPositiveButton(android.R.string.ok, null)
             .create();
 
@@ -50,10 +71,20 @@ public class TextViewModifiers {
                     
                     @Override
                     public void onClick(View v) {
-                        boolean nameIsValid = entityNameIsValid(userInput);
+                        boolean fieldIsValid;
+                        switch (fieldType) {
+                            case NAMEFIELD:
+                                fieldIsValid = entityNameIsValid(userInput);
+                                break;
+                            case DESCRIPTIONFIELD:
+                                fieldIsValid = textEditNonNullNotEmpty(userInput);
+                            default:
+                                fieldIsValid = textEditNonNullNotEmpty(userInput);
+                                break;
+                        }
                         
-                        updateTextViewAfterValidityCheck(userInput, nameIsValid, parent.getResources());
-                        if (nameIsValid) {
+                        updateTextViewAfterValidityCheck(userInput, fieldIsValid, parent.getResources());
+                        if (fieldIsValid) {
                             callback.onModified(userInput.getText().toString());
                             alertDialog.dismiss();
                         }

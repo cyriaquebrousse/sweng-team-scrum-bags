@@ -29,6 +29,7 @@ import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
@@ -146,7 +147,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "name",
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, FieldType.NAMEFIELD,
                         nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
@@ -162,7 +163,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "description",
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, FieldType.DESCRIPTIONFIELD,
                         descriptionView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {

@@ -29,6 +29,7 @@ import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.IssueListAdapter;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
@@ -147,7 +148,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(SprintOverviewActivity.this, "name",
+                TextViewModifiers.modifyText(SprintOverviewActivity.this, FieldType.NAMEFIELD,
                         nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
