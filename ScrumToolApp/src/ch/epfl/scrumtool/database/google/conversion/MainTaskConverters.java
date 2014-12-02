@@ -52,8 +52,8 @@ public class MainTaskConverters {
             
             int issuesFinished = dbMainTask.getIssuesFinished() == null ? 0 : dbMainTask.getIssuesFinished();
             int totalIssues = dbMainTask.getTotalIssues() == null ? 0 : dbMainTask.getTotalIssues();
-            long timeFinished = dbMainTask.getTimeFinished() == null ? 0 : dbMainTask.getTimeFinished();
-            long totalTime = dbMainTask.getTotalTime() == null ? 0 : dbMainTask.getTotalTime();
+            float timeFinished = dbMainTask.getTimeFinished() == null ? 0 : dbMainTask.getTimeFinished();
+            float totalTime = dbMainTask.getTotalTime() == null ? 0 : dbMainTask.getTotalTime();
             
             maintask.setFinishedIssues(issuesFinished);
             maintask.setFinishedIssueTime(timeFinished);

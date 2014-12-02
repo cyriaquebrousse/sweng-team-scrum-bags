@@ -215,7 +215,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         /**
          * @param totalIssueTime the totalIssueTime to set
          */
-        public Builder setTotalIssueTime(long totalIssueTime) {
+        public Builder setTotalIssueTime(float totalIssueTime) {
             this.totalIssueTime = totalIssueTime;
             return this;
         }
@@ -230,7 +230,7 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         /**
          * @param finishedIssueTime the finishedIssueTime to set
          */
-        public Builder setFinishedIssueTime(long finishedIssueTime) {
+        public Builder setFinishedIssueTime(float finishedIssueTime) {
             this.finishedIssueTime = finishedIssueTime;
             return this;
         }
