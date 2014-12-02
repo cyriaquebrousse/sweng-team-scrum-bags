@@ -17,8 +17,7 @@ public final class TaskResult<A> {
     private A result;  
   
     public TaskResult(final A result) {
-        Preconditions.throwIfNull("Must contain a valid result", result);
-        this.result = result;  
+        this.result = result;
     }  
   
     public TaskResult(final ScrumToolException exception) {
