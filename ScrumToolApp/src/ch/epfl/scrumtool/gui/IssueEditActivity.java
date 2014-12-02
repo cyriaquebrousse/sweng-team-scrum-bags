@@ -128,29 +128,16 @@ public class IssueEditActivity extends BaseMenuActivity {
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(newEstimation);
-            setStatusAccordingToEstimation(newEstimation);
+            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO status is now handled by server
             issueBuilder.setPriority(Priority.NORMAL); // TODO for now issue priorities are useless
             issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
             issueBuilder.setSprint((Sprint) sprintSpinner.getSelectedItem());
-            if (sprintSpinner.getSelectedItem() != null) {
-                issueBuilder.setStatus(Status.IN_SPRINT);
-            } else {
-                issueBuilder.setStatus(Status.READY_FOR_SPRINT);
-            }
 
             if (original == null) {
                 insertIssue();
             } else {
                 updateIssue();
             }
-        }
-    }
-
-    private void setStatusAccordingToEstimation(float estimation) {
-        if (estimation > 0) {
-            issueBuilder.setStatus(Status.READY_FOR_SPRINT);
-        } else {
-            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
         }
     }
 

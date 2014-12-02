@@ -27,7 +27,6 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
-import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -176,25 +175,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             }
         });
 
-        statusView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogs.showStatusEditDialog(IssueOverviewActivity.this, new DialogCallback<Status>() {
-                    @Override
-                    public void onSelected(Status selected) {
-                        issueBuilder = new Issue.Builder(issue);
-                        issueBuilder.setStatus(selected);
-                        statusView.setText(selected.toString());
-                        estimationStamp.setColor(getResources().getColor(selected.getColorRef()));
-                        updateIssue();
-                    }
-                });
-            }
-        });
-        
-        
-
-
         sprintView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,10 +185,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         issueBuilder.setSprint(selected);
                         if (selected != null) {
                             sprintView.setText(selected.getTitle().toString());
-                            issueBuilder.setStatus(Status.IN_SPRINT);
                         } else {
                             sprintView.setText(R.string.no_sprint);
-                            issueBuilder.setStatus(Status.READY_FOR_SPRINT);
                         }
                         updateIssue();
                         updateViews();
@@ -227,7 +205,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         issueBuilder.setPlayer(selected);
                         if (selected != null) {
                             assigneeName.setText(selected.getUser().getName());
-                            setPlayerListenerIfNotNul();
+                            setPlayerListenerIfNotNull();
                         } else {
                             assigneeName.setText(R.string.no_player);
                             setPlayerListenerIfNull();
@@ -241,7 +219,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         if (issue.getPlayer() == null) {
             setPlayerListenerIfNull();
         } else {
-            setPlayerListenerIfNotNul();
+            setPlayerListenerIfNotNull();
         }
         
         estimationStamp.setOnClickListener(new OnClickListener() {
@@ -253,7 +231,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             public void onModified(Float userInput) {
                                 issueBuilder = new Issue.Builder(issue);
                                 issueBuilder.setEstimatedTime(userInput);
-                                setStatusAccordingToEstimation(userInput);
+                                issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // status handled by server
                                 estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
                             }
@@ -274,7 +252,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         issueBuilder.setPlayer(selected);
                         if (selected != null) {
                             assigneeName.setText(selected.getUser().getName());
-                            setPlayerListenerIfNotNul();
+                            setPlayerListenerIfNotNull();
                         } else {
                             assigneeName.setText(R.string.no_player);
                             setPlayerListenerIfNull();
@@ -286,7 +264,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
     
-    private void setPlayerListenerIfNotNul() {
+    private void setPlayerListenerIfNotNull() {
         assigneeName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,18 +331,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 builder.create().show();
             }
         });
-    }
-
-    private void setStatusAccordingToEstimation(float estimation) {
-        Status newStatus;
-        if (estimation > 0) {
-            newStatus = Status.READY_FOR_SPRINT;
-        } else {
-            newStatus = Status.READY_FOR_ESTIMATION;
-        }
-        issueBuilder.setStatus(newStatus);
-        estimationStamp.setColor(getResources().getColor(newStatus.getColorRef()));
-        statusView.setText(newStatus.toString());
     }
 
 }
