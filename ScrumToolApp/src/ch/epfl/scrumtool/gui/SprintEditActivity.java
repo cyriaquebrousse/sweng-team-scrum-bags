@@ -166,7 +166,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     private void passResult(Sprint sprint) {
         Intent data = new Intent();
         data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        setResult(1, data);
+        setResult(RESULT_OK, data);
     }
     
     private void setDeadlineText(Calendar date) {

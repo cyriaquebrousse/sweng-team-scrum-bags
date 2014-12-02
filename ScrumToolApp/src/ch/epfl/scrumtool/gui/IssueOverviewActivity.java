@@ -79,9 +79,11 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            issue = (Issue) data.getSerializableExtra(Issue.SERIALIZABLE_NAME);
-            throwIfNull("Issue cannot be null", issue);
-            updateViews();
+            if (resultCode == RESULT_OK) {
+                issue = (Issue) data.getSerializableExtra(Issue.SERIALIZABLE_NAME);
+                throwIfNull("Issue cannot be null", issue);
+                updateViews();
+            }
         }
     }
 

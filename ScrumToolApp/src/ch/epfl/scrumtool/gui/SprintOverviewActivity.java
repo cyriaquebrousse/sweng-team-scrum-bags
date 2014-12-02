@@ -219,9 +219,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            sprint = (Sprint) data.getSerializableExtra(Sprint.SERIALIZABLE_NAME);
-            throwIfNull("Sprint cannot be null", sprint);
-            refreshViews();
+            if (resultCode == RESULT_OK) {
+                sprint = (Sprint) data.getSerializableExtra(Sprint.SERIALIZABLE_NAME);
+                throwIfNull("Sprint cannot be null", sprint);
+                refreshViews();
+            }
         }
     }
 

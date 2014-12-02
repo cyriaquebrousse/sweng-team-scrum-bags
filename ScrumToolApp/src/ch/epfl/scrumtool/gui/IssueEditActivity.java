@@ -183,6 +183,6 @@ public class IssueEditActivity extends BaseMenuActivity {
     private void passResult(Issue issue) {
         Intent intent = new Intent();
         intent.putExtra(Issue.SERIALIZABLE_NAME, issue);
-        setResult(1, intent);
+        setResult(RESULT_OK, intent);
     }
 }
