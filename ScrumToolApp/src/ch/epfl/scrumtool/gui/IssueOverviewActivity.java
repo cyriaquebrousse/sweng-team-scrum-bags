@@ -253,6 +253,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             public void onModified(Float userInput) {
                                 issueBuilder = new Issue.Builder(issue);
                                 issueBuilder.setEstimatedTime(userInput);
+                                setStatusAccordingToEstimation(userInput);
                                 estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
                             }
@@ -352,6 +353,18 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 builder.create().show();
             }
         });
+    }
+
+    private void setStatusAccordingToEstimation(float estimation) {
+        Status newStatus;
+        if (estimation > 0) {
+            newStatus = Status.READY_FOR_SPRINT;
+        } else {
+            newStatus = Status.READY_FOR_ESTIMATION;
+        }
+        issueBuilder.setStatus(newStatus);
+        estimationStamp.setColor(getResources().getColor(newStatus.getColorRef()));
+        statusView.setText(newStatus.toString());
     }
 
 }

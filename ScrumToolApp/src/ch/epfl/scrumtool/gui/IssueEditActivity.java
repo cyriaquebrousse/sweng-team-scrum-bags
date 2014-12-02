@@ -148,9 +148,9 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void setStatusAccordingToEstimation(float estimation) {
         if (estimation > 0) {
-            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
-        } else {
             issueBuilder.setStatus(Status.READY_FOR_SPRINT);
+        } else {
+            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
         }
     }
 
