@@ -1,8 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,9 +15,9 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
+import ch.epfl.scrumtool.util.InputVerifiers;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse

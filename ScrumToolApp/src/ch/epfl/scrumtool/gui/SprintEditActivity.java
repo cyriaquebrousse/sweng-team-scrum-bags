@@ -9,7 +9,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import ch.epfl.scrumtool.util.InputVerifiers;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
 import android.content.Intent;

@@ -1,9 +1,9 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
+import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.util;
 
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse

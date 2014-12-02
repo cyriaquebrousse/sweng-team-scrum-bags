@@ -1,7 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.textEditNonNullNotEmpty;
+import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
+import ch.epfl.scrumtool.util.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse

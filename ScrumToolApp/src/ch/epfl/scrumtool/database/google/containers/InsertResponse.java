@@ -20,6 +20,7 @@ public class InsertResponse<A> {
      */
     public InsertResponse(final A entity, final KeyResponse keyResponse) {
         Preconditions.throwIfNull("Must contain a valid entity and keyResponse", entity, keyResponse);
+        Preconditions.throwIfEmptyString("The key must no be empty", keyResponse.getKey());
         this.entity = entity;
         this.keyResponse = keyResponse;
     }

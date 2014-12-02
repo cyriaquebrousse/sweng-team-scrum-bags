@@ -1,8 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.emailIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.emailIsValid;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
 
 import java.util.List;
 

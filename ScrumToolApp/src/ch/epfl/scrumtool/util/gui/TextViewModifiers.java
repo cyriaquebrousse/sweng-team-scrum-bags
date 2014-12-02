@@ -1,7 +1,7 @@
 package ch.epfl.scrumtool.util.gui;
 
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.gui.InputVerifiers.updateTextViewAfterValidityCheck;
+import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
