@@ -1,13 +1,13 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Vincent
@@ -142,12 +142,6 @@ public final class Project implements Serializable, Comparable<Project> {
      */
     public Builder getBuilder() {
         return new Builder(this);
-    }
-
-    @Deprecated
-    // TODO create a method in ScrumClient and delete this one.
-    public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-        return Role.DEVELOPER;
     }
 
     /**
