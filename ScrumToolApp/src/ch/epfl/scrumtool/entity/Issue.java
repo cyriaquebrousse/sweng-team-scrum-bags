@@ -76,7 +76,19 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public void update(final Issue ref, Callback<Boolean> callback) {
         Client.getScrumClient().updateIssue(this, ref, callback);
     }
-
+    
+    /**
+     * Marks the issue as done or undone
+     * @param finished true to mark as done, false to mark as undone
+     * @param callback
+     */
+    public void markAsDone(boolean finished, Callback<Boolean> callback) {
+        Issue.Builder builder = new Issue.Builder(this);
+        builder.setStatus(finished ? Status.FINISHED : Status.READY_FOR_ESTIMATION);
+        Issue updatedIssue = builder.build();
+        updatedIssue.update(this, callback);
+    }
+    
     /**
      * Removes the issue from the DS
      * 

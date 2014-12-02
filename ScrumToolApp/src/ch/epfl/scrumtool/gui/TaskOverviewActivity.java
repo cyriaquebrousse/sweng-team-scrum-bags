@@ -223,18 +223,22 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_context, menu);
+        inflater.inflate(R.menu.menu_entitylist_markable_context, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        final Issue issue = adapter.getItem(info.position);
         switch (item.getItemId()) {
             case R.id.action_entity_edit:
-                openEditElementActivity(adapter.getItem(info.position));
+                openEditElementActivity(issue);
                 return true;
             case R.id.action_entity_delete:
-                deleteIssue(adapter.getItem(info.position));
+                deleteIssue(issue);
+                return true;
+            case R.id.action_entity_markAsDoneUndone:
+                markIssueAsDone(issue, issue.getStatus() != Status.FINISHED);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -255,7 +259,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             }
         });
     }
-
+    
     @Override
     void openEditElementActivity(Issue issue) {
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
@@ -271,9 +275,28 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             @Override
             public void interactionDone(Boolean success) {
                 if (!success.booleanValue()) {
-                    Toast.makeText(TaskOverviewActivity.this, 
-                            "Could not update task", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaskOverviewActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+    
+    /**
+     * @param issue the issue to update
+     * @param done true if need to update to done, false for undone
+     */
+    private void markIssueAsDone(final Issue issue, boolean done) {
+        issue.markAsDone(done, new Callback<Boolean>() {
+            @Override
+            public void interactionDone(Boolean object) {
+                listViewLayout.setRefreshing(true);
+                task.loadIssues(callback);
+                updateViews();
+            }
+            
+            @Override
+            public void failure(String errorMessage) {
+                Toast.makeText(TaskOverviewActivity.this, "Could not mark as done/undone", Toast.LENGTH_SHORT).show();
             }
         });
     }
