@@ -89,15 +89,14 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void initOriginalAndParentTask() {
         original = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
+        parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
         if (original == null) {
             issueBuilder = new Issue.Builder();
             setTitle(R.string.title_activity_issue_edit_new);
+            throwIfNull("Parent task cannot be null", parentTask);
         } else {
             issueBuilder = new Issue.Builder(original);
         }
-
-        parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        throwIfNull("Parent task cannot be null", parentTask);
     }
 
     private void initViews() {
@@ -107,6 +106,8 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueAssigneeSpinner = (Spinner) findViewById(R.id.issue_assignee_spinner);
         sprintSpinner = (Spinner) findViewById(R.id.sprint_spinner);
 
+        setTitle(issueBuilder.getName());
+        
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
@@ -126,6 +127,8 @@ public class IssueEditActivity extends BaseMenuActivity {
             String newDescription = issueDescriptionView.getText().toString();
             float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
 
+            setTitle(newName);
+            
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(newEstimation);

@@ -28,6 +28,7 @@ import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -89,6 +90,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
 
     private void updateViews() {
+        this.setTitle(issue.getName());
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());
@@ -106,7 +108,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             sprintView.setText(R.string.no_sprint);
         }
 
-        estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
+        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
         estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
     }
