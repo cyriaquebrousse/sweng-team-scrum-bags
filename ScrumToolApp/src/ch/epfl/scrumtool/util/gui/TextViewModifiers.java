@@ -28,6 +28,9 @@ public class TextViewModifiers {
         void onModified(A userInput);
     }
     
+    /**
+     * @author sylb
+     */
     public enum FieldType {
         
         NAMEFIELD("name"),
