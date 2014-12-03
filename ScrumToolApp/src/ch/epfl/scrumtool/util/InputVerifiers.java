@@ -48,4 +48,13 @@ public final class InputVerifiers {
     public static boolean emailIsValid(String email) {
         return EmailValidator.getInstance().isValid(email);
     }
+
+    public static float sanitizeFloat(String string) {
+        try {
+            return Float.valueOf(string);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0f;
+        }
+    }
 }

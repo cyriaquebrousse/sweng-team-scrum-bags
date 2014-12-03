@@ -3,7 +3,6 @@ package ch.epfl.scrumtool.util.gui;
 import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.util.InputVerifiers;
 
 
 /**
@@ -80,7 +80,6 @@ public class TextViewModifiers {
                                 fieldIsValid = entityNameIsValid(userInput);
                                 break;
                             case DESCRIPTIONFIELD:
-                                fieldIsValid = textEditNonNullNotEmpty(userInput);
                             default:
                                 fieldIsValid = textEditNonNullNotEmpty(userInput);
                                 break;
@@ -124,7 +123,7 @@ public class TextViewModifiers {
                     
                     @Override
                     public void onClick(View v) {
-                        callback.onModified(Float.parseFloat(userInput.getText().toString()));
+                        callback.onModified(InputVerifiers.sanitizeFloat(userInput.getText().toString()));
                         alertDialog.dismiss();
                     }
                 });
