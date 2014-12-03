@@ -1,5 +1,11 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.entity.Status.FINISHED;
+import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+
 import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -51,7 +57,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public Player getPlayer() {
         return player;
     }
-    
+
     public Sprint getSprint() {
         return sprint;
     }
@@ -76,10 +82,12 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public void update(final Issue ref, Callback<Boolean> callback) {
         Client.getScrumClient().updateIssue(this, ref, callback);
     }
-    
+
     /**
      * Marks the issue as done or undone
-     * @param finished true to mark as done, false to mark as undone
+     * 
+     * @param finished
+     *            true to mark as done, false to mark as undone
      * @param callback
      */
     public void markAsDone(boolean finished, Callback<Boolean> callback) {
@@ -88,7 +96,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         Issue updatedIssue = builder.build();
         updatedIssue.update(this, callback);
     }
-    
+
     /**
      * Removes the issue from the DS
      * 
@@ -117,9 +125,10 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
         Client.getScrumClient().removeIssueFromSprint(this, callback);
     }
-    
+
     /**
      * Get new instance of Builder
+     * 
      * @return
      */
     public Builder getBuilder() {
@@ -275,7 +284,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
             this.player = player;
             return this;
         }
-        
+
         /**
          * 
          * @return the sprint
@@ -283,7 +292,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         public Sprint getSprint() {
             return sprint;
         }
-        
+
         /**
          * 
          * @param sprint
@@ -298,7 +307,8 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          */
         public Issue build() {
             return new Issue(this.key, this.name, this.description,
-                    this.status, this.priority, this.estimatedTime, this.player, this.sprint);
+                    this.status, this.priority, this.estimatedTime,
+                    this.player, this.sprint);
         }
 
     }
@@ -308,9 +318,9 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         if (!(o instanceof Issue)) {
             return false;
         }
-        
+
         Issue otherIssue = (Issue) o;
-        
+
         return super.equals(otherIssue)
                 && this.estimatedTime == otherIssue.estimatedTime
                 && this.player.equals(otherIssue.player)
@@ -341,4 +351,36 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         return this.getName().compareTo(that.getName());
     }
 
+    /**
+     * Simulates the new issue status for a given builder. It does not have any
+     * side effects (e.g. server modifications, modifications on the arguments,
+     * etc).<br>
+     * See ScrumIssue#verifyAndSetStatus in the app engine project
+     * 
+     * @param issueBuilder
+     *            the builder to simulate on. Cannot be {@code null}.
+     * @return the simulated status
+     */
+    public static Status simulateNewStatusForEstimationAndSprint(final Issue issue) {
+        assertTrue(issue != null);
+        final Issue.Builder issueBuilder = issue.getBuilder();
+        
+        final float estimation = issueBuilder.getEstimatedTime();
+        final Sprint sprint = issueBuilder.getSprint();
+        final boolean isFinished = issueBuilder.getStatus() == FINISHED;
+
+        if (isFinished) {
+            return FINISHED;
+        }
+
+        if (Float.compare(estimation, 0f) <= 0) {
+            return READY_FOR_ESTIMATION;
+        } else {
+            if (sprint == null) {
+                return READY_FOR_SPRINT;
+            } else {
+                return IN_SPRINT;
+            }
+        }
+    }
 }

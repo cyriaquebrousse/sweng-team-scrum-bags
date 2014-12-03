@@ -99,6 +99,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         } else {
             assigneeName.setText(R.string.no_player);
         }
+        
         if (issue.getSprint() != null) {
             sprintView.setText(issue.getSprint().getTitle());
         } else {
@@ -191,6 +192,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         }
                         updateIssue();
                         updateViews();
+                        updateViewsAccordingToNewEstimationAndSprint();
                     }
                 });
             }
@@ -232,9 +234,10 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             public void onModified(Float userInput) {
                                 issueBuilder = new Issue.Builder(issue);
                                 issueBuilder.setEstimatedTime(userInput);
-                                issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // status handled by server
+                                issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
                                 estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
+                                updateViewsAccordingToNewEstimationAndSprint();
                             }
                         });
             }
@@ -288,6 +291,12 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                 }
             }
         });
+    }
+    
+    private void updateViewsAccordingToNewEstimationAndSprint() {
+        final Status status = Issue.simulateNewStatusForEstimationAndSprint(issue);
+        estimationStamp.setColor(getResources().getColor(status.getColorRef()));
+        statusView.setText(status.toString());
     }
 
     public void showPlayerSelector(final Activity parent, final DialogCallback<Player> callback) {
