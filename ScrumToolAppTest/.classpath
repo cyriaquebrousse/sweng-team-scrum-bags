@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/mockito-core-1.9.5.jar"/>
+	<classpathentry kind="lib" path="libs/objenesis-tck-2.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
