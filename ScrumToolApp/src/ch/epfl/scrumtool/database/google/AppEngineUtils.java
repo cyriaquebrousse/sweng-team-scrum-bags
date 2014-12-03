@@ -11,6 +11,9 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  */
 public class AppEngineUtils {
     public static final String APP_NAME = "ScrumTool";
+    
+    /** Enables or disables assertions */
+    public static final boolean ENABLE_ASSERTIONS = true;
 
     private static final String LOCAL_IP = "192.168.0.2";
     
