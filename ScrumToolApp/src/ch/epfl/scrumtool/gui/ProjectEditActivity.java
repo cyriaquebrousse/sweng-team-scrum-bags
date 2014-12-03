@@ -4,8 +4,8 @@ import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -75,8 +75,9 @@ public class ProjectEditActivity extends BaseMenuActivity {
     }
     
     private void insertProject() {
-        Project project = projectBuilder.build();
-        project.insert(new DefaultGUICallback<Project>(this) {
+        final Project project = projectBuilder.build();
+        final Button next = (Button) findViewById(R.id.project_edit_button_next);
+        project.insert(new DefaultGUICallback<Project>(this, next) {
             @Override
             public void interactionDone(Project object) {
                 ProjectEditActivity.this.finish();
@@ -85,16 +86,12 @@ public class ProjectEditActivity extends BaseMenuActivity {
     }
 
     private void updateProject() {
-        Project project = projectBuilder.build();
-        project.update(null, new DefaultGUICallback<Boolean>(this) {
+        final Project project = projectBuilder.build();
+        final Button next = (Button) findViewById(R.id.project_edit_button_next);
+        project.update(null, new DefaultGUICallback<Boolean>(this, next) {
             @Override
             public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    ProjectEditActivity.this.finish();
-                } else {
-                    Toast.makeText(ProjectEditActivity.this, "Could not update project", Toast.LENGTH_SHORT).show();
-                    findViewById(R.id.project_edit_button_next).setEnabled(true);
-                }                
+                ProjectEditActivity.this.finish();
             }
         });
     }

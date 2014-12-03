@@ -10,9 +10,9 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -55,7 +55,8 @@ public class IssueEditActivity extends BaseMenuActivity {
         initViews();
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        project.loadPlayers(new DefaultGUICallback<List<Player>>(this) {
+        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        project.loadPlayers(new DefaultGUICallback<List<Player>>(this, next) {
             @Override
             public void interactionDone(List<Player> playerList) {
                 playerList.add(0, null);
@@ -70,7 +71,7 @@ public class IssueEditActivity extends BaseMenuActivity {
             }
         });
         
-        project.loadSprints(new DefaultGUICallback<List<Sprint>>(this) {
+        project.loadSprints(new DefaultGUICallback<List<Sprint>>(this, next) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
                 sprintList.add(0, null);
@@ -143,7 +144,8 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void insertIssue() {
         Issue issue = issueBuilder.build();
-        issue.insert(parentTask, new DefaultGUICallback<Issue>(this) {
+        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        issue.insert(parentTask, new DefaultGUICallback<Issue>(this, next) {
             @Override
             public void interactionDone(Issue issue) {
                 IssueEditActivity.this.finish();
@@ -153,16 +155,12 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void updateIssue() {
         final Issue issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Boolean>(this) {
+        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        issue.update(null, new DefaultGUICallback<Boolean>(this, next) {
             @Override
             public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    passResult(issue);
-                    IssueEditActivity.this.finish();
-                } else {
-                    Toast.makeText(IssueEditActivity.this, "Could not update issue", Toast.LENGTH_SHORT).show();
-                    findViewById(R.id.issue_edit_button_next).setEnabled(true);
-                }
+                passResult(issue);
+                IssueEditActivity.this.finish();
             }
         });
     }

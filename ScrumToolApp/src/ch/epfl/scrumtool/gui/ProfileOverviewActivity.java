@@ -197,15 +197,11 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         userProfile.update(new DefaultGUICallback<Boolean>(this) {
             @Override
             public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    try {
-                        Session.getCurrentSession().setUser(userProfile);
-                    } catch (NotAuthenticatedException e) {
-                        // TODO Redirection vers login
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(ProfileOverviewActivity.this, "Could not edit profile", Toast.LENGTH_SHORT).show();
+                try {
+                    Session.getCurrentSession().setUser(userProfile);
+                } catch (NotAuthenticatedException e) {
+                    Session.relogin(ProfileOverviewActivity.this);
+                    e.printStackTrace();
                 }
             }
         });

@@ -9,11 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
@@ -164,19 +164,16 @@ public class ProfileEditActivity extends ScrumToolActivity {
             } 
             
             final User userToUpdate = userBuilder.build();
-            userToUpdate.update(new DefaultGUICallback<Boolean>(this) {
+            final Button next = (Button) findViewById(R.id.profile_edit_submit_button);
+            userToUpdate.update(new DefaultGUICallback<Boolean>(this, next) {
                 @Override
                 public void interactionDone(Boolean success) {
-                    if (success.booleanValue()) {
-                        try {
-                            Session.getCurrentSession().setUser(userToUpdate);
-                            ProfileEditActivity.this.finish();
-                        } catch (NotAuthenticatedException e) {
-                            // TODO Redirection vers login
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(ProfileEditActivity.this, "Could not edit profile", Toast.LENGTH_SHORT).show();
+                    try {
+                        Session.getCurrentSession().setUser(userToUpdate);
+                        ProfileEditActivity.this.finish();
+                    } catch (NotAuthenticatedException e) {
+                        Session.relogin(ProfileEditActivity.this);
+                        e.printStackTrace();
                     }
                 }
             });
@@ -185,8 +182,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
     
 
     private void updateDateOfBirth() {
-        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
-                .getString(R.string.format_date), Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.format_date), Locale.ENGLISH);
         dobDateDisplay.setText(sdf.format(dateOfBirthChosen));
     }
 }

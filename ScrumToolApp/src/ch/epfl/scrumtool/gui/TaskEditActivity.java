@@ -6,8 +6,8 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
@@ -105,8 +105,9 @@ public class TaskEditActivity extends BaseMenuActivity {
     }
 
     private void insertTask() {
-        MainTask task = taskBuilder.build();
-        task.insert(parentProject, new DefaultGUICallback<MainTask>(this) {
+        final MainTask task = taskBuilder.build();
+        final Button next = (Button) findViewById(R.id.task_edit_button_next);
+        task.insert(parentProject, new DefaultGUICallback<MainTask>(this, next) {
             @Override
             public void interactionDone(MainTask object) {
                 TaskEditActivity.this.finish();
@@ -115,16 +116,12 @@ public class TaskEditActivity extends BaseMenuActivity {
     }
     
     private void updateTask() {
-        MainTask task = taskBuilder.build();
-        task.update(null, new DefaultGUICallback<Boolean>(this) {
+        final MainTask task = taskBuilder.build();
+        final Button next = (Button) findViewById(R.id.task_edit_button_next);
+        task.update(original, new DefaultGUICallback<Boolean>(this, next) {
             @Override
             public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    TaskEditActivity.this.finish();
-                } else {
-                    Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
-                    findViewById(R.id.task_edit_button_next).setEnabled(true);
-                }
+                TaskEditActivity.this.finish();
             }
         });
     }

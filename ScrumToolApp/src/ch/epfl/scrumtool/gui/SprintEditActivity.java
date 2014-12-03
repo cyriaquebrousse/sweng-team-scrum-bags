@@ -18,6 +18,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,7 +50,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprint);
+        setContentView(R.layout.activity_sprint_edit);
         
         initOriginalAndParentProject();
         initViews();
@@ -82,7 +83,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         
         if (nameIsValid()) {
             if (dateIsValid()) {
-                
+                findViewById(R.id.sprintEditDoneButton).setEnabled(false);
                 sprintBuilder.setDeadline(sprintDeadline);
                 sprintBuilder.setTitle(name);
                 
@@ -132,33 +133,26 @@ public class SprintEditActivity extends BaseMenuActivity {
         setDeadlineText(date);
     }
     
-    // =========== INSERTION ===========
     private void insertSprint() {
-        Sprint sprint = sprintBuilder.build();
-        final DefaultGUICallback<Sprint> sprintInserted = new DefaultGUICallback<Sprint>(this) {
-
+        final Sprint sprint = sprintBuilder.build();
+        final Button next = (Button) findViewById(R.id.sprintEditDoneButton);
+        sprint.insert(project, new DefaultGUICallback<Sprint>(this, next) {
             @Override
             public void interactionDone(Sprint object) {
                 passResult(object);
                 SprintEditActivity.this.finish();
             }
-        };
-        sprint.insert(project, sprintInserted);
+        });
     }
     
-    // =========== UPDATE ============
     private void updateSprint() {
         final Sprint sprint = sprintBuilder.build();
-        sprint.update(null, new DefaultGUICallback<Boolean>(this) {
-            
+        final Button next = (Button) findViewById(R.id.sprintEditDoneButton);
+        sprint.update(null, new DefaultGUICallback<Boolean>(this, next) {
             @Override
             public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    passResult(sprint);
-                    SprintEditActivity.this.finish();
-                } else {
-                    Toast.makeText(SprintEditActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
-                }
+                passResult(sprint);
+                SprintEditActivity.this.finish();
             }
         });
     }
