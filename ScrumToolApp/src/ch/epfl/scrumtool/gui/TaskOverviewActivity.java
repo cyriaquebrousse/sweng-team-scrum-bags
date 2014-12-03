@@ -34,6 +34,7 @@ import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -217,7 +218,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         
         float estimatedTime = task.unfinishedIssueTime();
         String unit = getResources().getString(R.string.project_default_unit);
-        estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " " + unit);
+        estimationSlate.setText(estimatedTime <= 0 ? "―" 
+                : EstimationFormating.estimationAsHourFormat(estimatedTime) + " " + unit);
     }
 
     @Override

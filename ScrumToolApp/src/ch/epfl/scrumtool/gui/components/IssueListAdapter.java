@@ -11,6 +11,7 @@ import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 
 /**
  * @author Cyriaque Brousse
@@ -48,7 +49,8 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
             name.setText(issue.getName());
             Player optionAssignee = issue.getPlayer();
             assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
-            estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float.toString(issue.getEstimatedTime()));
+            estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
+                    : EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
             unit.setText(activity.getResources().getString(R.string.project_default_unit));
             divider.setBackgroundColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         }

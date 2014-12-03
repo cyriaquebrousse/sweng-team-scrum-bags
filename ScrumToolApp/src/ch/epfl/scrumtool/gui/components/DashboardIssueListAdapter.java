@@ -14,6 +14,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 
 /**
  * @author ketsio
@@ -60,8 +61,8 @@ public final class DashboardIssueListAdapter extends DefaultAdapter<TaskIssuePro
                     .getString(R.string.format_date), Locale.ENGLISH);
             deadline.setText(optionSprint != null ? sdf.format(optionSprint
                     .getDeadline()) : "<No sprint assigned>");
-            estimation.setText(issue.getEstimatedTime() == 0 ? "-" : Float
-                    .toString(issue.getEstimatedTime()));
+            estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
+                    : EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
             unit.setText(activity.getResources().getString(
                     R.string.project_default_unit));
             divider.setBackgroundColor(activity.getResources().getColor(
