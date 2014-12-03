@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -83,6 +84,8 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                         Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
                         Issue issue = issueList.get(position);
                         openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+                        openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+                        
                         startActivity(openIssueIntent);
                     }
                 });
@@ -124,7 +127,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                     int position, long id) {
-                Issue issue = (Issue) issueSpinner.getItemAtPosition(position);
+                issue = (Issue) issueSpinner.getItemAtPosition(position);
                 if (unsprintedIssues && issue != null) {
                     issueBuilder = new Issue.Builder(issue);
                     issueBuilder.setSprint(sprint);
@@ -243,6 +246,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     }
     
     private void updateIssue() {
+        Issue issueToBeAdded = issue;
         issue = issueBuilder.build();
         issue.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
             @Override
@@ -253,10 +257,10 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
                 }
             }
         });
-        List<Issue> list = issueSpinnerAdapter.getList();
-        int index = list.indexOf(issue);
-        list.remove(index);
+        ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
+        list.remove(issueToBeAdded);
         issueListAdapter.add(issue);
+        issueSpinner.setSelection(0);
         if (list.size() < 2) {
             addIssueVisible(View.GONE);
             unsprintedIssues = false;

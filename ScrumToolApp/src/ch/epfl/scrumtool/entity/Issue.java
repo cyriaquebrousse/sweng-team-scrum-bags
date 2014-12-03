@@ -324,7 +324,8 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         return super.equals(otherIssue)
                 && this.estimatedTime == otherIssue.estimatedTime
                 && this.player.equals(otherIssue.player)
-                && this.sprint.equals(otherIssue.sprint);
+                && ((this.sprint == null && otherIssue.sprint == null) 
+                        || this.sprint.equals(otherIssue.sprint));
     }
 
     @Override
