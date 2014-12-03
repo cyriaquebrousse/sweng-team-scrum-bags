@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -8,7 +5,6 @@ import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
- * 
  * @author aschneuw
  *
  * @param <A>

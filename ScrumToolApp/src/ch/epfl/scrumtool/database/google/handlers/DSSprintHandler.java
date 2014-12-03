@@ -18,16 +18,14 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 
 /**
- * 
  * @author aschneuw
- * 
  */
 public class DSSprintHandler implements SprintHandler {
 
-    @Override
     /**
      * Inserts a Sprint on the server.
      */
+    @Override
     public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
         InsertSprintArgs args = new InsertSprintArgs(project.getKey(), sprint);
@@ -39,10 +37,10 @@ public class DSSprintHandler implements SprintHandler {
         OperationExecutor.execute(args, factory.build());
     }
 
-    @Override
     /**
      * Updates the ref Sprint to be the modified Sprint.
      */
+    @Override
     public void update(final Sprint modified, final Sprint ref,
             final Callback<Boolean> callback) {
         DSExecArgs.Factory<Sprint, Void, Boolean> builder =
@@ -53,10 +51,10 @@ public class DSSprintHandler implements SprintHandler {
         OperationExecutor.execute(modified, builder.build());
     }
 
-    @Override
     /**
      * Removes a Sprint from the datastore.
      */
+    @Override
     public void remove(final Sprint sprint, final Callback<Boolean> callback) {
         DSExecArgs.Factory<String, Void, Boolean> factory = 
                 new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
@@ -88,10 +86,10 @@ public class DSSprintHandler implements SprintHandler {
         throw new UnsupportedOperationException();
     }
     
-    @Override
     /**
      * Loads a Sprint from its key (String).
      */
+    @Override
     public void load(final String key, final Callback<Sprint> cB) {
         throw new UnsupportedOperationException();
     }

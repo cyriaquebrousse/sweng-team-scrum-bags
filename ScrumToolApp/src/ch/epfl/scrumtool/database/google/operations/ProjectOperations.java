@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
@@ -16,7 +13,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 
 /**
  * @author aschneuw
- *
  */
 public final class ProjectOperations {
     public static final ScrumToolOperation<Project, Void> UPDATE_PROJECT = 

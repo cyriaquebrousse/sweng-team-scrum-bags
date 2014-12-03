@@ -12,9 +12,7 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
- * 
  * @author aschneuw
- * 
  */
 public class DSUserHandler implements UserHandler {
     @Override

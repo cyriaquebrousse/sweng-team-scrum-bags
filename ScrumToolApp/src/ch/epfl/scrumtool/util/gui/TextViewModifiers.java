@@ -15,7 +15,6 @@ import android.widget.EditText;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.util.InputVerifiers;
 
-
 /**
  * @author sylb
  */

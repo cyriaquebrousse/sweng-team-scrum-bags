@@ -1,27 +1,23 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.conversion;
 
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
-import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures convertion betwen ScrumUser and User
  * 
  * @author aschneuw
- * 
  */
 public final class UserConverters {
     public static final EntityConverter<ScrumUser, User> SCRUMUSER_TO_USER = new EntityConverter<ScrumUser, User>() {
 
         @Override
         public User convert(ScrumUser dbUser) {
-            assert dbUser != null;
-
-            Preconditions.throwIfNull("Trying to convert a User with null parameters",
+            assertTrue(dbUser != null);
+            throwIfNull("Trying to convert a User with null parameters",
                     dbUser.getEmail(), dbUser.getName());
             
             User.Builder builder = new User.Builder();
@@ -71,7 +67,7 @@ public final class UserConverters {
 
         @Override
         public ScrumUser convert(User user) {
-            assert user != null;
+            assertTrue(user != null);
 
             ScrumUser dbUser = new ScrumUser();
 

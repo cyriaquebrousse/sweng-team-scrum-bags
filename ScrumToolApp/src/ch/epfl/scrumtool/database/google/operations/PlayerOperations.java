@@ -17,7 +17,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
  * Operations for Player
  * 
  * @author vincent
- * 
  */
 public class PlayerOperations {
 

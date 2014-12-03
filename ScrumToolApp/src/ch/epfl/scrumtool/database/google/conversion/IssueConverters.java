@@ -1,5 +1,8 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
-import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumIssue and issue
@@ -30,9 +32,8 @@ public class IssueConverters {
 
         @Override
         public Issue convert(ScrumIssue dbIssue) {
-            assert dbIssue != null;
-
-            Preconditions.throwIfNull("Trying to convert a Issue with null parameters",
+            assertTrue(dbIssue != null);
+            throwIfNull("Trying to convert a Issue with null parameters",
                     dbIssue.getKey(), dbIssue.getName(), dbIssue.getDescription(), dbIssue.getEstimation(),
                     dbIssue.getPriority());
                     
@@ -89,7 +90,7 @@ public class IssueConverters {
 
         @Override
         public ScrumIssue convert(Issue issue) {
-            assert issue != null;
+            assertTrue(issue != null);
 
             ScrumIssue dbIssue = new ScrumIssue();
 
@@ -111,7 +112,7 @@ public class IssueConverters {
 
         @Override
         public ScrumIssue convert(Issue issue) {
-            assert issue != null;
+            assertTrue(issue != null);
 
             ScrumIssue dbIssue = new ScrumIssue();
 

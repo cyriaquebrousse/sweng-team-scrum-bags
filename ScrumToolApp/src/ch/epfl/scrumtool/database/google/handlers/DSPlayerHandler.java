@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.handlers;
 
 import java.util.List;
@@ -24,7 +21,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 
 /**
  * @author aschneuw
- * 
  */
 public class DSPlayerHandler implements PlayerHandler {
 

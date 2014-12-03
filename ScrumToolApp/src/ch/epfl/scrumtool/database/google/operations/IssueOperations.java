@@ -16,7 +16,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
  * Operations for Issue
  * 
  * @author vincent
- *
  */
 public class IssueOperations {
     
@@ -25,23 +24,23 @@ public class IssueOperations {
         @Override
         public InsertResponse<Issue> operation(InsertIssueArgs arg, Scrumtool service)
                 throws IOException, ScrumToolException {
-                final String playerKey;
-                if (arg.getIssue().getPlayer() != null) {
-                    playerKey = arg.getIssue().getPlayer().getKey();
-                } else {
-                    playerKey = null;
-                }
-                final String sprintKey;
-                if (arg.getIssue().getSprint() != null) {
-                    sprintKey = arg.getIssue().getSprint().getKey();
-                } else {
-                    sprintKey = null;
-                }
-                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
-                insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-                return new InsertResponse<Issue>(arg.getIssue(),
-                        service.insertScrumIssue(arg.getKey(), insert)
-                        .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
+            final String playerKey;
+            if (arg.getIssue().getPlayer() != null) {
+                playerKey = arg.getIssue().getPlayer().getKey();
+            } else {
+                playerKey = null;
+            }
+            final String sprintKey;
+            if (arg.getIssue().getSprint() != null) {
+                sprintKey = arg.getIssue().getSprint().getKey();
+            } else {
+                sprintKey = null;
+            }
+            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
+            insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
+            return new InsertResponse<Issue>(arg.getIssue(),
+                    service.insertScrumIssue(arg.getKey(), insert)
+                    .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
         }
     };
     

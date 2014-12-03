@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.network;
 
 import java.util.List;
@@ -11,7 +8,6 @@ import ch.epfl.scrumtool.entity.User;
 
 /**
  * @author aschneuw
- * 
  */
 public interface ProjectManager {
     /**

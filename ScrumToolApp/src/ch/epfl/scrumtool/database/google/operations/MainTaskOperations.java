@@ -14,8 +14,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 /**
  * Operations for MainTask
  * 
- * @author vincent, aschneuw
- *
+ * @author vincent
+ * @author aschneuw
  */
 public class MainTaskOperations {
     public static final ScrumToolOperation<MainTask, Void> UPDATE_MAINTASK = 

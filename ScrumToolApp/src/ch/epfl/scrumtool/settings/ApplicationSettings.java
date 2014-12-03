@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 /**
  * This class provides methods to save ScrumToolApp's settings persistently.
  * @author zenhaeus
- *
  */
 public class ApplicationSettings {
     private static final String PREFERENCES = "PrefsFile";

@@ -1,12 +1,13 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
-import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumPlayer and Player
@@ -21,9 +22,8 @@ public class PlayerConverters {
 
         @Override
         public Player convert(ScrumPlayer dbPlayer) {
-            assert dbPlayer != null;
-            
-            Preconditions.throwIfNull("Trying to convert a Player with null parameters",
+            assertTrue(dbPlayer != null);
+            throwIfNull("Trying to convert a Player with null parameters",
                     dbPlayer.getKey(), dbPlayer.getAdminFlag(), dbPlayer.getRole(), dbPlayer.getUser());
                     
             Player.Builder builder = new Player.Builder();
@@ -58,7 +58,7 @@ public class PlayerConverters {
 
         @Override
         public ScrumPlayer convert(Player player) {
-            assert player != null;
+            assertTrue(player != null);
 
             ScrumPlayer dbPlayer = new ScrumPlayer();
             dbPlayer.setKey(player.getKey());

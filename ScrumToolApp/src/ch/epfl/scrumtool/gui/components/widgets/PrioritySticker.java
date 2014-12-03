@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui.components.widgets;
 
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
 import android.content.Context;
 import android.util.AttributeSet;
 import ch.epfl.scrumtool.R;
@@ -30,7 +31,7 @@ public class PrioritySticker extends Sticker {
     }
     
     public void setPriority(Priority priority) {
-        assert priority != null;
+        assertTrue(priority != null);
         
         this.priority = priority;
         super.setStickerText(priority.toString());

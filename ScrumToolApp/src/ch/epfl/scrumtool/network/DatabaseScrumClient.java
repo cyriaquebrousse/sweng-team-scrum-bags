@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.entity.User;
 
 /**
  * @author aschneuw
- * 
  */
 public class DatabaseScrumClient implements ScrumClient {
     private final DatabaseHandlers databaseHandlers;

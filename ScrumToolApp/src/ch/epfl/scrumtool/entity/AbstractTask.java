@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import ch.epfl.scrumtool.util.Preconditions;
 
-
 /**
  * @author Vincent
  */

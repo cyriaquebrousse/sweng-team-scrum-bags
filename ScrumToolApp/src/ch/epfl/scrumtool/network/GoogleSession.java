@@ -27,7 +27,6 @@ import com.google.api.client.json.gson.GsonFactory;
  * which are needed to access the Datastore on the Google App Engine
  * 
  * @author aschneuw
- * 
  */
 public final class GoogleSession extends Session {
     public static final String CLIENT_ID = "756445222019-7ll8hq36aorbfbno1unp49ikle7kt1nv.apps.googleusercontent.com";

@@ -17,9 +17,7 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 
 /**
- * 
  * @author aschneuw
- * 
  */
 public class DSProjectHandler implements ProjectHandler {
     @Override

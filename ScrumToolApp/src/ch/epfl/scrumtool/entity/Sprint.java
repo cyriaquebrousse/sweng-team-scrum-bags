@@ -14,7 +14,6 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
  * @author zenhaeus
  * @author Cyriaque Brousse
  */
-
 public final class Sprint implements Serializable, Comparable<Sprint> {
     private static final long serialVersionUID = -5819472452849232304L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";

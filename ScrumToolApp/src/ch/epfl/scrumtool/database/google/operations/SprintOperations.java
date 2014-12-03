@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  * Operations for Sprint
  * 
  * @author vincent
- *
  */
 public class SprintOperations {
     public static final ScrumToolOperation<Sprint, Void> UPDATE_SPRINT = 

@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui.components.widgets;
 
+import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+
 import java.util.Locale;
 
 import android.content.Context;
@@ -37,7 +39,7 @@ public class SingleSizePrioritySticker extends PrioritySticker {
      * the priority state (e.g. N for normal, H for high, etc.).
      */
     private void updateStickerText() {
-        assert getPriority() != null;
+        assertTrue(getPriority() != null);
         
         char firstLetter = getPriority().toString().toUpperCase(Locale.ENGLISH).charAt(0);
         setStickerText(Character.toString(firstLetter));

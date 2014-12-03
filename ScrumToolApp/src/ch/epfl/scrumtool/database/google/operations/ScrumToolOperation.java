@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
@@ -10,7 +7,6 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
 /**
- * 
  * @author aschneuw
  *
  * @param <A>

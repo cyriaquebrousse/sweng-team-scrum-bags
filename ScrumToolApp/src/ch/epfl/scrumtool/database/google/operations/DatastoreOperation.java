@@ -1,13 +1,9 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
- * 
  * @author aschneuw
  *
  * @param <A>

@@ -10,7 +10,6 @@ import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
  * @author aschneuw
- * 
  */
 public abstract class Session {
     private static Session currentSession = null;

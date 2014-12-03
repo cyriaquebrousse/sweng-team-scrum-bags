@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
@@ -14,7 +11,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
  * Operations for User
  * 
  * @author aschneuw
- *
  */
 public final class UserOperations {
     

@@ -22,8 +22,7 @@ public final class DashboardIssueListAdapter extends DefaultAdapter<TaskIssuePro
     private Activity activity;
     private LayoutInflater inflater;
 
-    public DashboardIssueListAdapter(final Activity activity,
-            final List<TaskIssueProject> containerList) {
+    public DashboardIssueListAdapter(final Activity activity, final List<TaskIssueProject> containerList) {
         super(containerList);
         this.activity = activity;
         this.inflater = (LayoutInflater) activity

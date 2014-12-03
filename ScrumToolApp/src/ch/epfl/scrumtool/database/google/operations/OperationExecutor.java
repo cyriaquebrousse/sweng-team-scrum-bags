@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import android.os.AsyncTask;
@@ -9,7 +6,6 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
  * @author aschneuw
- * 
  */
 public final class OperationExecutor {
     public static final String TAG = "Operation Executor";

@@ -11,7 +11,6 @@ import ch.epfl.scrumtool.network.Client;
  * @author zenhaeus
  * @author aschneuw
  */
-
 public final class MainTask extends AbstractTask implements Serializable, Comparable<MainTask> {
 
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
