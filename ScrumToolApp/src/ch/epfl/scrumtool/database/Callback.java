@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database;
 
+
 /**
  * @author zenhaeus
  * 
@@ -14,13 +15,12 @@ public interface Callback<A> {
      * @param object
      */
     void interactionDone(A object);
-    
-    
+
     /**
      * Function to call when the database operation failed
+     * 
      * @param errorMessage
+     *            error message to display
      */
     void failure(final String errorMessage);
-    
-    
 }
