@@ -320,12 +320,31 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         }
 
         Issue otherIssue = (Issue) o;
-
+        
+        boolean playerEquals = false;
+        if (this.player == null && otherIssue.player == null) {
+            playerEquals = true;
+        } else if (this.player == null && otherIssue.player != null
+                || this.player != null && otherIssue.player == null) {
+            playerEquals = false;
+        } else if (this.player != null && otherIssue.player != null) {
+            playerEquals = this.player.equals(otherIssue.player);
+        }
+        
+        boolean sprintEquals = false;
+        if (this.sprint == null && otherIssue.sprint == null) {
+            sprintEquals = true;
+        } else if (this.sprint == null && otherIssue.sprint != null
+                || this.sprint != null && otherIssue.sprint == null) {
+            sprintEquals = false;
+        } else if (this.sprint != null && otherIssue.sprint != null) {
+            sprintEquals = this.sprint.equals(otherIssue.sprint);
+        }
+        
         return super.equals(otherIssue)
                 && this.estimatedTime == otherIssue.estimatedTime
-                && this.player.equals(otherIssue.player)
-                && ((this.sprint == null && otherIssue.sprint == null) 
-                        || this.sprint.equals(otherIssue.sprint));
+                && playerEquals
+                && sprintEquals;
     }
 
     @Override

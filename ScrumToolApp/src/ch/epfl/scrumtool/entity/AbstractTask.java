@@ -76,11 +76,11 @@ public abstract class AbstractTask implements Serializable {
             return false;
         }
         AbstractTask other = (AbstractTask) o;
-        return other.key.equals(this.key)
-                && other.description.equals(this.description)
-                && other.name.equals(other.name)
-                && other.priority == this.priority
-                && other.status == this.status;
+        return this.key.equals(other.key)
+                && this.description.equals(other.description)
+                && this.name.equals(other.name)
+                && this.priority == other.priority
+                && this.status == other.status;
     }
     
     @Override

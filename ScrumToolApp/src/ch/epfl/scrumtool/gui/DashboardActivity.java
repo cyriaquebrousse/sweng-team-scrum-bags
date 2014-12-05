@@ -119,7 +119,7 @@ public class DashboardActivity extends BaseMenuActivity {
 
     public void openBacklog(View view) {
         final int position = projectListView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) projectListView.getAdapter().getItem(position);
             Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
             openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
@@ -129,7 +129,7 @@ public class DashboardActivity extends BaseMenuActivity {
     
     public void openSprints(View view) {
         final int position = projectListView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) projectListView.getAdapter().getItem(position);
             Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
             openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
@@ -139,7 +139,7 @@ public class DashboardActivity extends BaseMenuActivity {
     
     public void openPlayers(View view) {
         final int position = projectListView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) projectListView.getAdapter().getItem(position);
             Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
             openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);

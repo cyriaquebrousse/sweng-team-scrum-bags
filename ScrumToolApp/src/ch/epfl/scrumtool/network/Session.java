@@ -40,7 +40,7 @@ public abstract class Session {
      * @param updatedUser
      */
     public void setUser(User updatedUser) {
-        if (updatedUser != null && updatedUser.getEmail() == user.getEmail()) {
+        if (updatedUser != null && updatedUser.getEmail().equals(user.getEmail())) {
             this.user = updatedUser;
         }
     }
