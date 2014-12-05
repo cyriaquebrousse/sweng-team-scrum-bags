@@ -27,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Player;
@@ -153,15 +152,16 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             public void onSelected(final Role selected) {
                 Player.Builder builder = new Player.Builder(player);
                 builder.setRole(selected);
-                builder.build().update(null, new Callback<Boolean>() {
+                builder.build().update(null, new Callback<Void>() {
                     @Override
-                    public void interactionDone(Boolean object) {
+                    public void interactionDone(Void object) {
                         project.loadPlayers(callback);
                     }
 
                     @Override
                     public void failure(String errorMessage) {
                         Log.d("test", "failure");
+                        //TODO error handling?
                     }
                 });
             }
@@ -169,16 +169,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     }
 
     private void deletePlayer(final Player player) {
-        player.remove(new DefaultGUICallback<Boolean>(this) {
+        player.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    adapter.remove(player);
-                } else {
-                    Toast.makeText(ProjectPlayerListActivity.this,
-                            "Could not delete player", Toast.LENGTH_SHORT)
-                            .show();
-                }
+            public void interactionDone(Void a) {
+                adapter.remove(player);
             }
         });
     }

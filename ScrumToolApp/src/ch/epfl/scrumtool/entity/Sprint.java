@@ -77,7 +77,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param ref
      * @param callback
      */
-    public void update(final Sprint ref, final Callback<Boolean> callback) {
+    public void update(final Sprint ref, final Callback<Void> callback) {
         Client.getScrumClient().updateSprint(this, ref, callback);
     }
 
@@ -86,7 +86,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().deleteSprint(this, callback);
     }
 
@@ -96,18 +96,8 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param issue
      * @param callback
      */
-    public void addIssue(final Issue issue, final Callback<Boolean> callback) {
+    public void addIssue(final Issue issue, final Callback<Void> callback) {
         issue.addToSprint(this, callback);
-    }
-
-    /**
-     * Removes the issue from the sprints in the DS
-     * 
-     * @param issue
-     * @param callback
-     */
-    public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
-        issue.removeFromSprint(this, callback);
     }
 
     /**

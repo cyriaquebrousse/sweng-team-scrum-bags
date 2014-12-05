@@ -159,9 +159,9 @@ public class IssueEditActivity extends BaseMenuActivity {
     private void updateIssue() {
         final Issue issue = issueBuilder.build();
         Button next = (Button) findViewById(R.id.issue_edit_button_next);
-        issue.update(null, new DefaultGUICallback<Boolean>(this, next) {
+        issue.update(null, new DefaultGUICallback<Void>(this, next) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void success) {
                 passResult(issue);
                 IssueEditActivity.this.finish();
             }

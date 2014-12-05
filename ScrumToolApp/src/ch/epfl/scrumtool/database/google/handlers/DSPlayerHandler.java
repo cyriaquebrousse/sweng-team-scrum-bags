@@ -38,21 +38,21 @@ public class DSPlayerHandler implements PlayerHandler {
 
     @Override
     public void update(final Player modified, final Player ref,
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Player, Void, Boolean> builder = 
-                new DSExecArgs.Factory<Player, Void, Boolean>(MODE.AUTHENTICATED);
+            final Callback<Void> callback) {
+        DSExecArgs.Factory<Player, Void, Void> builder = 
+                new DSExecArgs.Factory<Player, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(PlayerOperations.UPDATE_PLAYER);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
-    public void remove(final Player player, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final Player player, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(PlayerOperations.DELETE_PLAYER);
         OperationExecutor.execute(player.getKey(), factory.build());
     }

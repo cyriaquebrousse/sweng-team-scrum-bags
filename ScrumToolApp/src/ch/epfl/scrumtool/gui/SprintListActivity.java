@@ -145,9 +145,9 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
 
     private void deleteSprint(final Sprint sprint) {
         listViewLayout.setRefreshing(true);
-        sprint.remove(new DefaultGUICallback<Boolean>(this) {
+        sprint.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 listViewLayout.setRefreshing(false);
                 adapter.remove(sprint);
             }

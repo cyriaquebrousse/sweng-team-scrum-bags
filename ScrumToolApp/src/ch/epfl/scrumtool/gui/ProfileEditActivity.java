@@ -165,9 +165,9 @@ public class ProfileEditActivity extends ScrumToolActivity {
             
             final User userToUpdate = userBuilder.build();
             final Button next = (Button) findViewById(R.id.profile_edit_submit_button);
-            userToUpdate.update(new DefaultGUICallback<Boolean>(this, next) {
+            userToUpdate.update(new DefaultGUICallback<Void>(this, next) {
                 @Override
-                public void interactionDone(Boolean success) {
+                public void interactionDone(Void v) {
                     try {
                         Session.getCurrentSession().setUser(userToUpdate);
                         ProfileEditActivity.this.finish();

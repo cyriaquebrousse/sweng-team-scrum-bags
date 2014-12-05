@@ -26,21 +26,21 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(final User modified, final User ref, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<User, Void, Boolean> builder =
-                new DSExecArgs.Factory<User, Void, Boolean>(MODE.AUTHENTICATED);
+    public void update(final User modified, final User ref, final Callback<Void> callback) {
+        DSExecArgs.Factory<User, Void, Void> builder =
+                new DSExecArgs.Factory<User, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(UserOperations.UPDATE_USER);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
-    public void remove(final User user, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final User user, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(UserOperations.DELETE_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
     }

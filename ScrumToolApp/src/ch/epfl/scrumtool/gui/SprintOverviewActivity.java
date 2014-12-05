@@ -233,14 +233,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
     @Override
     void deleteElement() {
-        sprint.remove(new DefaultGUICallback<Boolean>(this) {
+        sprint.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (success) {
+            public void interactionDone(Void b) {
                     SprintOverviewActivity.this.finish();
-                } else {
                     Toast.makeText(SprintOverviewActivity.this, "Could not delete sprint", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
@@ -248,13 +245,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private void updateIssue() {
         Issue issueToBeAdded = issue;
         issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
+        issue.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
+            public void interactionDone(Void v) {
                     Toast.makeText(SprintOverviewActivity.this, 
                             "Could not add issue to sprint", Toast.LENGTH_SHORT).show();
-                }
             }
         });
         ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
@@ -269,13 +264,11 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     
     private void updateSprint() {
         sprint = sprintBuilder.build();
-        sprint.update(null, new DefaultGUICallback<Boolean>(SprintOverviewActivity.this) {
+        sprint.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
+            public void interactionDone(Void v) {
                     Toast.makeText(SprintOverviewActivity.this, 
                             "Could not update sprint", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }

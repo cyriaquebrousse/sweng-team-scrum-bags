@@ -42,11 +42,11 @@ public class DSSprintHandler implements SprintHandler {
      */
     @Override
     public void update(final Sprint modified, final Sprint ref,
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Sprint, Void, Boolean> builder =
-                new DSExecArgs.Factory<Sprint, Void, Boolean>(MODE.AUTHENTICATED);
+            final Callback<Void> callback) {
+        DSExecArgs.Factory<Sprint, Void, Void> builder =
+                new DSExecArgs.Factory<Sprint, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(SprintOperations.UPDATE_SPRINT);
         OperationExecutor.execute(modified, builder.build());
     }
@@ -55,11 +55,11 @@ public class DSSprintHandler implements SprintHandler {
      * Removes a Sprint from the datastore.
      */
     @Override
-    public void remove(final Sprint sprint, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final Sprint sprint, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(SprintOperations.DELETE_SPRINT);
         OperationExecutor.execute(sprint.getKey(), factory.build());
     }

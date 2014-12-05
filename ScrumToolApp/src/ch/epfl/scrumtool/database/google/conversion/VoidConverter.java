@@ -7,12 +7,12 @@ package ch.epfl.scrumtool.database.google.conversion;
  */
 public class VoidConverter {
 
-    public static final EntityConverter<Void, Boolean> VOID_TO_BOOLEAN = 
-            new EntityConverter<Void, Boolean>() {
+    public static final EntityConverter<Void, Void> VOID_TO_VOID = 
+            new EntityConverter<Void, Void>() {
 
         @Override
-        public Boolean convert(Void a) {
-            return true;
+        public Void convert(Void a) {
+            return a;
         }
     };
 }

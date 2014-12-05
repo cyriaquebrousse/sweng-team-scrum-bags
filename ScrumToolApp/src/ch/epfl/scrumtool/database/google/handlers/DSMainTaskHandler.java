@@ -48,21 +48,21 @@ public class DSMainTaskHandler implements MainTaskHandler {
     }
 
     public void update(final MainTask modified, final MainTask ref, 
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<MainTask, Void, Boolean> builder =
-                new DSExecArgs.Factory<MainTask, Void, Boolean>(MODE.AUTHENTICATED);
+            final Callback<Void> callback) {
+        DSExecArgs.Factory<MainTask, Void, Void> builder =
+                new DSExecArgs.Factory<MainTask, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(MainTaskOperations.UPDATE_MAINTASK);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
-    public void remove(final MainTask maintask, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final MainTask maintask, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(MainTaskOperations.DELETE_MAINTASK);
         OperationExecutor.execute(maintask.getKey(), factory.build());
     }

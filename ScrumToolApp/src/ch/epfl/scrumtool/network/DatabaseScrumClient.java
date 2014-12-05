@@ -24,12 +24,12 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void deleteUser(User user, Callback<Boolean> callback) {
+    public void deleteUser(User user, Callback<Void> callback) {
         databaseHandlers.getUserHandler().remove(user, callback);
     }
 
     @Override
-    public void updateUser(User user, User ref, Callback<Boolean> callback) {
+    public void updateUser(User user, User ref, Callback<Void> callback) {
         databaseHandlers.getUserHandler().update(user, ref, callback);
     }
 
@@ -45,14 +45,14 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
 
-    public void updateProject(Project project, Project ref, Callback<Boolean> callback) {
+    public void updateProject(Project project, Project ref, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().update(project, ref, callback);
 
 
     }
 
     @Override
-    public void deleteProject(Project project, Callback<Boolean> callback) {
+    public void deleteProject(Project project, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().remove(project, callback);
 
     }
@@ -70,12 +70,12 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateMainTask(MainTask task, MainTask ref, Callback<Boolean> callback) {
+    public void updateMainTask(MainTask task, MainTask ref, Callback<Void> callback) {
         databaseHandlers.getMainTaskHandler().update(task, ref, callback);
     }
 
     @Override
-    public void deleteMainTask(MainTask task, Callback<Boolean> callback) {
+    public void deleteMainTask(MainTask task, Callback<Void> callback) {
         databaseHandlers.getMainTaskHandler().remove(task, callback);
     }
     
@@ -96,23 +96,18 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void addIssueToSprint(Issue issue, Sprint sprint, Callback<Boolean> callback) {
+    public void addIssueToSprint(Issue issue, Sprint sprint, Callback<Void> callback) {
         databaseHandlers.getIssueHandler().assignIssueToSprint(issue, sprint,
                 callback);
     }
 
     @Override
-    public void removeIssueFromSprint(Issue issue, Callback<Boolean> callback) {
-        databaseHandlers.getIssueHandler().removeIssueFromSprint(issue, callback);
-    }
-
-    @Override
-    public void updateIssue(Issue issue, Issue ref, Callback<Boolean> callback) {
+    public void updateIssue(Issue issue, Issue ref, Callback<Void> callback) {
         databaseHandlers.getIssueHandler().update(issue, ref, callback);
     }
 
     @Override
-    public void deleteIssue(Issue issue, Callback<Boolean> callback) {
+    public void deleteIssue(Issue issue, Callback<Void> callback) {
         databaseHandlers.getIssueHandler().remove(issue, callback);
     }
 
@@ -128,12 +123,12 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateSprint(Sprint sprint, Sprint ref, Callback<Boolean> callback) {
+    public void updateSprint(Sprint sprint, Sprint ref, Callback<Void> callback) {
         databaseHandlers.getSprintHandler().update(sprint, ref, callback);
     }
 
     @Override
-    public void deleteSprint(Sprint sprint, Callback<Boolean> callback) {
+    public void deleteSprint(Sprint sprint, Callback<Void> callback) {
         databaseHandlers.getSprintHandler().remove(sprint, callback);
     }
 
@@ -150,12 +145,12 @@ public class DatabaseScrumClient implements ScrumClient {
     }
     
     @Override
-    public void updatePlayer(Player player, Player ref, Callback<Boolean> callback) {
+    public void updatePlayer(Player player, Player ref, Callback<Void> callback) {
         databaseHandlers.getPlayerHandler().update(player, ref, callback);
     }
 
     @Override
-    public void removePlayer(Player player, Callback<Boolean> callback) {
+    public void removePlayer(Player player, Callback<Void> callback) {
         databaseHandlers.getPlayerHandler().remove(player, callback);
     }
 

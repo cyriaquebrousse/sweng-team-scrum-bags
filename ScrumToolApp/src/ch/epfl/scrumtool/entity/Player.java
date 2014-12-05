@@ -66,7 +66,7 @@ public final class Player implements Serializable, Comparable<Player> {
      * @param ref
      * @param callback
      */
-    public void update(final Player ref, final Callback<Boolean> callback) {
+    public void update(final Player ref, final Callback<Void> callback) {
         Client.getScrumClient().updatePlayer(this, ref, callback);
     }
 
@@ -75,7 +75,7 @@ public final class Player implements Serializable, Comparable<Player> {
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().removePlayer(this, callback);
     }
     

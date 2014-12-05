@@ -59,16 +59,8 @@ public interface IssueHandler extends DatabaseHandler<Issue> {
      * @param cB
      */
     void assignIssueToSprint(final Issue issue, final Sprint sprint,
-            final Callback<Boolean> cB);
+            final Callback<Void> cB);
 
-    /**
-     * Remove the Issue from the a Sprint
-     * 
-     * @param issue
-     * @param sprint
-     * @param cB
-     */
-    void removeIssueFromSprint(final Issue issue, final Callback<Boolean> cB);
     
     /**
      * Loads a list of issues which don't have the state finished for a selected user

@@ -22,13 +22,13 @@ public interface ScrumClient {
      * @param user
      * @param callback
      */
-    void deleteUser(final User user, final Callback<Boolean> callback);
+    void deleteUser(final User user, final Callback<Void> callback);
     /**
      * @param user
      * @param ref
      * @param callback
      */
-    void updateUser(final User user, final User ref, final Callback<Boolean> callback);
+    void updateUser(final User user, final User ref, final Callback<Void> callback);
     
     // Project methods
     /**
@@ -45,12 +45,12 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateProject(final Project project, final Project ref, final Callback<Boolean> callback);
+    void updateProject(final Project project, final Project ref, final Callback<Void> callback);
     /**
      * @param project
      * @param callback
      */
-    void deleteProject(final Project project, final Callback<Boolean> callback);
+    void deleteProject(final Project project, final Callback<Void> callback);
     
     // Player methods
     /**
@@ -69,12 +69,12 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updatePlayer(final Player player, final Player ref, final Callback<Boolean> callback);
+    void updatePlayer(final Player player, final Player ref, final Callback<Void> callback);
     /**
      * @param player
      * @param callback
      */
-    void removePlayer(final Player player, final Callback<Boolean> callback);
+    void removePlayer(final Player player, final Callback<Void> callback);
     /**
      * @param project
      * @param userEmail
@@ -101,12 +101,12 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateMainTask(final MainTask task, final MainTask ref, final Callback<Boolean> callback);
+    void updateMainTask(final MainTask task, final MainTask ref, final Callback<Void> callback);
     /**
      * @param task
      * @param callback
      */
-    void deleteMainTask(final MainTask task, final Callback<Boolean> callback);
+    void deleteMainTask(final MainTask task, final Callback<Void> callback);
     
     // Issue methods
     /**
@@ -130,23 +130,19 @@ public interface ScrumClient {
      * @param sprint
      * @param callback
      */
-    void addIssueToSprint(final Issue issue, final Sprint sprint, final Callback<Boolean> callback);
-    /**
-     * @param issue
-     * @param callback
-     */
-    void removeIssueFromSprint(final Issue issue, final Callback<Boolean> callback);
+    void addIssueToSprint(final Issue issue, final Sprint sprint, final Callback<Void> callback);
+
     /**
      * @param issue
      * @param ref
      * @param callback
      */
-    void updateIssue(final Issue issue, final Issue ref, Callback<Boolean> callback);
+    void updateIssue(final Issue issue, final Issue ref, Callback<Void> callback);
     /**
      * @param issue
      * @param callback
      */
-    void deleteIssue(final Issue issue, final Callback<Boolean> callback);
+    void deleteIssue(final Issue issue, final Callback<Void> callback);
     /**
      * @param project
      * @param callback
@@ -175,10 +171,10 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateSprint(final Sprint sprint, final Sprint ref, final Callback<Boolean> callback);
+    void updateSprint(final Sprint sprint, final Sprint ref, final Callback<Void> callback);
     /**
      * @param sprint
      * @param callback
      */
-    void deleteSprint(final Sprint sprint, final Callback<Boolean> callback);
+    void deleteSprint(final Sprint sprint, final Callback<Void> callback);
 }

@@ -19,7 +19,6 @@ public final class OperationExecutor {
                 try {
                     B serverResult = args.getOperation().execute(params[0]);
                     return new TaskResult<B>(serverResult);
-                    
                 } catch (ScrumToolException e) {
                     Log.e(TAG, "Execution failed", e);
                     return new TaskResult<B>(e);
@@ -33,7 +32,6 @@ public final class OperationExecutor {
                     args.getCallback().interactionDone(convertedResult);
                 } else {
                     args.getCallback().failure(result.getException().getGUIMessage());
-
                 }
             }
         };

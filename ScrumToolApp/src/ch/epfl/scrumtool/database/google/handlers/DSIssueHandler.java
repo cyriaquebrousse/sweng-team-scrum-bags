@@ -52,21 +52,21 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void update(final Issue modified, final Issue ref,
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Issue, Void, Boolean> factory = 
-                new DSExecArgs.Factory<Issue, Void, Boolean>(MODE.AUTHENTICATED);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+            final Callback<Void> callback) {
+        DSExecArgs.Factory<Issue, Void, Void> factory = 
+                new DSExecArgs.Factory<Issue, Void, Void>(MODE.AUTHENTICATED);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setCallback(callback);
         factory.setOperation(IssueOperations.UPDATE_ISSUE);
         OperationExecutor.execute(modified, factory.build());
     }
 
     @Override
-    public void remove(final Issue issue, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new DSExecArgs.Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final Issue issue, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(IssueOperations.DELETE_ISSUE);
         OperationExecutor.execute(issue.getKey(), factory.build());
     }
@@ -94,12 +94,12 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void assignIssueToSprint(final Issue issue, final Sprint sprint,
-            Callback<Boolean> callback) {
+            Callback<Void> callback) {
         InsertIssueArgs args = new InsertIssueArgs(issue, sprint.getKey());
-        DSExecArgs.Factory<InsertIssueArgs, Void, Boolean> factory = 
-                new Factory<InsertIssueArgs, Void, Boolean>(MODE.AUTHENTICATED);
+        DSExecArgs.Factory<InsertIssueArgs, Void, Void> factory = 
+                new Factory<InsertIssueArgs, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(IssueOperations.INSERT_ISSUE_SPRINT);
         OperationExecutor.execute(args, factory.build());
     }
@@ -111,12 +111,6 @@ public class DSIssueHandler implements IssueHandler {
         factory.setConverter(CollectionResponseConverters.ISSUES);
         factory.setOperation(IssueOperations.LOAD_ISSUES_NO_SPRINT);
         OperationExecutor.execute(project.getKey(), factory.build());
-    }
-
-    @Override
-    public void removeIssueFromSprint(Issue issue, Callback<Boolean> cB) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

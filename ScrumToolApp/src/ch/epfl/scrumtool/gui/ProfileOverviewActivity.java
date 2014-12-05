@@ -179,9 +179,9 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     final Context context = ProfileOverviewActivity.this;
-                    userProfile.remove(new DefaultGUICallback<Boolean>(context) {
+                    userProfile.remove(new DefaultGUICallback<Void>(context) {
                         @Override
-                        public void interactionDone(Boolean success) {
+                        public void interactionDone(Void v) {
                             Toast.makeText(context , "User deleted", Toast.LENGTH_SHORT).show();
                             GoogleSession.destroyCurrentSession(context);
                         }
@@ -194,9 +194,9 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
     
     private void updateUser() {
         userProfile = userBuilder.build();
-        userProfile.update(new DefaultGUICallback<Boolean>(this) {
+        userProfile.update(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 try {
                     Session.getCurrentSession().setUser(userProfile);
                 } catch (NotAuthenticatedException e) {

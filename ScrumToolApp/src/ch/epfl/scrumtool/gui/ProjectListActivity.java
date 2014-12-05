@@ -124,9 +124,9 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
      */
     private void deleteProject(final Project project) {
         listViewLayout.setRefreshing(true);
-        project.remove(new DefaultGUICallback<Boolean>(this) {
+        project.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 listViewLayout.setRefreshing(false);
                 adapter.remove(project);
             }

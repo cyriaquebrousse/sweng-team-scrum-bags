@@ -88,9 +88,9 @@ public class ProjectEditActivity extends BaseMenuActivity {
     private void updateProject() {
         final Project project = projectBuilder.build();
         final Button next = (Button) findViewById(R.id.project_edit_button_next);
-        project.update(null, new DefaultGUICallback<Boolean>(this, next) {
+        project.update(null, new DefaultGUICallback<Void>(this, next) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 ProjectEditActivity.this.finish();
             }
         });

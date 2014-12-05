@@ -254,9 +254,9 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      */
     private void deleteIssue(final Issue issue) {
         listViewLayout.setRefreshing(true);
-        issue.remove(new DefaultGUICallback<Boolean>(this) {
+        issue.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 listViewLayout.setRefreshing(false);
                 adapter.remove(issue);
             }
@@ -274,12 +274,10 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
 
     private void updateTask() {
         task = taskBuilder.build();
-        task.update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
+        task.update(null, new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
-                    Toast.makeText(TaskOverviewActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
-                }
+            public void interactionDone(Void v) {
+                    Toast.makeText(TaskOverviewActivity.this, "Task updated", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -289,9 +287,9 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      * @param done true if need to update to done, false for undone
      */
     private void markIssueAsDone(final Issue issue, boolean done) {
-        issue.markAsDone(done, new Callback<Boolean>() {
+        issue.markAsDone(done, new Callback<Void>() {
             @Override
-            public void interactionDone(Boolean object) {
+            public void interactionDone(Void v) {
                 listViewLayout.setRefreshing(true);
                 task.loadIssues(callback);
                 updateViews();

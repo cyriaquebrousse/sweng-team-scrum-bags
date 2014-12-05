@@ -36,21 +36,21 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void update(final Project modified, final Project ref, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Project, Void, Boolean> factory = 
-                new DSExecArgs.Factory<Project, Void, Boolean>(MODE.AUTHENTICATED);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+    public void update(final Project modified, final Project ref, final Callback<Void> callback) {
+        DSExecArgs.Factory<Project, Void, Void> factory = 
+                new DSExecArgs.Factory<Project, Void, Void>(MODE.AUTHENTICATED);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setCallback(callback);
         factory.setOperation(ProjectOperations.UPDATE_PROJECT);
         OperationExecutor.execute(modified, factory.build());
     }
 
     @Override
-    public void remove(final Project project, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, Void, Boolean> factory = 
-                new Factory<String, Void, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final Project project, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(VoidConverter.VOID_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(ProjectOperations.DELETE_PROJECT);
         OperationExecutor.execute(project.getKey(), factory.build());
     }

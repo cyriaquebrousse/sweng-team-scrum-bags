@@ -133,9 +133,9 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 final Context context = IssueOverviewActivity.this;
-                issue.remove(new DefaultGUICallback<Boolean>(context) {
+                issue.remove(new DefaultGUICallback<Void>(context) {
                     @Override
-                    public void interactionDone(Boolean success) {
+                    public void interactionDone(Void v) {
                         Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -284,13 +284,11 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
     private void updateIssue() {
         issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Boolean>(IssueOverviewActivity.this) {
+        issue.update(null, new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
+            public void interactionDone(Void v) {
                     Toast.makeText(IssueOverviewActivity.this, 
                             "Could not update issue", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }

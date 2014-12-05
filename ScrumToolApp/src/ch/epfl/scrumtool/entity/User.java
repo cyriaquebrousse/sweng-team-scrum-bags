@@ -127,7 +127,7 @@ public final class User implements Serializable, Comparable<User> {
      * 
      * @param callback
      */
-    public void update(final Callback<Boolean> callback) {
+    public void update(final Callback<Void> callback) {
         Client.getScrumClient().updateUser(this, null, callback);
     }
 
@@ -136,7 +136,7 @@ public final class User implements Serializable, Comparable<User> {
      * 
      * @param callback
      */
-    public void remove(Callback<Boolean> callback) {
+    public void remove(Callback<Void> callback) {
         Client.getScrumClient().deleteUser(this, callback);
     }
     

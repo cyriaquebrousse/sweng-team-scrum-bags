@@ -140,9 +140,9 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
      */
     private void deleteMainTask(final MainTask mainTask) {
         listViewLayout.setRefreshing(true);
-        mainTask.remove(new DefaultGUICallback<Boolean>(this) {
+        mainTask.remove(new DefaultGUICallback<Void>(this) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void v) {
                 listViewLayout.setRefreshing(false);
                 adapter.remove(mainTask);
             }

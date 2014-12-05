@@ -79,7 +79,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param mainTask
      * @param callback
      */
-    public void update(final Issue ref, Callback<Boolean> callback) {
+    public void update(final Issue ref, Callback<Void> callback) {
         Client.getScrumClient().updateIssue(this, ref, callback);
     }
 
@@ -90,7 +90,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      *            true to mark as done, false to mark as undone
      * @param callback
      */
-    public void markAsDone(boolean finished, Callback<Boolean> callback) {
+    public void markAsDone(boolean finished, Callback<Void> callback) {
         Issue.Builder builder = new Issue.Builder(this);
         builder.setStatus(finished ? Status.FINISHED : Status.READY_FOR_ESTIMATION);
         Issue updatedIssue = builder.build();
@@ -102,7 +102,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().deleteIssue(this, callback);
     }
 
@@ -112,18 +112,8 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void addToSprint(final Sprint sprint, final Callback<Boolean> callback) {
+    public void addToSprint(final Sprint sprint, final Callback<Void> callback) {
         Client.getScrumClient().addIssueToSprint(this, sprint, callback);
-    }
-
-    /**
-     * Removes the issue from the sprint on the DS
-     * 
-     * @param sprint
-     * @param callback
-     */
-    public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(this, callback);
     }
 
     /**
