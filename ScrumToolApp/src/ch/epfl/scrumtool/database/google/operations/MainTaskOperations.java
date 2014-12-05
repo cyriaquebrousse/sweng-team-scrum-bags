@@ -2,7 +2,7 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.containers.InsertMainTaskArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.MainTask;
@@ -43,17 +43,17 @@ public class MainTaskOperations {
         }
     };
     
-    public static final ScrumToolOperation<InsertMainTaskArgs, InsertResponse<MainTask>> INSERT_MAINTASK = 
-            new ScrumToolOperation<InsertMainTaskArgs, InsertResponse<MainTask>>() {
+    public static final ScrumToolOperation<EntityKeyArg<MainTask>, InsertResponse<MainTask>> INSERT_MAINTASK = 
+            new ScrumToolOperation<EntityKeyArg<MainTask>, InsertResponse<MainTask>>() {
 
         @Override
-        public InsertResponse<MainTask> operation(InsertMainTaskArgs arg,
+        public InsertResponse<MainTask> operation(EntityKeyArg<MainTask> arg,
                 Scrumtool service) throws IOException {
-                ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg.getMainTask());
+                ScrumMainTask scrumMainTask = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(arg.getEntity());
                 KeyResponse serverAnswer = 
-                        service.insertScrumMainTask(arg.getProjectKey(), scrumMainTask).execute();
+                        service.insertScrumMainTask(arg.getKey(), scrumMainTask).execute();
                 InsertResponse<MainTask> response = 
-                        new InsertResponse<MainTask>(arg.getMainTask(), serverAnswer);
+                        new InsertResponse<MainTask>(arg.getEntity(), serverAnswer);
                 return response;
         }
     };

@@ -4,7 +4,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
-import ch.epfl.scrumtool.database.google.containers.InsertMainTaskArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
@@ -25,9 +25,9 @@ public class DSMainTaskHandler implements MainTaskHandler {
     @Override
     public void insert(final MainTask mainTask, final Project project,
             final Callback<MainTask> callback) {
-        InsertMainTaskArgs args = new InsertMainTaskArgs(project.getKey(), mainTask);
-        DSExecArgs.Factory<InsertMainTaskArgs, InsertResponse<MainTask>, MainTask> factory = 
-                new DSExecArgs.Factory<InsertMainTaskArgs, 
+        EntityKeyArg<MainTask> args = new EntityKeyArg<MainTask>(mainTask, project.getKey());
+        DSExecArgs.Factory<EntityKeyArg<MainTask>, InsertResponse<MainTask>, MainTask> factory = 
+                new DSExecArgs.Factory<EntityKeyArg<MainTask>, 
                 InsertResponse<MainTask>, MainTask>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(MainTaskConverters.OPSTATMAINTASK_TO_MAINTASK);

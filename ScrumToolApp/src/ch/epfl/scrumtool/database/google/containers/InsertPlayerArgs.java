@@ -11,25 +11,18 @@ import ch.epfl.scrumtool.util.Preconditions;
  * @author vincent
  *
  */
-public class InsertPlayerArgs {
-    private Project project;
-    private String userEmail;
+public class InsertPlayerArgs extends EntityKeyArg<Project> {
     private Role role;
     
     public InsertPlayerArgs(Project project, String userEmail, Role role) {
-        Preconditions.throwIfNull("Must contain a project, userEmail and a role", project, userEmail, role);
-        Preconditions.throwIfInvalidEmail(userEmail);
-        this.project = project;
-        this.userEmail = userEmail;
+        super(project, userEmail);
+        Preconditions.throwIfNull("Must contain a valid role", role);
+        Preconditions.throwIfEmptyString("Project key must not be empty", super.getEntity().getKey());
         this.role = role;
     }
     
     public String getProjectKey() {
-        return project.getKey();
-    }
-    
-    public String getUserEmail() {
-        return userEmail;
+        return super.getEntity().getKey();
     }
 
     public String getRole() {

@@ -2,7 +2,7 @@ package ch.epfl.scrumtool.database.google.operations;
 
 import java.io.IOException;
 
-import ch.epfl.scrumtool.database.google.containers.InsertIssueArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.entity.Issue;
@@ -19,38 +19,38 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
  */
 public class IssueOperations {
     
-    public static final ScrumToolOperation<InsertIssueArgs, InsertResponse<Issue>> INSERT_ISSUE_MAINTASK = 
-            new ScrumToolOperation<InsertIssueArgs, InsertResponse<Issue>>() {
+    public static final ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>> INSERT_ISSUE_MAINTASK = 
+            new ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>>() {
         @Override
-        public InsertResponse<Issue> operation(InsertIssueArgs arg, Scrumtool service)
+        public InsertResponse<Issue> operation(EntityKeyArg<Issue> arg, Scrumtool service)
                 throws IOException, ScrumToolException {
             final String playerKey;
-            if (arg.getIssue().getPlayer() != null) {
-                playerKey = arg.getIssue().getPlayer().getKey();
+            if (arg.getEntity().getPlayer() != null) {
+                playerKey = arg.getEntity().getPlayer().getKey();
             } else {
                 playerKey = null;
             }
             final String sprintKey;
-            if (arg.getIssue().getSprint() != null) {
-                sprintKey = arg.getIssue().getSprint().getKey();
+            if (arg.getEntity().getSprint() != null) {
+                sprintKey = arg.getEntity().getSprint().getKey();
             } else {
                 sprintKey = null;
             }
-            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
+            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getEntity());
             insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-            return new InsertResponse<Issue>(arg.getIssue(),
+            return new InsertResponse<Issue>(arg.getEntity(),
                     service.insertScrumIssue(arg.getKey(), insert)
                     .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
         }
     };
     
-    public static final ScrumToolOperation<InsertIssueArgs, Void> INSERT_ISSUE_SPRINT = 
-            new ScrumToolOperation<InsertIssueArgs, Void>() {
+    public static final ScrumToolOperation<EntityKeyArg<Issue>, Void> INSERT_ISSUE_SPRINT = 
+            new ScrumToolOperation<EntityKeyArg<Issue>, Void>() {
         @Override
-        public Void operation(InsertIssueArgs arg, Scrumtool service) throws IOException, ScrumToolException {
-                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getIssue());
+        public Void operation(EntityKeyArg<Issue> arg, Scrumtool service) throws IOException, ScrumToolException {
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getEntity());
                 insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
-                return service.insertIssueInSprint(arg.getIssue().getKey(), arg.getKey()).execute();
+                return service.insertIssueInSprint(arg.getEntity().getKey(), arg.getKey()).execute();
         }
     };
 

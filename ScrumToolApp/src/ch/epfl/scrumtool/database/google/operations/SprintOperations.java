@@ -3,7 +3,7 @@ package ch.epfl.scrumtool.database.google.operations;
 import java.io.IOException;
 
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
-import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
@@ -34,15 +34,15 @@ public class SprintOperations {
         }
     };
     
-    public static final ScrumToolOperation<InsertSprintArgs, InsertResponse<Sprint>> INSERT_SPRINT =
-            new ScrumToolOperation<InsertSprintArgs, InsertResponse<Sprint>>() {
+    public static final ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>> INSERT_SPRINT =
+            new ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>>() {
                 
         @Override
-        public InsertResponse<Sprint> operation(InsertSprintArgs arg,
+        public InsertResponse<Sprint> operation(EntityKeyArg<Sprint> arg,
                 Scrumtool service) throws IOException {
-                ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg.getSprint());
-                KeyResponse opStat = service.insertScrumSprint(arg.getProjectKey(), scrumSprint).execute();
-                InsertResponse<Sprint> response = new InsertResponse<Sprint>(arg.getSprint(), opStat);
+                ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg.getEntity());
+                KeyResponse opStat = service.insertScrumSprint(arg.getKey(), scrumSprint).execute();
+                InsertResponse<Sprint> response = new InsertResponse<Sprint>(arg.getEntity(), opStat);
                 return response;
         }
     };

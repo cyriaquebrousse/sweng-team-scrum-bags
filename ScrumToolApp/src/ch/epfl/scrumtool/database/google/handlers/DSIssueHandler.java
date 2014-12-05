@@ -5,7 +5,7 @@ import java.util.List;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.database.TaskIssueProject;
-import ch.epfl.scrumtool.database.google.containers.InsertIssueArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
@@ -36,9 +36,9 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void insert(final Issue issue, final MainTask maintask,
         final Callback<Issue> callback) {
-        InsertIssueArgs args = new InsertIssueArgs(issue, maintask.getKey());
-        DSExecArgs.Factory<InsertIssueArgs, InsertResponse<Issue>, Issue> factory = 
-                new Factory<InsertIssueArgs, InsertResponse<Issue>, Issue>(MODE.AUTHENTICATED);
+        EntityKeyArg<Issue> args = new EntityKeyArg<Issue>(issue, maintask.getKey());
+        DSExecArgs.Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue> factory = 
+                new Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(IssueConverters.OPSTATISSUE_TO_ISSUE);
         factory.setOperation(IssueOperations.INSERT_ISSUE_MAINTASK);
@@ -95,9 +95,9 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void assignIssueToSprint(final Issue issue, final Sprint sprint,
             Callback<Void> callback) {
-        InsertIssueArgs args = new InsertIssueArgs(issue, sprint.getKey());
-        DSExecArgs.Factory<InsertIssueArgs, Void, Void> factory = 
-                new Factory<InsertIssueArgs, Void, Void>(MODE.AUTHENTICATED);
+        EntityKeyArg<Issue> args = new EntityKeyArg<Issue>(issue, sprint.getKey());
+        DSExecArgs.Factory<EntityKeyArg<Issue>, Void, Void> factory = 
+                new Factory<EntityKeyArg<Issue>, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(IssueOperations.INSERT_ISSUE_SPRINT);

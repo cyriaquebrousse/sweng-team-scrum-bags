@@ -5,7 +5,7 @@ import java.util.List;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.SprintHandler;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
-import ch.epfl.scrumtool.database.google.containers.InsertSprintArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
@@ -28,9 +28,9 @@ public class DSSprintHandler implements SprintHandler {
     @Override
     public void insert(final Sprint sprint, final Project project,
             final Callback<Sprint> callback) {
-        InsertSprintArgs args = new InsertSprintArgs(project.getKey(), sprint);
-        DSExecArgs.Factory<InsertSprintArgs, InsertResponse<Sprint>, Sprint> factory = 
-                new DSExecArgs.Factory<InsertSprintArgs, InsertResponse<Sprint>, Sprint>(MODE.AUTHENTICATED);
+        EntityKeyArg<Sprint> args = new EntityKeyArg<Sprint>(sprint, project.getKey());
+        DSExecArgs.Factory<EntityKeyArg<Sprint>, InsertResponse<Sprint>, Sprint> factory = 
+                new DSExecArgs.Factory<EntityKeyArg<Sprint>, InsertResponse<Sprint>, Sprint>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setConverter(SprintConverters.OPSTATSPRINT_TO_SPRINT);
         factory.setOperation(SprintOperations.INSERT_SPRINT);

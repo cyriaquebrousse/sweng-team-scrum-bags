@@ -28,12 +28,12 @@ public class PlayerOperations {
                 Scrumtool service) throws IOException, ScrumToolException {
                 Player.Builder player = new Player.Builder();
                 User.Builder user = new User.Builder();
-                user.setEmail(arg.getUserEmail()).setName(arg.getUserEmail());
+                user.setEmail(arg.getKey()).setName(arg.getKey());
                 player.setRole(Role.valueOf(arg.getRole())).setIsAdmin(false)
                         .setUser(user.build());
                 return new InsertResponse<Player>(player.build(), service
                         .addPlayerToProject(arg.getProjectKey(),
-                                arg.getUserEmail(), arg.getRole()).execute());
+                                arg.getKey(), arg.getRole()).execute());
         }
     };
 
