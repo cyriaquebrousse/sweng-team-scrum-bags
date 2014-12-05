@@ -1,11 +1,10 @@
 package ch.epfl.scrumtool.gui.components.widgets;
 
 import static ch.epfl.scrumtool.util.Assertions.assertTrue;
-
-import java.util.Locale;
-
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Priority;
 
 /**
@@ -31,7 +30,14 @@ public class SingleSizePrioritySticker extends PrioritySticker {
     @Override
     public void setPriority(Priority priority) {
         super.setPriority(priority);
+        setBackgroundResource(R.drawable.circle);
+        GradientDrawable shape = (GradientDrawable) getBackground();
+        shape.setColor(getResources().getColor(priority.getColorRef()));
         updateStickerText();
+    }
+    
+    @Override
+    public void setColor(int color) {
     }
 
     /**
@@ -40,9 +46,7 @@ public class SingleSizePrioritySticker extends PrioritySticker {
      */
     private void updateStickerText() {
         assertTrue(getPriority() != null);
-        
-        char firstLetter = getPriority().toString().toUpperCase(Locale.ENGLISH).charAt(0);
-        setStickerText(Character.toString(firstLetter));
+        setStickerText("");
     }
     
 }

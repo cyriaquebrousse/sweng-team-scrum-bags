@@ -48,7 +48,7 @@ public class PrioritySticker extends Sticker {
     }
     
     @Override
-    public final void setColor(int color) {
+    public void setColor(int color) {
         super.setColor(color);
     }
 }
