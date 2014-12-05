@@ -11,7 +11,7 @@
         android:id="@+id/task_row_percent_backgrd"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/LightGreen" />
+        android:background="@color/taskrow_background" />
 
     <!-- Proper elements -->
     <RelativeLayout
@@ -22,8 +22,8 @@
         <!-- Priority -->
         <ch.epfl.scrumtool.gui.components.widgets.SingleSizePrioritySticker
             android:id="@+id/task_row_priority_sticker"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/circle"
             android:layout_marginEnd="8dp" />
