@@ -1,71 +1,162 @@
 package ch.epfl.scrumtool.gui;
 
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.gui.utils.CustomViewActions;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
+import ch.epfl.scrumtool.gui.utils.CustomViewActions;
+import ch.epfl.scrumtool.gui.utils.CustomMatchers;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
+
+
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.utils.MockData;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.Menu;
 
 public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCase2<ProjectPlayerListActivity> {
 
-    private static final String PROJECT_KEY = "Key du projet 1";
-    private static final String PROJECT_NAME = "Projet 1";
-    private static final String PROJECT_DESCRIPTION = "Description du projet 1";
+    private static final Project PROJECT = MockData.MURCS;
+    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
+    private static final Player PLAYER2 = MockData.JOEY_DEV;
+    
+    List<Player> playerList = new ArrayList<Player>();
+    
+    DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
 
     public ProjectPlayerListActivityTest() {
         super(ProjectPlayerListActivity.class);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Project.Builder project = new Project.Builder();
-        project.setKey(PROJECT_KEY)
-            .setName(PROJECT_NAME)
-            .setDescription(PROJECT_DESCRIPTION);
+        Client.setScrumClient(mockClient);
+        
         Intent openPlayerListIntent = new Intent();
-        openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project.build());
+        openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
+        
+        playerList.add(PLAYER1);
+
+        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerList);
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
         setActivityIntent(openPlayerListIntent);
         getActivity();
     }
     
-    protected void testClickOnCrossAddsAPlayer() {
-        Espresso.onView(ViewMatchers.withId(Menu.FIRST)).perform(ViewActions.click());
-        Espresso.pressBack();
-
+    @SuppressWarnings("unchecked")
+    public void testPlayerIsDisplayed() {
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .check(matches(isDisplayed()));
     }
     
-    protected void testSwipeDownUpdatesPlayerList() {
-        Espresso.onView(ViewMatchers.withId(R.id.project_playerlist)).perform(CustomViewActions.swipeDown());
-
+    public void testClickOnCrossAddsAPlayer() {
+        Espresso.onView(withId(Menu.FIRST))
+            .perform(click());
+        Espresso.onView(withText("Enter the new user's email address : "))
+            .check(matches(ViewMatchers.isDisplayed()));
     }
     
+    @SuppressWarnings("unchecked")
+    public void testSwipeDownUpdatesPlayerList() {
+        playerList.add(PLAYER2);
+        onView(withId(R.id.swipe_update_project_playerlist)).perform(CustomViewActions.swipeDown());
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
+            .check(matches(isDisplayed()));
+    }
+    
+    @SuppressWarnings("unchecked")
     public void testClickOnPlayerOpenUserOverview() {
-        Espresso.onView(ViewMatchers.withId(R.id.project_playerlist)).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.profile_email)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.pressBack();
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .perform(click());
+        Espresso.onView(withId(R.id.profile_email))
+            .check(matches(isDisplayed()));
     }
     
+    @SuppressWarnings("unchecked")
     public void testLongClickOnPlayerOpensContextMenu() {
-        Espresso.onView(ViewMatchers.withId(R.id.project_playerlist)).perform(ViewActions.longClick());
-
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .perform(longClick());
+        Espresso.onView(withText(R.string.action_edit))
+            .check(matches(isDisplayed()));
+        Espresso.onView(withText(R.string.action_delete))
+            .check(matches(isDisplayed()));
     }
     
+    @SuppressWarnings("unchecked")
     public void testChangePlayersRole() {
-        Espresso.onView(ViewMatchers.withId(R.id.project_playerlist)).perform(ViewActions.longClick());
-        Espresso.onView(ViewMatchers.withId(R.id.action_entity_edit)).perform(ViewActions.click());
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .perform(longClick());
+        Espresso.onView(withText(R.string.action_edit))
+            .perform(click());
+        Espresso.onView(withText("Set role"))
+            .check(matches(isDisplayed()));
     }
     
+    @SuppressWarnings("unchecked")
     public void testRemovePlayer() {
-        Espresso.onView(ViewMatchers.withId(R.id.project_playerlist)).perform(ViewActions.longClick());
-        Espresso.onView(ViewMatchers.withId(R.id.action_entity_delete)).perform(ViewActions.click());
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .perform(longClick());
+        Espresso.onView(withText(R.string.action_edit)).perform(click());
+        
+        Answer<Void> removePlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<Boolean>) invocation.getArguments()[1]).failure("haha");
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
+                Mockito.any(Callback.class));
+        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .check(matches(isDisplayed()));
+        
+        Answer<Void> removePlayersAnswer2 = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<Boolean>) invocation.getArguments()[1]).interactionDone(true);
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(removePlayersAnswer2).when(mockClient).removePlayer(Mockito.any(Player.class),
+                Mockito.any(Callback.class));
+        //TODO check that the list is empty
+        onView(withId(R.id.project_playerlist))
+            .check(matches(not(CustomMatchers.withAdaptedData(is(Player.class)))));
+
     }
 
 }
