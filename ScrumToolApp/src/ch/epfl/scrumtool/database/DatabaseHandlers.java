@@ -3,6 +3,8 @@
  */
 package ch.epfl.scrumtool.database;
 
+import ch.epfl.scrumtool.util.Preconditions;
+
 /**
  * @author aschneuw
  * 
@@ -16,12 +18,19 @@ public final class DatabaseHandlers {
     private final UserHandler userHandler;
 
     private DatabaseHandlers(DatabaseHandlers.Builder builder) {
-        issueHandler = builder.issueHandlr;
-        mainTaskHandler = builder.maintaskHandlr;
-        playerHandler = builder.playerHandlr;
-        projectHandler = builder.projectHandlr;
-        sprintHandler = builder.sprintHandlr;
-        userHandler = builder.userHandlr;
+        Preconditions.throwIfNull("All Databasehandlers need to be defined",
+                builder.issueHandler,
+                builder.mainTaskHandler,
+                builder.playerHandler,
+                builder.projectHandler,
+                builder.sprintHandler,
+                builder.userHandler);
+        issueHandler = builder.issueHandler;
+        mainTaskHandler = builder.mainTaskHandler;
+        playerHandler = builder.playerHandler;
+        projectHandler = builder.projectHandler;
+        sprintHandler = builder.sprintHandler;
+        userHandler = builder.userHandler;
     }
 
     /**
@@ -72,25 +81,25 @@ public final class DatabaseHandlers {
      * 
      */
     public static class Builder {
-        private IssueHandler issueHandlr;
-        private MainTaskHandler maintaskHandlr;
-        private PlayerHandler playerHandlr;
-        private ProjectHandler projectHandlr;
-        private SprintHandler sprintHandlr;
-        private UserHandler userHandlr;
+        private IssueHandler issueHandler;
+        private MainTaskHandler mainTaskHandler;
+        private PlayerHandler playerHandler;
+        private ProjectHandler projectHandler;
+        private SprintHandler sprintHandler;
+        private UserHandler userHandler;
 
         /**
          * @return the issueHandler
          */
         public IssueHandler getIssueHandler() {
-            return issueHandlr;
+            return issueHandler;
         }
 
         /**
          * @param issueHandlr
          */
         public Builder setIssueHandler(IssueHandler issueHandlr) {
-            this.issueHandlr = issueHandlr;
+            this.issueHandler = issueHandlr;
             return this;
         }
 
@@ -98,14 +107,14 @@ public final class DatabaseHandlers {
          * @return the maintaskHandler
          */
         public MainTaskHandler getMainTaskHandler() {
-            return maintaskHandlr;
+            return mainTaskHandler;
         }
 
         /**
          * @param maintaskHandlr
          */
         public Builder setMaintaskHandler(MainTaskHandler maintaskHandlr) {
-            this.maintaskHandlr = maintaskHandlr;
+            this.mainTaskHandler = maintaskHandlr;
             return this;
         }
 
@@ -113,14 +122,14 @@ public final class DatabaseHandlers {
          * @return the playerHandler
          */
         public PlayerHandler getPlayerHandler() {
-            return playerHandlr;
+            return playerHandler;
         }
 
         /**
          * @param playerHandlr
          */
         public Builder setPlayerHandler(PlayerHandler playerHandlr) {
-            this.playerHandlr = playerHandlr;
+            this.playerHandler = playerHandlr;
             return this;
         }
 
@@ -128,14 +137,14 @@ public final class DatabaseHandlers {
          * @return the projectHandler
          */
         public ProjectHandler getProjectHandler() {
-            return projectHandlr;
+            return projectHandler;
         }
 
         /**
          * @param projectHandlr
          */
         public Builder setProjectHandler(ProjectHandler projectHandlr) {
-            this.projectHandlr = projectHandlr;
+            this.projectHandler = projectHandlr;
             return this;
         }
 
@@ -143,14 +152,14 @@ public final class DatabaseHandlers {
          * @return the sprintHandler
          */
         public SprintHandler getSprintHandler() {
-            return sprintHandlr;
+            return sprintHandler;
         }
 
         /**
          * @param sprintHandlr
          */
         public Builder setSprintHandler(SprintHandler sprintHandlr) {
-            this.sprintHandlr = sprintHandlr;
+            this.sprintHandler = sprintHandlr;
             return this;
         }
 
@@ -158,14 +167,14 @@ public final class DatabaseHandlers {
          * @return the userHandler
          */
         public UserHandler getUserHandler() {
-            return userHandlr;
+            return userHandler;
         }
 
         /**
          * @param userHandlr
          */
         public Builder setUserHandler(UserHandler userHandlr) {
-            this.userHandlr = userHandlr;
+            this.userHandler = userHandlr;
             return this;
         }
 
