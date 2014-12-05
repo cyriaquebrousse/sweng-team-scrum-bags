@@ -214,15 +214,13 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).perform(clearText());
         onView(withId(R.id.task_name_edit)).perform(typeText(TASK_TEST));
         onView(withId(R.id.task_description_edit)).perform(clearText(), ViewActions.closeSoftKeyboard());
-        
-        // wait a bit after closing the keyboard
         Thread.sleep(1000);
         
         // check the values in the fields of the new task
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText("")));
         
-        // click on save button et check the error on the name
+        // click on save button et check the error on the description
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(100);
         onView(withId(R.id.task_description_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
@@ -234,8 +232,6 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).perform(clearText());
         onView(withId(R.id.task_name_edit)).perform(typeText(VERY_LONG_TEXT));
         onView(withId(R.id.task_description_edit)).perform(typeText(TASK_TEST), ViewActions.closeSoftKeyboard());
-        
-        // wait a bit after closing the keyboard
         Thread.sleep(1000);
         
         // check the values in the fields of the new task
@@ -254,18 +250,17 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).perform(clearText());
         onView(withId(R.id.task_name_edit)).perform(typeText(TASK_TEST));
         onView(withId(R.id.task_description_edit)).perform(typeText(VERY_LONG_TEXT), ViewActions.closeSoftKeyboard());
-        
-        // wait a bit after closing the keyboard
         Thread.sleep(1000);
         
         // check the values in the fields of the new task
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText(VERY_LONG_TEXT)));
         
-        // click on save button et check the error on the name
+        // click on save button et check that there are no errors on the name and the description
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(100);
         onView(withId(R.id.task_name_edit)).check(matches(withError("no error")));
+        onView(withId(R.id.task_description_edit)).check(matches(withError("no error")));
     }
     
 }
