@@ -1,8 +1,9 @@
 package ch.epfl.scrumtool.entity;
 
-import java.io.Serializable;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfEmptyString;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
-import ch.epfl.scrumtool.util.Preconditions;
+import java.io.Serializable;
 
 /**
  * @author Vincent
@@ -22,10 +23,10 @@ public abstract class AbstractTask implements Serializable {
      * @param description
      */
     public AbstractTask(String key, String name, String description, Status status, Priority priority) {
-        Preconditions.throwIfNull("Abstract task constructor parameters cannot be null",
+        throwIfNull("Abstract task constructor parameters cannot be null",
                 key, name, description, status, priority);
-        Preconditions.throwIfEmptyString("Task name must not be empty", name);
-        Preconditions.throwIfEmptyString("Task description must not be null", description);
+        throwIfEmptyString("Task name must not be empty", name);
+        throwIfEmptyString("Task description must not be null", description);
         
         this.key = key;
         this.name = name;
@@ -87,4 +88,5 @@ public abstract class AbstractTask implements Serializable {
     public int hashCode() {
         return key.hashCode();
     }
+    
 }

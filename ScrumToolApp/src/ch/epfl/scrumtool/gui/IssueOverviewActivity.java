@@ -294,7 +294,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     }
     
     private void updateViewsAccordingToNewEstimationAndSprint() {
-        final Status status = Issue.simulateNewStatusForEstimationAndSprint(issue);
+        final Status status = issue.simulateNewStatusForEstimationAndSprint();
         estimationStamp.setColor(getResources().getColor(status.getColorRef()));
         statusView.setText(status.toString());
     }

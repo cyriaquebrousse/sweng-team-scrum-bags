@@ -1,8 +1,14 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.entity.Status.FINISHED;
+import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -117,6 +123,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         listViewLayout.setRefreshing(true);
         task.loadIssues(callback);
         updateViews();
+        updateViewsAccordingToNewStatusAndEstimation();
     }
     
     private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
@@ -187,21 +194,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         prioritySticker.setPriority(selected);
                         priorityBar.setBackgroundColor(getResources()
                                 .getColor(selected.getColorRef()));
-                        updateTask();
-                    }
-                });
-            }
-        });
-
-        statusSlate.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogs.showStatusEditDialog(TaskOverviewActivity.this, new DialogCallback<Status>() {
-                    @Override
-                    public void onSelected(Status selected) {
-                        taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setStatus(selected);
-                        statusSlate.setText(selected.toString());
                         updateTask();
                     }
                 });
@@ -293,6 +285,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 listViewLayout.setRefreshing(true);
                 task.loadIssues(callback);
                 updateViews();
+                updateViewsAccordingToNewStatusAndEstimation();
             }
             
             @Override
@@ -301,5 +294,74 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             }
         });
     }
+    
+    private void updateViewsAccordingToNewStatusAndEstimation() {
+        task.loadIssues(new Callback<List<Issue>>() {
+            @Override
+            public void interactionDone(List<Issue> issues) {
+                final Status status = simulateNewStatus(new HashSet<>(issues));
+                statusSlate.setText(status.toString());
+            }
+            
+            @Override
+            public void failure(String errorMessage) { }
+        });
+    }
 
+    /**
+     * Simulates the new task status. It does not have any side effects (e.g.
+     * server modifications, modifications on members, etc.). <br>
+     * See {@code ScrumMainTask#verifyAndSetStatusWithRespectToIssues} in the
+     * app engine project. The logic is implemented and detailed there. Here is
+     * just a duplication.
+     * 
+     * @return the simulated status
+     */
+    private Status simulateNewStatus(final Set<Issue> allIssues) {
+        if (allIssues == null || allIssues.isEmpty()) {
+            System.err.println("null or empty");
+            return READY_FOR_ESTIMATION;
+        }
+        
+        final Set<Issue> issues = new HashSet<>(allIssues);
+        
+        if (allIssuesHaveStatus(issues, FINISHED)) {
+            return FINISHED;
+        }
+        
+        issues.removeAll(allIssuesWithStatus(issues, FINISHED));
+        
+        if (allIssuesHaveStatus(issues, READY_FOR_SPRINT)) {
+            return READY_FOR_SPRINT;
+        }
+        
+        final Set<Issue> allInSprintIssues = allIssuesWithStatus(issues, IN_SPRINT);
+        final Set<Issue> notInSprintIssues = new HashSet<Issue>(issues);
+        notInSprintIssues.removeAll(allInSprintIssues);
+        if (!allInSprintIssues.isEmpty() && allIssuesHaveStatus(notInSprintIssues, READY_FOR_SPRINT)) {
+            return IN_SPRINT;
+        } else {
+            return READY_FOR_ESTIMATION;
+        }
+    }
+
+    private boolean allIssuesHaveStatus(Set<Issue> issues, Status status) {
+        for (Issue i : issues) {
+            if (i.getStatus() != status) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private Set<Issue> allIssuesWithStatus(Set<Issue> issues, Status status) {
+        Set<Issue> allIssuesWithStatus = new HashSet<Issue>();
+        for (Issue i : issues) {
+            if (i.getStatus() == status) {
+                allIssuesWithStatus.add(i);
+            }
+        }
+        return allIssuesWithStatus;
+    }
+    
 }

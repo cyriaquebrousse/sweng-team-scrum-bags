@@ -4,7 +4,6 @@ import static ch.epfl.scrumtool.entity.Status.FINISHED;
 import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
 import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
 import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
-import static ch.epfl.scrumtool.util.Assertions.assertTrue;
 
 import java.io.Serializable;
 
@@ -16,6 +15,7 @@ import ch.epfl.scrumtool.network.Client;
  * 
  * @author Vincent
  * @author zenhaeus
+ * @author Cyriaque Brousse
  */
 public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
 
@@ -362,28 +362,21 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     }
 
     /**
-     * Simulates the new issue status for a given builder. It does not have any
-     * side effects (e.g. server modifications, modifications on the arguments,
-     * etc).<br>
-     * See ScrumIssue#verifyAndSetStatus in the app engine project
+     * Simulates the new issue status. It does not have any side effects (e.g.
+     * server modifications, modifications on members, etc.). <br>
+     * See {@code ScrumIssue#verifyAndSetStatus} in the app engine project. The
+     * logic is implemented and detailed there. Here is just a duplication.
      * 
-     * @param issueBuilder
-     *            the builder to simulate on. Cannot be {@code null}.
      * @return the simulated status
      */
-    public static Status simulateNewStatusForEstimationAndSprint(final Issue issue) {
-        assertTrue(issue != null);
-        final Issue.Builder issueBuilder = issue.getBuilder();
+    public Status simulateNewStatusForEstimationAndSprint() {
+        final boolean isFinished = getStatus() == FINISHED;
         
-        final float estimation = issueBuilder.getEstimatedTime();
-        final Sprint sprint = issueBuilder.getSprint();
-        final boolean isFinished = issueBuilder.getStatus() == FINISHED;
-
         if (isFinished) {
             return FINISHED;
         }
 
-        if (Float.compare(estimation, 0f) <= 0) {
+        if (Float.compare(getEstimatedTime(), 0f) <= 0) {
             return READY_FOR_ESTIMATION;
         } else {
             if (sprint == null) {
