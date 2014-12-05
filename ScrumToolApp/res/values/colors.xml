@@ -10,6 +10,7 @@
     
     <!-- Backgrounds -->
     <color name="profile_background">#FFEDEDED</color>
+    <color name="taskrow_background">@color/LightGreen</color>
     
     <!-- Shades -->
     <color name="shadeA">#FFCC0000</color>
@@ -124,7 +125,7 @@
     <color name="PaleGreen">#FF98FB98</color>
     <color name="DarkViolet">#FF9400D3</color>
     <color name="MediumPurple">#FF9370DB</color>
-    <color name="LightGreen">#FF90EE90</color>
+    <color name="LightGreen">#6690EE90</color>
     <color name="DarkSeaGreen">#FF8FBC8F</color>
     <color name="SaddleBrown">#FF8B4513</color>
     <color name="DarkMagenta">#FF8B008B</color>
