@@ -104,13 +104,6 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     
     private Intent createMockIntentNewTask() {
         
-        Project.Builder projectBuilder = new Project.Builder();
-        projectBuilder.setKey(KEY_2);
-        projectBuilder.setDescription(DESCRIPTION_2);
-        projectBuilder.setName(NAME_2);
-        
-        Project project = projectBuilder.build();
-        
         Intent mockIntent = new Intent();
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         
@@ -118,21 +111,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     }
     
     private Intent createMockIntentUpdateTask() {
-        MainTask.Builder taskBuilder = new MainTask.Builder();
-        taskBuilder.setKey(KEY_1);
-        taskBuilder.setDescription(DESCRIPTION_1);
-        taskBuilder.setName(NAME_1);
-        taskBuilder.setStatus(STATUS_1);
-        taskBuilder.setPriority(PRIORITY_1);
-        
-        Project.Builder projectBuilder = new Project.Builder();
-        projectBuilder.setKey(KEY_2);
-        projectBuilder.setDescription(DESCRIPTION_2);
-        projectBuilder.setName(NAME_2);
 
-        MainTask task = taskBuilder.build();
-        Project project = projectBuilder.build();
-        
         Intent mockIntent = new Intent();
         mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, project);
