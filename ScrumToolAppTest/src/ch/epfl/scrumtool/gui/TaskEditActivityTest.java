@@ -10,19 +10,32 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mockito.Mockito;
+import org.mockito.invocation.Invocation;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import static ch.epfl.scrumtool.gui.utils.Matchers.withError;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withError;
 
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
+import ch.epfl.scrumtool.gui.utils.MockData;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -31,31 +44,12 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskEditActivity> {
 
-    private static final String KEY_1 = "ID1";
-    private static final String NAME_1 = "name1";
-    private static final String DESCRIPTION_1 = "description";
-    private static final Status STATUS_1 = Status.READY_FOR_ESTIMATION;
-    private static final Priority PRIORITY_1 = Priority.NORMAL;
-    
-    private static final String KEY_2 = "ID2";
-    private static final String NAME_2 = "name2";
-    private static final String DESCRIPTION_2 = "description2";
+    private static final MainTask TASK = MockData.TASK1;
+    private static final Project PROJECT = MockData.MURCS;
     
     private static final String TASK_TEST = "task test";
     private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla" +
             "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
-    
-    MainTask task = new MainTask.Builder()
-        .setKey(KEY_1)
-        .setName(NAME_1)
-        .setDescription(DESCRIPTION_1)
-        .setStatus(STATUS_1)
-        .setPriority(PRIORITY_1).build();
-    
-    Project project = new Project.Builder()
-        .setKey(KEY_2)
-        .setName(NAME_2)
-        .setDescription(DESCRIPTION_2).build();
     
     public TaskEditActivityTest() {
         super(TaskEditActivity.class);
@@ -105,7 +99,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     private Intent createMockIntentNewTask() {
         
         Intent mockIntent = new Intent();
-        mockIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         
         return mockIntent;
     }
@@ -113,8 +107,8 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     private Intent createMockIntentUpdateTask() {
 
         Intent mockIntent = new Intent();
-        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
-        mockIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
+        mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         
         return mockIntent;
     }
@@ -144,8 +138,8 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     @SuppressWarnings("unchecked")
     private void updateTask() throws InterruptedException {
         // check if the fields are displayed correctly
-        onView(withId(R.id.task_name_edit)).check(matches(withText(NAME_1)));
-        onView(withId(R.id.task_description_edit)).check(matches(withText(DESCRIPTION_1)));
+        onView(withId(R.id.task_name_edit)).check(matches(withText(TASK.getName())));
+        onView(withId(R.id.task_description_edit)).check(matches(withText(TASK.getDescription())));
         
         // fill the fields with other values
         onView(withId(R.id.task_name_edit)).perform(clearText());
@@ -161,7 +155,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         
         // check the values in the fields of the new task
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
-        onView(withId(R.id.task_description_edit)).check(matches(withText(DESCRIPTION_1 + " " + TASK_TEST)));
+        onView(withId(R.id.task_description_edit)).check(matches(withText(TASK.getDescription() + " " + TASK_TEST)));
         onView(withId(R.id.task_priority_edit)).check(matches(withText("HIGH")));
         
         // click on save button

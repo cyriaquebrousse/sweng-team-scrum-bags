@@ -33,6 +33,7 @@ public class MockData {
     
     // Sprints
     public static Sprint SPRINT1 = buildSprint("sprint1", "week 1", CURRENT_TIME);
+    public static Sprint SPRINT2 = buildSprint("sprint2", "week 2", CURRENT_TIME);
     
     // Maintasks
     public static MainTask TASK1 = buildMaintask("task1", "write tests", "description", Priority.HIGH, Status.IN_SPRINT,
