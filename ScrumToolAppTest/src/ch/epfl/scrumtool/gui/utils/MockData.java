@@ -41,7 +41,7 @@ public class MockData {
     
     // Issues
     public static Issue ISSUE1 = buildIssue("Issue1", "tests for server", "desc", 200, Priority.URGENT,
-            Status.FINISHED, null, null);
+            Status.FINISHED, VINCENT_ADMIN, SPRINT1);
 
     private static Sprint buildSprint(String key, String title, long deadline) {
         Sprint.Builder sprint = new Sprint.Builder();

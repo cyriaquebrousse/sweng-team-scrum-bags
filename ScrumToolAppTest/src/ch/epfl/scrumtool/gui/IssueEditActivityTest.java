@@ -8,6 +8,7 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
@@ -23,6 +24,8 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withError;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPlayer;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withSprint;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -53,11 +56,11 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     private static final Player PLAYER = MockData.VINCENT_ADMIN;
     private static final Sprint SPRINT1 = MockData.SPRINT1;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
-    
+
     private static final String TEST_TEXT = "test text";
     private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
             + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
-    
+    private static final Float ESTIMATION = 2f;
     private static final long THREADSLEEPTIME = 100;
 
     private List<Player> playerList = new ArrayList<Player>();
@@ -74,11 +77,11 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     protected void setUp() throws Exception {
         super.setUp();
         Client.setScrumClient(mockClient);
-        
+
         playerList.add(PLAYER);
         sprintList.add(SPRINT1);
         sprintList.add(SPRINT2);
-        
+
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -86,7 +89,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
                 return null;
             }
         };
-        
+
         Answer<Void> loadSprintsAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -94,26 +97,64 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
                 return null;
             }
         };
-        
+
         Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
                 Mockito.any(Callback.class));
         Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
                 Mockito.any(Callback.class));
-        
+
     }
 
     @LargeTest
     public void testEditIssueNewIssue() throws InterruptedException {
 
-        setActivityIntent(createMockIntentNewIssue());
+        setActivityIntent(createMockIntent());
         getActivity();
 
         onView(withId(R.id.issue_edit_button_next)).check(
-                    matches(isClickable()));
+                matches(isClickable()));
         newIssue();
     }
 
-    private Intent createMockIntentNewIssue() {
+    @LargeTest
+    public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
+
+        setActivityIntent(createMockIntent());
+        getActivity();
+        checkAllFields();
+    }
+
+    @LargeTest
+    public void testEditIssueUpdateIssue() throws InterruptedException {
+
+        Intent intent = createMockIntent();
+        intent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
+
+        setActivityIntent(intent);
+        getActivity();
+
+        onView(withId(R.id.issue_edit_button_next)).check(
+                matches(isClickable()));
+        updateIssue();
+    }
+
+    @LargeTest
+    public void testEditIssueBadUserInputs() throws InterruptedException {
+
+        Intent intent = createMockIntent();
+
+        setActivityIntent(intent);
+        getActivity();
+        Resources res = getInstrumentation().getTargetContext().getResources();
+
+        nameIsEmpty(res);
+        descriptionIsEmpty(res);
+        estimationIsEmpty(res);
+        largeInputs(res);
+
+    }
+
+    private Intent createMockIntent() {
 
         Intent mockIntent = new Intent();
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
@@ -121,27 +162,133 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
         return mockIntent;
     }
+    
+    private void checkAllFields() throws InterruptedException {
+        // check that all fields are displayed
+        onView(withId(R.id.issue_name_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_description_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_edit_button_next)).check(matches(isDisplayed()));
+    }
 
     @SuppressWarnings("unchecked")
     private void newIssue() throws InterruptedException {
         // fill the different fields
         onView(withId(R.id.issue_name_edit)).perform(typeText(TEST_TEXT));
-        onView(withId(R.id.issue_description_edit)).perform(typeText(TEST_TEXT), closeSoftKeyboard());
-//        onView(withId(R.id.issue_estimation_edit)).perform(clearText());
-//        onView(withId(R.id.issue_estimation_edit)).perform(typeText(), closeSoftKeyboard());
+        onView(withId(R.id.issue_description_edit)).perform(typeText(TEST_TEXT));
+        onView(withId(R.id.issue_estimation_edit)).perform(clearText());
+        onView(withId(R.id.issue_estimation_edit)).perform(typeText(ESTIMATION.toString()), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_assignee_spinner)).perform(click());
         onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(click());
-        onView(withId(R.id.sprint_spinner)).perform(click());
+        onView(withId(R.id.issue_sprint_spinner)).perform(click());
         onData(allOf(is(instanceOf(Sprint.class)))).atPosition(1).perform(click());
 
         // check the values in the fields of the new issue
         onView(withId(R.id.issue_name_edit)).check(matches(withText(TEST_TEXT)));
         onView(withId(R.id.issue_description_edit)).check(matches(withText(TEST_TEXT)));
-//        onView(withId(R.id.issue_estimation_edit)).check(matches(withText(ISSUE_ESTIMATION.toString())));
-//        onView(withId(R.id.issue_assignee_spinner)).check(matches(withText(PLAYER.getUser().getName())));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withText(ESTIMATION.toString())));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(withPlayer(PLAYER)));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(SPRINT2)));
         // click on save button
         onView(withId(R.id.issue_edit_button_next)).perform(click());
     }
 
+    @SuppressWarnings("unchecked")
+    private void updateIssue() throws InterruptedException {
+        // check if the fields are displayed correctly
+        onView(withId(R.id.issue_name_edit)).check(matches(withText(ISSUE.getName())));
+        onView(withId(R.id.issue_description_edit)).check(matches(withText(ISSUE.getDescription())));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withText(
+                ((Float) ISSUE.getEstimatedTime()).toString())));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(withPlayer(ISSUE.getPlayer())));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(ISSUE.getSprint())));
+
+        // fill the different fields
+        onView(withId(R.id.issue_name_edit)).perform(clearText());
+        onView(withId(R.id.issue_name_edit)).perform(typeText(TEST_TEXT));
+        onView(withId(R.id.issue_description_edit)).perform(clearText());
+        onView(withId(R.id.issue_description_edit)).perform(typeText(TEST_TEXT));
+        onView(withId(R.id.issue_estimation_edit)).perform(clearText());
+        onView(withId(R.id.issue_estimation_edit)).perform(typeText(ESTIMATION.toString()), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_assignee_spinner)).perform(click());
+        onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(click());
+        onView(withId(R.id.issue_sprint_spinner)).perform(click());
+        onData(allOf(is(instanceOf(Sprint.class)))).atPosition(1).perform(click());
+
+        // check the values in the fields of the new issue
+        onView(withId(R.id.issue_name_edit)).check(matches(withText(TEST_TEXT)));
+        onView(withId(R.id.issue_description_edit)).check(matches(withText(TEST_TEXT)));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withText(ESTIMATION.toString())));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(withPlayer(PLAYER)));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(SPRINT2)));
+        // click on save button
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+    }
+
+    private void nameIsEmpty(Resources res) throws InterruptedException {
+        // fill the different fields
+        onView(withId(R.id.issue_name_edit)).perform(clearText(), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+
+        // check the values in the fields of the new task
+        onView(withId(R.id.issue_name_edit)).check(matches(withText("")));
+
+        // click on save button et check the error on the name
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
+    }
+
+    private void descriptionIsEmpty(Resources res) throws InterruptedException {
+        // fill the different fields
+        onView(withId(R.id.issue_description_edit)).perform(clearText(), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+
+        // check the values in the fields of the new task
+        onView(withId(R.id.issue_description_edit)).check(matches(withText("")));
+
+        // click on save button et check the error on the name
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_description_edit)).check(
+                matches(withError(res.getString(R.string.error_field_required))));
+    }
+
+    private void estimationIsEmpty(Resources res) throws InterruptedException {
+        // fill the different fields
+        onView(withId(R.id.issue_estimation_edit)).perform(clearText(), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+
+        // check the values in the fields of the new task
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withText("")));
+
+        // click on save button et check the error on the name
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_estimation_edit)).check(
+                matches(withError(res.getString(R.string.error_field_required))));
+    }
+
+    private void largeInputs(Resources res) throws InterruptedException {
+        // fill the different fields
+        onView(withId(R.id.issue_name_edit)).perform(clearText());
+        onView(withId(R.id.issue_description_edit)).perform(clearText());
+        onView(withId(R.id.issue_name_edit)).perform(typeText(VERY_LONG_TEXT));
+        onView(withId(R.id.issue_description_edit)).perform(typeText(VERY_LONG_TEXT), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+
+        // check the values in the fields of the new task
+        onView(withId(R.id.issue_name_edit)).check(matches(withText(VERY_LONG_TEXT)));
+        onView(withId(R.id.issue_description_edit)).check(matches(withText(VERY_LONG_TEXT)));
+
+        // click on save button et check the error on the name
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
+        onView(withId(R.id.issue_description_edit)).check(matches(withError("no error")));
+    }
 }
