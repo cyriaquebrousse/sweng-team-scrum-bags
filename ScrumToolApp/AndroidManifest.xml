@@ -51,7 +51,10 @@
             android:label="@string/title_activity_issue_overview" >
         </activity>
         <activity
-            android:name=".gui.ProfileOverviewActivity"
+            android:name=".gui.MyProfileOverviewActivity"
+            android:label="@string/title_activity_profile_overview" >
+        </activity><activity
+            android:name=".gui.OthersProfileOverviewActivity"
             android:label="@string/title_activity_profile_overview" >
         </activity>
         <activity

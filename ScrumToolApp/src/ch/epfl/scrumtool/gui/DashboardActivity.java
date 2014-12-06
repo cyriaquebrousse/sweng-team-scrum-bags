@@ -62,7 +62,7 @@ public class DashboardActivity extends BaseMenuActivity {
     }
     
     public void openMyProfile(View view) {
-        Intent intent = new Intent(this, ProfileOverviewActivity.class);
+        Intent intent = new Intent(this, MyProfileOverviewActivity.class);
         startActivity(intent);
     }
     

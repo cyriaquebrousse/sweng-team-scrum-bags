@@ -274,7 +274,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         assigneeName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
+                Intent openProfileIntent = new Intent(v.getContext(), MyProfileOverviewActivity.class);
                 User assignee = issue.getPlayer().getUser();
                 openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
                 startActivity(openProfileIntent);

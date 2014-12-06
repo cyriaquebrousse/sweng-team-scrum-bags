@@ -2,10 +2,10 @@ package ch.epfl.scrumtool.gui;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-public class ProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<ProfileOverviewActivity> {
+public class ProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<MyProfileOverviewActivity> {
 
     public ProfileOverviewActivityTest() {
-        super(ProfileOverviewActivity.class);
+        super(MyProfileOverviewActivity.class);
     }
     
     @Override

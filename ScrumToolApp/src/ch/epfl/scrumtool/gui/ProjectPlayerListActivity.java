@@ -33,8 +33,10 @@ import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
+import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 
@@ -63,9 +65,17 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             listView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-                    Intent openUserOverviewIntent = new Intent(view.getContext(), ProfileOverviewActivity.class);
-
                     User user = playerList.get(position).getUser();
+                    Intent openUserOverviewIntent = null;
+                    try {
+                        if (user.getEmail().equals(Session.getCurrentSession().getUser().getEmail())) {
+                            openUserOverviewIntent = new Intent(view.getContext(), MyProfileOverviewActivity.class);
+                        } else {
+                            openUserOverviewIntent = new Intent(view.getContext(), OthersProfileOverviewActivity.class);
+                        }
+                    } catch (NotAuthenticatedException e) {
+                        Session.relogin(getParent());
+                    }
                     openUserOverviewIntent.putExtra(User.SERIALIZABLE_NAME, user);
                     startActivity(openUserOverviewIntent);
                 }

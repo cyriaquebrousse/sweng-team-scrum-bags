@@ -29,7 +29,7 @@ import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 /**
  * @author ketsio
  */
-public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
+public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
 
     private TextView nameView;
     private TextView jobTitleView;
@@ -124,7 +124,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         jobTitleView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(ProfileOverviewActivity.this, FieldType.OTHER.setText("job title"),
+                TextViewModifiers.modifyText(MyProfileOverviewActivity.this, FieldType.OTHER.setText("job title"),
                         jobTitleView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
@@ -140,7 +140,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
         companyNameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(ProfileOverviewActivity.this, FieldType.OTHER.setText("compagny name"),
+                TextViewModifiers.modifyText(MyProfileOverviewActivity.this, FieldType.OTHER.setText("compagny name"),
                         companyNameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
@@ -178,7 +178,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final Context context = ProfileOverviewActivity.this;
+                    final Context context = MyProfileOverviewActivity.this;
                     userProfile.remove(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
@@ -200,7 +200,7 @@ public class ProfileOverviewActivity extends BaseOverviewMenuActivity {
                 try {
                     Session.getCurrentSession().setUser(userProfile);
                 } catch (NotAuthenticatedException e) {
-                    Session.relogin(ProfileOverviewActivity.this);
+                    Session.relogin(MyProfileOverviewActivity.this);
                     e.printStackTrace();
                 }
             }
