@@ -23,9 +23,9 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.gui.components.DashboardIssueListAdapter;
-import ch.epfl.scrumtool.gui.components.DashboardProjectListAdapter;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
+import ch.epfl.scrumtool.gui.components.adapters.DashboardIssueListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.DashboardProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.Session;
 

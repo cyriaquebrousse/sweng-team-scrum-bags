@@ -37,7 +37,7 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;

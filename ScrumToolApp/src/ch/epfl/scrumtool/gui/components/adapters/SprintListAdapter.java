@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.gui.components.adapters;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

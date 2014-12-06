@@ -38,7 +38,7 @@ import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.util.gui.Dialogs;

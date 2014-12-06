@@ -22,8 +22,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
-import ch.epfl.scrumtool.gui.components.SprintListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 
 /**
  * @author Cyriaque Brousse

@@ -26,7 +26,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.TaskListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.TaskListAdapter;
 
 /**
  * @author Cyriaque Brousse

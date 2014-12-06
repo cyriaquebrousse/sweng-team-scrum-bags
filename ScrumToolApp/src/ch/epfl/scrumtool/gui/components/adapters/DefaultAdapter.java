@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.gui.components;
+package ch.epfl.scrumtool.gui.components.adapters;
 
 import java.util.Collection;
 import java.util.Collections;
