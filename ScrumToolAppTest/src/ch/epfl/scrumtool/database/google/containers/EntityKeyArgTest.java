@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.database.google.containers;
 
-import org.junit.Test;
-
 import junit.framework.TestCase;
 
 public class EntityKeyArgTest extends TestCase {
@@ -10,7 +8,6 @@ public class EntityKeyArgTest extends TestCase {
     private static final Object object = new Object();
     
     
-    @Test
     public void testNullKey() {
         try {
         @SuppressWarnings("unused")
@@ -23,7 +20,6 @@ public class EntityKeyArgTest extends TestCase {
         }
     }
     
-    @Test
     public void testEmptyKey() {
         try{
         @SuppressWarnings("unused")
@@ -36,7 +32,6 @@ public class EntityKeyArgTest extends TestCase {
         }
     }
     
-    @Test
     public void testNullEntity() {
         try {
         @SuppressWarnings("unused")
@@ -49,7 +44,6 @@ public class EntityKeyArgTest extends TestCase {
         }
     }
     
-    @Test
     public void testValidKeyEntity() {
         @SuppressWarnings("unused")
         EntityKeyArg<Object> args = new EntityKeyArg<Object>(object, validKey);

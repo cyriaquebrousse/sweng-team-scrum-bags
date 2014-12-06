@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.database.google;
+package ch.epfl.scrumtool.database.google.handlers;
 
 import junit.framework.TestCase;
 
