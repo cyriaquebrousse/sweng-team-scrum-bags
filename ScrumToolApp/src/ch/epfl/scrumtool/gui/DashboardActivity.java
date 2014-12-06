@@ -2,6 +2,8 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DashboardIssueListAdapter;
@@ -47,7 +51,6 @@ public class DashboardActivity extends BaseMenuActivity {
         setContentView(R.layout.activity_dashboard);
         
         initViews();
-        updateViews();
     }
 
     @Override
@@ -112,6 +115,52 @@ public class DashboardActivity extends BaseMenuActivity {
         }
     };
     
+    private Callback<List<Player>> playersCallback = new DefaultGUICallback<List<Player>>(this) {
+
+        @Override
+        public void interactionDone(List<Player> players) {
+            for (final Player p : players) {
+                //open dialog asking to accept/refuse p.project invitation
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(DashboardActivity.this);
+                dialogBuilder.setTitle("Project invitation");
+                dialogBuilder.setMessage("You have been invited to participate in project \"" 
+                        + p.getProject().getName() + "\". \n"
+                        + "What are you gonna do?");
+                dialogBuilder.setPositiveButton("Join the fun", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        p.getBuilder().setIsInvited(false).build().update(null,
+                                new DefaultGUICallback<Void>(DashboardActivity.this) {
+
+                                @Override
+                                public void interactionDone(Void object) {
+                                    Toast.makeText(DashboardActivity.this, "Project Joined", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                    }
+                });
+                dialogBuilder.setNegativeButton("Work alone", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        p.remove(new DefaultGUICallback<Void>(DashboardActivity.this) {
+
+                            @Override
+                            public void interactionDone(Void object) {
+                                // TODO Auto-generated method stub
+                                projectAdapter.remove(p.getProject());
+                                Toast.makeText(DashboardActivity.this, "invitation denied", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                dialogBuilder.create().show();
+            }
+        }
+    };
+    
     public void openAddProject(View view) {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         startActivity(openProjectEditIntent);
@@ -164,6 +213,7 @@ public class DashboardActivity extends BaseMenuActivity {
     
     private void updateViews() {
         try {
+            Session.getCurrentSession().getUser().loadInvitedPlayers(playersCallback);
             Session.getCurrentSession().getUser().loadIssuesForUser(issuesCallback);
             Client.getScrumClient().loadProjects(projectsCallback);
         } catch (NotAuthenticatedException e) {
