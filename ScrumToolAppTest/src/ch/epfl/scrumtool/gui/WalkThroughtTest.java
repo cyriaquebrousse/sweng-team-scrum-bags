@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
@@ -65,12 +66,14 @@ public class WalkThroughtTest extends
         
         addTask("1");
         addTask("2");
+        removeTask();
         
         //click on first item of the backlog
         onData(instanceOf(MainTask.class)).inAdapterView(allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(click());
         
         addIssue("1","5");
         addIssue("2", "4");
+        removeIssue();
         
         onView(withId(R.id.issue_list)).perform(pressBack());
         onView(withId(R.id.backlog_tasklist)).perform(pressBack());
@@ -144,7 +147,13 @@ public class WalkThroughtTest extends
     
     @SuppressWarnings("unchecked")
     public void removeTask() {
-        onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+        onData(instanceOf(MainTask.class)).inAdapterView(allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+        onView(withText("Delete")).perform(click());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void removeIssue() {
+        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0).perform(longClick());
         onView(withText("Delete")).perform(click());
     }
     
