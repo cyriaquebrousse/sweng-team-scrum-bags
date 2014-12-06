@@ -55,6 +55,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         initViews();
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        throwIfNull("Parent project cannot be null", project);
         Button next = (Button) findViewById(R.id.issue_edit_button_next);
         project.loadPlayers(new DefaultGUICallback<List<Player>>(this, next) {
             @Override
@@ -90,10 +91,11 @@ public class IssueEditActivity extends BaseMenuActivity {
     private void initOriginalAndParentTask() {
         original = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
+        throwIfNull("Parent task cannot be null", parentTask);
         if (original == null) {
             issueBuilder = new Issue.Builder();
             setTitle(R.string.title_activity_issue_edit_new);
-            throwIfNull("Parent task cannot be null", parentTask);
+            
         } else {
             issueBuilder = new Issue.Builder(original);
         }
