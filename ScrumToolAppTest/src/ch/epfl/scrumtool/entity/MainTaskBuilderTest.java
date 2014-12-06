@@ -21,9 +21,19 @@ public class MainTaskBuilderTest extends TestCase{
 
     @Test
     public void testBuilderMainTask() {
+        build.setDescription(description);
+        build.setName(name);
+        build.setPriority(priority);
+        build.setStatus(status);
+        build.setKey(id);
         MainTask mainTask = build.build();
         MainTask.Builder newBuilder = new MainTask.Builder(mainTask);
         assertNotNull(newBuilder);
+        assertEquals(description, newBuilder.getDescription());
+        assertEquals(name, newBuilder.getName());
+        assertEquals(priority, newBuilder.getPriority());
+        assertEquals(id, newBuilder.getKey());
+        assertEquals(status, newBuilder.getStatus());
     }
 
     @Test
@@ -88,8 +98,18 @@ public class MainTaskBuilderTest extends TestCase{
 
     @Test
     public void testBuild() {
+        build.setDescription(description);
+        build.setName(name);
+        build.setPriority(priority);
+        build.setStatus(status);
+        build.setKey(id);
         MainTask mainTask = build.build();
         assertNotNull(mainTask);
+        assertEquals(description, mainTask.getDescription());
+        assertEquals(name, mainTask.getName());
+        assertEquals(priority, mainTask.getPriority());
+        assertEquals(id, mainTask.getKey());
+        assertEquals(status, mainTask.getStatus());
     }
 
 }

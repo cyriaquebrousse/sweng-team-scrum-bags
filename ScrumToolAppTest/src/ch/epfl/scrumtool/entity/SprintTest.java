@@ -18,7 +18,8 @@ public class SprintTest extends TestCase {
     public void testEqualsStruct() {
         Sprint s1 = newBuilder().setDeadline(500).setKey(KEY).build();
         Sprint s2 = newBuilder().setKey(KEY).build();
-        
+        assertNotSame(s1, s2);
+        s2 = newBuilder().setDeadline(500).setKey(KEY).build();
         assertEquals(s1, s2);
     }
     

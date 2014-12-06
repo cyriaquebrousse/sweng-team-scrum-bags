@@ -24,7 +24,7 @@ public final class Player implements Serializable, Comparable<Player> {
 
     private Player(String key, User user, Project project, Role role, boolean isAdmin, boolean isInvited) {
         throwIfNull("Player constructor parameters cannot be null", key, user, role);
-        if (isAdmin && role == Role.INVITED) {
+        if (isAdmin && isInvited) {
             throw new IllegalStateException("An invited player can't be a project administrator");
         }
         
@@ -76,7 +76,7 @@ public final class Player implements Serializable, Comparable<Player> {
      * @return isInvited
      */
     public boolean isInvited() {
-        return this.isInvited();
+        return this.isInvited;
     }
 
     /**
