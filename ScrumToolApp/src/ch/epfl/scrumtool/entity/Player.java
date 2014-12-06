@@ -17,11 +17,12 @@ public final class Player implements Serializable, Comparable<Player> {
 
     private final String key;
     private final User user;
+    private final Project project;
     private final Role role;
     private final boolean isAdmin;
     private final boolean isInvited;
 
-    private Player(String key, User user, Role role, boolean isAdmin, boolean isInvited) {
+    private Player(String key, User user, Project project, Role role, boolean isAdmin, boolean isInvited) {
         throwIfNull("Player constructor parameters cannot be null", key, user, role);
         if (isAdmin && role == Role.INVITED) {
             throw new IllegalStateException("An invited player can't be a project administrator");
@@ -29,6 +30,7 @@ public final class Player implements Serializable, Comparable<Player> {
         
         this.key = key;
         this.user = user;
+        this.project = project;
         this.role = role;
         this.isAdmin = isAdmin;
         this.isInvited = isInvited;
@@ -39,6 +41,13 @@ public final class Player implements Serializable, Comparable<Player> {
      */
     public User getUser() {
         return this.user;
+    }
+    
+    /**
+     * @return the project
+     */
+    public Project getProject() {
+        return this.project;
     }
 
     /**
@@ -107,6 +116,7 @@ public final class Player implements Serializable, Comparable<Player> {
         private User user;
         private String keyb;
         private Role role;
+        private Project project;
         private boolean isAdmin;
         private boolean isInvited;
         
@@ -122,6 +132,7 @@ public final class Player implements Serializable, Comparable<Player> {
          */
         public Builder(Player otherPlayer) {
             this.user = otherPlayer.user;
+            this.project = otherPlayer.project;
             this.keyb = otherPlayer.key;
             this.role = otherPlayer.role;
             this.isAdmin = otherPlayer.isAdmin;
@@ -142,6 +153,25 @@ public final class Player implements Serializable, Comparable<Player> {
         public Player.Builder setUser(User user) {
             if (user != null) {
                 this.user = user;
+            }
+            return this;
+        }
+        
+        /**
+         * @return the project
+         */
+        public Project getProject() {
+            return this.project;
+            
+        }
+        
+        /**
+         * @param project
+         * @return the builder
+         */
+        public Player.Builder setProject(Project project) {
+            if (project != null) {
+                this.project = project;
             }
             return this;
         }
@@ -217,7 +247,7 @@ public final class Player implements Serializable, Comparable<Player> {
          * @return
          */
         public Player build() {
-            return new Player(this.keyb, this.user, this.role, this.isAdmin, this.isInvited);
+            return new Player(this.keyb, this.user, this.project, this.role, this.isAdmin, this.isInvited);
         }
     }
 
@@ -230,6 +260,7 @@ public final class Player implements Serializable, Comparable<Player> {
         return other.key.equals(this.key)
                 && other.isAdmin == this.isAdmin
                 && other.role == this.role
+                && other.project == this.project
                 && other.user == this.user
                 && other.isInvited == this.isInvited;
     }
