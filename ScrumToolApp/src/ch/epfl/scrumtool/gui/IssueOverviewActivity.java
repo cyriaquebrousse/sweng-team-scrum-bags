@@ -126,7 +126,8 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-        .setMessage("Do you really want to delete this issue?")
+        .setMessage("Do you really want to delete this issue?"
+                + " It will remove the Issues and its links with Players and Sprints")
         .setIcon(R.drawable.ic_dialog_alert)
         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

@@ -2,6 +2,9 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
@@ -124,13 +128,27 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
      */
     private void deleteProject(final Project project) {
         listViewLayout.setRefreshing(true);
-        project.remove(new DefaultGUICallback<Void>(this) {
+        new AlertDialog.Builder(this).setTitle("Delete Project")
+        .setMessage("Do you really want to delete this Project? "
+                + "This will remove the Project and all its Tasks, Issues, Players and Sprints.")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            
             @Override
-            public void interactionDone(Void v) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(project);
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = ProjectListActivity.this;
+                project.remove(new DefaultGUICallback<Void>(context) {
+                    @Override
+                    public void interactionDone(Void v) {
+                        Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
+                        listViewLayout.setRefreshing(false);
+                        adapter.remove(project);
+                    }
+                });
+                finish();
             }
-        });
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
     
     public void openBacklog(View view) {

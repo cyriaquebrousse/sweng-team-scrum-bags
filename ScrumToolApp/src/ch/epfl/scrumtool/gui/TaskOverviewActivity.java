@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -246,13 +249,27 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      */
     private void deleteIssue(final Issue issue) {
         listViewLayout.setRefreshing(true);
-        issue.remove(new DefaultGUICallback<Void>(this) {
+        new AlertDialog.Builder(this).setTitle("Delete Issue")
+        .setMessage("Do you really want to delete this Issue? "
+                + "This will remove the Issue and its links with Players and Sprints.")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            
             @Override
-            public void interactionDone(Void v) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(issue);
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = TaskOverviewActivity.this;
+                issue.remove(new DefaultGUICallback<Void>(context) {
+                    @Override
+                    public void interactionDone(Void v) {
+                        Toast.makeText(context , "Issue deleted", Toast.LENGTH_SHORT).show();
+                        listViewLayout.setRefreshing(false);
+                        adapter.remove(issue);
+                    }
+                });
+                finish();
             }
-        });
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
     
     @Override

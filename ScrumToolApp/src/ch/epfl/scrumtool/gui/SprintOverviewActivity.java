@@ -8,7 +8,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -233,13 +236,25 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
 
     @Override
     void deleteElement() {
-        sprint.remove(new DefaultGUICallback<Void>(this) {
+        new AlertDialog.Builder(this).setTitle("Delete Sprint")
+        .setMessage("Do you really want to delete this Sprint? "
+                + "This will remove the sprint and all its links with Issues.")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            
             @Override
-            public void interactionDone(Void b) {
-                    SprintOverviewActivity.this.finish();
-                    Toast.makeText(SprintOverviewActivity.this, "Could not delete sprint", Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = SprintOverviewActivity.this;
+                sprint.remove(new DefaultGUICallback<Void>(context) {
+                    @Override
+                    public void interactionDone(Void v) {
+                        Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                finish();
             }
-        });
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
     
     private void updateIssue() {

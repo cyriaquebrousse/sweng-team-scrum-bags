@@ -7,6 +7,7 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -179,12 +181,28 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     }
 
     private void deletePlayer(final Player player) {
-        player.remove(new DefaultGUICallback<Void>(this) {
+        listViewLayout.setRefreshing(true);
+        new AlertDialog.Builder(this).setTitle("Delete Player")
+        .setMessage("Do you really want to delete this Player? "
+                + "This will remove the Player from the project and unlink it from its issues.")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            
             @Override
-            public void interactionDone(Void a) {
-                adapter.remove(player);
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = ProjectPlayerListActivity.this;
+                player.remove(new DefaultGUICallback<Void>(context) {
+                    @Override
+                    public void interactionDone(Void v) {
+                        Toast.makeText(context , "Player deleted", Toast.LENGTH_SHORT).show();
+                        listViewLayout.setRefreshing(false);
+                        adapter.remove(player);
+                    }
+                });
+                finish();
             }
-        });
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Override

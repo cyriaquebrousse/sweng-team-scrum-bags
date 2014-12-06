@@ -4,6 +4,9 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -145,13 +149,27 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
 
     private void deleteSprint(final Sprint sprint) {
         listViewLayout.setRefreshing(true);
-        sprint.remove(new DefaultGUICallback<Void>(this) {
+        new AlertDialog.Builder(this).setTitle("Delete Sprint")
+        .setMessage("Do you really want to delete this Sprint? "
+                + "This will remove the Sprint and all its links with Issues.")
+        .setIcon(R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            
             @Override
-            public void interactionDone(Void v) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(sprint);
+            public void onClick(DialogInterface dialog, int which) {
+                final Context context = SprintListActivity.this;
+                sprint.remove(new DefaultGUICallback<Void>(context) {
+                    @Override
+                    public void interactionDone(Void v) {
+                        Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
+                        listViewLayout.setRefreshing(false);
+                        adapter.remove(sprint);
+                    }
+                });
+                finish();
             }
-        });
+        })
+        .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Override
