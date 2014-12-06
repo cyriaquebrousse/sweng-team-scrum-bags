@@ -7,6 +7,7 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
@@ -54,9 +55,17 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     }
     
     @LargeTest
+    public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
+
+        setActivityIntent(createMockIntent());
+        getActivity();
+        checkAllFields();
+    }
+    
+    @LargeTest
     public void testEditTaskNewTask() throws InterruptedException {
         
-        setActivityIntent(createMockIntentNewTask());
+        setActivityIntent(createMockIntent());
         getActivity();
         
         onView(withId(R.id.task_edit_button_next)).check(
@@ -67,7 +76,10 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     @LargeTest
     public void testEditTaskUpdateTask() throws InterruptedException {
         
-        setActivityIntent(createMockIntentUpdateTask());
+        Intent mockIntent = createMockIntent();
+        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
+        
+        setActivityIntent(mockIntent);
         getActivity();
         
         onView(withId(R.id.task_edit_button_next)).check(
@@ -78,18 +90,17 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
     @LargeTest
     public void testBadInputsForTheNameAndDescription() throws InterruptedException {
         
-        setActivityIntent(createMockIntentNewTask());
+        setActivityIntent(createMockIntent());
         getActivity();
         Resources res = getInstrumentation().getTargetContext().getResources();
         
-
         nameIsEmpty(res);
         descriptionIsEmpty(res);
         largeInputForTheName(res);
         largeInputForTheDescription(res);
     }
     
-    private Intent createMockIntentNewTask() {
+    private Intent createMockIntent() {
         
         Intent mockIntent = new Intent();
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
@@ -97,13 +108,12 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         return mockIntent;
     }
     
-    private Intent createMockIntentUpdateTask() {
-
-        Intent mockIntent = new Intent();
-        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
-        mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
-        
-        return mockIntent;
+    private void checkAllFields() throws InterruptedException {
+        // check that all fields are displayed
+        onView(withId(R.id.task_name_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.task_description_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.task_priority_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.task_edit_button_next)).check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
