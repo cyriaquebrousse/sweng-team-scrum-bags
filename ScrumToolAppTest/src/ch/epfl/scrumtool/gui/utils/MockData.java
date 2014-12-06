@@ -25,8 +25,8 @@ public class MockData {
             "Student");
     
     // Players
-    public static Player VINCENT_ADMIN = buildPlayer("player1", true, Role.PRODUCT_OWNER, VINCENT);
-    public static Player JOEY_DEV = buildPlayer("player2", false, Role.DEVELOPER, JOEY);
+    public static Player VINCENT_ADMIN = buildPlayer("player1", true, false, Role.PRODUCT_OWNER, VINCENT);
+    public static Player JOEY_DEV = buildPlayer("player2", false, true, Role.DEVELOPER, JOEY);
     
     // Projects
     public static Project MURCS = buildProject("project1", "Murcs", "murcs description");
@@ -100,10 +100,11 @@ public class MockData {
         
     }
     
-    private static Player buildPlayer(String key, boolean admin, Role role, User user) {
+    private static Player buildPlayer(String key, boolean admin, boolean invited, Role role, User user) {
         Player.Builder player = new Player.Builder();
         player.setKey(key)
             .setIsAdmin(admin)
+            .setIsInvited(invited)
             .setRole(role)
             .setUser(user);
         return player.build();
