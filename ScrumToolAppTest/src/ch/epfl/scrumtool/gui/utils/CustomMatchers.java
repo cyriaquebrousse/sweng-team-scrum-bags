@@ -4,10 +4,14 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Sprint;
+
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class CustomMatchers {
 
@@ -54,6 +58,61 @@ public class CustomMatchers {
                
 
                 return expectedError.equals(error);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
+    public final static Matcher<View> withPlayer(final Player expectedPlayer) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof Spinner)) {
+                    return false;
+                }
+                Player player = null;
+                if (((Spinner) view).getSelectedItem() != null) {
+                     player = (Player) ((Spinner) view).getSelectedItem();
+                } else {
+                    player = null;
+                }
+               
+                if (expectedPlayer == null && player == null) {
+                    return true;
+                } else {
+                    return expectedPlayer.equals(player);
+                }
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
+    public final static Matcher<View> withSprint(final Sprint expectedSprint) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof Spinner)) {
+                    return false;
+                }
+                Sprint sprint = null;
+                if (((Spinner) view).getSelectedItem() != null) {
+                     sprint = (Sprint) ((Spinner) view).getSelectedItem();
+                } else {
+                    sprint = null;
+                }
+               
+
+                return expectedSprint.equals(sprint);
             }
 
             @Override
