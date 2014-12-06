@@ -5,6 +5,7 @@ import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
 import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -24,6 +25,8 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
+
+
 
 /**
  * @author Cyriaque Brousse
@@ -60,6 +63,10 @@ public class IssueEditActivity extends BaseMenuActivity {
         project.loadPlayers(new DefaultGUICallback<List<Player>>(this, next) {
             @Override
             public void interactionDone(List<Player> playerList) {
+                List<String> playerKeyList = new ArrayList<String>();
+                for (Player player : playerList) {
+                    playerKeyList.add(player.getKey());
+                }
                 playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
                 issueAssigneeSpinner.setAdapter(playerAdapter);
@@ -67,7 +74,8 @@ public class IssueEditActivity extends BaseMenuActivity {
                 if (issueBuilder.getPlayer() == null) {
                     issueAssigneeSpinner.setSelection(0);
                 } else {
-                    issueAssigneeSpinner.setSelection(playerAdapter.getList().indexOf(issueBuilder.getPlayer()));
+                    issueAssigneeSpinner.setSelection(
+                            playerKeyList.indexOf(((Player) issueBuilder.getPlayer()).getKey()) + 1);
                 }
             }
         });
@@ -75,6 +83,10 @@ public class IssueEditActivity extends BaseMenuActivity {
         project.loadSprints(new DefaultGUICallback<List<Sprint>>(this, next) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
+                List<String> sprintKeyList = new ArrayList<String>();
+                for (Sprint sprint : sprintList) {
+                    sprintKeyList.add(sprint.getKey());
+                }
                 sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
                 sprintSpinner.setAdapter(sprintAdapter);
@@ -82,7 +94,8 @@ public class IssueEditActivity extends BaseMenuActivity {
                 if (issueBuilder.getSprint() == null) {
                     sprintSpinner.setSelection(0);
                 } else {
-                    sprintSpinner.setSelection(sprintAdapter.getList().indexOf(issueBuilder.getSprint()));
+                    sprintSpinner.setSelection(
+                            sprintKeyList.indexOf(((Sprint) issueBuilder.getSprint()).getKey()) + 1);
                 }
             }
         });
@@ -106,7 +119,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueDescriptionView = (EditText) findViewById(R.id.issue_description_edit);
         issueEstimationView = (EditText) findViewById(R.id.issue_estimation_edit);
         issueAssigneeSpinner = (Spinner) findViewById(R.id.issue_assignee_spinner);
-        sprintSpinner = (Spinner) findViewById(R.id.sprint_spinner);
+        sprintSpinner = (Spinner) findViewById(R.id.issue_sprint_spinner);
 
         setTitle(issueBuilder.getName());
         
@@ -119,11 +132,13 @@ public class IssueEditActivity extends BaseMenuActivity {
     public void saveIssueChanges(View view) {
         boolean nameIsValid = entityNameIsValid(issueNameView);
         boolean descriptionIsValid = textEditNonNullNotEmpty(issueDescriptionView);
+        boolean estimationIsValid = textEditNonNullNotEmpty(issueEstimationView);
         
         updateTextViewAfterValidityCheck(issueNameView, nameIsValid, getResources());
         updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid, getResources());
+        updateTextViewAfterValidityCheck(issueEstimationView, estimationIsValid, getResources());
 
-        if (nameIsValid && descriptionIsValid) {
+        if (nameIsValid && descriptionIsValid && estimationIsValid) {
             findViewById(R.id.issue_edit_button_next).setEnabled(false);
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
