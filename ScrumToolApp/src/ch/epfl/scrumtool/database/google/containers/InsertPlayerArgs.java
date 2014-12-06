@@ -12,12 +12,16 @@ import ch.epfl.scrumtool.util.Preconditions;
  *
  */
 public class InsertPlayerArgs extends EntityKeyArg<Project> {
-    private Role role;
+    private final Role role;
     
-    public InsertPlayerArgs(Project project, String userEmail, Role role) {
+    public InsertPlayerArgs(final Project project, final String userEmail, final Role role) {
         super(project, userEmail);
+        Preconditions.throwIfInvalidEmail(userEmail);
         Preconditions.throwIfNull("Must contain a valid role", role);
         Preconditions.throwIfEmptyString("Project key must not be empty", super.getEntity().getKey());
+        if (role != Role.INVITED) {
+            throw new IllegalArgumentException("Player Role must be invited for Insertion");
+        }
         this.role = role;
     }
     

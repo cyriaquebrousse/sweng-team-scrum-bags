@@ -23,7 +23,7 @@ public class EntityKeyArg<A> {
     public String getKey() {
         return key;
     }
-
+    
     public A getEntity() {
         return entity;
     }
