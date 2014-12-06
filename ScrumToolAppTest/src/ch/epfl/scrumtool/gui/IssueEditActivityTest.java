@@ -12,10 +12,8 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -31,12 +29,8 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -46,6 +40,11 @@ import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 
+/**
+ * 
+ * @author sylb
+ *
+ */
 public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<IssueEditActivity> {
 
     private static final Issue ISSUE = MockData.ISSUE1;
@@ -56,13 +55,15 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     private static final Sprint SPRINT2 = MockData.SPRINT2;
     
     private static final String TEST_TEXT = "test text";
-    private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla" +
-            "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
+    private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
+            + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
+    
+    private static final long THREADSLEEPTIME = 100;
 
-    List<Player> playerList = new ArrayList<Player>();
-    List<Sprint> sprintList = new ArrayList<Sprint>();
+    private List<Player> playerList = new ArrayList<Player>();
+    private List<Sprint> sprintList = new ArrayList<Sprint>();
 
-    DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
+    private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
 
     public IssueEditActivityTest() {
         super(IssueEditActivity.class);
@@ -107,7 +108,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         setActivityIntent(createMockIntentNewIssue());
         getActivity();
 
-         onView(withId(R.id.issue_edit_button_next)).check(
+        onView(withId(R.id.issue_edit_button_next)).check(
                     matches(isClickable()));
         newIssue();
     }
@@ -128,7 +129,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_description_edit)).perform(typeText(TEST_TEXT), closeSoftKeyboard());
 //        onView(withId(R.id.issue_estimation_edit)).perform(clearText());
 //        onView(withId(R.id.issue_estimation_edit)).perform(typeText(), closeSoftKeyboard());
-        Thread.sleep(1000);
+        Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_assignee_spinner)).perform(click());
         onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(click());
         onView(withId(R.id.sprint_spinner)).perform(click());
