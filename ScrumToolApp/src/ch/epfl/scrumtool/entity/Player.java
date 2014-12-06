@@ -19,8 +19,9 @@ public final class Player implements Serializable, Comparable<Player> {
     private final User user;
     private final Role role;
     private final boolean isAdmin;
+    private final boolean isInvited;
 
-    private Player(String key, User user, Role role, boolean isAdmin) {
+    private Player(String key, User user, Role role, boolean isAdmin, boolean isInvited) {
         throwIfNull("Player constructor parameters cannot be null", key, user, role);
         if (isAdmin && role == Role.INVITED) {
             throw new IllegalStateException("An invited player can't be a project administrator");
@@ -30,6 +31,7 @@ public final class Player implements Serializable, Comparable<Player> {
         this.user = user;
         this.role = role;
         this.isAdmin = isAdmin;
+        this.isInvited = isInvited;
     }
 
     /**
@@ -58,6 +60,14 @@ public final class Player implements Serializable, Comparable<Player> {
      */
     public boolean isAdmin() {
         return this.isAdmin;
+    }
+    
+    
+    /**
+     * @return isInvited
+     */
+    public boolean isInvited() {
+        return this.isInvited();
     }
 
     /**
@@ -98,9 +108,11 @@ public final class Player implements Serializable, Comparable<Player> {
         private String keyb;
         private Role role;
         private boolean isAdmin;
-
+        private boolean isInvited;
+        
         public Builder() {
             this.isAdmin = false;
+            this.isInvited = true;
             this.role = Role.INVITED;
             this.keyb = "";
         }
@@ -113,6 +125,7 @@ public final class Player implements Serializable, Comparable<Player> {
             this.keyb = otherPlayer.key;
             this.role = otherPlayer.role;
             this.isAdmin = otherPlayer.isAdmin;
+            this.isInvited = otherPlayer.isInvited;
         }
 
         /**
@@ -182,14 +195,29 @@ public final class Player implements Serializable, Comparable<Player> {
             this.isAdmin = isAdmin;
             return this;
         }
+        
+        /**
+         * @param isInvited
+         * @return the builder
+         */
+        public Player.Builder setIsInvited(boolean isInvited) {
+            this.isInvited = isInvited;
+            return this;
+        }
 
+        /**
+         * @return isInvited
+         */
+        public boolean isInvited() {
+            return this.isInvited;
+        }
         /**
          * Creates and returns a new immutable instance of Player
          * 
          * @return
          */
         public Player build() {
-            return new Player(this.keyb, this.user, this.role, this.isAdmin);
+            return new Player(this.keyb, this.user, this.role, this.isAdmin, this.isInvited);
         }
     }
 
@@ -202,7 +230,8 @@ public final class Player implements Serializable, Comparable<Player> {
         return other.key.equals(this.key)
                 && other.isAdmin == this.isAdmin
                 && other.role == this.role
-                && other.user == this.user;
+                && other.user == this.user
+                && other.isInvited == this.isInvited;
     }
 
     @Override
