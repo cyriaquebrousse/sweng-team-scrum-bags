@@ -89,4 +89,17 @@ public class DSPlayerHandler implements PlayerHandler {
         factory.setConverter(PlayerConverters.OPSTATPLAYER_TO_PLAYER);
         OperationExecutor.execute(args, factory.build());
     }
+
+    /**
+     * Loads Invited players for the current user
+     */
+    @Override
+    public void loadInvitedPlayers(Callback<List<Player>> callback) {
+        DSExecArgs.Factory<String, CollectionResponseScrumPlayer, List<Player>> factory = 
+                new Factory<String, CollectionResponseScrumPlayer, List<Player>>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(CollectionResponseConverters.PLAYERS);
+        factory.setOperation(PlayerOperations.LOAD_INVITED_PLAYERS);
+        OperationExecutor.execute(null, factory.build());
+    }
 }

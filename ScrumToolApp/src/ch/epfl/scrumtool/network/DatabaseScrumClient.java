@@ -171,4 +171,9 @@ public class DatabaseScrumClient implements ScrumClient {
     public void loadIssuesForUser(User user, Callback<List<TaskIssueProject>> cB) {
         databaseHandlers.getIssueHandler().loadIssuesForUser(user, cB);
     }
+
+    @Override
+    public void loadInvitedPlayers(Callback<List<Player>> callback) {
+        databaseHandlers.getPlayerHandler().loadInvitedPlayers(callback);
+    }
 }

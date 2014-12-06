@@ -64,4 +64,14 @@ public class PlayerOperations {
             return service.loadPlayers(arg).execute();
         }
     };
+
+    public static final ScrumToolOperation<String, CollectionResponseScrumPlayer> LOAD_INVITED_PLAYERS = 
+            new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
+
+        @Override
+        public CollectionResponseScrumPlayer operation(String arg,
+                Scrumtool service) throws IOException {
+            return service.loadInvitedPlayers().execute();
+        }
+    };
 }

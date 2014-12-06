@@ -58,6 +58,11 @@ public interface ScrumClient {
      * @param callback
      */
     void loadPlayers(final Project project, final Callback<List<Player>> callback);
+    
+    /**
+     * @param callback
+     */
+    void loadInvitedPlayers(final Callback<List<Player>> callback);
     /**
      * @param player
      * @param project

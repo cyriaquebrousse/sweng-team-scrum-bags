@@ -116,10 +116,20 @@ public final class User implements Serializable, Comparable<User> {
     
     /**
      * Gets the issues for a specified user
+     * 
      * @param callback
      */
     public void loadIssuesForUser(final Callback<List<TaskIssueProject>> callback) {
         Client.getScrumClient().loadIssuesForUser(this, callback);
+    }
+    
+    /**
+     * Loads the players invited to a project for the current user
+     * 
+     * @param callback
+     */
+    public void loadInvitedPlayers(final Callback<List<Player>> callback) {
+        Client.getScrumClient().loadInvitedPlayers(callback);
     }
 
     /**
