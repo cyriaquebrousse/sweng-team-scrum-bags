@@ -189,6 +189,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
 
     @Override
     void openEditElementActivity(Player optionalElementToEdit) {
+        //TODO don't use StakeHolder, implement a way to select the role
         LayoutInflater inflater = LayoutInflater.from(ProjectPlayerListActivity.this);
         View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
 
@@ -210,7 +211,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                         updateTextViewAfterValidityCheck(userInput, emailIsValid(userInput.getText().toString()),
                                 ProjectPlayerListActivity.this.getResources());
                         if (emailIsValid(userInput.getText().toString())) {
-                            insertPlayer(userInput.getText().toString(), Role.INVITED);
+                            insertPlayer(userInput.getText().toString(), Role.STAKEHOLDER);
                             alertDialog.dismiss();
                         }
                     }

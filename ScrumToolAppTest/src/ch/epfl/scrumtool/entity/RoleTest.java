@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class RoleTest extends TestCase {
     
     private final static Role developer = Role.DEVELOPER;
-    private final static Role invited = Role.INVITED;
+    private final static Role invited = Role.STAKEHOLDER;
     private final static Role productOwner = Role.PRODUCT_OWNER;
     private final static Role scrumMaster = Role.SCRUM_MASTER;
     private final static Role stakeHolder = Role.STAKEHOLDER;

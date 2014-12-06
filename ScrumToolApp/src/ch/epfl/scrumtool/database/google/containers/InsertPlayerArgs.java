@@ -19,9 +19,6 @@ public class InsertPlayerArgs extends EntityKeyArg<Project> {
         Preconditions.throwIfInvalidEmail(userEmail);
         Preconditions.throwIfNull("Must contain a valid role", role);
         Preconditions.throwIfEmptyString("Project key must not be empty", super.getEntity().getKey());
-        if (role != Role.INVITED) {
-            throw new IllegalArgumentException("Player Role must be invited for Insertion");
-        }
         this.role = role;
     }
     

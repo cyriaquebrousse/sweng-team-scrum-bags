@@ -123,7 +123,7 @@ public final class Player implements Serializable, Comparable<Player> {
         public Builder() {
             this.isAdmin = false;
             this.isInvited = true;
-            this.role = Role.INVITED;
+            this.role = Role.STAKEHOLDER;
             this.keyb = "";
         }
 
