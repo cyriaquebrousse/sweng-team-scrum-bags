@@ -178,7 +178,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_name_edit)).check(matches(withText("")));
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK_TEST)));
         
-        // click on save button et check the error on the name
+        // click on save button and check the error on the name
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
@@ -196,7 +196,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText("")));
         
-        // click on save button et check the error on the description
+        // click on save button and check the error on the description
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_description_edit)).check(matches(
@@ -215,7 +215,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_name_edit)).check(matches(withText(VERY_LONG_TEXT)));
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK_TEST)));
         
-        // click on save button et check the error on the name
+        // click on save button and check the error on the name
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
@@ -233,7 +233,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText(VERY_LONG_TEXT)));
         
-        // click on save button et check that there are no errors on the name and the description
+        // click on save button and check that there are no errors on the name and the description
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError("no error")));
