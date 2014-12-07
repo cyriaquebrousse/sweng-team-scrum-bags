@@ -81,7 +81,6 @@ public final class MainTaskConverters {
             dbMainTask.setDescription(maintask.getDescription());
             dbMainTask.setPriority(maintask.getPriority().name());
             dbMainTask.setStatus(maintask.getStatus().name());
-            // Currently we don't need LastModDate and LastModUser
 
             return dbMainTask;
         }

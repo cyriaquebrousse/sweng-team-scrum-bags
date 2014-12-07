@@ -288,8 +288,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         issue.update(null, new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
-                    Toast.makeText(IssueOverviewActivity.this, 
-                            "Could not update issue", Toast.LENGTH_SHORT).show();
+                    //TODO handling?
             }
         });
     }
