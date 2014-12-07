@@ -257,11 +257,33 @@ public final class Player implements Serializable, Comparable<Player> {
             return false;
         }
         Player other = (Player) o;
+        
+        boolean projectEquals = false;
+        if (this.project == null && other.project == null) {
+            projectEquals = true;
+        } else if (this.project == null && other.project != null
+                || this.project != null && other.project == null) {
+            projectEquals = false;
+        } else if (this.project != null && other.project != null) {
+            projectEquals = this.project.equals(other.project);
+        }
+        
+        boolean userEquals = false;
+        if (this.user == null && other.user == null) {
+            userEquals = true;
+        } else if (this.user == null && other.user != null
+                || this.user != null && other.user == null) {
+            userEquals = false;
+        } else if (this.user != null && other.user != null) {
+            userEquals = this.user.equals(other.user);
+        }
+        
+        
         return other.key.equals(this.key)
                 && other.isAdmin == this.isAdmin
                 && other.role == this.role
-                && other.project == this.project
-                && other.user == this.user
+                && projectEquals
+                && userEquals
                 && other.isInvited == this.isInvited;
     }
 

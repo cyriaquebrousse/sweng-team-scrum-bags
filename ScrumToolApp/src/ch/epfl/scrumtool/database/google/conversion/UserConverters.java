@@ -5,6 +5,7 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures convertion betwen ScrumUser and User
@@ -18,14 +19,14 @@ public final class UserConverters {
         public User convert(ScrumUser dbUser) {
             assertTrue(dbUser != null);
             throwIfNull("Trying to convert a User with null parameters",
-                    dbUser.getEmail(), dbUser.getName());
-            
+                    dbUser.getEmail());
+
+            Preconditions.throwIfInvalidEmail(dbUser.getEmail());
+
             User.Builder builder = new User.Builder();
 
             String email = dbUser.getEmail();
-            if (email != null) {
-                builder.setEmail(dbUser.getEmail());
-            }
+            builder.setEmail(email);
 
             String name = dbUser.getName();
             if (name != null) {
@@ -67,16 +68,11 @@ public final class UserConverters {
 
         @Override
         public ScrumUser convert(User user) {
-            assertTrue(user != null);
-
             ScrumUser dbUser = new ScrumUser();
 
             dbUser.setCompanyName(user.getCompanyName());
             dbUser.setDateOfBirth(user.getDateOfBirth());
             dbUser.setJobTitle(user.getJobTitle());
-
-            // Currently we don't need LastModDate and LastModUser
-
             dbUser.setEmail(user.getEmail());
             dbUser.setLastName(user.getLastName());
             dbUser.setName(user.getName());

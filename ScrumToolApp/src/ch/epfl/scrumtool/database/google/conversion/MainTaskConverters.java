@@ -1,12 +1,11 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Assertions.assertTrue;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversiont between ScrumMaintask and Maintask
@@ -14,7 +13,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
  * @author vincent
  * 
  */
-public class MainTaskConverters {
+public final class MainTaskConverters {
     /**
      * Converts a ScrumMainTask into a MainTask
      */
@@ -23,38 +22,32 @@ public class MainTaskConverters {
 
         @Override
         public MainTask convert(ScrumMainTask dbMainTask) {
-            assertTrue(dbMainTask != null);
-            throwIfNull("Trying to convert a MainTask with null parameters",
-                    dbMainTask.getKey(), dbMainTask.getName(),
-                    dbMainTask.getDescription(), dbMainTask.getPriority(),
+            
+            Preconditions.throwIfNull("Trying to convert a MainTask with null parameters",
+                    dbMainTask.getKey(),
+                    dbMainTask.getName(),
+                    dbMainTask.getDescription(),
+                    dbMainTask.getPriority(),
                     dbMainTask.getStatus());
-                    
+            
+            Preconditions.throwIfInvalidKey(dbMainTask.getKey());
+            
             MainTask.Builder maintask = new MainTask.Builder();
 
             String key = dbMainTask.getKey();
-            if (key != null) {
-                maintask.setKey(key);
-            }
+            maintask.setKey(key);
 
             String name = dbMainTask.getName();
-            if (name != null) {
-                maintask.setName(name);
-            }
+            maintask.setName(name);
 
             String description = dbMainTask.getDescription();
-            if (description != null) {
-                maintask.setDescription(description);
-            }
+            maintask.setDescription(description);
 
             String priority = dbMainTask.getPriority();
-            if (priority != null) {
-                maintask.setPriority(Priority.valueOf(priority));
-            }
+            maintask.setPriority(Priority.valueOf(priority));
 
             String status = dbMainTask.getStatus();
-            if (status != null) {
-                maintask.setStatus(Status.valueOf(status));
-            }
+            maintask.setStatus(Status.valueOf(status));
             
             int issuesFinished = dbMainTask.getIssuesFinished() == null ? 0 : dbMainTask.getIssuesFinished();
             int totalIssues = dbMainTask.getTotalIssues() == null ? 0 : dbMainTask.getTotalIssues();
@@ -78,8 +71,6 @@ public class MainTaskConverters {
 
         @Override
         public ScrumMainTask convert(MainTask maintask) {
-            assert maintask != null;
-
             ScrumMainTask dbMainTask = new ScrumMainTask();
 
             if (!maintask.getKey().equals("")) {

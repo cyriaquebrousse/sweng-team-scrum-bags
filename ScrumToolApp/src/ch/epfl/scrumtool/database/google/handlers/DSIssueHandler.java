@@ -40,7 +40,7 @@ public class DSIssueHandler implements IssueHandler {
         DSExecArgs.Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue> factory = 
                 new Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(IssueConverters.OPSTATISSUE_TO_ISSUE);
+        factory.setConverter(IssueConverters.INSERTRESPONSE_TO_ISSUE);
         factory.setOperation(IssueOperations.INSERT_ISSUE_MAINTASK);
         OperationExecutor.execute(args, factory.build());
     }

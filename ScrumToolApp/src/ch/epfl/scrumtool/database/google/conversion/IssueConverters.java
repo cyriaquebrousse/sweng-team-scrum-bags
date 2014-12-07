@@ -1,8 +1,5 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Assertions.assertTrue;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +16,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumIssue and issue
@@ -32,39 +30,34 @@ public class IssueConverters {
 
         @Override
         public Issue convert(ScrumIssue dbIssue) {
-            assertTrue(dbIssue != null);
-            throwIfNull("Trying to convert a Issue with null parameters",
-                    dbIssue.getKey(), dbIssue.getName(), dbIssue.getDescription(), dbIssue.getEstimation(),
-                    dbIssue.getPriority());
+            Preconditions.throwIfNull("Trying to convert an Issue with null parameters",
+                    dbIssue.getKey(),
+                    dbIssue.getName(),
+                    dbIssue.getDescription(),
+                    dbIssue.getEstimation(),
+                    dbIssue.getPriority(),
+                    dbIssue.getStatus());
+            
+            Preconditions.throwIfInvalidKey(dbIssue.getKey());
                     
             Issue.Builder issue = new Issue.Builder();
 
             String key = dbIssue.getKey();
-            if (key != null) {
-                issue.setKey(key);
-            }
+            issue.setKey(key);
 
             String description = dbIssue.getDescription();
-            if (description != null) {
-                issue.setDescription(description);
-            }
+            issue.setDescription(description);
 
             String name = dbIssue.getName();
-            if (name != null) {
-                issue.setName(name);
-            }
+            issue.setName(name);
 
             issue.setEstimatedTime(dbIssue.getEstimation());
 
             String priority = dbIssue.getPriority();
-            if (priority != null) {
-                issue.setPriority(Priority.valueOf(priority));
-            }
+            issue.setPriority(Priority.valueOf(priority));
 
             String status = dbIssue.getStatus();
-            if (status != null) {
-                issue.setStatus(Status.valueOf(status));
-            }
+            issue.setStatus(Status.valueOf(status));
 
             ScrumSprint dbSprint = dbIssue.getSprint();
             if (dbSprint != null) {
@@ -85,35 +78,11 @@ public class IssueConverters {
 
     };
     
-    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE_INSERT = 
+    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE = 
             new EntityConverter<Issue, ScrumIssue>() {
 
         @Override
         public ScrumIssue convert(Issue issue) {
-            assertTrue(issue != null);
-
-            ScrumIssue dbIssue = new ScrumIssue();
-
-            if (!issue.getKey().equals("")) {
-                dbIssue.setKey(issue.getKey());
-            }
-            dbIssue.setDescription(issue.getDescription());
-            dbIssue.setName(issue.getName());
-            dbIssue.setEstimation(issue.getEstimatedTime());
-            dbIssue.setPriority(issue.getPriority().name());
-            dbIssue.setStatus(issue.getStatus().name());
-
-            return dbIssue;
-        }
-    };
-
-    public static final EntityConverter<Issue, ScrumIssue> ISSUE_TO_SCRUMISSUE_UPDATE = 
-            new EntityConverter<Issue, ScrumIssue>() {
-
-        @Override
-        public ScrumIssue convert(Issue issue) {
-            assertTrue(issue != null);
-
             ScrumIssue dbIssue = new ScrumIssue();
 
             if (!issue.getKey().equals("")) {
@@ -141,14 +110,14 @@ public class IssueConverters {
             } else {
                 dbSprint = null;
             }
+            
             dbIssue.setSprint(dbSprint);
-            // Currently we don't need LastModDate and LasModUser
-
+            
             return dbIssue;
         }
     };
     
-    public static final EntityConverter<InsertResponse<Issue>, Issue> OPSTATISSUE_TO_ISSUE = 
+    public static final EntityConverter<InsertResponse<Issue>, Issue> INSERTRESPONSE_TO_ISSUE = 
             new EntityConverter<InsertResponse<Issue>, Issue>() {
 
         @Override

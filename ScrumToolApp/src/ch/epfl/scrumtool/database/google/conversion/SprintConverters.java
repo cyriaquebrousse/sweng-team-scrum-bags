@@ -12,7 +12,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  * @author vincent
  * 
  */
-public class SprintConverters {
+public final class SprintConverters {
     public static final EntityConverter<ScrumSprint, Sprint> SCRUMSPRINT_TO_SPRINT = 
             new EntityConverter<ScrumSprint, Sprint>() {
 
@@ -21,7 +21,6 @@ public class SprintConverters {
             assertTrue(dbSprint != null);
             throwIfNull("Trying to convert a Sprint with null parameters",
                     dbSprint.getKey(), dbSprint.getTitle(), dbSprint.getDate());
-
 
             Sprint.Builder sprint = new Sprint.Builder();
 
@@ -56,7 +55,6 @@ public class SprintConverters {
             
             dbSprint.setTitle(sprint.getTitle());
             dbSprint.setDate(sprint.getDeadline());
-            // Currently we don't need LastModDate and LasModUser
 
             return dbSprint;
         }

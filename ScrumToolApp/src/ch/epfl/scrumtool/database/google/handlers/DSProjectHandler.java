@@ -26,7 +26,7 @@ public class DSProjectHandler implements ProjectHandler {
                 new DSExecArgs.Factory<Project, InsertResponse<Project>, Project>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setOperation(ProjectOperations.INSERT_PROJECT);
-        factory.setConverter(ProjectConverters.OPSTATPROJECT_TO_PROJECT);
+        factory.setConverter(ProjectConverters.INSERTRESPONE_TO_PROJECT);
         OperationExecutor.execute(project, factory.build());
     }
 

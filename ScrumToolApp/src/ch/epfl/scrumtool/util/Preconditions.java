@@ -31,12 +31,14 @@ public final class Preconditions {
         }
     }
     
+    public static void throwIfInvalidKey(String key) {
+        throwIfEmptyString("Key must not be empty", key);
+    }
+    
     public static void throwIfInvalidEmail(String email) {
         assertTrue(email != null);
-        
         if (!InputVerifiers.emailIsValid(email)) {
             throw new IllegalArgumentException("E-Mail address is invalid");
         }
     }
-    
 }

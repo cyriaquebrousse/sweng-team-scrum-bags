@@ -86,7 +86,7 @@ public class DSPlayerHandler implements PlayerHandler {
                 new DSExecArgs.Factory<InsertPlayerArgs, InsertResponse<Player>, Player>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
         factory.setOperation(PlayerOperations.INSERT_PLAYER_TO_PROJECT);
-        factory.setConverter(PlayerConverters.OPSTATPLAYER_TO_PLAYER);
+        factory.setConverter(PlayerConverters.INSERTRESPONSE_TO_PLAYER);
         OperationExecutor.execute(args, factory.build());
     }
 

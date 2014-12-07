@@ -24,19 +24,26 @@ public class IssueOperations {
         @Override
         public InsertResponse<Issue> operation(EntityKeyArg<Issue> arg, Scrumtool service)
                 throws IOException, ScrumToolException {
+            
+            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getEntity());
+            
             final String playerKey;
-            if (arg.getEntity().getPlayer() != null) {
-                playerKey = arg.getEntity().getPlayer().getKey();
+            if (insert.getAssignedPlayer() != null) {
+                playerKey = insert.getAssignedPlayer().getKey();
+                //Set player to null -> we don't need to change the object on the database again
+                insert.setAssignedPlayer(null);
             } else {
                 playerKey = null;
             }
             final String sprintKey;
-            if (arg.getEntity().getSprint() != null) {
-                sprintKey = arg.getEntity().getSprint().getKey();
+            if (insert.getSprint() != null) {
+                sprintKey = insert.getSprint().getKey();
+              //Set sprint to null -> we don't need to change the object on the database again
+                insert.setSprint(null);
             } else {
                 sprintKey = null;
             }
-            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getEntity());
+            
             insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
             return new InsertResponse<Issue>(arg.getEntity(),
                     service.insertScrumIssue(arg.getKey(), insert)
@@ -48,8 +55,6 @@ public class IssueOperations {
             new ScrumToolOperation<EntityKeyArg<Issue>, Void>() {
         @Override
         public Void operation(EntityKeyArg<Issue> arg, Scrumtool service) throws IOException, ScrumToolException {
-                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE_INSERT.convert(arg.getEntity());
-                insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return service.insertIssueInSprint(arg.getEntity().getKey(), arg.getKey()).execute();
         }
     };
@@ -59,23 +64,26 @@ public class IssueOperations {
           new ScrumToolOperation<Issue, Void>() {
         @Override
         public Void operation(Issue arg, Scrumtool service) throws ScrumToolException, IOException {
-         
+                ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
+                
                 final String playerKey;
-                if (arg.getPlayer() != null) {
-                    playerKey = arg.getPlayer().getKey();
+                if (scrumIssue.getAssignedPlayer() != null) {
+                    playerKey = scrumIssue.getAssignedPlayer().getKey();
+                    scrumIssue.setAssignedPlayer(null);
                 } else {
                     playerKey = null;
                 }
                 final String sprintKey;
-                if (arg.getSprint() != null) {
+                if (scrumIssue.getSprint() != null) {
                     sprintKey = arg.getSprint().getKey();
+                    scrumIssue.setSprint(null);
                 } else {
                     sprintKey = null;
                 }
-                ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE_UPDATE.convert(arg);
-                scrumIssue.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return service.updateScrumIssue(scrumIssue)
-                          .setPlayerKey(playerKey).setSprintKey(sprintKey).execute();
+                        .setPlayerKey(playerKey)
+                        .setSprintKey(sprintKey)
+                        .execute();
         }
     };
     
