@@ -4,8 +4,12 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
+import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 import android.view.View;
 import android.widget.Adapter;
@@ -121,4 +125,32 @@ public class CustomMatchers {
 
         };
     }
+    
+    public final static Matcher<View> withPriority(final Priority expectedPriority) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof PrioritySticker)) {
+                    return false;
+                }
+                Priority priority = null;
+                if (((PrioritySticker) view).getPriority() != null) {
+                     priority = (Priority) ((PrioritySticker) view).getPriority();
+                } else {
+                    priority = null;
+                }
+               
+
+                return expectedPriority.equals(priority);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
+    
 }
