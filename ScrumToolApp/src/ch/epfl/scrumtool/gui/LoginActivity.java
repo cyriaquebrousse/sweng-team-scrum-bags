@@ -25,7 +25,7 @@ public class LoginActivity extends Activity {
     public static final int REQUEST_ACCOUNT_PICKER = 2;
     private static final Class<? extends Activity> FIRST_ACTIVITY = DashboardActivity.class;
     private GoogleSession.Builder sessionBuilder;
-    private ProgressDialog progDialog = null;
+    private ProgressDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             String accName = (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME);
-            this.progDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
+            this.progressDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
             
             ApplicationSettings.saveCachedUser(this, accName);
             
@@ -79,8 +79,8 @@ public class LoginActivity extends Activity {
         sessionBuilder.build(accName, new DefaultGUICallback<Boolean>(this, loginButton) {
             @Override
             public void interactionDone(Boolean success) {
-                if (LoginActivity.this.progDialog != null) {
-                    LoginActivity.this.progDialog.dismiss();
+                if (LoginActivity.this.progressDialog != null) {
+                    LoginActivity.this.progressDialog.dismiss();
                 }
                 LoginActivity.this.openFirstActivityAndFinish(nextActivity);
             }

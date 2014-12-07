@@ -68,7 +68,9 @@ public abstract class Session {
          *  skipped in the LoginActivity
          */
         ApplicationSettings.removeCachedUser(context);
-        relogin((Activity) context);
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
     
     public static void relogin(Activity context) {
