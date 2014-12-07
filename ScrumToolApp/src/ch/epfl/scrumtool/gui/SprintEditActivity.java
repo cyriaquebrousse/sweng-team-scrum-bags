@@ -112,6 +112,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
             sprintBuilder.setDeadline(sprintDeadline);
+            setTitle("New sprint");
         } else {
             sprintBuilder = new Sprint.Builder(sprint);
             sprintDeadline = sprintBuilder.getDeadline();

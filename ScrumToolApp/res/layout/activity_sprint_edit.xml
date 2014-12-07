@@ -31,7 +31,7 @@
         android:layout_height="193dp" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/sprintEditDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sprint_date"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_below="@+id/textView1"
+            android:layout_below="@+id/sprintEditDateTextView"
             android:text="@string/no_date_selected" />
 
     </RelativeLayout>
