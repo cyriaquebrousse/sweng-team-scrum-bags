@@ -95,12 +95,12 @@
             android:label="@string/title_activity_issue_edit" >
         </activity>
         <activity
-            android:name="ch.epfl.scrumtool.gui.PlayerAddActivity"
+            android:name=".gui.PlayerAddActivity"
             android:label="@string/title_activity_player_add"
             android:parentActivityName=".gui.ProjectPlayerListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.epfl.scrumtool.gui.ProjectPlayerListActivity" />
+                android:value=".gui.ProjectPlayerListActivity" />
         </activity>
     </application>
 
