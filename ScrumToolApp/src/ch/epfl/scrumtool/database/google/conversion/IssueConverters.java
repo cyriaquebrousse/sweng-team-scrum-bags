@@ -39,7 +39,7 @@ public class IssueConverters {
                     dbIssue.getStatus());
             
             Preconditions.throwIfInvalidKey(dbIssue.getKey());
-                    
+            
             Issue.Builder issue = new Issue.Builder();
 
             String key = dbIssue.getKey();

@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Assertions.assertTrue;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
@@ -17,7 +16,6 @@ public final class UserConverters {
 
         @Override
         public User convert(ScrumUser dbUser) {
-            assertTrue(dbUser != null);
             throwIfNull("Trying to convert a User with null parameters",
                     dbUser.getEmail());
 

@@ -24,6 +24,14 @@ public final class Preconditions {
         }
     }
     
+    public static void throwIfNotNull(String message, Object... objects) {
+        for (Object o : objects) {
+            if (o != null) {
+                throw new IllegalStateException(message);
+            }
+        }
+    }
+    
     public static void throwIfEmptyString(String message, String string) {
         throwIfNull("Nothing to check", string);
         if (string.length() == 0) {

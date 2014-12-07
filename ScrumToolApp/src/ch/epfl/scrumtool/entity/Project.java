@@ -223,7 +223,9 @@ public final class Project implements Serializable, Comparable<Project> {
             return false;
         }
         Project other = (Project) o;
-        return other.key.equals(this.key);
+        return other.key.equals(this.key)
+                && other.description.equals(this.description)
+                && other.name.equals(this.name);
     }
 
     @Override

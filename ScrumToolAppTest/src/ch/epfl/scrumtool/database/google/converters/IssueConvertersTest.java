@@ -1,12 +1,21 @@
 package ch.epfl.scrumtool.database.google.converters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
+import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.utils.TestConstants;
 
@@ -108,5 +117,121 @@ public class IssueConvertersTest extends TestCase {
 
         assertEquals(converted, testIssue);
         }
+
+    public void testIssueToScrumIssueEmptyKey() {
+        Issue issue = TestConstants.generateBasicIssue();
+        issue = issue.getBuilder().setKey("").build();
+        ScrumIssue ref = TestConstants.generateBasicScrumIssue();
+        ref.setKey(null);
+        ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
+        assertEquals(scrumIssue.getDescription(), ref.getDescription());
+        assertEquals(scrumIssue.getEstimation(), ref.getEstimation());
+        assertEquals(scrumIssue.getKey(), ref.getKey());
+        assertEquals(scrumIssue.getName(), ref.getName());
+        assertEquals(scrumIssue.getAssignedPlayer(), ref.getAssignedPlayer());
+        assertEquals(scrumIssue.getPriority(), ref.getPriority());
+        assertEquals(scrumIssue.getSprint(), ref.getSprint());
+        assertEquals(scrumIssue.getStatus(), ref.getStatus());
     }
+    
+    public void testIssueToScrumIssueWithSprintAndPlayer() {
+        Issue issue = TestConstants.generateBasicIssue();
+        issue = issue.getBuilder()
+                .setPlayer(TestConstants.generateBasicPlayer())
+                .setSprint(TestConstants.generateBasicSprint())
+                .build();
+        ScrumIssue ref = TestConstants.generateBasicScrumIssue();
+        ref.setAssignedPlayer(TestConstants.generateBasicScrumPlayer());
+        ref.setSprint(TestConstants.generateBasicScrumSprint());
+        ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
+        assertEquals(scrumIssue.getDescription(), ref.getDescription());
+        assertEquals(scrumIssue.getEstimation(), ref.getEstimation());
+        assertEquals(scrumIssue.getKey(), ref.getKey());
+        assertEquals(scrumIssue.getName(), ref.getName());
+        assertEquals(scrumIssue.getAssignedPlayer().getKey(), ref.getAssignedPlayer().getKey());
+        assertEquals(scrumIssue.getPriority(), ref.getPriority());
+        assertEquals(scrumIssue.getSprint().getKey(), ref.getSprint().getKey());
+        assertEquals(scrumIssue.getStatus(), ref.getStatus());
+    }
+    
+    public void testInsertResponseToIssue() {
+        KeyResponse response = new KeyResponse();
+        response.setKey(TestConstants.validKey);
+        
+        Issue issue = TestConstants.generateBasicIssue();
+        issue = issue.getBuilder()
+                .setKey("")
+                .build();
+        
+        InsertResponse<Issue> insresp = new InsertResponse<Issue>(issue, response);
+
+        Issue keyIssue = IssueConverters.INSERTRESPONSE_TO_ISSUE.convert(insresp);
+        assertEquals(TestConstants.generateBasicIssue(), keyIssue);
+    }
+    
+    public void testDashboardIssuesNullResponse() {
+        CollectionResponseScrumIssue response = null;
+        List<TaskIssueProject> conv = IssueConverters.DASHBOARD_ISSUES.convert(response);
+        assertEquals(conv.size(), 0);
+    }
+    
+    public void testDashboardIssuesNullItems() {
+        CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
+        List<TaskIssueProject> conv = IssueConverters.DASHBOARD_ISSUES.convert(response);
+        assertEquals(conv.size(), 0);
+    }
+    
+    public void testDashboardIssuesNullProject() {
+        try {
+            CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
+            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            issue.setMainTask(mainTask);
+            List<ScrumIssue> list = new ArrayList<ScrumIssue>();
+            list.add(issue);
+            response.setItems(list);
+            IssueConverters.DASHBOARD_ISSUES.convert(response);
+            fail("NullPointerException expected");
+            
+        } catch (NullPointerException e) {
+            
+        } catch (Exception e) {
+            fail("NullPointerException expected");
+        }
+    }
+    
+    public void testDashboardIssuesNullTask() {
+        try {
+            
+            CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
+            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            List<ScrumIssue> list = new ArrayList<ScrumIssue>();
+            list.add(issue);
+            response.setItems(list);
+            IssueConverters.DASHBOARD_ISSUES.convert(response);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            
+        } catch (Exception e) {
+            fail("NullPointerException expected2");
+        }
+    }
+    
+    public void testValidDashboardIssues() {
+        CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
+        ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+        ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+        ScrumProject project = TestConstants.generateBasicScrumProject();
+        mainTask.setProject(project);
+        issue.setMainTask(mainTask);
+        List<ScrumIssue> list = new ArrayList<ScrumIssue>();
+        list.add(issue);
+        response.setItems(list);
+        List<TaskIssueProject> result = IssueConverters.DASHBOARD_ISSUES.convert(response);
+        assertEquals(1, result.size());
+        assertEquals(TestConstants.generateBasicIssue(),result.get(0).getIssue());
+        assertEquals(TestConstants.generateBasicMainTask(), result.get(0).getMainTask());
+        assertEquals(TestConstants.generateBasicProject(), result.get(0).getProject());
+    }
+}
 
