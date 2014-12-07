@@ -26,8 +26,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 
 /**
  * Activity used to add a Player to a Project
@@ -40,8 +41,9 @@ public class PlayerAddActivity extends BaseMenuActivity {
     
     private Project project;
     private Role role;
+    private ArrayList<String> contactsAddresses;
     
-    private EditText emailAddressView;
+    private AutoCompleteTextView emailAddressView;
     private RoleSticker roleStickerView;
     private Button displayContactsView;
     private Button invitePlayerButton;
@@ -56,10 +58,11 @@ public class PlayerAddActivity extends BaseMenuActivity {
         throwIfNull("project cannot be null", project);
         
         // initialize views
-        emailAddressView = (EditText) findViewById(R.id.player_address_add);
+        emailAddressView = (AutoCompleteTextView) findViewById(R.id.player_address_add);
         roleStickerView = (RoleSticker) findViewById(R.id.player_role_sticker);
         invitePlayerButton = (Button) findViewById(R.id.player_add_button);
         
+        // initialize RoleSticker
         role = Role.STAKEHOLDER;
         roleStickerView.setRole(role);
         roleStickerView.setOnClickListener(new OnClickListener() {
@@ -76,6 +79,8 @@ public class PlayerAddActivity extends BaseMenuActivity {
             }
         });
         
+        // Initialize contacts
+        contactsAddresses = getContactsEmails();
         displayContactsView = (Button) findViewById(R.id.player_select_contact_button);
         displayContactsView.setOnClickListener(new OnClickListener() {
             
@@ -84,11 +89,17 @@ public class PlayerAddActivity extends BaseMenuActivity {
                 displayContacts();
             }
         });
+        
+        //autocompletion
+        emailAddressView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, contactsAddresses));
+        
     }
     
     private void displayContacts() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PlayerAddActivity.this);
-        final String[] contacts = getContactsEmails();
+        final String[] contacts = new String[contactsAddresses.size()];
+        contactsAddresses.toArray(contacts);
         
         builder.setTitle("Contacts");
         builder.setItems(contacts, new DialogInterface.OnClickListener() {
@@ -121,7 +132,7 @@ public class PlayerAddActivity extends BaseMenuActivity {
      * 
      * @return the list of contacts
      */
-    private String[] getContactsEmails() {
+    private ArrayList<String> getContactsEmails() {
         //Credits go to 
         //http://stackoverflow.com/questions/10117049/get-only-email-address-from-contact-list-android
         ArrayList<String> emlRecs = new ArrayList<String>();
@@ -157,8 +168,6 @@ public class PlayerAddActivity extends BaseMenuActivity {
         }
         cursor.close();
         Collections.sort(emlRecs.subList(0, emlRecs.size()));
-        String[] emails = new String[emlRecs.size()];
-        emlRecs.toArray(emails);
-        return emails;
+        return emlRecs;
     }
 }
