@@ -11,7 +11,9 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -46,7 +48,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
         
         sprintBuilder = new Sprint.Builder();
         Calendar deadlineCal = Calendar.getInstance();
-        deadlineCal.add(Calendar.DAY_OF_MONTH, 1);
+        deadlineCal.add(Calendar.DAY_OF_MONTH, 2);
         sprintBuilder.setDeadline(deadlineCal.getTimeInMillis());
         sprintBuilder.setKey("0");
         sprintBuilder.setTitle("sprint title");
@@ -79,11 +81,61 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testTitleIsCurrentSprint() {
-        assertTrue(false);
+        assertTrue(activity.getTitle().equals("sprint title"));
+    }
+    
+    public void testPickADateButCancel() {
+        ViewInteraction datePick = onView(withId(R.id.sprintDateButton));
+        datePick.check(matches(withText("Pick a date")));
+        datePick.check(matches(ViewMatchers.isDisplayed()));
+        datePick.check(matches(ViewMatchers.isClickable()));
+        datePick.perform(ViewActions.click());
+        DatePickerFragment fragment = (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
+        assertTrue(fragment.getShowsDialog());
+        
+        ViewInteraction cancelButton = onView(withText("Cancel"));
+        cancelButton.check(matches(ViewMatchers.isClickable()));
+        cancelButton.perform(ViewActions.click());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(sprint.getDeadline());
+        onView(withId(R.id.sprintDate)).check(matches(withText(sdf.format(date.getTime()))));
+    }
+    
+    public void testPickADate() throws Throwable {
+        ViewInteraction datePick = onView(withId(R.id.sprintDateButton));
+        datePick.check(matches(ViewMatchers.isClickable()));
+        datePick.perform(ViewActions.click());
+        
+        final Calendar dateToSet = Calendar.getInstance();
+        dateToSet.add(Calendar.MONTH, 1);
+        
+        DatePickerFragment fragment = (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
+        final DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
+        
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.updateDate(dateToSet.get(Calendar.YEAR), 
+                        dateToSet.get(Calendar.MONTH), dateToSet.get(Calendar.DAY_OF_MONTH));
+           }
+        });
+        
+        ViewInteraction okButton = onView(withText("OK"));
+        okButton.check(matches(ViewMatchers.isClickable()));
+        okButton.perform(ViewActions.click());
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        onView(withId(R.id.sprintDate)).check(matches(withText(sdf.format(dateToSet.getTime()))));
     }
     
     public void testDeadlineIsSprintsDeadline() {
-        assertTrue(false);
+        ViewInteraction deadline = onView(withId(R.id.sprintDate));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(sprint.getDeadline());
+        deadline.check(matches(withText(sdf.format(date.getTime()))));
     }
     
     public void testEditTextNameIsEditable() {
