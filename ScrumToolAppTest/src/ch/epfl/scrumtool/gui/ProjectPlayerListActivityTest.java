@@ -6,9 +6,11 @@ import java.util.List;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import static org.mockito.Mockito.doAnswer;
 
 import ch.epfl.scrumtool.gui.utils.CustomViewActions;
 import ch.epfl.scrumtool.gui.utils.CustomMatchers;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -21,7 +23,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 
 import ch.epfl.scrumtool.R;
@@ -69,7 +70,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
             }
         };
         
-        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+        doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
                 Mockito.any(Callback.class));
         setActivityIntent(openPlayerListIntent);
         getActivity();
@@ -77,14 +78,14 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     
     @SuppressWarnings("unchecked")
     public void testPlayerIsDisplayed() {
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .check(matches(isDisplayed()));
     }
     
     public void testClickOnCrossAddsAPlayer() {
-        Espresso.onView(withId(Menu.FIRST))
+        onView(withId(Menu.FIRST))
             .perform(click());
-        Espresso.onView(withText("Enter the new user's email address : "))
+        onView(withText("Enter the new user's email address : "))
             .check(matches(ViewMatchers.isDisplayed()));
     }
     
@@ -92,43 +93,43 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     public void testSwipeDownUpdatesPlayerList() {
         playerList.add(PLAYER2);
         onView(withId(R.id.swipe_update_project_playerlist)).perform(CustomViewActions.swipeDown());
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
             .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
     public void testClickOnPlayerOpenUserOverview() {
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(click());
-        Espresso.onView(withId(R.id.profile_email))
+        onView(withId(R.id.profile_email))
             .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
     public void testLongClickOnPlayerOpensContextMenu() {
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(longClick());
-        Espresso.onView(withText(R.string.action_edit))
+        onView(withText(R.string.action_edit))
             .check(matches(isDisplayed()));
-        Espresso.onView(withText(R.string.action_delete))
+        onView(withText(R.string.action_delete))
             .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
     public void testChangePlayersRole() {
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(longClick());
-        Espresso.onView(withText(R.string.action_edit))
+        onView(withText(R.string.action_edit))
             .perform(click());
-        Espresso.onView(withText("Set role"))
+        onView(withText("Set role"))
             .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
     public void testRemovePlayer() {
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(longClick());
-        Espresso.onView(withText(R.string.action_edit)).perform(click());
+        onView(withText(R.string.action_edit)).perform(click());
         
         Answer<Void> removePlayersAnswer = new Answer<Void>() {
             @Override
@@ -138,9 +139,9 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
             }
         };
         
-        Mockito.doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
+        doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
                 Mockito.any(Callback.class));
-        Espresso.onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .check(matches(isDisplayed()));
         
         Answer<Void> removePlayersAnswer2 = new Answer<Void>() {
@@ -151,7 +152,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
             }
         };
         
-        Mockito.doAnswer(removePlayersAnswer2).when(mockClient).removePlayer(Mockito.any(Player.class),
+        doAnswer(removePlayersAnswer2).when(mockClient).removePlayer(Mockito.any(Player.class),
                 Mockito.any(Callback.class));
         //TODO check that the list is empty
         onView(withId(R.id.project_playerlist))

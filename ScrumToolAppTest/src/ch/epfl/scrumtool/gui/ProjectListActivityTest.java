@@ -1,35 +1,27 @@
 package ch.epfl.scrumtool.gui;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.hasEntry;
+import static org.mockito.Mockito.doAnswer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
+import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
@@ -38,7 +30,6 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
 
 /**
  * @author LeoWirz, zenhaeus
@@ -71,8 +62,10 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
     };
     
     private final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
+        @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {
+            PROJECT_LIST.remove(0);
             ((Callback<Void>) invocation.getArguments()[1]).interactionDone(null);
             return null;
         }
@@ -84,12 +77,13 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         super.setUp();
         PROJECT_LIST.add(PROJECT);
         Client.setScrumClient(MOCKCLIENT);
-        Mockito.doAnswer(ANSWER_LOAD).when(MOCKCLIENT).loadProjects(Mockito.any(Callback.class));
+        doAnswer(ANSWER_LOAD).when(MOCKCLIENT).loadProjects(Matchers.<Callback<List<Project>>>any());
 
         getActivity();
     }
 
     public void testDisplayLoadedProject() {
+        @SuppressWarnings("unchecked")
         DataInteraction listInteraction = onData(instanceOf(Project.class))
             .inAdapterView(allOf(withId(R.id.project_list)));
         
@@ -100,17 +94,56 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
             .check(matches(withText(PROJECT_DESCRIPTION)));
     }
 
-    public void testRemoveProject() {
-        Mockito.doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
-            .deleteProject(Mockito.any(Project.class), Mockito.any(Callback.class));
+    @SuppressWarnings("unchecked")
+    public void testRemoveProjectOk() {
+        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+            .deleteProject(Mockito.any(Project.class), Matchers.<Callback<Void>>any());
 
-        DataInteraction listInteraction = 
-                onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list))).atPosition(0);
-        listInteraction.perform(ViewActions.longClick());
+        onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
+            .atPosition(0).perform(ViewActions.longClick());
         onView(withText("Delete")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+        // check if list is empty now
+        onView(withId(R.id.swipe_update_empty_project_list)).check(matches(isDisplayed()));
+    }
 
-//        TODO check that item is deleted from list
-//        onView(withId(R.id.project_list));
-
+    @SuppressWarnings("unchecked")
+    public void testExpandListEntry() {
+        onData(instanceOf(Project.class)).onChildView(withId(R.id.project_row_header_block))
+            .check(matches(isDisplayed()));
+        onData(instanceOf(Project.class)).onChildView(withId(R.id.project_row_expanded_block))
+            .check(matches(not(isDisplayed())));
+        onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
+            .atPosition(0).perform(ViewActions.click());
+        onData(instanceOf(Project.class)).onChildView(withId(R.id.project_row_header_block))
+            .check(matches(isDisplayed()));
+        onData(instanceOf(Project.class)).onChildView(withId(R.id.project_row_expanded_block))
+            .check(matches(isDisplayed()));
+    }
+    
+    public void testEmptyListShowsHint() throws Throwable {
+        onView(withId(R.id.swipe_update_empty_project_list)).check(matches(not(isDisplayed())));
+        PROJECT_LIST.remove(0);
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().onResume();
+            }
+        });
+        onView(withId(R.id.swipe_update_empty_project_list)).check(matches(isDisplayed()));
+    }
+    
+    public void testAddProject() {
+        onView(withId(Menu.FIRST)).perform(ViewActions.click());
+        onView(withId(R.id.project_description_edit)).check(matches(isDisplayed()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testEditProject() {
+        onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
+            .atPosition(0).perform(ViewActions.longClick());
+        onView(withText("Edit")).perform(click());
+        onView(withId(R.id.project_title_edit)).check(matches(withText(PROJECT_NAME)));
+        onView(withId(R.id.project_description_edit)).check(matches(withText(PROJECT_DESCRIPTION)));
     }
 }
