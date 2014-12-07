@@ -103,7 +103,8 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         project.loadSprints(callback);
     }
     
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -111,11 +112,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
                 refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     @Override

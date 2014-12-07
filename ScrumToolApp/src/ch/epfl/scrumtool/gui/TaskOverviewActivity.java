@@ -129,7 +129,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         updateViewsAccordingToNewStatusAndEstimation();
     }
     
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -137,11 +138,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
 
