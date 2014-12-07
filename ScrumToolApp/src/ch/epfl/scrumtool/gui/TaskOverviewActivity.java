@@ -250,26 +250,30 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private void deleteIssue(final Issue issue) {
         listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-        .setMessage("Do you really want to delete this Issue? "
-                + "This will remove the Issue and its links with Players and Sprints.")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = TaskOverviewActivity.this;
-                issue.remove(new DefaultGUICallback<Void>(context) {
-                    @Override
-                    public void interactionDone(Void v) {
-                        Toast.makeText(context , "Issue deleted", Toast.LENGTH_SHORT).show();
-                        listViewLayout.setRefreshing(false);
-                        adapter.remove(issue);
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this Issue? "
+                    + "This will remove the Issue and its links with Players and Sprints.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = TaskOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Issue deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(issue);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
     
     @Override
@@ -286,7 +290,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         task.update(null, new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
-                    Toast.makeText(TaskOverviewActivity.this, "Task updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskOverviewActivity.this, "Task updated", Toast.LENGTH_SHORT).show();
             }
         });
     }

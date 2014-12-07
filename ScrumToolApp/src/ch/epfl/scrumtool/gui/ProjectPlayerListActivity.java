@@ -183,26 +183,30 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     private void deletePlayer(final Player player) {
         listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Player")
-        .setMessage("Do you really want to delete this Player? "
-                + "This will remove the Player from the project and unlink it from its issues.")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = ProjectPlayerListActivity.this;
-                player.remove(new DefaultGUICallback<Void>(context) {
-                    @Override
-                    public void interactionDone(Void v) {
-                        Toast.makeText(context , "Player deleted", Toast.LENGTH_SHORT).show();
-                        listViewLayout.setRefreshing(false);
-                        adapter.remove(player);
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this Player? "
+                    + "This will remove the Player from the project and unlink it from its issues.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = ProjectPlayerListActivity.this;
+                    player.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Player deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(player);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
 
     @Override

@@ -150,26 +150,30 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     private void deleteSprint(final Sprint sprint) {
         listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Sprint")
-        .setMessage("Do you really want to delete this Sprint? "
-                + "This will remove the Sprint and all its links with Issues.")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = SprintListActivity.this;
-                sprint.remove(new DefaultGUICallback<Void>(context) {
-                    @Override
-                    public void interactionDone(Void v) {
-                        Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
-                        listViewLayout.setRefreshing(false);
-                        adapter.remove(sprint);
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this Sprint? "
+                    + "This will remove the Sprint and all its links with Issues.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = SprintListActivity.this;
+                    sprint.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(sprint);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
 
     @Override
