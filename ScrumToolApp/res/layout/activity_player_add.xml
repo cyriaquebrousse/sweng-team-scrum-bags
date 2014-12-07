@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_role_sticker"
+        android:completionThreshold="1"
         android:maxLines="1"
         android:hint="@string/player_name_add_hint" >
         <requestFocus />
