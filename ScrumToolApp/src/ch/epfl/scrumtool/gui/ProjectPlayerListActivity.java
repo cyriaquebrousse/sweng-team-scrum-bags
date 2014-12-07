@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.emailIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.List;
@@ -16,16 +14,12 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -146,17 +140,6 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 return super.onContextItemSelected(item);
         }
     }
-
-    private void insertPlayer(String userEmail, Role role) {
-        listViewLayout.setRefreshing(true);
-        project.addPlayer(userEmail, role, new DefaultGUICallback<Player>(this) {
-            @Override
-            public void interactionDone(Player player) {
-                listViewLayout.setRefreshing(false);
-                adapter.add(player);
-            }
-        });
-    }
     
     private void setRole(final Player player) {
         Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
@@ -211,36 +194,8 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
 
     @Override
     void openEditElementActivity(Player optionalElementToEdit) {
-        //TODO don't use StakeHolder, implement a way to select the role
-        LayoutInflater inflater = LayoutInflater.from(ProjectPlayerListActivity.this);
-        View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
-
-        final AlertDialog alertDialog = new AlertDialog.Builder(ProjectPlayerListActivity.this)
-                .setView(popupView)
-                .setTitle("Enter the new user's email address : ")
-                .setPositiveButton(android.R.string.ok, null).create();
-        final EditText userInput = (EditText) popupView.findViewById(R.id.popup_user_input);
-
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-            @Override
-            public void onShow(DialogInterface dialog) {
-                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        updateTextViewAfterValidityCheck(userInput, emailIsValid(userInput.getText().toString()),
-                                ProjectPlayerListActivity.this.getResources());
-                        if (emailIsValid(userInput.getText().toString())) {
-                            insertPlayer(userInput.getText().toString(), Role.STAKEHOLDER);
-                            alertDialog.dismiss();
-                        }
-                    }
-                });
-            }
-        });
-
-        alertDialog.show();
+        Intent openPlayerAddIntent = new Intent(this, PlayerAddActivity.class);
+        openPlayerAddIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openPlayerAddIntent);
     }
 }

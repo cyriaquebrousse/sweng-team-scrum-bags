@@ -53,7 +53,8 @@
         <activity
             android:name=".gui.MyProfileOverviewActivity"
             android:label="@string/title_activity_profile_overview" >
-        </activity><activity
+        </activity>
+        <activity
             android:name=".gui.OthersProfileOverviewActivity"
             android:label="@string/title_activity_profile_overview" >
         </activity>
@@ -92,6 +93,14 @@
         <activity
             android:name=".gui.SprintEditActivity"
             android:label="@string/title_activity_issue_edit" >
+        </activity>
+        <activity
+            android:name="ch.epfl.scrumtool.gui.PlayerAddActivity"
+            android:label="@string/title_activity_player_add"
+            android:parentActivityName=".gui.ProjectPlayerListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.epfl.scrumtool.gui.ProjectPlayerListActivity" />
         </activity>
     </application>
 

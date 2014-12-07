@@ -38,7 +38,8 @@
     <string name="button_dashboard_edit_my_profile">Edit my profile</string>
     <string name="button_edit">edit</string>
     <string name="button_save">save</string>
-
+    <string name="phone_contact_button">Browse contacts</string>
+    
     <!-- Titles -->
     <string name="shared_projects">Shared projects</string>
     <string name="email">Email</string>
@@ -58,6 +59,7 @@
     <string name="issue_edit_name_hint">Issue name</string>
     <string name="issue_edit_description_hint">Issue description</string>
     <string name="issue_edit_estimation_hint">Estimation</string>
+    <string name ="player_name_add_hint">Email address</string>
 
     <!-- Menu actions -->
     <string name="action_add">Add</string>
@@ -70,7 +72,7 @@
 
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
-    
+
     <!-- Formats -->
     <string name="format_date">dd MMM yyyy</string>
 
@@ -100,7 +102,7 @@
     <string name="empty_sprint_list_hint">There are no sprints for this project</string>
     <string name="sprint_overview_issue_add">Add an issue</string>
     <string name="issue_description_label">Description</string>
-    
+
     <!-- String Arrays -->
 
     <string-array name="gender_options">
@@ -108,5 +110,7 @@
         <item>Female</item>
         <item>Undefined</item>
     </string-array>
+
+    <string name="title_activity_player_add">PlayerAddActivity</string>
 
 </resources>
