@@ -232,28 +232,28 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
 
     private void nameIsEmpty(Resources res) throws InterruptedException {
-        // fill the different fields
+        // test the wanted field
         onView(withId(R.id.issue_name_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new issue
+        // check the value of the field
         onView(withId(R.id.issue_name_edit)).check(matches(withText("")));
 
-        // click on save button et check the error on the name
+     // click on save button and check the error on the name
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
     }
 
     private void descriptionIsEmpty(Resources res) throws InterruptedException {
-        // fill the different fields
+     // test the wanted field
         onView(withId(R.id.issue_description_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new issue
+        // check the value of the field
         onView(withId(R.id.issue_description_edit)).check(matches(withText("")));
 
-        // click on save button et check the error on the name
+        // click on save button and check the error on the description
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_description_edit)).check(
@@ -261,11 +261,11 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
 
     private void estimationIsEmpty(Resources res) throws InterruptedException {
-        // fill the different fields
+        // test the wanted field
         onView(withId(R.id.issue_estimation_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new issue
+        // check the valueof the field
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText("")));
 
         // click on save button and check the error on the estimation
@@ -276,12 +276,12 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
 
     private void largeInputForTheName(Resources res) throws InterruptedException {
-        // fill the different fields
+        // fill the wanted field
         onView(withId(R.id.issue_name_edit)).perform(clearText());
         onView(withId(R.id.issue_name_edit)).perform(typeText(VERY_LONG_TEXT), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the large value for the name
+        // check the large value of the name
         onView(withId(R.id.issue_name_edit)).check(matches(withText(VERY_LONG_TEXT)));
 
         // click on save button and check the error on the name
@@ -291,14 +291,14 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
     
     private void largeInputForTheEstimation(Resources res) throws InterruptedException {
-        // fill the different fields
+        // fill the wanted field
         onView(withId(R.id.issue_estimation_edit)).perform(typeText(LARGE_ESTIMATION.toString()), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new issue
+        // check the large value of the estimation
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText(LARGE_ESTIMATION.toString())));
-
-        // click on save button et check the error on the name
+        
+        // click on save button and check the error on the estimation
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_estimation_edit)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
