@@ -26,6 +26,10 @@ public class TextViewModifiers {
         void onModified(A userInput);
     }
     
+    public interface PopupCallbackProfile<String> {
+        void onModified(String firstname, String lastName);
+    }
+    
     /**
      * @author sylb
      */
@@ -121,6 +125,47 @@ public class TextViewModifiers {
                     public void onClick(View v) {
                         callback.onModified(InputVerifiers.sanitizeFloat(userInput.getText().toString()));
                         alertDialog.dismiss();
+                    }
+                });
+            }
+        });
+        
+        alertDialog.show();
+    }
+    
+    public static void modifyNameOnProfile(final Activity parent, final String oldFirstNameValue,
+            final String oldLastNameValue, final PopupCallbackProfile<String> callback) {
+
+        LayoutInflater inflater = LayoutInflater.from(parent);
+        View popupView = inflater.inflate(R.layout.popupmodifiersprofile, null); // FIXME illegal
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(parent)
+            .setView(popupView)
+            .setTitle("Enter the new values for your first and last names: ")
+            .setPositiveButton(android.R.string.ok, null)
+            .create();
+
+        final EditText userInputFirstName = (EditText) popupView.findViewById(R.id.popup_user_input_first_name);
+        final EditText userInputLastName = (EditText) popupView.findViewById(R.id.popup_user_input_last_name);
+
+        userInputFirstName.setText(oldFirstNameValue);
+        userInputLastName.setText(oldLastNameValue);
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        boolean firstNameIsValid = verifyNameIsValid(userInputFirstName, parent.getResources());
+                        boolean lastNameIsValid = verifyNameIsValid(userInputLastName, parent.getResources());
+                        if (firstNameIsValid && lastNameIsValid) {
+                            callback.onModified(userInputFirstName.getText().toString(), userInputLastName.getText().toString());
+                            alertDialog.dismiss();
+                        }
                     }
                 });
             }

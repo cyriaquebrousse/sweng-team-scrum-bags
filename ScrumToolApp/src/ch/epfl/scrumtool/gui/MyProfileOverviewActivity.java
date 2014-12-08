@@ -25,6 +25,7 @@ import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallbackProfile;
 
 /**
  * @author ketsio
@@ -120,6 +121,24 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
     
     
     private void initializeListeners() {
+        
+        nameView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextViewModifiers.modifyNameOnProfile(MyProfileOverviewActivity.this,
+                        userProfile.getName(), userProfile.getLastName(), new PopupCallbackProfile<String>() {
+                            @Override
+                            public void onModified(String firstName, String lastName) {
+                                userBuilder = new User.Builder(userProfile);
+                                userBuilder.setName(firstName);
+                                userBuilder.setLastName(lastName);
+                                MyProfileOverviewActivity.this.setTitle(firstName);
+                                nameView.setText(firstName + " " + lastName);
+                                updateUser();
+                            }
+                        });
+            }
+        });
         
         jobTitleView.setOnClickListener(new OnClickListener() {
             @Override
