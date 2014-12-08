@@ -13,7 +13,7 @@ import ch.epfl.scrumtool.R;
  */
 public final class InputVerifiers {
     private static final int MAX_NAME_LENGTH = 50;
-    private static final int MAX_ESTIMATION_VALUE = 999;
+    private static final int MAX_ESTIMATION_VALUE = 99;
 
     public static boolean textEditNullOrEmpty(EditText view) {
         return (view == null) || (view.getText().length() <= 0);

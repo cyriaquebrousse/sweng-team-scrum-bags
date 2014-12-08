@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.util.gui;
 
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyEstimationIsValid;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,32 +26,38 @@ public class TextViewModifiers {
     public interface PopupCallback<A> {
         void onModified(A userInput);
     }
-    
+
+    /**
+     * 
+     * @author sylb
+     *
+     * @param <String>
+     */
     public interface PopupCallbackProfile<String> {
         void onModified(String firstname, String lastName);
     }
-    
+
     /**
      * @author sylb
      */
     public enum FieldType {
-        
+
         NAMEFIELD("name"),
         DESCRIPTIONFIELD("description"),
         OTHER("value");
-        
+
         private String value;
-        
+
         FieldType(String string) {
             this.value = string;
         }
-        
+
         public FieldType setText(String text) {
             this.value = text;
             return this;
         }
     };
-    
+
     public static void modifyText(final Activity parent, final FieldType fieldType,
             final String oldValue, final PopupCallback<String> callback) {
 
@@ -68,12 +75,12 @@ public class TextViewModifiers {
         userInput.setText(oldValue);
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            
+
             @Override
             public void onShow(DialogInterface dialog) {
                 Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 button.setOnClickListener(new OnClickListener() {
-                    
+
                     @Override
                     public void onClick(View v) {
                         boolean fieldIsValid;
@@ -94,10 +101,10 @@ public class TextViewModifiers {
                 });
             }
         });
-        
+
         alertDialog.show();
     }
-    
+
     public static void modifyEstimation(final Activity parent,
             final Float oldValue, final PopupCallback<Float> callback) {
 
@@ -115,24 +122,27 @@ public class TextViewModifiers {
         userInput.setText(oldValue.toString());
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            
+
             @Override
             public void onShow(DialogInterface dialog) {
                 Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 button.setOnClickListener(new OnClickListener() {
-                    
+
                     @Override
                     public void onClick(View v) {
-                        callback.onModified(InputVerifiers.sanitizeFloat(userInput.getText().toString()));
-                        alertDialog.dismiss();
+                        boolean estimationIsValid = verifyEstimationIsValid(userInput, parent.getResources());
+                        if (estimationIsValid) {
+                            callback.onModified(InputVerifiers.sanitizeFloat(userInput.getText().toString()));
+                            alertDialog.dismiss();
+                        }
                     }
                 });
             }
         });
-        
+
         alertDialog.show();
     }
-    
+
     public static void modifyNameOnProfile(final Activity parent, final String oldFirstNameValue,
             final String oldLastNameValue, final PopupCallbackProfile<String> callback) {
 
@@ -152,25 +162,26 @@ public class TextViewModifiers {
         userInputLastName.setText(oldLastNameValue);
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            
+
             @Override
             public void onShow(DialogInterface dialog) {
                 Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                 button.setOnClickListener(new OnClickListener() {
-                    
+
                     @Override
                     public void onClick(View v) {
                         boolean firstNameIsValid = verifyNameIsValid(userInputFirstName, parent.getResources());
                         boolean lastNameIsValid = verifyNameIsValid(userInputLastName, parent.getResources());
                         if (firstNameIsValid && lastNameIsValid) {
-                            callback.onModified(userInputFirstName.getText().toString(), userInputLastName.getText().toString());
+                            callback.onModified(userInputFirstName.getText().toString(),
+                                    userInputLastName.getText().toString());
                             alertDialog.dismiss();
                         }
                     }
                 });
             }
         });
-        
+
         alertDialog.show();
     }
 }

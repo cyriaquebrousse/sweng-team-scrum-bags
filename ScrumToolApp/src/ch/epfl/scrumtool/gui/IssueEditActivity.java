@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,7 +38,7 @@ public class IssueEditActivity extends BaseMenuActivity {
     private EditText issueNameView;
     private EditText issueDescriptionView;
     private EditText issueEstimationView;
-    
+
     private PlayerListAdapter playerAdapter;
     private SprintListAdapter sprintAdapter;
     private Spinner issueAssigneeSpinner;
@@ -53,7 +54,7 @@ public class IssueEditActivity extends BaseMenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issue_edit);
-        
+
         initOriginalAndParentTask();
         initViews();
 
@@ -70,7 +71,7 @@ public class IssueEditActivity extends BaseMenuActivity {
                 playerList.add(0, null);
                 playerAdapter = new PlayerListAdapter(IssueEditActivity.this, playerList);
                 issueAssigneeSpinner.setAdapter(playerAdapter);
-                
+
                 if (issueBuilder.getPlayer() == null) {
                     issueAssigneeSpinner.setSelection(0);
                 } else {
@@ -79,7 +80,7 @@ public class IssueEditActivity extends BaseMenuActivity {
                 }
             }
         });
-        
+
         project.loadSprints(new DefaultGUICallback<List<Sprint>>(this, next) {
             @Override
             public void interactionDone(List<Sprint> sprintList) {
@@ -90,7 +91,7 @@ public class IssueEditActivity extends BaseMenuActivity {
                 sprintList.add(0, null);
                 sprintAdapter = new SprintListAdapter(IssueEditActivity.this, sprintList);
                 sprintSpinner.setAdapter(sprintAdapter);
-                
+
                 if (issueBuilder.getSprint() == null) {
                     sprintSpinner.setSelection(0);
                 } else {
@@ -108,7 +109,7 @@ public class IssueEditActivity extends BaseMenuActivity {
         if (original == null) {
             issueBuilder = new Issue.Builder();
             setTitle(R.string.title_activity_issue_edit_new);
-            
+
         } else {
             issueBuilder = new Issue.Builder(original);
         }
@@ -122,12 +123,24 @@ public class IssueEditActivity extends BaseMenuActivity {
         sprintSpinner = (Spinner) findViewById(R.id.issue_sprint_spinner);
 
         setTitle(issueBuilder.getName());
-        
+
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
-        
+
+        OnFocusChangeListener listener = new OnFocusChangeListener() {
+            
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && issueEstimationView.getText().toString().equals("0.0")) {
+                    issueEstimationView.setText("");
+                    issueEstimationView.setOnFocusChangeListener(null);
+                }
+            }
+        };
+        issueEstimationView.setOnFocusChangeListener(listener);
     }
+
 
     public void saveIssueChanges(View view) {
         Resources resources = getResources();
@@ -142,7 +155,7 @@ public class IssueEditActivity extends BaseMenuActivity {
             float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
 
             setTitle(newName);
-            
+
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(newEstimation);
@@ -181,7 +194,7 @@ public class IssueEditActivity extends BaseMenuActivity {
             }
         });
     }
-    
+
     private void passResult(Issue issue) {
         Intent intent = new Intent();
         intent.putExtra(Issue.SERIALIZABLE_NAME, issue);
