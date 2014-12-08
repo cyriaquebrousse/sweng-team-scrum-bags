@@ -36,7 +36,7 @@ public class DSProjectHandler implements ProjectHandler {
     }
 
     @Override
-    public void update(final Project modified, final Project ref, final Callback<Void> callback) {
+    public void update(final Project modified, final Callback<Void> callback) {
         DSExecArgs.Factory<Project, Void, Void> factory = 
                 new DSExecArgs.Factory<Project, Void, Void>(MODE.AUTHENTICATED);
         factory.setConverter(VoidConverter.VOID_TO_VOID);

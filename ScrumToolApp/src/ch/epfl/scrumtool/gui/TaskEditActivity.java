@@ -116,7 +116,7 @@ public class TaskEditActivity extends BaseMenuActivity {
     private void updateTask() {
         final MainTask task = taskBuilder.build();
         final Button next = (Button) findViewById(R.id.task_edit_button_next);
-        task.update(original, new DefaultGUICallback<Void>(this, next) {
+        task.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {
                 TaskEditActivity.this.finish();

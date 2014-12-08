@@ -143,7 +143,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             public void onSelected(final Role selected) {
                 Player.Builder builder = new Player.Builder(player);
                 builder.setRole(selected);
-                builder.build().update(null, new Callback<Void>() {
+                builder.build().update(new Callback<Void>() {
                     @Override
                     public void interactionDone(Void object) {
                         project.loadPlayers(callback);

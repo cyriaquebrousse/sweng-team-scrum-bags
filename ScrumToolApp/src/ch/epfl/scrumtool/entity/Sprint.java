@@ -77,8 +77,8 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param ref
      * @param callback
      */
-    public void update(final Sprint ref, final Callback<Void> callback) {
-        Client.getScrumClient().updateSprint(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateSprint(this, callback);
     }
 
     /**

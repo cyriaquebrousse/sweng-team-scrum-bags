@@ -26,7 +26,7 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(final User modified, final User ref, final Callback<Void> callback) {
+    public void update(final User modified, final Callback<Void> callback) {
         DSExecArgs.Factory<User, Void, Void> builder =
                 new DSExecArgs.Factory<User, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);

@@ -130,7 +130,7 @@ public class DashboardActivity extends BaseMenuActivity {
                     
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        p.getBuilder().setIsInvited(false).build().update(null,
+                        p.getBuilder().setIsInvited(false).build().update(
                                 new DefaultGUICallback<Void>(DashboardActivity.this) {
 
                                 @Override

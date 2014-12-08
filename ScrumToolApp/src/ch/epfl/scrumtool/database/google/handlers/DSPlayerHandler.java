@@ -37,8 +37,7 @@ public class DSPlayerHandler implements PlayerHandler {
     }
 
     @Override
-    public void update(final Player modified, final Player ref,
-            final Callback<Void> callback) {
+    public void update(final Player modified, final Callback<Void> callback) {
         DSExecArgs.Factory<Player, Void, Void> builder = 
                 new DSExecArgs.Factory<Player, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);

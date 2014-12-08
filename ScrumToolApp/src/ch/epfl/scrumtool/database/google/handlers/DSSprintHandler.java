@@ -41,8 +41,7 @@ public class DSSprintHandler implements SprintHandler {
      * Updates the ref Sprint to be the modified Sprint.
      */
     @Override
-    public void update(final Sprint modified, final Sprint ref,
-            final Callback<Void> callback) {
+    public void update(final Sprint modified, final Callback<Void> callback) {
         DSExecArgs.Factory<Sprint, Void, Void> builder =
                 new DSExecArgs.Factory<Sprint, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);

@@ -68,8 +68,8 @@ public final class Project implements Serializable, Comparable<Project> {
      * @param ref
      * @param callback
      */
-    public void update(final Project ref, final Callback<Void> callback) {
-        Client.getScrumClient().updateProject(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateProject(this, callback);
     }
 
     /**

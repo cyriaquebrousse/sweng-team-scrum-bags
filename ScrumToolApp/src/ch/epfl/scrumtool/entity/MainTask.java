@@ -107,8 +107,8 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
      * @param project
      * @param callback
      */
-    public void update(final MainTask ref, final Callback<Void> callback) {
-        Client.getScrumClient().updateMainTask(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateMainTask(this, callback);
     }
 
     /**

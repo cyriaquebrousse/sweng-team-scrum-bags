@@ -260,7 +260,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private void updateIssue() {
         final Issue issueToBeAdded = issue;
         issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
+        issue.update(new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
                 ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
@@ -278,7 +278,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     
     private void updateSprint() {
         sprint = sprintBuilder.build();
-        sprint.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
+        sprint.update(new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
             }

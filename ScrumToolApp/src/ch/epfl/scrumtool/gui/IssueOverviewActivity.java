@@ -294,7 +294,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
     private void updateIssue() {
         issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
+        issue.update(new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
                     //TODO handling?

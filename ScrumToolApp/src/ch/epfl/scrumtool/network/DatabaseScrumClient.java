@@ -29,8 +29,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateUser(User user, User ref, Callback<Void> callback) {
-        databaseHandlers.getUserHandler().update(user, ref, callback);
+    public void updateUser(User user, Callback<Void> callback) {
+        databaseHandlers.getUserHandler().update(user, callback);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
 
-    public void updateProject(Project project, Project ref, Callback<Void> callback) {
-        databaseHandlers.getProjectHandler().update(project, ref, callback);
+    public void updateProject(Project project, Callback<Void> callback) {
+        databaseHandlers.getProjectHandler().update(project, callback);
 
 
     }
@@ -70,8 +70,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateMainTask(MainTask task, MainTask ref, Callback<Void> callback) {
-        databaseHandlers.getMainTaskHandler().update(task, ref, callback);
+    public void updateMainTask(MainTask task, Callback<Void> callback) {
+        databaseHandlers.getMainTaskHandler().update(task, callback);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateIssue(Issue issue, Issue ref, Callback<Void> callback) {
-        databaseHandlers.getIssueHandler().update(issue, ref, callback);
+    public void updateIssue(Issue issue, Callback<Void> callback) {
+        databaseHandlers.getIssueHandler().update(issue, callback);
     }
 
     @Override
@@ -123,8 +123,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
 
     @Override
-    public void updateSprint(Sprint sprint, Sprint ref, Callback<Void> callback) {
-        databaseHandlers.getSprintHandler().update(sprint, ref, callback);
+    public void updateSprint(Sprint sprint, Callback<Void> callback) {
+        databaseHandlers.getSprintHandler().update(sprint, callback);
     }
 
     @Override
@@ -145,8 +145,8 @@ public class DatabaseScrumClient implements ScrumClient {
     }
     
     @Override
-    public void updatePlayer(Player player, Player ref, Callback<Void> callback) {
-        databaseHandlers.getPlayerHandler().update(player, ref, callback);
+    public void updatePlayer(Player player, Callback<Void> callback) {
+        databaseHandlers.getPlayerHandler().update(player, callback);
     }
 
     @Override

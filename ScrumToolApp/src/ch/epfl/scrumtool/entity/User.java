@@ -137,7 +137,7 @@ public final class User implements Serializable, Comparable<User> {
      * @param callback
      */
     public void update(final Callback<Void> callback) {
-        Client.getScrumClient().updateUser(this, null, callback);
+        Client.getScrumClient().updateUser(this, callback);
     }
 
     /**

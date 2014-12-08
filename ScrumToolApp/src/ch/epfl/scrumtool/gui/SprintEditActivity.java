@@ -150,7 +150,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     private void updateSprint() {
         final Sprint sprint = sprintBuilder.build();
         final Button next = (Button) findViewById(R.id.sprint_edit_button);
-        sprint.update(null, new DefaultGUICallback<Void>(this, next) {
+        sprint.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {
                 passResult(sprint);

@@ -79,8 +79,8 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param mainTask
      * @param callback
      */
-    public void update(final Issue ref, Callback<Void> callback) {
-        Client.getScrumClient().updateIssue(this, ref, callback);
+    public void update(Callback<Void> callback) {
+        Client.getScrumClient().updateIssue(this, callback);
     }
 
     /**
@@ -94,7 +94,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         Issue.Builder builder = new Issue.Builder(this);
         builder.setStatus(finished ? Status.FINISHED : Status.READY_FOR_ESTIMATION);
         Issue updatedIssue = builder.build();
-        updatedIssue.update(this, callback);
+        updatedIssue.update(callback);
     }
 
     /**

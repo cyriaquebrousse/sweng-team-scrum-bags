@@ -28,7 +28,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateUser(final User user, final User ref, final Callback<Void> callback);
+    void updateUser(final User user, final Callback<Void> callback);
     
     // Project methods
     /**
@@ -45,7 +45,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateProject(final Project project, final Project ref, final Callback<Void> callback);
+    void updateProject(final Project project, final Callback<Void> callback);
     /**
      * @param project
      * @param callback
@@ -74,7 +74,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updatePlayer(final Player player, final Player ref, final Callback<Void> callback);
+    void updatePlayer(final Player player, final Callback<Void> callback);
     /**
      * @param player
      * @param callback
@@ -106,7 +106,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateMainTask(final MainTask task, final MainTask ref, final Callback<Void> callback);
+    void updateMainTask(final MainTask task, final Callback<Void> callback);
     /**
      * @param task
      * @param callback
@@ -142,7 +142,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateIssue(final Issue issue, final Issue ref, Callback<Void> callback);
+    void updateIssue(final Issue issue, Callback<Void> callback);
     /**
      * @param issue
      * @param callback
@@ -176,7 +176,7 @@ public interface ScrumClient {
      * @param ref
      * @param callback
      */
-    void updateSprint(final Sprint sprint, final Sprint ref, final Callback<Void> callback);
+    void updateSprint(final Sprint sprint, final Callback<Void> callback);
     /**
      * @param sprint
      * @param callback

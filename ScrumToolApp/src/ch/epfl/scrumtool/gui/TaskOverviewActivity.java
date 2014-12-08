@@ -296,7 +296,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
 
     private void updateTask() {
         task = taskBuilder.build();
-        task.update(null, new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
+        task.update(new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) { }
         });

@@ -47,8 +47,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 
     }
 
-    public void update(final MainTask modified, final MainTask ref, 
-            final Callback<Void> callback) {
+    public void update(final MainTask modified, final Callback<Void> callback) {
         DSExecArgs.Factory<MainTask, Void, Void> builder =
                 new DSExecArgs.Factory<MainTask, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
