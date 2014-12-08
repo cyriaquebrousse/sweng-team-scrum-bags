@@ -16,11 +16,13 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withError;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPriority;
 
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.utils.MockData;
 
@@ -128,12 +130,12 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
 
         // set the priority of the task to high
         onView(withId(R.id.task_priority_edit)).perform(click());
-        onData(allOf(is(instanceOf(String.class)))).atPosition(2).perform(click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(1).perform(click());
 
         // check the values in the fields of the new task
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK_TEST)));
-        onView(withId(R.id.task_priority_edit)).check(matches(withText("HIGH")));
+        onView(withId(R.id.task_priority_edit)).check(matches(withPriority(Priority.HIGH)));
 
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());
@@ -155,12 +157,12 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         
         // set the priority of the task to high
         onView(withId(R.id.task_priority_edit)).perform(click());
-        onData(allOf(is(instanceOf(String.class)))).atPosition(2).perform(click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(1).perform(click());
         
         // check the values in the fields of the new task
         onView(withId(R.id.task_name_edit)).check(matches(withText(TASK_TEST)));
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK.getDescription() + " " + TASK_TEST)));
-        onView(withId(R.id.task_priority_edit)).check(matches(withText("HIGH")));
+        onView(withId(R.id.task_priority_edit)).check(matches(withPriority(Priority.HIGH)));
         
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());

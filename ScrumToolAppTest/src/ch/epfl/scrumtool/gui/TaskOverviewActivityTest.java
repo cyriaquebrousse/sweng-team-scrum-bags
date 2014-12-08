@@ -141,7 +141,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
         
         // set the priority of the task to high
         onView(withId(R.id.task_priority)).perform(click());
-        onData(allOf(is(instanceOf(String.class)))).atPosition(2).perform(click());
+        onData(allOf(is(instanceOf(String.class)))).atPosition(1).perform(click());
         
         // check if the values have been changed
         onView(withId(R.id.task_name)).check(matches(withText(TEST_TEXT)));
