@@ -1,9 +1,11 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +16,7 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 /**
  * @author Cyriaque Brousse
  */
-public class ProjectEditActivity extends BaseMenuActivity {
+public class ProjectEditActivity extends BaseEditMenuActivity {
     
     private EditText projectTitleView;
     private EditText projectDescriptionView;
@@ -32,6 +34,11 @@ public class ProjectEditActivity extends BaseMenuActivity {
         initViews();
     }
     
+    @Override
+    protected void saveElement() {
+        saveProjectChanges();
+    }
+
     private void initOriginal() {
         original = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         if (original == null) {
@@ -50,14 +57,18 @@ public class ProjectEditActivity extends BaseMenuActivity {
         projectDescriptionView.setText(projectBuilder.getDescription());
     }
 
-    public void saveProjectChanges(View view) {
+    /**
+     * Saves changes to Project
+     * @param view
+     */
+    private void saveProjectChanges() {
         
         Resources resources = getResources();
         boolean titleIsValid = verifyNameIsValid(projectTitleView, resources);
         boolean descriptionIsValid = verifyDescriptionIsValid(projectDescriptionView, resources);
         
         if (titleIsValid && descriptionIsValid) {
-            findViewById(R.id.project_edit_button_next).setEnabled(false);
+            findViewById(Menu.FIRST).setEnabled(false);
             String newTitle = projectTitleView.getText().toString();
             String newDescription = projectDescriptionView.getText().toString();
             
@@ -74,7 +85,7 @@ public class ProjectEditActivity extends BaseMenuActivity {
     
     private void insertProject() {
         final Project project = projectBuilder.build();
-        final Button next = (Button) findViewById(R.id.project_edit_button_next);
+        final View next = findViewById(Menu.FIRST);
         project.insert(new DefaultGUICallback<Project>(this, next) {
             @Override
             public void interactionDone(Project object) {
@@ -85,7 +96,7 @@ public class ProjectEditActivity extends BaseMenuActivity {
 
     private void updateProject() {
         final Project project = projectBuilder.build();
-        final Button next = (Button) findViewById(R.id.project_edit_button_next);
+        final View next = findViewById(Menu.FIRST);
         project.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {

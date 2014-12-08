@@ -1,8 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyEstimationIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.ArrayList;
@@ -11,9 +11,9 @@ import java.util.List;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import ch.epfl.scrumtool.R;
@@ -33,7 +33,7 @@ import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
  * @author Cyriaque Brousse
  * @author sylb
  */
-public class IssueEditActivity extends BaseMenuActivity {
+public class IssueEditActivity extends BaseEditMenuActivity {
 
     private EditText issueNameView;
     private EditText issueDescriptionView;
@@ -60,7 +60,7 @@ public class IssueEditActivity extends BaseMenuActivity {
 
         Project project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent project cannot be null", project);
-        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        View next = findViewById(Menu.FIRST);
         project.loadPlayers(new DefaultGUICallback<List<Player>>(this, next) {
             @Override
             public void interactionDone(List<Player> playerList) {
@@ -102,6 +102,11 @@ public class IssueEditActivity extends BaseMenuActivity {
         });
     }
 
+    @Override
+    protected void saveElement() {
+        saveIssueChanges();
+    }
+
     private void initOriginalAndParentTask() {
         original = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
@@ -140,15 +145,14 @@ public class IssueEditActivity extends BaseMenuActivity {
         issueEstimationView.setOnFocusChangeListener(listener);
     }
 
-
-    public void saveIssueChanges(View view) {
+    private void saveIssueChanges() {
         Resources resources = getResources();
         boolean nameIsValid = verifyNameIsValid(issueNameView, resources);
         boolean descriptionIsValid = verifyDescriptionIsValid(issueDescriptionView, resources);
         boolean estimationIsValid = verifyEstimationIsValid(issueEstimationView, resources);
 
         if (nameIsValid && descriptionIsValid && estimationIsValid) {
-            findViewById(R.id.issue_edit_button_next).setEnabled(false);
+            findViewById(Menu.FIRST).setEnabled(false);
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
             float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
@@ -173,7 +177,7 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void insertIssue() {
         Issue issue = issueBuilder.build();
-        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        View next = findViewById(Menu.FIRST);
         issue.insert(parentTask, new DefaultGUICallback<Issue>(this, next) {
             @Override
             public void interactionDone(Issue issue) {
@@ -184,7 +188,7 @@ public class IssueEditActivity extends BaseMenuActivity {
 
     private void updateIssue() {
         final Issue issue = issueBuilder.build();
-        Button next = (Button) findViewById(R.id.issue_edit_button_next);
+        View next = findViewById(Menu.FIRST);
         issue.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void success) {

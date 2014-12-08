@@ -90,7 +90,7 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         onView(withText("Low")).perform(click());
         Thread.sleep(1000);
 
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
     
     @SuppressWarnings("unchecked")
@@ -121,7 +121,7 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Urgent")).perform(click());
         Thread.sleep(1000);
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         
     }
 

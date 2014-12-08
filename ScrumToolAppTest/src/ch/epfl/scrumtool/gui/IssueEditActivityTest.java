@@ -42,6 +42,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.Menu;
 
 /**
  * 
@@ -112,7 +113,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         setActivityIntent(createMockIntent());
         getActivity();
 
-        onView(withId(R.id.issue_edit_button_next)).check(
+        onView(withId(Menu.FIRST)).check(
                 matches(isClickable()));
         newIssue();
     }
@@ -134,7 +135,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         setActivityIntent(intent);
         getActivity();
 
-        onView(withId(R.id.issue_edit_button_next)).check(
+        onView(withId(Menu.FIRST)).check(
                 matches(isClickable()));
         updateIssue();
     }
@@ -171,7 +172,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
         onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
         onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_edit_button_next)).check(matches(isDisplayed()));
+        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
     }
 
     @SuppressWarnings("unchecked")
@@ -194,7 +195,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_assignee_spinner)).check(matches(withPlayer(PLAYER)));
         onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(SPRINT2)));
         // click on save button
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     @SuppressWarnings("unchecked")
@@ -227,7 +228,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_assignee_spinner)).check(matches(withPlayer(PLAYER)));
         onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(SPRINT2)));
         // click on save button
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     private void nameIsEmpty(Resources res) throws InterruptedException {
@@ -239,7 +240,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_name_edit)).check(matches(withText("")));
 
         // click on save button et check the error on the name
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
     }
@@ -253,7 +254,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_description_edit)).check(matches(withText("")));
 
         // click on save button et check the error on the name
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_description_edit)).check(
                 matches(withError(res.getString(R.string.error_field_required))));
@@ -268,7 +269,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText("")));
 
         // click on save button and check the error on the estimation
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_estimation_edit)).check(
                 matches(withError(res.getString(R.string.error_field_required))));
@@ -284,7 +285,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_name_edit)).check(matches(withText(VERY_LONG_TEXT)));
 
         // click on save button and check the error on the name
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_name_too_long))));
     }
@@ -298,7 +299,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText(LARGE_ESTIMATION.toString())));
 
         // click on save button et check the error on the name
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_estimation_edit)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
     }

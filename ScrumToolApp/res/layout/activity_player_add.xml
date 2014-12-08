@@ -34,20 +34,8 @@
         style="@style/fluid_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/player_address_add"
-        android:text="@string/phone_contact_button" />
-        
-    <!-- "Save" button -->
-    <!-- This button is temporary -->
-    <Button
-        style="@style/fluid_button"
-        android:id="@+id/player_add_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="Invite"
-        android:onClick="invitePlayer" />
-    
-    
+        android:text="@string/phone_contact_button" />
+
 </RelativeLayout>

@@ -43,17 +43,4 @@
         android:paddingRight="@dimen/space"
         android:text="@string/no_date_selected" />
 
-    <!-- "Save" button -->
-    <!-- This button is temporary -->
-
-    <Button
-        android:id="@+id/sprint_edit_button"
-        style="@style/fluid_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:onClick="sprintEditDone"
-        android:text="@string/button_save" />
-
 </RelativeLayout>

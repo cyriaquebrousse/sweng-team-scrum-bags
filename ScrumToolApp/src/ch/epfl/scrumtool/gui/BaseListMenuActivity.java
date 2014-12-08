@@ -61,7 +61,7 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
     /**
      * Opens an activity to create a new element of type <E>
      */
-    void openCreateElementActivity() {
+    protected void openCreateElementActivity() {
         openEditElementActivity(null);
     }
     

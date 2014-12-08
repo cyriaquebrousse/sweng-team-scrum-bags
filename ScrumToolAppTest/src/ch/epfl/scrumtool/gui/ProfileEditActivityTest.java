@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -73,7 +74,7 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
     }
     
     public void testButton() {
-        onView(withId(R.id.profile_edit_submit_button)).check(matches(isClickable()));
+        onView(withId(Menu.FIRST)).check(matches(isClickable()));
     }
 
 }

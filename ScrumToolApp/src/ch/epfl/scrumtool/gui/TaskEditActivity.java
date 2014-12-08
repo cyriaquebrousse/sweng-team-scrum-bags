@@ -5,6 +5,7 @@ import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,7 +23,7 @@ import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 /**
  * @author Cyriaque Brousse
  */
-public class TaskEditActivity extends BaseMenuActivity {
+public class TaskEditActivity extends BaseEditMenuActivity {
     
     private EditText taskNameView;
     private EditText taskDescriptionView;
@@ -40,6 +41,11 @@ public class TaskEditActivity extends BaseMenuActivity {
         
         initOriginalAndParentProject();
         initViews();
+    }
+
+    @Override
+    protected void saveElement() {
+        saveTaskChanges();
     }
 
     private void initOriginalAndParentProject() {
@@ -78,14 +84,13 @@ public class TaskEditActivity extends BaseMenuActivity {
         });
     }
     
-    public void saveTaskChanges(View view) {
-        
+    private void saveTaskChanges() {
         Resources resources = getResources();
         boolean nameIsValid = verifyNameIsValid(taskNameView, resources);
         boolean descriptionIsValid = verifyDescriptionIsValid(taskDescriptionView, resources);
         
         if (nameIsValid && descriptionIsValid) {
-            findViewById(R.id.task_edit_button_next).setEnabled(false);
+            findViewById(Menu.FIRST).setEnabled(false);
             String newName = taskNameView.getText().toString();
             String newDescription = taskDescriptionView.getText().toString();
             
@@ -104,7 +109,7 @@ public class TaskEditActivity extends BaseMenuActivity {
 
     private void insertTask() {
         final MainTask task = taskBuilder.build();
-        final Button next = (Button) findViewById(R.id.task_edit_button_next);
+        final View next = findViewById(Menu.FIRST);
         task.insert(parentProject, new DefaultGUICallback<MainTask>(this, next) {
             @Override
             public void interactionDone(MainTask object) {
@@ -115,7 +120,7 @@ public class TaskEditActivity extends BaseMenuActivity {
     
     private void updateTask() {
         final MainTask task = taskBuilder.build();
-        final Button next = (Button) findViewById(R.id.task_edit_button_next);
+        final View next = findViewById(Menu.FIRST);
         task.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {

@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.Menu;
 
 /**
  * 
@@ -68,7 +69,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         setActivityIntent(createMockIntent());
         getActivity();
         
-        onView(withId(R.id.task_edit_button_next)).check(
+        onView(withId(Menu.FIRST)).check(
                 matches(isClickable()));
         newTask();
     }
@@ -82,7 +83,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         setActivityIntent(mockIntent);
         getActivity();
         
-        onView(withId(R.id.task_edit_button_next)).check(
+        onView(withId(Menu.FIRST)).check(
                 matches(isClickable()));
         updateTask();
     }
@@ -113,7 +114,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_name_edit)).check(matches(isDisplayed()));
         onView(withId(R.id.task_description_edit)).check(matches(isDisplayed()));
         onView(withId(R.id.task_priority_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.task_edit_button_next)).check(matches(isDisplayed()));
+        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
@@ -135,7 +136,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_priority_edit)).check(matches(withText("HIGH")));
 
         // click on save button
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     @SuppressWarnings("unchecked")
@@ -162,7 +163,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_priority_edit)).check(matches(withText("HIGH")));
         
         // click on save button
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
     
     private void nameIsEmpty(Resources res) throws InterruptedException {
@@ -179,7 +180,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK_TEST)));
         
         // click on save button and check the error on the name
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
     }
@@ -197,7 +198,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).check(matches(withText("")));
         
         // click on save button and check the error on the description
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_description_edit)).check(matches(
                 withError(res.getString(R.string.error_field_required))));
@@ -216,7 +217,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).check(matches(withText(TASK_TEST)));
         
         // click on save button and check the error on the name
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_name_too_long))));
     }
@@ -234,7 +235,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         onView(withId(R.id.task_description_edit)).check(matches(withText(VERY_LONG_TEXT)));
         
         // click on save button and check that there are no errors on the name and the description
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.task_name_edit)).check(matches(withError("no error")));
         onView(withId(R.id.task_description_edit)).check(matches(withError("no error")));

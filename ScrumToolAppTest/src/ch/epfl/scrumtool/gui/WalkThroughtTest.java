@@ -105,7 +105,7 @@ public class WalkThroughtTest extends
         onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(click());
         onView(withId(R.id.issue_estimation_edit)).perform(typeText(hours), closeSoftKeyboard());
         Thread.sleep(1000);
-        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     private void addTask(String number) throws InterruptedException {
@@ -117,7 +117,7 @@ public class WalkThroughtTest extends
         Thread.sleep(1000);
 
         //click on save button
-        onView(withId(R.id.task_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     private void addProject() throws InterruptedException {
@@ -131,7 +131,7 @@ public class WalkThroughtTest extends
         Thread.sleep(1000);
         
         //click on save button
-        onView(withId(R.id.project_edit_button_next)).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
     
 

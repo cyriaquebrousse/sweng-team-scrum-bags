@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -73,7 +74,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testSaveButtonIsClickable() {
-        ViewInteraction save = onView(withId(R.id.sprint_edit_button));
+        ViewInteraction save = onView(withId(Menu.FIRST));
         save.check(matches(withText("save")));
         save.check(matches(isClickable()));
     }

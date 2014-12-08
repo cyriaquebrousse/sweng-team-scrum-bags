@@ -133,24 +133,24 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-        .setMessage("Do you really want to delete this issue?"
-                + " It will remove the Issues and its links with Players and Sprints")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = IssueOverviewActivity.this;
-                issue.remove(new DefaultGUICallback<Void>(context) {
-                    @Override
-                    public void interactionDone(Void v) {
-                        Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this issue?"
+                    + " It will remove the Issues and its links with Players and Sprints")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = IssueOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void initializeListeners() {

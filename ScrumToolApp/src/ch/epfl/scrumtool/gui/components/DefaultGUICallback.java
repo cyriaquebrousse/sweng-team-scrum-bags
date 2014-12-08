@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.gui.components;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import ch.epfl.scrumtool.database.Callback;
@@ -14,7 +15,7 @@ import ch.epfl.scrumtool.database.Callback;
 
 public abstract class DefaultGUICallback<A> implements Callback<A> {
     private final Context context;
-    private final Button buttonToReactivate;
+    private final View viewToReactivate;
 
     /**
      * @param context
@@ -22,26 +23,26 @@ public abstract class DefaultGUICallback<A> implements Callback<A> {
      */
     public DefaultGUICallback(final Context context) {
         this.context = context;
-        this.buttonToReactivate = null;
+        this.viewToReactivate = null;
     }
     
     /**
      * @param context
      *            context in which to display possible failures
-     * @param buttonToReactivate
-     *            button to reactivate in case of failure
+     * @param viewToReactivate
+     *            view to reactivate in case of failure
      */
-    public DefaultGUICallback(final Context context, Button buttonToReactivate) {
+    public DefaultGUICallback(final Context context, View viewToReactivate) {
         this.context = context;
-        this.buttonToReactivate = buttonToReactivate;
+        this.viewToReactivate = viewToReactivate;
     }
 
     @Override
     public final void failure(String errorMessage) {
         if (context != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
-            if (buttonToReactivate != null) {
-                buttonToReactivate.setEnabled(true);
+            if (viewToReactivate != null) {
+                viewToReactivate.setEnabled(true);
             }
         }
     }

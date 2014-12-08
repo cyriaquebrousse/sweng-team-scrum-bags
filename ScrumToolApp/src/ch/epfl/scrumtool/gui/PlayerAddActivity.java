@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -35,7 +36,7 @@ import android.widget.Button;
  * @author vincent
  *
  */
-public class PlayerAddActivity extends BaseMenuActivity {
+public class PlayerAddActivity extends BaseEditMenuActivity {
     
     private static final int EMAIL_INDEX = 3;
     
@@ -46,7 +47,7 @@ public class PlayerAddActivity extends BaseMenuActivity {
     private AutoCompleteTextView emailAddressView;
     private RoleSticker roleStickerView;
     private Button displayContactsView;
-    private Button invitePlayerButton;
+    private View invitePlayerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class PlayerAddActivity extends BaseMenuActivity {
         // initialize views
         emailAddressView = (AutoCompleteTextView) findViewById(R.id.player_address_add);
         roleStickerView = (RoleSticker) findViewById(R.id.player_role_sticker);
-        invitePlayerButton = (Button) findViewById(R.id.player_add_button);
+        invitePlayerButton = findViewById(Menu.FIRST);
         
         // initialize RoleSticker
         role = Role.STAKEHOLDER;
@@ -96,6 +97,11 @@ public class PlayerAddActivity extends BaseMenuActivity {
         
     }
     
+    @Override
+    protected void saveElement() {
+        invitePlayer();
+    }
+
     private void displayContacts() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PlayerAddActivity.this);
         final String[] contacts = new String[contactsAddresses.size()];
@@ -112,7 +118,8 @@ public class PlayerAddActivity extends BaseMenuActivity {
         builder.create().show();
     }
     
-    public void invitePlayer(View view) {
+    private void invitePlayer() {
+        invitePlayerButton.setEnabled(false);
         String userInput = emailAddressView.getText().toString();
         verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
         if (emailIsValid(userInput)) {

@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,14 +107,13 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
         });
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
         project.loadPlayers(callback);
     }
-    
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
