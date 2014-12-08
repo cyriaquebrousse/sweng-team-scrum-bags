@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_estimation_edit"
-        android:text="Assignee" />
+        android:text="@string/issue_edit_assignee" />
     
     <Spinner
         android:id="@+id/issue_assignee_spinner"
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/issue_assignee_spinner"
-        android:text="Sprint" />
+        android:text="@string/issue_edit_sprint" />
     
     <Spinner
         android:id="@+id/issue_sprint_spinner"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="Save"
+        android:text="@string/button_save"
         android:onClick="saveIssueChanges" />
 
 </RelativeLayout>

@@ -220,6 +220,9 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      */
     private void updateEstimationSlateInfo(final float estimatedTime) {
         String unit = getResources().getString(R.string.project_default_unit);
+        if (1.0 >= estimatedTime) {
+            unit = getResources().getString(R.string.project_single_unit);
+        }
         estimationSlate.setText(estimatedTime <= 0 ? "―" : EstimationFormating
                 .estimationAsHourFormat(estimatedTime) + " " + unit);
     }

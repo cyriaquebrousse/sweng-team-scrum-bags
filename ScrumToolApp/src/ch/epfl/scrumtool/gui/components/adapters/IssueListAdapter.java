@@ -49,9 +49,14 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
             name.setText(issue.getName());
             Player optionAssignee = issue.getPlayer();
             assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
+            float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
-                    : EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
-            unit.setText(activity.getResources().getString(R.string.project_default_unit));
+                    : EstimationFormating.estimationAsHourFormat(estim));
+            if (1.0 >= estim) {
+                unit.setText(activity.getResources().getString(R.string.project_single_unit));
+            } else {
+                unit.setText(activity.getResources().getString(R.string.project_default_unit));
+            }
             divider.setBackgroundColor(activity.getResources().getColor(issue.getStatus().getColorRef()));
         }
         

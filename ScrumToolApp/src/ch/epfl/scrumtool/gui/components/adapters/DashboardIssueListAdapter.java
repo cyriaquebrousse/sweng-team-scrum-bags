@@ -61,10 +61,15 @@ public final class DashboardIssueListAdapter extends DefaultAdapter<TaskIssuePro
                     .getString(R.string.format_date), Locale.ENGLISH);
             deadline.setText(optionSprint != null ? sdf.format(optionSprint
                     .getDeadline()) : "<No sprint assigned>");
+            float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
-                    : EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
-            unit.setText(activity.getResources().getString(
-                    R.string.project_default_unit));
+                    : EstimationFormating.estimationAsHourFormat(estim));
+            if (1.0 >= estim) {
+                unit.setText(activity.getResources().getString(R.string.project_single_unit));
+            } else {
+                unit.setText(activity.getResources().getString(
+                        R.string.project_default_unit));
+            }
             divider.setBackgroundColor(activity.getResources().getColor(
                     issue.getStatus().getColorRef()));
         }

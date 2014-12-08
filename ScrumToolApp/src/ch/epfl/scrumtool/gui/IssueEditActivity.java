@@ -105,11 +105,10 @@ public class IssueEditActivity extends BaseMenuActivity {
     private void initOriginalAndParentTask() {
         original = (Issue) getIntent().getSerializableExtra(Issue.SERIALIZABLE_NAME);
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
-        throwIfNull("Parent task cannot be null", parentTask);
         if (original == null) {
             issueBuilder = new Issue.Builder();
             setTitle(R.string.title_activity_issue_edit_new);
-
+            throwIfNull("Parent task cannot be null", parentTask);
         } else {
             issueBuilder = new Issue.Builder(original);
         }

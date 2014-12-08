@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.util.InputVerifiers;
 
@@ -34,8 +33,8 @@ public class TextViewModifiers {
      *
      * @param <String>
      */
-    public interface PopupCallbackProfile<String> {
-        void onModified(String firstname, String lastName);
+    public interface PopupCallbackProfile<T> {
+        void onModified(T firstname, T lastName);
     }
 
     /**
@@ -63,7 +62,7 @@ public class TextViewModifiers {
             final String oldValue, final PopupCallback<String> callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
-        View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
+        View popupView = inflater.inflate(R.layout.popupmodifiers, null);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(parent)
             .setView(popupView)
@@ -110,7 +109,7 @@ public class TextViewModifiers {
             final Float oldValue, final PopupCallback<Float> callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
-        View popupView = inflater.inflate(R.layout.popupmodifiers, null); // FIXME illegal
+        View popupView = inflater.inflate(R.layout.popupmodifiers, null);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(parent)
             .setView(popupView)
@@ -150,7 +149,7 @@ public class TextViewModifiers {
             final String oldLastNameValue, final PopupCallbackProfile<String> callback) {
 
         LayoutInflater inflater = LayoutInflater.from(parent);
-        View popupView = inflater.inflate(R.layout.popupmodifiersprofile, null); // FIXME illegal
+        View popupView = inflater.inflate(R.layout.popupmodifiersprofile, null);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(parent)
             .setView(popupView)

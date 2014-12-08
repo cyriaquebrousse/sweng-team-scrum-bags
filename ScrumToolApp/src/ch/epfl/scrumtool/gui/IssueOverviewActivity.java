@@ -110,8 +110,13 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
             sprintView.setText(R.string.no_sprint);
         }
 
-        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(issue.getEstimatedTime()));
-        estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
+        float estim = issue.getEstimatedTime();
+        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(estim));
+        if (1.0 >= estim) {
+            estimationStamp.setUnit(getResources().getString(R.string.project_single_unit));
+        } else {
+            estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
+        }
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
     }
 
