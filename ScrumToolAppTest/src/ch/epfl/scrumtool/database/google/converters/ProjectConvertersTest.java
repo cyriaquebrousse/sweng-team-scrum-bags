@@ -97,6 +97,4 @@ public class ProjectConvertersTest extends TestCase {
         Project keyProject = ProjectConverters.INSERTRESPONE_TO_PROJECT.convert(insresp);
         assertEquals(mustResult, keyProject);
     }
-    
-    
 }

@@ -32,7 +32,7 @@ public class DSSprintHandler implements SprintHandler {
         DSExecArgs.Factory<EntityKeyArg<Sprint>, InsertResponse<Sprint>, Sprint> factory = 
                 new DSExecArgs.Factory<EntityKeyArg<Sprint>, InsertResponse<Sprint>, Sprint>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(SprintConverters.OPSTATSPRINT_TO_SPRINT);
+        factory.setConverter(SprintConverters.INSERTRESPONSE_TO_SPRINT);
         factory.setOperation(SprintOperations.INSERT_SPRINT);
         OperationExecutor.execute(args, factory.build());
     }

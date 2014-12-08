@@ -53,7 +53,7 @@ public final class SprintConverters {
         }
     };
     
-    public static final EntityConverter<InsertResponse<Sprint>, Sprint> OPSTATSPRINT_TO_SPRINT = 
+    public static final EntityConverter<InsertResponse<Sprint>, Sprint> INSERTRESPONSE_TO_SPRINT = 
             new EntityConverter<InsertResponse<Sprint>, Sprint>() {
 
         @Override
