@@ -199,6 +199,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             public void onRefresh() {
                 task.loadIssues(callback);
                 refreshLayout.setRefreshing(false);
+                updateViews();
+                updateViewsAccordingToNewStatusAndEstimation();
             }
         });
     }
