@@ -8,6 +8,9 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
+
 
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
@@ -27,11 +30,12 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withText("Logout")).perform(click());
     }
     
+    public void testDisplayedButton() {
+        onView(withId(R.id.button_login)).check(matches(isDisplayed()));
+    }
+    
     public void testLoginButton() {
-        logout();
         onView(withId(R.id.button_login)).perform(click());
-        onView(withText("wirz.leonardo@gmail.com")).perform(click());
-        onView(withText("OK")).perform(click());
     }
 
 }
