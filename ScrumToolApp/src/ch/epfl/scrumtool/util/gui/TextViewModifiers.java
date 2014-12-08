@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.util.InputVerifiers;
 
@@ -119,7 +120,9 @@ public class TextViewModifiers {
 
         final EditText userInput = (EditText) popupView.findViewById(R.id.popup_user_input);
         userInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
-        userInput.setText(oldValue.toString());
+        if (!oldValue.toString().equals("0.0")) {
+            userInput.setText(oldValue.toString());
+        }
 
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
