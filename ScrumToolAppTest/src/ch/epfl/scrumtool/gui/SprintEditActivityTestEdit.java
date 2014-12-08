@@ -19,17 +19,22 @@ import android.test.ActivityInstrumentationTestCase2;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
+/**
+ * @author AlexVeuthey
+ *
+ */
 public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2<SprintEditActivity> {
 
-    Activity activity;
-    Sprint sprint = null;
-    Sprint.Builder sprintBuilder;
+    private Activity activity;
+    private Sprint sprint;
+    private Sprint.Builder sprintBuilder;
     
-    Project project;
-    Project.Builder projectBuilder;
+    private Project project;
+    private Project.Builder projectBuilder;
     
     public SprintEditActivityTestEdit() {
         super(SprintEditActivity.class);
@@ -78,25 +83,29 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testPickADateButCancel() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        
         ViewInteraction datePick = onView(withId(R.id.sprint_date_edit));
-        datePick.check(matches(withText("Pick a date")));
+        
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(sprint.getDeadline());
+        
+        datePick.check(matches(withText(sdf.format(date.getTime()))));
         datePick.check(matches(ViewMatchers.isDisplayed()));
         datePick.check(matches(ViewMatchers.isClickable()));
         datePick.perform(ViewActions.click());
-        DatePickerFragment fragment = (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
+        DatePickerFragment fragment = 
+                (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         assertTrue(fragment.getShowsDialog());
         
         ViewInteraction cancelButton = onView(withText("Cancel"));
         cancelButton.check(matches(ViewMatchers.isClickable()));
         cancelButton.perform(ViewActions.click());
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-        Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(sprint.getDeadline());
-        onView(withId(R.id.sprint_date_edit)).check(matches(withText(sdf.format(date.getTime()))));
+        datePick.check(matches(withText(sdf.format(date.getTime()))));
     }
     
-    public void testPickADate() throws Throwable {
+    public void testPickADate() {
         ViewInteraction datePick = onView(withId(R.id.sprint_date_edit));
         datePick.check(matches(ViewMatchers.isClickable()));
         datePick.perform(ViewActions.click());
@@ -104,16 +113,21 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
         final Calendar dateToSet = Calendar.getInstance();
         dateToSet.add(Calendar.MONTH, 1);
         
-        DatePickerFragment fragment = (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
+        DatePickerFragment fragment = 
+                (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         final DatePickerDialog dialog = (DatePickerDialog) fragment.getDialog();
         
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog.updateDate(dateToSet.get(Calendar.YEAR), 
-                        dateToSet.get(Calendar.MONTH), dateToSet.get(Calendar.DAY_OF_MONTH));
-           }
-        });
+        try {
+            runTestOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.updateDate(dateToSet.get(Calendar.YEAR), 
+                            dateToSet.get(Calendar.MONTH), dateToSet.get(Calendar.DAY_OF_MONTH));
+                }
+            });
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
         
         ViewInteraction okButton = onView(withText("OK"));
         okButton.check(matches(ViewMatchers.isClickable()));

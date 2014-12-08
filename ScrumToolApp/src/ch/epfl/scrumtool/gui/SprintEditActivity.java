@@ -68,7 +68,7 @@ public class SprintEditActivity extends BaseMenuActivity {
                 setDeadlineText(chosen);
             }
         };
-        if (sprintDeadline < Calendar.getInstance().getTimeInMillis()) {
+        if (sprintDeadline > Calendar.getInstance().getTimeInMillis()) {
             Bundle args = new Bundle();
             args.putLong("long", sprintDeadline);
             newFragment.setArguments(args);

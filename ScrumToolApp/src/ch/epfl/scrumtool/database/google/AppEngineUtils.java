@@ -31,7 +31,7 @@ public class AppEngineUtils {
     /**
      * If this is true the app will contact the local server
      */
-    public static final boolean TEST_LOCAL = false;
+    public static final boolean TEST_LOCAL = true;
 
     /**
      * Returns server URL If {@link #TEST_LOCAL} is true then the local server url
