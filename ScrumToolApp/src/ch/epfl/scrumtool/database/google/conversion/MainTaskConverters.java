@@ -86,14 +86,14 @@ public final class MainTaskConverters {
         }
     };
     
-    public static final EntityConverter<InsertResponse<MainTask>, MainTask> OPSTATMAINTASK_TO_MAINTASK = 
+    public static final EntityConverter<InsertResponse<MainTask>, MainTask> INSERTRESP_TO_MAINTASK = 
             new EntityConverter<InsertResponse<MainTask>, MainTask>() {
 
         @Override
         public MainTask convert(InsertResponse<MainTask> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getkeyReponse().getKey())
+                    .setKey(a.getKeyReponse().getKey())
                     .build();
         }
     };

@@ -32,7 +32,7 @@ public final class InsertResponse<A> {
     /**
      * @return the keyReponse
      */
-    public KeyResponse getkeyReponse() {
+    public KeyResponse getKeyReponse() {
         return keyResponse;
     }
 }

@@ -3,7 +3,6 @@ package ch.epfl.scrumtool.entity;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -179,7 +178,6 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
-            this.dateOfBirth = new Date().getTime();
             this.gender = Gender.UNKNOWN;
         }
 
@@ -339,14 +337,15 @@ public final class User implements Serializable, Comparable<User> {
             return false;
         }
         User other = (User) o;
+        
         return 
                 other.getEmail().equals(this.getEmail())
-                && other.companyName == this.companyName
+                && other.companyName.equals(this.companyName)
                 && other.dateOfBirth == this.dateOfBirth
                 && other.gender == this.gender
-                && other.jobTitle == this.jobTitle
-                && other.lastName == this.lastName
-                && other.name == this.name;
+                && other.jobTitle.equals(this.jobTitle)
+                && other.lastName.equals(this.lastName)
+                && other.name.equals(this.name);
     }
 
     @Override

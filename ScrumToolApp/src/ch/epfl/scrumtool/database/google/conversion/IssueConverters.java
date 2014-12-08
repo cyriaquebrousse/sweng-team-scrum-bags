@@ -38,8 +38,6 @@ public class IssueConverters {
                     dbIssue.getPriority(),
                     dbIssue.getStatus());
             
-            Preconditions.throwIfInvalidKey(dbIssue.getKey());
-            
             Issue.Builder issue = new Issue.Builder();
 
             String key = dbIssue.getKey();
@@ -124,7 +122,7 @@ public class IssueConverters {
         public Issue convert(InsertResponse<Issue> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getkeyReponse().getKey())
+                    .setKey(a.getKeyReponse().getKey())
                     .build();
         }
     };

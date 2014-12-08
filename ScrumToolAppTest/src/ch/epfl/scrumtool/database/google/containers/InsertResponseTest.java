@@ -58,7 +58,7 @@ public class InsertResponseTest extends TestCase {
 
     public void testGetkeyReponse() {
         final InsertResponse<Object> insResp = new InsertResponse<Object>(new Object(), TestConstants.VALID_KEY_RESPONSE);
-        assertEquals(insResp.getkeyReponse(), TestConstants.VALID_KEY_RESPONSE);
+        assertEquals(insResp.getKeyReponse(), TestConstants.VALID_KEY_RESPONSE);
     }
 
 }

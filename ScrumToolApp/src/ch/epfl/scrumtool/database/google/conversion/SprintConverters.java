@@ -67,7 +67,7 @@ public final class SprintConverters {
         public Sprint convert(InsertResponse<Sprint> a) {
             return a.getEntity()
                     .getBuilder()
-                    .setKey(a.getkeyReponse().getKey())
+                    .setKey(a.getKeyReponse().getKey())
                     .build();
         }
     };

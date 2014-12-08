@@ -30,7 +30,7 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 new DSExecArgs.Factory<EntityKeyArg<MainTask>, 
                 InsertResponse<MainTask>, MainTask>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(MainTaskConverters.OPSTATMAINTASK_TO_MAINTASK);
+        factory.setConverter(MainTaskConverters.INSERTRESP_TO_MAINTASK);
         factory.setOperation(MainTaskOperations.INSERT_MAINTASK);
         OperationExecutor.execute(args, factory.build());
     }

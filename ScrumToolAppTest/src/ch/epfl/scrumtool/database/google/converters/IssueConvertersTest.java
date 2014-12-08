@@ -7,7 +7,9 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
+import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
@@ -232,6 +234,21 @@ public class IssueConvertersTest extends TestCase {
         assertEquals(TestConstants.generateBasicIssue(),result.get(0).getIssue());
         assertEquals(TestConstants.generateBasicMainTask(), result.get(0).getMainTask());
         assertEquals(TestConstants.generateBasicProject(), result.get(0).getProject());
+    }
+    
+    public void testInsertResponseToMainTask() {
+        KeyResponse response = new KeyResponse();
+        response.setKey(TestConstants.validKey);
+        
+        MainTask mainTask = TestConstants.generateBasicMainTask();
+        mainTask = mainTask.getBuilder()
+                .setKey("")
+                .build();
+        
+        InsertResponse<MainTask> insresp = new InsertResponse<MainTask>(mainTask, response);
+
+        MainTask keyMainTask = MainTaskConverters.INSERTRESP_TO_MAINTASK.convert(insresp);
+        assertEquals(TestConstants.generateBasicMainTask(), keyMainTask);
     }
 }
 
