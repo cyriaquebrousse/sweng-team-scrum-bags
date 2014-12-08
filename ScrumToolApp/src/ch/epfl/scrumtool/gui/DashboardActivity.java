@@ -136,7 +136,7 @@ public class DashboardActivity extends BaseMenuActivity {
                                 @Override
                                 public void interactionDone(Void object) {
                                     Toast.makeText(DashboardActivity.this, "Project Joined", Toast.LENGTH_SHORT).show();
-
+                                    projectAdapter.add(p.getProject());
                                 }
                             });
                     }
@@ -150,7 +150,6 @@ public class DashboardActivity extends BaseMenuActivity {
                             @Override
                             public void interactionDone(Void object) {
                                 // TODO Auto-generated method stub
-                                projectAdapter.remove(p.getProject());
                                 Toast.makeText(DashboardActivity.this, "invitation denied", Toast.LENGTH_SHORT).show();
                             }
                         });
