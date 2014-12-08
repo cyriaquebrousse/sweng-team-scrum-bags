@@ -47,7 +47,6 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
     private AutoCompleteTextView emailAddressView;
     private RoleSticker roleStickerView;
     private Button displayContactsView;
-    private View invitePlayerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
         // initialize views
         emailAddressView = (AutoCompleteTextView) findViewById(R.id.player_address_add);
         roleStickerView = (RoleSticker) findViewById(R.id.player_role_sticker);
-        invitePlayerButton = findViewById(Menu.FIRST);
         
         // initialize RoleSticker
         role = Role.STAKEHOLDER;
@@ -119,11 +117,11 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
     }
     
     private void invitePlayer() {
-        invitePlayerButton.setEnabled(false);
+        final View next = findViewById(Menu.FIRST);
         String userInput = emailAddressView.getText().toString();
         verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
         if (emailIsValid(userInput)) {
-            project.addPlayer(userInput, role, new DefaultGUICallback<Player>(this, invitePlayerButton) {
+            project.addPlayer(userInput, role, new DefaultGUICallback<Player>(this, next) {
 
                 @Override
                 public void interactionDone(Player object) {
