@@ -1,8 +1,7 @@
 package ch.epfl.scrumtool.util.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
-import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -76,15 +75,13 @@ public class TextViewModifiers {
                         boolean fieldIsValid;
                         switch (fieldType) {
                             case NAMEFIELD:
-                                fieldIsValid = entityNameIsValid(userInput);
+                                fieldIsValid = verifyNameIsValid(userInput, parent.getResources());
                                 break;
                             case DESCRIPTIONFIELD:
                             default:
-                                fieldIsValid = textEditNonNullNotEmpty(userInput);
+                                fieldIsValid = verifyDescriptionIsValid(userInput, parent.getResources());
                                 break;
                         }
-                        
-                        updateTextViewAfterValidityCheck(userInput, fieldIsValid, parent.getResources());
                         if (fieldIsValid) {
                             callback.onModified(userInput.getText().toString());
                             alertDialog.dismiss();

@@ -1,7 +1,8 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,11 +53,9 @@ public class ProjectEditActivity extends BaseMenuActivity {
 
     public void saveProjectChanges(View view) {
         
-        boolean titleIsValid = entityNameIsValid(projectTitleView);
-        boolean descriptionIsValid = textEditNonNullNotEmpty(projectDescriptionView);
-        
-        InputVerifiers.updateTextViewAfterValidityCheck(projectTitleView, titleIsValid, getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(projectDescriptionView, descriptionIsValid, getResources());
+        Resources resources = getResources();
+        boolean titleIsValid = verifyNameIsValid(projectTitleView, resources);
+        boolean descriptionIsValid = verifyDescriptionIsValid(projectDescriptionView, resources);
         
         if (titleIsValid && descriptionIsValid) {
             findViewById(R.id.project_edit_button_next).setEnabled(false);

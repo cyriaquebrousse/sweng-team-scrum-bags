@@ -4,12 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.util.InputVerifiers;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -78,9 +79,10 @@ public class SprintEditActivity extends BaseMenuActivity {
     public void sprintEditDone(View v) {
         name = sprintNameView.getText().toString();
         sprintDeadline = chosen.getTimeInMillis();
-        InputVerifiers.updateTextViewAfterValidityCheck(sprintNameView, nameIsValid(), getResources());
         
-        if (nameIsValid()) {
+        boolean nameIsValid = verifyNameIsValid(sprintNameView, getResources());
+        
+        if (nameIsValid) {
             if (dateIsValid()) {
                 findViewById(R.id.sprint_edit_button).setEnabled(false);
                 sprintBuilder.setDeadline(sprintDeadline);
@@ -167,12 +169,6 @@ public class SprintEditActivity extends BaseMenuActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(getResources()
                 .getString(R.string.format_date), Locale.ENGLISH);
         sprintDateView.setText(sdf.format(date.getTime()));
-    }
-    
-    // CHECKS
-    private boolean nameIsValid() {
-        final int maxLength = 50;
-        return name != null && name.length() > 0 && name.length() < maxLength;
     }
     
     private boolean dateIsValid() {

@@ -1,8 +1,9 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,11 +81,9 @@ public class TaskEditActivity extends BaseMenuActivity {
     
     public void saveTaskChanges(View view) {
         
-        boolean nameIsValid = entityNameIsValid(taskNameView);
-        boolean descriptionIsValid = textEditNonNullNotEmpty(taskDescriptionView);
-        
-        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid, getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid, getResources());
+        Resources resources = getResources();
+        boolean nameIsValid = verifyNameIsValid(taskNameView, resources);
+        boolean descriptionIsValid = verifyDescriptionIsValid(taskDescriptionView, resources);
         
         if (nameIsValid && descriptionIsValid) {
             findViewById(R.id.task_edit_button_next).setEnabled(false);

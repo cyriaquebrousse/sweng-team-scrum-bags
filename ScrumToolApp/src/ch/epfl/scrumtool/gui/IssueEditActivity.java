@@ -1,14 +1,15 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.entityNameIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.textEditNonNullNotEmpty;
-import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyEstimationIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,6 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
-
 
 
 /**
@@ -130,13 +130,10 @@ public class IssueEditActivity extends BaseMenuActivity {
     }
 
     public void saveIssueChanges(View view) {
-        boolean nameIsValid = entityNameIsValid(issueNameView);
-        boolean descriptionIsValid = textEditNonNullNotEmpty(issueDescriptionView);
-        boolean estimationIsValid = textEditNonNullNotEmpty(issueEstimationView);
-        
-        updateTextViewAfterValidityCheck(issueNameView, nameIsValid, getResources());
-        updateTextViewAfterValidityCheck(issueDescriptionView, descriptionIsValid, getResources());
-        updateTextViewAfterValidityCheck(issueEstimationView, estimationIsValid, getResources());
+        Resources resources = getResources();
+        boolean nameIsValid = verifyNameIsValid(issueNameView, resources);
+        boolean descriptionIsValid = verifyDescriptionIsValid(issueDescriptionView, resources);
+        boolean estimationIsValid = verifyEstimationIsValid(issueEstimationView, resources);
 
         if (nameIsValid && descriptionIsValid && estimationIsValid) {
             findViewById(R.id.issue_edit_button_next).setEnabled(false);

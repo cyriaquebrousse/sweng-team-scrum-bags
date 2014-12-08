@@ -72,6 +72,9 @@
 
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
+    <string name="error_name_too_long">This field can not exceed 50 caracters</string>
+    <string name="error_estimation_too_big">The estimation can not exceed 999 hours</string>
+    <string name="error_email_not_valid">The email is not valid</string>
 
     <!-- Formats -->
     <string name="format_date">dd MMM yyyy</string>
