@@ -25,14 +25,10 @@ public final class SprintConverters {
             Sprint.Builder sprint = new Sprint.Builder();
 
             String key = dbSprint.getKey();
-            if (key != null) {
-                sprint.setKey(key);
-            }
+            sprint.setKey(key);
 
             String title = dbSprint.getTitle();
-            if (title != null) {
-                sprint.setTitle(title);
-            }
+            sprint.setTitle(title);
 
             sprint.setDeadline(dbSprint.getDate());
 
@@ -45,10 +41,7 @@ public final class SprintConverters {
 
         @Override
         public ScrumSprint convert(Sprint sprint) {
-            assertTrue(sprint != null);
-
             ScrumSprint dbSprint = new ScrumSprint();
-
             if (!sprint.getKey().equals("")) {
                 dbSprint.setKey(sprint.getKey());
             }
@@ -71,5 +64,4 @@ public final class SprintConverters {
                     .build();
         }
     };
-
 }
