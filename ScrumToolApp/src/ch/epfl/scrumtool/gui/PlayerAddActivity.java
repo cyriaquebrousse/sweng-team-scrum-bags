@@ -15,7 +15,7 @@ import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import static ch.epfl.scrumtool.util.InputVerifiers.emailIsValid;
-import static ch.epfl.scrumtool.util.InputVerifiers.updateTextViewAfterValidityCheck;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyEmailIsValid;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -114,8 +114,7 @@ public class PlayerAddActivity extends BaseMenuActivity {
     
     public void invitePlayer(View view) {
         String userInput = emailAddressView.getText().toString();
-        updateTextViewAfterValidityCheck(emailAddressView, emailIsValid(userInput),
-                PlayerAddActivity.this.getResources());
+        verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
         if (emailIsValid(userInput)) {
             project.addPlayer(userInput, role, new DefaultGUICallback<Player>(this, invitePlayerButton) {
 
