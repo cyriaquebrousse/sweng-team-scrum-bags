@@ -258,23 +258,22 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     }
     
     private void updateIssue() {
-        Issue issueToBeAdded = issue;
+        final Issue issueToBeAdded = issue;
         issue = issueBuilder.build();
         issue.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
-                    Toast.makeText(SprintOverviewActivity.this, 
-                            "Could not add issue to sprint", Toast.LENGTH_SHORT).show();
+                ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
+                list.remove(issueToBeAdded);
+                issueListAdapter.add(issue);
+                issueSpinner.setSelection(0);
+                if (list.size() < 2) {
+                    addIssueVisible(View.GONE);
+                    unsprintedIssues = false;
+                }
             }
         });
-        ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
-        list.remove(issueToBeAdded);
-        issueListAdapter.add(issue);
-        issueSpinner.setSelection(0);
-        if (list.size() < 2) {
-            addIssueVisible(View.GONE);
-            unsprintedIssues = false;
-        }
+        
     }
     
     private void updateSprint() {
@@ -282,8 +281,6 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         sprint.update(null, new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) {
-                    Toast.makeText(SprintOverviewActivity.this, 
-                            "Could not update sprint", Toast.LENGTH_SHORT).show();
             }
         });
     }

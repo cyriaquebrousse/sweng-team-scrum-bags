@@ -23,10 +23,12 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
+import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
 import ch.epfl.scrumtool.util.gui.EstimationFormating;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
@@ -275,8 +277,15 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         assigneeName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openProfileIntent = new Intent(v.getContext(), MyProfileOverviewActivity.class);
                 User assignee = issue.getPlayer().getUser();
+                Intent openProfileIntent = new Intent(v.getContext(), OthersProfileOverviewActivity.class);
+                try {
+                    if (assignee.getEmail().equals(Session.getCurrentSession().getUser().getEmail())) {
+                        openProfileIntent = new Intent(v.getContext(), MyProfileOverviewActivity.class);
+                    }
+                } catch (NotAuthenticatedException e) {
+                    Session.relogin(getParent());
+                }
                 openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
                 startActivity(openProfileIntent);
             }
