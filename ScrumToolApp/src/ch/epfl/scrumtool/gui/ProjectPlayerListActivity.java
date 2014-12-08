@@ -143,16 +143,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             public void onSelected(final Role selected) {
                 Player.Builder builder = new Player.Builder(player);
                 builder.setRole(selected);
-                builder.build().update(new Callback<Void>() {
+                builder.build().update(new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
                     @Override
                     public void interactionDone(Void object) {
                         project.loadPlayers(callback);
-                    }
-
-                    @Override
-                    public void failure(String errorMessage) {
-                        Log.d("test", "failure");
-                        //TODO error handling?
                     }
                 });
             }
