@@ -24,6 +24,7 @@ import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withError;
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPriority;
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPlayer;
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withSprint;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withStatusValue;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -119,12 +120,13 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     public void testTaskOverviewAllFieldsAreDisplayed() {
         // check that all fields are displayed
         onView(withId(R.id.issue_name)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_desc)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_status)).check(matches(isDisplayed()));
         onView(withId(R.id.issue_estimation_stamp)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_status)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_sprint)).check(matches(isDisplayed()));
         onView(withId(R.id.issue_assignee_label)).check(matches(isDisplayed()));
         onView(withId(R.id.issue_assignee_name)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_sprint)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_desc_label)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_desc)).check(matches(isDisplayed()));
         onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
         onView(withId(R.id.action_overflow)).check(matches(isDisplayed()));
     }
@@ -133,11 +135,11 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     public void testTaskOverviewCheckClickableFields() {
         // check that some fields are clickable
         onView(withId(R.id.issue_name)).check(matches(isClickable()));
-        onView(withId(R.id.issue_desc)).check(matches(isClickable()));
         onView(withId(R.id.issue_estimation_stamp)).check(matches(isClickable()));
         onView(withId(R.id.issue_sprint)).check(matches(isClickable()));
         onView(withId(R.id.issue_assignee_label)).check(matches(isClickable()));
         onView(withId(R.id.issue_assignee_name)).check(matches(isClickable()));
+        onView(withId(R.id.issue_desc)).check(matches(isClickable()));
         onView(withId(Menu.FIRST)).check(matches(isClickable()));
         onView(withId(R.id.action_overflow)).check(matches(isClickable()));
     }
@@ -147,31 +149,31 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     public void testOverviewModifyIssue() throws InterruptedException {
         // check if the fields are displayed correctly
         onView(withId(R.id.issue_name)).check(matches(withText(ISSUE1.getName())));
-        onView(withId(R.id.issue_desc)).check(matches(withText(ISSUE1.getDescription())));
 //        onView(withId(R.id.issue_estimation_stamp)).check(matches(withText(ISSUE1.getEstimatedTime()));
-        onView(withId(R.id.issue_sprint)).check(matches(with))
-        
-        
+        onView(withId(R.id.issue_status)).check(matches(withText(ISSUE1.getStatus().toString())));
+        onView(withId(R.id.issue_sprint)).check(matches(withText(ISSUE1.getSprint().getTitle())));
+        onView(withId(R.id.issue_assignee_name)).check(matches(withText(ISSUE1.getPlayer().getUser().fullname())));
+        onView(withId(R.id.issue_desc)).check(matches(withText(ISSUE1.getDescription())));
         
         // fill the modifiable fields with new values
-        onView(withId(R.id.task_name)).perform(click());
+        onView(withId(R.id.issue_name)).perform(click());
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
         onView(withText(android.R.string.ok)).perform(click());
         
-        onView(withId(R.id.task_desc)).perform(click());
+        onView(withId(R.id.issue_desc)).perform(click());
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
         onView(withText(android.R.string.ok)).perform(click());
         
-        // set the priority of the task to high
-        onView(withId(R.id.task_priority)).perform(click());
-        onData(allOf(is(instanceOf(String.class)))).atPosition(2).perform(click());
+        // set the sprint of the issue
+        onView(withId(R.id.issue_sprint)).perform(click());
+        onData(allOf(is(instanceOf(Sprint.class)))).atPosition(1).perform(click());
         
         // check if the values have been changed
-        onView(withId(R.id.task_name)).check(matches(withText(TEST_TEXT)));
-        onView(withId(R.id.task_desc)).check(matches(withText(TEST_TEXT)));
-        onView(withId(R.id.task_priority)).check(matches(withPriority(Priority.HIGH)));
+        onView(withId(R.id.issue_name)).check(matches(withText(TEST_TEXT)));
+        onView(withId(R.id.issue_desc)).check(matches(withText(TEST_TEXT)));
+        onView(withId(R.id.issue_sprint)).check(matches(withText(SPRINT2.getTitle())));
     }
 
 }

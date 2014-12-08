@@ -8,14 +8,17 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 
 import android.view.View;
+import android.webkit.WebSettings.TextSize;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class CustomMatchers {
 
@@ -143,6 +146,32 @@ public class CustomMatchers {
                
 
                 return expectedPriority.equals(priority);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
+    public final static Matcher<View> withStatusValue(final String expectedStatusValue) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof TextView)) {
+                    return false;
+                }
+                String statusValue = null;
+                if (((TextView) view).getText() != null) {
+                     statusValue = ((TextView) view).getText().toString();
+                } else {
+                    statusValue = null;
+                }
+               
+
+                return expectedStatusValue.equals(statusValue);
             }
 
             @Override

@@ -116,6 +116,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/issue_desc_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
