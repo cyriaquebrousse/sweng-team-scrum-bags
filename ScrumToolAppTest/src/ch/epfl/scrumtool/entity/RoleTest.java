@@ -10,7 +10,6 @@ public class RoleTest extends TestCase {
     private final static Role scrumMaster = Role.SCRUM_MASTER;
     private final static Role stakeHolder = Role.STAKEHOLDER;
 
-
     public void testToString() {
         assertEquals("Developer", developer.toString());
         assertEquals("Invited", invited.toString());
@@ -18,14 +17,4 @@ public class RoleTest extends TestCase {
         assertEquals("Scrum Master", scrumMaster.toString());
         assertEquals("Stakeholder", stakeHolder.toString());
     }
-
-    public void testCanAccessIssues() {
-        assertTrue(developer.canAccessIssues());
-        assertTrue(invited.canAccessIssues());
-        assertTrue(productOwner.canAccessIssues());
-        assertTrue(scrumMaster.canAccessIssues());
-        assertFalse(stakeHolder.canAccessIssues());
-
-    }
-
 }

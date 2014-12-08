@@ -12,33 +12,24 @@ public enum Role {
      * 
      * PRODUCT_OWNER < STAKEHOLDER < ... < INVITED
      */
-    PRODUCT_OWNER("Product Owner", true),
-    STAKEHOLDER("Stakeholder", false),
-    SCRUM_MASTER("Scrum Master", true),
-    DEVELOPER("Developer", true);
+    PRODUCT_OWNER("Product Owner"),
+    STAKEHOLDER("Stakeholder"),
+    SCRUM_MASTER("Scrum Master"),
+    DEVELOPER("Developer");
 
     private final String stringValue;
-    private final boolean canAccessIssues;
 
     /**
      * @param stringValue
      * @param accessIssues
      */
-    Role(String stringValue, boolean accessIssues) {
+    Role(String stringValue) {
         this.stringValue = stringValue;
-        this.canAccessIssues = accessIssues;
     }
 
     @Override
     public String toString() {
         return this.stringValue;
-    }
-
-    /**
-     * @return true if the user has the rights to see issues, false otherwise
-     */
-    public boolean canAccessIssues() {
-        return canAccessIssues;
     }
 
 }
