@@ -17,7 +17,6 @@ public final class DSExecArgs<A, B, C> {
     private final Callback<C> callback;
 
     private DSExecArgs(DSExecArgs.Factory<A, B, C> factory) {
-        
         Preconditions.throwIfNull("All execution arguments (operation, converter, callback) must be valid (not null)",
                 factory.operation, factory.converter, factory.callback);
         
