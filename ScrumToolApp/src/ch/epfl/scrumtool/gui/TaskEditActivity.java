@@ -1,14 +1,13 @@
 package ch.epfl.scrumtool.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;

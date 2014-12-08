@@ -240,24 +240,24 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Sprint")
-        .setMessage("Do you really want to delete this Sprint? "
-                + "This will remove the sprint and all its links with Issues.")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = SprintOverviewActivity.this;
-                sprint.remove(new DefaultGUICallback<Void>(context) {
-                    @Override
-                    public void interactionDone(Void v) {
-                        Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this Sprint? "
+                    + "This will remove the sprint and all its links with Issues.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = SprintOverviewActivity.this;
+                    sprint.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
     
     private void updateIssue() {

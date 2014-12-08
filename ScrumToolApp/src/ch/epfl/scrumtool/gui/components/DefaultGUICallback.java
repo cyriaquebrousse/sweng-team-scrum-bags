@@ -2,7 +2,6 @@ package ch.epfl.scrumtool.gui.components;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import ch.epfl.scrumtool.database.Callback;
 
