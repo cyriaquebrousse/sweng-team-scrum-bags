@@ -21,7 +21,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -38,7 +37,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     private Calendar chosen = Calendar.getInstance();
     
     // Views
-    private TextView sprintDateView;
+    private Button sprintDateView;
     private EditText sprintNameView;
     
     // Entities
@@ -83,7 +82,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         
         if (nameIsValid()) {
             if (dateIsValid()) {
-                findViewById(R.id.sprintEditDoneButton).setEnabled(false);
+                findViewById(R.id.sprint_edit_button).setEnabled(false);
                 sprintBuilder.setDeadline(sprintDeadline);
                 sprintBuilder.setTitle(name);
                 
@@ -124,8 +123,8 @@ public class SprintEditActivity extends BaseMenuActivity {
     }
     
     private void initViews() {
-        sprintDateView = (TextView) findViewById(R.id.sprintDate);
-        sprintNameView = (EditText) findViewById(R.id.editName);
+        sprintDateView = (Button) findViewById(R.id.sprint_date_edit);
+        sprintNameView = (EditText) findViewById(R.id.sprint_name_edit);
 
         sprintNameView.setText(sprintBuilder.getTitle());
         
@@ -136,7 +135,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     
     private void insertSprint() {
         final Sprint sprint = sprintBuilder.build();
-        final Button next = (Button) findViewById(R.id.sprintEditDoneButton);
+        final Button next = (Button) findViewById(R.id.sprint_edit_button);
         sprint.insert(project, new DefaultGUICallback<Sprint>(this, next) {
             @Override
             public void interactionDone(Sprint object) {
@@ -148,7 +147,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     
     private void updateSprint() {
         final Sprint sprint = sprintBuilder.build();
-        final Button next = (Button) findViewById(R.id.sprintEditDoneButton);
+        final Button next = (Button) findViewById(R.id.sprint_edit_button);
         sprint.update(null, new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {

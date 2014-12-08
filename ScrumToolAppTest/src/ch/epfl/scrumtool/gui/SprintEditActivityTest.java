@@ -64,17 +64,15 @@ public class SprintEditActivityTest extends ActivityInstrumentationTestCase2<Spr
     }
     
     public void testSaveButtonIsClickable() {
-        ViewInteraction save = onView(withId(R.id.sprintEditDoneButton));
+        ViewInteraction save = onView(withId(R.id.sprint_edit_button));
         save.check(matches(isClickable()));
         save.check(matches(withText("save")));
         save.perform(click());
     }
     
     public void testTextViewsHaveRightNamesAndAreDisplayed() {
-        onView(withId(R.id.sprintName)).check(matches(withText("Name")));
-        onView(withId(R.id.sprintName)).check(matches(ViewMatchers.isDisplayed()));
-        onView(withId(R.id.sprintEditDateTextView)).check(matches(withText("Date")));
-        onView(withId(R.id.sprintEditDateTextView)).check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.sprint_date_description_view)).check(matches(withText("Sprint deadline:")));
+        onView(withId(R.id.sprint_date_description_view)).check(matches(ViewMatchers.isDisplayed()));
     }
     
     public void testTitleIsNewSprintWhenEditingOrCreating() {
@@ -86,7 +84,7 @@ public class SprintEditActivityTest extends ActivityInstrumentationTestCase2<Spr
     }
     
     public void testEditTextNameIsEditable() {
-        ViewInteraction name = onView(withId(R.id.editName));
+        ViewInteraction name = onView(withId(R.id.sprint_name_edit));
         name.check(matches(withText("sprint title")));
         name.check(matches(ViewMatchers.isClickable()));
         name.perform(click());

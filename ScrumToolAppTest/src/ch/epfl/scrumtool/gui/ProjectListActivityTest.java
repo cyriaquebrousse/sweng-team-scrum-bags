@@ -107,6 +107,25 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         onView(withId(R.id.swipe_update_empty_project_list)).check(matches(isDisplayed()));
     }
 
+    public void testRemoveProjectCancel() {
+        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+            .deleteProject(Mockito.any(Project.class), Matchers.<Callback<Void>>any());
+
+        onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
+            .atPosition(0).perform(ViewActions.longClick());
+        onView(withText("Delete")).perform(click());
+        onView(withId(android.R.id.button2)).perform(click());
+        // check if list still contains project
+        DataInteraction listInteraction = onData(instanceOf(Project.class))
+                .inAdapterView(allOf(withId(R.id.project_list)));
+            
+            listInteraction.atPosition(0).onChildView(withId(R.id.project_row_name))
+                .check(matches(withText(PROJECT_NAME)));
+
+            listInteraction.atPosition(0).onChildView(withId(R.id.project_row_description))
+                .check(matches(withText(PROJECT_DESCRIPTION)));
+    }
+
     @SuppressWarnings("unchecked")
     public void testExpandListEntry() {
         onData(instanceOf(Project.class)).onChildView(withId(R.id.project_row_header_block))
@@ -133,8 +152,9 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         onView(withId(R.id.swipe_update_empty_project_list)).check(matches(isDisplayed()));
     }
     
-    public void testAddProject() {
+    public void testAddProject() throws InterruptedException {
         onView(withId(Menu.FIRST)).perform(ViewActions.click());
+        Thread.sleep(1000);
         onView(withId(R.id.project_description_edit)).check(matches(isDisplayed()));
     }
     

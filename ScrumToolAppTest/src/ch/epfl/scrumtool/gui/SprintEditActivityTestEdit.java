@@ -68,16 +68,9 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testSaveButtonIsClickable() {
-        ViewInteraction save = onView(withId(R.id.sprintEditDoneButton));
+        ViewInteraction save = onView(withId(R.id.sprint_edit_button));
         save.check(matches(withText("save")));
         save.check(matches(isClickable()));
-    }
-    
-    public void testTextViewsHaveRightNamesAndAreDisplayed() {
-        onView(withId(R.id.sprintName)).check(matches(withText("Name")));
-        onView(withId(R.id.sprintName)).check(matches(ViewMatchers.isDisplayed()));
-        onView(withId(R.id.sprintEditDateTextView)).check(matches(withText("Date")));
-        onView(withId(R.id.sprintEditDateTextView)).check(matches(ViewMatchers.isDisplayed()));
     }
     
     public void testTitleIsCurrentSprint() {
@@ -85,7 +78,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testPickADateButCancel() {
-        ViewInteraction datePick = onView(withId(R.id.sprintDateButton));
+        ViewInteraction datePick = onView(withId(R.id.sprint_date_edit));
         datePick.check(matches(withText("Pick a date")));
         datePick.check(matches(ViewMatchers.isDisplayed()));
         datePick.check(matches(ViewMatchers.isClickable()));
@@ -100,11 +93,11 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprint.getDeadline());
-        onView(withId(R.id.sprintDate)).check(matches(withText(sdf.format(date.getTime()))));
+        onView(withId(R.id.sprint_date_edit)).check(matches(withText(sdf.format(date.getTime()))));
     }
     
     public void testPickADate() throws Throwable {
-        ViewInteraction datePick = onView(withId(R.id.sprintDateButton));
+        ViewInteraction datePick = onView(withId(R.id.sprint_date_edit));
         datePick.check(matches(ViewMatchers.isClickable()));
         datePick.perform(ViewActions.click());
         
@@ -127,11 +120,11 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
         okButton.perform(ViewActions.click());
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-        onView(withId(R.id.sprintDate)).check(matches(withText(sdf.format(dateToSet.getTime()))));
+        onView(withId(R.id.sprint_date_edit)).check(matches(withText(sdf.format(dateToSet.getTime()))));
     }
     
     public void testDeadlineIsSprintsDeadline() {
-        ViewInteraction deadline = onView(withId(R.id.sprintDate));
+        ViewInteraction deadline = onView(withId(R.id.sprint_date_edit));
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(sprint.getDeadline());
@@ -139,7 +132,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     }
     
     public void testEditTextNameIsEditable() {
-        ViewInteraction name = onView(withId(R.id.editName));
+        ViewInteraction name = onView(withId(R.id.sprint_name_edit));
         name.check(matches(withText("sprint title")));
         name.check(matches(ViewMatchers.isClickable()));
         name.perform(click());
