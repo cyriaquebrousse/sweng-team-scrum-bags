@@ -1,11 +1,9 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Assertions.assertTrue;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
-import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures conversion between ScrumProject and Project
@@ -25,7 +23,6 @@ public final class ProjectConverters {
                     dbProject.getName(),
                     dbProject.getDescription());
 
-            Preconditions.throwIfInvalidKey(dbProject.getKey());
             Project.Builder project = new Project.Builder();
 
             String key = dbProject.getKey();
@@ -47,8 +44,6 @@ public final class ProjectConverters {
 
         @Override
         public ScrumProject convert(Project project) {
-            assertTrue(project != null);
-
             ScrumProject dbProject = new ScrumProject();
 
             if (!project.getKey().equals("")) {
