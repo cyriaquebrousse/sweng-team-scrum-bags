@@ -81,7 +81,6 @@ public class ProjectConvertersTest extends TestCase {
         assertEquals(mustResult.getDescription(), result.getName());
     }
     
-    
     public void testInsertResponse() {
         KeyResponse response = new KeyResponse();
         response.setKey(TestConstants.validKey);

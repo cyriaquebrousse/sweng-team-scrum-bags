@@ -68,16 +68,31 @@ public final class UserConverters {
         public ScrumUser convert(User user) {
             ScrumUser dbUser = new ScrumUser();
 
-            dbUser.setCompanyName(user.getCompanyName());
-            dbUser.setDateOfBirth(user.getDateOfBirth());
-            dbUser.setJobTitle(user.getJobTitle());
             dbUser.setEmail(user.getEmail());
-            dbUser.setLastName(user.getLastName());
-            dbUser.setName(user.getName());
+            
+            if (!user.getCompanyName().equals("")) {
+                dbUser.setCompanyName(user.getCompanyName()); 
+            }
+            
+            if (user.getDateOfBirth() != 0L) {
+                dbUser.setDateOfBirth(user.getDateOfBirth());
+            }
+            
+            if (!user.getJobTitle().equals("")) {
+                dbUser.setJobTitle(user.getJobTitle());
+            }
+
+            if (!user.getLastName().equals("")) {
+                dbUser.setLastName(user.getLastName());
+            }
+            
+            if (!user.getName().equals("")) {
+                dbUser.setName(user.getName());
+            }
+            
             if (user.getGender() != Gender.UNKNOWN) {
                 dbUser.setGender(user.getGender().name());
             }
-
             return dbUser;
         }
     };
