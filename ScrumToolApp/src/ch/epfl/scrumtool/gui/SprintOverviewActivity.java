@@ -14,21 +14,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
@@ -39,16 +45,13 @@ import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 /**
  * @author AlexVeuthey, sylb
  */
-public class SprintOverviewActivity extends BaseOverviewMenuActivity {
+public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
     // Entities
     private Sprint sprint;
     private Project project;
     private Sprint.Builder sprintBuilder;
-    
-    private Issue issue;
-    private Issue.Builder issueBuilder;
-    private boolean unsprintedIssues;
+    private List<Issue> unsprintedIssues;
     
     // Calendar
     private Calendar chosen = Calendar.getInstance();
@@ -60,15 +63,64 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     private static TextView deadlineView;
     private ListView issueListView;
     private IssueListAdapter issueListAdapter;
-    private IssueListAdapter issueSpinnerAdapter;
-    private Spinner issueSpinner;
+    private IssueListAdapter issueNoSprintAdapter;
+    private SwipeRefreshLayout listViewLayout;
+    private SwipeRefreshLayout emptyViewLayout;
+    
+    // Callbacks
+    private Callback<List<Issue>> loadIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
+        @Override
+        public void interactionDone(final List<Issue> issueList) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
+            //registerForContextMenu(issueListView);
+            issueListView.setAdapter(issueListAdapter);
+            if (!issueList.isEmpty()) {
+                registerForContextMenu(issueListView);
+                issueListView.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
+                        Issue issue = issueList.get(position);
+                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+                        openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+                        startActivity(openIssueIntent);
+                    }
+                });
+            } else {
+                emptyViewLayout.setVisibility(View.VISIBLE);
+            }
+            issueListAdapter.notifyDataSetChanged();
+        }
+    };
+    private Callback<List<Issue>> loadUnsprintedIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
+        @Override
+        public void interactionDone(List<Issue> unsprintedIssuesList) {
+            if (unsprintedIssuesList == null || unsprintedIssuesList.isEmpty()) {
+                new AlertDialog.Builder(SprintOverviewActivity.this)
+                    .setTitle("No Issue found")
+                    .setMessage("This project has no unassigned issues.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+            } else {
+                unsprintedIssues = new ArrayList<Issue>(unsprintedIssuesList);
+                displayIssueSelectionPopup();
+            }
+        }
+    };
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sprint_overview);
         
-        initActivity();
+        initValues();
         initViews();
         
         setTitle(sprint.getTitle());
@@ -77,83 +129,14 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            @Override
-            public void interactionDone(final List<Issue> issueList) {
-                issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
-                issueListView = (ListView) findViewById(R.id.sprint_overview_issue_list);
-                registerForContextMenu(issueListView);
-                issueListView.setAdapter(issueListAdapter);
-                issueListView.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent openIssueIntent = new Intent(view.getContext(), IssueOverviewActivity.class);
-                        Issue issue = issueList.get(position);
-                        openIssueIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
-                        openIssueIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-                        
-                        startActivity(openIssueIntent);
-                    }
-                });
-                
-                issueListAdapter.notifyDataSetChanged();
-            }
-            
-        });
-        
-        project.loadUnsprintedIssues(new DefaultGUICallback<List<Issue>>(this) {
-            @Override
-            public void interactionDone(List<Issue> unsprintedIssuesList) {
-                if (unsprintedIssuesList != null && !unsprintedIssuesList.isEmpty()) {
-                    unsprintedIssuesList.add(0, null);
-                    unsprintedIssues = true;
-                    issueSpinnerAdapter = new IssueListAdapter(SprintOverviewActivity.this, unsprintedIssuesList);
-                    issueSpinner.setAdapter(issueSpinnerAdapter);
-                    issueSpinner.setSelection(0);
-                    addIssueVisible(View.VISIBLE);
-                } else {
-                    unsprintedIssues = false;
-                }
-                initSpinner();
-            }
-        });
-    }
-    
-    private void addIssueVisible(int visibility) {
-        TextView issueAdd = (TextView) findViewById(R.id.sprint_overview_issue_add);
-        issueAdd.setVisibility(visibility);
-        issueSpinner.setVisibility(visibility);
-        
-        issueAdd.postInvalidate();
-        issueSpinner.postInvalidate();
-    }
-    
-    private void initSpinner() {
-        issueSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                    int position, long id) {
-                issue = (Issue) issueSpinner.getItemAtPosition(position);
-                if (unsprintedIssues && issue != null) {
-                    issueBuilder = new Issue.Builder(issue);
-                    issueBuilder.setSprint(sprint);
-                    issueBuilder.setStatus(Status.IN_SPRINT);
-                    updateIssue();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                return;
-            }
-        });
+        sprint.loadIssues(loadIssuesCallback);
     }
     
     private void initViews() {
         nameView = (TextView) findViewById(R.id.sprint_overview_name);
         deadlineView = (TextView) findViewById(R.id.sprint_overview_deadline);
-        issueSpinner = (Spinner) findViewById(R.id.issue_spinner);
-        
+        issueListView = (ListView) findViewById(R.id.sprint_overview_issue_list);
+    
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +158,7 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(deadlineView, new DefaultGUICallback<Calendar>(SprintOverviewActivity.this) {
-
+    
                     @Override
                     public void interactionDone(Calendar deadline) {
                         sprintBuilder = new Sprint.Builder(sprint);
@@ -188,18 +171,131 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
             }
         });
         
+        listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_sprint_issue_list);
+        onCreateSwipeToRefresh(listViewLayout);
+        emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_sprint_issue_list);
+        onCreateSwipeToRefresh(emptyViewLayout);
+    
+        emptyViewLayout.setVisibility(View.INVISIBLE);
+        
         nameView.setText(sprint.getTitle());
         setDeadlineText();
-        setTitle(sprint.getTitle());
-        
-        // set the visibility to GONE by defaut so that it only shows up when the unsprinted Issues list is ready
-        addIssueVisible(View.GONE);
+    }
+
+    private void initValues() {
+        sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
+        throwIfNull("Sprint cannot be null", sprint);
+        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
+        throwIfNull("Parent project cannot be null", project);
+        unsprintedIssues = new ArrayList<Issue>();
     }
     
-    private void refreshViews() {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        final Issue issue = issueListAdapter.getItem(info.position);
+        switch (item.getItemId()) {
+            case R.id.action_entity_edit:
+                openEditElementActivity(issue);
+                return true;
+            case R.id.action_entity_delete:
+                removeIssueFromSprint(issue);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+    
+    @Override
+    public void openEditElementActivity(Issue issue) {
+        Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
+        openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
+        openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openIssueEditIntent);
+    }
+    
+    private void removeIssueFromSprint(final Issue issue) {
+        listViewLayout.setRefreshing(true);
+        new AlertDialog.Builder(this).setTitle("Delete Issue")
+            .setMessage("Do you really want to delete this Issue from this Sprint? "
+                    + "This will remove the Issue from this Sprints but not from the Project.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = SprintOverviewActivity.this;
+                    issue.getBuilder().setSprint(null).build().update(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Issue removed from Sprint", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            issueListAdapter.remove(issue);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
+    }
+    
+    public void openCreateElementActivity() {
+        project.loadUnsprintedIssues(loadUnsprintedIssuesCallback);
+    }
+    
+    private void displayIssueSelectionPopup() {
+        issueNoSprintAdapter = new IssueListAdapter(SprintOverviewActivity.this, unsprintedIssues);
+        new AlertDialog.Builder(this)
+        .setTitle("Add Issue to Sprint")
+        .setAdapter(issueNoSprintAdapter, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final Issue issue = unsprintedIssues.get(which).getBuilder().setSprint(sprint).build();
+                issue.update(
+                       new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
+
+                        @Override
+                        public void interactionDone(Void object) {
+                            issueListAdapter.add(issue);
+                        }
+                    });
+            }
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+        }).show();
+    }
+
+    private void updateViews() {
         nameView.setText(sprint.getTitle());
         setDeadlineText();
         setTitle(sprint.getTitle());
+    }
+    
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sprint.loadIssues(loadIssuesCallback);
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
     
     private void setDeadlineText() {
@@ -211,73 +307,17 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         deadlineView.postInvalidate();
     }
     
-    private void initActivity() {
-        sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
-        throwIfNull("Sprint cannot be null", sprint);
-        project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
-        throwIfNull("Parent project cannot be null", project);
-    }
-
-    @Override
-    void openEditElementActivity() {
-        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
-        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivityForResult(openSprintEditIntent, 1);
-    }
-    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 sprint = (Sprint) data.getSerializableExtra(Sprint.SERIALIZABLE_NAME);
                 throwIfNull("Sprint cannot be null", sprint);
-                refreshViews();
+                updateViews();
             }
         }
     }
 
-    @Override
-    void deleteElement() {
-        new AlertDialog.Builder(this).setTitle("Delete Sprint")
-            .setMessage("Do you really want to delete this Sprint? "
-                    + "This will remove the sprint and all its links with Issues.")
-            .setIcon(R.drawable.ic_dialog_alert)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    final Context context = SprintOverviewActivity.this;
-                    sprint.remove(new DefaultGUICallback<Void>(context) {
-                        @Override
-                        public void interactionDone(Void v) {
-                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    finish();
-                }
-            })
-            .setNegativeButton(android.R.string.no, null).show();
-    }
-    
-    private void updateIssue() {
-        final Issue issueToBeAdded = issue;
-        issue = issueBuilder.build();
-        issue.update(new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
-            @Override
-            public void interactionDone(Void v) {
-                ArrayList<Issue> list = (ArrayList<Issue>) issueSpinnerAdapter.getList();
-                list.remove(issueToBeAdded);
-                issueListAdapter.add(issue);
-                issueSpinner.setSelection(0);
-                if (list.size() < 2) {
-                    addIssueVisible(View.GONE);
-                    unsprintedIssues = false;
-                }
-            }
-        });
-        
-    }
     
     private void updateSprint() {
         sprint = sprintBuilder.build();

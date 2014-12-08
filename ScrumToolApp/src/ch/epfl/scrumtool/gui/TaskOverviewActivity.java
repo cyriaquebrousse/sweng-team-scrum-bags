@@ -95,7 +95,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             } else {
                 emptyViewLayout.setVisibility(View.VISIBLE);
             }
-
             adapter.notifyDataSetChanged();
         }
     };
