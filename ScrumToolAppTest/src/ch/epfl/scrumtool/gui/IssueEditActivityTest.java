@@ -61,6 +61,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
             + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
     private static final Float ESTIMATION = 2f;
+    private static final Float LARGE_ESTIMATION = 125f;
     private static final long THREADSLEEPTIME = 100;
 
     private List<Player> playerList = new ArrayList<Player>();
@@ -150,8 +151,8 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         nameIsEmpty(res);
         descriptionIsEmpty(res);
         estimationIsEmpty(res);
-        largeInputs(res);
-
+        largeInputForTheName(res);
+        largeInputForTheEstimation(res);
     }
 
     private Intent createMockIntent() {
@@ -234,7 +235,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_name_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new task
+        // check the values in the fields of the new issue
         onView(withId(R.id.issue_name_edit)).check(matches(withText("")));
 
         // click on save button et check the error on the name
@@ -248,7 +249,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_description_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new task
+        // check the values in the fields of the new issue
         onView(withId(R.id.issue_description_edit)).check(matches(withText("")));
 
         // click on save button et check the error on the name
@@ -263,32 +264,42 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_estimation_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new task
+        // check the values in the fields of the new issue
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText("")));
 
-        // click on save button et check the error on the name
+        // click on save button and check the error on the estimation
         onView(withId(R.id.issue_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_estimation_edit)).check(
                 matches(withError(res.getString(R.string.error_field_required))));
     }
 
-    private void largeInputs(Resources res) throws InterruptedException {
+    private void largeInputForTheName(Resources res) throws InterruptedException {
         // fill the different fields
         onView(withId(R.id.issue_name_edit)).perform(clearText());
-        onView(withId(R.id.issue_description_edit)).perform(clearText());
-        onView(withId(R.id.issue_name_edit)).perform(typeText(VERY_LONG_TEXT));
-        onView(withId(R.id.issue_description_edit)).perform(typeText(VERY_LONG_TEXT), closeSoftKeyboard());
+        onView(withId(R.id.issue_name_edit)).perform(typeText(VERY_LONG_TEXT), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
-        // check the values in the fields of the new task
+        // check the large value for the name
         onView(withId(R.id.issue_name_edit)).check(matches(withText(VERY_LONG_TEXT)));
-        onView(withId(R.id.issue_description_edit)).check(matches(withText(VERY_LONG_TEXT)));
+
+        // click on save button and check the error on the name
+        onView(withId(R.id.issue_edit_button_next)).perform(click());
+        Thread.sleep(THREADSLEEPTIME);
+        onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_name_too_long))));
+    }
+    
+    private void largeInputForTheEstimation(Resources res) throws InterruptedException {
+        // fill the different fields
+        onView(withId(R.id.issue_estimation_edit)).perform(typeText(LARGE_ESTIMATION.toString()), closeSoftKeyboard());
+        Thread.sleep(THREADSLEEPTIME);
+
+        // check the values in the fields of the new issue
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withText(LARGE_ESTIMATION.toString())));
 
         // click on save button et check the error on the name
         onView(withId(R.id.issue_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
-        onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
-        onView(withId(R.id.issue_description_edit)).check(matches(withError("no error")));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
     }
 }

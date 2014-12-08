@@ -218,7 +218,7 @@ public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskE
         // click on save button and check the error on the name
         onView(withId(R.id.task_edit_button_next)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
-        onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
+        onView(withId(R.id.task_name_edit)).check(matches(withError(res.getString(R.string.error_name_too_long))));
     }
     
     private void largeInputForTheDescription(Resources res) throws InterruptedException {

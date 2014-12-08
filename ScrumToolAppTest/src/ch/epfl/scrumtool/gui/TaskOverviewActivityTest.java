@@ -206,7 +206,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
 
         // click on save button and check the error on the name
         onView(withText(android.R.string.ok)).perform(click());
-        onView(withId(R.id.popup_user_input)).check(matches(withError(res.getString(R.string.error_field_required))));
+        onView(withId(R.id.popup_user_input)).check(matches(withError(res.getString(R.string.error_name_too_long))));
         onView(withId(R.id.popup_user_input)).perform(pressBack());
         onView(withId(R.id.popup_user_input)).perform(pressBack());
     }
