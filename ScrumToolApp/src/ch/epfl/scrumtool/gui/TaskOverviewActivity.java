@@ -193,6 +193,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
