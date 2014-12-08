@@ -72,9 +72,12 @@ public class SprintOverviewActivity extends BaseOverviewMenuActivity {
         initViews();
         
         setTitle(sprint.getTitle());
-        
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
         sprint.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-
             @Override
             public void interactionDone(final List<Issue> issueList) {
                 issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
