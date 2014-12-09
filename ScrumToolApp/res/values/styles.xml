@@ -41,7 +41,7 @@
     </style>
     
     <style name="image_button">
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@drawable/fluid_flat_round_button</item>
     </style>
     
     <!-- Components -->

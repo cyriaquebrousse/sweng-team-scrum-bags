@@ -64,8 +64,6 @@ public final class DashboardProjectListAdapter extends DefaultAdapter<Project> {
                 LayoutParams params = convertView.getLayoutParams();
                 params.height = parent.getHeight();
                 convertView.setLayoutParams(params);
-                ViewTreeObserver obs = parent.getViewTreeObserver();
-                obs.removeOnGlobalLayoutListener(this);
             }
 
         });
