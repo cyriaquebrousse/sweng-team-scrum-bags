@@ -67,8 +67,9 @@ public class IssueOverviewActivityTest extends BaseInstrumentationTestCase<Issue
     private static final String TEST_TEXT = "Test Text";
     private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
             + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
-    
-    private static final long THREADSLEEPTIME = 100;
+    private static final Float ESTIMATION = 2f;
+    private static final Float LARGE_ESTIMATION = 125f;
+    private static final long THREADSLEEPTIME = 1000;
     
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
@@ -156,24 +157,37 @@ public class IssueOverviewActivityTest extends BaseInstrumentationTestCase<Issue
         onView(withId(R.id.issue_desc)).check(matches(withText(ISSUE1.getDescription())));
         
         // fill the modifiable fields with new values
+        // set the name
         onView(withId(R.id.issue_name)).perform(click());
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
         onView(withText(android.R.string.ok)).perform(click());
         
+        // set the description
         onView(withId(R.id.issue_desc)).perform(click());
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
         onView(withText(android.R.string.ok)).perform(click());
         
-        // set the sprint of the issue
+        // set the sprint
         onView(withId(R.id.issue_sprint)).perform(click());
         onData(allOf(is(instanceOf(Sprint.class)))).atPosition(1).perform(click());
+        
+        // set the player
+        onView(withId(R.id.issue_assignee_label)).perform(click());
+        onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(click());
+        
+     // set the estimation
+        onView(withId(R.id.issue_estimation_stamp)).perform(click());
+        onView(withId(R.id.popup_user_input)).perform(clearText());
+        onView(withId(R.id.popup_user_input)).perform(typeText(ESTIMATION.toString()));
+        onView(withText(android.R.string.ok)).perform(click());
         
         // check if the values have been changed
         onView(withId(R.id.issue_name)).check(matches(withText(TEST_TEXT)));
         onView(withId(R.id.issue_desc)).check(matches(withText(TEST_TEXT)));
         onView(withId(R.id.issue_sprint)).check(matches(withText(SPRINT2.getTitle())));
+//        onView(withId(R.id.issue_assignee_name)).check(matches(withText(PLAYER1.getUser().fullname())));
     }
 
 }
