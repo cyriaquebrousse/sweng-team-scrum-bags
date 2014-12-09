@@ -157,7 +157,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                             adapter.remove(mainTask);
                         }
                     });
-                    finish();
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
