@@ -36,7 +36,6 @@ public abstract class BaseOverviewMenuActivity extends BaseMenuActivity {
                 openEditElementActivity();
                 return true;
             case DELETE_ID:
-                item.setEnabled(false);
                 deleteElement();
                 return true;
             default:
