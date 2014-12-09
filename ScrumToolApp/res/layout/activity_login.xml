@@ -3,8 +3,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/murcs_bg"
+    android:scaleType="center"
     tools:context="ch.epfl.scrumtool.gui.LoginActivity" >
 
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginTop="@dimen/space"
+        android:layout_marginStart="@dimen/space"
+        android:layout_marginEnd="@dimen/space"
+        android:contentDescription="@string/button_login"
+        />
     <Button
         android:id="@+id/button_login"
         style="?android:attr/borderlessButtonStyle"
