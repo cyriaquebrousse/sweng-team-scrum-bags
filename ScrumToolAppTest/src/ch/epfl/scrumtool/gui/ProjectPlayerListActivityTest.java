@@ -29,6 +29,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -64,7 +65,7 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
 
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
+            public Void answer(InvocationOnMock invocation) {
                 ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerList);
                 return null;
             }
@@ -80,13 +81,44 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
     public void testPlayerIsDisplayed() {
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .check(matches(isDisplayed()));
+        //TODO find out why this doesn't work
+        /*DataInteraction listInteraction = onData(instanceOf(Player.class))
+            .inAdapterView(allOf(withId(R.id.project_playerlist)));
+
+        listInteraction.atPosition(0)
+            .onChildView(withId(R.id.player_row_name))
+            .check(matches(withText(PLAYER1.getUser().getName())));
+
+        listInteraction.atPosition(0)
+            .onChildView(withId(R.id.player_row_role))
+            .check(matches(withText(PLAYER1.getRole().name())));*/
     }
     
     public void testClickOnCrossAddsAPlayer() {
+        Answer<Void> addPlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) {
+                playerList.add(PLAYER2);
+                ((Callback<Boolean>) invocation.getArguments()[3]).interactionDone(true);
+                return null;
+            }
+        };
+        
+        doAnswer(addPlayersAnswer).when(mockClient).addPlayerToProject(Mockito.any(Project.class),
+                Mockito.any(String.class), Mockito.any(Role.class), Mockito.any(Callback.class));
         onView(withId(Menu.FIRST))
             .perform(click());
-        onView(withText("Enter the new user's email address : "))
-            .check(matches(ViewMatchers.isDisplayed()));
+        onView(withId(R.id.player_role_sticker))
+            .check(matches(isDisplayed()));
+        onView(withId(R.id.player_address_add))
+            .perform(typeText(PLAYER2.getUser().getEmail()));
+        onView(withId(Menu.FIRST))
+            .perform(click());
+        // check 2 players in the list
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+        .check(matches(isDisplayed()));
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
+        .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
@@ -126,38 +158,39 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
     }
     
     @SuppressWarnings("unchecked")
-    public void testRemovePlayer() {
+    public void testRemovePlayerCancel() {
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(longClick());
-        onView(withText(R.string.action_edit)).perform(click());
-        
+        onView(withText(R.string.action_delete)).perform(click());
+        //cancel
+        onView(withId(android.R.id.button2)).perform(click());
+        //check player is still here
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .check(matches(isDisplayed()));
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testRemovePlayerOK() {
         Answer<Void> removePlayersAnswer = new Answer<Void>() {
             @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<Boolean>) invocation.getArguments()[1]).failure("haha");
+            public Void answer(InvocationOnMock invocation) {
+                playerList.remove(0);
+                ((Callback<Boolean>) invocation.getArguments()[1]).interactionDone(true);
                 return null;
             }
         };
         
         doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
                 Mockito.any(Callback.class));
+        
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
-            .check(matches(isDisplayed()));
-        
-        Answer<Void> removePlayersAnswer2 = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<Boolean>) invocation.getArguments()[1]).interactionDone(true);
-                return null;
-            }
-        };
-        
-        doAnswer(removePlayersAnswer2).when(mockClient).removePlayer(Mockito.any(Player.class),
-                Mockito.any(Callback.class));
-        //TODO check that the list is empty
-        onView(withId(R.id.project_playerlist))
-            .check(matches(not(CustomMatchers.withAdaptedData(is(Player.class)))));
-
+            .perform(longClick());
+        onView(withText(R.string.action_delete)).perform(click());
+        //delete
+        onView(withId(android.R.id.button1)).perform(click());
+        // check if list contains only 1 item
+        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
+            .check(matches(not(isDisplayed())));
     }
 
 }
