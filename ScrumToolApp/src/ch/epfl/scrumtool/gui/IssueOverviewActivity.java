@@ -127,7 +127,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, parentTask);
         openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, parentProject);
         startActivityForResult(openIssueEditIntent, 1);
-
     }
 
     @Override
@@ -247,6 +246,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                                 issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
                                 estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
+                                updateViews();
                                 updateViewsAccordingToNewEstimationAndSprint();
                             }
                         });
