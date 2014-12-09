@@ -128,7 +128,7 @@ public final class DSExecArgs<A, B, C> {
         }
 
         public DSExecArgs<A, B, C> build() {
-            return new DSExecArgs<>(this);
+            return new DSExecArgs<A, B, C>(this);
         }
     }
 }

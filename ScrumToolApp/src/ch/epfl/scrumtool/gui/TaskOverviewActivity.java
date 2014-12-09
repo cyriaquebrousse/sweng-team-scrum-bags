@@ -336,7 +336,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         task.loadIssues(new Callback<List<Issue>>() {
             @Override
             public void interactionDone(List<Issue> issues) {
-                final Set<Issue> issueSet = new HashSet<>(issues);
+                final Set<Issue> issueSet = new HashSet<Issue>(issues);
 
                 final Status status = simulateNewStatus(issueSet);
                 statusSlate.setText(status.toString());
@@ -358,7 +358,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                     return READY_FOR_ESTIMATION;
                 }
 
-                final Set<Issue> issues = new HashSet<>(allIssues);
+                final Set<Issue> issues = new HashSet<Issue>(allIssues);
 
                 if (allIssuesHaveStatus(issues, FINISHED)) {
                     return FINISHED;

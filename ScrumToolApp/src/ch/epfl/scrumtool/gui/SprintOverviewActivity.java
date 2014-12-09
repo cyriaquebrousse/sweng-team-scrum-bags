@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +36,6 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
@@ -52,11 +52,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private Project project;
     private Sprint.Builder sprintBuilder;
     private List<Issue> unsprintedIssues;
-    
-    // Calendar
-    private Calendar chosen = Calendar.getInstance();
-    private final Calendar today = Calendar.getInstance();
-    private long sprintDeadline = today.getTimeInMillis();
     
     // Views
     private static TextView nameView;
@@ -327,22 +322,23 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     }
     
     public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback) {
-        DialogFragment newFragment = new DatePickerFragment() {
-            
+        Calendar oldDate = Calendar.getInstance();
+        oldDate.setTimeInMillis(sprint.getDeadline());
+        OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
+
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                    int dayOfMonth) {
+                Calendar chosen = Calendar.getInstance();
                 chosen.set(Calendar.YEAR, year);
                 chosen.set(Calendar.MONTH, monthOfYear);
                 chosen.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                sprintDeadline = chosen.getTimeInMillis();
                 callback.interactionDone(chosen);
-                deadlineView.setText(convertDeadlineToString(chosen));
             }
         };
-        Bundle args = new Bundle();
-        args.putLong("long", sprintDeadline);
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "datePicker");
+        new DatePickerDialog(SprintOverviewActivity.this, dateListener, oldDate.get(Calendar.YEAR),
+                oldDate.get(Calendar.MONTH), oldDate.get(Calendar.DAY_OF_MONTH)).show();
+                
     }
 
     private String convertDeadlineToString(Calendar date) {
