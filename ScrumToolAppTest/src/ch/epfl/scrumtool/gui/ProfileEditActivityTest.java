@@ -1,33 +1,26 @@
 package ch.epfl.scrumtool.gui;
 
-import org.mockito.Mock;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import org.mockito.Mockito;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.gui.utils.MockData;
-import ch.epfl.scrumtool.network.Client;
-import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.allOf;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 /**
- * @author LeoWirz
+ * @author LeoWirz, AlexVeuthey
  *
  */
 public class ProfileEditActivityTest extends BaseInstrumentationTestCase<ProfileEditActivity> {
@@ -36,27 +29,27 @@ public class ProfileEditActivityTest extends BaseInstrumentationTestCase<Profile
         super(ProfileEditActivity.class);
     }
 
-    User user = MockData.VINCENT;
-    
-    Session mocksession = mock(Session.class);
+    private User user = MockData.VINCENT;
+    private String firstName = "Leonardo";
+    private String lastName = "Wirz";
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mocksession.setUser(user);
-        when(mocksession.getUser()).thenReturn(user);
-//        when(mocksession.getCurrentSession()).thenReturn(mocksession);
-//        when(mocksession.getCurrentSession().getUser()).thenReturn(user);
         
         getActivity();
     }
     
-    public void testFirstnameField() {
-        onView(withId(R.id.profile_edit_firstname)).perform(typeText("Leonardo"));
-    }
-    
-    public void testLastnameField() {
-        onView(withId(R.id.profile_edit_lastname)).perform(typeText("Wirz"));
+    public void testNameFieldsAreEditable() {
+        ViewInteraction fName = onView(withId(R.id.profile_edit_firstname));
+        fName.perform(clearText());
+        fName.perform(typeText(firstName));
+        fName.check(matches(withText(firstName)));
+        
+        ViewInteraction lName = onView(withId(R.id.profile_edit_lastname));
+        lName.perform(clearText());
+        lName.perform(typeText(lastName));
+        lName.check(matches(withText(lastName)));
     }
     
     @SuppressWarnings("unchecked")

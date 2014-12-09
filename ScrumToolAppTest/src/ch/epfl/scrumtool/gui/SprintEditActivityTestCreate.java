@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
