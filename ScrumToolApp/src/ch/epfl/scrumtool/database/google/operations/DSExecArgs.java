@@ -75,6 +75,7 @@ public final class DSExecArgs<A, B, C> {
          * 
          */
         public Factory(final MODE mode) {
+            Preconditions.throwIfNull("Authentication mode must be specified", mode);
             this.mode = mode;
         }
 
