@@ -136,9 +136,8 @@ public class SprintEditActivity extends BaseEditMenuActivity {
 
         sprintNameView.setText(sprintBuilder.getTitle());
         
-        final Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(sprintBuilder.getDeadline());
-        setDeadlineText(date);
+        chosen.setTimeInMillis(sprintBuilder.getDeadline());
+        setDeadlineText(chosen);
     }
     
     private void insertSprint() {
