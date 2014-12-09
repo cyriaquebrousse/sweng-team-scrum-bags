@@ -35,7 +35,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 
-public class SprintListActivityTest extends ActivityInstrumentationTestCase2<SprintListActivity> {
+public class SprintListActivityTest extends BaseInstrumentationTestCase<SprintListActivity> {
 
     private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
 

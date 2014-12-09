@@ -46,7 +46,7 @@ import android.view.Menu;
  * @author sylb
  *
  */
-public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<TaskOverviewActivity> {
+public class TaskOverviewActivityTest extends BaseInstrumentationTestCase<TaskOverviewActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;

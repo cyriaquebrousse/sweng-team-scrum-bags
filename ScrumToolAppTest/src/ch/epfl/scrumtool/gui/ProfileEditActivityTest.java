@@ -30,7 +30,7 @@ import static org.mockito.Mockito.any;
  * @author LeoWirz
  *
  */
-public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<ProfileEditActivity> {
+public class ProfileEditActivityTest extends BaseInstrumentationTestCase<ProfileEditActivity> {
 
     public ProfileEditActivityTest() {
         super(ProfileEditActivity.class);

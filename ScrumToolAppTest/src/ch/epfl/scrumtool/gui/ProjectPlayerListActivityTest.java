@@ -37,7 +37,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import android.content.Intent;
 
-public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCase2<ProjectPlayerListActivity> {
+public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<ProjectPlayerListActivity> {
 
     private static final Project PROJECT = MockData.MURCS;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;

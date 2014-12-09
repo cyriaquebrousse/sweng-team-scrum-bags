@@ -49,7 +49,7 @@ import android.view.Menu;
  * @author sylb
  *
  */
-public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<IssueEditActivity> {
+public class IssueEditActivityTest extends BaseInstrumentationTestCase<IssueEditActivity> {
 
     private static final Issue ISSUE = MockData.ISSUE1;
     private static final MainTask TASK = MockData.TASK1;

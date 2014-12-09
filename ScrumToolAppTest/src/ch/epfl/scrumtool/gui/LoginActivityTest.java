@@ -17,7 +17,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.mockito.Mockito.when;
 
 
-public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
+public class LoginActivityTest extends BaseInstrumentationTestCase<LoginActivity> {
 
     public LoginActivityTest() {
         super(LoginActivity.class);

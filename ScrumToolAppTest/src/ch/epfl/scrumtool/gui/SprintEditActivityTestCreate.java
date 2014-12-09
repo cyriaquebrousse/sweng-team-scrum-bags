@@ -28,7 +28,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  * @author AlexVeuthey
  *
  */
-public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCase2<SprintEditActivity> {
+public class SprintEditActivityTestCreate extends BaseInstrumentationTestCase<SprintEditActivity> {
 
     private Activity activity;
     private Sprint sprint = null;

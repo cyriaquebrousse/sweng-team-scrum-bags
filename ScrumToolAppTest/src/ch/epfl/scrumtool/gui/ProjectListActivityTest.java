@@ -35,7 +35,7 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
  * @author LeoWirz, zenhaeus
  * 
  */
-public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<ProjectListActivity> {
+public class ProjectListActivityTest extends BaseInstrumentationTestCase<ProjectListActivity> {
 
     public ProjectListActivityTest() {
         super(ProjectListActivity.class);

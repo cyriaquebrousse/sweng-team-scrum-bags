@@ -14,7 +14,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import ch.epfl.scrumtool.R;
 
-public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<MyProfileOverviewActivity> {
+public class MyProfileOverviewActivityTest extends BaseInstrumentationTestCase<MyProfileOverviewActivity> {
 
     public MyProfileOverviewActivityTest() {
         super(MyProfileOverviewActivity.class);

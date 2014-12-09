@@ -39,7 +39,7 @@ import android.view.Menu;
  * @author LeoWirz
  * 
  */
-public class BacklogActivityTest extends ActivityInstrumentationTestCase2<BacklogActivity> {
+public class BacklogActivityTest extends BaseInstrumentationTestCase<BacklogActivity> {
 
     public BacklogActivityTest() {
         super(BacklogActivity.class);

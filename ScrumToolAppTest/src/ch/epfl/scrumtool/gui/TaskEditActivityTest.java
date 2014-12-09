@@ -37,7 +37,7 @@ import android.view.Menu;
  * @author sylb
  *
  */
-public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskEditActivity> {
+public class TaskEditActivityTest extends BaseInstrumentationTestCase<TaskEditActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;

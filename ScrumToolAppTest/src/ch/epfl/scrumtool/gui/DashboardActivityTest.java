@@ -29,8 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
  * @author LeoWirz
  * 
  */
-public class DashboardActivityTest extends
-        ActivityInstrumentationTestCase2<DashboardActivity> {
+public class DashboardActivityTest extends BaseInstrumentationTestCase<DashboardActivity> {
 
     public DashboardActivityTest() {
         super(DashboardActivity.class);

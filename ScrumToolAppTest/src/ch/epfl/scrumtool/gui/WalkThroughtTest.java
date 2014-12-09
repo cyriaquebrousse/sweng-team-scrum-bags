@@ -33,7 +33,7 @@ import org.junit.Before;
  * 
  */
 public class WalkThroughtTest extends
-        ActivityInstrumentationTestCase2<DashboardActivity> {
+        BaseInstrumentationTestCase<DashboardActivity> {
 
     public WalkThroughtTest() {
         super(DashboardActivity.class);
