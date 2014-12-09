@@ -4,6 +4,9 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -22,7 +26,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.TaskListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.TaskListAdapter;
 
 /**
  * @author Cyriaque Brousse
@@ -97,7 +101,8 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         project.loadBacklog(callback);
     }
     
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,11 +110,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                 refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
     
     @Override
@@ -140,13 +140,31 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
      */
     private void deleteMainTask(final MainTask mainTask) {
         listViewLayout.setRefreshing(true);
-        mainTask.remove(new DefaultGUICallback<Boolean>(this) {
-            @Override
-            public void interactionDone(Boolean success) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(mainTask);
-            }
-        });
+        new AlertDialog.Builder(this).setTitle("Delete Task")
+            .setMessage("Do you really want to delete this Task? "
+                    + "This will remove the Task and all its Issues.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = BacklogActivity.this;
+                    mainTask.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Task deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(mainTask);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
     
     @Override

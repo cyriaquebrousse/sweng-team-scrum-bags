@@ -4,23 +4,23 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
-import ch.epfl.scrumtool.database.google.containers.InsertIssueArgs;
+import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
-import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.IssueOperations;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -36,11 +36,11 @@ public class DSIssueHandler implements IssueHandler {
     @Override
     public void insert(final Issue issue, final MainTask maintask,
         final Callback<Issue> callback) {
-        InsertIssueArgs args = new InsertIssueArgs(issue, maintask.getKey());
-        DSExecArgs.Factory<InsertIssueArgs, InsertResponse<Issue>, Issue> factory = 
-                new Factory<InsertIssueArgs, InsertResponse<Issue>, Issue>(MODE.AUTHENTICATED);
+        EntityKeyArg<Issue> args = new EntityKeyArg<Issue>(issue, maintask.getKey());
+        DSExecArgs.Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue> factory = 
+                new Factory<EntityKeyArg<Issue>, InsertResponse<Issue>, Issue>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(IssueConverters.OPSTATISSUE_TO_ISSUE);
+        factory.setConverter(IssueConverters.INSERTRESPONSE_TO_ISSUE);
         factory.setOperation(IssueOperations.INSERT_ISSUE_MAINTASK);
         OperationExecutor.execute(args, factory.build());
     }
@@ -51,22 +51,21 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void update(final Issue modified, final Issue ref,
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<Issue, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<Issue, OperationStatus, Boolean>(MODE.AUTHENTICATED);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+    public void update(final Issue modified, final Callback<Void> callback) {
+        DSExecArgs.Factory<Issue, Void, Void> factory = 
+                new DSExecArgs.Factory<Issue, Void, Void>(MODE.AUTHENTICATED);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setCallback(callback);
         factory.setOperation(IssueOperations.UPDATE_ISSUE);
         OperationExecutor.execute(modified, factory.build());
     }
 
     @Override
-    public void remove(final Issue issue, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final Issue issue, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(IssueOperations.DELETE_ISSUE);
         OperationExecutor.execute(issue.getKey(), factory.build());
     }
@@ -94,12 +93,12 @@ public class DSIssueHandler implements IssueHandler {
 
     @Override
     public void assignIssueToSprint(final Issue issue, final Sprint sprint,
-            Callback<Boolean> callback) {
-        InsertIssueArgs args = new InsertIssueArgs(issue, sprint.getKey());
-        DSExecArgs.Factory<InsertIssueArgs, OperationStatus, Boolean> factory = 
-                new Factory<InsertIssueArgs, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+            Callback<Void> callback) {
+        EntityKeyArg<Issue> args = new EntityKeyArg<Issue>(issue, sprint.getKey());
+        DSExecArgs.Factory<EntityKeyArg<Issue>, Void, Void> factory = 
+                new Factory<EntityKeyArg<Issue>, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(IssueOperations.INSERT_ISSUE_SPRINT);
         OperationExecutor.execute(args, factory.build());
     }
@@ -114,17 +113,11 @@ public class DSIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void removeIssueFromSprint(Issue issue, Callback<Boolean> cB) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void loadIssuesForUser(User user, Callback<List<Issue>> cB) {
-        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>> factory =
-                new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<Issue>>(MODE.AUTHENTICATED);
+    public void loadIssuesForUser(User user, Callback<List<TaskIssueProject>> cB) {
+        DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>> factory =
+            new DSExecArgs.Factory<String, CollectionResponseScrumIssue, List<TaskIssueProject>>(MODE.AUTHENTICATED);
         factory.setCallback(cB);
-        factory.setConverter(CollectionResponseConverters.ISSUES);
+        factory.setConverter(IssueConverters.DASHBOARD_ISSUES);
         factory.setOperation(IssueOperations.LOAD_ISSUES_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
     }

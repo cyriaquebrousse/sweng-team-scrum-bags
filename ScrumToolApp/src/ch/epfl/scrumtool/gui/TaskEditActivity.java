@@ -1,11 +1,14 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
@@ -15,12 +18,11 @@ import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 
 /**
  * @author Cyriaque Brousse
  */
-public class TaskEditActivity extends BaseMenuActivity {
+public class TaskEditActivity extends BaseEditMenuActivity {
     
     private EditText taskNameView;
     private EditText taskDescriptionView;
@@ -38,6 +40,11 @@ public class TaskEditActivity extends BaseMenuActivity {
         
         initOriginalAndParentProject();
         initViews();
+    }
+
+    @Override
+    protected void saveElement() {
+        saveTaskChanges();
     }
 
     private void initOriginalAndParentProject() {
@@ -76,12 +83,13 @@ public class TaskEditActivity extends BaseMenuActivity {
         });
     }
     
-    public void saveTaskChanges(View view) {
-        InputVerifiers.updateTextViewAfterValidityCheck(taskNameView, nameIsValid(), getResources());
-        InputVerifiers.updateTextViewAfterValidityCheck(taskDescriptionView, descriptionIsValid(), getResources());
+    private void saveTaskChanges() {
+        Resources resources = getResources();
+        boolean nameIsValid = verifyNameIsValid(taskNameView, resources);
+        boolean descriptionIsValid = verifyDescriptionIsValid(taskDescriptionView, resources);
         
-        if (nameIsValid() && descriptionIsValid()) {
-            findViewById(R.id.task_edit_button_next).setEnabled(false);
+        if (nameIsValid && descriptionIsValid) {
+            findViewById(Menu.FIRST).setEnabled(false);
             String newName = taskNameView.getText().toString();
             String newDescription = taskDescriptionView.getText().toString();
             
@@ -99,8 +107,9 @@ public class TaskEditActivity extends BaseMenuActivity {
     }
 
     private void insertTask() {
-        MainTask task = taskBuilder.build();
-        task.insert(parentProject, new DefaultGUICallback<MainTask>(this) {
+        final MainTask task = taskBuilder.build();
+        final View next = findViewById(Menu.FIRST);
+        task.insert(parentProject, new DefaultGUICallback<MainTask>(this, next) {
             @Override
             public void interactionDone(MainTask object) {
                 TaskEditActivity.this.finish();
@@ -109,27 +118,13 @@ public class TaskEditActivity extends BaseMenuActivity {
     }
     
     private void updateTask() {
-        MainTask task = taskBuilder.build();
-        task.update(null, new DefaultGUICallback<Boolean>(this) {
+        final MainTask task = taskBuilder.build();
+        final View next = findViewById(Menu.FIRST);
+        task.update(new DefaultGUICallback<Void>(this, next) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    TaskEditActivity.this.finish();
-                } else {
-                    Toast.makeText(TaskEditActivity.this, "Could not update task", Toast.LENGTH_SHORT).show();
-                }
+            public void interactionDone(Void v) {
+                TaskEditActivity.this.finish();
             }
         });
-    }
-
-    private boolean nameIsValid() {
-        String name = taskNameView.getText().toString();
-        return name != null && name.length() > 0
-                && name.length() < 50; // TODO put a meaningful value (cyriaque)
-    }
-    
-    private boolean descriptionIsValid() {
-        String description = taskDescriptionView.getText().toString();
-        return description != null && description.length() > 0;
     }
 }

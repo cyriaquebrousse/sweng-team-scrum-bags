@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.util.List;
 
 import android.app.Activity;
@@ -21,13 +23,16 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.PlayerListAdapter;
-import ch.epfl.scrumtool.gui.components.SprintListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
-import ch.epfl.scrumtool.util.gui.Dialogs;
+import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
@@ -39,6 +44,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     private TextView descriptionView;
     private TextView statusView;
     private Stamp estimationStamp;
+    private TextView assigneeLabel;
     private TextView assigneeName;
     private TextView sprintView;
 
@@ -65,45 +71,52 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
         estimationStamp = (Stamp) findViewById(R.id.issue_estimation_stamp);
+        assigneeLabel = (TextView) findViewById(R.id.issue_assignee_label);
         assigneeName = (TextView) findViewById(R.id.issue_assignee_name);
         sprintView = (TextView) findViewById(R.id.issue_sprint);
-
-        if (issue.getPlayer() != null) {
-            assigneeName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent openProfileIntent = new Intent(v.getContext(), ProfileOverviewActivity.class);
-                    User assignee = issue.getPlayer().getUser();
-                    openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
-                    startActivity(openProfileIntent);
-                }
-            });
-        }
 
         initializeListeners();
         updateViews();
     }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                issue = (Issue) data.getSerializableExtra(Issue.SERIALIZABLE_NAME);
+                throwIfNull("Issue cannot be null", issue);
+                updateViews();
+            }
+        }
+    }
 
 
     private void updateViews() {
+        this.setTitle(issue.getName());
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());
 
         if (issue.getPlayer() != null) {
-            assigneeName.setText(issue.getPlayer().getUser().getName());
+            assigneeName.setText(issue.getPlayer().getUser().fullname());
             assigneeName.setPaintFlags(assigneeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         } else {
             assigneeName.setText(R.string.no_player);
         }
+        
         if (issue.getSprint() != null) {
             sprintView.setText(issue.getSprint().getTitle());
         } else {
             sprintView.setText(R.string.no_sprint);
         }
 
-        estimationStamp.setQuantity(Float.toString(issue.getEstimatedTime()));
-        estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
+        float estim = issue.getEstimatedTime();
+        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(estim));
+        if (1.0 >= estim) {
+            estimationStamp.setUnit(getResources().getString(R.string.project_single_unit));
+        } else {
+            estimationStamp.setUnit(getResources().getString(R.string.project_default_unit));
+        }
         estimationStamp.setColor(getResources().getColor(issue.getStatus().getColorRef()));
     }
 
@@ -113,30 +126,31 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, parentTask);
         openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, parentProject);
-        startActivity(openIssueEditIntent);
+        startActivityForResult(openIssueEditIntent, 1);
 
     }
 
     @Override
     void deleteElement() {
         new AlertDialog.Builder(this).setTitle("Delete Issue")
-        .setMessage("Do you really want to delete this issue?")
-        .setIcon(R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Context context = IssueOverviewActivity.this;
-                issue.remove(new DefaultGUICallback<Boolean>(context) {
-                    @Override
-                    public void interactionDone(Boolean success) {
-                        Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                finish();
-            }
-        })
-        .setNegativeButton(android.R.string.no, null).show();
+            .setMessage("Do you really want to delete this issue?"
+                    + " It will remove the Issues and its links with Players and Sprints")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+    
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = IssueOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context, "Issue deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    finish();
+                }
+            })
+            .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void initializeListeners() {
@@ -144,7 +158,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "name",
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, FieldType.NAMEFIELD,
                         nameView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
@@ -160,7 +174,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(IssueOverviewActivity.this, "description",
+                TextViewModifiers.modifyText(IssueOverviewActivity.this, FieldType.DESCRIPTIONFIELD,
                         descriptionView.getText().toString(), new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
@@ -172,22 +186,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                         });
             }
         });
-
-        statusView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogs.showStatusEditDialog(IssueOverviewActivity.this, new DialogCallback<Status>() {
-                    @Override
-                    public void onSelected(Status selected) {
-                        issueBuilder = new Issue.Builder(issue);
-                        issueBuilder.setStatus(selected);
-                        statusView.setText(selected.toString());
-                        updateIssue();
-                    }
-                });
-            }
-        });
-
 
         sprintView.setOnClickListener(new OnClickListener() {
             @Override
@@ -203,30 +201,38 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             sprintView.setText(R.string.no_sprint);
                         }
                         updateIssue();
+                        updateViews();
+                        updateViewsAccordingToNewEstimationAndSprint();
+                    }
+                });
+            }
+        });
+        
+        assigneeLabel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
+                    @Override
+                    public void onSelected(Player selected) {
+                        issueBuilder = new Issue.Builder(issue);
+                        issueBuilder.setPlayer(selected);
+                        if (selected != null) {
+                            assigneeName.setText(selected.getUser().getName());
+                            setPlayerListenerIfNotNull();
+                        } else {
+                            assigneeName.setText(R.string.no_player);
+                            setPlayerListenerIfNull();
+                        }
+                        updateIssue();
                     }
                 });
             }
         });
 
         if (issue.getPlayer() == null) {
-            assigneeName.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
-                        @Override
-                        public void onSelected(Player selected) {
-                            issueBuilder = new Issue.Builder(issue);
-                            issueBuilder.setPlayer(selected);
-                            if (selected != null) {
-                                assigneeName.setText(selected.getUser().getName());
-                            } else {
-                                assigneeName.setText(R.string.no_player);
-                            }
-                            updateIssue();
-                        }
-                    });
-                }
-            });
+            setPlayerListenerIfNull();
+        } else {
+            setPlayerListenerIfNotNull();
         }
         
         estimationStamp.setOnClickListener(new OnClickListener() {
@@ -238,26 +244,73 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
                             public void onModified(Float userInput) {
                                 issueBuilder = new Issue.Builder(issue);
                                 issueBuilder.setEstimatedTime(userInput);
-                                estimationStamp.setQuantity((Float.toString(userInput)));
+                                issueBuilder.setStatus(Status.READY_FOR_ESTIMATION);
+                                estimationStamp.setQuantity(Float.toString(userInput));
                                 updateIssue();
+                                updateViewsAccordingToNewEstimationAndSprint();
                             }
                         });
             }
         });
 
     }
+    
+    private void setPlayerListenerIfNull() {
+        assigneeName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlayerSelector(IssueOverviewActivity.this, new DialogCallback<Player>() {
+                    @Override
+                    public void onSelected(Player selected) {
+                        issueBuilder = new Issue.Builder(issue);
+                        issueBuilder.setPlayer(selected);
+                        if (selected != null) {
+                            assigneeName.setText(selected.getUser().getName());
+                            setPlayerListenerIfNotNull();
+                        } else {
+                            assigneeName.setText(R.string.no_player);
+                            setPlayerListenerIfNull();
+                        }
+                        updateIssue();
+                    }
+                });
+            }
+        });
+    }
+    
+    private void setPlayerListenerIfNotNull() {
+        assigneeName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User assignee = issue.getPlayer().getUser();
+                Intent openProfileIntent = new Intent(v.getContext(), OthersProfileOverviewActivity.class);
+                try {
+                    if (assignee.getEmail().equals(Session.getCurrentSession().getUser().getEmail())) {
+                        openProfileIntent = new Intent(v.getContext(), MyProfileOverviewActivity.class);
+                    }
+                } catch (NotAuthenticatedException e) {
+                    Session.relogin(getParent());
+                }
+                openProfileIntent.putExtra(User.SERIALIZABLE_NAME, assignee);
+                startActivity(openProfileIntent);
+            }
+        });
+    }
 
     private void updateIssue() {
         issue = issueBuilder.build();
-        issue.update(null, new DefaultGUICallback<Boolean>(IssueOverviewActivity.this) {
+        issue.update(new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
-                    Toast.makeText(IssueOverviewActivity.this, 
-                            "Could not update issue", Toast.LENGTH_SHORT).show();
-                }
+            public void interactionDone(Void v) {
+                    //TODO handling?
             }
         });
+    }
+    
+    private void updateViewsAccordingToNewEstimationAndSprint() {
+        final Status status = issue.simulateNewStatusForEstimationAndSprint();
+        estimationStamp.setColor(getResources().getColor(status.getColorRef()));
+        statusView.setText(status.toString());
     }
 
     public void showPlayerSelector(final Activity parent, final DialogCallback<Player> callback) {

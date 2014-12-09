@@ -7,7 +7,8 @@
     android:background="@color/shadeB"
     tools:context="ch.epfl.scrumtool.gui.DashboardActivity" >
 
-    <TextView
+    <ListView
+        android:id="@+id/dashboard_issue_summary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
@@ -15,15 +16,53 @@
         android:background="@color/White"
         android:gravity="center"
         android:text="issues summary" />
-
-    <TextView
+    
+    <TextView android:id="@+id/dashboard_issue_summary_empty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
         android:layout_marginBottom="@dimen/space"
         android:background="@color/White"
         android:gravity="center"
+        android:text="No issues" />
+
+    <GridView
+        android:id="@+id/dashboard_project_summary"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/space"
+        android:layout_weight="0.4"
+        android:gravity="center"
+        android:horizontalSpacing="@dimen/space"
+        android:numColumns="2"
         android:text="project summary" />
+    
+    <LinearLayout
+        android:id="@+id/dashboard_project_summary_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/space"
+        android:layout_weight="0.4"
+        android:background="@color/White"
+        android:gravity="center"
+        android:onClick="openAddProject"
+        android:orientation="vertical"
+        android:text="project summary" >
+
+        <ImageView
+            android:id="@+id/dashboard_project_summary_add_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/action_add"
+            android:gravity="center"
+            android:src="@drawable/ic_action_new" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Add a project" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

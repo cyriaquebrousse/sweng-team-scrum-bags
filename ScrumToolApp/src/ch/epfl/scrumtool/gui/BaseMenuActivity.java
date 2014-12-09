@@ -77,10 +77,10 @@ public abstract class BaseMenuActivity extends ScrumToolActivity implements OnMe
     }
     
     /**
-     * Opens the {@link ProfileOverviewActivity}
+     * Opens the {@link MyProfileOverviewActivity}
      */
     private void openProfileOverviewActivity() {
-        Intent intent = new Intent(this, ProfileOverviewActivity.class);
+        Intent intent = new Intent(this, MyProfileOverviewActivity.class);
         startActivity(intent);
     }
     

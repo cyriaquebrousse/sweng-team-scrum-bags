@@ -17,16 +17,23 @@ public final class Player implements Serializable, Comparable<Player> {
 
     private final String key;
     private final User user;
+    private final Project project;
     private final Role role;
     private final boolean isAdmin;
+    private final boolean isInvited;
 
-    private Player(String key, User user, Role role, boolean isAdmin) {
+    private Player(String key, User user, Project project, Role role, boolean isAdmin, boolean isInvited) {
         throwIfNull("Player constructor parameters cannot be null", key, user, role);
+        if (isAdmin && isInvited) {
+            throw new IllegalStateException("An invited player can't be a project administrator");
+        }
         
         this.key = key;
         this.user = user;
+        this.project = project;
         this.role = role;
         this.isAdmin = isAdmin;
+        this.isInvited = isInvited;
     }
 
     /**
@@ -34,6 +41,13 @@ public final class Player implements Serializable, Comparable<Player> {
      */
     public User getUser() {
         return this.user;
+    }
+    
+    /**
+     * @return the project
+     */
+    public Project getProject() {
+        return this.project;
     }
 
     /**
@@ -56,6 +70,14 @@ public final class Player implements Serializable, Comparable<Player> {
     public boolean isAdmin() {
         return this.isAdmin;
     }
+    
+    
+    /**
+     * @return isInvited
+     */
+    public boolean isInvited() {
+        return this.isInvited;
+    }
 
     /**
      * Update the player in the DS
@@ -63,8 +85,8 @@ public final class Player implements Serializable, Comparable<Player> {
      * @param ref
      * @param callback
      */
-    public void update(final Player ref, final Callback<Boolean> callback) {
-        Client.getScrumClient().updatePlayer(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updatePlayer(this, callback);
     }
 
     /**
@@ -72,7 +94,7 @@ public final class Player implements Serializable, Comparable<Player> {
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().removePlayer(this, callback);
     }
     
@@ -94,11 +116,14 @@ public final class Player implements Serializable, Comparable<Player> {
         private User user;
         private String keyb;
         private Role role;
+        private Project project;
         private boolean isAdmin;
-
+        private boolean isInvited;
+        
         public Builder() {
             this.isAdmin = false;
-            this.role = Role.INVITED;
+            this.isInvited = true;
+            this.role = Role.STAKEHOLDER;
             this.keyb = "";
         }
 
@@ -107,9 +132,11 @@ public final class Player implements Serializable, Comparable<Player> {
          */
         public Builder(Player otherPlayer) {
             this.user = otherPlayer.user;
+            this.project = otherPlayer.project;
             this.keyb = otherPlayer.key;
             this.role = otherPlayer.role;
             this.isAdmin = otherPlayer.isAdmin;
+            this.isInvited = otherPlayer.isInvited;
         }
 
         /**
@@ -126,6 +153,25 @@ public final class Player implements Serializable, Comparable<Player> {
         public Player.Builder setUser(User user) {
             if (user != null) {
                 this.user = user;
+            }
+            return this;
+        }
+        
+        /**
+         * @return the project
+         */
+        public Project getProject() {
+            return this.project;
+            
+        }
+        
+        /**
+         * @param project
+         * @return the builder
+         */
+        public Player.Builder setProject(Project project) {
+            if (project != null) {
+                this.project = project;
             }
             return this;
         }
@@ -179,14 +225,29 @@ public final class Player implements Serializable, Comparable<Player> {
             this.isAdmin = isAdmin;
             return this;
         }
+        
+        /**
+         * @param isInvited
+         * @return the builder
+         */
+        public Player.Builder setIsInvited(boolean isInvited) {
+            this.isInvited = isInvited;
+            return this;
+        }
 
+        /**
+         * @return isInvited
+         */
+        public boolean isInvited() {
+            return this.isInvited;
+        }
         /**
          * Creates and returns a new immutable instance of Player
          * 
          * @return
          */
         public Player build() {
-            return new Player(this.keyb, this.user, this.role, this.isAdmin);
+            return new Player(this.keyb, this.user, this.project, this.role, this.isAdmin, this.isInvited);
         }
     }
 
@@ -196,7 +257,34 @@ public final class Player implements Serializable, Comparable<Player> {
             return false;
         }
         Player other = (Player) o;
-        return other.key.equals(this.key);
+        
+        boolean projectEquals = false;
+        if (this.project == null && other.project == null) {
+            projectEquals = true;
+        } else if (this.project == null && other.project != null
+                || this.project != null && other.project == null) {
+            projectEquals = false;
+        } else if (this.project != null && other.project != null) {
+            projectEquals = this.project.equals(other.project);
+        }
+        
+        boolean userEquals = false;
+        if (this.user == null && other.user == null) {
+            userEquals = true;
+        } else if (this.user == null && other.user != null
+                || this.user != null && other.user == null) {
+            userEquals = false;
+        } else if (this.user != null && other.user != null) {
+            userEquals = this.user.equals(other.user);
+        }
+        
+        
+        return other.key.equals(this.key)
+                && other.isAdmin == this.isAdmin
+                && other.role == this.role
+                && projectEquals
+                && userEquals
+                && other.isInvited == this.isInvited;
     }
 
     @Override
@@ -206,22 +294,15 @@ public final class Player implements Serializable, Comparable<Player> {
 
     @Override
     public int compareTo(Player that) {
-        final int equal = 0;
-        
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
-        
-        if (that != null) {
-            int comparison = this.getUser().compareTo(that.getUser());
-            if (comparison != equal) {
-                return comparison;
-            }
-            
-            comparison = this.getRole().compareTo(that.getRole());
+
+        int comparison = this.getUser().compareTo(that.getUser());
+        if (comparison != 0) {
             return comparison;
-        } else {
-            return 0;
         }
+
+        return this.getRole().compareTo(that.getRole());
     }
 }

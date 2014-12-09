@@ -7,22 +7,12 @@
     android:orientation="vertical"
     tools:context="ch.epfl.scrumtool.gui.ProjectPlayerListActivity" >
 
-    <!-- Block that contains fields for adding a player -->
-    <RelativeLayout
-        android:id="@+id/player_list_addplayer_block"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-    </RelativeLayout>
-
     <!-- Current project players list -->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_update_project_playerlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/space"
-        android:layout_below="@+id/player_list_addplayer_block" >
+        android:padding="@dimen/space">
 
         <ListView
             android:id="@+id/project_playerlist"

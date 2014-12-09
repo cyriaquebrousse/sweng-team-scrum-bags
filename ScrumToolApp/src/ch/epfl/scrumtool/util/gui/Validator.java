@@ -6,7 +6,6 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author ketsio
- * 
  */
 public enum Validator {
     NULLABLE, NOT_EMPTY, MAX_SIZE, MIN_SIZE, EMAIL;

@@ -43,4 +43,10 @@ public interface PlayerHandler extends DatabaseHandler<Player> {
     void addPlayerToProject(final Project project, final String userEmail,
             final Role role, final Callback<Player> callback);
 
+    /**
+     * Loads the the players that have been invited for the currentUser
+     * @param callback
+     */
+    void loadInvitedPlayers(Callback<List<Player>> callback);
+
 }

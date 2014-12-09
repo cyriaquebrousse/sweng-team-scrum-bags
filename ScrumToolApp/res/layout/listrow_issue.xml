@@ -1,37 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
 
     <!-- Estimation stamp -->
-    <ch.epfl.scrumtool.gui.components.widgets.Stamp
-        android:id="@+id/issue_row_estimation"
-        android:layout_width="@dimen/stamp_width"
+
+    <LinearLayout
+        android:layout_width="60dp"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/issue_row_assignee"
-        android:layout_marginEnd="@dimen/space_list"
-        android:gravity="center_vertical"/>
+        android:padding="@dimen/small_space"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <!-- Issue name -->
-    <TextView
-        android:id="@+id/issue_row_name"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/issue_row_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="@dimen/estimation_quantity_text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/issue_row_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/estimation_unit_text"
+            android:maxLines="1" />
+    </LinearLayout>
+    
+    <View 
+        android:id="@+id/issue_row_divider"
+        android:background="@color/shadeB"
+        android:layout_width="4dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_list"
-        android:layout_toEndOf="@id/issue_row_estimation"
-        android:maxLines="1"
-        android:textStyle="bold" />
+        android:paddingTop="@dimen/small_space"
+        android:paddingBottom="@dimen/small_space"
+        android:paddingStart="@dimen/space"
+        android:paddingEnd="@dimen/space"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-    <!-- Assignee -->
-    <TextView
-        android:id="@+id/issue_row_assignee"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/issue_row_name"
-        android:layout_toEndOf="@id/issue_row_estimation"
-        android:maxLines="1"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <!-- Issue name -->
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/issue_row_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_list"
+            android:maxLines="1"
+            android:textStyle="bold" />
+
+        <!-- Description / Task (for dashboard) -->
+
+        <TextView
+            android:id="@+id/issue_row_desc_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- Assignee -->
+        
+        <TextView
+            android:id="@+id/issue_row_assignee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+</LinearLayout>

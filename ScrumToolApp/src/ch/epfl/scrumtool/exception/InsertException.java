@@ -1,11 +1,7 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.exception;
 
 /**
  * @author aschneuw
- *
  */
 public class InsertException extends ScrumToolException{
     private static final long serialVersionUID = 1L;

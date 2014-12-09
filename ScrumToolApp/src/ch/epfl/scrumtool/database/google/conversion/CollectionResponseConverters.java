@@ -20,12 +20,12 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 
 /**
- * Ensures conversion bewteen CollectionResponse-A- and List-A-
+ * Ensures conversion between CollectionResponse-A- and List-A-
  * 
  * @author vincent
  *
  */
-public class CollectionResponseConverters {
+public final class CollectionResponseConverters {
 
     public static final EntityConverter<CollectionResponseScrumIssue, List<Issue>> ISSUES =
             new EntityConverter<CollectionResponseScrumIssue, List<Issue>>() {

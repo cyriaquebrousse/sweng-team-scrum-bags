@@ -11,10 +11,10 @@ public class StatusTest extends TestCase {
     private final static Status finished = Status.FINISHED;
 
     public void testGetColorRef() {
-        assertEquals(R.color.Lime, readyForEstimation.getColorRef());
-        assertEquals(R.color.Chartreuse, readyForSprint.getColorRef());
-        assertEquals(R.color.Salmon, inSprint.getColorRef());
-        assertEquals(R.color.Cyan, finished.getColorRef());
+        assertEquals(android.R.color.holo_orange_light, readyForEstimation.getColorRef());
+        assertEquals(R.color.shadeD, readyForSprint.getColorRef());
+        assertEquals(android.R.color.holo_blue_dark, inSprint.getColorRef());
+        assertEquals(R.color.DarkGreen, finished.getColorRef());
     }
 
     public void testToString() {

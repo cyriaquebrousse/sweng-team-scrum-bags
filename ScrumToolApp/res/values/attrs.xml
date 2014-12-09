@@ -14,7 +14,8 @@
     </declare-styleable>
     
     <declare-styleable name="Slate">
-        <attr name="slate_color" format="color" />
+        <attr name="slate_text_color" format="color" />
+        <attr name="slate_color" format="reference|color" />
         <attr name="slate_title" format="string" />
         <attr name="slate_text" format="string" />
     </declare-styleable>

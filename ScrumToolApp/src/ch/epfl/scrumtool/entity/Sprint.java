@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.util.Preconditions;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
@@ -13,7 +14,6 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
  * @author zenhaeus
  * @author Cyriaque Brousse
  */
-
 public final class Sprint implements Serializable, Comparable<Sprint> {
     private static final long serialVersionUID = -5819472452849232304L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.SPRINT";
@@ -33,7 +33,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      */
     private Sprint(String key, String title, long deadline) {
         throwIfNull("Sprint constructor parameters cannot be null", key, title);
-        
+        Preconditions.throwIfEmptyString("Sprint title must not be empty", title);
         this.key = key;
         this.title = title;
         this.deadline = deadline;
@@ -77,8 +77,8 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param ref
      * @param callback
      */
-    public void update(final Sprint ref, final Callback<Boolean> callback) {
-        Client.getScrumClient().updateSprint(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateSprint(this, callback);
     }
 
     /**
@@ -86,7 +86,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().deleteSprint(this, callback);
     }
 
@@ -96,18 +96,8 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @param issue
      * @param callback
      */
-    public void addIssue(final Issue issue, final Callback<Boolean> callback) {
+    public void addIssue(final Issue issue, final Callback<Void> callback) {
         issue.addToSprint(this, callback);
-    }
-
-    /**
-     * Removes the issue from the sprints in the DS
-     * 
-     * @param issue
-     * @param callback
-     */
-    public void removeIssue(final Issue issue, final Callback<Boolean> callback) {
-        issue.removeFromSprint(this, callback);
     }
 
     /**
@@ -124,9 +114,8 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
-
 
     /**
      * Builder class for the Sprint object
@@ -134,7 +123,6 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
      * @author zenhaeus
      */
     public static class Builder {
-
         private String keyb;
         private String title;
         private long deadline;
@@ -217,7 +205,9 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
             return false;
         }
         Sprint other = (Sprint) o;
-        return other.key.equals(this.key);
+        return other.key.equals(this.key)
+                && other.deadline == this.deadline
+                && other.title == this.title;
     }
 
     @Override
@@ -227,28 +217,18 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
     
     @Override
     public int compareTo(Sprint that) {
-        final int before = -1;
-        final int equal = 0;
-        final int after = 1;
-        
-        if (that != null) {
-            if (this == that) {
-                return equal;
-            }
-            
-            if (this.getDeadline() < that.getDeadline()) {
-                return before;
-            }
-            
-            if (this.getDeadline() > that.getDeadline()) {
-                return after;
-            }
-            
-            int comparison = this.getTitle().compareTo(that.getTitle());
-            
-            return comparison;
-        } else {
-            return after;
+        if (that == null) {
+            return 1;
         }
+
+        if (this.getDeadline() < that.getDeadline()) {
+            return -1;
+        }
+
+        if (this.getDeadline() > that.getDeadline()) {
+            return 1;
+        }
+
+        return this.getTitle().compareTo(that.getTitle());
     }
 }

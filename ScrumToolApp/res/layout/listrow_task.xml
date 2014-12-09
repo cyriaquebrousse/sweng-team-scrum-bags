@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Author: Cyriaque Brousse -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@color/White"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
@@ -10,7 +12,7 @@
         android:id="@+id/task_row_percent_backgrd"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/LightGreen" />
+        android:background="@color/taskrow_background" />
 
     <!-- Proper elements -->
     <RelativeLayout
@@ -19,19 +21,22 @@
         android:padding="@dimen/list_row_padding" >
 
         <!-- Priority -->
-        <ch.epfl.scrumtool.gui.components.widgets.PrioritySticker
+        <ch.epfl.scrumtool.gui.components.widgets.SingleSizePrioritySticker
             android:id="@+id/task_row_priority_sticker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle"
+            android:layout_marginEnd="8dp" />
 
         <!-- Name -->
         <TextView
             android:id="@+id/task_row_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_list"
             android:layout_toEndOf="@id/task_row_priority_sticker"
             android:maxLines="1"
+            android:gravity="top"
             android:textSize="@dimen/list_row_name"
             android:textStyle="bold" />
 

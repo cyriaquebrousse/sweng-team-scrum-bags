@@ -2,20 +2,17 @@ package ch.epfl.scrumtool.database.google.handlers;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.UserHandler;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
 import ch.epfl.scrumtool.database.google.conversion.UserConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.UserOperations;
 import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
- * 
  * @author aschneuw
- * 
  */
 public class DSUserHandler implements UserHandler {
     @Override
@@ -29,21 +26,21 @@ public class DSUserHandler implements UserHandler {
     }
 
     @Override
-    public void update(final User modified, final User ref, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<User, OperationStatus, Boolean> builder =
-                new DSExecArgs.Factory<User, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+    public void update(final User modified, final Callback<Void> callback) {
+        DSExecArgs.Factory<User, Void, Void> builder =
+                new DSExecArgs.Factory<User, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(UserOperations.UPDATE_USER);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
-    public void remove(final User user, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final User user, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(UserOperations.DELETE_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
     }

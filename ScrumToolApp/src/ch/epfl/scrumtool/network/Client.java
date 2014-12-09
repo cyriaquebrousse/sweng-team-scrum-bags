@@ -1,13 +1,9 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.network;
 
 /**
  * Represents a Client for the database operations
  * 
  * @author aschneuw
- * 
  */
 public final class Client {
     private static ScrumClient currentClient = null;

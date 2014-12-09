@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
@@ -24,7 +25,7 @@ public class LoginActivity extends Activity {
     public static final int REQUEST_ACCOUNT_PICKER = 2;
     private static final Class<? extends Activity> FIRST_ACTIVITY = DashboardActivity.class;
     private GoogleSession.Builder sessionBuilder;
-    private ProgressDialog progDialog = null;
+    private ProgressDialog progressDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class LoginActivity extends Activity {
         sessionBuilder = new GoogleSession.Builder(this);
         String accName = ApplicationSettings.getCachedUser(this);
         if (accName != null) {
-            findViewById(R.id.button_login).setVisibility(View.INVISIBLE);
+            findViewById(R.id.button_login).setEnabled(false);
             login(accName, FIRST_ACTIVITY);
         }
     }
@@ -55,7 +56,7 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             String accName = (String) data.getExtras().get(AccountManager.KEY_ACCOUNT_NAME);
-            this.progDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
+            this.progressDialog = ProgressDialog.show(this, "Signing in...", accName, true, false);
             
             ApplicationSettings.saveCachedUser(this, accName);
             
@@ -74,24 +75,16 @@ public class LoginActivity extends Activity {
     }
     
     private void login(final String accName, final Class<? extends Activity> nextActivity) {
-        DefaultGUICallback<Boolean> loginOK = new DefaultGUICallback<Boolean>(this) {
-            
+        Button loginButton = (Button) findViewById(R.id.button_login);
+        sessionBuilder.build(accName, new DefaultGUICallback<Boolean>(this, loginButton) {
             @Override
-            public void interactionDone(Boolean object) {
-                if (LoginActivity.this.progDialog != null) {
-                    LoginActivity.this.progDialog.dismiss();
+            public void interactionDone(Boolean success) {
+                if (LoginActivity.this.progressDialog != null) {
+                    LoginActivity.this.progressDialog.dismiss();
                 }
-                if (object.booleanValue()) {
-                    LoginActivity.this.openFirstActivityAndFinish(nextActivity);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Login failed - Check Internet Connection",
-                            Toast.LENGTH_LONG).show();
-                    findViewById(R.id.button_login).setVisibility(View.VISIBLE);
-                }
-                
+                LoginActivity.this.openFirstActivityAndFinish(nextActivity);
             }
-        };
-        
-        sessionBuilder.build(accName, loginOK);
+        });
+
     }
 }

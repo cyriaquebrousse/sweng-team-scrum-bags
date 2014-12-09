@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui.components.widgets;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -35,8 +36,9 @@ public final class Slate extends RelativeLayout {
         // Getting the attributes from the set
         TypedArray attributes = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.Slate, 0, 0);
-        int color = attributes.getColor(R.styleable.Slate_slate_color,
-                res.getColor(R.color.darkgreen));
+        Drawable color = attributes.getDrawable(R.styleable.Slate_slate_color);
+        int textColor = attributes.getColor(R.styleable.Slate_slate_text_color,
+                res.getColor(R.color.White));
         String title = attributes.getString(R.styleable.Slate_slate_title);
         String text = attributes.getString(R.styleable.Slate_slate_text);
         attributes.recycle();
@@ -53,10 +55,22 @@ public final class Slate extends RelativeLayout {
         setPadding(padding, padding, padding, padding);
         
         setColor(color);
+        setTextColor(textColor);
         setTitle(title);
         setText(text);
     }
-    
+
+    /**
+     * @param color
+     *            MUST be a R color, not a reference to it! This means you have
+     *            to call {@code context.getResources.getColor(int resid)} at
+     *            some point and pass the result to this method
+     */
+    public void setTextColor(int color) {
+        titleView.setTextColor(color);
+        textView.setTextColor(color);
+    }
+
     /**
      * @param color
      *            MUST be a R color, not a reference to it! This means you have
@@ -65,6 +79,16 @@ public final class Slate extends RelativeLayout {
      */
     public void setColor(int color) {
         setBackgroundColor(color);
+    }
+    
+    /**
+     * @param drawable
+     *            MUST be a R drawable, not a reference to it! This means you have
+     *            to call {@code context.getResources.getDrawable(int resid)} at
+     *            some point and pass the result to this method
+     */
+    public void setColor(Drawable drawable) {
+        setBackground(drawable);
     }
     
     /**

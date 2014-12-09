@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/space"
+    tools:context="ch.epfl.scrumtool.gui.SprintActivity" >
+
+    <!-- Sprint name textedit -->
+
+    <EditText
+        android:id="@+id/sprint_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sprint_name_edit_hint"
+        android:maxLines="1" />
+
+    <!-- Sprint date description -->
+
+    <TextView
+        android:id="@+id/sprint_date_description_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/sprint_date_edit"
+        android:layout_alignBottom="@+id/sprint_date_edit"
+        android:layout_alignStart="@+id/sprint_name_edit"
+        android:text="@string/sprint_date_description" />
+
+    <!-- Date picker button -->
+
+    <Button
+        android:id="@+id/sprint_date_edit"
+        style="@style/fluid_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sprint_name_edit"
+        android:layout_marginStart="@dimen/space"
+        android:layout_marginTop="@dimen/space"
+        android:layout_toEndOf="@id/sprint_date_description_view"
+        android:onClick="showDatePickerDialog"
+        android:paddingLeft="@dimen/space"
+        android:paddingRight="@dimen/space"
+        android:text="@string/no_date_selected" />
+
+</RelativeLayout>

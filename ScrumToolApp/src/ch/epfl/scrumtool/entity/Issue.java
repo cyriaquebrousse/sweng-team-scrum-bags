@@ -1,5 +1,10 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.entity.Status.FINISHED;
+import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
+
 import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -10,6 +15,7 @@ import ch.epfl.scrumtool.network.Client;
  * 
  * @author Vincent
  * @author zenhaeus
+ * @author Cyriaque Brousse
  */
 public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
 
@@ -51,7 +57,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     public Player getPlayer() {
         return player;
     }
-    
+
     public Sprint getSprint() {
         return sprint;
     }
@@ -73,8 +79,22 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param mainTask
      * @param callback
      */
-    public void update(final Issue ref, Callback<Boolean> callback) {
-        Client.getScrumClient().updateIssue(this, ref, callback);
+    public void update(Callback<Void> callback) {
+        Client.getScrumClient().updateIssue(this, callback);
+    }
+
+    /**
+     * Marks the issue as done or undone
+     * 
+     * @param finished
+     *            true to mark as done, false to mark as undone
+     * @param callback
+     */
+    public void markAsDone(boolean finished, Callback<Void> callback) {
+        Issue.Builder builder = new Issue.Builder(this);
+        builder.setStatus(finished ? Status.FINISHED : Status.READY_FOR_ESTIMATION);
+        Issue updatedIssue = builder.build();
+        updatedIssue.update(callback);
     }
 
     /**
@@ -82,7 +102,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().deleteIssue(this, callback);
     }
 
@@ -92,26 +112,17 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
      * @param sprint
      * @param callback
      */
-    public void addToSprint(final Sprint sprint, final Callback<Boolean> callback) {
+    public void addToSprint(final Sprint sprint, final Callback<Void> callback) {
         Client.getScrumClient().addIssueToSprint(this, sprint, callback);
     }
 
     /**
-     * Removes the issue from the sprint on the DS
-     * 
-     * @param sprint
-     * @param callback
-     */
-    public void removeFromSprint(final Sprint sprint, final Callback<Boolean> callback) {
-        Client.getScrumClient().removeIssueFromSprint(this, callback);
-    }
-    
-    /**
      * Get new instance of Builder
+     * 
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
     /**
@@ -243,7 +254,9 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          * @param estimatedTime
          */
         public Issue.Builder setEstimatedTime(float estimatedTime) {
-            this.estimatedTime = estimatedTime;
+            if (estimatedTime >= 0f) {
+                this.estimatedTime = estimatedTime;
+            }
             return this;
         }
 
@@ -261,7 +274,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
             this.player = player;
             return this;
         }
-        
+
         /**
          * 
          * @return the sprint
@@ -269,7 +282,7 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
         public Sprint getSprint() {
             return sprint;
         }
-        
+
         /**
          * 
          * @param sprint
@@ -284,14 +297,44 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
          */
         public Issue build() {
             return new Issue(this.key, this.name, this.description,
-                    this.status, this.priority, this.estimatedTime, this.player, this.sprint);
+                    this.status, this.priority, this.estimatedTime,
+                    this.player, this.sprint);
         }
 
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof Issue && super.equals(o);
+        if (!(o instanceof Issue)) {
+            return false;
+        }
+
+        Issue otherIssue = (Issue) o;
+        
+        boolean playerEquals = false;
+        if (this.player == null && otherIssue.player == null) {
+            playerEquals = true;
+        } else if (this.player == null && otherIssue.player != null
+                || this.player != null && otherIssue.player == null) {
+            playerEquals = false;
+        } else if (this.player != null && otherIssue.player != null) {
+            playerEquals = this.player.equals(otherIssue.player);
+        }
+        
+        boolean sprintEquals = false;
+        if (this.sprint == null && otherIssue.sprint == null) {
+            sprintEquals = true;
+        } else if (this.sprint == null && otherIssue.sprint != null
+                || this.sprint != null && otherIssue.sprint == null) {
+            sprintEquals = false;
+        } else if (this.sprint != null && otherIssue.sprint != null) {
+            sprintEquals = this.sprint.equals(otherIssue.sprint);
+        }
+        
+        return super.equals(otherIssue)
+                && this.estimatedTime == otherIssue.estimatedTime
+                && playerEquals
+                && sprintEquals;
     }
 
     @Override
@@ -301,24 +344,46 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
 
     @Override
     public int compareTo(Issue that) {
-        final int equal = 0;
-        
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
-        
+
         int comparison = this.getStatus().compareTo(that.getStatus());
-        if (comparison != equal) {
+        if (comparison != 0) {
             return comparison;
         }
-        
+
         comparison = this.getPriority().compareTo(that.getPriority());
-        if (comparison != equal) {
+        if (comparison != 0) {
             return comparison;
         }
-        
-        comparison = this.getName().compareTo(that.getName());
-        return comparison;
+
+        return this.getName().compareTo(that.getName());
     }
 
+    /**
+     * Simulates the new issue status. It does not have any side effects (e.g.
+     * server modifications, modifications on members, etc.). <br>
+     * See {@code ScrumIssue#verifyAndSetStatus} in the app engine project. The
+     * logic is implemented and detailed there. Here is just a duplication.
+     * 
+     * @return the simulated status
+     */
+    public Status simulateNewStatusForEstimationAndSprint() {
+        final boolean isFinished = getStatus() == FINISHED;
+        
+        if (isFinished) {
+            return FINISHED;
+        }
+
+        if (Float.compare(getEstimatedTime(), 0f) <= 0) {
+            return READY_FOR_ESTIMATION;
+        } else {
+            if (sprint == null) {
+                return READY_FOR_SPRINT;
+            } else {
+                return IN_SPRINT;
+            }
+        }
+    }
 }

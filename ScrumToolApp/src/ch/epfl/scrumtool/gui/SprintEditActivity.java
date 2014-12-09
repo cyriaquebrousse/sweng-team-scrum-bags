@@ -4,29 +4,31 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
+
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.util.gui.InputVerifiers;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
  * @author AlexVeuthey
  */
-public class SprintEditActivity extends BaseMenuActivity {
+public class SprintEditActivity extends BaseEditMenuActivity {
 
     // Sprint description
     private String name = null;
@@ -37,7 +39,7 @@ public class SprintEditActivity extends BaseMenuActivity {
     private Calendar chosen = Calendar.getInstance();
     
     // Views
-    private TextView sprintDateView;
+    private Button sprintDateView;
     private EditText sprintNameView;
     
     // Entities
@@ -49,12 +51,17 @@ public class SprintEditActivity extends BaseMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprint);
+        setContentView(R.layout.activity_sprint_edit);
         
         initOriginalAndParentProject();
         initViews();
     }
     
+    @Override
+    protected void saveElement() {
+        saveSprintChanges();
+    }
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment() {
             
@@ -67,20 +74,23 @@ public class SprintEditActivity extends BaseMenuActivity {
                 setDeadlineText(chosen);
             }
         };
-        Bundle args = new Bundle();
-        args.putLong("long", sprintDeadline);
-        newFragment.setArguments(args);
+        if (sprintDeadline > Calendar.getInstance().getTimeInMillis()) {
+            Bundle args = new Bundle();
+            args.putLong("long", sprintDeadline);
+            newFragment.setArguments(args);
+        }
         newFragment.show(getFragmentManager(), "datePicker");
     }
     
-    public void sprintEditDone(View v) {
+    private void saveSprintChanges() {
         name = sprintNameView.getText().toString();
         sprintDeadline = chosen.getTimeInMillis();
-        InputVerifiers.updateTextViewAfterValidityCheck(sprintNameView, nameIsValid(), getResources());
         
-        if (nameIsValid()) {
+        boolean nameIsValid = verifyNameIsValid(sprintNameView, getResources());
+        
+        if (nameIsValid) {
             if (dateIsValid()) {
-                
+                findViewById(Menu.FIRST).setEnabled(false);
                 sprintBuilder.setDeadline(sprintDeadline);
                 sprintBuilder.setTitle(name);
                 
@@ -109,7 +119,7 @@ public class SprintEditActivity extends BaseMenuActivity {
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
             sprintBuilder.setDeadline(sprintDeadline);
-            setTitle(R.string.title_activity_sprint);
+            setTitle("New sprint");
         } else {
             sprintBuilder = new Sprint.Builder(sprint);
             sprintDeadline = sprintBuilder.getDeadline();
@@ -121,8 +131,8 @@ public class SprintEditActivity extends BaseMenuActivity {
     }
     
     private void initViews() {
-        sprintDateView = (TextView) findViewById(R.id.sprintDate);
-        sprintNameView = (EditText) findViewById(R.id.editName);
+        sprintDateView = (Button) findViewById(R.id.sprint_date_edit);
+        sprintNameView = (EditText) findViewById(R.id.sprint_name_edit);
 
         sprintNameView.setText(sprintBuilder.getTitle());
         
@@ -131,33 +141,26 @@ public class SprintEditActivity extends BaseMenuActivity {
         setDeadlineText(date);
     }
     
-    // =========== INSERTION ===========
     private void insertSprint() {
-        Sprint sprint = sprintBuilder.build();
-        final DefaultGUICallback<Sprint> sprintInserted = new DefaultGUICallback<Sprint>(this) {
-
+        final Sprint sprint = sprintBuilder.build();
+        final View next = findViewById(Menu.FIRST);
+        sprint.insert(project, new DefaultGUICallback<Sprint>(this, next) {
             @Override
             public void interactionDone(Sprint object) {
                 passResult(object);
                 SprintEditActivity.this.finish();
             }
-        };
-        sprint.insert(project, sprintInserted);
+        });
     }
     
-    // =========== UPDATE ============
     private void updateSprint() {
         final Sprint sprint = sprintBuilder.build();
-        sprint.update(null, new DefaultGUICallback<Boolean>(this) {
-            
+        final View next = findViewById(Menu.FIRST);
+        sprint.update(new DefaultGUICallback<Void>(this, next) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (success.booleanValue()) {
-                    passResult(sprint);
-                    SprintEditActivity.this.finish();
-                } else {
-                    Toast.makeText(SprintEditActivity.this, "Could not update sprint", Toast.LENGTH_SHORT).show();
-                }
+            public void interactionDone(Void v) {
+                passResult(sprint);
+                SprintEditActivity.this.finish();
             }
         });
     }
@@ -165,19 +168,13 @@ public class SprintEditActivity extends BaseMenuActivity {
     private void passResult(Sprint sprint) {
         Intent data = new Intent();
         data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        setResult(1, data);
+        setResult(RESULT_OK, data);
     }
     
     private void setDeadlineText(Calendar date) {
         SimpleDateFormat sdf = new SimpleDateFormat(getResources()
                 .getString(R.string.format_date), Locale.ENGLISH);
         sprintDateView.setText(sdf.format(date.getTime()));
-    }
-    
-    // CHECKS
-    private boolean nameIsValid() {
-        final int maxLength = 50;
-        return name != null && name.length() > 0 && name.length() < maxLength;
     }
     
     private boolean dateIsValid() {

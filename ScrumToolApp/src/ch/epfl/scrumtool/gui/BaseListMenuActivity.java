@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import ch.epfl.scrumtool.R;
@@ -37,6 +38,17 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
         }
     }
     
+    /**
+     * This method sets colors for the SwipeRefreshLayout
+     * @param refreshLayout
+     */
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        refreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
     
     /**
      * Opens an activity to edit an element of type <E>
@@ -49,7 +61,7 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
     /**
      * Opens an activity to create a new element of type <E>
      */
-    void openCreateElementActivity() {
+    protected void openCreateElementActivity() {
         openEditElementActivity(null);
     }
     

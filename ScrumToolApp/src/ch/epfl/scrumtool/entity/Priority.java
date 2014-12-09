@@ -17,10 +17,10 @@ public enum Priority implements Serializable {
      * 
      * LOW < NORMAL < HIGH < URGENT
      */
-    LOW(R.color.blue, "LOW"),
-    NORMAL(R.color.darkgreen, "NORMAL"),
+    URGENT(R.color.darkred, "URGENT"),
     HIGH(R.color.Orange, "HIGH"),
-    URGENT(R.color.darkred, "URGENT");
+    NORMAL(R.color.darkgreen, "NORMAL"),
+    LOW(R.color.blue, "LOW");
     
     private int colorRef;
     private String value;

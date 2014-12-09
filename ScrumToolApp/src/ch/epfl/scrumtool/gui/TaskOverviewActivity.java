@@ -1,9 +1,18 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.entity.Status.FINISHED;
+import static ch.epfl.scrumtool.entity.Status.IN_SPRINT;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_ESTIMATION;
+import static ch.epfl.scrumtool.entity.Status.READY_FOR_SPRINT;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,12 +38,14 @@ import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.IssueListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
+import ch.epfl.scrumtool.util.gui.EstimationFormating;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
+import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
@@ -46,6 +57,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private TextView nameView;
     private TextView descriptionView;
     private PrioritySticker prioritySticker;
+    private View priorityBar;
     private Slate statusSlate;
     private Slate estimationSlate;
     private ListView listView;
@@ -83,10 +95,10 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             } else {
                 emptyViewLayout.setVisibility(View.VISIBLE);
             }
-
             adapter.notifyDataSetChanged();
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +107,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         task = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
         throwIfNull("Parent object cannot be null", project, task);
-        
+
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_issue_list);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_issue_list);
@@ -114,37 +126,24 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         listViewLayout.setRefreshing(true);
         task.loadIssues(callback);
         updateViews();
+        updateViewsAccordingToNewStatusAndEstimation();
     }
-    
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                task.loadIssues(callback);
-                refreshLayout.setRefreshing(false);
-            }
-        });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-    }
-
 
     private void initViews() {
         nameView = (TextView) findViewById(R.id.task_name);
         descriptionView = (TextView) findViewById(R.id.task_desc);
         prioritySticker = (PrioritySticker) findViewById(R.id.task_priority);
+        priorityBar = (View) findViewById(R.id.task_priority_bar);
         statusSlate = (Slate) findViewById(R.id.task_slate_status);
         estimationSlate = (Slate) findViewById(R.id.task_slate_estimation);
         listView = (ListView) findViewById(R.id.issue_list);
-
+    
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(TaskOverviewActivity.this, "name",
-                        nameView.getText().toString(), new PopupCallback<String>() {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this,
+                        FieldType.NAMEFIELD, nameView.getText().toString(),
+                        new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 taskBuilder = new MainTask.Builder(task);
@@ -155,12 +154,13 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         });
             }
         });
-
+    
         descriptionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextViewModifiers.modifyText(TaskOverviewActivity.this, "description",
-                        descriptionView.getText().toString(), new PopupCallback<String>() {
+                TextViewModifiers.modifyText(TaskOverviewActivity.this,
+                        FieldType.DESCRIPTIONFIELD, descriptionView.getText().toString(),
+                        new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
                                 taskBuilder = new MainTask.Builder(task);
@@ -171,34 +171,35 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         });
             }
         });
-
+    
         prioritySticker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialogs.showTaskPriorityEditDialog(TaskOverviewActivity.this, new DialogCallback<Priority>() {
-                    @Override
-                    public void onSelected(Priority selected) {
-                        taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setPriority(selected);
-                        prioritySticker.setPriority(selected);
-                        updateTask();
-                    }
-                });
+                Dialogs.showTaskPriorityEditDialog(TaskOverviewActivity.this,
+                        new DialogCallback<Priority>() {
+                            @Override
+                            public void onSelected(Priority selected) {
+                                taskBuilder = new MainTask.Builder(task);
+                                taskBuilder.setPriority(selected);
+                                prioritySticker.setPriority(selected);
+                                priorityBar.setBackgroundColor(getResources()
+                                        .getColor(selected.getColorRef()));
+                                updateTask();
+                            }
+                        });
             }
         });
+    }
 
-        statusSlate.setOnClickListener(new OnClickListener() {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                Dialogs.showStatusEditDialog(TaskOverviewActivity.this, new DialogCallback<Status>() {
-                    @Override
-                    public void onSelected(Status selected) {
-                        taskBuilder = new MainTask.Builder(task);
-                        taskBuilder.setStatus(selected);
-                        statusSlate.setText(selected.toString());
-                        updateTask();
-                    }
-                });
+            public void onRefresh() {
+                task.loadIssues(callback);
+                refreshLayout.setRefreshing(false);
+                updateViews();
+                updateViewsAccordingToNewStatusAndEstimation();
             }
         });
     }
@@ -207,34 +208,46 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         nameView.setText(task.getName());
         descriptionView.setText(task.getDescription());
         prioritySticker.setPriority(task.getPriority());
+        priorityBar.setBackgroundColor(getResources().getColor(task.getPriority().getColorRef()));
         statusSlate.setText(task.getStatus().toString());
-        
-        task.loadIssues(new DefaultGUICallback<List<Issue>>(this) {
-            @Override
-            public void interactionDone(List<Issue> object) {
-                float estimatedTime = task.estimatedTime(object);
-                // FIXME not hours!
-                estimationSlate.setText(estimatedTime <= 0 ? "―" : Float.toString(estimatedTime) + " hours");
-            }
-        });
+        updateEstimationSlateInfo(task.unfinishedIssueTime());
+    }
+
+    /**
+     * Updates the estimation slate with the new estimation for the task
+     * 
+     * @param estimatedTime
+     *            the new estimation
+     */
+    private void updateEstimationSlateInfo(final float estimatedTime) {
+        String unit = getResources().getString(R.string.project_default_unit);
+        if (1.0 >= estimatedTime) {
+            unit = getResources().getString(R.string.project_single_unit);
+        }
+        estimationSlate.setText(estimatedTime <= 0 ? "―" : EstimationFormating
+                .estimationAsHourFormat(estimatedTime) + " " + unit);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_context, menu);
+        inflater.inflate(R.menu.menu_entitylist_markable_context, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        final Issue issue = adapter.getItem(info.position);
         switch (item.getItemId()) {
             case R.id.action_entity_edit:
-                openEditElementActivity(adapter.getItem(info.position));
+                openEditElementActivity(issue);
                 return true;
             case R.id.action_entity_delete:
-                deleteIssue(adapter.getItem(info.position));
+                deleteIssue(issue);
+                return true;
+            case R.id.action_entity_markAsDoneUndone:
+                markIssueAsDone(issue, issue.getStatus() != Status.FINISHED);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -242,18 +255,38 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     /**
-     * @param project
-     *            the project to delete
+     * Deletes an issue from the task
+     * 
+     * @param issue
+     *            the issue to be deleted
      */
     private void deleteIssue(final Issue issue) {
         listViewLayout.setRefreshing(true);
-        issue.remove(new DefaultGUICallback<Boolean>(this) {
-            @Override
-            public void interactionDone(Boolean success) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(issue);
-            }
-        });
+        new AlertDialog.Builder(this).setTitle("Delete Issue")
+            .setMessage("Do you really want to delete this Issue? "
+                    + "This will remove the Issue and its links with Players and Sprints.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = TaskOverviewActivity.this;
+                    issue.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Issue deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(issue);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
 
     @Override
@@ -267,15 +300,130 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
 
     private void updateTask() {
         task = taskBuilder.build();
-        task.update(null, new DefaultGUICallback<Boolean>(TaskOverviewActivity.this) {
+        task.update(new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
             @Override
-            public void interactionDone(Boolean success) {
-                if (!success.booleanValue()) {
-                    Toast.makeText(TaskOverviewActivity.this, 
-                            "Could not update task", Toast.LENGTH_SHORT).show();
-                }
+            public void interactionDone(Void v) { }
+        });
+    }
+
+    /**
+     * @param issue
+     *            the issue to update
+     * @param done
+     *            true if need to update to done, false for undone
+     */
+    private void markIssueAsDone(final Issue issue, boolean done) {
+        issue.markAsDone(done, new Callback<Void>() {
+            @Override
+            public void interactionDone(Void v) {
+                listViewLayout.setRefreshing(true);
+                task.loadIssues(callback);
+                updateViews();
+                updateViewsAccordingToNewStatusAndEstimation();
+            }
+
+            @Override
+            public void failure(String errorMessage) {
+                Toast.makeText(TaskOverviewActivity.this, "Could not mark as done/undone", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    /**
+     * Updates the activity with the task's new status and/or estimation
+     */
+    private void updateViewsAccordingToNewStatusAndEstimation() {
+        task.loadIssues(new Callback<List<Issue>>() {
+            @Override
+            public void interactionDone(List<Issue> issues) {
+                final Set<Issue> issueSet = new HashSet<>(issues);
+
+                final Status status = simulateNewStatus(issueSet);
+                statusSlate.setText(status.toString());
+
+                updateEstimationSlateInfo(simulateNewEstimation(issueSet));
+            }
+
+            /**
+             * Simulates the new task status. It does not have any side effects
+             * (e.g. server modifications, modifications on members, etc.). <br>
+             * See {@code ScrumMainTask#verifyAndSetStatusWithRespectToIssues}
+             * in the app engine project. The logic is implemented and detailed
+             * there. Here is just a duplication.
+             * 
+             * @return the simulated status
+             */
+            private Status simulateNewStatus(final Set<Issue> allIssues) {
+                if (allIssues == null || allIssues.isEmpty()) {
+                    return READY_FOR_ESTIMATION;
+                }
+
+                final Set<Issue> issues = new HashSet<>(allIssues);
+
+                if (allIssuesHaveStatus(issues, FINISHED)) {
+                    return FINISHED;
+                }
+
+                issues.removeAll(allIssuesWithStatus(issues, FINISHED));
+
+                if (allIssuesHaveStatus(issues, READY_FOR_SPRINT)) {
+                    return READY_FOR_SPRINT;
+                }
+
+                final Set<Issue> allInSprintIssues = allIssuesWithStatus(issues, IN_SPRINT);
+                final Set<Issue> notInSprintIssues = new HashSet<Issue>(issues);
+                notInSprintIssues.removeAll(allInSprintIssues);
+                if (!allInSprintIssues.isEmpty() && allIssuesHaveStatus(notInSprintIssues, READY_FOR_SPRINT)) {
+                    return IN_SPRINT;
+                } else {
+                    return READY_FOR_ESTIMATION;
+                }
+            }
+
+            private boolean allIssuesHaveStatus(Set<Issue> issues, Status status) {
+                for (Issue i : issues) {
+                    if (i.getStatus() != status) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private Set<Issue> allIssuesWithStatus(Set<Issue> issues, Status status) {
+                Set<Issue> allIssuesWithStatus = new HashSet<Issue>();
+                for (Issue i : issues) {
+                    if (i.getStatus() == status) {
+                        allIssuesWithStatus.add(i);
+                    }
+                }
+                return allIssuesWithStatus;
+            }
+
+            /**
+             * Simulates the new task estimated time. It does not have any side
+             * effects (e.g. server modifications, modifications on members,
+             * etc.). <br>
+             * See {@code ScrumMainTaskEndpoint#computeMainTaskIssueInfo} in the
+             * app engine project. The logic is implemented and detailed there.
+             * Here is just a duplication.
+             * 
+             * @return the simulated estimated time
+             */
+            private float simulateNewEstimation(final Set<Issue> issueSet) {
+                float estimatedTime = 0f;
+                for (Issue i : issueSet) {
+                    if (i.getStatus() != FINISHED) {
+                        estimatedTime += i.getEstimatedTime();
+                    }
+                }
+
+                return estimatedTime;
+            }
+
+            @Override
+            public void failure(String errorMessage) {
+            }
+
+        });
+    }
 }

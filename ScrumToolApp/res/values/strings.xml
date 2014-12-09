@@ -6,33 +6,30 @@
 
     <!-- Activity Titles -->
     <string name="title_activity_main">Murcs</string>
-    <string name="title_activity_dashbord">DashbordActivity</string>
+    <string name="title_activity_dashboard">Dashboard</string>
     <string name="title_activity_projectList">Projects</string>
-    <string name="title_activity_project_overview">Project overview</string>
     <string name="title_activity_project_edit">Edit project</string>
     <string name="title_activity_project_edit_new">New project</string>
     <string name="title_activity_backlog">Backlog</string>
     <string name="title_activity_task_overview">Task overview</string>
-    <string name="title_activity_task">Task</string>
     <string name="title_activity_task_edit">Edit task</string>
     <string name="title_activity_task_edit_new">New task</string>
     <string name="title_activity_issue_overview">Issue overview</string>
     <string name="title_activity_issue_edit">Edit issue</string>
     <string name="title_activity_issue_edit_new">New issue</string>
     <string name="title_activity_sprint_list">Sprint list</string>
-    <string name="title_activity_sprint">New sprint</string>
     <string name="title_activity_sprint_edit">Edit sprint</string>
     <string name="title_activity_user_list">User list</string>
     <string name="title_activity_project_player_list">Player list</string>
     <string name="title_activity_profile_overview">Profile overview</string>
-    <string name="title_activity_profile_edit">ProfileEditActivity</string>
+    <string name="title_activity_profile_edit">Edit profile</string>
     <string name="title_activity_sprint_overview">Sprint</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
     <string name="button_players_show">Players</string>
     <string name="button_sprints_show">Sprints</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Join the community</string>
     <string name="button_add_task">add task</string>
     <string name="sprint_pick_date_button">Pick a date</string>
     <string name="create_sprint_button">Create a new Sprint</string>
@@ -41,23 +38,28 @@
     <string name="button_dashboard_edit_my_profile">Edit my profile</string>
     <string name="button_edit">edit</string>
     <string name="button_save">save</string>
-
+    <string name="phone_contact_button">Browse contacts</string>
+    
     <!-- Titles -->
-    <string name="shared_projects">Shared Projects</string>
-    <string name="email">email</string>
-    <string name="username">username</string>
-    <string name="firstname">firstname</string>
-    <string name="lastname">lastname</string>
-    <string name="dateofbirth">date of birth</string>
-    <string name="company">company name</string>
-    <string name="jobtitle">job title</string>
-    <string name="gender">gender</string>
+    <string name="shared_projects">Shared projects</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="dateofbirth">Date of birth</string>
+    <string name="company">Company name</string>
+    <string name="jobtitle">Job title</string>
+    <string name="gender">Gender</string>
 
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
     <string name="project_description_edit_hint">Please enter a project description</string>
     <string name="task_name_edit_hint">Task name</string>
     <string name="task_description_edit_hint">Please enter a task description</string>
+    <string name="issue_edit_name_hint">Issue name</string>
+    <string name="issue_edit_description_hint">Issue description</string>
+    <string name="issue_edit_estimation_hint">Estimation</string>
+    <string name ="player_name_add_hint">Email address</string>
 
     <!-- Menu actions -->
     <string name="action_add">Add</string>
@@ -65,11 +67,15 @@
     <string name="action_logout">Logout</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
+    <string name="action_markDoneUndone">Mark as done/undone</string>
     <string name="action_show_profile">My Profile</string>
 
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>
-    
+    <string name="error_name_too_long">This field can not exceed 50 caracters</string>
+    <string name="error_estimation_too_big">The estimation can not exceed 100 hours</string>
+    <string name="error_email_not_valid">The email is not valid</string>
+
     <!-- Formats -->
     <string name="format_date">dd MMM yyyy</string>
 
@@ -77,15 +83,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="project_default_unit">hours</string>
-    <string name="issue_assignee_label">Assignee</string>
-    <string name="sprint_name">Name</string>
-    <string name="sprint_edit_name">Enter a name</string>
+    <string name="project_single_unit">hour</string>
+    <string name="sprint_name_edit_hint">Sprint Name</string>
     <string name="sprint_date">Date</string>
+    <string name="sprint_date_description">Sprint deadline:</string>
     <string name="no_date_selected">No date selected</string>
     <string name="sprint_row_name">Sprint name</string>
     <string name="sprint_row_date">dd/mm/yyyy</string>
     <string name="sprint_overview_default_name">Sprint name</string>
-    <string name="sprint_overview_default_deadline">Sprint deadline</string>
+    <string name="sprint_overview_default_deadline">deadline</string>
     <string name="no_player">No player assigned</string>
     <string name="no_sprint">No sprint assigned</string>
     <string name="user_avatar_description">User avatar</string>
@@ -98,7 +104,13 @@
     <string name="empty_issue_list_hint">There are no issues for this task</string>
     <string name="empty_sprint_list_hint">There are no sprints for this project</string>
     <string name="sprint_overview_issue_add">Add an issue</string>
-    
+    <string name="issue_description_label">Description</string>
+    <string name="issue_assignee_label">Assignee</string>
+    <string name="issue_name_label">Name</string>
+    <string name="issue_estimation_label">Estimation</string>
+    <string name="issue_edit_assignee">Assignee</string>
+    <string name="issue_edit_sprint">Sprint</string>
+
     <!-- String Arrays -->
 
     <string-array name="gender_options">
@@ -106,5 +118,7 @@
         <item>Female</item>
         <item>Undefined</item>
     </string-array>
+
+    <string name="title_activity_player_add">PlayerAddActivity</string>
 
 </resources>

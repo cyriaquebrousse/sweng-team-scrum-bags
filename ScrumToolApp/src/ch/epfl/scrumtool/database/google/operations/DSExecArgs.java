@@ -1,14 +1,10 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.operations;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
-import ch.epfl.scrumtool.exception.DSExecArgsException;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
- * 
  * @author aschneuw
  *
  * @param <A>
@@ -20,22 +16,13 @@ public final class DSExecArgs<A, B, C> {
     private final EntityConverter<B, C> converter;
     private final Callback<C> callback;
 
-    private DSExecArgs(DSExecArgs.Factory<A, B, C> builder) {
-        if (builder.operation == null) {
-            throw new DSExecArgsException("Operation cannot be null");
-        }
+    private DSExecArgs(DSExecArgs.Factory<A, B, C> factory) {
+        Preconditions.throwIfNull("All execution arguments (operation, converter, callback) must be valid (not null)",
+                factory.operation, factory.converter, factory.callback);
         
-        if (builder.converter == null) {
-            throw new DSExecArgsException("Converter cannot be null");
-        }
-        
-        if (builder.callback == null) {
-            throw new DSExecArgsException("Callback cannot be null");
-        }
-        
-        this.operation = builder.operation;
-        this.converter = builder.converter;
-        this.callback = builder.callback;
+        this.operation = factory.operation;
+        this.converter = factory.converter;
+        this.callback = factory.callback;
     }
 
     /**

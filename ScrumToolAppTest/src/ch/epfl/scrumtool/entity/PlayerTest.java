@@ -17,6 +17,7 @@ public class PlayerTest extends TestCase {
     private final static Role ROLE_1 = Role.DEVELOPER;
     private final static Player player = new Player.Builder()
         .setIsAdmin(true)
+        .setIsInvited(false)
         .setKey(KEY_1)
         .setRole(ROLE_1)
         .setUser(USER_1)
@@ -41,9 +42,12 @@ public class PlayerTest extends TestCase {
         assertTrue(player.isAdmin());
     }
 
+    public void testIsInvited() {
+        assertFalse(player.isInvited());
+    }
+
     public void testEqualsObject() {
         Player player2 = player;
         assertTrue(player2.equals(player));
     }
-
 }

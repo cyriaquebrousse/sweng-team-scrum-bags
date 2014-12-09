@@ -3,50 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-        
-    <TextView
-        android:id="@+id/sprint_overview_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        android:textSize="20sp"
-        android:textStyle="bold" />
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sprint_overview_deadline"
-        android:layout_below="@id/sprint_overview_name"
-        android:layout_marginStart="20dp"
-        android:textSize="15sp"
-        android:textStyle="italic" />
-    
-    
-    <Spinner
-        android:id="@+id/issue_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp" />
-    
-    <TextView
-        android:id="@+id/sprint_overview_issue_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/issue_spinner"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        android:textSize="20sp"
-        android:text="@string/sprint_overview_issue_add" />
-    
-    <ListView
-        android:id="@+id/sprint_overview_issue_list"
+    <LinearLayout
+        android:id="@+id/sprint_overview_linearlayout1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/sprint_overview_deadline"
-        android:layout_above="@id/sprint_overview_issue_add"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space"
+        android:padding="@dimen/space"
+        android:orientation="vertical"
+        android:background="@drawable/white_box"
+        android:layout_alignParentTop="true" >
 
+        <!-- Sprint name -->
+        <TextView
+            android:id="@+id/sprint_overview_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/header_title_size"
+            android:textStyle="bold" />
+
+        <!-- Sprint deadline -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sprint_overview_deadline"
+            android:textSize="15sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="vertical"
+        android:layout_below="@id/sprint_overview_linearlayout1" >
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_update_sprint_issue_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        <!-- Issues list -->
+        <ListView
+            android:id="@+id/sprint_overview_issue_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_update_empty_sprint_issue_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/empty_issue_sprint_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/empty_issue_list_hint" />
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </RelativeLayout>

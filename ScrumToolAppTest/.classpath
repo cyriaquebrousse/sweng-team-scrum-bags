@@ -5,8 +5,12 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="libs/espresso-1.1-bundled.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/espresso-1.1-bundled.jar"/>
+	<classpathentry kind="lib" path="libs/mockito-core-1.9.5.jar"/>
+	<classpathentry kind="lib" path="libs/objenesis-tck-2.1.jar"/>
+	<classpathentry kind="lib" path="libs/dexmaker-1.1.jar"/>
+	<classpathentry kind="lib" path="libs/dexmaker-mockito-1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -1,11 +1,7 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.exception;
 
 /**
  * @author Arno
- *
  */
 public class DSExecArgsException extends NullPointerException {
     private static final long serialVersionUID = 1L;

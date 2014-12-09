@@ -1,13 +1,13 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.exception.NotAPlayerOfThisProjectException;
-import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Client;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author Vincent
@@ -24,6 +24,8 @@ public final class Project implements Serializable, Comparable<Project> {
 
     private Project(String key, String name, String description) {
         throwIfNull("Project constructor parameters cannot be null", key, name, description);
+        Preconditions.throwIfEmptyString("A project must have a nonempty name", name);
+        Preconditions.throwIfEmptyString("A project must contain a valid description", description);
         
         this.key = key;
         this.name = name;
@@ -42,14 +44,6 @@ public final class Project implements Serializable, Comparable<Project> {
      */
     public String getDescription() {
         return this.description;
-    }
-
-    /**
-     * @return the admin
-     */
-    public Player getAdmin() {
-        // TODO query database to get admin
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
@@ -74,8 +68,8 @@ public final class Project implements Serializable, Comparable<Project> {
      * @param ref
      * @param callback
      */
-    public void update(final Project ref, final Callback<Boolean> callback) {
-        Client.getScrumClient().updateProject(this, ref, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateProject(this, callback);
     }
 
     /**
@@ -83,7 +77,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * 
      * @param callback
      */
-    public void remove(final Callback<Boolean> callback) {
+    public void remove(final Callback<Void> callback) {
         Client.getScrumClient().deleteProject(this, callback);
     }
 
@@ -112,9 +106,8 @@ public final class Project implements Serializable, Comparable<Project> {
      * 
      * @param defaultGUICallback
      */
-    // FIXME should this really take a DefaultGUICallback as parameter and not just a Callback? (@zenhaeus)
-    public void loadSprints(final DefaultGUICallback<List<Sprint>> defaultGUICallback) {
-        Client.getScrumClient().loadSprints(this, defaultGUICallback);
+    public void loadSprints(final Callback<List<Sprint>> callback) {
+        Client.getScrumClient().loadSprints(this, callback);
     }
 
     /**
@@ -135,19 +128,12 @@ public final class Project implements Serializable, Comparable<Project> {
         Client.getScrumClient().loadUnsprintedIssues(this, callback);
     }
     
-    
     /**
      * 
      * @return Project.Builder
      */
     public Builder getBuilder() {
         return new Builder(this);
-    }
-
-    @Deprecated
-    // TODO create a method in ScrumClient and delete this one.
-    public Role getRoleFor(User user) throws NotAPlayerOfThisProjectException {
-        return Role.DEVELOPER;
     }
 
     /**
@@ -237,7 +223,9 @@ public final class Project implements Serializable, Comparable<Project> {
             return false;
         }
         Project other = (Project) o;
-        return other.key.equals(this.key);
+        return other.key.equals(this.key)
+                && other.description.equals(this.description)
+                && other.name.equals(this.name);
     }
 
     @Override
@@ -247,15 +235,10 @@ public final class Project implements Serializable, Comparable<Project> {
 
     @Override
     public int compareTo(Project that) {
-        final int equal = 0;
-
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
-        
-        int comparison = this.getName().compareTo(that.getName());
-        
-        return comparison;
+        return this.getName().compareTo(that.getName());
     }
 
 }

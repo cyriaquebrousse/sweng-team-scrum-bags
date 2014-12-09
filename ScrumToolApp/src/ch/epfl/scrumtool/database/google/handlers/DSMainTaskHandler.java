@@ -4,19 +4,18 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.MainTaskHandler;
-import ch.epfl.scrumtool.database.google.containers.InsertMainTaskArgs;
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
-import ch.epfl.scrumtool.database.google.conversion.OperationStatusConverters;
+import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
-import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.database.google.operations.MainTaskOperations;
+import ch.epfl.scrumtool.database.google.operations.OperationExecutor;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
 
 /**
  * @author sylb, aschneuw, zenhaeus
@@ -26,12 +25,12 @@ public class DSMainTaskHandler implements MainTaskHandler {
     @Override
     public void insert(final MainTask mainTask, final Project project,
             final Callback<MainTask> callback) {
-        InsertMainTaskArgs args = new InsertMainTaskArgs(project.getKey(), mainTask);
-        DSExecArgs.Factory<InsertMainTaskArgs, InsertResponse<MainTask>, MainTask> factory = 
-                new DSExecArgs.Factory<InsertMainTaskArgs, 
+        EntityKeyArg<MainTask> args = new EntityKeyArg<MainTask>(mainTask, project.getKey());
+        DSExecArgs.Factory<EntityKeyArg<MainTask>, InsertResponse<MainTask>, MainTask> factory = 
+                new DSExecArgs.Factory<EntityKeyArg<MainTask>, 
                 InsertResponse<MainTask>, MainTask>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(MainTaskConverters.OPSTATMAINTASK_TO_MAINTASK);
+        factory.setConverter(MainTaskConverters.INSERTRESP_TO_MAINTASK);
         factory.setOperation(MainTaskOperations.INSERT_MAINTASK);
         OperationExecutor.execute(args, factory.build());
     }
@@ -48,22 +47,21 @@ public class DSMainTaskHandler implements MainTaskHandler {
                 
     }
 
-    public void update(final MainTask modified, final MainTask ref, 
-            final Callback<Boolean> callback) {
-        DSExecArgs.Factory<MainTask, OperationStatus, Boolean> builder =
-                new DSExecArgs.Factory<MainTask, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+    public void update(final MainTask modified, final Callback<Void> callback) {
+        DSExecArgs.Factory<MainTask, Void, Void> builder =
+                new DSExecArgs.Factory<MainTask, Void, Void>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
-        builder.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        builder.setConverter(VoidConverter.VOID_TO_VOID);
         builder.setOperation(MainTaskOperations.UPDATE_MAINTASK);
         OperationExecutor.execute(modified, builder.build());
     }
 
     @Override
-    public void remove(final MainTask maintask, final Callback<Boolean> callback) {
-        DSExecArgs.Factory<String, OperationStatus, Boolean> factory = 
-                new DSExecArgs.Factory<String, OperationStatus, Boolean>(MODE.AUTHENTICATED);
+    public void remove(final MainTask maintask, final Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory = 
+                new DSExecArgs.Factory<String, Void, Void>(MODE.AUTHENTICATED);
         factory.setCallback(callback);
-        factory.setConverter(OperationStatusConverters.OPSTAT_TO_BOOLEAN);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
         factory.setOperation(MainTaskOperations.DELETE_MAINTASK);
         OperationExecutor.execute(maintask.getKey(), factory.build());
     }

@@ -4,6 +4,9 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -22,7 +26,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.SprintListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 
 /**
  * @author AlexVeuthey
@@ -37,16 +41,13 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     private SprintListAdapter adapter;
     
     private DefaultGUICallback<List<Sprint>> callback = new DefaultGUICallback<List<Sprint>>(this) {
-
         @Override
         public void interactionDone(final List<Sprint> sprintList) {
             listViewLayout.setRefreshing(false);
             emptyViewLayout.setRefreshing(false);
-
             adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
             listView.setEmptyView(emptyViewLayout);
             listView.setAdapter(adapter);
-
             if (!sprintList.isEmpty()) {
                 registerForContextMenu(listView);
                 listView.setOnItemClickListener(new OnItemClickListener() {
@@ -65,7 +66,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             } else {
                 emptyViewLayout.setVisibility(View.VISIBLE);
             }
-
             adapter.notifyDataSetChanged();
         }
         
@@ -84,12 +84,9 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_sprint_list);
         onCreateSwipeToRefresh(emptyViewLayout);
-
-        listView = (ListView) findViewById(R.id.sprint_list);
-        
         emptyViewLayout.setVisibility(View.INVISIBLE);
 
-        project.loadSprints(callback);
+        listView = (ListView) findViewById(R.id.sprint_list);
     }
     
     @Override
@@ -99,7 +96,8 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         project.loadSprints(callback);
     }
     
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -107,11 +105,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
                 refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
     @Override
@@ -145,13 +138,31 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
 
     private void deleteSprint(final Sprint sprint) {
         listViewLayout.setRefreshing(true);
-        sprint.remove(new DefaultGUICallback<Boolean>(this) {
-            @Override
-            public void interactionDone(Boolean success) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(sprint);
-            }
-        });
+        new AlertDialog.Builder(this).setTitle("Delete Sprint")
+            .setMessage("Do you really want to delete this Sprint? "
+                    + "This will remove the Sprint and all its links with Issues.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = SprintListActivity.this;
+                    sprint.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(sprint);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
 
     @Override

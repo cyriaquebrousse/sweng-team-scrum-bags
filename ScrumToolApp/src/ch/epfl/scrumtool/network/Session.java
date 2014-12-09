@@ -10,7 +10,6 @@ import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
  * @author aschneuw
- * 
  */
 public abstract class Session {
     private static Session currentSession = null;
@@ -41,7 +40,7 @@ public abstract class Session {
      * @param updatedUser
      */
     public void setUser(User updatedUser) {
-        if (updatedUser != null && updatedUser.getEmail() == user.getEmail()) {
+        if (updatedUser != null && updatedUser.getEmail().equals(user.getEmail())) {
             this.user = updatedUser;
         }
     }
@@ -69,7 +68,9 @@ public abstract class Session {
          *  skipped in the LoginActivity
          */
         ApplicationSettings.removeCachedUser(context);
-        relogin((Activity) context);
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
     
     public static void relogin(Activity context) {

@@ -2,6 +2,9 @@ package ch.epfl.scrumtool.gui;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,14 +14,14 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.gui.components.ProjectListAdapter;
+import ch.epfl.scrumtool.gui.components.adapters.ProjectListAdapter;
 import ch.epfl.scrumtool.network.Client;
 
 /**
@@ -74,7 +77,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         Client.getScrumClient().loadProjects(callback);
     }
     
-    private void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+    protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
+        super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,11 +86,6 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
                 refreshLayout.setRefreshing(false);
             }
         });
-        refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
 
@@ -125,18 +124,35 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
      */
     private void deleteProject(final Project project) {
         listViewLayout.setRefreshing(true);
-        project.remove(new DefaultGUICallback<Boolean>(this) {
-            @Override
-            public void interactionDone(Boolean success) {
-                listViewLayout.setRefreshing(false);
-                adapter.remove(project);
-            }
-        });
+        new AlertDialog.Builder(this).setTitle("Delete Project")
+            .setMessage("Do you really want to delete this Project? "
+                    + "This will remove the Project and all its Tasks, Issues, Players and Sprints.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Context context = ProjectListActivity.this;
+                    project.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
+                            listViewLayout.setRefreshing(false);
+                            adapter.remove(project);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(false);
+                }
+            }).show();
     }
     
     public void openBacklog(View view) {
         final int position = listView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) listView.getAdapter().getItem(position);
             Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
             openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
@@ -146,7 +162,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     
     public void openSprints(View view) {
         final int position = listView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) listView.getAdapter().getItem(position);
             Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
             openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
@@ -156,7 +172,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     
     public void openPlayers(View view) {
         final int position = listView.getPositionForView(view);
-        if (position >= 0 && position != AdapterView.INVALID_POSITION) {
+        if (position >= 0) {
             Project project = (Project) listView.getAdapter().getItem(position);
             Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
             openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);

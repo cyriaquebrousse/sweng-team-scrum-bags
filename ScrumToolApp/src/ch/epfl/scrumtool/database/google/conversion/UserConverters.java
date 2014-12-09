@@ -1,31 +1,30 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.database.google.conversion;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * Ensures convertion betwen ScrumUser and User
  * 
  * @author aschneuw
- * 
  */
 public final class UserConverters {
     public static final EntityConverter<ScrumUser, User> SCRUMUSER_TO_USER = new EntityConverter<ScrumUser, User>() {
 
         @Override
         public User convert(ScrumUser dbUser) {
-            assert dbUser != null;
+            throwIfNull("Trying to convert a User with null parameters",
+                    dbUser.getEmail());
+
+            Preconditions.throwIfInvalidEmail(dbUser.getEmail());
 
             User.Builder builder = new User.Builder();
 
             String email = dbUser.getEmail();
-            if (email != null) {
-                builder.setEmail(dbUser.getEmail());
-            }
+            builder.setEmail(email);
 
             String name = dbUser.getName();
             if (name != null) {
@@ -67,23 +66,33 @@ public final class UserConverters {
 
         @Override
         public ScrumUser convert(User user) {
-            assert user != null;
-
             ScrumUser dbUser = new ScrumUser();
 
-            dbUser.setCompanyName(user.getCompanyName());
-            dbUser.setDateOfBirth(user.getDateOfBirth());
-            dbUser.setJobTitle(user.getJobTitle());
-
-            // Currently we don't need LastModDate and LastModUser
-
             dbUser.setEmail(user.getEmail());
-            dbUser.setLastName(user.getLastName());
-            dbUser.setName(user.getName());
+            
+            if (!user.getCompanyName().equals("")) {
+                dbUser.setCompanyName(user.getCompanyName()); 
+            }
+            
+            if (user.getDateOfBirth() != 0L) {
+                dbUser.setDateOfBirth(user.getDateOfBirth());
+            }
+            
+            if (!user.getJobTitle().equals("")) {
+                dbUser.setJobTitle(user.getJobTitle());
+            }
+
+            if (!user.getLastName().equals("")) {
+                dbUser.setLastName(user.getLastName());
+            }
+            
+            if (!user.getName().equals("")) {
+                dbUser.setName(user.getName());
+            }
+            
             if (user.getGender() != Gender.UNKNOWN) {
                 dbUser.setGender(user.getGender().name());
             }
-
             return dbUser;
         }
     };

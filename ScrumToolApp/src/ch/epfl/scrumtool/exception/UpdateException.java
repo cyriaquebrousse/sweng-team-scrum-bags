@@ -1,11 +1,7 @@
-/**
- * 
- */
 package ch.epfl.scrumtool.exception;
 
 /**
  * @author aschneuw
- *
  */
 public class UpdateException extends ScrumToolException{
     private static final long serialVersionUID = 1L;

@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.database.google.containers;
 
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * We need a container because of the way we implemented the Handlers to make
@@ -10,23 +11,19 @@ import ch.epfl.scrumtool.entity.Role;
  * @author vincent
  *
  */
-public class InsertPlayerArgs {
-    private Project project;
-    private String userEmail;
-    private Role role;
+public class InsertPlayerArgs extends EntityKeyArg<Project> {
+    private final Role role;
     
-    public InsertPlayerArgs(Project project, String userEmail, Role role) {
-        this.project = project;
-        this.userEmail = userEmail;
+    public InsertPlayerArgs(final Project project, final String userEmail, final Role role) {
+        super(project, userEmail);
+        Preconditions.throwIfInvalidEmail(userEmail);
+        Preconditions.throwIfNull("Must contain a valid role", role);
+        Preconditions.throwIfEmptyString("Project key must not be empty", super.getEntity().getKey());
         this.role = role;
     }
     
     public String getProjectKey() {
-        return project.getKey();
-    }
-    
-    public String getUserEmail() {
-        return userEmail;
+        return super.getEntity().getKey();
     }
 
     public String getRole() {

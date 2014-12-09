@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
@@ -26,7 +26,7 @@ import ch.epfl.scrumtool.util.gui.Validator;
 /**
  * @author ketsio
  */
-public class ProfileEditActivity extends ScrumToolActivity {
+public class ProfileEditActivity extends BaseEditMenuActivity {
 
     // Date of birth
     private Calendar calendar = Calendar.getInstance();
@@ -50,9 +50,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
         try {
             connectedUser = Session.getCurrentSession().getUser();
         } catch (NotAuthenticatedException e) {
-            // TODO Redirection to login page
-            e.printStackTrace();
-            this.finish();
+            Session.destroyCurrentSession(this);
         }
 
         initViews();
@@ -61,6 +59,11 @@ public class ProfileEditActivity extends ScrumToolActivity {
             dateOfBirthChosen = connectedUser.getDateOfBirth();
             updateDateOfBirth();
         }
+    }
+
+    @Override
+    protected void saveElement() {
+        saveUserChanges();
     }
 
     private void initViews() {
@@ -129,8 +132,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    public void saveUserChanges(View view) {
-
+    private void saveUserChanges() {
         Validator.checkNullableMinAndMax(firstNameView, Validator.SHORT_TEXT);
         Validator.checkNullableMinAndMax(lastNameView, Validator.SHORT_TEXT);
         Validator.checkNullableMinAndMax(jobTitleView, Validator.SHORT_TEXT);
@@ -141,7 +143,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
                 && jobTitleView.getError() == null
                 && companyNameView.getError() == null) {
             
-            findViewById(R.id.profile_edit_submit_button).setEnabled(false);
+            findViewById(Menu.FIRST).setEnabled(false);
             
             User.Builder userBuilder = new User.Builder(connectedUser);
             userBuilder.setName(firstNameView.getText().toString());
@@ -164,19 +166,16 @@ public class ProfileEditActivity extends ScrumToolActivity {
             } 
             
             final User userToUpdate = userBuilder.build();
-            userToUpdate.update(new DefaultGUICallback<Boolean>(this) {
+            final View next = findViewById(Menu.FIRST);
+            userToUpdate.update(new DefaultGUICallback<Void>(this, next) {
                 @Override
-                public void interactionDone(Boolean success) {
-                    if (success.booleanValue()) {
-                        try {
-                            Session.getCurrentSession().setUser(userToUpdate);
-                            ProfileEditActivity.this.finish();
-                        } catch (NotAuthenticatedException e) {
-                            // TODO Redirection vers login
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(ProfileEditActivity.this, "Could not edit profile", Toast.LENGTH_SHORT).show();
+                public void interactionDone(Void v) {
+                    try {
+                        Session.getCurrentSession().setUser(userToUpdate);
+                        ProfileEditActivity.this.finish();
+                    } catch (NotAuthenticatedException e) {
+                        Session.relogin(ProfileEditActivity.this);
+                        e.printStackTrace();
                     }
                 }
             });
@@ -185,8 +184,7 @@ public class ProfileEditActivity extends ScrumToolActivity {
     
 
     private void updateDateOfBirth() {
-        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
-                .getString(R.string.format_date), Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.format_date), Locale.ENGLISH);
         dobDateDisplay.setText(sdf.format(dateOfBirthChosen));
     }
 }

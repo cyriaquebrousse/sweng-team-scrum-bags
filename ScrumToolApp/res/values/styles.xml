@@ -41,9 +41,13 @@
     </style>
     
     <style name="image_button">
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@drawable/fluid_flat_round_button</item>
+    </style>
+    
+    <!-- Components -->
+    <style name="spaced_background">
+        <item name="android:padding">@dimen/space</item>
+        <item name="android:background">@color/shadeB</item>
     </style>
 
-
-    
 </resources>

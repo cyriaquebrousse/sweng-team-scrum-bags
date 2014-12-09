@@ -3,11 +3,12 @@ package ch.epfl.scrumtool.entity;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author vincent
@@ -42,6 +43,8 @@ public final class User implements Serializable, Comparable<User> {
                 builder.companyName,
                 builder.gender
         );
+        
+        Preconditions.throwIfInvalidEmail(builder.email);
         
         this.email = builder.email;
         this.name = builder.name;
@@ -112,10 +115,20 @@ public final class User implements Serializable, Comparable<User> {
     
     /**
      * Gets the issues for a specified user
+     * 
      * @param callback
      */
-    public void loadIssuesForUser(final Callback<List<Issue>> callback) {
+    public void loadIssuesForUser(final Callback<List<TaskIssueProject>> callback) {
         Client.getScrumClient().loadIssuesForUser(this, callback);
+    }
+    
+    /**
+     * Loads the players invited to a project for the current user
+     * 
+     * @param callback
+     */
+    public void loadInvitedPlayers(final Callback<List<Player>> callback) {
+        Client.getScrumClient().loadInvitedPlayers(callback);
     }
 
     /**
@@ -123,8 +136,8 @@ public final class User implements Serializable, Comparable<User> {
      * 
      * @param callback
      */
-    public void update(final Callback<Boolean> callback) {
-        Client.getScrumClient().updateUser(this, null, callback);
+    public void update(final Callback<Void> callback) {
+        Client.getScrumClient().updateUser(this, callback);
     }
 
     /**
@@ -132,7 +145,7 @@ public final class User implements Serializable, Comparable<User> {
      * 
      * @param callback
      */
-    public void remove(Callback<Boolean> callback) {
+    public void remove(Callback<Void> callback) {
         Client.getScrumClient().deleteUser(this, callback);
     }
     
@@ -141,7 +154,7 @@ public final class User implements Serializable, Comparable<User> {
      * @return
      */
     public Builder getBuilder() {
-        return new Builder();
+        return new Builder(this);
     }
 
 
@@ -165,7 +178,6 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
-            this.dateOfBirth = new Date().getTime();
             this.gender = Gender.UNKNOWN;
         }
 
@@ -176,6 +188,7 @@ public final class User implements Serializable, Comparable<User> {
             this.jobTitle = otherUser.jobTitle;
             this.dateOfBirth = otherUser.dateOfBirth;
             this.companyName = otherUser.companyName;
+            this.gender = otherUser.gender;
         }
 
         /**
@@ -324,7 +337,15 @@ public final class User implements Serializable, Comparable<User> {
             return false;
         }
         User other = (User) o;
-        return other.getEmail().equals(this.getEmail());
+        
+        return 
+                other.getEmail().equals(this.getEmail())
+                && other.companyName.equals(this.companyName)
+                && other.dateOfBirth == this.dateOfBirth
+                && other.gender == this.gender
+                && other.jobTitle.equals(this.jobTitle)
+                && other.lastName.equals(this.lastName)
+                && other.name.equals(this.name);
     }
 
     @Override
@@ -334,19 +355,15 @@ public final class User implements Serializable, Comparable<User> {
 
     @Override
     public int compareTo(User that) {
-        final int equal = 0;
-        
-        if (this == that) {
-            return equal;
+        if (that == null) {
+            return 1;
         }
         
         int comparison = this.getLastName().compareTo(that.getLastName());
-        if (comparison != equal) {
+        if (comparison != 0) {
             return comparison;
         }
         
-        comparison = this.getName().compareTo(that.getName());
-        return comparison;
+        return this.getName().compareTo(that.getName());
     }
-
 }

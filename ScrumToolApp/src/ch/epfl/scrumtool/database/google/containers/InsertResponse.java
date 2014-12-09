@@ -3,34 +3,23 @@
  */
 package ch.epfl.scrumtool.database.google.containers;
 
-import ch.epfl.scrumtool.server.scrumtool.model.OperationStatus;
+import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author aschneuw
  *
  * @param <A>
  */
-public class InsertResponse<A> {
+public final class InsertResponse<A> {
     private final A entity;
-    private final OperationStatus opStat;
+    private final KeyResponse keyResponse;
     
-    /**
-     * 
-     */
-    public InsertResponse(final A entity, final OperationStatus opStat) {
-        if (entity == null) {
-            throw new NullPointerException("Entity can't be null");
-        }
-        
-        if (opStat == null) {
-            throw new NullPointerException("OperationStatus needed");
-        }
-        
-        if (opStat.getKey() == null) {
-            throw new NullPointerException("OperationStatus needs a key");
-        }
+    public InsertResponse(final A entity, final KeyResponse keyResponse) {
+        Preconditions.throwIfNull("Must contain a valid entity and keyResponse", entity, keyResponse);
+        Preconditions.throwIfEmptyString("The key must no be empty", keyResponse.getKey());
         this.entity = entity;
-        this.opStat = opStat;
+        this.keyResponse = keyResponse;
     }
 
     /**
@@ -41,9 +30,9 @@ public class InsertResponse<A> {
     }
 
     /**
-     * @return the opStat
+     * @return the keyReponse
      */
-    public OperationStatus getOpStat() {
-        return opStat;
+    public KeyResponse getKeyReponse() {
+        return keyResponse;
     }
 }
