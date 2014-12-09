@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/space"
-        android:paddingBottom="@dimen/space"
-        android:paddingStart="1dp"
-        android:paddingEnd="0dp"
+        android:padding="@dimen/space"
         android:orientation="vertical"
         android:background="@drawable/white_box"
         android:layout_alignParentTop="true" >
@@ -21,8 +19,6 @@
             android:id="@+id/sprint_overview_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space"
-            android:layout_marginEnd="@dimen/space"
             android:maxLines="1"
             android:textSize="@dimen/header_title_size"
             android:textStyle="bold" />
@@ -32,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/sprint_overview_deadline"
-            android:layout_marginStart="20dp"
             android:textSize="15sp"
             android:textStyle="italic" />
 

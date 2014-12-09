@@ -13,6 +13,7 @@
     
     <EditText
         android:id="@+id/popup_user_input_first_name"
+        android:hint="@string/firstname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <requestFocus />
@@ -27,6 +28,7 @@
         
     <EditText
         android:id="@+id/popup_user_input_last_name"
+        android:hint="@string/lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </EditText>
