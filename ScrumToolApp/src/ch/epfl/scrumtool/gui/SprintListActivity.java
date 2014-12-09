@@ -41,16 +41,12 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     private SprintListAdapter adapter;
     
     private DefaultGUICallback<List<Sprint>> callback = new DefaultGUICallback<List<Sprint>>(this) {
-
         @Override
         public void interactionDone(final List<Sprint> sprintList) {
             listViewLayout.setRefreshing(false);
             emptyViewLayout.setRefreshing(false);
-
             adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
-            listView.setEmptyView(emptyViewLayout);
             listView.setAdapter(adapter);
-
             if (!sprintList.isEmpty()) {
                 registerForContextMenu(listView);
                 listView.setOnItemClickListener(new OnItemClickListener() {
@@ -69,7 +65,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             } else {
                 emptyViewLayout.setVisibility(View.VISIBLE);
             }
-
             adapter.notifyDataSetChanged();
         }
         
@@ -88,18 +83,14 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_sprint_list);
         onCreateSwipeToRefresh(emptyViewLayout);
-
-        listView = (ListView) findViewById(R.id.sprint_list);
-        
         emptyViewLayout.setVisibility(View.INVISIBLE);
 
-        project.loadSprints(callback);
+        listView = (ListView) findViewById(R.id.sprint_list);
     }
     
     @Override
     protected void onResume() {
         super.onResume();
-        listViewLayout.setRefreshing(true);
         project.loadSprints(callback);
     }
     

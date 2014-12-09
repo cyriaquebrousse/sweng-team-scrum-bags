@@ -74,7 +74,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             listViewLayout.setRefreshing(false);
             emptyViewLayout.setRefreshing(false);
             issueListAdapter = new IssueListAdapter(SprintOverviewActivity.this, issueList);
-            //registerForContextMenu(issueListView);
             issueListView.setAdapter(issueListAdapter);
             if (!issueList.isEmpty()) {
                 registerForContextMenu(issueListView);
