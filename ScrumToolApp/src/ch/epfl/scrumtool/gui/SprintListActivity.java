@@ -91,6 +91,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     @Override
     protected void onResume() {
         super.onResume();
+        listViewLayout.setRefreshing(true);
         project.loadSprints(callback);
     }
     

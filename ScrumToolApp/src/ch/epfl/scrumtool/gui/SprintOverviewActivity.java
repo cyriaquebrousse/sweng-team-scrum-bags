@@ -256,28 +256,27 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private void displayIssueSelectionPopup() {
         issueNoSprintAdapter = new IssueListAdapter(SprintOverviewActivity.this, unsprintedIssues);
         new AlertDialog.Builder(this)
-        .setTitle("Add Issue to Sprint")
-        .setAdapter(issueNoSprintAdapter, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final Issue issue = unsprintedIssues.get(which).getBuilder().setSprint(sprint).build();
-                issue.update(
-                       new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
-
-                        @Override
-                        public void interactionDone(Void object) {
-                            issueListAdapter.add(issue);
-                        }
-                    });
-            }
-        })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            .setTitle("Add Issue to Sprint")
+            .setAdapter(issueNoSprintAdapter, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final Issue issue = unsprintedIssues.get(which).getBuilder().setSprint(sprint).build();
+                    issue.update(
+                           new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
+    
+                            @Override
+                            public void interactionDone(Void object) {
+                                issueListAdapter.add(issue);
+                            }
+                        });
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-        }).show();
+            }).show();
     }
 
     private void updateViews() {
