@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/space"
         android:textColor="@color/White"
         android:textStyle="bold"
-        android:background="@drawable/fluid_flat_round_button"
+        android:background="@drawable/fluid_flat_button"
         android:onClick="openAccountPicker"
         android:text="@string/button_login" />
 

@@ -29,7 +29,7 @@
     <string name="button_backlog_show">Backlog</string>
     <string name="button_players_show">Players</string>
     <string name="button_sprints_show">Sprints</string>
-    <string name="button_login">Login</string>
+    <string name="button_login">Join the community</string>
     <string name="button_add_task">add task</string>
     <string name="sprint_pick_date_button">Pick a date</string>
     <string name="create_sprint_button">Create a new Sprint</string>
