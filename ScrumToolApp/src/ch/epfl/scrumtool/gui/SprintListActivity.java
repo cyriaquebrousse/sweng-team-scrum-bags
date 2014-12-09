@@ -46,6 +46,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             listViewLayout.setRefreshing(false);
             emptyViewLayout.setRefreshing(false);
             adapter = new SprintListAdapter(SprintListActivity.this, sprintList);
+            listView.setEmptyView(emptyViewLayout);
             listView.setAdapter(adapter);
             if (!sprintList.isEmpty()) {
                 registerForContextMenu(listView);
