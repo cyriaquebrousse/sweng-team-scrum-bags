@@ -37,30 +37,30 @@ public final class DashboardIssueListAdapter extends DefaultAdapter<TaskIssuePro
                     false);
         }
 
-        TextView estimation = (TextView) convertView
-                .findViewById(R.id.issue_row_quantity);
-        TextView unit = (TextView) convertView
-                .findViewById(R.id.issue_row_unit);
-        TextView name = (TextView) convertView
-                .findViewById(R.id.issue_row_name);
-        TextView deadline = (TextView) convertView
-                .findViewById(R.id.issue_row_assignee);
+        TextView estimation = (TextView) convertView.findViewById(R.id.issue_row_quantity);
+        TextView unit = (TextView) convertView.findViewById(R.id.issue_row_unit);
+        TextView name = (TextView) convertView.findViewById(R.id.issue_row_name);
+        TextView task = (TextView) convertView.findViewById(R.id.issue_row_desc_task);
+        TextView deadline = (TextView) convertView.findViewById(R.id.issue_row_assignee);
         View divider = (View) convertView.findViewById(R.id.issue_row_divider);
 
-        Issue issue = getList().get(position).getIssue();
+        TaskIssueProject container = getList().get(position);
+        Issue issue = container.getIssue();
         if (issue == null) {
             name.setText("No issue selected");
             divider.setVisibility(View.GONE);
             estimation.setVisibility(View.GONE);
+            task.setVisibility(View.GONE);
             deadline.setVisibility(View.GONE);
             unit.setVisibility(View.GONE);
         } else {
             name.setText(issue.getName());
+            task.setText("task : " + container.getMainTask().getName());
             Sprint optionSprint = issue.getSprint();
             SimpleDateFormat sdf = new SimpleDateFormat(activity.getResources()
                     .getString(R.string.format_date), Locale.ENGLISH);
-            deadline.setText(optionSprint != null ? sdf.format(optionSprint
-                    .getDeadline()) : "<No sprint assigned>");
+            deadline.setText(optionSprint != null ? "- " + sdf.format(optionSprint
+                    .getDeadline()) : "- No sprint assigned");
             float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
                     : EstimationFormating.estimationAsHourFormat(estim));

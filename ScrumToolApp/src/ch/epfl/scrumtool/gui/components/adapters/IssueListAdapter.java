@@ -35,6 +35,7 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
         TextView estimation = (TextView) convertView.findViewById(R.id.issue_row_quantity);
         TextView unit = (TextView) convertView.findViewById(R.id.issue_row_unit);
         TextView name = (TextView) convertView.findViewById(R.id.issue_row_name);
+        TextView description = (TextView) convertView.findViewById(R.id.issue_row_desc_task);
         TextView assignee = (TextView) convertView.findViewById(R.id.issue_row_assignee);
         View divider = (View) convertView.findViewById(R.id.issue_row_divider);
         
@@ -43,12 +44,14 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
             name.setText("No issue selected");
             divider.setVisibility(View.GONE);
             estimation.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
             assignee.setVisibility(View.GONE);
             unit.setVisibility(View.GONE);
         } else {
             name.setText(issue.getName());
+            description.setText(issue.getDescription());
             Player optionAssignee = issue.getPlayer();
-            assignee.setText(optionAssignee != null ? optionAssignee.getUser().fullname() : "<No one assigned>");
+            assignee.setText(optionAssignee != null ? "- " + optionAssignee.getUser().fullname() : "- No one assigned");
             float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
                     : EstimationFormating.estimationAsHourFormat(estim));

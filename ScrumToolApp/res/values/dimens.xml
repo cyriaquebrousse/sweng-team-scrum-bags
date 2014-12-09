@@ -12,7 +12,7 @@
     <dimen name="list_row_name">17sp</dimen>
     <dimen name="list_row_desc">15sp</dimen>
     <dimen name="list_row_padding">8dp</dimen>
-    <dimen name="stamp_width">60dp</dimen>
+    <dimen name="stamp_width">70dp</dimen>
     
     <!-- Sticker -->
     <dimen name="sticker_text_size">6sp</dimen>

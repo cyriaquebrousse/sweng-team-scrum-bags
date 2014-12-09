@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/space"
-        android:background="@color/White"
-        android:maxLines="1"
-        android:padding="@dimen/small_space"
+        android:background="@drawable/white_box"
+        android:maxLines="3"
+        android:padding="@dimen/space"
         android:textSize="@dimen/header_title_size"
         android:textStyle="bold" />
 
@@ -36,6 +36,7 @@
             android:layout_width="@dimen/stamp_width"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/space"
+            android:padding="@dimen/small_space"
             android:gravity="center_vertical" />
 
         <LinearLayout
