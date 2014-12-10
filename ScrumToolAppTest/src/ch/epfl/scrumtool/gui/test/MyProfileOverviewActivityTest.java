@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui.test;
 
-import org.mockito.Mockito;
-
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -9,6 +7,7 @@ import ch.epfl.scrumtool.network.Session;
 import android.content.Intent;
 import android.view.Menu;
 
+import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withError;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -17,24 +16,19 @@ import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewA
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Mockito.mock;
 
-import org.mockito.Mockito;
-
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.Menu;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.MyProfileOverviewActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
-import ch.epfl.scrumtool.network.Client;
-import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
 /**
  * @author LeoWirz
  * 
  */
-public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<MyProfileOverviewActivity> {
+public class MyProfileOverviewActivityTest extends
+        ActivityInstrumentationTestCase2<MyProfileOverviewActivity> {
 
     public MyProfileOverviewActivityTest() {
         super(MyProfileOverviewActivity.class);
@@ -42,15 +36,14 @@ public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCa
 
     private final static User USER = MockData.VINCENT;
 
-    private DatabaseScrumClient mockClient = Mockito
-            .mock(DatabaseScrumClient.class);
+    private DatabaseScrumClient mockClient = mock(DatabaseScrumClient.class);
 
     @SuppressWarnings("static-access")
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        new Session(USER){
-            //This is used to mock the current Session
+        new Session(USER) {
+            // This is used to mock the current Session
         };
         Client.setScrumClient(mockClient);
         Intent intent = new Intent();
@@ -62,9 +55,37 @@ public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCa
     public void testIsEditable() {
         onView(withId(Menu.FIRST)).check(matches(isClickable()));
     }
-    
+
+    public void testFullEdit() {
+        onView(withId(Menu.FIRST)).perform(click());
+        onView(withId(R.id.profile_edit_firstname)).perform(clearText(),
+                typeText("name"));
+        onView(withId(R.id.profile_edit_lastname)).perform(clearText(),
+                typeText("last name"));
+        onView(withId(R.id.profile_edit_dateofbirth)).perform(click());
+        onView(withText("Appliquer")).perform(click());
+        onView(withId(R.id.profile_edit_gender)).perform(click());
+        onView(withText("Female")).perform(click());
+        onView(withId(R.id.profile_edit_company)).perform(clearText(),
+                typeText("company"));
+        onView(withId(R.id.profile_edit_jobtitle)).perform(clearText(),
+                typeText("job"));
+        onView(withId(Menu.FIRST));
+    }
+
     public void testIsRemovable() {
         onView(withId(Menu.FIRST + 1)).check(matches(isClickable()));
+    }
+
+    public void testRemove() {
+        onView(withId(Menu.FIRST + 1)).perform(click());
+        onView(withText("OK")).perform(click());
+    }
+
+    public void testRemoveThenCancel() {
+        onView(withId(Menu.FIRST + 1)).perform(click());
+        onView(withText("Annuler")).perform(click());
+        testUserCorrectlyDisplayed();
     }
 
     public void testUserCorrectlyDisplayed() {
@@ -85,19 +106,19 @@ public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCa
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText("text"));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.profile_company)).check(
-                matches(withText("text")));
+        onView(withId(R.id.profile_company)).check(matches(withText("text")));
     }
 
     public void testEditName() {
         onView(withId(R.id.profile_name)).perform(click());
         onView(withId(R.id.popup_user_input_first_name)).perform(clearText());
-        onView(withId(R.id.popup_user_input_first_name)).perform(typeText("text"));
+        onView(withId(R.id.popup_user_input_first_name)).perform(
+                typeText("text"));
         onView(withId(R.id.popup_user_input_last_name)).perform(clearText());
-        onView(withId(R.id.popup_user_input_last_name)).perform(typeText("text"));
+        onView(withId(R.id.popup_user_input_last_name)).perform(
+                typeText("text"));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.profile_name)).check(
-                matches(withText("text text")));
+        onView(withId(R.id.profile_name)).check(matches(withText("text text")));
     }
 
     public void testEditJob() {
@@ -105,8 +126,7 @@ public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCa
         onView(withId(R.id.popup_user_input)).perform(clearText());
         onView(withId(R.id.popup_user_input)).perform(typeText("text"));
         onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.profile_jobtitle)).check(
-                matches(withText("text")));
+        onView(withId(R.id.profile_jobtitle)).check(matches(withText("text")));
     }
 
     public void testEditDate() {
