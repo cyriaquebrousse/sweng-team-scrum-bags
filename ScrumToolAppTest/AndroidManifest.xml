@@ -9,7 +9,7 @@
         android:targetSdkVersion="18" />
 
     <instrumentation 
-        android:name="ch.epfl.scrumtool.utils.InstrumentationTestRunner"
+        android:name="ch.epfl.scrumtool.test.InstrumentationTestRunner"
         android:targetPackage="ch.epfl.scrumtool" />
 
     <application
