@@ -34,7 +34,7 @@ import com.google.api.client.json.gson.GsonFactory;
 public final class GoogleSession extends Session {
     private final Scrumtool service;
     
-    private GoogleSession(User user, Scrumtool service) {
+    public GoogleSession(User user, Scrumtool service) {
         super(user);
         Preconditions.throwIfNull("A session needs a valid ScrumTool service objects", service);
         this.service = service;
@@ -49,7 +49,7 @@ public final class GoogleSession extends Session {
         return service;
     }
     
-    public static Scrumtool getServiceObject() {
+    public Scrumtool getServiceObject() {
         return Builder.generateServiceObject(null);
     }
 
@@ -71,6 +71,7 @@ public final class GoogleSession extends Session {
          * @param context
          */
         public Builder(LoginActivity context, UserHandler handler) {
+            Preconditions.throwIfNull("Context must not be null", context);
             googleCredential = GoogleAccountCredential.usingAudience(context,
                     "server:client_id:" + GoogleSession.Builder.CLIENT_ID);
             Preconditions.throwIfNull("Needs a valid user handler for the login process", handler);
