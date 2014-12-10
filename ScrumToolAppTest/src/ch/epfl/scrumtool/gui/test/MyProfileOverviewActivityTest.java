@@ -7,7 +7,6 @@ import ch.epfl.scrumtool.network.Session;
 import android.content.Intent;
 import android.view.Menu;
 
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withError;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;

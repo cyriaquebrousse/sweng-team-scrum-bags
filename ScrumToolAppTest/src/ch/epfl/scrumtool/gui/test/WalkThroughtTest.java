@@ -5,8 +5,10 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.DashboardActivity;
-import ch.epfl.scrumtool.gui.utils.test.CustomViewActions;
+import ch.epfl.scrumtool.gui.utils.test.MockData;
+import ch.epfl.scrumtool.network.Session;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -21,23 +23,20 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.entity.Project;
-
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
 /**
  * @author LeoWirz
  * 
  */
-public class WalkThroughtTest extends ActivityInstrumentationTestCase2<DashboardActivity> {
+public class WalkThroughtTest extends
+        ActivityInstrumentationTestCase2<DashboardActivity> {
 
     public WalkThroughtTest() {
         super(DashboardActivity.class);
     }
+    
+    private User user = MockData.VINCENT;
 
     @Override
     public void setUp() throws Exception {
@@ -97,9 +96,12 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
         // click on "+" button
         onView(withId(Menu.FIRST)).perform(click());
         // write an e-mail
-        onView(withId(R.id.popup_user_input)).perform(
+        onView(withId(R.id.player_address_add)).perform(
                 typeText("testee@test.ch"));
-        onView(withText("OK")).perform(click());
+        //chose a role
+        onView(withId(R.id.player_role_sticker)).perform(click());
+        onView(withText("Developer")).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
     }
 
     @SuppressWarnings("unchecked")
@@ -119,7 +121,6 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
                 click());
         onView(withId(R.id.issue_estimation_edit)).perform(typeText(hours),
                 closeSoftKeyboard());
-        Thread.sleep(1000);
         onView(withId(Menu.FIRST)).perform(click());
     }
 
@@ -130,8 +131,7 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
         onView(withId(R.id.task_name_edit)).perform(
                 typeText(number + "task test"));
         onView(withId(R.id.task_description_edit)).perform(
-                typeText("auto-remove"), closeSoftKeyboard());
-        Thread.sleep(1000);
+                typeText("auto-remove"));
 
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());
@@ -146,8 +146,7 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
         onView(withId(R.id.project_title_edit)).perform(
                 typeText("1project test"));
         onView(withId(R.id.project_description_edit)).perform(
-                typeText("auto-remove"), closeSoftKeyboard());
-        Thread.sleep(1000);
+                typeText("auto-remove"));
 
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());
@@ -163,6 +162,7 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
                 .inAdapterView(allOf(withId(R.id.project_list))).atPosition(0)
                 .perform(longClick());
         onView(withText("Delete")).perform(click());
+        onView(withText("OK")).perform(click());
     }
 
     @SuppressWarnings("unchecked")
@@ -171,6 +171,7 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
                 .inAdapterView(allOf(withId(R.id.backlog_tasklist)))
                 .atPosition(0).perform(longClick());
         onView(withText("Delete")).perform(click());
+        onView(withText("OK")).perform(click());
     }
 
     @SuppressWarnings("unchecked")
@@ -179,6 +180,7 @@ public class WalkThroughtTest extends ActivityInstrumentationTestCase2<Dashboard
                 .inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
                 .perform(longClick());
         onView(withText("Delete")).perform(click());
+        onView(withText("OK")).perform(click());
     }
 
 }
