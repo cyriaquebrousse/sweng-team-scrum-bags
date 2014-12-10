@@ -15,7 +15,7 @@ public class AppEngineUtils {
     /** Enables or disables assertions */
     public static final boolean ENABLE_ASSERTIONS = true;
 
-    public static final String LOCAL_IP = "192.168.0.16";
+    public static final String LOCAL_IP = "128.179.151.214";
     
     /**
      * URL to default Google App Engine project
@@ -31,7 +31,7 @@ public class AppEngineUtils {
     /**
      * If this is true the app will contact the local server
      */
-    public static final boolean TEST_LOCAL = false;
+    public static final boolean TEST_LOCAL = true;
 
     /**
      * Returns server URL If {@link #TEST_LOCAL} is true then the local server url
