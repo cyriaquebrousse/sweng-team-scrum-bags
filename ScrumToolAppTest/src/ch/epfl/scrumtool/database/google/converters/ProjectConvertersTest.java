@@ -83,7 +83,7 @@ public class ProjectConvertersTest extends TestCase {
     
     public void testInsertResponse() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.validKey);
+        response.setKey(TestConstants.VALIDKEY);
         Project Project = TestConstants.generateBasicProject();
         Project = Project.getBuilder()
                 .setKey("")

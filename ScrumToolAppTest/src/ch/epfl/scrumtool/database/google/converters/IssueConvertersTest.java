@@ -158,7 +158,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testInsertResponseToIssue() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.validKey);
+        response.setKey(TestConstants.VALIDKEY);
         
         Issue issue = TestConstants.generateBasicIssue();
         issue = issue.getBuilder()
@@ -238,7 +238,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testInsertResponseToMainTask() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.validKey);
+        response.setKey(TestConstants.VALIDKEY);
         
         MainTask mainTask = TestConstants.generateBasicMainTask();
         mainTask = mainTask.getBuilder()

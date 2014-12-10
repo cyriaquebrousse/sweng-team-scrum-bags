@@ -74,7 +74,7 @@ public class SprintConvertersTest extends TestCase {
     
     public void testToScrumSprint() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.validKey);
+        response.setKey(TestConstants.VALIDKEY);
         Sprint Sprint = TestConstants.generateBasicSprint();
         Sprint = Sprint.getBuilder()
                 .setKey("")

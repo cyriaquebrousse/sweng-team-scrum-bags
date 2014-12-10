@@ -121,7 +121,7 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testInsertResponse() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.validKey);
+        response.setKey(TestConstants.VALIDKEY);
 
         Player player = TestConstants.generateBasicPlayer();
         player = player.getBuilder()

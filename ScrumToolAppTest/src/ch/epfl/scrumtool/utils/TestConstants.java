@@ -18,11 +18,15 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
-
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public final class TestConstants {
     //Keys
-    public static final String validKey = "key";
-    public static final String invalidKey = "";
+    public static final String VALIDKEY = "key";
+    public static final String INVALIDKEY = "";
     
     //Issue
     private static final String ISSUE_STRING = "issue";
@@ -33,7 +37,9 @@ public final class TestConstants {
     //Sprint
     private static final String SPRINT_STRING = "sprint";
     private static final long SPRINT_DATE = getDay(2014, 12, 07);
-    private static final String TEST_USER_MAIL = "test@test.com";
+    
+    //User
+    private static final String TEST_USER_MAIL = "example@example.com";
     
     //Player
     private static final boolean PLAYER_ADMIN = false;
@@ -59,12 +65,12 @@ public final class TestConstants {
         .build();
 
     public static final Project TEST_PROJECT_WO_KEY = new Project.Builder(TEST_PROJECT_W_KEY)
-    .setKey("")
-    .build();
+        .setKey("")
+        .build();
 
-    public static final KeyResponse VALID_KEY_RESPONSE = new KeyResponse().setKey(validKey);
+    public static final KeyResponse VALID_KEY_RESPONSE = new KeyResponse().setKey(VALIDKEY);
     
-    public static final KeyResponse INVALID_KEY_RESPONSE = new KeyResponse().setKey(invalidKey);
+    public static final KeyResponse INVALID_KEY_RESPONSE = new KeyResponse().setKey(INVALIDKEY);
 
     public static ScrumUser generateBasicScrumUser() {
         ScrumUser user = new ScrumUser();
@@ -80,7 +86,7 @@ public final class TestConstants {
     
     public static ScrumPlayer generateBasicScrumPlayer() {
         ScrumPlayer player = new ScrumPlayer();
-        player.setKey(validKey);
+        player.setKey(VALIDKEY);
         player.setUser(generateBasicScrumUser());
         player.setAdminFlag(PLAYER_ADMIN);
         player.setInvitedFlag(PLAYER_INVITED);
@@ -90,7 +96,7 @@ public final class TestConstants {
     
     public static Player generateBasicPlayer() {
         Player.Builder builder = new Player.Builder();
-        return builder.setKey(validKey)
+        return builder.setKey(VALIDKEY)
             .setIsAdmin(PLAYER_ADMIN)
             .setIsInvited(PLAYER_INVITED)
             .setRole(Role.DEVELOPER)
@@ -102,7 +108,7 @@ public final class TestConstants {
         ScrumIssue issue = new ScrumIssue();
         issue.setDescription(ISSUE_STRING);
         issue.setEstimation(ISSUE_ESTIMATION);
-        issue.setKey(validKey);
+        issue.setKey(VALIDKEY);
         issue.setName(ISSUE_STRING);
         issue.setPriority(ISSUE_PRIO.name());
         issue.setStatus(ISSUE_STATUS.name());
@@ -113,7 +119,7 @@ public final class TestConstants {
         Issue.Builder builder = new Issue.Builder();
         return builder.setDescription(ISSUE_STRING)
             .setEstimatedTime(ISSUE_ESTIMATION)
-            .setKey(validKey)
+            .setKey(VALIDKEY)
             .setName(ISSUE_STRING)
             .setPriority(ISSUE_PRIO)
             .setStatus(ISSUE_STATUS)
@@ -122,7 +128,7 @@ public final class TestConstants {
     
     public static ScrumSprint generateBasicScrumSprint() {
         ScrumSprint sprint = new ScrumSprint();
-        sprint.setKey(validKey);
+        sprint.setKey(VALIDKEY);
         sprint.setTitle(SPRINT_STRING);
         sprint.setDate(SPRINT_DATE);
         return sprint;
@@ -131,7 +137,7 @@ public final class TestConstants {
     public static Sprint generateBasicSprint() {
         Sprint.Builder builder = new Sprint.Builder();
         return builder.setDeadline(SPRINT_DATE)
-            .setKey(validKey)
+            .setKey(VALIDKEY)
             .setTitle(SPRINT_STRING)
             .build();
     }
@@ -139,7 +145,7 @@ public final class TestConstants {
     public static ScrumMainTask generateBasicScrumMainTask() {
         ScrumMainTask task = new ScrumMainTask();
         task.setDescription(MAINTASK_STRING);
-        task.setKey(validKey);
+        task.setKey(VALIDKEY);
         task.setName(MAINTASK_STRING);
         task.setPriority(MAINTASK_PRIO.name());
         task.setStatus(MAINTASK_STAT.name());
@@ -155,7 +161,7 @@ public final class TestConstants {
         return builder.setDescription(MAINTASK_STRING)
             .setFinishedIssues(FINISHED_ISSUES)
             .setFinishedIssueTime(FINISHED_TIME)
-            .setKey(validKey)
+            .setKey(VALIDKEY)
             .setPriority(MAINTASK_PRIO)
             .setStatus(MAINTASK_STAT)
             .setTotalIssues(TOTAL_ISSUES)
@@ -167,7 +173,7 @@ public final class TestConstants {
     public static ScrumProject generateBasicScrumProject() {
         ScrumProject project = new ScrumProject();
         project.setDescription(PROJECT_STRING);
-        project.setKey(validKey);
+        project.setKey(VALIDKEY);
         project.setName(PROJECT_STRING);
         return project;
     }
@@ -175,7 +181,7 @@ public final class TestConstants {
     public static Project generateBasicProject() {
         Project.Builder builder = new Project.Builder();
         return builder.setDescription(PROJECT_STRING)
-            .setKey(validKey)
+            .setKey(VALIDKEY)
             .setName(PROJECT_STRING)
             .build();
     }
