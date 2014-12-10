@@ -67,7 +67,6 @@ public abstract class Session {
          *  Remove our user from the settings, otherwise the AccountPicker will be 
          *  skipped in the LoginActivity
          */
-        currentSession = null;
         ApplicationSettings.removeCachedUser(context);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
