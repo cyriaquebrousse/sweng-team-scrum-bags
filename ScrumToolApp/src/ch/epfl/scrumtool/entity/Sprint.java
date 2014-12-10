@@ -1,7 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -130,7 +130,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         public Builder() {
             this.keyb = "";
             this.title = "";
-            this.deadline = new Date().getTime();
+            this.deadline = Calendar.getInstance().getTimeInMillis();
         }
 
         /**

@@ -45,7 +45,6 @@ public final class User implements Serializable, Comparable<User> {
         );
         
         Preconditions.throwIfInvalidEmail(builder.email);
-        Preconditions.throwIfEmptyString("Name cannot be empty", builder.name);
         
         this.email = builder.email;
         this.name = builder.name;

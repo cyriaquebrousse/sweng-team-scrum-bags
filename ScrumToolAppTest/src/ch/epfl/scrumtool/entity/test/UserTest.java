@@ -46,12 +46,6 @@ public class UserTest extends TestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
-        try {
-            new User.Builder().setEmail("example@example.com").build();
-            fail("expected an IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-            // expected
-        }
     }
 
     public void testGetEmail() {
@@ -140,6 +134,11 @@ public class UserTest extends TestCase {
     
     public void testBuilderBuild() {
         //Redundant with testGet<field> tests
+    }
+    
+    public void testHashCode() {
+        assertEquals(USER.hashCode(), USER.getBuilder().build().hashCode());
+        assertNotSame(USER.hashCode(), USER2.hashCode());
     }
     
     public void testEqualsObject() {
