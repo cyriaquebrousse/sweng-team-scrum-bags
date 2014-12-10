@@ -62,11 +62,7 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         
         // Get the connected user, and the user to display
         try {
-            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
-                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
-            } else {
-                userProfile = Session.getCurrentSession().getUser();
-            }
+            userProfile = Session.getCurrentSession().getUser();
             this.setTitle(userProfile.getName());
             
             initViews();

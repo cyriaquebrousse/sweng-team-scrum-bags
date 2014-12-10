@@ -16,6 +16,7 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Session;
+import ch.epfl.scrumtool.util.Preconditions;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -52,23 +53,12 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
 
     private void init() {
         setContentView(R.layout.activity_profile_overview);
-        
-        // Get the connected user, and the user to display
-        try {
-            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
-                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
-            } else {
-                userProfile = Session.getCurrentSession().getUser();
-            }
-            this.setTitle(userProfile.getName());
-            
-            initViews();
-            initializeListeners();
-            
-        } catch (NotAuthenticatedException e) {
-            Session.relogin(this);
-            e.printStackTrace();
-        }
+        userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
+        Preconditions.throwIfNull("User cannot be null", userProfile);
+        this.setTitle(userProfile.getName());
+       
+        initViews();
+        initializeListeners();
     }
     
     private void initViews() {
