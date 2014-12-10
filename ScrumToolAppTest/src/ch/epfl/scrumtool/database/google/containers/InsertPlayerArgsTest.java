@@ -32,22 +32,6 @@ public class InsertPlayerArgsTest extends TestCase {
         }
     }
     
-    public void testInvalidRole() {
-        for (Role r: Role.values()) {
-            if (r != Role.STAKEHOLDER) {
-                try {
-                    @SuppressWarnings("unused")
-                    InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, validEmail, r);
-                    fail("Role must be STAKEHOLDER");
-                } catch (IllegalArgumentException e) {
-
-                } catch (Exception e) {
-                    fail("IllegalArgumentException expected");
-                }
-            }
-        }
-    }
-    
     public void testInvalidEmail() {
         try {
         @SuppressWarnings("unused")
