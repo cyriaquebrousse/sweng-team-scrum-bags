@@ -22,8 +22,18 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withError;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPlayer;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPriority;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withSprint;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withStatusValue;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
@@ -31,6 +41,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.IssueOverviewActivity;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -40,7 +51,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author sylb
  *
  */
-public class IssueOverviewActivityTest extends BaseInstrumentationTestCase<IssueOverviewActivity> {
+public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<IssueOverviewActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;

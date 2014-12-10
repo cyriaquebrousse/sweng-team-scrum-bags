@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Priority;
 import junit.framework.TestCase;
 
 public class PriorityTest extends TestCase {

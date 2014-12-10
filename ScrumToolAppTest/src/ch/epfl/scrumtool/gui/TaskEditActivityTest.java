@@ -17,12 +17,14 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.TaskEditActivity;
 import ch.epfl.scrumtool.gui.utils.MockData;
 
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
@@ -32,7 +34,7 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
  * @author sylb
  *
  */
-public class TaskEditActivityTest extends BaseInstrumentationTestCase<TaskEditActivity> {
+public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskEditActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;

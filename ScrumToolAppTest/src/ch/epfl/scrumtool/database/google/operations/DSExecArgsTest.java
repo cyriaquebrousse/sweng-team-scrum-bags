@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
+import ch.epfl.scrumtool.database.google.operations.AuthenticatedOperation;
+import ch.epfl.scrumtool.database.google.operations.DSExecArgs;
+import ch.epfl.scrumtool.database.google.operations.ScrumToolOperation;
+import ch.epfl.scrumtool.database.google.operations.UnauthenticatedOperation;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory;
 import ch.epfl.scrumtool.database.google.operations.DSExecArgs.Factory.MODE;
 import ch.epfl.scrumtool.exception.ScrumToolException;

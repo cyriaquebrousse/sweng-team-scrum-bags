@@ -11,10 +11,12 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.SprintEditActivity;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -27,7 +29,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
  * @author AlexVeuthey
  *
  */
-public class SprintEditActivityTestEdit extends BaseInstrumentationTestCase<SprintEditActivity> {
+public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2<SprintEditActivity> {
 
     private Activity activity;
     private Sprint sprint;

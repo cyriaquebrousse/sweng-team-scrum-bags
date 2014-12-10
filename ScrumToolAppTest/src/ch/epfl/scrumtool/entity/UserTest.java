@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import junit.framework.TestCase;
 

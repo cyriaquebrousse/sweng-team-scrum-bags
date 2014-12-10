@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Sprint.Builder;
 import junit.framework.TestCase;
 

@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.containers;
 
+import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import junit.framework.TestCase;
 
 public class EntityKeyArgTest extends TestCase {

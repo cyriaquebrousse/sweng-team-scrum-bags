@@ -27,6 +27,7 @@ import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
@@ -45,7 +46,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author sylb
  *
  */
-public class IssueEditActivityTest extends BaseInstrumentationTestCase<IssueEditActivity> {
+public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<IssueEditActivity> {
 
     private static final Issue ISSUE = MockData.ISSUE1;
     private static final MainTask TASK = MockData.TASK1;

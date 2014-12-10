@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.Status;
+
 public class IssueTest {
     private static final String ISSUE_KEY_1 = "Key 1";
     private static final String ISSUE_NAME_1 = "Issue 1";

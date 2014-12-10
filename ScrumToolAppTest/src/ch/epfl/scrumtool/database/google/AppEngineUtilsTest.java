@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google;
 
+import ch.epfl.scrumtool.database.google.AppEngineUtils;
 import junit.framework.TestCase;
 
 public class AppEngineUtilsTest extends TestCase {

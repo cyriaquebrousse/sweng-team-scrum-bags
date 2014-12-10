@@ -18,8 +18,10 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author LeoWirz
  * 
  */
-public class OthersProfileOverviewActivityTest extends
-        BaseInstrumentationTestCase<OthersProfileOverviewActivity> {
+import ch.epfl.scrumtool.gui.OthersProfileOverviewActivity;
+import android.test.ActivityInstrumentationTestCase2;
+
+public class OthersProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<OthersProfileOverviewActivity> {
 
     public OthersProfileOverviewActivityTest() {
         super(OthersProfileOverviewActivity.class);

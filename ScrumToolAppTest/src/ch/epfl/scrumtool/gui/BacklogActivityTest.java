@@ -13,7 +13,6 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 
@@ -25,6 +24,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -38,7 +38,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author LeoWirz
  * 
  */
-public class BacklogActivityTest extends BaseInstrumentationTestCase<BacklogActivity> {
+public class BacklogActivityTest extends ActivityInstrumentationTestCase2<BacklogActivity> {
 
     public BacklogActivityTest() {
         super(BacklogActivity.class);
@@ -99,17 +99,17 @@ public class BacklogActivityTest extends BaseInstrumentationTestCase<BacklogActi
         onView(withId(android.R.id.button1)).perform(click());
     }
     
-    public void testEmptyListShowsHint() throws Throwable {
-        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(not(isDisplayed())));
-        TASKLIST.remove(0);
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getActivity().onResume();
-            }
-        });
-        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(isDisplayed()));
-    }
+//    public void testEmptyListShowsHint() throws Throwable {
+//        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(not(isDisplayed())));
+//        TASKLIST.remove(0);
+//        runTestOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                getActivity().onResume();
+//            }
+//        });
+//        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(isDisplayed()));
+//    }
     
     @SuppressWarnings("unchecked")
     public void testEditTask() throws InterruptedException {

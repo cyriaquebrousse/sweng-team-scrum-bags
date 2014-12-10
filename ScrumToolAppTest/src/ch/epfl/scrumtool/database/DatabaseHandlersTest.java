@@ -4,6 +4,13 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ch.epfl.scrumtool.database.DatabaseHandlers;
+import ch.epfl.scrumtool.database.IssueHandler;
+import ch.epfl.scrumtool.database.MainTaskHandler;
+import ch.epfl.scrumtool.database.PlayerHandler;
+import ch.epfl.scrumtool.database.ProjectHandler;
+import ch.epfl.scrumtool.database.SprintHandler;
+import ch.epfl.scrumtool.database.UserHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSIssueHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSMainTaskHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSPlayerHandler;

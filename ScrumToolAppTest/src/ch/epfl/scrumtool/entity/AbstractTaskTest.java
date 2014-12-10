@@ -3,6 +3,9 @@
  */
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.AbstractTask;
+import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Status;
 import junit.framework.TestCase;
 
 /**

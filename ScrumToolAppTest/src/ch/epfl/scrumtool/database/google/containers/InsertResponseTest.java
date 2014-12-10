@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google.containers;
 
 import junit.framework.TestCase;
+import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.utils.TestConstants;
 
 public class InsertResponseTest extends TestCase {

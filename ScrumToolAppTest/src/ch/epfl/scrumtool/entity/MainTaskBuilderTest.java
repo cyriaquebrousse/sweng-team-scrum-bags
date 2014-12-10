@@ -4,6 +4,10 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Status;
+
 public class MainTaskBuilderTest extends TestCase{
     
     private static final String id = "007";

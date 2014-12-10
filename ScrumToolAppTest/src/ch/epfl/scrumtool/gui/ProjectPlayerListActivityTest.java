@@ -22,6 +22,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -34,7 +35,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
-public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<ProjectPlayerListActivity> {
+public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCase2<ProjectPlayerListActivity> {
 
     private static final Project PROJECT = MockData.MURCS;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;

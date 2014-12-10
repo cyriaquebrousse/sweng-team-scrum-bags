@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
@@ -29,7 +30,7 @@ import ch.epfl.scrumtool.network.Session;
  * @author LeoWirz
  * 
  */
-public class DashboardActivityTest extends BaseInstrumentationTestCase<DashboardActivity> {
+public class DashboardActivityTest extends ActivityInstrumentationTestCase2<DashboardActivity> {
 
     public DashboardActivityTest() {
         super(DashboardActivity.class);

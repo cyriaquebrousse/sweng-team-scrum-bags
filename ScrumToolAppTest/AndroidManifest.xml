@@ -4,14 +4,12 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="18" />
+    <uses-sdk 
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
 
-    <instrumentation
-        android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-        android:targetPackage="ch.epfl.scrumtool" />
-    
     <instrumentation 
-        android:name="android.test.InstrumentationTestRunner"
+        android:name="ch.epfl.scrumtool.utils.InstrumentationTestRunner"
         android:targetPackage="ch.epfl.scrumtool" />
 
     <application

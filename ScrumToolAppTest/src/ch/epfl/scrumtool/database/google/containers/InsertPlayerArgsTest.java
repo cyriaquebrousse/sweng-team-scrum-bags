@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.database.google.containers;
 
 import junit.framework.TestCase;
+import ch.epfl.scrumtool.database.google.containers.InsertPlayerArgs;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.utils.TestConstants;
 

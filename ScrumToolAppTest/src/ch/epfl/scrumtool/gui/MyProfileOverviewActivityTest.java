@@ -1,30 +1,30 @@
 package ch.epfl.scrumtool.gui;
 
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+
 import org.mockito.Mockito;
 
+import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
+import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
-import android.content.Intent;
-import android.view.Menu;
-
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import ch.epfl.scrumtool.R;
 
 /**
  * @author LeoWirz
  * 
  */
-public class MyProfileOverviewActivityTest extends
-        BaseInstrumentationTestCase<MyProfileOverviewActivity> {
+public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<MyProfileOverviewActivity> {
 
     public MyProfileOverviewActivityTest() {
         super(MyProfileOverviewActivity.class);

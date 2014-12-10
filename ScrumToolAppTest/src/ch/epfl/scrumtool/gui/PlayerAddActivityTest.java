@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
+
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withHint;
 import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withRole;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
@@ -22,6 +23,7 @@ import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
@@ -35,7 +37,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author vincent
  *
  */
-public class PlayerAddActivityTest extends BaseInstrumentationTestCase<PlayerAddActivity> {
+public class PlayerAddActivityTest extends ActivityInstrumentationTestCase2<PlayerAddActivity> {
     
     DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     private final static Project PROJECT = MockData.MURCS;

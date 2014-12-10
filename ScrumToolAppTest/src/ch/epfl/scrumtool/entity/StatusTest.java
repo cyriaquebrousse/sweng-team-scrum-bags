@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Status;
 import junit.framework.TestCase;
 
 public class StatusTest extends TestCase {

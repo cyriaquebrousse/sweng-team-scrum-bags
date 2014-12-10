@@ -12,6 +12,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
@@ -22,7 +23,7 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
  * @author LeoWirz, AlexVeuthey
  *
  */
-public class ProfileEditActivityTest extends BaseInstrumentationTestCase<ProfileEditActivity> {
+public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<ProfileEditActivity> {
 
     public ProfileEditActivityTest() {
         super(ProfileEditActivity.class);

@@ -1,5 +1,12 @@
 package ch.epfl.scrumtool.gui;
 
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.DashboardActivity;
+import ch.epfl.scrumtool.gui.utils.CustomViewActions;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -12,6 +19,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Issue;
@@ -25,8 +33,7 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
  * @author LeoWirz
  * 
  */
-public class WalkThroughtTest extends
-        BaseInstrumentationTestCase<DashboardActivity> {
+public class WalkThroughtTest extends ActivityInstrumentationTestCase2<DashboardActivity> {
 
     public WalkThroughtTest() {
         super(DashboardActivity.class);

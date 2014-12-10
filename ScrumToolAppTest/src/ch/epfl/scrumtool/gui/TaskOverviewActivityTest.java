@@ -27,6 +27,7 @@ import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
@@ -35,6 +36,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.gui.TaskOverviewActivity;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -44,7 +46,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author sylb
  *
  */
-public class TaskOverviewActivityTest extends BaseInstrumentationTestCase<TaskOverviewActivity> {
+public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<TaskOverviewActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;

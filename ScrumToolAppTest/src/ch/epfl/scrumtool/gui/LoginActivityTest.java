@@ -1,5 +1,14 @@
 package ch.epfl.scrumtool.gui;
 
+import org.junit.Before;
+import org.mockito.Mockito;
+
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.gui.LoginActivity;
+import ch.epfl.scrumtool.settings.ApplicationSettings;
+import android.app.Activity;
+import android.content.Context;
+import android.test.ActivityInstrumentationTestCase2;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -16,7 +25,7 @@ import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 
-public class LoginActivityTest extends BaseInstrumentationTestCase<LoginActivity> {
+public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     public LoginActivityTest() {
         super(LoginActivity.class);

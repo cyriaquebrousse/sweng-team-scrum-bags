@@ -22,11 +22,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.SprintListActivity;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -34,7 +36,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
-public class SprintListActivityTest extends BaseInstrumentationTestCase<SprintListActivity> {
+public class SprintListActivityTest extends ActivityInstrumentationTestCase2<SprintListActivity> {
 
     private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
 
@@ -134,17 +136,6 @@ public class SprintListActivityTest extends BaseInstrumentationTestCase<SprintLi
             .check(matches(withText(getDateStringFromLong(SPRINT_DEADLINE))));
     }
 
-    public void testEmptyListShowsHint() throws Throwable {
-        onView(withId(R.id.swipe_update_empty_sprint_list)).check(matches(not(isDisplayed())));
-        SPRINT_LIST.remove(0);
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getActivity().onResume();
-            }
-        });
-        onView(withId(R.id.swipe_update_empty_sprint_list)).check(matches(isDisplayed()));
-    }
 
     public void testAddSprint() throws InterruptedException {
         onView(withId(Menu.FIRST)).perform(ViewActions.click());

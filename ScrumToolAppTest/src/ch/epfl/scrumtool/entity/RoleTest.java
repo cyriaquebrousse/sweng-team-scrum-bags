@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.entity;
 
+import ch.epfl.scrumtool.entity.Role;
 import junit.framework.TestCase;
 
 public class RoleTest extends TestCase {
