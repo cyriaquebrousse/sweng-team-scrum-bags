@@ -4,24 +4,19 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.Player;
-import ch.epfl.scrumtool.entity.Priority;
-import ch.epfl.scrumtool.entity.Role;
-import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
-import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
-import ch.epfl.scrumtool.gui.components.widgets.RoleSticker;
-
 import android.view.View;
-import android.webkit.WebSettings.TextSize;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
+import ch.epfl.scrumtool.gui.components.widgets.RoleSticker;
 
 public class CustomMatchers {
 

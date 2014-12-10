@@ -1,5 +1,18 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPlayer;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.longClick;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.mockito.Mockito.doAnswer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,37 +20,19 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import static org.mockito.Mockito.doAnswer;
 
-import ch.epfl.scrumtool.gui.utils.CustomViewActions;
-import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withPlayer;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
+import android.content.Intent;
 import android.view.Menu;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-
-
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.gui.utils.CustomViewActions;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
-
-import android.content.Intent;
 
 public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<ProjectPlayerListActivity> {
 

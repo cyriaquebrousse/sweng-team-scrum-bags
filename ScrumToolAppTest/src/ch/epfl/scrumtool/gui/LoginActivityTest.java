@@ -1,20 +1,19 @@
 package ch.epfl.scrumtool.gui;
 
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.mockito.Mockito;
 
+import android.app.Activity;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
-import android.app.Activity;
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
-import static org.mockito.Mockito.when;
 
 
 public class LoginActivityTest extends BaseInstrumentationTestCase<LoginActivity> {

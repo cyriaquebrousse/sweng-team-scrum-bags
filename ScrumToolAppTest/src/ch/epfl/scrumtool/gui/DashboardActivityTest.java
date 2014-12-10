@@ -1,5 +1,11 @@
 package ch.epfl.scrumtool.gui;
 
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +24,6 @@ import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import ch.epfl.scrumtool.network.Session;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
-import android.test.ActivityInstrumentationTestCase2;
 
 /**
  * @author LeoWirz

@@ -116,7 +116,7 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
         builder.setTitle("Contacts");
         if (contactsAddresses.isEmpty()) {
             builder.setMessage("You have no contacts with an email address on this phone");
-        }else {
+        } else {
             final String[] contacts = new String[contactsAddresses.size()];
             contactsAddresses.toArray(contacts);
         
@@ -131,7 +131,7 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
     }
     
     /**
-     * Retreives the phones contacts that have an email address
+     * Retrieves the phones contacts that have an email address
      * 
      * @return the list of contacts
      */

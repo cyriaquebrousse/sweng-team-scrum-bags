@@ -21,9 +21,8 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-
+import android.content.Intent;
+import android.view.Menu;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Project;
@@ -31,9 +30,9 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.utils.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
-import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.Menu;
+
+import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
+import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
 public class SprintListActivityTest extends BaseInstrumentationTestCase<SprintListActivity> {
 

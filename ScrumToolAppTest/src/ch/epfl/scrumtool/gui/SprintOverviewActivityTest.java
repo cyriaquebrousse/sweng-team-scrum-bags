@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.test.ActivityInstrumentationTestCase2;
-
 public class SprintOverviewActivityTest extends BaseInstrumentationTestCase<SprintOverviewActivity> {
 
     public SprintOverviewActivityTest() {

@@ -1,10 +1,8 @@
 package ch.epfl.scrumtool.database.google.operations;
 
-import ch.epfl.scrumtool.network.GoogleSession;
-import ch.epfl.scrumtool.network.GoogleSession.Builder;
+import junit.framework.TestCase;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.utils.TestConstants;
-import junit.framework.TestCase;
 
 /**
  * 

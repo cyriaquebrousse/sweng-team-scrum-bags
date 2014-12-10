@@ -1,7 +1,5 @@
 package ch.epfl.scrumtool.gui;
 
-import android.test.ActivityInstrumentationTestCase2;
-
 public class ProjectEditActivityTest extends BaseInstrumentationTestCase<ProjectEditActivity> {
 
     public ProjectEditActivityTest() {
