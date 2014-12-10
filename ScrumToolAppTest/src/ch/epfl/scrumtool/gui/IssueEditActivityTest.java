@@ -55,12 +55,11 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     private static final Sprint SPRINT1 = MockData.SPRINT1;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
 
-    private static final String TEST_TEXT = "test text";
-    private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
-            + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
-    private static final Float ESTIMATION = 2f;
-    private static final Float LARGE_ESTIMATION = 125f;
-    private static final long THREADSLEEPTIME = 100;
+    private static final String TEST_TEXT = MockData.TEST_TEXT;
+    private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
+    private static final Float ESTIMATION = MockData.ESTIMATION;
+    private static final Float LARGE_ESTIMATION = MockData.LARGE_ESTIMATION;;
+    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
 
     private List<Player> playerList = new ArrayList<Player>();
     private List<Sprint> sprintList = new ArrayList<Sprint>();
@@ -77,9 +76,8 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         super.setUp();
         Client.setScrumClient(mockClient);
 
-        playerList.add(PLAYER);
-        sprintList.add(SPRINT1);
-        sprintList.add(SPRINT2);
+        playerList = MockData.generatePlayerLists();
+        sprintList = MockData.generateSprintLists();
 
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
@@ -120,7 +118,14 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
         setActivityIntent(createMockIntent());
         getActivity();
-        checkAllFields();
+
+        // check that all fields are displayed
+        onView(withId(R.id.issue_name_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_description_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
+        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
     }
 
     @LargeTest
@@ -160,16 +165,6 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
 
         return mockIntent;
-    }
-    
-    private void checkAllFields() throws InterruptedException {
-        // check that all fields are displayed
-        onView(withId(R.id.issue_name_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_description_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
-        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
     }
 
     @SuppressWarnings("unchecked")
