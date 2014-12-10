@@ -58,6 +58,10 @@ public abstract class Session {
         }
     }
     
+    public static void destroySession() {
+        currentSession = null;
+    }
+    
     /**
      * Destroys current session
      * @param context
@@ -67,7 +71,7 @@ public abstract class Session {
          *  Remove our user from the settings, otherwise the AccountPicker will be 
          *  skipped in the LoginActivity
          */
-        currentSession = null;
+        destroySession();
         ApplicationSettings.removeCachedUser(context);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -77,8 +81,6 @@ public abstract class Session {
     public static void relogin(Activity context) {
         Intent openLoginIntent = new Intent(context, LoginActivity.class);
         context.startActivityForResult(openLoginIntent, 0);
-
-        currentSession = null;
-        
+        destroySession();
     }
 }
