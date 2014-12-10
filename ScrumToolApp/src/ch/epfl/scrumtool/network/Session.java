@@ -71,10 +71,14 @@ public abstract class Session {
          *  Remove our user from the settings, otherwise the AccountPicker will be 
          *  skipped in the LoginActivity
          */
+        
         ApplicationSettings.removeCachedUser(context);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+        Activity activity = (Activity) context;
+        activity.finish();
+        currentSession = null;
     }
     
     public static void relogin(Activity context) {

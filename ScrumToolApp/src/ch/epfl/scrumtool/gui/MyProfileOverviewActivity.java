@@ -51,12 +51,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         init();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        init();
-    }
-
     private void init() {
         setContentView(R.layout.activity_profile_overview);
         
@@ -196,10 +190,9 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                         @Override
                         public void interactionDone(Void v) {
                             Toast.makeText(context , "User deleted", Toast.LENGTH_SHORT).show();
-                            GoogleSession.destroyCurrentSession(context);
+                            Session.destroyCurrentSession(context);
                         }
                     });
-                    finish();
                 }
             })
             .setNegativeButton(android.R.string.no, null).show();
