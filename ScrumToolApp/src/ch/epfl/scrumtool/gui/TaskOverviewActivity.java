@@ -358,6 +358,19 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 updateEstimationSlateInfo(estimation);
             }
 
+            @Override
+            public void failure(String errorMessage) { }
+            
+            
+            /* ****************************************************************
+             * Below are a collection of utility methods concerning issues.
+             * 
+             * Some are just copied from the server project, other are
+             * auxiliaries we need here (and nowhere else, that's why they were
+             * not made publicly and statically accessible in the .util package.
+             * ****************************************************************
+             */
+
             /**
              * Simulates the new task status. It does not have any side effects
              * (e.g. server modifications, modifications on members, etc.). <br>
@@ -461,9 +474,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 }
                 return time;
             }
-            
-            @Override
-            public void failure(String errorMessage) { }
 
         });
     }
