@@ -119,12 +119,11 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
             sprintBuilder.setDeadline(sprintDeadline);
-            setTitle("New sprint");
+            setTitle(R.string.title_activity_sprint_edit_new);
         } else {
             sprintBuilder = new Sprint.Builder(sprint);
             sprintDeadline = sprintBuilder.getDeadline();
             name = sprintBuilder.getTitle();
-            setTitle(name);
         }
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent project cannot be null", project);

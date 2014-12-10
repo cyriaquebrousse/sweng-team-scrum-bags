@@ -89,7 +89,6 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
         throwIfNull("Parent object cannot be null", project);
         
         this.project = project;
-        this.setTitle(project.getName());
         
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_project_playerlist);
         onCreateSwipeToRefresh(listViewLayout);

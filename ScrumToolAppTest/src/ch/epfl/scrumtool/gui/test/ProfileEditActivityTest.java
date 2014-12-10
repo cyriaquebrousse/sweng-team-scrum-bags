@@ -1,5 +1,16 @@
 package ch.epfl.scrumtool.gui.test;
 
+import org.mockito.Mockito;
+
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+import ch.epfl.scrumtool.network.Session;
+import android.view.Menu;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
@@ -26,18 +37,22 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
  */
 public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<ProfileEditActivity> {
 
+    private User user = MockData.VINCENT;
+    private String firstName = "Leonardo";
+    private String lastName = "Wirz";
+    private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
+
     public ProfileEditActivityTest() {
         super(ProfileEditActivity.class);
     }
 
-    private User user = MockData.VINCENT;
-    private String firstName = "Leonardo";
-    private String lastName = "Wirz";
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+        new Session(user){
+            //This is used to trick authentication for tests
+        };
+        Client.setScrumClient(mockClient);
         getActivity();
     }
     

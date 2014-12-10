@@ -33,28 +33,31 @@ import ch.epfl.scrumtool.network.Session;
  */
 public class DashboardActivityTest extends ActivityInstrumentationTestCase2<DashboardActivity> {
 
+    private Project project = MockData.MURCS;
+    private MainTask task = MockData.TASK1;
+    private Issue issue = MockData.ISSUE1;
+    private User user = MockData.VINCENT;
+    private TaskIssueProject taskIssueProject = new TaskIssueProject(task, project, issue);
+
+    private List<Project> projectList = new ArrayList<Project>();
+    private List<TaskIssueProject> issueList= new ArrayList<TaskIssueProject>();
+
+    private DatabaseScrumClient mockclient = Mockito.mock(DatabaseScrumClient.class);
+    private Session mocksession = Mockito.mock(Session.class);
+    
     public DashboardActivityTest() {
         super(DashboardActivity.class);
     }
-
-    Project project = MockData.MURCS;
-    MainTask task = MockData.TASK1;
-    Issue issue = MockData.ISSUE1;
-    User user = MockData.VINCENT;
-    TaskIssueProject taskIssueProject = new TaskIssueProject(task, project, issue);
-
-    List<Project> projectList = new ArrayList<Project>();
-    List<TaskIssueProject> issueList= new ArrayList<TaskIssueProject>();
-
-    DatabaseScrumClient mockclient = Mockito.mock(DatabaseScrumClient.class);
-    Session mocksession = Mockito.mock(Session.class);
 
     @SuppressWarnings("unchecked")
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         Client.setScrumClient(mockclient);
-
+        new Session(user) {
+            //We use this to mock the session
+        };
+        
         Answer<Void> answer = new Answer<Void>() {
 
             @Override

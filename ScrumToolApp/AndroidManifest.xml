@@ -97,11 +97,7 @@
         </activity>
         <activity
             android:name=".gui.PlayerAddActivity"
-            android:label="@string/title_activity_player_add"
-            android:parentActivityName=".gui.ProjectPlayerListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".gui.ProjectPlayerListActivity" />
+            android:label="@string/title_activity_player_add" >
         </activity>
     </application>
 
