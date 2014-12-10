@@ -73,7 +73,7 @@ public class TaskIssueProjectTest extends TestCase {
                 .setStatus(Status.READY_FOR_ESTIMATION)
                 .build();
         TaskIssueProject t2 = new TaskIssueProject(mainTask, project, i2);
-        assertTrue(t1.compareTo(t2) < 0 );
+        assertTrue(t1.compareTo(t2) < 0);
     }
 
 }

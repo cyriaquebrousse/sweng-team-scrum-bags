@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -17,7 +18,6 @@ import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewA
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
-import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -72,7 +72,7 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
         };
         
         doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
+                Matchers.<Callback<List<Player>>>any());
         setActivityIntent(openPlayerListIntent);
         getActivity();
     }
@@ -94,31 +94,11 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
             .check(matches(withText(PLAYER1.getRole().name())));*/
     }
     
-    public void testClickOnCrossAddsAPlayer() {
-        Answer<Void> addPlayersAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) {
-                playerList.add(PLAYER2);
-                ((Callback<Boolean>) invocation.getArguments()[3]).interactionDone(true);
-                return null;
-            }
-        };
-        
-        doAnswer(addPlayersAnswer).when(mockClient).addPlayerToProject(Mockito.any(Project.class),
-                Mockito.any(String.class), Mockito.any(Role.class), Mockito.any(Callback.class));
+    public void testClickOnCrossOpenPlayerAddActivity() {
         onView(withId(Menu.FIRST))
             .perform(click());
-        onView(withId(R.id.player_role_sticker))
+        onView(withId(R.layout.activity_player_add))
             .check(matches(isDisplayed()));
-        onView(withId(R.id.player_address_add))
-            .perform(typeText(PLAYER2.getUser().getEmail()));
-        onView(withId(Menu.FIRST))
-            .perform(click());
-        // check 2 players in the list
-        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
-        .check(matches(isDisplayed()));
-        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
-        .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
@@ -181,7 +161,7 @@ public class ProjectPlayerListActivityTest extends BaseInstrumentationTestCase<P
         };
         
         doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
-                Mockito.any(Callback.class));
+                Matchers.<Callback<Void>>any());
         
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(longClick());

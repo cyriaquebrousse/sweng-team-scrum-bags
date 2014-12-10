@@ -97,7 +97,18 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
     
     @Override
     protected void saveElement() {
-        invitePlayer();
+        final View next = findViewById(Menu.FIRST);
+        String userInput = emailAddressView.getText().toString();
+        verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
+        if (emailIsValid(userInput)) {
+            project.addPlayer(userInput, role, new DefaultGUICallback<Player>(this, next) {
+
+                @Override
+                public void interactionDone(Player object) {
+                    PlayerAddActivity.this.finish();
+                }
+            });
+        }
     }
 
     private void displayContacts() {
@@ -114,21 +125,6 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
         });
         
         builder.create().show();
-    }
-    
-    private void invitePlayer() {
-        final View next = findViewById(Menu.FIRST);
-        String userInput = emailAddressView.getText().toString();
-        verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
-        if (emailIsValid(userInput)) {
-            project.addPlayer(userInput, role, new DefaultGUICallback<Player>(this, next) {
-
-                @Override
-                public void interactionDone(Player object) {
-                    PlayerAddActivity.this.finish();
-                }
-            });
-        }
     }
     
     /**
