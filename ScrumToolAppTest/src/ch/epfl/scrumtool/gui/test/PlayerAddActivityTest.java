@@ -112,7 +112,7 @@ public class PlayerAddActivityTest extends ActivityInstrumentationTestCase2<Play
             @SuppressWarnings("unchecked")
             @Override
             public Void answer(InvocationOnMock invocation) {
-                ((Callback<Player>) invocation.getArguments()[2]).interactionDone(PLAYER);
+                ((Callback<Player>) invocation.getArguments()[3]).interactionDone(PLAYER);
                 return null;
             }
             

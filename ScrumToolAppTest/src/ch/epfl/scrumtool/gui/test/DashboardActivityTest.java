@@ -43,7 +43,6 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
     private List<TaskIssueProject> issueList= new ArrayList<TaskIssueProject>();
 
     private DatabaseScrumClient mockclient = Mockito.mock(DatabaseScrumClient.class);
-    private Session mocksession = Mockito.mock(Session.class);
     
     public DashboardActivityTest() {
         super(DashboardActivity.class);
@@ -79,8 +78,7 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
         };
         
         Mockito.doAnswer(answer).when(mockclient).loadProjects(Mockito.any(Callback.class));
-        Mockito.doAnswer(answer2).when(Mockito.mock(User.class)).loadIssuesForUser(Mockito.any(Callback.class));
-        Mockito.doReturn(user).when(mocksession).getUser();
+        Mockito.doAnswer(answer2).when(mockclient).loadIssuesForUser(Mockito.any(User.class), Mockito.any(Callback.class));
         
         getActivity();
     }
