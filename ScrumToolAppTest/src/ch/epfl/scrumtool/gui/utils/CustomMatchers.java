@@ -7,15 +7,18 @@ import org.hamcrest.TypeSafeMatcher;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Priority;
+import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
+import ch.epfl.scrumtool.gui.components.widgets.RoleSticker;
 
 import android.view.View;
 import android.webkit.WebSettings.TextSize;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -65,6 +68,28 @@ public class CustomMatchers {
                
 
                 return expectedError.equals(error);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
+    public final static Matcher<View> withHint(final String expectedHint) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof AutoCompleteTextView)) {
+                    return false;
+                }
+                String hint = "";
+                if (((AutoCompleteTextView) view).getHint() != null) {
+                     hint = ((AutoCompleteTextView) view).getHint().toString();
+                }
+                return expectedHint.equals(hint);
             }
 
             @Override
@@ -155,6 +180,32 @@ public class CustomMatchers {
         };
     }
     
+    public final static Matcher<View> withRole(final Role expectedRole) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof RoleSticker)) {
+                    return false;
+                }
+                Role role = null;
+                if (((RoleSticker) view).getRole() != null) {
+                     role = (Role) ((RoleSticker) view).getRole();
+                } else {
+                    role = null;
+                }
+               
+
+                return expectedRole.equals(role);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+
+        };
+    }
+    
     public final static Matcher<View> withStatusValue(final String expectedStatusValue) {
         return new TypeSafeMatcher<View>() {
 
@@ -165,7 +216,7 @@ public class CustomMatchers {
                 }
                 String statusValue = null;
                 if (((TextView) view).getText() != null) {
-                     statusValue = ((TextView) view).getText().toString();
+                        statusValue = ((TextView) view).getText().toString();
                 } else {
                     statusValue = null;
                 }

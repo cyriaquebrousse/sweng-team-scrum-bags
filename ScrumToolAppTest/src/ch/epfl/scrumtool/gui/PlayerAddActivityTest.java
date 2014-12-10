@@ -12,12 +12,15 @@ import static org.mockito.Mockito.doAnswer;
 
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.gui.utils.CustomViewActions;
-import ch.epfl.scrumtool.gui.utils.CustomMatchers;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withHint;
+import static ch.epfl.scrumtool.gui.utils.CustomMatchers.withRole;
 import ch.epfl.scrumtool.gui.utils.MockData;
+import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -28,6 +31,7 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.*;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.*;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.Menu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -42,6 +46,7 @@ public class PlayerAddActivityTest extends BaseInstrumentationTestCase<PlayerAdd
     DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     private final static Project PROJECT = MockData.MURCS;
     private final static Player PLAYER = MockData.VINCENT_ADMIN;
+    
 
     public PlayerAddActivityTest() {
         super(PlayerAddActivity.class);
@@ -50,6 +55,8 @@ public class PlayerAddActivityTest extends BaseInstrumentationTestCase<PlayerAdd
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        
+        Client.setScrumClient(mockClient);
         Intent openPlayerAddIntent = new Intent();
         openPlayerAddIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         setActivityIntent(openPlayerAddIntent);
@@ -57,27 +64,30 @@ public class PlayerAddActivityTest extends BaseInstrumentationTestCase<PlayerAdd
     }
     
     public void testViewsAreDisplayed() {
+        Resources res = getInstrumentation().getTargetContext().getResources();
+
         onView(withId(R.id.player_address_add))
             .check(matches(isDisplayed()));
         onView(withId(R.id.player_address_add))
-            .check(matches(withText(R.string.player_name_add_hint)));
+            .check(matches(withHint(res.getString(R.string.player_name_add_hint))));
         onView(withId(R.id.player_role_sticker))
             .check(matches(isDisplayed()));
         onView(withId(R.id.player_role_sticker))
-            .check(matches(withText(Role.STAKEHOLDER.name())));
+            .check(matches(withRole(Role.STAKEHOLDER)));
         onView(withId(R.id.player_select_contact_button))
             .check(matches(isDisplayed()));
         onView(withId(R.id.player_select_contact_button))
             .check(matches(withText(R.string.phone_contact_button)));
     }
     
+    @SuppressWarnings("unchecked")
     public void testChangeRole() {
         onView(withId(R.id.player_role_sticker))
             .perform(click());
-        onView(withText(Role.DEVELOPER.name()))
+        onData(allOf(is(instanceOf(String.class)))).atPosition(3)
             .perform(click());
         onView(withId(R.id.player_role_sticker))
-            .check(matches(withText(Role.DEVELOPER.name())));
+            .check(matches(withRole(Role.DEVELOPER)));
     }
     
     public void testBrowseContactInsertAddress() {
