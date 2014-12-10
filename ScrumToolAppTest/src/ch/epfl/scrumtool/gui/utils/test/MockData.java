@@ -19,6 +19,7 @@ public class MockData {
     
     public static final long  CURRENT_TIME = Calendar.getInstance().getTimeInMillis();
     public static final String TEST_TEXT = "test text";
+    public static final String ERROR_MESSAGE = "error";
     public static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
             + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
     public static final Float ESTIMATION = 2f;
