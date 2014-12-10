@@ -19,9 +19,9 @@ public class MockData {
     public static long CURRENT_TIME = Calendar.getInstance().getTimeInMillis();
     
     // Users
-    public static User VINCENT = buildUser("vincent.debieux@gmail.com", "Vincent", CURRENT_TIME, "EPFL", Gender.MALE, 
+    public static User VINCENT = buildUser("vincent.debieux@gmail.com", "Vincent", "Débieux", CURRENT_TIME, "EPFL", Gender.MALE, 
             "Student");
-    public static User JOEY = buildUser("joeyzenh@gmail.com", "Joey", CURRENT_TIME, "EPFL", Gender.MALE, 
+    public static User JOEY = buildUser("joeyzenh@gmail.com", "Joey", "Zenhausern", CURRENT_TIME, "EPFL", Gender.MALE, 
             "Student");
     
     // Players
@@ -89,11 +89,12 @@ public class MockData {
         return project.build();
     }
 
-    private static User buildUser(String email, String name, long birth, String company, Gender sex,
+    private static User buildUser(String email, String name, String lastName, long birth, String company, Gender sex,
             String proffession) {
         User.Builder user = new User.Builder();
         user.setEmail(email)
             .setName(name)
+            .setLastName(lastName)
             .setDateOfBirth(birth)
             .setCompanyName(company)
             .setGender(sex)
