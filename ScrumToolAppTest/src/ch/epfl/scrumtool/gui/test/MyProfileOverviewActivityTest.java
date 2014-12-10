@@ -1,5 +1,14 @@
 package ch.epfl.scrumtool.gui.test;
 
+import org.mockito.Mockito;
+
+import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+import ch.epfl.scrumtool.network.Session;
+import android.content.Intent;
+import android.view.Menu;
+
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -40,6 +49,9 @@ public class MyProfileOverviewActivityTest extends ActivityInstrumentationTestCa
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        new Session(USER){
+            //This is used to mock the current Session
+        };
         Client.setScrumClient(mockClient);
         Intent intent = new Intent();
         intent.putExtra(USER.SERIALIZABLE_NAME, USER);

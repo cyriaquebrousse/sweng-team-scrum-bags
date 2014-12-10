@@ -22,6 +22,7 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
@@ -66,7 +67,6 @@ public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCas
     
     public void testSaveButtonIsClickable() {
         ViewInteraction save = onView(withId(Menu.FIRST));
-        save.check(matches(withText("save")));
         save.check(matches(isClickable()));
     }
     
@@ -74,16 +74,16 @@ public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCas
         ViewInteraction datePick = onView(withId(R.id.sprint_date_edit));
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         datePick.check(matches(withText(sdf.format(Calendar.getInstance().getTime()))));
-        datePick.check(matches(ViewMatchers.isDisplayed()));
-        datePick.check(matches(ViewMatchers.isClickable()));
+        datePick.check(matches(isDisplayed()));
+        datePick.check(matches(isClickable()));
         datePick.perform(ViewActions.click());
         DatePickerFragment fragment = 
                 (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         assertTrue(fragment.getShowsDialog());
         
         ViewInteraction cancelButton = onView(withText("Cancel"));
-        cancelButton.check(matches(ViewMatchers.isClickable()));
-        cancelButton.perform(ViewActions.click());
+        cancelButton.check(matches(isClickable()));
+        cancelButton.perform(click());
         
         onView(withId(R.id.sprint_date_edit)).check(matches(withText(sdf.format(Calendar.getInstance().getTime()))));
     }

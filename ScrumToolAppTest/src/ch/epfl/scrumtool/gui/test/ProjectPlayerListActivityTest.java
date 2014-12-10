@@ -31,8 +31,11 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.ProjectPlayerListActivity;
 import ch.epfl.scrumtool.gui.utils.test.CustomViewActions;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
+import ch.epfl.scrumtool.entity.Role;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
+import ch.epfl.scrumtool.network.Session;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
@@ -40,6 +43,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
 
     private static final Project PROJECT = MockData.MURCS;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
+    private static final User USER = MockData.VINCENT;
     private static final Player PLAYER2 = MockData.JOEY_DEV;
     
     List<Player> playerList = new ArrayList<Player>();
@@ -55,6 +59,9 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     protected void setUp() throws Exception {
         super.setUp();
         Client.setScrumClient(mockClient);
+        new Session(USER) {
+            //This is used to trick authentication for tests
+        };
         
         Intent openPlayerListIntent = new Intent();
         openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
@@ -94,7 +101,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     
     @SuppressWarnings("unchecked")
     public void testSwipeDownUpdatesPlayerList() {
-        playerList.add(PLAYER2);
+        fail("figure out why swipe doesn't work in tests");
         onView(withId(R.id.swipe_update_project_playerlist)).perform(CustomViewActions.swipeDown());
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
             .check(matches(isDisplayed()));
@@ -102,9 +109,10 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     
     @SuppressWarnings("unchecked")
     public void testClickOnPlayerOpenUserOverview() {
-        fail("Not implemented yet");
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .perform(click());
+        onView(withId(R.id.profile_email))
+            .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")

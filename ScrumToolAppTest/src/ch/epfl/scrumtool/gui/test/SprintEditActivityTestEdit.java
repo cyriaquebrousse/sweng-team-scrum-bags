@@ -76,7 +76,6 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     
     public void testSaveButtonIsClickable() {
         ViewInteraction save = onView(withId(Menu.FIRST));
-        save.check(matches(withText("save")));
         save.check(matches(isClickable()));
     }
     
