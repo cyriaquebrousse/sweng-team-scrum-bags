@@ -1,9 +1,8 @@
 package ch.epfl.scrumtool.database.google.operations;
 
 import ch.epfl.scrumtool.exception.ScrumToolException;
-import ch.epfl.scrumtool.network.GoogleSession;
-import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author aschneuw
@@ -13,14 +12,16 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  */
 public final class UnauthenticatedOperation<A, B> extends
         DatastoreOperation<A, B> {
+    private final Scrumtool service;
 
-    public UnauthenticatedOperation(final ScrumToolOperation<A, B> operation) {
+    public UnauthenticatedOperation(final ScrumToolOperation<A, B> operation, Scrumtool service) {
         super(operation);
+        Preconditions.throwIfNull("", service);
+        this.service = service;
     }
 
     @Override
     public B execute(A a) throws ScrumToolException {
-        final Scrumtool service = ((GoogleSession) Session.getCurrentSession()).getServiceObject();
         return getOperation().execute(a, service);
     }
 }

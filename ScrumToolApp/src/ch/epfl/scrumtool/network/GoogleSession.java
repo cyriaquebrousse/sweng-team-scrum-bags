@@ -32,9 +32,7 @@ import com.google.api.client.json.gson.GsonFactory;
  * @author aschneuw
  */
 public final class GoogleSession extends Session {
-    private final Scrumtool service;
-    private final Scrumtool unauthService = Builder.generateServiceObject(null);
-    
+    private final Scrumtool service;    
     public GoogleSession(User user, Scrumtool service) {
         super(user);
         Preconditions.throwIfNull("A session needs a valid ScrumTool service objects", service);
@@ -48,10 +46,6 @@ public final class GoogleSession extends Session {
      */
     public Scrumtool getAuthServiceObject() {
         return service;
-    }
-    
-    public Scrumtool getServiceObject() {
-        return this.unauthService;
     }
 
     /**

@@ -8,8 +8,14 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import junit.framework.TestCase;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class OperationExecutorTest extends TestCase {
-    private static ScrumToolOperation<Object, Object> OPERATION = new ScrumToolOperation<Object, Object>() {
+    private static ScrumToolOperation<Object, Object> OPERATION =
+            new ScrumToolOperation<Object, Object>() {
         
         @Override
         public Object operation(Object arg, Scrumtool service) throws IOException,
@@ -18,7 +24,8 @@ public class OperationExecutorTest extends TestCase {
         }
     };
     
-    private static Callback<Object> CALLBACK = new Callback<Object>() {
+    private static Callback<Object> CALLBACK =
+            new Callback<Object>() {
         
         @Override
         public void interactionDone(Object object) {
@@ -29,8 +36,6 @@ public class OperationExecutorTest extends TestCase {
         @Override
         public void failure(String errorMessage) {
             // TODO Auto-generated method stub
-            
         }
     };
-
 }
