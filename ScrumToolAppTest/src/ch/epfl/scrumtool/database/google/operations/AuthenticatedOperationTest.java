@@ -36,7 +36,8 @@ public class AuthenticatedOperationTest extends TestCase {
     }
     
     public void testExecute() {
-        
+        fail("Not yet implemented");
+
     }
 
 

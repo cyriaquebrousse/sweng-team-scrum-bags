@@ -35,5 +35,10 @@ public class ProjectTest extends TestCase {
     public void testEqualsObject() {
         fail("Not yet implemented"); // TODO
     }
+    
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
+    }
 
 }

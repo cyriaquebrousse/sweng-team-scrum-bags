@@ -112,4 +112,8 @@ public class MainTaskBuilderTest extends TestCase{
         assertEquals(status, mainTask.getStatus());
     }
 
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
+    }
 }

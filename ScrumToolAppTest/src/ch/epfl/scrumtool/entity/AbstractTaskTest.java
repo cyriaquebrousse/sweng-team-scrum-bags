@@ -25,12 +25,6 @@ public class AbstractTaskTest extends TestCase {
         assertNotNull(abstractTask);
     }
 
-    public void testGetEstimatedTime() {
-        //TODO fix
-        float time = 0;
-        assertEquals(time, 0f);
-    }
-
     public void testGetName() {
         String name = abstractTask.getName();
         assertEquals(name, NAME);
@@ -59,6 +53,11 @@ public class AbstractTaskTest extends TestCase {
     public void testEqualsObject() {
         AbstractTask abstractTask2 = abstractTask;
         assertTrue(abstractTask.equals(abstractTask2));
+    }
+    
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
     }
 
 }

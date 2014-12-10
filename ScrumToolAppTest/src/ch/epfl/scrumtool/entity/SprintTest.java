@@ -65,5 +65,10 @@ public class SprintTest extends TestCase {
     private Sprint.Builder newBuilder(Sprint other) {
         return new Builder(other).setTitle(TITLE);
     }
+    
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
+    }
 
 }

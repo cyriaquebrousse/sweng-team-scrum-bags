@@ -64,4 +64,8 @@ public class MainTaskTest extends TestCase{
         assertEquals(priority, PRIORITY_1);
     }
 
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
+    }
 }

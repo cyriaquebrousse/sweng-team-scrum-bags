@@ -50,4 +50,9 @@ public class PlayerTest extends TestCase {
         Player player2 = player;
         assertTrue(player2.equals(player));
     }
+    
+    public void testTODO() {
+        //TODO test null parameters and other stuff
+        fail("Not implemented yet");
+    }
 }
