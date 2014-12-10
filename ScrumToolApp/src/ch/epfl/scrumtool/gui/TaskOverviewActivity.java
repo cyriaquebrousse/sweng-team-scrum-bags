@@ -126,7 +126,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         listViewLayout.setRefreshing(true);
         task.loadIssues(callback);
         updateViews();
-        updateViewsAccordingToNewStatusAndEstimation();
     }
 
     private void initViews() {
@@ -146,7 +145,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
-                                taskBuilder = new MainTask.Builder(task);
+                                taskBuilder = task.getBuilder();
                                 taskBuilder.setName(userInput);
                                 nameView.setText(userInput);
                                 updateTask();
@@ -163,7 +162,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                         new PopupCallback<String>() {
                             @Override
                             public void onModified(String userInput) {
-                                taskBuilder = new MainTask.Builder(task);
+                                taskBuilder = task.getBuilder();
                                 taskBuilder.setDescription(userInput);
                                 descriptionView.setText(userInput);
                                 updateTask();
@@ -176,17 +175,16 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             @Override
             public void onClick(View view) {
                 Dialogs.showTaskPriorityEditDialog(TaskOverviewActivity.this,
-                        new DialogCallback<Priority>() {
-                            @Override
-                            public void onSelected(Priority selected) {
-                                taskBuilder = new MainTask.Builder(task);
-                                taskBuilder.setPriority(selected);
-                                prioritySticker.setPriority(selected);
-                                priorityBar.setBackgroundColor(getResources()
-                                        .getColor(selected.getColorRef()));
-                                updateTask();
-                            }
-                        });
+                    new DialogCallback<Priority>() {
+                        @Override
+                        public void onSelected(Priority selected) {
+                            taskBuilder = task.getBuilder();
+                            taskBuilder.setPriority(selected);
+                            prioritySticker.setPriority(selected);
+                            priorityBar.setBackgroundColor(getResources().getColor(selected.getColorRef()));
+                            updateTask();
+                        }
+                    });
             }
         });
     }
@@ -199,18 +197,23 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 task.loadIssues(callback);
                 refreshLayout.setRefreshing(false);
                 updateViews();
-                updateViewsAccordingToNewStatusAndEstimation();
             }
         });
     }
 
+    /**
+     * Updates the views reflecting the task's internals. This method calls
+     * {@link #updateTaskAndBuilderAccordingToNewStatusAndEstimation(String)},
+     * which also updates the estimation and status views. The latter operation
+     * cannot be performed directly here in updateViews, since computing these
+     * two new values requires a network callback.
+     */
     private void updateViews() {
         nameView.setText(task.getName());
         descriptionView.setText(task.getDescription());
         prioritySticker.setPriority(task.getPriority());
         priorityBar.setBackgroundColor(getResources().getColor(task.getPriority().getColorRef()));
-        statusSlate.setText(task.getStatus().toString());
-        updateEstimationSlateInfo(task.unfinishedIssueTime());
+        updateTaskAndBuilderAccordingToNewStatusAndEstimation();
     }
 
     /**
@@ -221,7 +224,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      */
     private void updateEstimationSlateInfo(final float estimatedTime) {
         String unit = getResources().getString(R.string.project_default_unit);
-        if (1.0 >= estimatedTime) {
+        if (Float.compare(estimatedTime, 1.0f) <= 0) {
             unit = getResources().getString(R.string.project_single_unit);
         }
         estimationSlate.setText(estimatedTime <= 0 ? "―" : EstimationFormating
@@ -294,7 +297,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
         openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
-        openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        openIssueEditIntent.putExtra(Project.SERIALIZABLE_NAME, this.project);
         startActivity(openIssueEditIntent);
     }
 
@@ -319,7 +322,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 listViewLayout.setRefreshing(true);
                 task.loadIssues(callback);
                 updateViews();
-                updateViewsAccordingToNewStatusAndEstimation();
             }
 
             @Override
@@ -330,18 +332,32 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     /**
-     * Updates the activity with the task's new status and/or estimation
+     * Modifies {@link #task} and {@link #taskBuilder} according to changes in
+     * the task's issue list.<br>
+     * It also updates the status and estimation views accordingly.
      */
-    private void updateViewsAccordingToNewStatusAndEstimation() {
+    private void updateTaskAndBuilderAccordingToNewStatusAndEstimation() {
         task.loadIssues(new Callback<List<Issue>>() {
             @Override
-            public void interactionDone(List<Issue> issues) {
+            public void interactionDone(final List<Issue> issues) {
                 final Set<Issue> issueSet = new HashSet<Issue>(issues);
 
+                // Predict new status and estimation according to updated issue set
                 final Status status = simulateNewStatus(issueSet);
+                final float estimation = simulateNewEstimation(issueSet);
+                
+                // Update task and builder
+                taskBuilder = task.getBuilder()
+                        .setStatus(status)
+                        .setTotalIssues(issueSet.size())
+                        .setTotalIssueTime(timeTotal(issueSet))
+                        .setFinishedIssues(countIssuesForStatus(issueSet, FINISHED))
+                        .setFinishedIssueTime(timeFinished(issueSet));
+                task = taskBuilder.build();
+                
+                // Update status and estimation views
                 statusSlate.setText(status.toString());
-
-                updateEstimationSlateInfo(simulateNewEstimation(issueSet));
+                updateEstimationSlateInfo(estimation);
             }
 
             /**
@@ -380,6 +396,16 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 }
             }
 
+            private int countIssuesForStatus(final Set<Issue> issueSet, Status status) {
+                int count = 0;
+                for (Issue i : issueSet) {
+                    if (i.getStatus() == status) {
+                        ++count;
+                    }
+                }
+                return count;
+            }
+
             private boolean allIssuesHaveStatus(Set<Issue> issues, Status status) {
                 for (Issue i : issues) {
                     if (i.getStatus() != status) {
@@ -398,7 +424,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 }
                 return allIssuesWithStatus;
             }
-
+            
             /**
              * Simulates the new task estimated time. It does not have any side
              * effects (e.g. server modifications, modifications on members,
@@ -419,10 +445,27 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
 
                 return estimatedTime;
             }
-
-            @Override
-            public void failure(String errorMessage) {
+            
+            private float timeTotal(final Set<Issue> issueSet) {
+                float time = 0f;
+                for (Issue i : issueSet) {
+                    time += i.getEstimatedTime();
+                }
+                return time;
             }
+            
+            private float timeFinished(final Set<Issue> issueSet) {
+                float time = 0f;
+                for (Issue i : issueSet) {
+                    if (i.getStatus() == FINISHED) {
+                        time += i.getEstimatedTime();
+                    }
+                }
+                return time;
+            }
+            
+            @Override
+            public void failure(String errorMessage) { }
 
         });
     }

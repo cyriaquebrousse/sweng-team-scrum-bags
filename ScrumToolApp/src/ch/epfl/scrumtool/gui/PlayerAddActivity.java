@@ -33,8 +33,8 @@ import android.widget.Button;
 
 /**
  * Activity used to add a Player to a Project
+ * 
  * @author vincent
- *
  */
 public class PlayerAddActivity extends BaseEditMenuActivity {
     
