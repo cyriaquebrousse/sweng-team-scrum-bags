@@ -113,17 +113,20 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
 
     private void displayContacts() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PlayerAddActivity.this);
-        final String[] contacts = new String[contactsAddresses.size()];
-        contactsAddresses.toArray(contacts);
-        
         builder.setTitle("Contacts");
-        builder.setItems(contacts, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                emailAddressView.setText(contacts[which]);
-            }
-        });
+        if (contactsAddresses.isEmpty()) {
+            builder.setMessage("You have no contacts with an email address on this phone");
+        }else {
+            final String[] contacts = new String[contactsAddresses.size()];
+            contactsAddresses.toArray(contacts);
         
+            builder.setItems(contacts, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    emailAddressView.setText(contacts[which]);
+                }
+            });
+        }
         builder.create().show();
     }
     

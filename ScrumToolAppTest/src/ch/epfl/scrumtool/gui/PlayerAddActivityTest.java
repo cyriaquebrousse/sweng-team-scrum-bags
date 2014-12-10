@@ -122,7 +122,7 @@ public class PlayerAddActivityTest extends BaseInstrumentationTestCase<PlayerAdd
         };
         doAnswer(addPlayerAnswer).when(mockClient).addPlayerToProject(Mockito.any(Project.class),
                 Mockito.anyString(), Mockito.any(Role.class), Matchers.<Callback<Player>>any());
-        onView(withId(R.layout.activity_project_player_list))
-            .check(matches(isDisplayed()));
+        onView(withId(Menu.FIRST))
+            .perform(click());
     }
 }
