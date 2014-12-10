@@ -127,8 +127,6 @@ public class IssueEditActivity extends BaseEditMenuActivity {
         issueAssigneeSpinner = (Spinner) findViewById(R.id.issue_assignee_spinner);
         sprintSpinner = (Spinner) findViewById(R.id.issue_sprint_spinner);
 
-        setTitle(issueBuilder.getName());
-
         issueNameView.setText(issueBuilder.getName());
         issueDescriptionView.setText(issueBuilder.getDescription());
         issueEstimationView.setText(Float.toString(issueBuilder.getEstimatedTime()));
@@ -157,8 +155,6 @@ public class IssueEditActivity extends BaseEditMenuActivity {
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
             float newEstimation = InputVerifiers.sanitizeFloat(issueEstimationView.getText().toString());
-
-            setTitle(newName);
 
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);

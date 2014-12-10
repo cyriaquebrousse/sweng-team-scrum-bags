@@ -63,7 +63,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         // Get the connected user, and the user to display
         try {
             userProfile = Session.getCurrentSession().getUser();
-            this.setTitle(userProfile.getName());
             
             initViews();
             initializeListeners();
@@ -128,7 +127,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                                 userBuilder = new User.Builder(userProfile);
                                 userBuilder.setName(firstName);
                                 userBuilder.setLastName(lastName);
-                                MyProfileOverviewActivity.this.setTitle(firstName);
                                 nameView.setText(firstName + " " + lastName);
                                 updateUser();
                             }

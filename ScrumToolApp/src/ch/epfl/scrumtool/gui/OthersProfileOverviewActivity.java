@@ -51,7 +51,6 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
         setContentView(R.layout.activity_profile_overview);
         userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
         Preconditions.throwIfNull("User cannot be null", userProfile);
-        this.setTitle(userProfile.getName());
        
         initViews();
     }

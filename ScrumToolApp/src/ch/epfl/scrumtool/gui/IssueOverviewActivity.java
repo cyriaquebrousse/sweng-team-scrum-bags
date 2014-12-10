@@ -65,8 +65,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         parentProject = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         parentTask = (MainTask) getIntent().getSerializableExtra(MainTask.SERIALIZABLE_NAME);
 
-        this.setTitle(issue.getName());
-
         nameView = (TextView) findViewById(R.id.issue_name);
         descriptionView = (TextView) findViewById(R.id.issue_desc);
         statusView = (TextView) findViewById(R.id.issue_status);
@@ -92,7 +90,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
 
 
     private void updateViews() {
-        this.setTitle(issue.getName());
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
         statusView.setText(issue.getStatus().toString());

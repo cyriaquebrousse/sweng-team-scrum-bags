@@ -115,8 +115,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
 
         emptyViewLayout.setVisibility(View.INVISIBLE);
 
-        this.setTitle(task.getName());
-
         initViews();
     }
 
