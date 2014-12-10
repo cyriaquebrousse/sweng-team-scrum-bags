@@ -1,8 +1,8 @@
 package ch.epfl.scrumtool.util.gui;
 
-import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyDescriptionIsValid;
 import static ch.epfl.scrumtool.util.InputVerifiers.verifyEstimationIsValid;
+import static ch.epfl.scrumtool.util.InputVerifiers.verifyNameIsValid;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

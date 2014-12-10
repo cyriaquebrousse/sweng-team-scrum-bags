@@ -27,6 +27,7 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
+import ch.epfl.scrumtool.util.InputVerifiers;
 
 
 /**
@@ -155,15 +156,15 @@ public class IssueEditActivity extends BaseEditMenuActivity {
             findViewById(Menu.FIRST).setEnabled(false);
             String newName = issueNameView.getText().toString();
             String newDescription = issueDescriptionView.getText().toString();
-            float newEstimation = Float.parseFloat(issueEstimationView.getText().toString());
+            float newEstimation = InputVerifiers.sanitizeFloat(issueEstimationView.getText().toString());
 
             setTitle(newName);
 
             issueBuilder.setName(newName);
             issueBuilder.setDescription(newDescription);
             issueBuilder.setEstimatedTime(newEstimation);
-            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // TODO status is now handled by server
-            issueBuilder.setPriority(Priority.NORMAL); // TODO for now issue priorities are useless
+            issueBuilder.setStatus(Status.READY_FOR_ESTIMATION); // server assigns status itself
+            issueBuilder.setPriority(Priority.NORMAL); // disregard issue priority for now
             issueBuilder.setPlayer((Player) issueAssigneeSpinner.getSelectedItem());
             issueBuilder.setSprint((Sprint) sprintSpinner.getSelectedItem());
 
