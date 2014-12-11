@@ -94,24 +94,28 @@ public class UserTest extends TestCase {
     public void testBuildetSetGetEmail() {
         BUILDER.setEmail(USER2.getEmail());
         BUILDER.setEmail(null);
+        assertNotNull(BUILDER.getEmail());
         assertEquals(USER2.getEmail(), BUILDER.getEmail());
     }
     
     public void testBuildetSetGetName() {
         BUILDER.setName(USER2.getName());
         BUILDER.setName(null);
+        assertNotNull(BUILDER.getName());
         assertEquals(USER2.getName(), BUILDER.getName());
     }
     
     public void testBuildetSetGetLastName() {
         BUILDER.setLastName(USER2.getLastName());
         BUILDER.setLastName(null);
+        assertNotNull(BUILDER.getLastName());
         assertEquals(USER2.getLastName(), BUILDER.getLastName());
     }
     
     public void testBuildetSetGetGender() {
         BUILDER.setGender(USER2.getGender());
         BUILDER.setGender(null);
+        assertNotNull(BUILDER.getGender());
         assertEquals(USER2.getGender(), BUILDER.getGender());
     }
     
@@ -123,12 +127,14 @@ public class UserTest extends TestCase {
     public void testBuildetSetGetJobTitle() {
         BUILDER.setJobTitle(USER2.getJobTitle());
         BUILDER.setJobTitle(null);
+        assertNotNull(BUILDER.getJobTitle());
         assertEquals(USER2.getJobTitle(), BUILDER.getJobTitle());
     }
     
     public void testBuildetSetGetcompanyName() {
         BUILDER.setCompanyName(USER2.getCompanyName());
         BUILDER.setCompanyName(null);
+        assertNotNull(BUILDER.getCompanyName());
         assertEquals(USER2.getCompanyName(), BUILDER.getCompanyName());
     }
     

@@ -62,12 +62,14 @@ public class SprintTest extends TestCase {
     public void testBuilderSetGetKey() {
         BUILDER.setKey(SPRINT2.getKey());
         BUILDER.setKey(null);
+        assertNotNull(BUILDER.getKey());
         assertEquals(SPRINT2.getKey(), BUILDER.getKey());
     }
     
     public void testBuilderSetGetTitle() {
         BUILDER.setTitle(SPRINT2.getTitle());
         BUILDER.setTitle(null);
+        assertNotNull(BUILDER.getTitle());
         assertEquals(SPRINT2.getTitle(), BUILDER.getTitle());
     }
     
