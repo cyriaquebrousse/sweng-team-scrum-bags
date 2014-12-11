@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
@@ -19,7 +20,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
-import ch.epfl.scrumtool.test.TestConstants;
 
 /**
  * 
@@ -30,7 +30,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullKey() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setKey(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -41,7 +41,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullDescription() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setDescription(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -52,7 +52,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullName() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setName(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -63,7 +63,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullEstimation() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setName(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -74,7 +74,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullPriority() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setPriority(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -85,7 +85,7 @@ public class IssueConvertersTest extends TestCase {
     
     public void testNullStatus() {
         try {
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setStatus(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
             fail("NullPointerException expected");
@@ -95,16 +95,16 @@ public class IssueConvertersTest extends TestCase {
     }
     
     public void testValidIssue() {
-        ScrumIssue issue = TestConstants.generateBasicScrumIssue();
-        ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
-        ScrumSprint sprint = TestConstants.generateBasicScrumSprint();
+        ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
+        ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
+        ScrumSprint sprint = ServerClientEntities.generateBasicScrumSprint();
         issue.setAssignedPlayer(player);
         issue.setSprint(sprint);
         Issue converted = IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
         
-        Issue testIssue = TestConstants.generateBasicIssue();
-        Player testPlayer = TestConstants.generateBasicPlayer();
-        Sprint testSprint = TestConstants.generateBasicSprint();
+        Issue testIssue = ServerClientEntities.generateBasicIssue();
+        Player testPlayer = ServerClientEntities.generateBasicPlayer();
+        Sprint testSprint = ServerClientEntities.generateBasicSprint();
         testIssue = testIssue.getBuilder()
             .setPlayer(testPlayer)
             .setSprint(testSprint)
@@ -114,9 +114,9 @@ public class IssueConvertersTest extends TestCase {
     }
 
     public void testIssueToScrumIssueEmptyKey() {
-        Issue issue = TestConstants.generateBasicIssue();
+        Issue issue = ServerClientEntities.generateBasicIssue();
         issue = issue.getBuilder().setKey("").build();
-        ScrumIssue ref = TestConstants.generateBasicScrumIssue();
+        ScrumIssue ref = ServerClientEntities.generateBasicScrumIssue();
         ref.setKey(null);
         ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
         assertEquals(scrumIssue.getDescription(), ref.getDescription());
@@ -130,14 +130,14 @@ public class IssueConvertersTest extends TestCase {
     }
     
     public void testIssueToScrumIssueWithSprintAndPlayer() {
-        Issue issue = TestConstants.generateBasicIssue();
+        Issue issue = ServerClientEntities.generateBasicIssue();
         issue = issue.getBuilder()
-                .setPlayer(TestConstants.generateBasicPlayer())
-                .setSprint(TestConstants.generateBasicSprint())
+                .setPlayer(ServerClientEntities.generateBasicPlayer())
+                .setSprint(ServerClientEntities.generateBasicSprint())
                 .build();
-        ScrumIssue ref = TestConstants.generateBasicScrumIssue();
-        ref.setAssignedPlayer(TestConstants.generateBasicScrumPlayer());
-        ref.setSprint(TestConstants.generateBasicScrumSprint());
+        ScrumIssue ref = ServerClientEntities.generateBasicScrumIssue();
+        ref.setAssignedPlayer(ServerClientEntities.generateBasicScrumPlayer());
+        ref.setSprint(ServerClientEntities.generateBasicScrumSprint());
         ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
         assertEquals(scrumIssue.getDescription(), ref.getDescription());
         assertEquals(scrumIssue.getEstimation(), ref.getEstimation());
@@ -151,9 +151,9 @@ public class IssueConvertersTest extends TestCase {
     
     public void testInsertResponseToIssue() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.VALIDKEY);
+        response.setKey(ServerClientEntities.VALIDKEY);
         
-        Issue issue = TestConstants.generateBasicIssue();
+        Issue issue = ServerClientEntities.generateBasicIssue();
         issue = issue.getBuilder()
                 .setKey("")
                 .build();
@@ -161,7 +161,7 @@ public class IssueConvertersTest extends TestCase {
         InsertResponse<Issue> insresp = new InsertResponse<Issue>(issue, response);
 
         Issue keyIssue = IssueConverters.INSERTRESPONSE_TO_ISSUE.convert(insresp);
-        assertEquals(TestConstants.generateBasicIssue(), keyIssue);
+        assertEquals(ServerClientEntities.generateBasicIssue(), keyIssue);
     }
     
     public void testDashboardIssuesNullResponse() {
@@ -179,8 +179,8 @@ public class IssueConvertersTest extends TestCase {
     public void testDashboardIssuesNullProject() {
         try {
             CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             issue.setMainTask(mainTask);
             List<ScrumIssue> list = new ArrayList<ScrumIssue>();
             list.add(issue);
@@ -197,7 +197,7 @@ public class IssueConvertersTest extends TestCase {
         try {
             
             CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
-            ScrumIssue issue = TestConstants.generateBasicScrumIssue();
+            ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             List<ScrumIssue> list = new ArrayList<ScrumIssue>();
             list.add(issue);
             response.setItems(list);
@@ -210,9 +210,9 @@ public class IssueConvertersTest extends TestCase {
     
     public void testValidDashboardIssues() {
         CollectionResponseScrumIssue response = new CollectionResponseScrumIssue();
-        ScrumIssue issue = TestConstants.generateBasicScrumIssue();
-        ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
-        ScrumProject project = TestConstants.generateBasicScrumProject();
+        ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
+        ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
+        ScrumProject project = ServerClientEntities.generateBasicScrumProject();
         mainTask.setProject(project);
         issue.setMainTask(mainTask);
         List<ScrumIssue> list = new ArrayList<ScrumIssue>();
@@ -220,16 +220,16 @@ public class IssueConvertersTest extends TestCase {
         response.setItems(list);
         List<TaskIssueProject> result = IssueConverters.DASHBOARD_ISSUES.convert(response);
         assertEquals(1, result.size());
-        assertEquals(TestConstants.generateBasicIssue(), result.get(0).getIssue());
-        assertEquals(TestConstants.generateBasicMainTask(), result.get(0).getMainTask());
-        assertEquals(TestConstants.generateBasicProject(), result.get(0).getProject());
+        assertEquals(ServerClientEntities.generateBasicIssue(), result.get(0).getIssue());
+        assertEquals(ServerClientEntities.generateBasicMainTask(), result.get(0).getMainTask());
+        assertEquals(ServerClientEntities.generateBasicProject(), result.get(0).getProject());
     }
     
     public void testInsertResponseToMainTask() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.VALIDKEY);
+        response.setKey(ServerClientEntities.VALIDKEY);
         
-        MainTask mainTask = TestConstants.generateBasicMainTask();
+        MainTask mainTask = ServerClientEntities.generateBasicMainTask();
         mainTask = mainTask.getBuilder()
                 .setKey("")
                 .build();
@@ -237,7 +237,7 @@ public class IssueConvertersTest extends TestCase {
         InsertResponse<MainTask> insresp = new InsertResponse<MainTask>(mainTask, response);
 
         MainTask keyMainTask = MainTaskConverters.INSERTRESP_TO_MAINTASK.convert(insresp);
-        assertEquals(TestConstants.generateBasicMainTask(), keyMainTask);
+        assertEquals(ServerClientEntities.generateBasicMainTask(), keyMainTask);
     }
 }
 

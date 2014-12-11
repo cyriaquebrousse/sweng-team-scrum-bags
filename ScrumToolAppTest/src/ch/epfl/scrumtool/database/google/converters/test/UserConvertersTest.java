@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
-import ch.epfl.scrumtool.test.TestConstants;
 
 /**
  * 
@@ -18,10 +18,10 @@ public class UserConvertersTest extends TestCase {
     private static final String JOB_TITLE = "jobtitle";
     private static final String COMPANY_NAME = "companyName";
     private static final Gender GENDER = Gender.MALE;
-    private static final long DATEOFBIRTH = TestConstants.getDay(2001, 07, 05);
+    private static final long DATEOFBIRTH = ServerClientEntities.getDay(2001, 07, 05);
     
     private static User generateExtendedUser() {
-        User user = TestConstants.generateBasicUser();
+        User user = ServerClientEntities.generateBasicUser();
         user = user.getBuilder()
                 .setCompanyName(COMPANY_NAME)
                 .setDateOfBirth(DATEOFBIRTH)
@@ -33,7 +33,7 @@ public class UserConvertersTest extends TestCase {
     }
     
     private static ScrumUser generateExtendedScrumUser() {
-        ScrumUser user = TestConstants.generateBasicScrumUser();
+        ScrumUser user = ServerClientEntities.generateBasicScrumUser();
         user.setCompanyName(COMPANY_NAME);
         user.setDateOfBirth(DATEOFBIRTH);
         user.setGender(GENDER.name());

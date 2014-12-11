@@ -3,8 +3,8 @@ package ch.epfl.scrumtool.database.google.converters.test;
 import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
-import ch.epfl.scrumtool.test.TestConstants;
 
 /**
  * 
@@ -15,7 +15,7 @@ public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskNullKey() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setKey(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
@@ -27,7 +27,7 @@ public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskInvalidKey() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setName(null);
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
             fail("NullPointerException for invalid ScrumMainTask expected");
@@ -39,7 +39,7 @@ public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskNullName() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setName(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
@@ -51,7 +51,7 @@ public class MainTaskConvertersTest extends TestCase {
         
     public void testToMainTaskNullDescription() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setDescription(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
@@ -63,7 +63,7 @@ public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskNullPrio() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setPriority(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
@@ -75,7 +75,7 @@ public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskNullStatus() {
         try {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+            ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setStatus(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
@@ -86,14 +86,14 @@ public class MainTaskConvertersTest extends TestCase {
     }
     
     public void testToMainTaskValid() {
-        ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+        ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
         MainTask result = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-        assertEquals(result, TestConstants.generateBasicMainTask());
+        assertEquals(result, ServerClientEntities.generateBasicMainTask());
     }
     
     public void testToScrumMainTaskEmptyKey() {
-        MainTask mainTask = TestConstants.generateBasicMainTask();
-        ScrumMainTask mustResult = TestConstants.generateBasicScrumMainTask();
+        MainTask mainTask = ServerClientEntities.generateBasicMainTask();
+        ScrumMainTask mustResult = ServerClientEntities.generateBasicScrumMainTask();
         mustResult.setKey(null);
         mainTask = mainTask.getBuilder()
                 .setKey("")
@@ -113,8 +113,8 @@ public class MainTaskConvertersTest extends TestCase {
     }
     
     public void testToScrumMainTaskValid() {
-        MainTask mainTask = TestConstants.generateBasicMainTask();
-        ScrumMainTask mustResult = TestConstants.generateBasicScrumMainTask();
+        MainTask mainTask = ServerClientEntities.generateBasicMainTask();
+        ScrumMainTask mustResult = ServerClientEntities.generateBasicScrumMainTask();
         ScrumMainTask result = MainTaskConverters.MAINTASK_TO_SCRUMMAINTASK.convert(mainTask);
         assertEquals(mustResult.getKey(), result.getKey());
         assertEquals(mustResult.getDescription(), result.getDescription());

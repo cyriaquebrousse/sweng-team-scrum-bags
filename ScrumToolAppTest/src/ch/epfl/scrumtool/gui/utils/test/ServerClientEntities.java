@@ -1,5 +1,6 @@
-package ch.epfl.scrumtool.test;
+package ch.epfl.scrumtool.gui.utils.test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import ch.epfl.scrumtool.entity.Issue;
@@ -11,6 +12,11 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
+import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
@@ -23,7 +29,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
  * @author aschneuw
  *
  */
-public final class TestConstants {
+public final class ServerClientEntities {
     //Keys
     public static final String VALIDKEY = "key";
     public static final String INVALIDKEY = "";
@@ -190,5 +196,66 @@ public final class TestConstants {
         Calendar date = Calendar.getInstance();
         date.set(year, month, day);
         return date.getTimeInMillis();
+    }
+    
+    public static KeyResponse generateKeyResponse() {
+        KeyResponse response = new KeyResponse();
+        response.setKey(VALIDKEY);
+        return response;
+    }
+    
+    public static CollectionResponseScrumProject generateCollectionScrumProject() {
+        CollectionResponseScrumProject resp = new CollectionResponseScrumProject();
+        ScrumProject s1 = generateBasicScrumProject();
+        ScrumProject s2 = generateBasicScrumProject();
+        ArrayList<ScrumProject> list = new ArrayList<ScrumProject>();
+        list.add(s1);
+        list.add(s2);
+        resp.setItems(list);
+        return resp;
+    }
+    
+    public static CollectionResponseScrumSprint generateCollectionScrumSprint() {
+        CollectionResponseScrumSprint resp = new CollectionResponseScrumSprint();
+        ScrumSprint s1 = generateBasicScrumSprint();
+        ScrumSprint s2 = generateBasicScrumSprint();
+        ArrayList<ScrumSprint> list = new ArrayList<ScrumSprint>();
+        list.add(s1);
+        list.add(s2);
+        resp.setItems(list);
+        return resp;
+    }
+    
+    public static CollectionResponseScrumPlayer generateCollectionScrumPlayer() {
+        CollectionResponseScrumPlayer resp = new CollectionResponseScrumPlayer();
+        ScrumPlayer s1 = generateBasicScrumPlayer();
+        ScrumPlayer s2 = generateBasicScrumPlayer();
+        ArrayList<ScrumPlayer> list = new ArrayList<ScrumPlayer>();
+        list.add(s1);
+        list.add(s2);
+        resp.setItems(list);
+        return resp;
+    }
+    
+    public static CollectionResponseScrumIssue generateCollectionScrumIssue() {
+        CollectionResponseScrumIssue resp = new CollectionResponseScrumIssue();
+        ScrumIssue s1 = generateBasicScrumIssue();
+        ScrumIssue s2 = generateBasicScrumIssue();
+        ArrayList<ScrumIssue> list = new ArrayList<ScrumIssue>();
+        list.add(s1);
+        list.add(s2);
+        resp.setItems(list);
+        return resp;
+    }
+    
+    public static CollectionResponseScrumMainTask generateCollectionScrumMainTask() {
+        CollectionResponseScrumMainTask resp = new CollectionResponseScrumMainTask();
+        ScrumMainTask s1 = generateBasicScrumMainTask();
+        ScrumMainTask s2 = generateBasicScrumMainTask();
+        ArrayList<ScrumMainTask> list = new ArrayList<ScrumMainTask>();
+        list.add(s1);
+        list.add(s2);
+        resp.setItems(list);
+        return resp;
     }
 }

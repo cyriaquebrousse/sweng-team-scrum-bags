@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
-import ch.epfl.scrumtool.test.TestConstants;
 
 /**
  * 
@@ -16,7 +16,7 @@ import ch.epfl.scrumtool.test.TestConstants;
 public class PlayerConvertersTest extends TestCase {
     public void testNullKey() {
         try {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+            ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setKey(null);
 
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
@@ -28,7 +28,7 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testNullUser() {
         try {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+            ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setUser(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
             fail("NullPointerException for invalid ScrumPlayer expected");
@@ -39,7 +39,7 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testNullAdminFlag() {
         try {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+            ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setAdminFlag(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
             fail("NullPointerException for invalid ScrumPlayer expected");
@@ -50,7 +50,7 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testNullInvitedFlag() {
         try {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+            ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setInvitedFlag(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
             fail("NullPointerException for invalid ScrumPlayer expected");
@@ -61,7 +61,7 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testNullRole() {
         try {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+            ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setRole(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
             fail("NullPointerException for invalid ScrumPlayer expected");
@@ -71,30 +71,30 @@ public class PlayerConvertersTest extends TestCase {
     }
     
     public void testValidPlayer() {
-        ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+        ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
         Player result = PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-        assertEquals(TestConstants.generateBasicPlayer(), result);
+        assertEquals(ServerClientEntities.generateBasicPlayer(), result);
     }
     
     public void testValidPlayerWithProject() {
-        ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
-        player.setProject(TestConstants.generateBasicScrumProject());
-        Player mustResult = TestConstants.generateBasicPlayer()
+        ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
+        player.setProject(ServerClientEntities.generateBasicScrumProject());
+        Player mustResult = ServerClientEntities.generateBasicPlayer()
                 .getBuilder()
-                .setProject(TestConstants.generateBasicProject())
+                .setProject(ServerClientEntities.generateBasicProject())
                 .build();
         Player result = PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
         assertEquals(mustResult, result);
     }
     
     public void testToScrumPlayerEmptyKey() {
-        Player player = TestConstants.generateBasicPlayer();
+        Player player = ServerClientEntities.generateBasicPlayer();
         player = player
                 .getBuilder()
                 .setKey("")
                 .build();
         ScrumPlayer result = PlayerConverters.PLAYER_TO_SCRUMPLAYER.convert(player);
-        ScrumPlayer mustResult = TestConstants.generateBasicScrumPlayer();
+        ScrumPlayer mustResult = ServerClientEntities.generateBasicScrumPlayer();
         mustResult.setKey(null);
         assertEquals(mustResult.getKey(), result.getKey());
         assertEquals(mustResult.getRole(), result.getRole());
@@ -104,9 +104,9 @@ public class PlayerConvertersTest extends TestCase {
     }
     
     public void testToScrumPlayerWithKey() {
-        Player player = TestConstants.generateBasicPlayer();
+        Player player = ServerClientEntities.generateBasicPlayer();
         ScrumPlayer result = PlayerConverters.PLAYER_TO_SCRUMPLAYER.convert(player);
-        ScrumPlayer mustResult = TestConstants.generateBasicScrumPlayer();
+        ScrumPlayer mustResult = ServerClientEntities.generateBasicScrumPlayer();
         assertEquals(mustResult.getKey(), result.getKey());
         assertEquals(mustResult.getRole(), result.getRole());
         assertEquals(mustResult.getAdminFlag(), result.getAdminFlag());
@@ -116,16 +116,16 @@ public class PlayerConvertersTest extends TestCase {
     
     public void testInsertResponse() {
         KeyResponse response = new KeyResponse();
-        response.setKey(TestConstants.VALIDKEY);
+        response.setKey(ServerClientEntities.VALIDKEY);
 
-        Player player = TestConstants.generateBasicPlayer();
+        Player player = ServerClientEntities.generateBasicPlayer();
         player = player.getBuilder()
                 .setKey("")
                 .build();
 
         InsertResponse<Player> insresp = new InsertResponse<Player>(player, response);
         
-        Player mustResult = TestConstants.generateBasicPlayer();
+        Player mustResult = ServerClientEntities.generateBasicPlayer();
 
         Player keyPlayer = PlayerConverters.INSERTRESPONSE_TO_PLAYER.convert(insresp);
         assertEquals(mustResult, keyPlayer);

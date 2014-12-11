@@ -6,7 +6,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.test.TestConstants;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import junit.framework.TestCase;
 
 /**
@@ -15,9 +15,9 @@ import junit.framework.TestCase;
  *
  */
 public class TaskIssueProjectTest extends TestCase {
-    private static Project project = TestConstants.generateBasicProject();
-    private static Issue issue = TestConstants.generateBasicIssue();
-    private static MainTask mainTask = TestConstants.generateBasicMainTask();
+    private static Project project = ServerClientEntities.generateBasicProject();
+    private static Issue issue = ServerClientEntities.generateBasicIssue();
+    private static MainTask mainTask = ServerClientEntities.generateBasicMainTask();
 
     public void testNullProject() {
         try {

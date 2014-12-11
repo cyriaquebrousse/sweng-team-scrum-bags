@@ -7,11 +7,11 @@ import ch.epfl.scrumtool.database.google.operations.AuthenticatedOperation;
 import ch.epfl.scrumtool.database.google.operations.ProjectOperations;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
+import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
-import ch.epfl.scrumtool.test.TestConstants;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
@@ -64,7 +64,7 @@ public class AuthenticatedOperationTest extends TestCase {
     
     public void testAuthenticatedOperation() {
         try {
-            new GoogleSession(TestConstants.generateBasicUser(), testReturnNull);
+            new GoogleSession(ServerClientEntities.generateBasicUser(), testReturnNull);
             AuthenticatedOperation<Void, CollectionResponseScrumProject> op =
                     new AuthenticatedOperation<Void, CollectionResponseScrumProject>(ProjectOperations.LOAD_PROJECTS);
             assertNull(op.execute(null));
@@ -74,7 +74,7 @@ public class AuthenticatedOperationTest extends TestCase {
     }
     
     public void testAuthenticatedOperationScrumToolException() {
-        new GoogleSession(TestConstants.generateBasicUser(), testThrowIoException);
+        new GoogleSession(ServerClientEntities.generateBasicUser(), testThrowIoException);
         AuthenticatedOperation<Void, CollectionResponseScrumProject> op =
                 new AuthenticatedOperation<Void, CollectionResponseScrumProject>(ProjectOperations.LOAD_PROJECTS);
         Session.destroySession();
