@@ -63,7 +63,7 @@ public class BacklogActivityTest extends
             return null;
         }
     };
-    
+
     @SuppressWarnings("unchecked")
     @Override
     protected void setUp() throws Exception {
@@ -71,11 +71,10 @@ public class BacklogActivityTest extends
         TASKLIST.clear();
         TASKLIST.add(TASK);
         Client.setScrumClient(MOCKCLIENT);
-        doAnswer(answer).when(MOCKCLIENT).loadBacklog(
-                Mockito.any(Project.class), any(Callback.class));
+        doAnswer(answer).when(MOCKCLIENT).loadBacklog(any(Project.class),
+                any(Callback.class));
 
-        Intent intent = new Intent(getInstrumentation().getTargetContext(),
-                BacklogActivity.class);
+        Intent intent = new Intent();
         intent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         setActivityIntent(intent);
 

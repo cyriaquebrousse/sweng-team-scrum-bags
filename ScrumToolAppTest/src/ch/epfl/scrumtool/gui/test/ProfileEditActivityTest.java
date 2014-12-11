@@ -92,6 +92,11 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
         jobTitle.check(matches(withText("myJob")));
     }
     
+    public void testChangeDateOfBirth() {
+        onView(withId(R.id.profile_edit_dateofbirth)).perform(click());
+        onView(withText("Appliquer")).perform(click());
+    }
+    
     public void testSaveButtonIsClickable() {
         onView(withId(Menu.FIRST)).check(matches(isClickable()));
     }
