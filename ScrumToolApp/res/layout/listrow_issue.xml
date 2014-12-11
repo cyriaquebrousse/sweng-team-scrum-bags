@@ -40,7 +40,8 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/small_space"
         android:paddingBottom="@dimen/small_space"
@@ -78,5 +79,14 @@
             android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
+    
+    <CheckBox 
+		android:id="@+id/issue_row_checkbox"
+		android:layout_width="40dp"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+            />
 
 </LinearLayout>

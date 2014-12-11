@@ -78,6 +78,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             adapter = new IssueListAdapter(TaskOverviewActivity.this, issueList);
             listView.setEmptyView(emptyViewLayout);
             listView.setAdapter(adapter);
+            
 
             if (!issueList.isEmpty()) {
                 registerForContextMenu(listView);
