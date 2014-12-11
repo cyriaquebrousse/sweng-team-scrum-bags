@@ -8,6 +8,7 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
@@ -75,20 +76,14 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         super(IssueEditActivity.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         Client.setScrumClient(mockClient);
-
-        playerList = MockData.generatePlayerLists();
-        sprintList = MockData.generateSprintLists();
-
-
     }
 
     @SuppressWarnings("unchecked")
-    private void setSucessFulLoadOperationsBoth() {
+    private void setSuccessFulLoadOperationsBoth() {
         playerList = MockData.generatePlayerLists();
         sprintList = MockData.generateSprintLists();
 
@@ -202,7 +197,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     public void testEditIssueNewIssue() throws InterruptedException {
 
         setActivityIntent(createMockIntent());
-        setSucessFulLoadOperationsBoth();
+        setSuccessFulLoadOperationsBoth();
         getActivity();
 
         onView(withId(Menu.FIRST)).check(
@@ -214,7 +209,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
 
         setActivityIntent(createMockIntent());
-        setSucessFulLoadOperationsBoth();
+        setSuccessFulLoadOperationsBoth();
         getActivity();
 
         // check that all fields are displayed
@@ -233,7 +228,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         intent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
 
         setActivityIntent(intent);
-        setSucessFulLoadOperationsBoth();
+        setSuccessFulLoadOperationsBoth();
         getActivity();
 
         onView(withId(Menu.FIRST)).check(
@@ -247,7 +242,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         Intent intent = createMockIntent();
 
         setActivityIntent(intent);
-        setSucessFulLoadOperationsBoth();
+        setSuccessFulLoadOperationsBoth();
         getActivity();
         Resources res = getInstrumentation().getTargetContext().getResources();
 
@@ -322,7 +317,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());
     }
-
+    
     private void nameIsEmpty(Resources res) throws InterruptedException {
         // test the wanted field
         onView(withId(R.id.issue_name_edit)).perform(clearText(), closeSoftKeyboard());
@@ -397,8 +392,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
     
     @LargeTest
-    private void loadPlayerFailed() throws Exception {
-        
+    public void testloadPlayerFailed() throws Exception {
         setActivityIntent(createMockIntent());
         setFailedLoadOperationPlayerList();
         getActivity();
@@ -407,7 +401,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
     
     @LargeTest
-    private void loadSprintFailed() throws Exception {
+    public void testloadSprintFailed() throws Exception {
         setActivityIntent(createMockIntent());
         setFailedLoadOperationSprintList();
         getActivity();
@@ -416,7 +410,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     }
     
     @LargeTest
-    private void loadBothFailed() throws Exception {
+    public void testloadBothFailed() throws Exception {
         setActivityIntent(createMockIntent());
         setFailedLoadOperationBoth();
         getActivity();

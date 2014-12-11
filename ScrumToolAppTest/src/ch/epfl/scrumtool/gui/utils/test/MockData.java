@@ -50,7 +50,7 @@ public class MockData {
             buildMaintask("task1", "write tests", "description", Priority.HIGH, Status.IN_SPRINT, 1000, 200, 5, 2);
     
     // Issues
-    public static final Issue ISSUE1 = buildIssue("Issue1", "tests for server", "desc", 200, Priority.URGENT,
+    public static final Issue ISSUE1 = buildIssue("Issue1", "tests for server", "desc", 20, Priority.URGENT,
             Status.FINISHED, VINCENT_ADMIN, SPRINT1);
     public static final Issue ISSUE2 = buildIssue("Issue2", "test", "test desc", 5, Priority.NORMAL,
             Status.IN_SPRINT, JOEY_DEV, SPRINT1);

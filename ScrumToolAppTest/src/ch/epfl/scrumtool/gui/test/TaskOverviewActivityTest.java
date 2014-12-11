@@ -79,7 +79,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     }
     
     @SuppressWarnings("unchecked")
-    private void setSucessFulLoadOperation() {
+    private void setSuccessFulLoadOperation() {
         issuesList = MockData.generateIssueLists();
         Answer<Void> loadIssuesAnswer = new Answer<Void>() {
             @Override
@@ -113,7 +113,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testTaskOverviewAllFieldsAreDisplayed() {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         // check that all fields are displayed
         onView(withId(R.id.task_name)).check(matches(isDisplayed()));
         onView(withId(R.id.task_desc)).check(matches(isDisplayed()));
@@ -127,7 +127,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testTaskOverviewCheckClickableFields() {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         // check that some fields are clickable
         onView(withId(R.id.task_name)).check(matches(isClickable()));
         onView(withId(R.id.task_desc)).check(matches(isClickable()));
@@ -139,7 +139,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     @SuppressWarnings("unchecked")
     @LargeTest
     public void testOverviewModifyTask() throws InterruptedException {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         // check if the fields are displayed correctly
         onView(withId(R.id.task_name)).check(matches(withText(TASK.getName())));
         onView(withId(R.id.task_desc)).check(matches(withText(TASK.getDescription())));
@@ -168,7 +168,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testOverviewCheckBadUserInputs() throws InterruptedException {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         
         Resources res = getInstrumentation().getTargetContext().getResources();
         
@@ -179,7 +179,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testOverviewTestIssueList() {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         
         testIssuesAreDisplayedInTheList();
         testLongClickOnIssueToOpenContextMenu();
@@ -213,7 +213,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
         // check the value in the field is empty
         onView(withId(R.id.popup_user_input)).check(matches(withText("")));
 
-        // click on save button and check the error on the name
+        // click on save button and check the error on the description
         onView(withText(android.R.string.ok)).perform(click());
         onView(withId(R.id.popup_user_input)).check(matches(withError(res.getString(R.string.error_field_required))));
         onView(withId(R.id.popup_user_input)).perform(pressBack());
@@ -237,7 +237,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @SuppressWarnings("unchecked")
     public void testIssuesAreDisplayedInTheList() {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
             .check(matches(isDisplayed()));
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(1)
@@ -254,7 +254,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @SuppressWarnings("unchecked")
     public void testLongClickOnIssueToOpenContextMenu() {
-        setSucessFulLoadOperation();
+        setSuccessFulLoadOperation();
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0).perform(longClick());
         onView(withText(R.string.action_edit)).check(matches(isDisplayed()));
         onView(withText(R.string.action_delete)).check(matches(isDisplayed()));
