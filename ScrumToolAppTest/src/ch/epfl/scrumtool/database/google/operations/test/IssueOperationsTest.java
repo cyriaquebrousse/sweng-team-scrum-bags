@@ -11,7 +11,9 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import junit.framework.TestCase;
 
 /**
- * 
+ * These are only very basic tests to verify the operation functionality.
+ * They are only used with a mockScrumTool class which returns bogus data.
+ * The actual server testing which tests the data integrity is done on the server side
  * @author aschneuw
  *
  */
