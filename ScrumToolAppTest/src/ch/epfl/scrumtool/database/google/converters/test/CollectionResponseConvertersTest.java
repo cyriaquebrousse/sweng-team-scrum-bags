@@ -29,7 +29,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 import junit.framework.TestCase;
-
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class CollectionResponseConvertersTest extends TestCase {
     public void testNullIssue() {
         List<Issue> issues = CollectionResponseConverters.ISSUES.convert(null);
@@ -45,8 +49,9 @@ public class CollectionResponseConvertersTest extends TestCase {
     public void test1Issue() {
         CollectionResponseScrumIssue resp = new CollectionResponseScrumIssue();
         ScrumIssue test = new ScrumIssue();
+        final float estimation = 10F;
         test.setDescription("test");
-        test.setEstimation(10F);
+        test.setEstimation(estimation);
         test.setKey("issue");
         test.setName("test");
         test.setPriority(Priority.HIGH.name());
@@ -110,14 +115,14 @@ public class CollectionResponseConvertersTest extends TestCase {
     }
     
     public void testNullP() {
-        List<Sprint> Sprints = CollectionResponseConverters.SPRINTS.convert(null);
-        assertEquals(0, Sprints.size());
+        List<Sprint> sprints = CollectionResponseConverters.SPRINTS.convert(null);
+        assertEquals(0, sprints.size());
     }
     
     public void testSprintNullItems() {
         CollectionResponseScrumSprint resp = new CollectionResponseScrumSprint();
-        List<Sprint> Sprints = CollectionResponseConverters.SPRINTS.convert(resp);
-        assertEquals(0, Sprints.size());
+        List<Sprint> sprints = CollectionResponseConverters.SPRINTS.convert(resp);
+        assertEquals(0, sprints.size());
         
     }
     
@@ -127,7 +132,10 @@ public class CollectionResponseConvertersTest extends TestCase {
         test.setKey("test");
         test.setTitle("test");
         Calendar date = Calendar.getInstance();
-        date.set(1999, 0, 2);
+        final int year = 1999;
+        final int month = 1;
+        final int day = 1;
+        date.set(year, month, day);
         test.setDate(date.getTimeInMillis());
         ArrayList<ScrumSprint> list = new ArrayList<ScrumSprint>();
         list.add(test);
@@ -137,15 +145,14 @@ public class CollectionResponseConvertersTest extends TestCase {
     }
     
     public void testNullPlayer() {
-        List<Player> Players = CollectionResponseConverters.PLAYERS.convert(null);
-        assertEquals(0, Players.size());
+        List<Player> players = CollectionResponseConverters.PLAYERS.convert(null);
+        assertEquals(0, players.size());
     }
     
     public void testPlayerNullItems() {
         CollectionResponseScrumPlayer resp = new CollectionResponseScrumPlayer();
-        List<Player> Players = CollectionResponseConverters.PLAYERS.convert(resp);
-        assertEquals(0, Players.size());
-        
+        List<Player> players = CollectionResponseConverters.PLAYERS.convert(resp);
+        assertEquals(0, players.size());
     }
     
     public void test1Player() {

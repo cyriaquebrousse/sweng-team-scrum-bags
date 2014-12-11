@@ -1,9 +1,14 @@
 package ch.epfl.scrumtool.database.google.handlers.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class DSIssueHandlerTest {
 
     @Test

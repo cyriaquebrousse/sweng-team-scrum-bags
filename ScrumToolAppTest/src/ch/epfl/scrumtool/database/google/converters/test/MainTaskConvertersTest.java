@@ -6,6 +6,11 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class MainTaskConvertersTest extends TestCase {
     
     public void testToMainTaskNullKey() {
@@ -17,8 +22,6 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -30,8 +33,6 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
         
@@ -45,8 +46,6 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
         
@@ -59,10 +58,7 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-        
     }
     
     public void testToMainTaskNullPrio() {
@@ -74,8 +70,6 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -88,15 +82,13 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
     public void testToMainTaskValid() {
-            ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
-            MainTask result = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            assertEquals(result, TestConstants.generateBasicMainTask());
+        ScrumMainTask mainTask = TestConstants.generateBasicScrumMainTask();
+        MainTask result = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
+        assertEquals(result, TestConstants.generateBasicMainTask());
     }
     
     public void testToScrumMainTaskEmptyKey() {
@@ -117,8 +109,6 @@ public class MainTaskConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     

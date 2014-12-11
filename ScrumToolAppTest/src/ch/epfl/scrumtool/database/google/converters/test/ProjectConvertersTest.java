@@ -7,7 +7,11 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.test.TestConstants;
-
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class ProjectConvertersTest extends TestCase {
     
     public void testNullKey() {
@@ -19,8 +23,6 @@ public class ProjectConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumProject expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -33,8 +35,6 @@ public class ProjectConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumProject expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -47,8 +47,6 @@ public class ProjectConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumProject expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -84,12 +82,12 @@ public class ProjectConvertersTest extends TestCase {
     public void testInsertResponse() {
         KeyResponse response = new KeyResponse();
         response.setKey(TestConstants.VALIDKEY);
-        Project Project = TestConstants.generateBasicProject();
-        Project = Project.getBuilder()
+        Project project = TestConstants.generateBasicProject();
+        project = project.getBuilder()
                 .setKey("")
                 .build();
 
-        InsertResponse<Project> insresp = new InsertResponse<Project>(Project, response);
+        InsertResponse<Project> insresp = new InsertResponse<Project>(project, response);
         
         Project mustResult = TestConstants.generateBasicProject();
 

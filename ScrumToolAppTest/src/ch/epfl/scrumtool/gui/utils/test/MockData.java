@@ -15,6 +15,11 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class MockData {
     
     public static final long  CURRENT_TIME = Calendar.getInstance().getTimeInMillis();
@@ -89,28 +94,28 @@ public class MockData {
         return list;
     }
     
-   public static List<MainTask> generateMainTaskLists() {
-        
+    public static List<MainTask> generateMainTaskLists() {
+
         List<MainTask> list = new ArrayList<MainTask>();
         list.add(TASK1);
         return list;
     }
 
-   public static List<Issue> generateIssueLists() {
-       
-       List<Issue> list = new ArrayList<Issue>();
-       list.add(ISSUE1);
-       list.add(ISSUE2);
-       return list;
-   }
-   
-   public static List<Sprint> generateSprintLists() {
-       
-       List<Sprint> list = new ArrayList<Sprint>();
-       list.add(SPRINT1);
-       list.add(SPRINT2);
-       return list;
-   }
+    public static List<Issue> generateIssueLists() {
+
+        List<Issue> list = new ArrayList<Issue>();
+        list.add(ISSUE1);
+        list.add(ISSUE2);
+        return list;
+    }
+
+    public static List<Sprint> generateSprintLists() {
+
+        List<Sprint> list = new ArrayList<Sprint>();
+        list.add(SPRINT1);
+        list.add(SPRINT2);
+        return list;
+    }
 
 
     private static Sprint buildSprint(String key, String title, long deadline) {

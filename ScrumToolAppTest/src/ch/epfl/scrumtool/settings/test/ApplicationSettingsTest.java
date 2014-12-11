@@ -8,6 +8,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
+/**
+ * 
+ * @author Joey
+ *
+ */
 public class ApplicationSettingsTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     private final String preferences = "PrefsFile";
     private final String userPrefKey = "userPref";

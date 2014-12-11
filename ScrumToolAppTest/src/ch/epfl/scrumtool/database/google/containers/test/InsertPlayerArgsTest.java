@@ -5,83 +5,71 @@ import ch.epfl.scrumtool.database.google.containers.InsertPlayerArgs;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class InsertPlayerArgsTest extends TestCase {
-    private static final String validEmail = "test@test.com";
-    
+    private static final String VALID_EMAIL = "test@test.com";
+
     public void testNullProject() {
         try {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(null, validEmail, Role.STAKEHOLDER);
-        fail("Project must not be null");
+            new InsertPlayerArgs(null, VALID_EMAIL, Role.STAKEHOLDER);
+            fail("Project must not be null");
         } catch (NullPointerException e) {
-            
-        } catch (Exception e) {
-            fail("NullpointerException expected");
+
         }
-        //
     }
-    
+
     public void testNullRole() {
         try {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, validEmail, null);
-        fail("Role must not be null");
+            new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, VALID_EMAIL, null);
+            fail("Role must not be null");
         } catch (NullPointerException e) {
-            
-        } catch (Exception e) {
-            fail("NullpointerException expected");
+
         }
     }
-    
+
     public void testInvalidEmail() {
         try {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, "", Role.STAKEHOLDER);
-        fail("Email must be valid");
+            new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, "", Role.STAKEHOLDER);
+            fail("Email must be valid");
         } catch (IllegalArgumentException e) {
-            
-        } catch (Exception e) {
-            fail("IllegalArgumentException expected");
+
         }
     }
-    
+
     public void testNullEmail() {
         try {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, null, Role.STAKEHOLDER);
-        fail("Email must not be null");
+            new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, null, Role.STAKEHOLDER);
+            fail("Email must not be null");
         } catch (NullPointerException e) {
-            
-        } catch (Exception e) {
-            fail("NullPointerException expected");
+
         }
     }
-    
+
     public void testValidDataTest() {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, validEmail, Role.STAKEHOLDER);
+        new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
         //No Exceptions if arguments are ok
     }
-    
+
     public void testGetRoleTest() {
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, validEmail, Role.STAKEHOLDER);
+        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
         assertEquals(args.getRole(), Role.STAKEHOLDER.name());
     }
-    
+
     public void testGetProjectKeyTest() {
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, validEmail, Role.STAKEHOLDER);
+        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
         assertEquals(args.getProjectKey(), TestConstants.TEST_PROJECT_W_KEY.getKey());
     }
-    
+
     public void testInvalidProjectKeyTest() {
         try {
-        @SuppressWarnings("unused")
-        InsertPlayerArgs args = new InsertPlayerArgs(TestConstants.TEST_PROJECT_WO_KEY, validEmail, Role.STAKEHOLDER);
-        fail("IllegalArgument Exception should be thrown for invalid Project key");
+            new InsertPlayerArgs(TestConstants.TEST_PROJECT_WO_KEY, VALID_EMAIL, Role.STAKEHOLDER);
+            fail("IllegalArgument Exception should be thrown for invalid Project key");
         } catch (IllegalArgumentException e) {
-            
-        } catch (Exception e) {
-            fail("IllegalArgumentException expected");
+
         }
     }
 }

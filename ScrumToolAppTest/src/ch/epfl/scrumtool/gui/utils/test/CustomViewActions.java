@@ -6,6 +6,11 @@ import com.google.android.apps.common.testing.ui.espresso.action.GeneralSwipeAct
 import com.google.android.apps.common.testing.ui.espresso.action.Press;
 import com.google.android.apps.common.testing.ui.espresso.action.Swipe;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class CustomViewActions {
     public static ViewAction swipeDown() {
         return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,

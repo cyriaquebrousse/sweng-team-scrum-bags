@@ -21,6 +21,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class IssueConvertersTest extends TestCase {
     
     public void testNullKey() {
@@ -31,8 +36,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -44,8 +47,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -57,8 +58,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -70,8 +69,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -83,8 +80,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -96,8 +91,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -118,7 +111,7 @@ public class IssueConvertersTest extends TestCase {
             .build();
 
         assertEquals(converted, testIssue);
-        }
+    }
 
     public void testIssueToScrumIssueEmptyKey() {
         Issue issue = TestConstants.generateBasicIssue();
@@ -197,8 +190,6 @@ public class IssueConvertersTest extends TestCase {
             
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -214,8 +205,6 @@ public class IssueConvertersTest extends TestCase {
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected2");
         }
     }
     

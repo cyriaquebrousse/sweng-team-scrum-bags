@@ -8,6 +8,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class SprintConvertersTest extends TestCase {
     public void testToSprintNullKey() {
         try {
@@ -18,8 +23,6 @@ public class SprintConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumSprint expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -32,10 +35,7 @@ public class SprintConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumSprint expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-        
     }
     
     public void testToSprintNullDate() {
@@ -47,8 +47,6 @@ public class SprintConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumSprint expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -75,11 +73,11 @@ public class SprintConvertersTest extends TestCase {
     public void testToScrumSprint() {
         KeyResponse response = new KeyResponse();
         response.setKey(TestConstants.VALIDKEY);
-        Sprint Sprint = TestConstants.generateBasicSprint();
-        Sprint = Sprint.getBuilder()
+        Sprint sprint = TestConstants.generateBasicSprint();
+        sprint = sprint.getBuilder()
                 .setKey("")
                 .build();
-        InsertResponse<Sprint> insresp = new InsertResponse<Sprint>(Sprint, response);
+        InsertResponse<Sprint> insresp = new InsertResponse<Sprint>(sprint, response);
         Sprint mustResult = TestConstants.generateBasicSprint();
         Sprint keySprint = SprintConverters.INSERTRESPONSE_TO_SPRINT.convert(insresp);
         

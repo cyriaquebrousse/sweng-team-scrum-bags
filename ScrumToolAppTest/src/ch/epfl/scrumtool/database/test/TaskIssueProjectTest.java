@@ -9,6 +9,11 @@ import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.test.TestConstants;
 import junit.framework.TestCase;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class TaskIssueProjectTest extends TestCase {
     private static Project project = TestConstants.generateBasicProject();
     private static Issue issue = TestConstants.generateBasicIssue();
@@ -20,8 +25,6 @@ public class TaskIssueProjectTest extends TestCase {
             fail("NullPointerException expected for missing Project");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -31,10 +34,7 @@ public class TaskIssueProjectTest extends TestCase {
             fail("NullPointerException expected for missing issue");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-        
     }
     
     public void testNullTask() {
@@ -43,8 +43,6 @@ public class TaskIssueProjectTest extends TestCase {
             fail("NullPointerException expected for missing maintask");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
 
@@ -76,5 +74,4 @@ public class TaskIssueProjectTest extends TestCase {
         TaskIssueProject t2 = new TaskIssueProject(mainTask, project, i2);
         assertTrue(t1.compareTo(t2) > 0);
     }
-
 }

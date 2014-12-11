@@ -4,6 +4,11 @@ import com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTe
 
 import android.os.Bundle;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class InstrumentationTestRunner extends GoogleInstrumentationTestRunner {
     @Override
     public void onCreate(Bundle arguments) {

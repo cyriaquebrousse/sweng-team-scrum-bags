@@ -17,119 +17,114 @@ import ch.epfl.scrumtool.database.google.handlers.DSPlayerHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSProjectHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSSprintHandler;
 import ch.epfl.scrumtool.database.google.handlers.DSUserHandler;
-
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class DatabaseHandlersTest extends TestCase {
-    private static final UserHandler userHandler = new DSUserHandler();
-    private static final MainTaskHandler mainTaskHandler = new DSMainTaskHandler();
-    private static final PlayerHandler playerHandler = new DSPlayerHandler();
-    private static final ProjectHandler projectHandler = new DSProjectHandler();
-    private static final SprintHandler sprintHandler = new DSSprintHandler();
-    private static final IssueHandler issueHandler = new DSIssueHandler();
+    private static final UserHandler USER_HANDLER = new DSUserHandler();
+    private static final MainTaskHandler MAINTASK_HANDLER = new DSMainTaskHandler();
+    private static final PlayerHandler PLAYER_HANDLER = new DSPlayerHandler();
+    private static final ProjectHandler PROJECT_HANDLER = new DSProjectHandler();
+    private static final SprintHandler SPRINT_HANDLER = new DSSprintHandler();
+    private static final IssueHandler ISSUE_HANDLER = new DSIssueHandler();
     
-    private static final DatabaseHandlers handlers = new DatabaseHandlers.Builder()
-        .setIssueHandler(issueHandler)
-        .setMaintaskHandler(mainTaskHandler)
-        .setPlayerHandler(playerHandler)
-        .setProjectHandler(projectHandler)
-        .setSprintHandler(sprintHandler)
-        .setUserHandler(userHandler)
+    private static final DatabaseHandlers HANDLERS = new DatabaseHandlers.Builder()
+        .setIssueHandler(ISSUE_HANDLER)
+        .setMaintaskHandler(MAINTASK_HANDLER)
+        .setPlayerHandler(PLAYER_HANDLER)
+        .setProjectHandler(PROJECT_HANDLER)
+        .setSprintHandler(SPRINT_HANDLER)
+        .setUserHandler(USER_HANDLER)
         .build();
     
     @Test
     public void testBuilderSetGetUserHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setUserHandler(userHandler);
-        assertEquals(builder.getUserHandler(), userHandler);
+        builder.setUserHandler(USER_HANDLER);
+        assertEquals(builder.getUserHandler(), USER_HANDLER);
     }
     
     @Test
     public void testBuilderSetGetProjectHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setProjectHandler(projectHandler);
-        assertEquals(builder.getProjectHandler(), projectHandler);
+        builder.setProjectHandler(PROJECT_HANDLER);
+        assertEquals(builder.getProjectHandler(), PROJECT_HANDLER);
     }
     
     @Test
     public void testBuilderSetGetPlayerHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setPlayerHandler(playerHandler);
-        assertEquals(builder.getPlayerHandler(), playerHandler);
+        builder.setPlayerHandler(PLAYER_HANDLER);
+        assertEquals(builder.getPlayerHandler(), PLAYER_HANDLER);
     }
     
     @Test
     public void testBuilderSetGetMainTaskHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setMaintaskHandler(mainTaskHandler);
-        assertEquals(builder.getMainTaskHandler(), mainTaskHandler);
+        builder.setMaintaskHandler(MAINTASK_HANDLER);
+        assertEquals(builder.getMainTaskHandler(), MAINTASK_HANDLER);
     }
 
     @Test
     public void testBuilderSetGetIssueHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler);
-        assertEquals(builder.getIssueHandler(), issueHandler);
+        builder.setIssueHandler(ISSUE_HANDLER);
+        assertEquals(builder.getIssueHandler(), ISSUE_HANDLER);
     }
     
     @Test
     public void testBuilderSetGetSprintHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setSprintHandler(sprintHandler);
-        assertEquals(builder.getSprintHandler(), sprintHandler);
+        builder.setSprintHandler(SPRINT_HANDLER);
+        assertEquals(builder.getSprintHandler(), SPRINT_HANDLER);
     }
     
     @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullIssue() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setMaintaskHandler(mainTaskHandler)
-            .setPlayerHandler(playerHandler)
-            .setProjectHandler(projectHandler)
-            .setSprintHandler(sprintHandler)
-            .setUserHandler(userHandler);
+        builder.setMaintaskHandler(MAINTASK_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER)
+            .setUserHandler(USER_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing IssueHandler");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-        
     }
     
     @Test
     public void testBuilderBuildNullMainTask() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setPlayerHandler(playerHandler)
-            .setProjectHandler(projectHandler)
-            .setSprintHandler(sprintHandler)
-            .setUserHandler(userHandler);
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER)
+            .setUserHandler(USER_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing MainTaskHandler");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-
     }
     
     @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullPlayer() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setMaintaskHandler(mainTaskHandler)
-            .setProjectHandler(projectHandler)
-            .setSprintHandler(sprintHandler)
-            .setUserHandler(userHandler);
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setMaintaskHandler(MAINTASK_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER)
+            .setUserHandler(USER_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing MainTaskHandler");
         } catch (NullPointerException n) {
-            
-        } catch (Exception e) {
-            fail("NullPointerException expected");
             
         }
     }
@@ -137,18 +132,16 @@ public class DatabaseHandlersTest extends TestCase {
     @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullProject() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setMaintaskHandler(mainTaskHandler)
-            .setPlayerHandler(playerHandler)
-            .setSprintHandler(sprintHandler)
-            .setUserHandler(userHandler);
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setMaintaskHandler(MAINTASK_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER)
+            .setUserHandler(USER_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing MainTaskHandler");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -156,82 +149,74 @@ public class DatabaseHandlersTest extends TestCase {
     @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullSprint() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setMaintaskHandler(mainTaskHandler)
-            .setPlayerHandler(playerHandler)
-            .setProjectHandler(projectHandler)
-            .setUserHandler(userHandler);
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setMaintaskHandler(MAINTASK_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setUserHandler(USER_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing MainTaskHandler");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
     @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullUser() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setMaintaskHandler(mainTaskHandler)
-            .setPlayerHandler(playerHandler)
-            .setProjectHandler(projectHandler)
-            .setSprintHandler(sprintHandler);
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setMaintaskHandler(MAINTASK_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER);
         try {
             builder.build();
             fail("NullPointerException expected for missing MainTaskHandler");
         } catch (NullPointerException n) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
     @Test
     public void testBuilderBuild() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
-        builder.setIssueHandler(issueHandler)
-            .setMaintaskHandler(mainTaskHandler)
-            .setPlayerHandler(playerHandler)
-            .setProjectHandler(projectHandler)
-            .setSprintHandler(sprintHandler)
-            .setUserHandler(userHandler);
-        try {
-            builder.build();
-        } catch (Exception e) {
-            fail("Unexpected Exception in the DatabaseHandlers constructor");
-        }
+        builder.setIssueHandler(ISSUE_HANDLER)
+            .setMaintaskHandler(MAINTASK_HANDLER)
+            .setPlayerHandler(PLAYER_HANDLER)
+            .setProjectHandler(PROJECT_HANDLER)
+            .setSprintHandler(SPRINT_HANDLER)
+            .setUserHandler(USER_HANDLER);
+        builder.build();
     }
     
     @Test
     public void testGetIssueHandler() {
-        assertEquals(handlers.getIssueHandler(), issueHandler);
+        assertEquals(HANDLERS.getIssueHandler(), ISSUE_HANDLER);
     }
 
     @Test
     public void testGetMainTaskHandler() {
-        assertEquals(handlers.getMainTaskHandler(), mainTaskHandler);
+        assertEquals(HANDLERS.getMainTaskHandler(), MAINTASK_HANDLER);
     }
 
     @Test
     public void testGetPlayerHandler() {
-        assertEquals(handlers.getPlayerHandler(), playerHandler);
+        assertEquals(HANDLERS.getPlayerHandler(), PLAYER_HANDLER);
     }
 
     @Test
     public void testGetProjectHandler() {
-        assertEquals(handlers.getProjectHandler(), projectHandler);
+        assertEquals(HANDLERS.getProjectHandler(), PROJECT_HANDLER);
     }
 
     @Test
     public void testGetSprintHandler() {
-        assertEquals(handlers.getSprintHandler(), sprintHandler);
+        assertEquals(HANDLERS.getSprintHandler(), SPRINT_HANDLER);
     }
 
     @Test
     public void testGetUserHandler() {
-        assertEquals(handlers.getUserHandler(), userHandler);
+        assertEquals(HANDLERS.getUserHandler(), USER_HANDLER);
     }
 }

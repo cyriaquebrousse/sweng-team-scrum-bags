@@ -8,6 +8,11 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class MainTaskTest extends TestCase{
     
     private static final String KEY_1 = "ID1";
@@ -16,7 +21,7 @@ public class MainTaskTest extends TestCase{
     private static final Status STATUS_1 = Status.READY_FOR_ESTIMATION;
     private static final Priority PRIORITY_1 = Priority.NORMAL;
     
-    private static final MainTask mainTask = new MainTask.Builder()
+    private static final MainTask MAIN_TASK = new MainTask.Builder()
         .setKey(KEY_1)
         .setName(NAME_1)
         .setDescription(DESCRIPTION_1)
@@ -30,8 +35,8 @@ public class MainTaskTest extends TestCase{
 
     @Test
     public void testEqualsObject() {
-        MainTask mainTask2 = mainTask;
-        assertEquals(mainTask, mainTask2);
+        MainTask mainTask2 = MAIN_TASK;
+        assertEquals(MAIN_TASK, mainTask2);
     }
 
     @Test(expected=UnsupportedOperationException.class)
@@ -40,31 +45,31 @@ public class MainTaskTest extends TestCase{
 
     @Test
     public void testGetName() {
-        String name = mainTask.getName();
+        String name = MAIN_TASK.getName();
         assertEquals(name, NAME_1);
     }
 
     @Test
     public void testGetDescription() {
-        String description = mainTask.getDescription();
+        String description = MAIN_TASK.getDescription();
         assertEquals(description, DESCRIPTION_1);
     }
 
     @Test
     public void testGetStatus() {
-        Status status = mainTask.getStatus();
+        Status status = MAIN_TASK.getStatus();
         assertEquals(status, STATUS_1);
     }
 
     @Test
     public void testGetKey() {
-        String key = mainTask.getKey();
+        String key = MAIN_TASK.getKey();
         assertEquals(key, KEY_1);
     }
 
     @Test
     public void testGetPriority() {
-        Priority priority = mainTask.getPriority();
+        Priority priority = MAIN_TASK.getPriority();
         assertEquals(priority, PRIORITY_1);
     }
 

@@ -8,6 +8,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class PlayerConvertersTest extends TestCase {
     public void testNullKey() {
         try {
@@ -18,12 +23,10 @@ public class PlayerConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumPlayer expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
-    public void testNullUser(){
+    public void testNullUser() {
         try {
             ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
             player.setUser(null);
@@ -31,8 +34,6 @@ public class PlayerConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumPlayer expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -44,8 +45,6 @@ public class PlayerConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumPlayer expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -57,8 +56,6 @@ public class PlayerConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumPlayer expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
@@ -70,15 +67,13 @@ public class PlayerConvertersTest extends TestCase {
             fail("NullPointerException for invalid ScrumPlayer expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
     }
     
     public void testValidPlayer() {
-            ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
-            Player result = PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            assertEquals(TestConstants.generateBasicPlayer(), result);
+        ScrumPlayer player = TestConstants.generateBasicScrumPlayer();
+        Player result = PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
+        assertEquals(TestConstants.generateBasicPlayer(), result);
     }
     
     public void testValidPlayerWithProject() {

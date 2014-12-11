@@ -82,7 +82,7 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         onView(withText("write tests")).check(matches(isDisplayed()));
     }
     
-    public void testAddTask() throws InterruptedException{
+    public void testAddTask() throws InterruptedException {
         onView(withId(Menu.FIRST)).perform(click());
         onView(withId(R.id.task_name_edit)).perform(typeText("task"));
         onView(withId(R.id.task_description_edit)).perform(typeText("des"), closeSoftKeyboard());

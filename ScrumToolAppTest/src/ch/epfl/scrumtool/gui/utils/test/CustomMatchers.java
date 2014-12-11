@@ -17,35 +17,39 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.RoleSticker;
-
+/**
+ * 
+ * @author
+ *
+ */
 public class CustomMatchers {
 
     public final static Matcher<View> withAdaptedData(final Matcher<Object> dataMatcher) {
         return new TypeSafeMatcher<View>() {
 
-          @Override
-          public void describeTo(Description description) {
-            description.appendText("with class name: ");
-            dataMatcher.describeTo(description);
-          }
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with class name: ");
+                dataMatcher.describeTo(description);
+            }
 
-          @Override
-          public boolean matchesSafely(View view) {
-            if (!(view instanceof AdapterView)) {
-              return false;
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof AdapterView)) {
+                    return false;
+                }
+                @SuppressWarnings("rawtypes")
+                Adapter adapter = ((AdapterView) view).getAdapter();
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    if (dataMatcher.matches(adapter.getItem(i))) {
+                        return true;
+                    }
+                }
+                return false;
             }
-            @SuppressWarnings("rawtypes")
-            Adapter adapter = ((AdapterView) view).getAdapter();
-            for (int i = 0; i < adapter.getCount(); i++) {
-              if (dataMatcher.matches(adapter.getItem(i))) {
-                return true;
-              }
-            }
-            return false;
-          }
         };
-      }
-    
+    }
+
     public final static Matcher<View> withError(final String expectedError) {
         return new TypeSafeMatcher<View>() {
 
@@ -56,11 +60,11 @@ public class CustomMatchers {
                 }
                 String error = "";
                 if (((EditText) view).getError() != null) {
-                     error = ((EditText) view).getError().toString();
+                    error = ((EditText) view).getError().toString();
                 } else {
                     error = "no error";
                 }
-               
+
 
                 return expectedError.equals(error);
             }
@@ -71,7 +75,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withHint(final String expectedHint) {
         return new TypeSafeMatcher<View>() {
 
@@ -82,7 +86,7 @@ public class CustomMatchers {
                 }
                 String hint = "";
                 if (((AutoCompleteTextView) view).getHint() != null) {
-                     hint = ((AutoCompleteTextView) view).getHint().toString();
+                    hint = ((AutoCompleteTextView) view).getHint().toString();
                 }
                 return expectedHint.equals(hint);
             }
@@ -93,7 +97,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withPlayer(final Player expectedPlayer) {
         return new TypeSafeMatcher<View>() {
 
@@ -104,11 +108,11 @@ public class CustomMatchers {
                 }
                 Player player = null;
                 if (((Spinner) view).getSelectedItem() != null) {
-                     player = (Player) ((Spinner) view).getSelectedItem();
+                    player = (Player) ((Spinner) view).getSelectedItem();
                 } else {
                     player = null;
                 }
-               
+
                 if (expectedPlayer == null && player == null) {
                     return true;
                 } else {
@@ -122,7 +126,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withSprint(final Sprint expectedSprint) {
         return new TypeSafeMatcher<View>() {
 
@@ -133,11 +137,11 @@ public class CustomMatchers {
                 }
                 Sprint sprint = null;
                 if (((Spinner) view).getSelectedItem() != null) {
-                     sprint = (Sprint) ((Spinner) view).getSelectedItem();
+                    sprint = (Sprint) ((Spinner) view).getSelectedItem();
                 } else {
                     sprint = null;
                 }
-               
+
 
                 return expectedSprint.equals(sprint);
             }
@@ -148,7 +152,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withPriority(final Priority expectedPriority) {
         return new TypeSafeMatcher<View>() {
 
@@ -159,11 +163,11 @@ public class CustomMatchers {
                 }
                 Priority priority = null;
                 if (((PrioritySticker) view).getPriority() != null) {
-                     priority = (Priority) ((PrioritySticker) view).getPriority();
+                    priority = (Priority) ((PrioritySticker) view).getPriority();
                 } else {
                     priority = null;
                 }
-               
+
 
                 return expectedPriority.equals(priority);
             }
@@ -174,7 +178,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withRole(final Role expectedRole) {
         return new TypeSafeMatcher<View>() {
 
@@ -185,11 +189,11 @@ public class CustomMatchers {
                 }
                 Role role = null;
                 if (((RoleSticker) view).getRole() != null) {
-                     role = (Role) ((RoleSticker) view).getRole();
+                    role = (Role) ((RoleSticker) view).getRole();
                 } else {
                     role = null;
                 }
-               
+
 
                 return expectedRole.equals(role);
             }
@@ -200,7 +204,7 @@ public class CustomMatchers {
 
         };
     }
-    
+
     public final static Matcher<View> withStatusValue(final String expectedStatusValue) {
         return new TypeSafeMatcher<View>() {
 
@@ -211,11 +215,11 @@ public class CustomMatchers {
                 }
                 String statusValue = null;
                 if (((TextView) view).getText() != null) {
-                        statusValue = ((TextView) view).getText().toString();
+                    statusValue = ((TextView) view).getText().toString();
                 } else {
                     statusValue = null;
                 }
-               
+
 
                 return expectedStatusValue.equals(statusValue);
             }
@@ -226,6 +230,6 @@ public class CustomMatchers {
 
         };
     }
-    
-    
+
+
 }

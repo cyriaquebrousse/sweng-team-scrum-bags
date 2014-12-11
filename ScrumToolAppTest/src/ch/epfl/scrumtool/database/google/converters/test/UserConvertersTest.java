@@ -7,13 +7,18 @@ import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 import ch.epfl.scrumtool.test.TestConstants;
 
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class UserConvertersTest extends TestCase {
-    private static String NAME = "name";
-    private static String FAMILYNAME = "familyname";
-    private static String JOB_TITLE = "jobtitle";
-    private static String COMPANY_NAME = "companyName";
-    private static Gender GENDER = Gender.MALE;
-    private static long DATEOFBIRTH = TestConstants.getDay(2001, 07, 05);
+    private static final String NAME = "name";
+    private static final String FAMILYNAME = "familyname";
+    private static final String JOB_TITLE = "jobtitle";
+    private static final String COMPANY_NAME = "companyName";
+    private static final Gender GENDER = Gender.MALE;
+    private static final long DATEOFBIRTH = TestConstants.getDay(2001, 07, 05);
     
     private static User generateExtendedUser() {
         User user = TestConstants.generateBasicUser();
@@ -46,10 +51,7 @@ public class UserConvertersTest extends TestCase {
             fail("NullPointerException for invalid User expected");
         } catch (NullPointerException e) {
             
-        } catch (Exception e) {
-            fail("NullPointerException expected");
         }
-        
     }
     
     public void testToUserInvalidEmail() {
@@ -60,8 +62,6 @@ public class UserConvertersTest extends TestCase {
             fail("IllegalArgumentException for invalid User E-Mail expected");
         } catch (IllegalArgumentException e) {
             
-        } catch (Exception e) {
-            fail("IllegalArgumentException expected");
         }
     }
     
@@ -131,7 +131,7 @@ public class UserConvertersTest extends TestCase {
         assertEquals(mustResult, result);
     }
     
-    public void testToUserFull(){
+    public void testToUserFull() {
         ScrumUser user = generateExtendedScrumUser();
         User result = UserConverters.SCRUMUSER_TO_USER.convert(user);
         User mustResult = generateExtendedUser();
