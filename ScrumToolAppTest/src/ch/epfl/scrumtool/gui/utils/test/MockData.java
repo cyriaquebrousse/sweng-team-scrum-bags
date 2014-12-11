@@ -62,6 +62,8 @@ public class MockData {
             Status.IN_SPRINT, JOEY_DEV, SPRINT1);
     public static final Issue ISSUE3 = buildIssue("Issue3", "test new issue", "test for status", 0, Priority.NORMAL,
             Status.READY_FOR_ESTIMATION, JOEY_DEV, null);
+    public static final Issue ISSUE4 = buildIssue("Issue4", "test unsprinted issue", "test unsprinted issue", 3, Priority.NORMAL,
+            Status.READY_FOR_SPRINT, VINCENT_ADMIN, null);
     
     
     public static final List<User> USERLIST = generateUserLists();
@@ -70,6 +72,7 @@ public class MockData {
     public static final List<MainTask> MAINTTASKLIST = generateMainTaskLists();
     public static final List<Issue> ISSUELIST = generateIssueLists();
     public static final List<Sprint> SPRINTLIST = generateSprintLists();
+    public static final List<Issue> UNSPRINTEDISSUELIST = generateUnsprintedIssueLists();
     
     public static List<User> generateUserLists() {
         
@@ -114,6 +117,14 @@ public class MockData {
         List<Sprint> list = new ArrayList<Sprint>();
         list.add(SPRINT1);
         list.add(SPRINT2);
+        return list;
+    }
+
+    public static List<Issue> generateUnsprintedIssueLists() {
+
+        List<Issue> list = new ArrayList<Issue>();
+        list.add(ISSUE3);
+        list.add(ISSUE4);
         return list;
     }
 
