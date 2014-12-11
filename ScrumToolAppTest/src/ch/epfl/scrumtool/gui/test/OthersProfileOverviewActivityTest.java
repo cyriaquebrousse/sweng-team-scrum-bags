@@ -21,7 +21,12 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import ch.epfl.scrumtool.gui.OthersProfileOverviewActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class OthersProfileOverviewActivityTest extends ActivityInstrumentationTestCase2<OthersProfileOverviewActivity> {
+/**
+ * @author LeoWirz
+ *
+ */
+public class OthersProfileOverviewActivityTest extends
+        ActivityInstrumentationTestCase2<OthersProfileOverviewActivity> {
 
     public OthersProfileOverviewActivityTest() {
         super(OthersProfileOverviewActivity.class);
@@ -42,7 +47,7 @@ public class OthersProfileOverviewActivityTest extends ActivityInstrumentationTe
         setActivityIntent(intent);
         getActivity();
     }
-    
+
     public void testUserCorrectlyDisplayed() {
         onView(withId(R.id.profile_email)).check(
                 matches(withText(USER.getEmail())));
