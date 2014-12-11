@@ -25,6 +25,8 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.robotium.solo.Solo;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -58,6 +60,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
     private static final String TEST_TEXT = MockData.TEST_TEXT;
     private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
+    private static final String ERROR_MESSAGE = MockData.ERROR_MESSAGE;
     private static final Float ESTIMATION = MockData.ESTIMATION;
     private static final Float LARGE_ESTIMATION = MockData.LARGE_ESTIMATION;;
     private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
@@ -65,6 +68,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     private List<Player> playerList = new ArrayList<Player>();
     private List<Sprint> sprintList = new ArrayList<Sprint>();
 
+    private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
 
     public IssueEditActivityTest() {
@@ -77,6 +81,14 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         super.setUp();
         Client.setScrumClient(mockClient);
 
+        playerList = MockData.generatePlayerLists();
+        sprintList = MockData.generateSprintLists();
+
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setSucessFulLoadOperationsBoth() {
         playerList = MockData.generatePlayerLists();
         sprintList = MockData.generateSprintLists();
 
@@ -100,13 +112,97 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
                 Mockito.any(Callback.class));
         Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
                 Mockito.any(Callback.class));
+    }
 
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperationPlayerList() {
+        solo = new Solo(getInstrumentation());
+        playerList = MockData.generatePlayerLists();
+        sprintList = MockData.generateSprintLists();
+
+        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Player>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE);
+                return null;
+            }
+        };
+
+        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Sprint>>) invocation.getArguments()[1]).interactionDone(sprintList);
+                return null;
+            }
+        };
+
+        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
+        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperationSprintList() {
+        solo = new Solo(getInstrumentation());
+        playerList = MockData.generatePlayerLists();
+        sprintList = MockData.generateSprintLists();
+
+        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerList);
+                return null;
+            }
+        };
+
+        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Sprint>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE);
+                return null;
+            }
+        };
+
+        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
+        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperationBoth() {
+        solo = new Solo(getInstrumentation());
+        playerList = MockData.generatePlayerLists();
+        sprintList = MockData.generateSprintLists();
+
+        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Player>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE+"Player");
+                return null;
+            }
+        };
+
+        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Sprint>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE+"Sprint");
+                return null;
+            }
+        };
+
+        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
+        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
+                Mockito.any(Callback.class));
     }
 
     @LargeTest
     public void testEditIssueNewIssue() throws InterruptedException {
 
         setActivityIntent(createMockIntent());
+        setSucessFulLoadOperationsBoth();
         getActivity();
 
         onView(withId(Menu.FIRST)).check(
@@ -118,6 +214,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
     public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
 
         setActivityIntent(createMockIntent());
+        setSucessFulLoadOperationsBoth();
         getActivity();
 
         // check that all fields are displayed
@@ -136,6 +233,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         intent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
 
         setActivityIntent(intent);
+        setSucessFulLoadOperationsBoth();
         getActivity();
 
         onView(withId(Menu.FIRST)).check(
@@ -149,6 +247,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         Intent intent = createMockIntent();
 
         setActivityIntent(intent);
+        setSucessFulLoadOperationsBoth();
         getActivity();
         Resources res = getInstrumentation().getTargetContext().getResources();
 
@@ -232,14 +331,14 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         // check the value of the field
         onView(withId(R.id.issue_name_edit)).check(matches(withText("")));
 
-     // click on save button and check the error on the name
+        // click on save button and check the error on the name
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_field_required))));
     }
 
     private void descriptionIsEmpty(Resources res) throws InterruptedException {
-     // test the wanted field
+        // test the wanted field
         onView(withId(R.id.issue_description_edit)).perform(clearText(), closeSoftKeyboard());
         Thread.sleep(THREADSLEEPTIME);
 
@@ -282,7 +381,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_name_edit)).check(matches(withError(res.getString(R.string.error_name_too_long))));
     }
-    
+
     private void largeInputForTheEstimation(Resources res) throws InterruptedException {
         // fill the wanted field
         onView(withId(R.id.issue_estimation_edit)).perform(typeText(LARGE_ESTIMATION.toString()), closeSoftKeyboard());
@@ -290,10 +389,40 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
         // check the large value of the estimation
         onView(withId(R.id.issue_estimation_edit)).check(matches(withText(LARGE_ESTIMATION.toString())));
-        
+
         // click on save button and check the error on the estimation
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
         onView(withId(R.id.issue_estimation_edit)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
     }
+    
+    @LargeTest
+    private void loadPlayerFailed() throws Exception {
+        
+        setActivityIntent(createMockIntent());
+        setFailedLoadOperationPlayerList();
+        getActivity();
+
+        assertTrue(solo.waitForText(ERROR_MESSAGE));
+    }
+    
+    @LargeTest
+    private void loadSprintFailed() throws Exception {
+        setActivityIntent(createMockIntent());
+        setFailedLoadOperationSprintList();
+        getActivity();
+
+        assertTrue(solo.waitForText(ERROR_MESSAGE));
+    }
+    
+    @LargeTest
+    private void loadBothFailed() throws Exception {
+        setActivityIntent(createMockIntent());
+        setFailedLoadOperationBoth();
+        getActivity();
+        assertTrue(solo.waitForText(ERROR_MESSAGE+"Player"));
+        assertTrue(solo.waitForText(ERROR_MESSAGE+"Sprint"));
+    }
+    
+
 }

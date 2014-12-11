@@ -25,6 +25,8 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.robotium.solo.Solo;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -50,25 +52,20 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;
-    private static final Issue ISSUE1 = MockData.ISSUE1;
-    private static final Issue ISSUE2 = MockData.ISSUE2;
     
     private List<Issue> issuesList = new ArrayList<Issue>();
-    private List<MainTask> tasksList = new ArrayList<MainTask>();
+
+    private static final String TEST_TEXT = MockData.TEST_TEXT;
+    private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
+    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
     
-    private static final String TEST_TEXT = "Test Text";
-    private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
-            + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
-    
-    private static final long THREADSLEEPTIME = 100;
-    
+    private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     public TaskOverviewActivityTest() {
         super(TaskOverviewActivity.class);
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -79,11 +76,11 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
         setActivityIntent(mockIntent);
-        
-        tasksList.add(TASK);
-        issuesList.add(ISSUE1);
-        issuesList.add(ISSUE2);
-        
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setSucessFulLoadOperation() {
+        issuesList = MockData.generateIssueLists();
         Answer<Void> loadIssuesAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -97,8 +94,26 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
         getActivity();
     }
     
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperation() {
+        solo = new Solo(getInstrumentation());
+        
+        Answer<Void> loadIssuesAnswerFail = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Issue>>) invocation.getArguments()[1]).failure(MockData.ERROR_MESSAGE);
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(loadIssuesAnswerFail).when(mockClient).loadIssues(Mockito.any(MainTask.class),
+                Mockito.any(Callback.class));
+        getActivity();
+    }
+    
     @LargeTest
     public void testTaskOverviewAllFieldsAreDisplayed() {
+        setSucessFulLoadOperation();
         // check that all fields are displayed
         onView(withId(R.id.task_name)).check(matches(isDisplayed()));
         onView(withId(R.id.task_desc)).check(matches(isDisplayed()));
@@ -112,6 +127,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testTaskOverviewCheckClickableFields() {
+        setSucessFulLoadOperation();
         // check that some fields are clickable
         onView(withId(R.id.task_name)).check(matches(isClickable()));
         onView(withId(R.id.task_desc)).check(matches(isClickable()));
@@ -123,6 +139,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     @SuppressWarnings("unchecked")
     @LargeTest
     public void testOverviewModifyTask() throws InterruptedException {
+        setSucessFulLoadOperation();
         // check if the fields are displayed correctly
         onView(withId(R.id.task_name)).check(matches(withText(TASK.getName())));
         onView(withId(R.id.task_desc)).check(matches(withText(TASK.getDescription())));
@@ -151,6 +168,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testOverviewCheckBadUserInputs() throws InterruptedException {
+        setSucessFulLoadOperation();
         
         Resources res = getInstrumentation().getTargetContext().getResources();
         
@@ -161,12 +179,18 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @LargeTest
     public void testOverviewTestIssueList() {
+        setSucessFulLoadOperation();
         
         testIssuesAreDisplayedInTheList();
         testLongClickOnIssueToOpenContextMenu();
         
     }
     
+    @LargeTest
+    public void testToastMessage() throws Exception {
+        setFailedLoadOperation();
+        assertTrue(solo.waitForText(MockData.ERROR_MESSAGE));
+    }
     private void nameIsEmpty(Resources res) {
         // empty the task name
         onView(withId(R.id.task_name)).perform(click());
@@ -213,6 +237,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @SuppressWarnings("unchecked")
     public void testIssuesAreDisplayedInTheList() {
+        setSucessFulLoadOperation();
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
             .check(matches(isDisplayed()));
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(1)
@@ -229,6 +254,7 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     
     @SuppressWarnings("unchecked")
     public void testLongClickOnIssueToOpenContextMenu() {
+        setSucessFulLoadOperation();
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0).perform(longClick());
         onView(withText(R.string.action_edit)).check(matches(isDisplayed()));
         onView(withText(R.string.action_delete)).check(matches(isDisplayed()));

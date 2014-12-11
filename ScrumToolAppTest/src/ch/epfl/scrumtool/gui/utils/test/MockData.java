@@ -20,8 +20,8 @@ public class MockData {
     public static final long  CURRENT_TIME = Calendar.getInstance().getTimeInMillis();
     public static final String TEST_TEXT = "test text";
     public static final String ERROR_MESSAGE = "error";
-    public static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"
-            + "blablablablablablablablablablablablablablablablablablablablablablablablablablabla";
+    public static final String VERY_LONG_TEXT = "blablablablablablablablablablablablablablabla"
+            + "blablablablabla";
     public static final Float ESTIMATION = 2f;
     public static final Float LARGE_ESTIMATION = 125f;
     public static final long THREADSLEEPTIME = 100;

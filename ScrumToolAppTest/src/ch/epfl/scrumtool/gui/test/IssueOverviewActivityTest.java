@@ -88,11 +88,9 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
         mockIntent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE1);
         setActivityIntent(mockIntent);
-        
-        sprintsList.add(SPRINT1);
-        sprintsList.add(SPRINT2);
-        playersList.add(PLAYER1);
-        playersList.add(PLAYER2);
+
+        playersList = MockData.generatePlayerLists();
+        sprintsList = MockData.generateSprintLists();
         
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
