@@ -21,46 +21,99 @@ public class AbstractTaskTest extends TestCase {
     private final static Priority PRIORITY = Priority.NORMAL;
 
     @SuppressWarnings("serial")
-    private final static AbstractTask ABSTRACT_TASK = new AbstractTask(KEY, NAME, DESCRIPTION, STATUS, PRIORITY) {
+    private final  AbstractTask task = new AbstractTask(KEY, NAME, DESCRIPTION, STATUS, PRIORITY) {
+    };
+    @SuppressWarnings("serial")
+    private final  AbstractTask task2 = new AbstractTask("k", "n", "d", Status.IN_SPRINT, Priority.LOW) {
     };
     
-    public void testAbstractTask() {
-        assertNotNull(ABSTRACT_TASK);
+    @SuppressWarnings("serial")
+    public void testConstructor() {
+        assertNotNull(task);
+        // check for null arguments
+        try {
+            new AbstractTask(null, NAME, DESCRIPTION, STATUS, PRIORITY) {
+            };
+            fail("expected a NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        try {
+            new AbstractTask(KEY, null, DESCRIPTION, STATUS, PRIORITY) {
+            };
+            fail("expected a NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        try {
+            new AbstractTask(KEY, NAME, null, STATUS, PRIORITY) {
+            };
+            fail("expected a NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        try {
+            new AbstractTask(KEY, NAME, DESCRIPTION, null, PRIORITY) {
+            };
+            fail("expected a NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        try {
+            new AbstractTask(KEY, NAME, DESCRIPTION, STATUS, null) {
+            };
+            fail("expected a NullPointerException");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        
+        // check for empty name / description
+        try {
+            new AbstractTask(KEY, "", DESCRIPTION, STATUS, PRIORITY) {
+            };
+            fail("expected an IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        try {
+            new AbstractTask(KEY, NAME, "", STATUS, PRIORITY) {
+            };
+            fail("expected an IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
     }
 
     public void testGetName() {
-        String name = ABSTRACT_TASK.getName();
-        assertEquals(name, NAME);
+        assertEquals(NAME, task.getName());
     }
 
     public void testGetDescription() {
-        String description = ABSTRACT_TASK.getDescription();
-        assertEquals(description, DESCRIPTION);
+        assertEquals(DESCRIPTION, task.getDescription());
     }
 
     public void testGetStatus() {
-        Status status = ABSTRACT_TASK.getStatus();
-        assertEquals(status, STATUS);
+        assertEquals(STATUS, task.getStatus());
     }
 
     public void testGetKey() {
-        String key = ABSTRACT_TASK.getKey();
-        assertEquals(key, KEY);
+        assertEquals(KEY, task.getKey());
     }
 
     public void testGetPriority() {
-        Priority priority = ABSTRACT_TASK.getPriority();
-        assertEquals(priority, PRIORITY);
+        assertEquals(PRIORITY, task.getPriority());
     }
 
     public void testEqualsObject() {
-        AbstractTask abstractTask2 = ABSTRACT_TASK;
-        assertTrue(ABSTRACT_TASK.equals(abstractTask2));
+        AbstractTask task3 = task;
+        assertTrue(task.equals(task3));
+        assertFalse(task.equals(task2));
     }
     
-    public void testTODO() {
-        //TODO test null parameters and other stuff
-        fail("Not implemented yet");
+    public void testHashCode() {
+        AbstractTask task3 = task;
+        assertEquals(task.hashCode(), task3.hashCode());
+        assertNotSame(task.hashCode(), task2.hashCode());
     }
 
 }

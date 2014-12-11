@@ -22,7 +22,7 @@ public class PlayerTest extends TestCase {
     private final static Boolean INVITED = false;
     private final static Role ROLE = Role.PRODUCT_OWNER;
     
-    private final static Player.Builder BUILDER = new Player.Builder()
+    private final Player.Builder builder = new Player.Builder()
         .setKey(KEY)
         .setIsAdmin(ADMIN)
         .setIsInvited(INVITED)
@@ -30,8 +30,8 @@ public class PlayerTest extends TestCase {
         .setProject(PROJECT)
         .setUser(USER);
     
-    private final static Player PLAYER = BUILDER.build();
-    private final static Player PLAYER2 = MockData.JOEY_DEV;
+    private final Player player = builder.build();
+    private final Player player2 = MockData.JOEY_DEV;
     
     public void testConstructor() {
         // It's impossible to have null value passed to constructor
@@ -40,7 +40,7 @@ public class PlayerTest extends TestCase {
         
         // check invited and admin
         try {
-            BUILDER.setIsAdmin(true).setIsInvited(true).build();
+            builder.setIsAdmin(true).setIsInvited(true).build();
             fail("expected an IllegalStateException");
         } catch (IllegalStateException e) {
             // expected
@@ -48,31 +48,31 @@ public class PlayerTest extends TestCase {
     }
     
     public void testGetKey() {
-        assertEquals(KEY, PLAYER.getKey());
+        assertEquals(KEY, player.getKey());
     }
     
     public void testGetAdminFlag() {
-        assertTrue(PLAYER.isAdmin());
+        assertTrue(player.isAdmin());
     }
     
     public void testGetInvitedFlag() {
-        assertFalse(PLAYER.isInvited());
+        assertFalse(player.isInvited());
     }
     
     public void testGetUser() {
-        assertEquals(USER, PLAYER.getUser());
+        assertEquals(USER, player.getUser());
     }
     
     public void testGetProject() {
-        assertEquals(PROJECT, PLAYER.getProject());
+        assertEquals(PROJECT, player.getProject());
     }
     
     public void testGetRole() {
-        assertEquals(ROLE, PLAYER.getRole());
+        assertEquals(ROLE, player.getRole());
     }
     
     public void testGetBuilder() {
-        Player.Builder builder = PLAYER.getBuilder();
+        Player.Builder builder = player.getBuilder();
         assertEquals(KEY, builder.getKey());
         assertTrue(builder.isAdmin());
         assertFalse(builder.isInvited());
@@ -82,57 +82,57 @@ public class PlayerTest extends TestCase {
     }
     
     public void testBuilderSetGetKey() {
-        BUILDER.setKey(PLAYER2.getKey());
-        BUILDER.setKey(null);
-        assertNotNull(BUILDER.getKey());
-        assertEquals(PLAYER2.getKey(), BUILDER.getKey());
+        builder.setKey(player2.getKey());
+        builder.setKey(null);
+        assertNotNull(builder.getKey());
+        assertEquals(player2.getKey(), builder.getKey());
     }
     
     public void testBuilderSetGetRole() {
-        BUILDER.setRole(PLAYER2.getRole());
-        BUILDER.setRole(null);
-        assertNotNull(BUILDER.getRole());
-        assertEquals(PLAYER2.getRole(), BUILDER.getRole());
+        builder.setRole(player2.getRole());
+        builder.setRole(null);
+        assertNotNull(builder.getRole());
+        assertEquals(player2.getRole(), builder.getRole());
     }
     
     public void testBuilderSetGetAdmin() {
-        BUILDER.setIsAdmin(PLAYER2.isAdmin());
-        assertEquals(PLAYER2.isAdmin(), BUILDER.isAdmin());
+        builder.setIsAdmin(player2.isAdmin());
+        assertEquals(player2.isAdmin(), builder.isAdmin());
     }
     
     public void testBuilderSetGetInvited() {
-        BUILDER.setIsInvited(PLAYER2.isInvited());
-        assertEquals(PLAYER2.isInvited(), BUILDER.isInvited());
+        builder.setIsInvited(player2.isInvited());
+        assertEquals(player2.isInvited(), builder.isInvited());
     }
     
     public void testBuilderSetGeUser() {
-        BUILDER.setUser(PLAYER2.getUser());
-        BUILDER.setUser(null);
-        assertNotNull(BUILDER.getUser());
-        assertEquals(PLAYER2.getUser(), BUILDER.getUser());
+        builder.setUser(player2.getUser());
+        builder.setUser(null);
+        assertNotNull(builder.getUser());
+        assertEquals(player2.getUser(), builder.getUser());
     }
     
     public void testBuilderSetGetProject() {
-        BUILDER.setProject(null);
-        assertNotNull(BUILDER.getProject());
-        assertEquals(PROJECT, BUILDER.getProject());
+        builder.setProject(null);
+        assertNotNull(builder.getProject());
+        assertEquals(PROJECT, builder.getProject());
     }
     
     public void testHashCode() {
-        assertEquals(PLAYER.hashCode(), PLAYER.getBuilder().build().hashCode());
-        assertNotSame(PLAYER.hashCode(), PLAYER2.hashCode());
+        assertEquals(player.hashCode(), player.getBuilder().build().hashCode());
+        assertNotSame(player.hashCode(), player2.hashCode());
     }
     
     public void testEquals() {
-        assertTrue(PLAYER.equals(PLAYER));
-        assertTrue(PLAYER.equals(PLAYER.getBuilder().build()));
-        assertFalse(PLAYER.equals(PLAYER2));
+        assertTrue(player.equals(player));
+        assertTrue(player.equals(player.getBuilder().build()));
+        assertFalse(player.equals(player2));
     }
     
     public void testCompareTo() {
-        assertTrue(PLAYER.compareTo(PLAYER) == 0);
-        assertTrue(PLAYER.compareTo(null) == 1);
-        assertTrue(PLAYER.compareTo(BUILDER.setUser(USER2).build()) < 0);
-        assertTrue(BUILDER.setUser(USER2).build().compareTo(PLAYER) > 0);
+        assertTrue(player.compareTo(player) == 0);
+        assertTrue(player.compareTo(null) == 1);
+        assertTrue(player.compareTo(builder.setUser(USER2).build()) < 0);
+        assertTrue(builder.setUser(USER2).build().compareTo(player) > 0);
     }
 }

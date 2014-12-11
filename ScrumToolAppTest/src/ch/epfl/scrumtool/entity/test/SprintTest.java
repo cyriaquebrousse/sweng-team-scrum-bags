@@ -20,12 +20,12 @@ public class SprintTest extends TestCase {
     private static final String TITLE = "title";
     private static final long DEADLINE = Calendar.getInstance().getTimeInMillis()-MAGIC2;
     
-    private static final Sprint.Builder BUILDER = new Sprint.Builder()
+    private final Sprint.Builder builder = new Sprint.Builder()
         .setDeadline(DEADLINE)
         .setTitle(TITLE)
         .setKey(KEY);
-    private static final Sprint SPRINT = BUILDER.build();
-    private static final Sprint SPRINT2 = MockData.SPRINT2;
+    private final Sprint sprint = builder.build();
+    private final Sprint sprint2 = MockData.SPRINT2;
             
     public void testConstructor() {
         // It's impossible to have null value passed to constructor
@@ -42,40 +42,40 @@ public class SprintTest extends TestCase {
     }
     
     public void testGetTitle() {
-        assertEquals(TITLE, SPRINT.getTitle());
+        assertEquals(TITLE, sprint.getTitle());
     }
     
     public void testGetKey() {
-        assertEquals(KEY, SPRINT.getKey());
+        assertEquals(KEY, sprint.getKey());
     }
     
     public void testGetDeadLine() {
-        assertEquals(DEADLINE, SPRINT.getDeadline());
+        assertEquals(DEADLINE, sprint.getDeadline());
     }
     
     public void testGetBuilder() {
-        assertEquals(DEADLINE, SPRINT.getBuilder().getDeadline());
-        assertEquals(TITLE, SPRINT.getBuilder().getTitle());
-        assertEquals(KEY, SPRINT.getBuilder().getKey());
+        assertEquals(DEADLINE, sprint.getBuilder().getDeadline());
+        assertEquals(TITLE, sprint.getBuilder().getTitle());
+        assertEquals(KEY, sprint.getBuilder().getKey());
     }
     
     public void testBuilderSetGetKey() {
-        BUILDER.setKey(SPRINT2.getKey());
-        BUILDER.setKey(null);
-        assertNotNull(BUILDER.getKey());
-        assertEquals(SPRINT2.getKey(), BUILDER.getKey());
+        builder.setKey(sprint2.getKey());
+        builder.setKey(null);
+        assertNotNull(builder.getKey());
+        assertEquals(sprint2.getKey(), builder.getKey());
     }
     
     public void testBuilderSetGetTitle() {
-        BUILDER.setTitle(SPRINT2.getTitle());
-        BUILDER.setTitle(null);
-        assertNotNull(BUILDER.getTitle());
-        assertEquals(SPRINT2.getTitle(), BUILDER.getTitle());
+        builder.setTitle(sprint2.getTitle());
+        builder.setTitle(null);
+        assertNotNull(builder.getTitle());
+        assertEquals(sprint2.getTitle(), builder.getTitle());
     }
     
     public void testBuilderSetGetDeadLine() {
-        BUILDER.setDeadline(SPRINT2.getDeadline());
-        assertEquals(SPRINT2.getDeadline(), BUILDER.getDeadline());
+        builder.setDeadline(sprint2.getDeadline());
+        assertEquals(sprint2.getDeadline(), builder.getDeadline());
     }
     
     public void testBuilderBuild() {
@@ -83,36 +83,36 @@ public class SprintTest extends TestCase {
     }
     
     public void testEqualsRef() {
-        Sprint sprint = SPRINT;
-        assertEquals(sprint, SPRINT);
+        Sprint s1 = sprint;
+        assertEquals(s1, sprint);
     }
     
     public void testEqualsStruct() {
-        Sprint s1 = BUILDER.setDeadline(MAGIC1).setKey(KEY).build();
-        Sprint s2 = BUILDER.setKey(KEY).build();
+        Sprint s1 = builder.setDeadline(MAGIC1).setKey(KEY).build();
+        Sprint s2 = builder.setKey(KEY).build();
         assertNotSame(s1, s2);
-        s2 = BUILDER.setDeadline(MAGIC1).setKey(KEY).build();
+        s2 = builder.setDeadline(MAGIC1).setKey(KEY).build();
         assertEquals(s1, s2);
     }
     
     public void testCopyConstructor() {
-        assertEquals(SPRINT, SPRINT.getBuilder().build());
+        assertEquals(sprint, sprint.getBuilder().build());
     }
     
     public void testHashCode() {
-        assertEquals(SPRINT.hashCode(), SPRINT.getBuilder().build().hashCode());
-        assertNotSame(SPRINT, SPRINT2.hashCode());
+        assertEquals(sprint.hashCode(), sprint.getBuilder().build().hashCode());
+        assertNotSame(sprint, sprint2.hashCode());
     }
     
     public void testCompareToSameDeadline() {
-        assertTrue(SPRINT.compareTo(SPRINT.getBuilder().build()) == 0);
+        assertTrue(sprint.compareTo(sprint.getBuilder().build()) == 0);
     }
     
     public void testCompareToBefore() {
-        assertTrue(SPRINT.compareTo(SPRINT2) < 0);
+        assertTrue(sprint.compareTo(sprint2) < 0);
     }
     
     public void testCompareToAfter() {
-        assertTrue(SPRINT2.compareTo(SPRINT) > 0);
+        assertTrue(sprint2.compareTo(sprint) > 0);
     }
 }

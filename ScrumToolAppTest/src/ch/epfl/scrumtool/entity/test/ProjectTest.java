@@ -15,12 +15,12 @@ public class ProjectTest extends TestCase {
     private final static String NAME = "NAME";    
     private final static String DESCRIPTION = "Description";
     
-    private final static Project.Builder BUILDER = new Project.Builder()
+    private final Project.Builder builder = new Project.Builder()
         .setKey(KEY)
         .setName(NAME)
         .setDescription(DESCRIPTION);
-    private final static Project PROJECT = BUILDER.build();
-    private final static Project PROJECT2 = MockData.MURCS; 
+    private final Project project = builder.build();
+    private final Project project2 = MockData.MURCS; 
     
     
     public void testConstructor() {
@@ -48,36 +48,36 @@ public class ProjectTest extends TestCase {
     }
 
     public void testGetName() {
-        assertEquals(NAME, PROJECT.getName());
+        assertEquals(NAME, project.getName());
     }
 
     public void testGetDescription() {
-        assertEquals(DESCRIPTION, PROJECT.getDescription());
+        assertEquals(DESCRIPTION, project.getDescription());
     }
 
     public void testGetKey() {
-        assertEquals(KEY, PROJECT.getKey());
+        assertEquals(KEY, project.getKey());
     }
     
     public void testBuilderSetGetKey() {
-        BUILDER.setKey(PROJECT2.getKey());
-        BUILDER.setKey(null);
-        assertNotNull(BUILDER.getKey());
-        assertEquals(PROJECT2.getKey(), BUILDER.getKey());
+        builder.setKey(project2.getKey());
+        builder.setKey(null);
+        assertNotNull(builder.getKey());
+        assertEquals(project2.getKey(), builder.getKey());
     }
     
     public void testBuilderSetGetName() {
-        BUILDER.setName(PROJECT2.getName());
-        BUILDER.setName(null);
-        assertNotNull(BUILDER.getName());
-        assertEquals(PROJECT2.getName(), BUILDER.getName());
+        builder.setName(project2.getName());
+        builder.setName(null);
+        assertNotNull(builder.getName());
+        assertEquals(project2.getName(), builder.getName());
     }
     
     public void testBuilderSetGetDescription() {
-        BUILDER.setDescription(PROJECT2.getDescription());
-        BUILDER.setDescription(null);
-        assertNotNull(BUILDER.getDescription());
-        assertEquals(PROJECT2.getDescription(), BUILDER.getDescription());
+        builder.setDescription(project2.getDescription());
+        builder.setDescription(null);
+        assertNotNull(builder.getDescription());
+        assertEquals(project2.getDescription(), builder.getDescription());
     }
     
     public void testBuilderBuild() {
@@ -85,29 +85,29 @@ public class ProjectTest extends TestCase {
     }
 
     public void testGetBuilder() {
-        Project.Builder builder = PROJECT.getBuilder();
+        Project.Builder builder = project.getBuilder();
         assertEquals(KEY, builder.getKey());
         assertEquals(NAME, builder.getName());
         assertEquals(DESCRIPTION, builder.getDescription());
     }
 
     public void testEqualsObject() {
-        assertTrue(PROJECT.equals(PROJECT));
-        assertFalse(PROJECT.equals(PROJECT2));
-        assertFalse(PROJECT.equals(null));
+        assertTrue(project.equals(project));
+        assertFalse(project.equals(project2));
+        assertFalse(project.equals(null));
     }
     
     public void testCompareTo() {
-        Project p = BUILDER.setName("a").build();
-        assertTrue(PROJECT.compareTo(p) < 0);
-        assertTrue(p.compareTo(PROJECT) > 0);
-        p = BUILDER.setName(NAME).setDescription("a").build();
-        assertTrue(PROJECT.compareTo(p) == 0);
-        assertTrue(PROJECT.compareTo(PROJECT) == 0);
+        Project p = builder.setName("a").build();
+        assertTrue(project.compareTo(p) < 0);
+        assertTrue(p.compareTo(project) > 0);
+        p = builder.setName(NAME).setDescription("a").build();
+        assertTrue(project.compareTo(p) == 0);
+        assertTrue(project.compareTo(project) == 0);
     }
 
     public void testHashCode() {
-        assertEquals(PROJECT.hashCode(), PROJECT.getBuilder().build().hashCode());
-        assertNotSame(PROJECT.hashCode(), PROJECT2.hashCode());
+        assertEquals(project.hashCode(), project.getBuilder().build().hashCode());
+        assertNotSame(project.hashCode(), project2.hashCode());
     }
 }
