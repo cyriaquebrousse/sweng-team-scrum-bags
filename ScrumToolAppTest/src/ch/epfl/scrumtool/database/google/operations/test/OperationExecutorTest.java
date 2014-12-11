@@ -71,7 +71,7 @@ public class OperationExecutorTest extends TestCase {
     public void testExecuteInteractionDone() {
         //http://stackoverflow.com/questions/2321829/android-asynctask-testing-with-android-test-framework
         final CountDownLatch signal = new CountDownLatch(1);
-        DSExecArgs.Factory<Object, Object, Object> factory = new Factory<Object, Object, Object>(MODE.UNAUTHETICATED);
+        DSExecArgs.Factory<Object, Object, Object> factory = new Factory<Object, Object, Object>(MODE.UNAUTHENTICATED);
         factory.setConverter(CONVERTER);
         factory.setOperation(OPERATION);
         
@@ -111,7 +111,7 @@ public class OperationExecutorTest extends TestCase {
     public void testExecuteThrowScrumToolException() {
         //http://stackoverflow.com/questions/2321829/android-asynctask-testing-with-android-test-framework
         final CountDownLatch signal = new CountDownLatch(1);
-        DSExecArgs.Factory<Object, Object, Object> factory = new Factory<Object, Object, Object>(MODE.UNAUTHETICATED);
+        DSExecArgs.Factory<Object, Object, Object> factory = new Factory<Object, Object, Object>(MODE.UNAUTHENTICATED);
         factory.setConverter(CONVERTER);
         factory.setOperation(OPERATIONEXCEPTION);
         

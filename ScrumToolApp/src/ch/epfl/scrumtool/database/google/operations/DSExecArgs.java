@@ -66,7 +66,7 @@ public final class DSExecArgs<A, B, C> {
          */
         public static enum MODE {
             AUTHENTICATED, 
-            UNAUTHETICATED
+            UNAUTHENTICATED
         };
 
         private DatastoreOperation<A, B> operation;
@@ -97,11 +97,10 @@ public final class DSExecArgs<A, B, C> {
                 case AUTHENTICATED : 
                     this.operation = new AuthenticatedOperation<A, B>(operation);
                     break;
-                case UNAUTHETICATED: 
+                case UNAUTHENTICATED: 
                     Scrumtool service = new Scrumtool(AndroidHttp.newCompatibleTransport(),
                             new GsonFactory(),
                             null);
-                    
                     this.operation = new UnauthenticatedOperation<A, B>(operation, service);
                     break;
                 default: 

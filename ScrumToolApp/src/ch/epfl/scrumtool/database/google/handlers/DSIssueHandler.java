@@ -121,5 +121,4 @@ public class DSIssueHandler implements IssueHandler {
         factory.setOperation(IssueOperations.LOAD_ISSUES_USER);
         OperationExecutor.execute(user.getEmail(), factory.build());
     }
-
 }

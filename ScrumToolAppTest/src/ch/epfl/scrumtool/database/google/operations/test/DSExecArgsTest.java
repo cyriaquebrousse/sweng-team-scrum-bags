@@ -173,11 +173,16 @@ public class DSExecArgsTest extends TestCase {
     
     public void testUnAuthenticatedOperation() {
         DSExecArgs.Factory<Object, Object, Object> factory =
-                new Factory<Object, Object, Object>(MODE.UNAUTHETICATED); 
+                new Factory<Object, Object, Object>(MODE.UNAUTHENTICATED); 
         factory.setConverter(CONVERTER);
         factory.setCallback(CALLBACK);
         factory.setOperation(OPERATION);
         DSExecArgs<Object, Object, Object> args = factory.build();
         assertTrue(args.getOperation() instanceof UnauthenticatedOperation<?, ?>);
+    }
+    
+    public void testAuthenticationModes() {
+        assertTrue(DSExecArgs.Factory.MODE.valueOf("AUTHENTICATED") == DSExecArgs.Factory.MODE.AUTHENTICATED);
+        assertTrue(DSExecArgs.Factory.MODE.valueOf("UNAUTHENTICATED") == DSExecArgs.Factory.MODE.UNAUTHENTICATED);
     }
 }
