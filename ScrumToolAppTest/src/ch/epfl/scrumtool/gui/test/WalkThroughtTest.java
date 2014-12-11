@@ -5,6 +5,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.DashboardActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
@@ -12,7 +13,6 @@ import ch.epfl.scrumtool.network.Session;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.longClick;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
@@ -35,12 +35,15 @@ public class WalkThroughtTest extends
     public WalkThroughtTest() {
         super(DashboardActivity.class);
     }
-    
+
     private User user = MockData.VINCENT;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        new Session(user){
+            //This is used to trick authentication for tests
+        };
         getActivity();
     }
 
@@ -60,6 +63,21 @@ public class WalkThroughtTest extends
         addPlayer();
 
         onView(withId(R.id.project_playerlist)).perform(pressBack());
+
+        // click on first project to open the card
+        onData(instanceOf(Project.class))
+                .inAdapterView(allOf(withId(R.id.project_list))).atPosition(0)
+                .perform(click());
+        // click on sprint icon
+        onData(instanceOf(Project.class))
+                .inAdapterView(allOf(withId(R.id.project_list))).atPosition(0)
+                .onChildView(withId(R.id.project_row_sprints)).perform(click());
+
+        addSprint("1");
+        addSprint("2");
+
+        onView(withId(R.id.sprint_list)).perform(pressBack());
+
         // click on first project to open the card
         onData(instanceOf(Project.class))
                 .inAdapterView(allOf(withId(R.id.project_list))).atPosition(0)
@@ -92,13 +110,26 @@ public class WalkThroughtTest extends
     /**
      * 
      */
+    private void addSprint(String number) {
+        onView(withId(Menu.FIRST)).perform(click());
+        onView(withId(R.id.sprint_name_edit)).perform(
+                typeText("Sprint" + number));
+        onView(withId(R.id.sprint_date_edit)).perform(click());
+        // onView(withText("26")).perform(click());
+        onView(withText("Appliquer")).perform(click());
+        onView(withId(Menu.FIRST)).perform(click());
+    }
+
+    /**
+     * 
+     */
     private void addPlayer() {
         // click on "+" button
         onView(withId(Menu.FIRST)).perform(click());
         // write an e-mail
         onView(withId(R.id.player_address_add)).perform(
                 typeText("testee@test.ch"));
-        //chose a role
+        // chose a role
         onView(withId(R.id.player_role_sticker)).perform(click());
         onView(withText("Developer")).perform(click());
         onView(withId(Menu.FIRST)).perform(click());
@@ -116,11 +147,13 @@ public class WalkThroughtTest extends
                 typeText("auto-remove"));
         onView(withId(R.id.issue_estimation_edit)).perform(
                 ViewActions.clearText());
+        onView(withId(R.id.issue_estimation_edit)).perform(typeText(hours));
         onView(withId(R.id.issue_assignee_spinner)).perform(click());
         onData(allOf(is(instanceOf(Player.class)))).atPosition(0).perform(
                 click());
-        onView(withId(R.id.issue_estimation_edit)).perform(typeText(hours),
-                closeSoftKeyboard());
+        onView(withId(R.id.issue_sprint_spinner)).perform(click());
+        onData(allOf(is(instanceOf(Sprint.class)))).atPosition(0).perform(
+                click());
         onView(withId(Menu.FIRST)).perform(click());
     }
 

@@ -4,7 +4,6 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.longClick;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -39,31 +38,32 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  * @author LeoWirz
  * 
  */
-public class BacklogActivityTest extends ActivityInstrumentationTestCase2<BacklogActivity> {
+public class BacklogActivityTest extends
+        ActivityInstrumentationTestCase2<BacklogActivity> {
 
     public BacklogActivityTest() {
         super(BacklogActivity.class);
     }
-    
+
     private final static MainTask TASK = MockData.TASK1;
-    
+
     private final static Project PROJECT = MockData.MURCS;
 
     private final static List<MainTask> TASKLIST = new ArrayList<MainTask>();
 
-    private final static DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
-    
+    private final static DatabaseScrumClient MOCKCLIENT = Mockito
+            .mock(DatabaseScrumClient.class);
+
     private final Answer<Void> answer = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            ((Callback<List<MainTask>>) invocation.getArguments()[1]).interactionDone(TASKLIST);
+        public Void answer(InvocationOnMock invocation) {
+            ((Callback<List<MainTask>>) invocation.getArguments()[1])
+                    .interactionDone(TASKLIST);
             return null;
         }
     };
     
-    private final static int SLEEP_TIME = 1000;
-
     @SuppressWarnings("unchecked")
     @Override
     protected void setUp() throws Exception {
@@ -71,61 +71,51 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         TASKLIST.clear();
         TASKLIST.add(TASK);
         Client.setScrumClient(MOCKCLIENT);
-        doAnswer(answer).when(MOCKCLIENT).loadBacklog(Mockito.any(Project.class), any(Callback.class));
-        
-        Intent intent = new Intent(getInstrumentation().getTargetContext(), BacklogActivity.class);
+        doAnswer(answer).when(MOCKCLIENT).loadBacklog(
+                Mockito.any(Project.class), any(Callback.class));
+
+        Intent intent = new Intent(getInstrumentation().getTargetContext(),
+                BacklogActivity.class);
         intent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         setActivityIntent(intent);
-        
+
         getActivity();
     }
-    
+
     public void testListIsDisplayed() {
         onView(withText("write tests")).check(matches(isDisplayed()));
     }
-    
-    public void testAddTask() throws InterruptedException {
+
+    public void testAddTask() {
         onView(withId(Menu.FIRST)).perform(click());
         onView(withId(R.id.task_name_edit)).perform(typeText("task"));
-        onView(withId(R.id.task_description_edit)).perform(typeText("des"), closeSoftKeyboard());
+        onView(withId(R.id.task_description_edit)).perform(typeText("des"));
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Low")).perform(click());
-        Thread.sleep(SLEEP_TIME);
-
         onView(withId(Menu.FIRST)).perform(click());
     }
-    
+
     @SuppressWarnings("unchecked")
     public void testRemoveTask() {
-        onData(instanceOf(MainTask.class)).inAdapterView(
-                allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+        onData(instanceOf(MainTask.class))
+                .inAdapterView(allOf(withId(R.id.backlog_tasklist)))
+                .atPosition(0).perform(longClick());
         onView(withText("Delete")).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
     }
-    
-//    public void testEmptyListShowsHint() throws Throwable {
-//        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(not(isDisplayed())));
-//        TASKLIST.remove(0);
-//        runTestOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                getActivity().onResume();
-//            }
-//        });
-//        onView(withId(R.id.swipe_update_empty_backlog_tasklist)).check(matches(isDisplayed()));
-//    }
-    
+
     @SuppressWarnings("unchecked")
-    public void testEditTask() throws InterruptedException {
-        onData(instanceOf(MainTask.class)).inAdapterView(
-                allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+    public void testEditTask() {
+        onData(instanceOf(MainTask.class))
+                .inAdapterView(allOf(withId(R.id.backlog_tasklist)))
+                .atPosition(0).perform(longClick());
         onView(withText("Edit")).perform(click());
         onView(withId(R.id.task_description_edit)).perform(clearText());
-        onView(withId(R.id.task_description_edit)).perform(typeText("des"), closeSoftKeyboard());
+        onView(withId(R.id.task_description_edit)).perform(typeText("des"));
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Urgent")).perform(click());
         onView(withId(Menu.FIRST)).perform(click());
-        
+
     }
 
 }

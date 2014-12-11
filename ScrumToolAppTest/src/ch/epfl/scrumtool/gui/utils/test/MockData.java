@@ -182,7 +182,8 @@ public class MockData {
             .setIsAdmin(admin)
             .setIsInvited(invited)
             .setRole(role)
-            .setUser(user);
+            .setUser(user)
+            .setProject(MURCS);
         return player.build();
     }
     
