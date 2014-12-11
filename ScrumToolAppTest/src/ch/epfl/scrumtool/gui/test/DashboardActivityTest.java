@@ -5,6 +5,9 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,19 +34,44 @@ import ch.epfl.scrumtool.network.Session;
  * @author LeoWirz
  * 
  */
-public class DashboardActivityTest extends ActivityInstrumentationTestCase2<DashboardActivity> {
+public class DashboardActivityTest extends
+        ActivityInstrumentationTestCase2<DashboardActivity> {
 
     private Project project = MockData.MURCS;
     private MainTask task = MockData.TASK1;
     private Issue issue = MockData.ISSUE1;
     private User user = MockData.VINCENT;
-    private TaskIssueProject taskIssueProject = new TaskIssueProject(task, project, issue);
+    private TaskIssueProject taskIssueProject = new TaskIssueProject(task,
+            project, issue);
 
     private List<Project> projectList = new ArrayList<Project>();
-    private List<TaskIssueProject> issueList= new ArrayList<TaskIssueProject>();
+    private List<TaskIssueProject> issueList = new ArrayList<TaskIssueProject>();
 
-    private DatabaseScrumClient mockclient = Mockito.mock(DatabaseScrumClient.class);
-    
+    private DatabaseScrumClient mockclient = Mockito
+            .mock(DatabaseScrumClient.class);
+
+    private Answer<Void> answer1 = new Answer<Void>() {
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Void answer(InvocationOnMock invocation) {
+            ((Callback<List<Project>>) invocation.getArguments()[0])
+                    .interactionDone(projectList);
+            return null;
+        }
+    };
+
+    private Answer<Void> answer2 = new Answer<Void>() {
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Void answer(InvocationOnMock invocation) {
+            ((Callback<List<TaskIssueProject>>) invocation.getArguments()[1])
+                    .interactionDone(issueList);
+            return null;
+        }
+    };
+
     public DashboardActivityTest() {
         super(DashboardActivity.class);
     }
@@ -52,47 +80,22 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        projectList.clear();
+        projectList.add(project);
+        issueList.clear();
+        issueList.add(taskIssueProject);
         Client.setScrumClient(mockclient);
         new Session(user) {
-            //We use this to mock the session
+            // We use this to mock the session
         };
-        
-        Answer<Void> answer = new Answer<Void>() {
+        doAnswer(answer1).when(mockclient).loadProjects(any(Callback.class));
+        doAnswer(answer2).when(mockclient).loadIssuesForUser(any(User.class),
+                any(Callback.class));
 
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                projectList.add(project);
-                ((Callback<List<Project>>) invocation.getArguments()[0]).interactionDone(projectList);
-                return null;
-            }
-        };
-        
-        Answer<Void> answer2 = new Answer<Void>() {
-
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                issueList.add(taskIssueProject);
-                ((Callback<List<TaskIssueProject>>) invocation.getArguments()[1]).interactionDone(issueList);
-                return null;
-            }
-        };
-        
-        Mockito.doAnswer(answer).when(mockclient).loadProjects(Mockito.any(Callback.class));
-        Mockito.doAnswer(answer2).when(mockclient).loadIssuesForUser(Mockito.any(User.class), Mockito.any(Callback.class));
-        
         getActivity();
     }
 
-    public void testProjectsButton() {
-        onView(withId(R.id.dashboard_button_project_list)).check(matches(isClickable()));
-        onView(withId(R.id.dashboard_button_project_list)).perform(click());
-    }
-
-    public void testProfilButton() {
-        onView(withId(R.id.dashboard_button_my_profile)).check(matches(isClickable()));
-        onView(withId(R.id.dashboard_button_my_profile)).perform(click());
-    }
-    
     public void testTest() {
         assertTrue(true);
     }
