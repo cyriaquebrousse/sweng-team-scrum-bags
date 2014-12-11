@@ -22,6 +22,7 @@ public class MockData {
     public static final String ERROR_MESSAGE = "error";
     public static final String VERY_LONG_TEXT = "blablablablablablablablablablablablablablabla"
             + "blablablablabla";
+    public static final Float NO_ESTIMATION = 0f;
     public static final Float ESTIMATION = 2f;
     public static final Float LARGE_ESTIMATION = 125f;
     public static final long THREADSLEEPTIME = 100;
@@ -54,6 +55,8 @@ public class MockData {
             Status.FINISHED, VINCENT_ADMIN, SPRINT1);
     public static final Issue ISSUE2 = buildIssue("Issue2", "test", "test desc", 5, Priority.NORMAL,
             Status.IN_SPRINT, JOEY_DEV, SPRINT1);
+    public static final Issue ISSUE3 = buildIssue("Issue3", "test new issue", "test for status", 0, Priority.NORMAL,
+            Status.READY_FOR_ESTIMATION, JOEY_DEV, null);
     
     
     public static final List<User> USERLIST = generateUserLists();

@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.google.android.gms.internal.cl;
 import com.robotium.solo.Solo;
 
 import android.content.Intent;
@@ -46,6 +47,7 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.IssueOverviewActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
@@ -60,7 +62,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
 
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;
-    private static final Issue ISSUE1 = MockData.ISSUE1;
+    private static final Issue ISSUE = MockData.ISSUE3;
     private static final Sprint SPRINT1 = MockData.SPRINT1;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
@@ -72,6 +74,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     private static final String TEST_TEXT = MockData.TEST_TEXT;
     private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
     private static final String ERROR_MESSAGE = MockData.ERROR_MESSAGE;
+    private static final Float NO_ESTIMATION = MockData.NO_ESTIMATION;
     private static final Float ESTIMATION = MockData.ESTIMATION;
     private static final Float LARGE_ESTIMATION = MockData.LARGE_ESTIMATION;
     private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
@@ -92,7 +95,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         Intent mockIntent = new Intent();
         mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
-        mockIntent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE1);
+        mockIntent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
         setActivityIntent(mockIntent);
         getActivity();
     }
@@ -243,12 +246,12 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     public void testOverviewModifyIssue() throws InterruptedException {
         setSuccessFulLoadOperationsBoth();
         // check if the fields are displayed correctly
-        onView(withId(R.id.issue_name)).check(matches(withText(ISSUE1.getName())));
+        onView(withId(R.id.issue_name)).check(matches(withText(ISSUE.getName())));
 //        onView(withId(R.id.issue_estimation_stamp)).check(matches(withText(ISSUE1.getEstimatedTime()));
-        onView(withId(R.id.issue_status)).check(matches(withText(ISSUE1.getStatus().toString())));
-        onView(withId(R.id.issue_sprint)).check(matches(withText(ISSUE1.getSprint().getTitle())));
-        onView(withId(R.id.issue_assignee_name)).check(matches(withText(ISSUE1.getPlayer().getUser().fullname())));
-        onView(withId(R.id.issue_desc)).check(matches(withText(ISSUE1.getDescription())));
+        onView(withId(R.id.issue_status)).check(matches(withText(ISSUE.getStatus().toString())));
+        onView(withId(R.id.issue_sprint)).check(matches(withText(R.string.no_sprint)));
+        onView(withId(R.id.issue_assignee_name)).check(matches(withText(ISSUE.getPlayer().getUser().fullname())));
+        onView(withId(R.id.issue_desc)).check(matches(withText(ISSUE.getDescription())));
         
         // fill the modifiable fields with new values
         // set the name
@@ -295,6 +298,27 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         estimationIsEmpty(res);
         largeInputForTheName(res);
         largeInputForTheEstimation(res);
+    }
+    
+    @LargeTest
+    public void testCorrectStatusDependingOnSituation() throws InterruptedException {
+
+        setSuccessFulLoadOperationsBoth();
+        // check that the status is initialized to Ready for estimation
+        onView(withId(R.id.issue_status)).check(matches(withStatusValue(Status.READY_FOR_ESTIMATION.toString())));
+        
+        // add an estimation to the issue
+        onView(withId(R.id.issue_estimation_stamp)).perform(click());
+        onView(withId(R.id.popup_user_input)).perform(clearText());
+        onView(withId(R.id.popup_user_input)).perform(typeText(ESTIMATION.toString()));
+        onView(withText(android.R.string.ok)).perform(click());
+        onView(withId(R.id.issue_status)).check(matches(withStatusValue(Status.READY_FOR_SPRINT.toString())));
+        
+        // add a sprint to the issue
+        onView(withId(R.id.issue_sprint)).perform(click());
+        onData(allOf(is(instanceOf(Sprint.class)))).atPosition(0).perform(click());
+        onView(withId(R.id.issue_status)).check(matches(withStatusValue(Status.IN_SPRINT.toString())));
+        
     }
     
     private void nameIsEmpty(Resources res) {
