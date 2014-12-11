@@ -104,13 +104,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             }
         });
     }
-
-    @Override
-    public void openCreateElementActivity() {
-        Intent createSprintIntent = new Intent(this, SprintEditActivity.class);
-        createSprintIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(createSprintIntent);
-    }
     
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
