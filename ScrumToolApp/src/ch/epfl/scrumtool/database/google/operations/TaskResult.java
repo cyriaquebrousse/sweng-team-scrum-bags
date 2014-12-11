@@ -16,7 +16,6 @@ public final class TaskResult<A> {
     private A result;  
   
     public TaskResult(final A result) {
-        Preconditions.throwIfNull("Result mus not be null", result);
         this.result = result;
     }  
   
