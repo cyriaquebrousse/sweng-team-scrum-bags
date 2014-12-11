@@ -16,9 +16,8 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
 
 /**
  * 
@@ -28,9 +27,8 @@ import com.google.api.client.json.JsonFactory;
  */
 public class MockScrumTool extends Scrumtool {
 
-    public MockScrumTool(HttpTransport transport, JsonFactory jsonFactory,
-            HttpRequestInitializer httpRequestInitializer) {
-        super(transport, jsonFactory, httpRequestInitializer);
+    public MockScrumTool() {
+        super(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
     }
     
     @Override

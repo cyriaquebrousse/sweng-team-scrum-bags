@@ -44,7 +44,8 @@ public class InsertResponseTest extends TestCase {
 
     public void testGetEntity() {
         Object test = new Object();
-        final InsertResponse<Object> insResp = new InsertResponse<Object>(test, ServerClientEntities.VALID_KEY_RESPONSE);
+        final InsertResponse<Object> insResp =
+                new InsertResponse<Object>(test, ServerClientEntities.VALID_KEY_RESPONSE);
         assertEquals(insResp.getEntity(), test);
     }
 

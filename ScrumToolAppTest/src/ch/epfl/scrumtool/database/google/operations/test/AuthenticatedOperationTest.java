@@ -15,7 +15,6 @@ import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
-
 /**
  * 
  * @author aschneuw

@@ -55,12 +55,14 @@ public class InsertPlayerArgsTest extends TestCase {
     }
 
     public void testGetRoleTest() {
-        InsertPlayerArgs args = new InsertPlayerArgs(ServerClientEntities.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
+        InsertPlayerArgs args = new InsertPlayerArgs(
+                ServerClientEntities.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
         assertEquals(args.getRole(), Role.STAKEHOLDER.name());
     }
 
     public void testGetProjectKeyTest() {
-        InsertPlayerArgs args = new InsertPlayerArgs(ServerClientEntities.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
+        InsertPlayerArgs args = new InsertPlayerArgs(
+                ServerClientEntities.TEST_PROJECT_W_KEY, VALID_EMAIL, Role.STAKEHOLDER);
         assertEquals(args.getProjectKey(), ServerClientEntities.TEST_PROJECT_W_KEY.getKey());
     }
 
