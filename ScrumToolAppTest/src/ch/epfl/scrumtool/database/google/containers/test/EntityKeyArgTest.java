@@ -2,7 +2,11 @@ package ch.epfl.scrumtool.database.google.containers.test;
 
 import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import junit.framework.TestCase;
-
+/**
+ * 
+ * @author aschneuw
+ *
+ */
 public class EntityKeyArgTest extends TestCase {
     private static final String validKey = "valid";
     private static final String emptyKey = "";
