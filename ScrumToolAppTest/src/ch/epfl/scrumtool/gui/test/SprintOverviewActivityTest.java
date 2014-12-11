@@ -117,6 +117,68 @@ public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2
         getActivity();
     }
     
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperationUnsprintedIssues() {
+        solo = new Solo(getInstrumentation());
+        
+        issuesList = MockData.generateIssueLists();
+        unsprintedIssueList = MockData.generateUnsprintedIssueLists();
+
+        Answer<Void> loadIssueAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Issue>>) invocation.getArguments()[1]).interactionDone(issuesList);
+                return null;
+            }
+        };
+        
+        Answer<Void> loadUnsprintedIssuesAnswerFail = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Issue>>) invocation.getArguments()[1]).failure(MockData.ERROR_MESSAGE);
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(loadIssueAnswer).when(mockClient).loadIssues(
+                Mockito.any(Sprint.class), Mockito.any(Callback.class));
+        Mockito.doAnswer(loadUnsprintedIssuesAnswerFail).when(mockClient).loadUnsprintedIssues(
+                Mockito.any(Project.class), Mockito.any(Callback.class));
+       
+        getActivity();
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setFailedLoadOperationIssues() {
+        solo = new Solo(getInstrumentation());
+        
+        issuesList = MockData.generateIssueLists();
+        unsprintedIssueList = MockData.generateUnsprintedIssueLists();
+
+        Answer<Void> loadIssueAnswerFail = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Issue>>) invocation.getArguments()[1]).failure(MockData.ERROR_MESSAGE);
+                return null;
+            }
+        };
+        
+        Answer<Void> loadUnsprintedIssuesAnswer = new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocation) throws Throwable {
+                ((Callback<List<Issue>>) invocation.getArguments()[1]).interactionDone(unsprintedIssueList);
+                return null;
+            }
+        };
+        
+        Mockito.doAnswer(loadIssueAnswerFail).when(mockClient).loadIssues(
+                Mockito.any(Sprint.class), Mockito.any(Callback.class));
+        Mockito.doAnswer(loadUnsprintedIssuesAnswer).when(mockClient).loadUnsprintedIssues(
+                Mockito.any(Project.class), Mockito.any(Callback.class));
+       
+        getActivity();
+    }
+    
     @LargeTest
     public void testSprintOverviewAllFieldsAreDisplayed() {
         setSuccesfulLoadOperationsBoth();
@@ -153,11 +215,6 @@ public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2
         onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
         onView(withText(android.R.string.ok)).perform(click());
 
-        //        onView(withId(R.id.sprint_overview_deadline)).perform(click());
-        //        onView(withId(R.id.popup_user_input)).perform(clearText());
-        //        onView(withId(R.id.popup_user_input)).perform(typeText(TEST_TEXT));
-        //        onView(withText().perform(click());
-
         onView(withId(R.id.sprint_overview_name)).check(matches(withText(TEST_TEXT)));
         //checkDeadline();
     }
@@ -167,6 +224,30 @@ public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2
         testIssuesAreDisplayedInTheList();
         testUnsprintedIssuesAreDisplayed();
         testLongClickOnIssue();
+    }
+    
+//    @LargeTest
+//    public void testRemoveIssue() {
+//        setSuccesfulLoadOperationsBoth();
+//        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.sprint_overview_issue_list)))
+//        .atPosition(0).perform(longClick());
+//        onView(withText(R.string.action_delete)).perform(click());
+//        onView(withText(android.R.string.yes)).perform(click());
+//        
+//        assertTrue(solo.waitForText("Issue removed from Sprint"));
+//    }
+    
+    @LargeTest
+    public void testToastMessageFailedUnsprintedIssue() throws Exception {
+        setFailedLoadOperationUnsprintedIssues();
+        onView(withId(Menu.FIRST)).perform(click());
+        assertTrue(solo.waitForText(MockData.ERROR_MESSAGE));
+    }
+    
+    @LargeTest
+    public void testToastMessageFailedIssue() throws Exception {
+        setFailedLoadOperationIssues();
+        assertTrue(solo.waitForText(MockData.ERROR_MESSAGE));
     }
 
     @SuppressWarnings("unchecked")
