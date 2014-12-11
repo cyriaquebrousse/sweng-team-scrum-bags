@@ -37,6 +37,8 @@ public class ProfileEditActivityTest extends BaseInstrumentationTestCase<Profile
     protected void setUp() throws Exception {
         super.setUp();
         
+        Session session = new Session(user) {};
+        
         getActivity();
     }
     
