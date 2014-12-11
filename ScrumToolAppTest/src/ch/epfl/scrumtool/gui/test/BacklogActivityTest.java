@@ -45,7 +45,7 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         super(BacklogActivity.class);
     }
     
-    private final MainTask TASK = MockData.TASK1;
+    private final static MainTask TASK = MockData.TASK1;
     
     private final static Project PROJECT = MockData.MURCS;
 
@@ -61,6 +61,8 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
             return null;
         }
     };
+    
+    private final static int SLEEP_TIME = 1000;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -88,14 +90,15 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
         onView(withId(R.id.task_description_edit)).perform(typeText("des"), closeSoftKeyboard());
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Low")).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(SLEEP_TIME);
 
         onView(withId(Menu.FIRST)).perform(click());
     }
     
     @SuppressWarnings("unchecked")
     public void testRemoveTask() {
-        onData(instanceOf(MainTask.class)).inAdapterView(allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+        onData(instanceOf(MainTask.class)).inAdapterView(
+                allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
         onView(withText("Delete")).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
     }
@@ -114,13 +117,13 @@ public class BacklogActivityTest extends ActivityInstrumentationTestCase2<Backlo
     
     @SuppressWarnings("unchecked")
     public void testEditTask() throws InterruptedException {
-        onData(instanceOf(MainTask.class)).inAdapterView(allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
+        onData(instanceOf(MainTask.class)).inAdapterView(
+                allOf(withId(R.id.backlog_tasklist))).atPosition(0).perform(longClick());
         onView(withText("Edit")).perform(click());
         onView(withId(R.id.task_description_edit)).perform(clearText());
         onView(withId(R.id.task_description_edit)).perform(typeText("des"), closeSoftKeyboard());
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Urgent")).perform(click());
-        Thread.sleep(1000);
         onView(withId(Menu.FIRST)).perform(click());
         
     }

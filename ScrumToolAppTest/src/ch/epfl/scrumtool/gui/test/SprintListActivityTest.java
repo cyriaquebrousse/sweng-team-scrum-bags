@@ -46,11 +46,11 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
     private static final Sprint SPRINT = new Sprint.Builder()
         .setDeadline(SPRINT_DEADLINE)
         .setTitle(SPRINT_TITLE).build();
-    private final List<Sprint> SPRINT_LIST = new ArrayList<Sprint>();
+    private static final List<Sprint> SPRINT_LIST = new ArrayList<Sprint>();
 
     private static final Project PROJECT = MockData.MURCS;
 
-    private final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
+    private static final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -59,7 +59,7 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
         }
     };
 
-    private final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
+    private static final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {

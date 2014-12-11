@@ -49,11 +49,11 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         .setDescription(PROJECT_DESCRIPTION)
         .setName(PROJECT_NAME).build();
     
-    private final List<Project> PROJECT_LIST = new ArrayList<Project>();
+    private static final List<Project> PROJECT_LIST = new ArrayList<Project>();
     
     private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
     
-    private final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
+    private static final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -62,7 +62,7 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         }
     };
     
-    private final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
+    private static final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) throws Throwable {
