@@ -10,9 +10,9 @@ import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import ch.epfl.scrumtool.network.Session;
 import android.view.Menu;
+import android.widget.Spinner;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
@@ -23,14 +23,11 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.Menu;
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.ProfileEditActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
 
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 /**
  * @author LeoWirz, AlexVeuthey
  *
@@ -41,6 +38,8 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
     private String firstName = "Leonardo";
     private String lastName = "Wirz";
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
+    
+    private Activity activity;
 
     public ProfileEditActivityTest() {
         super(ProfileEditActivity.class);
@@ -55,7 +54,7 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
         };
         Client.setScrumClient(mockClient);
 
-        getActivity();
+        activity = getActivity();
     }
     
     public void testNameFieldsAreEditable() {
@@ -71,21 +70,29 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
     }
     
     @SuppressWarnings("unchecked")
-    public void testGenderField() {
-        onView(withId(R.id.profile_edit_gender)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is("Male"))).perform(click());
+    public void testChangeGender() {
+        ViewInteraction gender = onView(withId(R.id.profile_edit_gender));
+        gender.perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Female"))).perform(click());
+        Spinner genderSpinner = (Spinner) activity.findViewById(R.id.profile_edit_gender);
+        assertEquals(genderSpinner.getSelectedItem(), "Female");
     }
     
     public void testCompanyField() {
-        onView(withId(R.id.profile_edit_company)).perform(typeText("myCompany"));
+        ViewInteraction company = onView(withId(R.id.profile_edit_company));
+        company.perform(clearText());
+        company.perform(typeText("myCompany"));
+        company.check(matches(withText("myCompany")));
     }
     
     public void testJobField() {
-        onView(withId(R.id.profile_edit_jobtitle)).perform(typeText("myJob"));
+        ViewInteraction jobTitle = onView(withId(R.id.profile_edit_jobtitle));
+        jobTitle.perform(clearText());
+        jobTitle.perform(typeText("myJob"));
+        jobTitle.check(matches(withText("myJob")));
     }
     
-    public void testButton() {
+    public void testSaveButtonIsClickable() {
         onView(withId(Menu.FIRST)).check(matches(isClickable()));
     }
-
 }
