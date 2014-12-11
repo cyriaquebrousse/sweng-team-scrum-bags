@@ -34,20 +34,24 @@ public class LoginActivityTest extends
 
     @Before
     public void logout() {
+        fail("fix this testCase");
         onView(withId(R.id.action_overflow)).perform(click());
         onView(withText("Logout")).perform(click());
     }
 
     public void testDisplayedButton() {
+        fail("fix this testCase");
         onView(withId(R.id.button_login)).check(matches(isDisplayed()));
     }
     
     public void testLoginButtonAndCancel() {
+        fail("fix this testCase");
         onView(withId(R.id.button_login)).perform(click());
         onView(withId(R.id.button_login)).perform(pressBack());
     }
 
     public void testLoginButton() {
+        fail("fix this testCase");
         onView(withId(R.id.button_login)).perform(click(), pressBack());
         onView(withText("Annuler")).perform(click());
         onView(withText("Annuler"))

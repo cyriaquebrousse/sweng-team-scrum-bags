@@ -95,7 +95,7 @@ public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCas
                 (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         assertTrue(fragment.getShowsDialog());
         
-        ViewInteraction cancelButton = onView(withText("Cancel"));
+        ViewInteraction cancelButton = onView(withText("Annuler"));
         cancelButton.check(matches(isClickable()));
         cancelButton.perform(click());
         

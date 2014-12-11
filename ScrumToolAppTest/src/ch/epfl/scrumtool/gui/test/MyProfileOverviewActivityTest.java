@@ -55,23 +55,6 @@ public class MyProfileOverviewActivityTest extends
         onView(withId(Menu.FIRST)).check(matches(isClickable()));
     }
 
-    public void testFullEdit() {
-        onView(withId(Menu.FIRST)).perform(click());
-        onView(withId(R.id.profile_edit_firstname)).perform(clearText(),
-                typeText("name"));
-        onView(withId(R.id.profile_edit_lastname)).perform(clearText(),
-                typeText("last name"));
-        onView(withId(R.id.profile_edit_dateofbirth)).perform(click());
-        onView(withText("Appliquer")).perform(click());
-        onView(withId(R.id.profile_edit_gender)).perform(click());
-        onView(withText("Female")).perform(click());
-        onView(withId(R.id.profile_edit_company)).perform(clearText(),
-                typeText("company"));
-        onView(withId(R.id.profile_edit_jobtitle)).perform(clearText(),
-                typeText("job"));
-        onView(withId(Menu.FIRST));
-    }
-
     public void testIsRemovable() {
         onView(withId(Menu.FIRST + 1)).check(matches(isClickable()));
     }

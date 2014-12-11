@@ -49,24 +49,24 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         .setDescription(PROJECT_DESCRIPTION)
         .setName(PROJECT_NAME).build();
     
-    private static final List<Project> PROJECT_LIST = new ArrayList<Project>();
+    private final List<Project> projectsList = new ArrayList<Project>();
     
-    private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
+    private final DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
-    private static final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
+    private final Answer<Void> loadAnswer = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            ((Callback<List<Project>>) invocation.getArguments()[0]).interactionDone(PROJECT_LIST);
+        public Void answer(InvocationOnMock invocation) {
+            ((Callback<List<Project>>) invocation.getArguments()[0]).interactionDone(projectsList);
             return null;
         }
     };
     
-    private static final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
+    private final Answer<Void> removeAnswer = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            PROJECT_LIST.remove(0);
+        public Void answer(InvocationOnMock invocation) {
+            projectsList.remove(0);
             ((Callback<Void>) invocation.getArguments()[1]).interactionDone(null);
             return null;
         }
@@ -76,9 +76,9 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        PROJECT_LIST.add(PROJECT);
-        Client.setScrumClient(MOCKCLIENT);
-        doAnswer(ANSWER_LOAD).when(MOCKCLIENT).loadProjects(Matchers.<Callback<List<Project>>>any());
+        projectsList.add(PROJECT);
+        Client.setScrumClient(mockClient);
+        doAnswer(loadAnswer).when(mockClient).loadProjects(Matchers.<Callback<List<Project>>>any());
 
         getActivity();
     }
@@ -97,7 +97,7 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
 
     @SuppressWarnings("unchecked")
     public void testRemoveProjectOk() {
-        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+        doAnswer(removeAnswer).when(mockClient)
             .deleteProject(Mockito.any(Project.class), Matchers.<Callback<Void>>any());
 
         onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
@@ -108,8 +108,9 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         onView(withId(R.id.swipe_update_empty_project_list)).check(matches(isDisplayed()));
     }
 
+    @SuppressWarnings("unchecked")
     public void testRemoveProjectCancel() {
-        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+        doAnswer(removeAnswer).when(mockClient)
             .deleteProject(Mockito.any(Project.class), Matchers.<Callback<Void>>any());
 
         onData(instanceOf(Project.class)).inAdapterView(allOf(withId(R.id.project_list)))
@@ -120,11 +121,11 @@ public class ProjectListActivityTest extends ActivityInstrumentationTestCase2<Pr
         DataInteraction listInteraction = onData(instanceOf(Project.class))
                 .inAdapterView(allOf(withId(R.id.project_list)));
             
-            listInteraction.atPosition(0).onChildView(withId(R.id.project_row_name))
-                .check(matches(withText(PROJECT_NAME)));
+        listInteraction.atPosition(0).onChildView(withId(R.id.project_row_name))
+            .check(matches(withText(PROJECT_NAME)));
 
-            listInteraction.atPosition(0).onChildView(withId(R.id.project_row_description))
-                .check(matches(withText(PROJECT_DESCRIPTION)));
+        listInteraction.atPosition(0).onChildView(withId(R.id.project_row_description))
+            .check(matches(withText(PROJECT_DESCRIPTION)));
     }
 
     @SuppressWarnings("unchecked")

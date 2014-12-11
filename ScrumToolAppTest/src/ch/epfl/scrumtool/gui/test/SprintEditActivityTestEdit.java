@@ -93,10 +93,6 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
         save.check(matches(isClickable()));
     }
     
-    public void testTitleIsCurrentSprint() {
-        assertTrue(activity.getTitle().equals("sprint title"));
-    }
-    
     public void testPickADateButCancel() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         
@@ -113,7 +109,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
                 (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         assertTrue(fragment.getShowsDialog());
         
-        ViewInteraction cancelButton = onView(withText("Cancel"));
+        ViewInteraction cancelButton = onView(withText("Annuler"));
         cancelButton.check(matches(ViewMatchers.isClickable()));
         cancelButton.perform(ViewActions.click());
         

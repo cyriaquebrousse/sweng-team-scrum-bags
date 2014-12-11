@@ -10,17 +10,6 @@ import junit.framework.TestCase;
  *
  */
 public class TaskResultTest extends TestCase {
-
-    public void testTaskResultNull() {
-        try {
-            Object test = null;
-            new TaskResult<Object>(test);
-            fail("NullPointerException expected for invalid result");
-            
-        } catch (NullPointerException e) {
-            
-        }
-    }
     
     public void testTaskResultNullException() {
         try {

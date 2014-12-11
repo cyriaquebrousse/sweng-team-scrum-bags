@@ -94,7 +94,7 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
     
     public void testChangeDateOfBirth() {
         onView(withId(R.id.profile_edit_dateofbirth)).perform(click());
-        onView(withText("Appliquer")).perform(click());
+        onView(withText("OK")).perform(click());
     }
     
     public void testSaveButtonIsClickable() {

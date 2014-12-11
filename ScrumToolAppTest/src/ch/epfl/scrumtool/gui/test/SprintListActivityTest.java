@@ -46,24 +46,24 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
     private static final Sprint SPRINT = new Sprint.Builder()
         .setDeadline(SPRINT_DEADLINE)
         .setTitle(SPRINT_TITLE).build();
-    private static final List<Sprint> SPRINT_LIST = new ArrayList<Sprint>();
+    private final List<Sprint> sprintList = new ArrayList<Sprint>();
 
     private static final Project PROJECT = MockData.MURCS;
 
-    private static final Answer<Void> ANSWER_LOAD = new Answer<Void>() {
+    private final Answer<Void> loadAnswer = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            ((Callback<List<Sprint>>) invocation.getArguments()[1]).interactionDone(SPRINT_LIST);
+        public Void answer(InvocationOnMock invocation) {
+            ((Callback<List<Sprint>>) invocation.getArguments()[1]).interactionDone(sprintList);
             return null;
         }
     };
 
-    private static final Answer<Void> ANSWER_REMOVE = new Answer<Void>() {
+    private final Answer<Void> removeAnswer = new Answer<Void>() {
         @SuppressWarnings("unchecked")
         @Override
-        public Void answer(InvocationOnMock invocation) throws Throwable {
-            SPRINT_LIST.remove(0);
+        public Void answer(InvocationOnMock invocation) {
+            sprintList.remove(0);
             ((Callback<Void>) invocation.getArguments()[1]).interactionDone(null);
             return null;
         }
@@ -77,12 +77,12 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        SPRINT_LIST.add(SPRINT);
+        sprintList.add(SPRINT);
         Client.setScrumClient(MOCKCLIENT);
         Intent openSprintListIntent = new Intent();
         openSprintListIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
 
-        doAnswer(ANSWER_LOAD).when(MOCKCLIENT)
+        doAnswer(loadAnswer).when(MOCKCLIENT)
             .loadSprints(Mockito.any(Project.class), Matchers.<Callback<List<Sprint>>>any());
         setActivityIntent(openSprintListIntent);
 
@@ -105,7 +105,7 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
 
     @SuppressWarnings("unchecked")
     public void testRemoveSprintOk() {
-        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+        doAnswer(removeAnswer).when(MOCKCLIENT)
             .deleteProject(Mockito.any(Project.class), Matchers.<Callback<Void>>any());
 
         onData(instanceOf(Sprint.class)).inAdapterView(allOf(withId(R.id.sprint_list)))
@@ -117,15 +117,15 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
     }
     
     @SuppressWarnings("unchecked")
-    public void testRemoveProjectCancel() {
-        doAnswer(ANSWER_REMOVE).when(MOCKCLIENT)
+    public void testRemoveSprintCancel() {
+        doAnswer(removeAnswer).when(MOCKCLIENT)
             .deleteSprint(Mockito.any(Sprint.class), Matchers.<Callback<Void>>any());
 
         onData(instanceOf(Sprint.class)).inAdapterView(allOf(withId(R.id.sprint_list)))
             .atPosition(0).perform(ViewActions.longClick());
         onView(withText("Delete")).perform(click());
         onView(withId(android.R.id.button2)).perform(click());
-        // check if list still contains project
+        // check if list still contains sprint
         DataInteraction listInteraction = onData(instanceOf(Sprint.class))
                 .inAdapterView(allOf(withId(R.id.sprint_list)));
             
