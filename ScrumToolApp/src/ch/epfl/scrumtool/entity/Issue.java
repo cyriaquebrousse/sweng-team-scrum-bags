@@ -18,6 +18,7 @@ import ch.epfl.scrumtool.network.Client;
  * @author Cyriaque Brousse
  */
 public final class Issue extends AbstractTask implements Serializable, Comparable<Issue> {
+    private static final float ISSUE_MAX_ESTIMATION = 100f;
 
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.ISSUE";
     private static final long serialVersionUID = -1590796103232831763L;
@@ -38,6 +39,11 @@ public final class Issue extends AbstractTask implements Serializable, Comparabl
     private Issue(String key, String name, String description, Status status,
             Priority priority, float estimatedTime, Player player, Sprint sprint) {
         super(key, name, description, status, priority);
+        if (estimatedTime < 0) {
+            throw new IllegalArgumentException("The estimated time for an Issue should be greater or equals to 0");
+        } else if (estimatedTime >= ISSUE_MAX_ESTIMATION) {
+            throw new IllegalArgumentException("The estimated time for an Issue should be smaller than 100");
+        }
         this.estimatedTime = estimatedTime;
         this.player = player;
         this.sprint = sprint;

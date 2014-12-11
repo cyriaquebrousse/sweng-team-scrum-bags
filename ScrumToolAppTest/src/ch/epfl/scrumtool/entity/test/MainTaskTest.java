@@ -53,11 +53,13 @@ public class MainTaskTest extends TestCase{
         
         // check totalIssueTime < finishedIssueTime
         try {
-            BUILDER.setFinishedIssueTime(10).setTotalIssueTime(3).build();
+            BUILDER.setFinishedIssues(FINISHED_ISSUE).setTotalIssues(TOTAL_ISSUE)
+                .setFinishedIssueTime(10).setTotalIssueTime(3).build();
             fail("expected an IllegalStateException");
         } catch (IllegalArgumentException e) {
             // expected
         }
+        BUILDER.setFinishedIssueTime(FINISHED_ISSUE_TIME).setTotalIssueTime(TOTAL_ISSUE_TIME);
     }
     
     public void testGetTotalIssues() {
