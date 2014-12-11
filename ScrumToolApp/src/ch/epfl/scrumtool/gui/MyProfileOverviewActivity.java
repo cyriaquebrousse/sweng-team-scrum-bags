@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;

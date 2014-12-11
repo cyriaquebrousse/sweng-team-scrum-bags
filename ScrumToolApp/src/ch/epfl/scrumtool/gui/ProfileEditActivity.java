@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
