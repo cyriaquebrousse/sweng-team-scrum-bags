@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.mockito.Mockito;
+
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
@@ -11,8 +13,13 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.SprintEditActivity;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
+import ch.epfl.scrumtool.gui.utils.test.MockData;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+import ch.epfl.scrumtool.network.Session;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -34,9 +41,11 @@ public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCas
 
     private Activity activity;
     private Sprint sprint = null;
-    
     private Project project;
     private Project.Builder projectBuilder;
+    
+    private User user = MockData.JOEY;
+    private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     public SprintEditActivityTestCreate() {
         super(SprintEditActivity.class);
@@ -45,6 +54,11 @@ public class SprintEditActivityTestCreate extends ActivityInstrumentationTestCas
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        new Session(user){
+            //This is used to trick authentication for tests
+        };
+        Client.setScrumClient(mockClient);
         
         projectBuilder = new Project.Builder();
         projectBuilder.setDescription("project description");
