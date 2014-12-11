@@ -20,7 +20,6 @@ public final class ProjectOperations {
         @Override
         public Void operation(Project arg, Scrumtool service) throws IOException, ScrumToolException {
                 ScrumProject update = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
-                update.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return service.updateScrumProject(update).execute();
         }
         
@@ -32,7 +31,6 @@ public final class ProjectOperations {
         public InsertResponse<Project> operation(Project arg, Scrumtool service)
                 throws IOException, ScrumToolException {
                 ScrumProject insert = ProjectConverters.PROJECT_TO_SCRUMPROJECT.convert(arg);
-                insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
                 return new InsertResponse<Project>(arg, service.insertScrumProject(insert).execute());
         }
     };

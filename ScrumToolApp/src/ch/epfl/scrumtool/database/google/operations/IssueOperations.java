@@ -7,7 +7,6 @@ import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.exception.ScrumToolException;
-import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
@@ -44,7 +43,6 @@ public class IssueOperations {
                 sprintKey = null;
             }
             
-            insert.setLastModUser(Session.getCurrentSession().getUser().getEmail());
             return new InsertResponse<Issue>(arg.getEntity(),
                     service.insertScrumIssue(arg.getKey(), insert)
                     .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());

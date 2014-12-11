@@ -1,14 +1,13 @@
 package ch.epfl.scrumtool.database.google.operations.test;
 
+import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.operations.IssueOperations;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.gui.utils.test.MockScrumTool;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
-import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import junit.framework.TestCase;
 
 /**
  * These are only very basic tests to verify the operation functionality.
@@ -31,20 +30,16 @@ public class IssueOperationsTest extends TestCase {
     
     public void testInsertIssueMainTask() {
         try {
-            new Session(ServerClientEntities.generateBasicUser()){};
             EntityKeyArg<Issue> arg =
                     new EntityKeyArg<Issue>(ServerClientEntities.generateBasicIssue(), ServerClientEntities.VALIDKEY);
             assertNotNull(IssueOperations.INSERT_ISSUE_MAINTASK.execute(arg, SCRUMTOOL));
         } catch (ScrumToolException e) {
             
-        } finally {
-            Session.destroySession();
         }
     }
     
     public void testInsertIssueMainTaskWithPlayerAndSprint() {
         try {
-            new Session(ServerClientEntities.generateBasicUser()){};
             Issue issue = ServerClientEntities.generateBasicIssue();
             issue = issue.getBuilder()
                     .setPlayer(ServerClientEntities
@@ -56,8 +51,6 @@ public class IssueOperationsTest extends TestCase {
             assertNotNull(IssueOperations.INSERT_ISSUE_MAINTASK.execute(arg, SCRUMTOOL));
         } catch (ScrumToolException e) {
             
-        } finally {
-            Session.destroySession();
         }
     }
     
