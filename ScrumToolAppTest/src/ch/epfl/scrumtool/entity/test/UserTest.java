@@ -158,7 +158,9 @@ public class UserTest extends TestCase {
     
     public void testCompareTo() {
         assertTrue(USER.compareTo(USER) == 0);
-        assertTrue(USER.compareTo(BUILDER.setName("Zac").build()) > 0);
+        User u = BUILDER.setName("Zac").build();
+        assertTrue(USER.compareTo(u) > 0);
+        assertTrue(u.compareTo(USER) < 0);
     }
 
 }

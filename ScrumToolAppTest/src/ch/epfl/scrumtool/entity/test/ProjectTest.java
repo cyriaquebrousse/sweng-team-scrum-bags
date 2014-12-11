@@ -100,6 +100,7 @@ public class ProjectTest extends TestCase {
     public void testCompareTo() {
         Project p = BUILDER.setName("a").build();
         assertTrue(PROJECT.compareTo(p) < 0);
+        assertTrue(p.compareTo(PROJECT) > 0);
         p = BUILDER.setName(NAME).setDescription("a").build();
         assertTrue(PROJECT.compareTo(p) == 0);
         assertTrue(PROJECT.compareTo(PROJECT) == 0);
