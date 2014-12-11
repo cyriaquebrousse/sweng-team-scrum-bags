@@ -20,7 +20,6 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
@@ -51,23 +50,12 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         init();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        init();
-    }
-
     private void init() {
         setContentView(R.layout.activity_profile_overview);
         
         // Get the connected user, and the user to display
         try {
-            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
-                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
-            } else {
-                userProfile = Session.getCurrentSession().getUser();
-            }
-            this.setTitle(userProfile.getName());
+            userProfile = Session.getCurrentSession().getUser();
             
             initViews();
             initializeListeners();
@@ -132,7 +120,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                                 userBuilder = new User.Builder(userProfile);
                                 userBuilder.setName(firstName);
                                 userBuilder.setLastName(lastName);
-                                MyProfileOverviewActivity.this.setTitle(firstName);
                                 nameView.setText(firstName + " " + lastName);
                                 updateUser();
                             }
@@ -202,10 +189,9 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                         @Override
                         public void interactionDone(Void v) {
                             Toast.makeText(context , "User deleted", Toast.LENGTH_SHORT).show();
-                            GoogleSession.destroyCurrentSession(context);
+                            Session.destroyCurrentSession(context);
                         }
                     });
-                    finish();
                 }
             })
             .setNegativeButton(android.R.string.no, null).show();

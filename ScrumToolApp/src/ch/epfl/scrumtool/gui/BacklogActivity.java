@@ -82,8 +82,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent object cannot be null", project);
 
-        this.setTitle(project.getName());
-
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_backlog);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_backlog_tasklist);

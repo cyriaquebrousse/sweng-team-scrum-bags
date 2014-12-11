@@ -1,7 +1,11 @@
 package ch.epfl.scrumtool.database.google.operations;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
+import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
@@ -75,6 +79,7 @@ public final class DSExecArgs<A, B, C> {
          * 
          */
         public Factory(final MODE mode) {
+            Preconditions.throwIfNull("Authentication mode must be specified", mode);
             this.mode = mode;
         }
 
@@ -93,7 +98,11 @@ public final class DSExecArgs<A, B, C> {
                     this.operation = new AuthenticatedOperation<A, B>(operation);
                     break;
                 case UNAUTHETICATED: 
-                    this.operation = new UnauthenticatedOperation<A, B>(operation);
+                    Scrumtool service = new Scrumtool(AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            null);
+                    
+                    this.operation = new UnauthenticatedOperation<A, B>(operation, service);
                     break;
                 default: 
                     break;

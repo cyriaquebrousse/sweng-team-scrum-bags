@@ -78,8 +78,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent project cannot be null", project);
         
-        this.setTitle(project.getName());
-
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_sprint_list);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_sprint_list);

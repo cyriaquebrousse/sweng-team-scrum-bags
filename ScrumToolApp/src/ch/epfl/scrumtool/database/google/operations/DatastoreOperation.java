@@ -23,5 +23,4 @@ public abstract class DatastoreOperation<A, B> {
     }
     
     public abstract B execute(A a) throws ScrumToolException;
-
 }

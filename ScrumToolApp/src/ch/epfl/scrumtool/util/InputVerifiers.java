@@ -9,7 +9,8 @@ import android.widget.EditText;
 import ch.epfl.scrumtool.R;
 
 /**
- * @author Cyriaque Brousse, sylb
+ * @author Cyriaque Brousse
+ * @author sylb
  */
 public final class InputVerifiers {
     private static final int MAX_NAME_LENGTH = 50;
@@ -24,7 +25,8 @@ public final class InputVerifiers {
     }
 
     public static boolean estimationTooBig(EditText view) {
-        return Float.parseFloat(view.getText().toString()) >= MAX_ESTIMATION_VALUE;
+        final float estimation = sanitizeFloat(view.getText().toString());
+        return Float.compare(estimation, MAX_ESTIMATION_VALUE) >= 0; 
     }
 
     public static boolean verifyNameIsValid(EditText view, Resources res) {
@@ -66,8 +68,7 @@ public final class InputVerifiers {
         } else {
             view.setError(null);
         }
-        return !textEditNullOrEmpty(view)
-                && emailIsValid(view.getText().toString());
+        return !textEditNullOrEmpty(view) && emailIsValid(view.getText().toString());
     }
 
     public static String capitalize(String s) {
@@ -79,11 +80,20 @@ public final class InputVerifiers {
         return EmailValidator.getInstance().isValid(email);
     }
 
+    /**
+     * Checks whether the float value contained in the string is valid, and
+     * returns it. If it is invalid (Java meaning), the return value will be
+     * forced to be {@code 0f}.
+     * 
+     * @param string
+     *            the String to try parsing
+     * @return the float value contained in the string if it is valid,
+     *         {@code 0f} otherwise
+     */
     public static float sanitizeFloat(String string) {
         try {
             return Float.valueOf(string);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return 0f;
         }
     }

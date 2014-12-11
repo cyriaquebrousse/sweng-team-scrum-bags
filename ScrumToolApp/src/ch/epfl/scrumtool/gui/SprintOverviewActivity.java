@@ -116,8 +116,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         
         initValues();
         initViews();
-        
-        setTitle(sprint.getTitle());
     }
     
     @Override
@@ -141,7 +139,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                                 sprintBuilder = new Sprint.Builder(sprint);
                                 sprintBuilder.setTitle(userInput);
                                 nameView.setText(userInput);
-                                setTitle(userInput);
                                 updateSprint();
                             }
                         });
@@ -277,7 +274,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private void updateViews() {
         nameView.setText(sprint.getTitle());
         setDeadlineText();
-        setTitle(sprint.getTitle());
     }
     
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {

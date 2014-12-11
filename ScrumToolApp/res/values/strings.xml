@@ -19,11 +19,13 @@
     <string name="title_activity_issue_edit_new">New issue</string>
     <string name="title_activity_sprint_list">Sprint list</string>
     <string name="title_activity_sprint_edit">Edit sprint</string>
+    <string name="title_activity_sprint_edit_new">New sprint</string>
+    <string name="title_activity_sprint_overview">Sprint</string>
     <string name="title_activity_user_list">User list</string>
     <string name="title_activity_project_player_list">Player list</string>
     <string name="title_activity_profile_overview">Profile overview</string>
     <string name="title_activity_profile_edit">Edit profile</string>
-    <string name="title_activity_sprint_overview">Sprint</string>
+    <string name="title_activity_player_add">Add player</string>
 
     <!-- Buttons -->
     <string name="button_backlog_show">Backlog</string>
@@ -40,8 +42,7 @@
     <string name="button_save">save</string>
     <string name="phone_contact_button">Browse contacts</string>
     
-    <!-- Titles -->
-    <string name="shared_projects">Shared projects</string>
+    <!-- Labels -->
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="firstname">First name</string>
@@ -50,6 +51,8 @@
     <string name="company">Company name</string>
     <string name="jobtitle">Job title</string>
     <string name="gender">Gender</string>
+    <string name="status">Status</string>
+    <string name="estimation">Estimation</string>
 
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
@@ -99,7 +102,7 @@
     <string name="sprints_button_description">Sprints button</string>
     <string name="players_button_description">Players button</string>
     <string name="backlog_button_description">Backlog button</string>
-    <string name="empty_backlog_hint">There are no Taks for this Project</string>
+    <string name="empty_backlog_hint">There are no Tasks for this Project</string>
     <string name="empty_project_list_hint">There are no projects for this user</string>
     <string name="empty_issue_list_hint">There are no issues for this task</string>
     <string name="empty_sprint_list_hint">There are no sprints for this project</string>
@@ -112,13 +115,10 @@
     <string name="issue_edit_sprint">Sprint</string>
 
     <!-- String Arrays -->
-
     <string-array name="gender_options">
         <item>Male</item>
         <item>Female</item>
         <item>Undefined</item>
     </string-array>
-
-    <string name="title_activity_player_add">PlayerAddActivity</string>
 
 </resources>

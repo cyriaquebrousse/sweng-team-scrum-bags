@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
@@ -16,9 +15,7 @@ import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Session;
-import ch.epfl.scrumtool.util.gui.TextViewModifiers;
-import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
-import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
+import ch.epfl.scrumtool.util.Preconditions;
 
 /**
  * @author ketsio
@@ -52,23 +49,10 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
 
     private void init() {
         setContentView(R.layout.activity_profile_overview);
-        
-        // Get the connected user, and the user to display
-        try {
-            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
-                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
-            } else {
-                userProfile = Session.getCurrentSession().getUser();
-            }
-            this.setTitle(userProfile.getName());
-            
-            initViews();
-            initializeListeners();
-            
-        } catch (NotAuthenticatedException e) {
-            Session.relogin(this);
-            e.printStackTrace();
-        }
+        userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
+        Preconditions.throwIfNull("User cannot be null", userProfile);
+       
+        initViews();
     }
     
     private void initViews() {
@@ -110,51 +94,6 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
                 findViewById(R.id.profile_field_gender).setVisibility(View.GONE);
                 break;
         }
-    }
-    
-    
-    private void initializeListeners() {
-        
-        jobTitleView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextViewModifiers.modifyText(OthersProfileOverviewActivity.this, FieldType.OTHER.setText("job title"),
-                        jobTitleView.getText().toString(), new PopupCallback<String>() {
-                            @Override
-                            public void onModified(String userInput) {
-                                userBuilder = new User.Builder(userProfile);
-                                userBuilder.setJobTitle(userInput);
-                                jobTitleView.setText(userInput);
-                                updateUser();
-                            }
-                        });
-            }
-        });
-        
-        companyNameView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextViewModifiers.modifyText(OthersProfileOverviewActivity.this,
-                        FieldType.OTHER.setText("compagny name"),
-                        companyNameView.getText().toString(), new PopupCallback<String>() {
-                            @Override
-                            public void onModified(String userInput) {
-                                userBuilder = new User.Builder(userProfile);
-                                userBuilder.setCompanyName(userInput);
-                                companyNameView.setText(userInput);
-                                updateUser();
-                            }
-                        });
-            }
-        });
-        
-        dateOfBirthView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(v);
-            }
-        });
-        
     }
     
     private void updateUser() {

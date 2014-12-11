@@ -250,6 +250,10 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             this.description = task.getDescription();
             this.status = task.getStatus();
             this.priority = task.getPriority();
+            this.finishedIssues = task.getFinishedIssues();
+            this.finishedIssueTime = task.finishedIssueTime;
+            this.totalIssues = task.totalIssues;
+            this.totalIssueTime = task.totalIssueTime;
         }
 
         /**

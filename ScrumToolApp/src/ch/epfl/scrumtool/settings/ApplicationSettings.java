@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.settings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -38,7 +37,7 @@ public class ApplicationSettings {
      * Save user to settings
      * @param accName
      */
-    public static void saveCachedUser(Activity context, String accName) {
+    public static void saveCachedUser(Context context, String accName) {
         SharedPreferences settings = context.getSharedPreferences(PREFERENCES, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(USER_PREF_KEY, accName);

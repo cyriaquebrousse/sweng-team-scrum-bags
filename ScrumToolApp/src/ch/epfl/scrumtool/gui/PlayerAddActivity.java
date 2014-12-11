@@ -33,8 +33,8 @@ import android.widget.Button;
 
 /**
  * Activity used to add a Player to a Project
+ * 
  * @author vincent
- *
  */
 public class PlayerAddActivity extends BaseEditMenuActivity {
     
@@ -97,26 +97,6 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
     
     @Override
     protected void saveElement() {
-        invitePlayer();
-    }
-
-    private void displayContacts() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerAddActivity.this);
-        final String[] contacts = new String[contactsAddresses.size()];
-        contactsAddresses.toArray(contacts);
-        
-        builder.setTitle("Contacts");
-        builder.setItems(contacts, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                emailAddressView.setText(contacts[which]);
-            }
-        });
-        
-        builder.create().show();
-    }
-    
-    private void invitePlayer() {
         final View next = findViewById(Menu.FIRST);
         String userInput = emailAddressView.getText().toString();
         verifyEmailIsValid(emailAddressView, PlayerAddActivity.this.getResources());
@@ -130,9 +110,28 @@ public class PlayerAddActivity extends BaseEditMenuActivity {
             });
         }
     }
+
+    private void displayContacts() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayerAddActivity.this);
+        builder.setTitle("Contacts");
+        if (contactsAddresses.isEmpty()) {
+            builder.setMessage("You have no contacts with an email address on this phone");
+        } else {
+            final String[] contacts = new String[contactsAddresses.size()];
+            contactsAddresses.toArray(contacts);
+        
+            builder.setItems(contacts, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    emailAddressView.setText(contacts[which]);
+                }
+            });
+        }
+        builder.create().show();
+    }
     
     /**
-     * Retreives the phones contacts that have an email address
+     * Retrieves the phones contacts that have an email address
      * 
      * @return the list of contacts
      */

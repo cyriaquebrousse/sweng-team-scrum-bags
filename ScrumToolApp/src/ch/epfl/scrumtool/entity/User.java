@@ -178,6 +178,7 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
+            this.dateOfBirth = 0;
             this.gender = Gender.UNKNOWN;
         }
 
@@ -317,7 +318,9 @@ public final class User implements Serializable, Comparable<User> {
          * @return
          */
         public User.Builder setGender(Gender gender) {
-            this.gender = gender;
+            if (gender != null) {
+                this.gender = gender;
+            }
             return this;
         }
 

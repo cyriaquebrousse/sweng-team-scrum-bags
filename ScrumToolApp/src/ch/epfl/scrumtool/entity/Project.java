@@ -36,7 +36,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -50,7 +50,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * @return the key
      */
     public String getKey() {
-        return key;
+        return this.key;
     }
 
     /**
