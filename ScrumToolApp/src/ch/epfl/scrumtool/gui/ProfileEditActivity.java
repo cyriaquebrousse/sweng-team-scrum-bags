@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
@@ -172,6 +174,9 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 public void interactionDone(Void v) {
                     try {
                         Session.getCurrentSession().setUser(userToUpdate);
+                        Intent intent = new Intent();
+                        intent.putExtra(User.SERIALIZABLE_NAME, userToUpdate);
+                        setResult(RESULT_OK, intent);
                         ProfileEditActivity.this.finish();
                     } catch (NotAuthenticatedException e) {
                         Session.relogin(ProfileEditActivity.this);

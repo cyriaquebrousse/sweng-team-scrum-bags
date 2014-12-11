@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
@@ -58,6 +61,7 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
             userProfile = Session.getCurrentSession().getUser();
             
             initViews();
+            updateViews();
             initializeListeners();
             
         } catch (NotAuthenticatedException e) {
@@ -75,6 +79,10 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
         genderView = (TextView) findViewById(R.id.profile_gender);
+        
+    }
+    
+    private void updateViews() {
 
         // Set Views
         nameView.setText(userProfile.fullname());
@@ -171,7 +179,7 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
     @Override
     void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -239,5 +247,16 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         userBuilder.setDateOfBirth(dateOfBirthChosen);
         updateUser();
         
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                userProfile = (User) data.getSerializableExtra(User.SERIALIZABLE_NAME);
+                throwIfNull("User cannot be null", userProfile);
+                updateViews();
+            }
+        }
     }
 }
