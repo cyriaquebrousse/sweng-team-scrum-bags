@@ -49,7 +49,7 @@ public class IssueConvertersTest extends TestCase {
         }
     }
     
-    public void testNullName(){
+    public void testNullName() {
         try {
             ScrumIssue issue = TestConstants.generateBasicScrumIssue();
             issue.setName(null);
@@ -231,7 +231,7 @@ public class IssueConvertersTest extends TestCase {
         response.setItems(list);
         List<TaskIssueProject> result = IssueConverters.DASHBOARD_ISSUES.convert(response);
         assertEquals(1, result.size());
-        assertEquals(TestConstants.generateBasicIssue(),result.get(0).getIssue());
+        assertEquals(TestConstants.generateBasicIssue(), result.get(0).getIssue());
         assertEquals(TestConstants.generateBasicMainTask(), result.get(0).getMainTask());
         assertEquals(TestConstants.generateBasicProject(), result.get(0).getProject());
     }
