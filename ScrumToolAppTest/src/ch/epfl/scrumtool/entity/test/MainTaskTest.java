@@ -2,13 +2,10 @@ package ch.epfl.scrumtool.entity.test;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
-import org.objenesis.tck.Main;
 
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Status;
-import ch.epfl.scrumtool.entity.MainTask.Builder;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
 
 /**
