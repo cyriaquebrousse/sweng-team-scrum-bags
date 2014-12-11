@@ -34,7 +34,7 @@ public class PlayerTest extends TestCase {
     private final static Player PLAYER2 = MockData.JOEY_DEV;
     
     public void testConstructor() {
-     // It's impossible to have null value passed to constructor
+        // It's impossible to have null value passed to constructor
         // all builder fields are initialized
         // all setter check for null
         
