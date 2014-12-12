@@ -61,12 +61,10 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                     User user = playerList.get(position).getUser();
-                    Intent openUserOverviewIntent = null;
+                    Intent openUserOverviewIntent = new Intent(view.getContext(), OthersProfileOverviewActivity.class);
                     try {
                         if (user.getEmail().equals(Session.getCurrentSession().getUser().getEmail())) {
                             openUserOverviewIntent = new Intent(view.getContext(), MyProfileOverviewActivity.class);
-                        } else {
-                            openUserOverviewIntent = new Intent(view.getContext(), OthersProfileOverviewActivity.class);
                         }
                     } catch (NotAuthenticatedException e) {
                         Session.relogin(getParent());
