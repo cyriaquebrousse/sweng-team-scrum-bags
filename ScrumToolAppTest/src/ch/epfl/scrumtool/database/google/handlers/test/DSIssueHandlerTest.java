@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
-
-import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.handlers.DSIssueHandler;
 import ch.epfl.scrumtool.entity.Issue;
@@ -22,41 +20,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 public class DSIssueHandlerTest extends TestCase {
     private static final Scrumtool SCRUMTOOL = new MockScrumTool();
     private static final DSIssueHandler HANDLER = new DSIssueHandler();
-    /**
-     * 
-     * @author aschneuw
-     *
-     * @param <A>
-     */
-    private abstract static class HandlerTestCallback<A> implements Callback<A> {
-        
-        public HandlerTestCallback(CountDownLatch signal) {
-            this.signal = signal;
-        }
-        
-        private final CountDownLatch signal;
-        private boolean success;
-        
-        public boolean hasSuccess() {
-            return success;
-        }
-        
-        public void setSuccess(boolean success) {
-            this.success = success;
-        }
-        
-        @Override
-        public void interactionDone(A object) {
-            signal.countDown();
-            
-        }
 
-        @Override
-        public void failure(String errorMessage) {
-            success = false;
-            signal.countDown();
-        }
-    }
     
     public void setUp() {
         new GoogleSession(ServerClientEntities.generateBasicUser(), SCRUMTOOL);
