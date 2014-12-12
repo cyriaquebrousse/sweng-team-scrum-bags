@@ -4,7 +4,6 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -23,7 +22,6 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.android.gms.internal.cl;
 import com.robotium.solo.Solo;
 
 import android.content.Intent;
@@ -63,7 +61,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;
     private static final Issue ISSUE = MockData.ISSUE3;
-    private static final Sprint SPRINT1 = MockData.SPRINT1;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
     private static final Player PLAYER2 = MockData.JOEY_DEV;
@@ -300,6 +297,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         largeInputForTheEstimation(res);
     }
     
+    @SuppressWarnings("unchecked")
     @LargeTest
     public void testCorrectStatusDependingOnSituation() throws InterruptedException {
 
@@ -318,7 +316,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.issue_sprint)).perform(click());
         onData(allOf(is(instanceOf(Sprint.class)))).atPosition(0).perform(click());
         onView(withId(R.id.issue_status)).check(matches(withStatusValue(Status.IN_SPRINT.toString())));
-        
     }
     
     private void nameIsEmpty(Resources res) {
@@ -400,6 +397,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
 //    public void testloadPlayerFailed() throws Exception {
 //        setFailedLoadOperationPlayerList();
 //        onView(withId(R.id.issue_assignee_label)).perform(click());
+//        Thread.sleep(THREADSLEEPTIME);
 //        assertTrue(solo.waitForText(ERROR_MESSAGE));
 //    }
     

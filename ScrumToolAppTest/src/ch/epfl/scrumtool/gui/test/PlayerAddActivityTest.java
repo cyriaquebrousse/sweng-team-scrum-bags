@@ -40,7 +40,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
  */
 public class PlayerAddActivityTest extends ActivityInstrumentationTestCase2<PlayerAddActivity> {
     
-    DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
+    private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     private final static Project PROJECT = MockData.MURCS;
     private final static Player PLAYER = MockData.VINCENT_ADMIN;
     

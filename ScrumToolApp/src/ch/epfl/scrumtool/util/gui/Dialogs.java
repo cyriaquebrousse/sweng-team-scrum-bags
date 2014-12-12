@@ -70,28 +70,4 @@ public final class Dialogs {
         return roles;
     }
     
-    public static void showStatusEditDialog(Activity parent, final DialogCallback<Status> callback) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(parent);
-        String[] statuses = initStatuses();
-        
-        builder.setTitle("Set status");
-        builder.setItems(statuses, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                callback.onSelected(Status.values()[which]);
-                dialog.dismiss();
-            }
-        });
-        
-        builder.create().show();
-    }
-    
-    private static String[] initStatuses() {
-        String[] statuses = new String[Status.values().length];
-        for (int i = 0; i < statuses.length; i++) {
-            statuses[i] = InputVerifiers.capitalize(Status.values()[i].toString());
-        }
-        return statuses;
-    }
-    
 }

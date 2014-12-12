@@ -4,15 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.Preconditions;
@@ -30,7 +27,6 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
     private TextView genderView;
     
     private Calendar calendar = Calendar.getInstance();
-    private long dateOfBirthChosen = calendar.getTimeInMillis();
     
     private User userProfile;
     private User.Builder userBuilder;
@@ -109,34 +105,5 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
                 }
             }
         });
-    }
-    
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                dateOfBirthChosen = calendar.getTimeInMillis();
-                updateDateOfBirth();
-            }
-        };
-        Bundle args = new Bundle();
-        args.putLong("long", dateOfBirthChosen);
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-    
-    private void updateDateOfBirth() {
-        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
-                .getString(R.string.format_date), Locale.ENGLISH);
-        dateOfBirthView.setText(sdf.format(dateOfBirthChosen));
-        userBuilder = new User.Builder(userProfile);
-        userBuilder.setDateOfBirth(dateOfBirthChosen);
-        updateUser();
-        
     }
 }
