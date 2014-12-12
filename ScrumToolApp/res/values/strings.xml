@@ -113,6 +113,8 @@
     <string name="issue_estimation_label">Estimation</string>
     <string name="issue_edit_assignee">Assignee</string>
     <string name="issue_edit_sprint">Sprint</string>
+    <string name="task_description_label">Description</string>
+    <string name="project_description_label">Description</string>
 
     <!-- String Arrays -->
     <string-array name="gender_options">
