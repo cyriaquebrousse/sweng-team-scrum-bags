@@ -1,7 +1,10 @@
 package ch.epfl.scrumtool.gui.utils.test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
@@ -136,7 +139,19 @@ public class MockScrumTool extends Scrumtool {
         return new LoadIssuesForUser(userKey) {
             @Override
             public CollectionResponseScrumIssue execute() throws IOException {
-                return ServerClientEntities.generateCollectionScrumIssue();
+                ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
+                issue.setMainTask(ServerClientEntities.generateBasicScrumMainTask());
+                issue.getMainTask().setProject(ServerClientEntities.generateBasicScrumProject());
+                
+                ScrumIssue issue2 = ServerClientEntities.generateBasicScrumIssue();
+                issue2.setMainTask(ServerClientEntities.generateBasicScrumMainTask());
+                issue2.getMainTask().setProject(ServerClientEntities.generateBasicScrumProject());
+                
+                List<ScrumIssue> list = new ArrayList<ScrumIssue>();
+                list.add(issue2);
+                list.add(issue);
+                
+                return ServerClientEntities.generateCollectionScrumIssue().setItems(list);
             }
         };
     }
