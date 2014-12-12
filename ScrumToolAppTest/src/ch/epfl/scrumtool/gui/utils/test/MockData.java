@@ -62,7 +62,8 @@ public class MockData {
             Status.IN_SPRINT, JOEY_DEV, SPRINT1);
     public static final Issue ISSUE3 = buildIssue("Issue3", "test new issue", "test for status", 0, Priority.NORMAL,
             Status.READY_FOR_ESTIMATION, JOEY_DEV, null);
-    public static final Issue ISSUE4 = buildIssue("Issue4", "test unsprinted issue", "test unsprinted issue", 3, Priority.NORMAL,
+    public static final Issue ISSUE4 = buildIssue("Issue4", "test unsprinted issue", "test unsprinted issue",
+            3, Priority.NORMAL,
             Status.READY_FOR_SPRINT, VINCENT_ADMIN, null);
     
     
