@@ -136,7 +136,7 @@ public class DashboardActivity extends BaseMenuActivity {
                                 @Override
                                 public void interactionDone(Void object) {
                                     Toast.makeText(DashboardActivity.this, "Project Joined", Toast.LENGTH_SHORT).show();
-                                    projectAdapter.add(p.getProject());
+                                    updateViews();
                                 }
                             });
                     }
