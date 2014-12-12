@@ -4,58 +4,39 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
-import ch.epfl.scrumtool.database.google.handlers.DSMainTaskHandler;
-import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.database.google.handlers.DSProjectHandler;
+import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.gui.utils.test.MockScrumTool;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
+
 /**
  * 
  * @author aschneuw
  *
  */
-public class DSMainTaskHandlerTest extends TestCase {
+public class DSProjectHandlerTest extends TestCase {
     private static final Scrumtool SCRUMTOOL = new MockScrumTool();
-    private static final DSMainTaskHandler HANDLER = new DSMainTaskHandler();
-
+    private static final DSProjectHandler HANDLER = new DSProjectHandler();
+    
     
     public void setUp() {
         new GoogleSession(ServerClientEntities.generateBasicUser(), SCRUMTOOL);
     }
-    
-    public void testLoad() {
-        try {
-            HANDLER.insert(null, null);
-            fail("UnsupportedOperationException expected");
-        } catch (UnsupportedOperationException e) {
-            
-        }
-    }
-    
+
     public void testInsert() {
-        try {
-            HANDLER.load(null, null);
-            fail("UnsupportedOperationException expected");
-        } catch (UnsupportedOperationException e) {
-            
-        }
-    }
-    
-    public void testInsertMainTaskToProject() {
         final CountDownLatch signal = new CountDownLatch(1);
-        final HandlerTestCallback<MainTask> callback = new HandlerTestCallback<MainTask>(signal) {
+        final HandlerTestCallback<Project> callback = new HandlerTestCallback<Project>(signal) {
             @Override
-            public void interactionDone(MainTask object) {
-                setSuccess(object.equals(ServerClientEntities.generateBasicMainTask()));
+            public void interactionDone(Project object) {
+                setSuccess(object.equals(ServerClientEntities.generateBasicProject()));
                 super.interactionDone(object);
             }
         };
         
-        HANDLER.insert(ServerClientEntities.generateBasicMainTask(),
-                ServerClientEntities.generateBasicProject(),
-                callback);
+        HANDLER.insert(ServerClientEntities.generateBasicProject(), callback);
         
         try {
             signal.await();
@@ -66,16 +47,69 @@ public class DSMainTaskHandlerTest extends TestCase {
             fail();
         }
     }
-    
-    public void testLoadMainTaskByProject() {
+
+    public void testLoad() {
+        try {
+            HANDLER.load(null, null);
+            fail("UnsupportedOperationException expected");
+        } catch (UnsupportedOperationException e) {
+            
+        }
+    }
+
+    public void testUpdate() {
         final CountDownLatch signal = new CountDownLatch(1);
-        final HandlerTestCallback<List<MainTask>> callback = new HandlerTestCallback<List<MainTask>>(signal) {
+        final HandlerTestCallback<Void> callback = new HandlerTestCallback<Void>(signal) {
             @Override
-            public void interactionDone(List<MainTask> v) {
+            public void interactionDone(Void v) {
+                setSuccess(true);
+                super.interactionDone(v);
+            }
+        };
+        
+        HANDLER.update(ServerClientEntities.generateBasicProject(), callback);
+        
+        try {
+            signal.await();
+            if (!callback.hasSuccess()) {
+                fail("");
+            }
+        } catch (InterruptedException e) {
+            fail();
+        }
+    }
+
+    public void testRemove() {
+        final CountDownLatch signal = new CountDownLatch(1);
+        final HandlerTestCallback<Void> callback = new HandlerTestCallback<Void>(signal) {
+            @Override
+            public void interactionDone(Void v) {
+                setSuccess(true);
+                super.interactionDone(v);
+            }
+        };
+        
+        HANDLER.remove(ServerClientEntities.generateBasicProject(), callback);
+        
+        try {
+            signal.await();
+            if (!callback.hasSuccess()) {
+                fail("");
+            }
+        } catch (InterruptedException e) {
+            fail();
+        }
+    }
+
+    public void testLoadProjects() {
+        final CountDownLatch signal = new CountDownLatch(1);
+        final HandlerTestCallback<List<Project>> callback = new HandlerTestCallback<List<Project>>(signal) {
+            @Override
+            public void interactionDone(List<Project> v) {
                 boolean success = true;
                 
-                for (MainTask i: v) {
-                    if (!i.equals(ServerClientEntities.generateBasicMainTask())) {
+                for (Project i: v) {
+                    if (!i.equals(ServerClientEntities.generateBasicProject())) {
                         success = false;
                         break;
                     }
@@ -85,50 +119,7 @@ public class DSMainTaskHandlerTest extends TestCase {
             }
         };
         
-        HANDLER.loadMainTasks(ServerClientEntities.generateBasicProject(), callback);
-        
-        try {
-            signal.await();
-            if (!callback.hasSuccess()) {
-                fail("");
-            }
-        } catch (InterruptedException e) {
-            fail();
-        }
-    }
-    
-    public void testRemoveMainTask() {
-        final CountDownLatch signal = new CountDownLatch(1);
-        final HandlerTestCallback<Void> callback = new HandlerTestCallback<Void>(signal) {
-            @Override
-            public void interactionDone(Void v) {
-                setSuccess(true);
-                super.interactionDone(v);
-            }
-        };
-        HANDLER.remove(ServerClientEntities.generateBasicMainTask(), callback);
-        
-        try {
-            signal.await();
-            if (!callback.hasSuccess()) {
-                fail("");
-            }
-        } catch (InterruptedException e) {
-            fail();
-        }
-    }
-    
-    public void testUpdateMainTask() {
-        final CountDownLatch signal = new CountDownLatch(1);
-        final HandlerTestCallback<Void> callback = new HandlerTestCallback<Void>(signal) {
-            @Override
-            public void interactionDone(Void v) {
-                setSuccess(true);
-                super.interactionDone(v);
-            }
-        };
-        
-        HANDLER.update(ServerClientEntities.generateBasicMainTask(), callback);
+        HANDLER.loadProjects(callback);
         
         try {
             signal.await();
@@ -143,5 +134,4 @@ public class DSMainTaskHandlerTest extends TestCase {
     public void tearDown() {
         Session.destroySession();
     }
-
 }
