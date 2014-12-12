@@ -228,6 +228,37 @@ public class DSIssueHandlerTest extends TestCase {
         }
     }
     
+    public void testLoadIssuesForSprint() {
+        final CountDownLatch signal = new CountDownLatch(1);
+        final HandlerTestCallback<List<Issue>> callback =
+                new HandlerTestCallback<List<Issue>>(signal) {
+            @Override
+            public void interactionDone(List<Issue> v) {
+                boolean success = true;
+                
+                for (Issue i: v) {
+                    if (!(i.equals(ServerClientEntities.generateBasicIssue()))) {
+                        success = false;
+                        break;
+                    }
+                }
+                setSuccess(success);
+                super.interactionDone(v);
+            }
+        };
+        
+        HANDLER.loadIssues(ServerClientEntities.generateBasicSprint(), callback);
+        
+        try {
+            signal.await();
+            if (!callback.hasSuccess()) {
+                fail("");
+            }
+        } catch (InterruptedException e) {
+            fail();
+        }
+    }
+    
     public void tearDown() {
         Session.destroySession();
     }
