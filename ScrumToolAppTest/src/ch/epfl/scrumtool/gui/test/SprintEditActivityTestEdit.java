@@ -109,7 +109,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
                 (DatePickerFragment) activity.getFragmentManager().findFragmentByTag("datePicker");
         assertTrue(fragment.getShowsDialog());
         
-        ViewInteraction cancelButton = onView(withText("Annuler"));
+        ViewInteraction cancelButton = onView(withId(android.R.id.button2));
         cancelButton.check(matches(ViewMatchers.isClickable()));
         cancelButton.perform(ViewActions.click());
         
@@ -140,7 +140,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
             e.printStackTrace();
         }
         
-        ViewInteraction okButton = onView(withText("OK"));
+        ViewInteraction okButton = onView(withId(android.R.id.button1));
         okButton.check(matches(ViewMatchers.isClickable()));
         okButton.perform(ViewActions.click());
         

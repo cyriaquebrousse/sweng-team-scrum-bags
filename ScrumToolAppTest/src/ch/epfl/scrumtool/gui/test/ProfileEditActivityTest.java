@@ -87,14 +87,13 @@ public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<Pr
     
     public void testJobField() {
         ViewInteraction jobTitle = onView(withId(R.id.profile_edit_jobtitle));
-        jobTitle.perform(clearText());
-        jobTitle.perform(typeText("myJob"));
+        jobTitle.perform(clearText(), typeText("myJob"));
         jobTitle.check(matches(withText("myJob")));
     }
     
     public void testChangeDateOfBirth() {
         onView(withId(R.id.profile_edit_dateofbirth)).perform(click());
-        onView(withText("OK")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
     }
     
     public void testSaveButtonIsClickable() {
