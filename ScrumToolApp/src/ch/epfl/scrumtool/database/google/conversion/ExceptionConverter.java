@@ -2,6 +2,7 @@ package ch.epfl.scrumtool.database.google.conversion;
 
 import java.io.IOException;
 
+import ch.epfl.scrumtool.exception.ConnectionException;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 
@@ -24,7 +25,7 @@ public final class ExceptionConverter {
             GoogleJsonError message = ((GoogleJsonResponseException) e).getDetails();
             return new NotAuthenticatedException(e, message.getMessage());
         } else {
-            return new ScrumToolException(e, "Connection error");
+            return new ConnectionException(e, "Connection error");
         }
     }
 }
