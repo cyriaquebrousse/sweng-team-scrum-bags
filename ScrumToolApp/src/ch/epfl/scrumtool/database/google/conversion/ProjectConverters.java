@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfInconsistentData;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
@@ -18,7 +18,7 @@ public final class ProjectConverters {
 
         @Override
         public Project convert(ScrumProject dbProject) {
-            throwIfNull("Trying to convert a Project with null parameters",
+            throwIfInconsistentData("Trying to convert a Project with null parameters",
                     dbProject.getKey(),
                     dbProject.getName(),
                     dbProject.getDescription());

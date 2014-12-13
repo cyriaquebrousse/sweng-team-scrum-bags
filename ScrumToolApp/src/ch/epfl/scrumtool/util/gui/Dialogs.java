@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import ch.epfl.scrumtool.entity.Priority;
 import ch.epfl.scrumtool.entity.Role;
-import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.util.InputVerifiers;
 
 /**

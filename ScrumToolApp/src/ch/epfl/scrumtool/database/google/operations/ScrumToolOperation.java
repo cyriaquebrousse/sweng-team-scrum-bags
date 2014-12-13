@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.database.google.operations;
 import java.io.IOException;
 
 import ch.epfl.scrumtool.database.google.conversion.ExceptionConverter;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
@@ -24,6 +25,8 @@ public abstract class ScrumToolOperation<A, B> {
             return operation(arg, service);
         } catch (IOException e) {
             throw handleServerException(e);
+        } catch (InconsistentDataException e) {
+            throw new ScrumToolException(e, "Inconsistent Server data");
         }
     }
     

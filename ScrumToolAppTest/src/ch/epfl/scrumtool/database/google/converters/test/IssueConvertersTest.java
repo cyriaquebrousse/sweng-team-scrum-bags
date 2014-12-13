@@ -12,6 +12,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
@@ -33,8 +34,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setKey(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -44,8 +45,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setDescription(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -55,8 +56,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setName(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -66,8 +67,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setName(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -77,8 +78,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setPriority(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -88,8 +89,8 @@ public class IssueConvertersTest extends TestCase {
             ScrumIssue issue = ServerClientEntities.generateBasicScrumIssue();
             issue.setStatus(null);
             IssueConverters.SCRUMISSUE_TO_ISSUE.convert(issue);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -186,9 +187,9 @@ public class IssueConvertersTest extends TestCase {
             list.add(issue);
             response.setItems(list);
             IssueConverters.DASHBOARD_ISSUES.convert(response);
-            fail("NullPointerException expected");
+            fail("InconsistentDataException expected");
             
-        } catch (NullPointerException e) {
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -202,8 +203,8 @@ public class IssueConvertersTest extends TestCase {
             list.add(issue);
             response.setItems(list);
             IssueConverters.DASHBOARD_ISSUES.convert(response);
-            fail("NullPointerException expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException expected");
+        } catch (InconsistentDataException e) {
             
         }
     }

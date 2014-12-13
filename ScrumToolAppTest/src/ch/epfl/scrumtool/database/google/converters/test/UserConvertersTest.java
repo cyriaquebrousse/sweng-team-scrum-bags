@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.conversion.UserConverters;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
@@ -48,8 +49,8 @@ public class UserConvertersTest extends TestCase {
             ScrumUser user = generateExtendedScrumUser();
             user.setEmail(null);            
             UserConverters.SCRUMUSER_TO_USER.convert(user);
-            fail("NullPointerException for invalid User expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid User expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -59,8 +60,8 @@ public class UserConvertersTest extends TestCase {
             ScrumUser user = generateExtendedScrumUser();
             user.setEmail("bla");     
             UserConverters.SCRUMUSER_TO_USER.convert(user);
-            fail("IllegalArgumentException for invalid User E-Mail expected");
-        } catch (IllegalArgumentException e) {
+            fail("InconsistentDataException for invalid User E-Mail expected");
+        } catch (InconsistentDataException e) {
             
         }
     }

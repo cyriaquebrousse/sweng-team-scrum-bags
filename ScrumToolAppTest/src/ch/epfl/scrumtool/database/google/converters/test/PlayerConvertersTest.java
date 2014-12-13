@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.PlayerConverters;
 import ch.epfl.scrumtool.entity.Player;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
@@ -20,8 +21,8 @@ public class PlayerConvertersTest extends TestCase {
             player.setKey(null);
 
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            fail("NullPointerException for invalid ScrumPlayer expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumPlayer expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -31,8 +32,8 @@ public class PlayerConvertersTest extends TestCase {
             ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setUser(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            fail("NullPointerException for invalid ScrumPlayer expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumPlayer expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -42,8 +43,8 @@ public class PlayerConvertersTest extends TestCase {
             ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setAdminFlag(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            fail("NullPointerException for invalid ScrumPlayer expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumPlayer expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -53,8 +54,8 @@ public class PlayerConvertersTest extends TestCase {
             ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setInvitedFlag(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            fail("NullPointerException for invalid ScrumPlayer expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumPlayer expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -64,8 +65,8 @@ public class PlayerConvertersTest extends TestCase {
             ScrumPlayer player = ServerClientEntities.generateBasicScrumPlayer();
             player.setRole(null);
             PlayerConverters.SCRUMPLAYER_TO_PLAYER.convert(player);
-            fail("NullPointerException for invalid ScrumPlayer expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumPlayer expected");
+        } catch (InconsistentDataException e) {
             
         }
     }

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.ProjectConverters;
 import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
@@ -20,8 +21,8 @@ public class ProjectConvertersTest extends TestCase {
             project.setKey(null);
             
             ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(project);
-            fail("NullPointerException for invalid ScrumProject expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumProject expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -32,8 +33,8 @@ public class ProjectConvertersTest extends TestCase {
             project.setDescription(null);
             
             ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(project);
-            fail("NullPointerException for invalid ScrumProject expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumProject expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -44,8 +45,8 @@ public class ProjectConvertersTest extends TestCase {
             project.setName(null);
             
             ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(project);
-            fail("NullPointerException for invalid ScrumProject expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumProject expected");
+        } catch (InconsistentDataException e) {
             
         }
     }

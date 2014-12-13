@@ -1,7 +1,7 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
 import static ch.epfl.scrumtool.util.Assertions.assertTrue;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfInconsistentData;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
@@ -19,7 +19,7 @@ public final class SprintConverters {
         @Override
         public Sprint convert(ScrumSprint dbSprint) {
             assertTrue(dbSprint != null);
-            throwIfNull("Trying to convert a Sprint with null parameters",
+            throwIfInconsistentData("Trying to convert a Sprint with null parameters",
                     dbSprint.getKey(), dbSprint.getTitle(), dbSprint.getDate());
 
             Sprint.Builder sprint = new Sprint.Builder();

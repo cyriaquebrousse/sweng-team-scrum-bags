@@ -30,7 +30,7 @@ public class IssueConverters {
 
         @Override
         public Issue convert(ScrumIssue dbIssue) {
-            Preconditions.throwIfNull("Trying to convert an Issue with null parameters",
+            Preconditions.throwIfInconsistentData("Trying to convert an Issue with null parameters",
                     dbIssue.getKey(),
                     dbIssue.getName(),
                     dbIssue.getDescription(),
@@ -135,6 +135,9 @@ public class IssueConverters {
             List<TaskIssueProject> issues = new ArrayList<TaskIssueProject>();
             if (a != null && a.getItems() != null) {
                 for (ScrumIssue s: a.getItems()) {
+                    Preconditions.throwIfInconsistentData("Server did not sent MainTask data", s.getMainTask());
+                    Preconditions.throwIfInconsistentData("Server dit not sent Project data",
+                            s.getMainTask().getProject());
                     Issue issue = IssueConverters.SCRUMISSUE_TO_ISSUE.convert(s);
                     MainTask mainTask = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(s.getMainTask());
                     Project project = ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(s.getMainTask().getProject());

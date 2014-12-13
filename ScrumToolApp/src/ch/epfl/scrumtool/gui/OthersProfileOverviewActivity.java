@@ -1,7 +1,6 @@
 package ch.epfl.scrumtool.gui;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -9,9 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
@@ -26,10 +22,7 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
     private TextView emailView;
     private TextView genderView;
     
-    private Calendar calendar = Calendar.getInstance();
-    
     private User userProfile;
-    private User.Builder userBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,20 +83,5 @@ public class OthersProfileOverviewActivity extends BaseMenuActivity {
                 findViewById(R.id.profile_field_gender).setVisibility(View.GONE);
                 break;
         }
-    }
-    
-    private void updateUser() {
-        userProfile = userBuilder.build();
-        userProfile.update(new DefaultGUICallback<Void>(this) {
-            @Override
-            public void interactionDone(Void v) {
-                try {
-                    Session.getCurrentSession().setUser(userProfile);
-                } catch (NotAuthenticatedException e) {
-                    Session.relogin(OthersProfileOverviewActivity.this);
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

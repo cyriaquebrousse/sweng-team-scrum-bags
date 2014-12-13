@@ -107,7 +107,6 @@ public final class ServerClientEntities {
             .setIsInvited(PLAYER_INVITED)
             .setRole(Role.DEVELOPER)
             .setUser(generateBasicUser())
-            .setProject(generateBasicProject())
             .build();
     }
     

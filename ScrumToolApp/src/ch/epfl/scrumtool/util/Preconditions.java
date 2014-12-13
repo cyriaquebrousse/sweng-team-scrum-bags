@@ -1,6 +1,7 @@
 package ch.epfl.scrumtool.util;
 
 import static ch.epfl.scrumtool.util.Assertions.assertTrue;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 
 /**
  * @author Cyriaque Brousse
@@ -17,18 +18,20 @@ public final class Preconditions {
      *            objects to check
      */
     public static void throwIfNull(String message, Object... objects) {
+        int index = 0;
         for (Object o : objects) {
             if (o == null) {
-                throw new NullPointerException(message);
+                throw new NullPointerException(message + "; Argument n°: " + index);
             }
+            index++;
         }
     }
     
-    public static void throwIfNotNull(String message, Object... objects) {
-        for (Object o : objects) {
-            if (o != null) {
-                throw new IllegalStateException(message);
-            }
+    public static void throwIfInconsistentData(String message, Object... objects) {
+        try {
+            throwIfNull(message, objects);
+        } catch (NullPointerException e) {
+            throw new InconsistentDataException(message, e);
         }
     }
     
@@ -46,7 +49,9 @@ public final class Preconditions {
     public static void throwIfInvalidEmail(String email) {
         assertTrue(email != null);
         if (!InputVerifiers.emailIsValid(email)) {
-            throw new IllegalArgumentException("E-Mail address is invalid");
+            throw new InconsistentDataException(
+                    new IllegalArgumentException("E-Mail address is invalid")
+            );
         }
     }
 }

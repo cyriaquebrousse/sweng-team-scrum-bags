@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfInconsistentData;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
@@ -23,7 +23,7 @@ public final class PlayerConverters {
 
         @Override
         public Player convert(ScrumPlayer dbPlayer) {
-            throwIfNull("Trying to convert a Player with null parameters",
+            throwIfInconsistentData("Trying to convert a Player with null parameters",
                     dbPlayer.getKey(),
                     dbPlayer.getAdminFlag(),
                     dbPlayer.getRole(),

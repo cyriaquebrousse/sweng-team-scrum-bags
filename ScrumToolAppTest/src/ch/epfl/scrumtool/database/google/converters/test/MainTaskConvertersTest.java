@@ -3,6 +3,7 @@ package ch.epfl.scrumtool.database.google.converters.test;
 import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.MainTask;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
 
@@ -19,8 +20,8 @@ public class MainTaskConvertersTest extends TestCase {
             mainTask.setKey(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -30,8 +31,8 @@ public class MainTaskConvertersTest extends TestCase {
             ScrumMainTask mainTask = ServerClientEntities.generateBasicScrumMainTask();
             mainTask.setName(null);
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -43,8 +44,8 @@ public class MainTaskConvertersTest extends TestCase {
             mainTask.setName(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -55,8 +56,8 @@ public class MainTaskConvertersTest extends TestCase {
             mainTask.setDescription(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -67,8 +68,8 @@ public class MainTaskConvertersTest extends TestCase {
             mainTask.setPriority(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -79,8 +80,8 @@ public class MainTaskConvertersTest extends TestCase {
             mainTask.setStatus(null);
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(mainTask);
-            fail("NullPointerException for invalid ScrumMainTask expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumMainTask expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -106,7 +107,7 @@ public class MainTaskConvertersTest extends TestCase {
         try {
             
             MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(null);
-            fail("NullPointerException for invalid ScrumMainTask expected");
+            fail("NullPointerexception for invalid ScrumMainTask expected");
         } catch (NullPointerException e) {
             
         }

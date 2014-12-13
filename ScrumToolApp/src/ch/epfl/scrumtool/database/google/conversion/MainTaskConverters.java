@@ -23,14 +23,12 @@ public final class MainTaskConverters {
         @Override
         public MainTask convert(ScrumMainTask dbMainTask) {
             
-            Preconditions.throwIfNull("Trying to convert a MainTask with null parameters",
+            Preconditions.throwIfInconsistentData("Trying to convert a MainTask with null parameters",
                     dbMainTask.getKey(),
                     dbMainTask.getName(),
                     dbMainTask.getDescription(),
                     dbMainTask.getPriority(),
                     dbMainTask.getStatus());
-            
-            Preconditions.throwIfInvalidKey(dbMainTask.getKey());
             
             MainTask.Builder maintask = new MainTask.Builder();
 

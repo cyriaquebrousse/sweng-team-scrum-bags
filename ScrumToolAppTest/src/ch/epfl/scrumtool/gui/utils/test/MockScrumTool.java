@@ -356,4 +356,15 @@ public class MockScrumTool extends Scrumtool {
             }
         };
     }
+    
+    @Override
+    public SetPlayerAsAdmin setPlayerAsAdmin(String playerKey)
+            throws IOException {
+        return new SetPlayerAsAdmin(playerKey){
+            @Override
+            public Void execute() throws IOException {
+                return null;
+            }
+        };
+    }
 }

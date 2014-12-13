@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
 import ch.epfl.scrumtool.database.google.conversion.SprintConverters;
 import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
@@ -20,8 +21,8 @@ public class SprintConvertersTest extends TestCase {
             sprint.setKey(null);
             
             SprintConverters.SCRUMSPRINT_TO_SPRINT.convert(sprint);
-            fail("NullPointerException for invalid ScrumSprint expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumSprint expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -32,8 +33,8 @@ public class SprintConvertersTest extends TestCase {
             sprint.setDate(null);
             
             SprintConverters.SCRUMSPRINT_TO_SPRINT.convert(sprint);
-            fail("NullPointerException for invalid ScrumSprint expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumSprint expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
@@ -44,8 +45,8 @@ public class SprintConvertersTest extends TestCase {
             sprint.setTitle(null);
             
             SprintConverters.SCRUMSPRINT_TO_SPRINT.convert(sprint);
-            fail("NullPointerException for invalid ScrumSprint expected");
-        } catch (NullPointerException e) {
+            fail("InconsistentDataException for invalid ScrumSprint expected");
+        } catch (InconsistentDataException e) {
             
         }
     }
