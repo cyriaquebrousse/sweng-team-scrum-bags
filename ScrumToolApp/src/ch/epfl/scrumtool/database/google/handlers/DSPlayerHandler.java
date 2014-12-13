@@ -101,4 +101,14 @@ public class DSPlayerHandler implements PlayerHandler {
         factory.setOperation(PlayerOperations.LOAD_INVITED_PLAYERS);
         OperationExecutor.execute(null, factory.build());
     }
+
+    @Override
+    public void setPlayerAsAdmin(Player player, Callback<Void> callback) {
+        DSExecArgs.Factory<String, Void, Void> factory =
+                new Factory<String, Void, Void>(MODE.AUTHENTICATED);
+        factory.setCallback(callback);
+        factory.setConverter(VoidConverter.VOID_TO_VOID);
+        factory.setOperation(PlayerOperations.SET_PLAYER_AS_ADMIN);
+        OperationExecutor.execute(player.getKey(), factory.build());
+    }
 }

@@ -1,10 +1,11 @@
 package ch.epfl.scrumtool.entity;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.io.Serializable;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
  * @author Vincent
@@ -96,6 +97,15 @@ public final class Player implements Serializable, Comparable<Player> {
      */
     public void remove(final Callback<Void> callback) {
         Client.getScrumClient().removePlayer(this, callback);
+    }
+    
+    /**
+     * Sets this player as administrator
+     * 
+     * @param callback
+     */
+    public void setAsAdmin(final Callback<Void> callback) {
+        Client.getScrumClient().setPlayerAsAdmin(this, callback);
     }
     
     /**

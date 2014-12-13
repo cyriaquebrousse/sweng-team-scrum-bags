@@ -89,6 +89,13 @@ public interface ScrumClient {
     void addPlayerToProject(final Project project, final String userEmail, 
             final Role role, final Callback<Player> callback);
     
+    /**
+     * @param player
+     * @param callback
+     */
+    void setPlayerAsAdmin(final Player player, final Callback<Void> callback);
+    
+    
     // Maintask methods
     /**
      * @param project

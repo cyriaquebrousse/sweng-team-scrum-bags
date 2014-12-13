@@ -53,6 +53,8 @@
     <string name="gender">Gender</string>
     <string name="status">Status</string>
     <string name="estimation">Estimation</string>
+    <string name="invited">Invited</string>
+    <string name="admin">Admin</string>
 
     <!-- Hints -->
     <string name="project_title_edit_hint">Project title</string>
@@ -72,6 +74,8 @@
     <string name="action_delete">Delete</string>
     <string name="action_markDoneUndone">Mark as done/undone</string>
     <string name="action_show_profile">My Profile</string>
+    <string name="action_player_edit_role">Set Role</string>
+    <string name="action_player_set_admin">Set Admin</string>
 
     <!-- Error messages -->
     <string name="error_field_required">This field is required</string>

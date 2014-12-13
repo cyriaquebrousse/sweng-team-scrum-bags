@@ -39,12 +39,20 @@ public final class PlayerListAdapter extends DefaultAdapter<Player> {
 
         TextView name = (TextView) convertView.findViewById(R.id.player_row_name);
         TextView role = (TextView) convertView.findViewById(R.id.player_row_role);
+        TextView status = (TextView) convertView.findViewById(R.id.player_row_status);
 
         Player player = getList().get(position);
         
         if (player != null) {
             name.setText(player.getUser().fullname());
             role.setText(player.getRole().toString());
+            if (player.isAdmin()) {
+                status.setText(R.string.admin);
+                status.setVisibility(View.VISIBLE);
+            } else if (player.isInvited()) {
+                status.setText(R.string.invited);
+                status.setVisibility(View.VISIBLE);
+            }
         } else {
             name.setText(R.string.no_player);
             role.setText("");

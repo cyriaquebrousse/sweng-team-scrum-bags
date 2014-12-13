@@ -176,4 +176,9 @@ public class DatabaseScrumClient implements ScrumClient {
     public void loadInvitedPlayers(Callback<List<Player>> callback) {
         databaseHandlers.getPlayerHandler().loadInvitedPlayers(callback);
     }
+
+    @Override
+    public void setPlayerAsAdmin(Player player, Callback<Void> callback) {
+        databaseHandlers.getPlayerHandler().setPlayerAsAdmin(player, callback);
+    }
 }

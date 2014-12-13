@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -47,7 +48,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
 
     private SwipeRefreshLayout listViewLayout;
 
-    private Callback<List<Player>> callback = new DefaultGUICallback<List<Player>>(this) {
+    private Callback<List<Player>> loadPlayersCallback = new DefaultGUICallback<List<Player>>(this) {
         @Override
         public void interactionDone(final List<Player> playerList) {
             listViewLayout.setRefreshing(false);
@@ -77,6 +78,15 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
 
         }
     };
+    
+    private Callback<Void> setAdminCallback = new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
+
+        @Override
+        public void interactionDone(Void object) {
+            project.loadPlayers(loadPlayersCallback);
+        }
+        
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +107,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                project.loadPlayers(callback);
+                project.loadPlayers(loadPlayersCallback);
                 refreshLayout.setRefreshing(false);
             }
         });
@@ -107,31 +117,54 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
-        project.loadPlayers(callback);
+        project.loadPlayers(loadPlayersCallback);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_context, menu);
+        inflater.inflate(R.menu.menu_player_list_context, menu);
     }
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.action_entity_edit:
+            case R.id.action_player_edit_role:
                 setRole(adapter.getItem(info.position));
                 return true;
-            case R.id.action_entity_delete:
+            case R.id.action_player_delete:
                 deletePlayer(adapter.getItem(info.position));
                 return true;
+            case R.id.action_player_set_admin:
+                setAdmin(adapter.getItem(info.position));
             default:
                 return super.onContextItemSelected(item);
         }
     }
     
+    private void setAdmin(final Player item) {
+        new AlertDialog.Builder(ProjectPlayerListActivity.this)
+            .setTitle("Change admin")
+            .setMessage("A project can only have one Administrator. " 
+                + "If you continue you will loose your admin rights.")
+            .setPositiveButton("Continue", new OnClickListener() {
+            
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    item.setAsAdmin(setAdminCallback);
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create().show();
+    }
+
     private void setRole(final Player player) {
         Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
             @Override
@@ -141,7 +174,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 builder.build().update(new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
                     @Override
                     public void interactionDone(Void object) {
-                        project.loadPlayers(callback);
+                        project.loadPlayers(loadPlayersCallback);
                     }
                 });
             }
