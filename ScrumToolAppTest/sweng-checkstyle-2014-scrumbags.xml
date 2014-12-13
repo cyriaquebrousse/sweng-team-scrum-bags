@@ -92,7 +92,6 @@
     <module name="IllegalCatch">
       <property name="illegalClassNames" value="java.lang.Exception, java.lang.Error, java.lang.AssertionError"/>
     </module>
-    <module name="IllegalThrows"/>
     <module name="JUnitTestCase"/>
     <module name="MultipleVariableDeclarations"/>
     <module name="StringLiteralEquality"/>

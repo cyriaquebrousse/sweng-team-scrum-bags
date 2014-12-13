@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui.test;
 
+import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withError;
+import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withStatusValue;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
@@ -22,22 +24,11 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.robotium.solo.Solo;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withError;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withPlayer;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withPriority;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withSprint;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withStatusValue;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
@@ -51,6 +42,8 @@ import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
+import com.robotium.solo.Solo;
+
 /**
  * 
  * @author sylb
@@ -62,8 +55,8 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     private static final Project PROJECT = MockData.MURCS;
     private static final Issue ISSUE = MockData.ISSUE3;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
-    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
-    private static final Player PLAYER2 = MockData.JOEY_DEV;
+//    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
+//    private static final Player PLAYER2 = MockData.JOEY_DEV;
     
     private List<Sprint> sprintList = new ArrayList<Sprint>();
     private List<Player> playerList = new ArrayList<Player>();
@@ -71,11 +64,12 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     private static final String TEST_TEXT = MockData.TEST_TEXT;
     private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
     private static final String ERROR_MESSAGE = MockData.ERROR_MESSAGE;
-    private static final Float NO_ESTIMATION = MockData.NO_ESTIMATION;
+//    private static final Float NO_ESTIMATION = MockData.NO_ESTIMATION;
     private static final Float ESTIMATION = MockData.ESTIMATION;
     private static final Float LARGE_ESTIMATION = MockData.LARGE_ESTIMATION;
-    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
+//    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
     
+    @SuppressWarnings("unused")
     private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
@@ -124,7 +118,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
                 Mockito.any(Callback.class));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     private void setFailedLoadOperationPlayerList() {
         solo = new Solo(getInstrumentation());
         playerList = MockData.generatePlayerLists();
@@ -152,7 +146,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
                 Mockito.any(Callback.class));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     private void setFailedLoadOperationSprintList() {
         solo = new Solo(getInstrumentation());
         playerList = MockData.generatePlayerLists();
@@ -180,7 +174,7 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
                 Mockito.any(Callback.class));
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     private void setFailedLoadOperationBoth() {
         solo = new Solo(getInstrumentation());
         playerList = MockData.generatePlayerLists();
@@ -387,7 +381,8 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
 
         // click on save button and check the error on the estimation
         onView(withText(android.R.string.ok)).perform(click());
-        onView(withId(R.id.popup_user_input)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
+        onView(withId(R.id.popup_user_input)).check(
+                matches(withError(res.getString(R.string.error_estimation_too_big))));
         onView(withId(R.id.popup_user_input)).perform(pressBack());
         onView(withId(R.id.popup_user_input)).perform(pressBack());
     }

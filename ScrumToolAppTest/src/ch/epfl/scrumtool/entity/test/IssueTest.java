@@ -88,21 +88,21 @@ public class IssueTest extends TestCase {
     }
     
     @Test
-    public void testBuilderSetGetEstimatedTime(){
+    public void testBuilderSetGetEstimatedTime() {
         builder.setEstimatedTime(99f);
         builder.setEstimatedTime(-99f);
         assertTrue(99f == builder.getEstimatedTime());
     }
     
     @Test
-    public void testBuilderSetGetPlayer(){
+    public void testBuilderSetGetPlayer() {
         Player p = MockData.VINCENT_ADMIN;
         builder.setPlayer(p);
         assertEquals(p, builder.getPlayer());
     }
     
     @Test
-    public void testBuilderSetGetSprint(){
+    public void testBuilderSetGetSprint() {
         Sprint s = MockData.SPRINT2;
         builder.setSprint(s);
         assertEquals(s, builder.getSprint());

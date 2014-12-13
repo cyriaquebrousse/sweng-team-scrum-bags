@@ -9,7 +9,6 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.doAnswer;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Menu;
@@ -36,6 +36,11 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class SprintListActivityTest extends ActivityInstrumentationTestCase2<SprintListActivity> {
 
     private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
@@ -89,7 +94,7 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
         getActivity();
     }
     
-    public void testDisplayLoadedSprints() {
+    @SuppressLint("SimpleDateFormat") public void testDisplayLoadedSprints() {
         @SuppressWarnings("unchecked")
         DataInteraction listInteraction = onData(instanceOf(Sprint.class))
             .inAdapterView(allOf(withId(R.id.sprint_list)));
@@ -153,7 +158,7 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
     }
 
     /* Helper functions */
-    private String getDateStringFromLong(final long date) {
+    @SuppressLint("SimpleDateFormat") private String getDateStringFromLong(final long date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
         return sdf.format(date).toString();
     }

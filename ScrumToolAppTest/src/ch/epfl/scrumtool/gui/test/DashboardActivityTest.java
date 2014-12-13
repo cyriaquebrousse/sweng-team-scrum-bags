@@ -43,6 +43,7 @@ public class DashboardActivityTest extends
     private Issue issue1 = MockData.ISSUE1;
     private Issue issue2 = MockData.ISSUE2;
     private User user = MockData.VINCENT;
+    @SuppressWarnings("unused")
     private Player player = MockData.PLAYERLIST.get(1);
     private TaskIssueProject taskIssueProject1 = new TaskIssueProject(task,
             project, issue1);

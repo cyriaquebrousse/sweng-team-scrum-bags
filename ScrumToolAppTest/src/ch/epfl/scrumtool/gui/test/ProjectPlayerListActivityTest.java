@@ -38,16 +38,21 @@ import ch.epfl.scrumtool.network.Session;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCase2<ProjectPlayerListActivity> {
 
     private static final Project PROJECT = MockData.MURCS;
     private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
     private static final User USER = MockData.VINCENT;
-    private static final Player PLAYER2 = MockData.JOEY_DEV;
+    //private static final Player PLAYER2 = MockData.JOEY_DEV;
     
-    List<Player> playerList = new ArrayList<Player>();
+    private static final List<Player> PLAYERLIST = new ArrayList<Player>();
     
-    DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
+    private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
 
     public ProjectPlayerListActivityTest() {
         super(ProjectPlayerListActivity.class);
@@ -57,7 +62,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Client.setScrumClient(mockClient);
+        Client.setScrumClient(MOCKCLIENT);
         new Session(USER) {
             //This is used to trick authentication for tests
         };
@@ -65,17 +70,17 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         Intent openPlayerListIntent = new Intent();
         openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         
-        playerList.add(PLAYER1);
+        PLAYERLIST.add(PLAYER1);
 
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerList);
+                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(PLAYERLIST);
                 return null;
             }
         };
         
-        doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
+        doAnswer(loadPlayersAnswer).when(MOCKCLIENT).loadPlayers(Mockito.any(Project.class),
                 Matchers.<Callback<List<Player>>>any());
         setActivityIntent(openPlayerListIntent);
         getActivity();
@@ -163,13 +168,13 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         Answer<Void> removePlayersAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                playerList.remove(0);
+                PLAYERLIST.remove(0);
                 ((Callback<Void>) invocation.getArguments()[1]).interactionDone(null);
                 return null;
             }
         };
         
-        doAnswer(removePlayersAnswer).when(mockClient).removePlayer(Mockito.any(Player.class),
+        doAnswer(removePlayersAnswer).when(MOCKCLIENT).removePlayer(Mockito.any(Player.class),
                 Matchers.<Callback<Void>>any());
         
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)

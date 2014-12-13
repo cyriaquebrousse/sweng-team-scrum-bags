@@ -57,7 +57,6 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
 
     private static final String TEST_TEXT = MockData.TEST_TEXT;
     private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
-    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
     
     private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
@@ -255,7 +254,8 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
     @SuppressWarnings("unchecked")
     public void testLongClickOnIssueToOpenContextMenu() {
         setSuccessFulLoadOperation();
-        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0).perform(longClick());
+        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).
+        atPosition(0).perform(longClick());
         onView(withText(R.string.action_edit)).check(matches(isDisplayed()));
         onView(withText(R.string.action_delete)).check(matches(isDisplayed()));
         onView(withText(R.string.action_markDoneUndone)).check(matches(isDisplayed()));

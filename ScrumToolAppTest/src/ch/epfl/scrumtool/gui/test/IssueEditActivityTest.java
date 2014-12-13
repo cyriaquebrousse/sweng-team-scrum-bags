@@ -386,7 +386,8 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         // click on save button and check the error on the estimation
         onView(withId(Menu.FIRST)).perform(click());
         Thread.sleep(THREADSLEEPTIME);
-        onView(withId(R.id.issue_estimation_edit)).check(matches(withError(res.getString(R.string.error_estimation_too_big))));
+        onView(withId(R.id.issue_estimation_edit)).check(
+                matches(withError(res.getString(R.string.error_estimation_too_big))));
     }
     
     @LargeTest

@@ -1,13 +1,10 @@
 package ch.epfl.scrumtool.gui.test;
 
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withError;
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withPriority;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.longClick;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isClickable;
@@ -24,30 +21,25 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.gms.internal.mc;
-import com.robotium.solo.Solo;
-
-import ch.epfl.scrumtool.R;
-import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.entity.Issue;
-import ch.epfl.scrumtool.entity.MainTask;
-import ch.epfl.scrumtool.entity.Project;
-import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.entity.Sprint.Builder;
-import ch.epfl.scrumtool.gui.SprintOverviewActivity;
-import ch.epfl.scrumtool.gui.utils.test.MockData;
-import ch.epfl.scrumtool.network.Client;
-import ch.epfl.scrumtool.network.DatabaseScrumClient;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.Menu;
+import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.Callback;
+import ch.epfl.scrumtool.entity.Issue;
+import ch.epfl.scrumtool.entity.Project;
+import ch.epfl.scrumtool.entity.Sprint;
+import ch.epfl.scrumtool.gui.SprintOverviewActivity;
+import ch.epfl.scrumtool.gui.utils.test.MockData;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+
+import com.robotium.solo.Solo;
 
 /**
  * 
@@ -56,17 +48,13 @@ import android.view.Menu;
  */
 public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2<SprintOverviewActivity> {
 
-    private static final MainTask TASK = MockData.TASK1;
     private static final Project PROJECT = MockData.MURCS;
     private static final Sprint SPRINT = MockData.SPRINT1;
-    private static final Issue ISSUE3 = MockData.ISSUE3;
     
     private List<Issue> issuesList = new ArrayList<Issue>();
     private List<Issue> unsprintedIssueList = new ArrayList<Issue>();
 
     private static final String TEST_TEXT = MockData.TEST_TEXT;
-    private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
-    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
 
     private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
@@ -201,7 +189,6 @@ public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2
         onView(withId(R.id.action_overflow)).check(matches(isClickable()));
     }
 
-    @SuppressWarnings("unchecked")
     @LargeTest
     public void testSprintOverviewModifiySprint() throws InterruptedException {
         setSuccesfulLoadOperationsBoth();
