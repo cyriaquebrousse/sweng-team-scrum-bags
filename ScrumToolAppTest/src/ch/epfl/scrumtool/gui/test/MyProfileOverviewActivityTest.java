@@ -1,12 +1,5 @@
 package ch.epfl.scrumtool.gui.test;
 
-import ch.epfl.scrumtool.entity.User;
-import ch.epfl.scrumtool.network.Client;
-import ch.epfl.scrumtool.network.DatabaseScrumClient;
-import ch.epfl.scrumtool.network.Session;
-import android.content.Intent;
-import android.view.Menu;
-
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -16,11 +9,16 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.mock;
-
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Menu;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.MyProfileOverviewActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
+import ch.epfl.scrumtool.network.Client;
+import ch.epfl.scrumtool.network.DatabaseScrumClient;
+import ch.epfl.scrumtool.network.Session;
 
 /**
  * @author LeoWirz
@@ -61,12 +59,12 @@ public class MyProfileOverviewActivityTest extends
 
     public void testRemove() {
         onView(withId(Menu.FIRST + 1)).perform(click());
-        onView(withText("OK")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
     }
 
     public void testRemoveThenCancel() {
         onView(withId(Menu.FIRST + 1)).perform(click());
-        onView(withText("Annuler")).perform(click());
+        onView(withId(android.R.id.button2)).perform(click());
         testUserCorrectlyDisplayed();
     }
 

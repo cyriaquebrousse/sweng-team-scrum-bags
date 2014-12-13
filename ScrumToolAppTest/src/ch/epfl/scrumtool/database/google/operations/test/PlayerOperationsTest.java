@@ -1,5 +1,6 @@
 package ch.epfl.scrumtool.database.google.operations.test;
 
+import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.google.containers.InsertPlayerArgs;
 import ch.epfl.scrumtool.database.google.operations.PlayerOperations;
 import ch.epfl.scrumtool.entity.Role;
@@ -7,7 +8,6 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.gui.utils.test.MockScrumTool;
 import ch.epfl.scrumtool.gui.utils.test.ServerClientEntities;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
-import junit.framework.TestCase;
 /**
  * 
  * @author aschneuw
@@ -47,6 +47,14 @@ public class PlayerOperationsTest extends TestCase {
     public void testLoadPlayers() {
         try {
             assertNotNull(PlayerOperations.LOAD_PLAYERS.execute("", SCRUMTOOL));
+        } catch (ScrumToolException e) {
+            fail();
+        }
+    }
+    
+    public void testSetPlayerAsAdmin() {
+        try {
+            assertNotNull(PlayerOperations.SET_PLAYER_AS_ADMIN.execute("", SCRUMTOOL));
         } catch (ScrumToolException e) {
             fail();
         }

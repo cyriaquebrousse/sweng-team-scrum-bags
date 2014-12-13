@@ -186,6 +186,28 @@ public class DSPlayerHandlerTest extends TestCase {
         }
     }
     
+    public void testSetPlayerAsAdmin() {
+        final CountDownLatch signal = new CountDownLatch(1);
+        final HandlerTestCallback<Void> callback = new HandlerTestCallback<Void>(signal) {
+            @Override
+            public void interactionDone(Void v) {
+                setSuccess(true);
+                super.interactionDone(v);
+            }
+        };
+        
+        HANDLER.setPlayerAsAdmin(ServerClientEntities.generateBasicPlayer(), callback);
+        
+        try {
+            signal.await();
+            if (!callback.hasSuccess()) {
+                fail("");
+            }
+        } catch (InterruptedException e) {
+            fail();
+        }
+    }
+    
     public void tearDown() {
         Session.destroySession();
     }
