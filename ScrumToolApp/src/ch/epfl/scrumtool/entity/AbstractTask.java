@@ -6,6 +6,7 @@ import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import java.io.Serializable;
 
 /**
+ * Basic task object
  * @author Vincent
  */
 public abstract class AbstractTask implements Serializable {
@@ -84,9 +85,11 @@ public abstract class AbstractTask implements Serializable {
                 && this.status == other.status;
     }
     
+    /**
+     * HashCode based on the the key
+     */
     @Override
     public int hashCode() {
         return key.hashCode();
     }
-    
 }

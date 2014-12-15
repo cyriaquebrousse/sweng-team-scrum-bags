@@ -17,7 +17,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumMainTask;
  * @author vincent
  * @author aschneuw
  */
-public class MainTaskOperations {
+public final class MainTaskOperations {
+    
+    /**
+     * operation used to update a MainTask
+     */
     public static final ScrumToolOperation<MainTask, Void> UPDATE_MAINTASK = 
             new ScrumToolOperation<MainTask, Void>() {
         @Override
@@ -27,6 +31,9 @@ public class MainTaskOperations {
         }
     };
     
+    /**
+     * Operation used to delete a MainTask
+     */
     public static final ScrumToolOperation<String, Void> DELETE_MAINTASK = 
             new ScrumToolOperation<String, Void>() {
         @Override
@@ -35,6 +42,9 @@ public class MainTaskOperations {
         }
     };
     
+    /**
+     * Operation to load MainTasks for a given project
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumMainTask> LOAD_MAINTASKS = 
             new ScrumToolOperation<String, CollectionResponseScrumMainTask>() {
         @Override
@@ -43,6 +53,9 @@ public class MainTaskOperations {
         }
     };
     
+    /**
+     * Operation to insert a MainTask for a given project to the database
+     */
     public static final ScrumToolOperation<EntityKeyArg<MainTask>, InsertResponse<MainTask>> INSERT_MAINTASK = 
             new ScrumToolOperation<EntityKeyArg<MainTask>, InsertResponse<MainTask>>() {
 

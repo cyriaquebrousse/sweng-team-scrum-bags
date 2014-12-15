@@ -5,14 +5,19 @@ import android.util.Log;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
- * Executes a ScrumToolOperation and converting its result to the callback return value
- * and finally calls the callback
+ * Container for static Operation executor method
  * 
  * @author aschneuw
  */
 public final class OperationExecutor {
     public static final String TAG = "Operation Executor";
     
+    /**
+     * Executes a ScrumToolOperation and converting its result to the callback return value
+     * and finally calls the callback
+     * @param a
+     * @param args
+     */
     @SuppressWarnings("unchecked")
     public static <A, B, C> void execute(final A a, final DSExecArgs<A, B, C> args) {
         AsyncTask<A, Void, TaskResult<B>> task = new AsyncTask<A, Void, TaskResult<B>>() {

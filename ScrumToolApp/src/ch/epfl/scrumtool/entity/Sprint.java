@@ -10,6 +10,8 @@ import ch.epfl.scrumtool.util.Preconditions;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
+ * Represents a sprint
+ * 
  * @author ketsio
  * @author zenhaeus
  * @author Cyriaque Brousse
@@ -180,10 +182,19 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
             return this;
         }
 
+        /**
+         * 
+         * @return the title
+         */
         public String getTitle() {
             return title;
         }
 
+        /**
+         * 
+         * @param newTitle
+         * @return the current builder instance
+         */
         public Sprint.Builder setTitle(String newTitle) {
             if (newTitle != null) {
                 this.title = newTitle;
@@ -210,11 +221,17 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
                 && other.title == this.title;
     }
 
+    /**
+     * based on it's key
+     */
     @Override
     public int hashCode() {
         return key.hashCode();
     }
     
+    /**
+     * Order: Deadline->Title
+     */
     @Override
     public int compareTo(Sprint that) {
         if (that == null) {

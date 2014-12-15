@@ -7,6 +7,9 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.network.Client;
 
 /**
+ * Represents a MainTask (child of AbstractTask)
+ * A MainTask has associated issues
+ * 
  * @author Vincent
  * @author zenhaeus
  * @author aschneuw
@@ -16,13 +19,13 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.TASK";
     private static final long serialVersionUID = 4279399766459657365L;
     
-    
     private final int totalIssues;
     private final int finishedIssues;
     private final float totalIssueTime;
     private final float finishedIssueTime;
 
     /**
+     * Constructor called by the builder
      * @param name
      * @param description
      * @param status
@@ -248,6 +251,9 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             return this;
         }
 
+        /**
+         * Initialized a new Builder with basic values
+         */
         public Builder() {
             this.id = "";
             this.name = "";
@@ -260,6 +266,10 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             this.totalIssueTime = 0;
         }
 
+        /**
+         * Initializes a builder based on a given MainTask
+         * @param task
+         */
         public Builder(MainTask task) {
             this.id = task.getKey();
             this.name = task.getName();
@@ -323,10 +333,19 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             return this;
         }
 
+        /**
+         * 
+         * @return the status
+         */
         public Status getStatus() {
             return this.status;
         }
 
+        /**
+         * Sets the status
+         * @param status
+         * @return the current builder instance
+         */
         public MainTask.Builder setStatus(Status status) {
             if (status != null) {
                 this.status = status;
@@ -334,10 +353,19 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             return this;
         }
 
+        /**
+         * 
+         * @return the priority
+         */
         public Priority getPriority() {
             return priority;
         }
 
+        /**
+         * 
+         * @param priority
+         * @return the current builder instance
+         */
         public MainTask.Builder setPriority(Priority priority) {
             if (priority != null) {
                 this.priority = priority;
@@ -345,6 +373,10 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
             return this;
         }
 
+        /**
+         * build the immutable entity object based on the data in the builder
+         * @return
+         */
         public MainTask build() {
             return new MainTask(this);
         }
@@ -370,6 +402,9 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         return super.hashCode();
     }
 
+    /**
+     * Order: Status->Priority->Name
+     */
     @Override
     public int compareTo(MainTask that) {
         if (that == null) {
@@ -388,5 +423,4 @@ public final class MainTask extends AbstractTask implements Serializable, Compar
         
         return this.getName().compareTo(that.getName());
     }
-    
 }

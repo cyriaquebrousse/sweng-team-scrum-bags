@@ -11,6 +11,7 @@ import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Represents a user
  * @author vincent
  * @author aschneuw
  * @author zenhaeus
@@ -351,11 +352,17 @@ public final class User implements Serializable, Comparable<User> {
                 && other.name.equals(this.name);
     }
 
+    /**
+     * based on e-mail address
+     */
     @Override
     public int hashCode() {
         return email.hashCode();
     }
 
+    /**
+     * Order: LastName->Name
+     */
     @Override
     public int compareTo(User that) {
         if (that == null) {

@@ -20,9 +20,19 @@ public abstract class DatastoreOperation<A, B> {
         this.operation = operation;
     }
     
+    /**
+     * Returns the associated ScrumToolOperation
+     * @return
+     */
     public ScrumToolOperation<A, B> getOperation() {
         return operation;
     }
     
+    /**
+     * Executes the associated ScrumToolOperation
+     * @param a
+     * @return
+     * @throws ScrumToolException
+     */
     public abstract B execute(A a) throws ScrumToolException;
 }

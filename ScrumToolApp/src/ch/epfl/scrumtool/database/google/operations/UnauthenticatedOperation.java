@@ -22,6 +22,9 @@ public final class UnauthenticatedOperation<A, B> extends
         this.service = service;
     }
 
+    /**
+     * executes the operation with with the objects service object
+     */
     @Override
     public B execute(A a) throws ScrumToolException {
         return getOperation().execute(a, service);

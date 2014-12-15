@@ -41,7 +41,7 @@ public abstract class ScrumToolOperation<A, B> {
     }
     
     /**
-     * Has to implement a server operation
+     * Executes the implemented server operation
      * 
      * @param arg
      * @param service

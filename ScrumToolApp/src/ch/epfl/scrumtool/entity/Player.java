@@ -302,6 +302,9 @@ public final class Player implements Serializable, Comparable<Player> {
         return key.hashCode();
     }
 
+    /**
+     * Order: User->Role
+     */
     @Override
     public int compareTo(Player that) {
         if (that == null) {

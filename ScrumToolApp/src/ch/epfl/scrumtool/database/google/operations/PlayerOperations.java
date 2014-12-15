@@ -18,8 +18,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumPlayer;
  * 
  * @author vincent
  */
-public class PlayerOperations {
+public final class PlayerOperations {
 
+    /**
+     * Operation to add a player to a given project
+     */
     public static final ScrumToolOperation<InsertPlayerArgs, InsertResponse<Player>> INSERT_PLAYER_TO_PROJECT =
             new ScrumToolOperation<InsertPlayerArgs, InsertResponse<Player>>() {
 
@@ -37,6 +40,9 @@ public class PlayerOperations {
         }
     };
 
+    /**
+     * operation to update a player 
+     */
     public static final ScrumToolOperation<Player, Void> UPDATE_PLAYER = 
             new ScrumToolOperation<Player, Void>() {
         @Override
@@ -46,6 +52,9 @@ public class PlayerOperations {
         }
     };
     
+    /**
+     * operation to set a given player as project administrator
+     */
     public static final ScrumToolOperation<String, Void> SET_PLAYER_AS_ADMIN =
             new ScrumToolOperation<String, Void>() {
         @Override
@@ -54,6 +63,9 @@ public class PlayerOperations {
         }
     };
 
+    /**
+     * operation to delete the given player on the database
+     */
     public static final ScrumToolOperation<String, Void> DELETE_PLAYER =
             new ScrumToolOperation<String, Void>() {
         @Override
@@ -62,6 +74,9 @@ public class PlayerOperations {
         }
     };
 
+    /**
+     * operation to load the players for a given project
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumPlayer> LOAD_PLAYERS =
             new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
 
@@ -72,6 +87,9 @@ public class PlayerOperations {
         }
     };
 
+    /**
+     * operation to load project invitations for the current user
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumPlayer> LOAD_INVITED_PLAYERS = 
             new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
 

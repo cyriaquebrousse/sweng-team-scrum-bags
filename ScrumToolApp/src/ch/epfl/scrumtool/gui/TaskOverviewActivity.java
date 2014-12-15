@@ -369,7 +369,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 // Predict new status and estimation according to updated issue set
                 final Status status = simulateNewStatus(issueSet);
                 final float estimation = simulateNewEstimation(issueSet);
-                
                 // Update task and builder
                 taskBuilder = task.getBuilder()
                         .setStatus(status)

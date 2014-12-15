@@ -16,8 +16,11 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumIssue;
  * 
  * @author vincent
  */
-public class IssueOperations {
+public final class IssueOperations {
     
+    /**
+     * Inserts an issue to a MainTask
+     */
     public static final ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>> INSERT_ISSUE_MAINTASK = 
             new ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>>() {
         @Override
@@ -49,6 +52,9 @@ public class IssueOperations {
         }
     };
     
+    /**
+     * Operation used add an Issue to a sprint
+     */
     public static final ScrumToolOperation<EntityKeyArg<Issue>, Void> INSERT_ISSUE_SPRINT = 
             new ScrumToolOperation<EntityKeyArg<Issue>, Void>() {
         @Override
@@ -56,8 +62,10 @@ public class IssueOperations {
                 return service.insertIssueInSprint(arg.getEntity().getKey(), arg.getKey()).execute();
         }
     };
-
     
+    /**
+     * Operation used to update an issue
+     */
     public static final ScrumToolOperation<Issue, Void> UPDATE_ISSUE = 
           new ScrumToolOperation<Issue, Void>() {
         @Override
@@ -85,7 +93,9 @@ public class IssueOperations {
         }
     };
     
-    
+    /**
+     * operation used to delete an issue
+     */
     public static final ScrumToolOperation<String, Void> DELETE_ISSUE = 
             new ScrumToolOperation<String, Void>() {
         @Override
@@ -94,6 +104,9 @@ public class IssueOperations {
         }
     };
     
+    /**
+     * operation used to load issues for a given MainTask
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_MAINTASK = 
             new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
 
@@ -103,6 +116,9 @@ public class IssueOperations {
         }
     };
     
+    /**
+     * operation used to load issues for a given sprint
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_SPRINT = 
             new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
 
@@ -112,6 +128,9 @@ public class IssueOperations {
         }
     };
     
+    /**
+     * operation used to load issues which are not associated to a sprint for a given project
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_NO_SPRINT =
             new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
 
@@ -122,6 +141,9 @@ public class IssueOperations {
         
     };
     
+    /**
+     * operation used to load issues associated to a given user
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_USER = 
             new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
         @Override

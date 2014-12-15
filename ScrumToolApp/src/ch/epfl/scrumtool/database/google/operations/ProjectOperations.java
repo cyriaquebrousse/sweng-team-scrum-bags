@@ -15,6 +15,9 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
  * @author aschneuw
  */
 public final class ProjectOperations {
+    /**
+     * operation to update a project
+     */
     public static final ScrumToolOperation<Project, Void> UPDATE_PROJECT = 
             new ScrumToolOperation<Project, Void>() {
         @Override
@@ -25,6 +28,9 @@ public final class ProjectOperations {
         
     };
     
+    /**
+     * operation to insert a project to the database
+     */
     public static final ScrumToolOperation<Project, InsertResponse<Project>> INSERT_PROJECT = 
             new ScrumToolOperation<Project, InsertResponse<Project>>() {
         @Override
@@ -35,6 +41,9 @@ public final class ProjectOperations {
         }
     };
     
+    /**
+     * operation to delete a project on the database
+     */
     public static final ScrumToolOperation<String, Void> DELETE_PROJECT = 
             new ScrumToolOperation<String, Void>() {
                 
@@ -44,6 +53,9 @@ public final class ProjectOperations {
         }
     };
     
+    /**
+     * operation to load the projects for the current user (with its associated players)
+     */
     public static final ScrumToolOperation<Void, CollectionResponseScrumProject> LOAD_PROJECTS = 
             new ScrumToolOperation<Void, CollectionResponseScrumProject>() {
 

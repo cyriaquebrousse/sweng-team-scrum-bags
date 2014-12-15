@@ -62,7 +62,7 @@ public final class DSExecArgs<A, B, C> {
      * @param <B> Operation output
      * @param <C> Callback return value
      */
-    public static class Factory<A, B, C> {
+    public static final class Factory<A, B, C> {
         /**
          * 
          * @author aschneuw
@@ -138,7 +138,11 @@ public final class DSExecArgs<A, B, C> {
             this.callback = callback;
             return this;
         }
-
+        
+        /**
+         * 
+         * @return the Datastore Execution Arguments DSExecArgs
+         */
         public DSExecArgs<A, B, C> build() {
             return new DSExecArgs<A, B, C>(this);
         }

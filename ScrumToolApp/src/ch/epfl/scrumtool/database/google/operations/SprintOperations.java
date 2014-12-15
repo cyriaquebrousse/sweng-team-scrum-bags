@@ -16,7 +16,10 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
  * 
  * @author vincent
  */
-public class SprintOperations {
+public final class SprintOperations {
+    /**
+     * operation to update a sprint
+     */
     public static final ScrumToolOperation<Sprint, Void> UPDATE_SPRINT = 
             new ScrumToolOperation<Sprint, Void>() {
         @Override
@@ -26,6 +29,9 @@ public class SprintOperations {
         }
     };
     
+    /**
+     * operation to delete a sprint
+     */
     public static final ScrumToolOperation<String, Void> DELETE_SPRINT = 
             new ScrumToolOperation<String, Void>() {
         @Override
@@ -34,6 +40,9 @@ public class SprintOperations {
         }
     };
     
+    /**
+     * operation to insert a sprint
+     */
     public static final ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>> INSERT_SPRINT =
             new ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>>() {
                 
@@ -47,6 +56,9 @@ public class SprintOperations {
         }
     };
     
+    /**
+     * operation to load the sprints for a given project
+     */
     public static final ScrumToolOperation<String, CollectionResponseScrumSprint> LOAD_SPRINT = 
             new ScrumToolOperation<String, CollectionResponseScrumSprint>() {
         @Override
@@ -55,5 +67,4 @@ public class SprintOperations {
                 return service.loadSprints(arg).execute();
         }
     };
-    
 }
