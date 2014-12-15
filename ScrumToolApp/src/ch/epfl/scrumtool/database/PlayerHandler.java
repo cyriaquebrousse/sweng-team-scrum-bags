@@ -10,6 +10,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 
 /**
+ * Defines database operations related to player
+ * 
  * @author Arno
  * 
  */

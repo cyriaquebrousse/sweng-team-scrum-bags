@@ -5,6 +5,7 @@ package ch.epfl.scrumtool.database;
 
 import java.util.List;
 
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
@@ -12,6 +13,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Defines all database operations related the issues
+ * 
  * @author aschneuw
  * 
  */

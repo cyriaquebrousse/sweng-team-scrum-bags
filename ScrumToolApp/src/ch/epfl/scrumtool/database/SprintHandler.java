@@ -9,6 +9,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
 
 /**
+ * Defines database operations related to Sprint
+ * 
  * @author aschneuw
  * 
  */

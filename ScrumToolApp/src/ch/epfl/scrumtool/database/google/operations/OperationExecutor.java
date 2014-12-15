@@ -5,6 +5,9 @@ import android.util.Log;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 
 /**
+ * Executes a ScrumToolOperation and converting its result to the callback return value
+ * and finally calls the callback
+ * 
  * @author aschneuw
  */
 public final class OperationExecutor {

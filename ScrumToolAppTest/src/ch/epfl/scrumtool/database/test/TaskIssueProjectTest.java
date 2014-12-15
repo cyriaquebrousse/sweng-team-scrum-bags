@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.database.test;
 
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Priority;

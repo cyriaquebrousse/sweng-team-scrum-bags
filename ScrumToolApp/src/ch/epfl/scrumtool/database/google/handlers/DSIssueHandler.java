@@ -4,9 +4,9 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.IssueHandler;
-import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.containers.EntityKeyArg;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.conversion.CollectionResponseConverters;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.database.google.conversion.VoidConverter;
@@ -23,6 +23,8 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumIssue;
 
 /**
+ * Implementation of the issue database operations for the Google AppEngine
+ * 
  * @author sylb, aschneuw, zenhaeus
  * 
  */

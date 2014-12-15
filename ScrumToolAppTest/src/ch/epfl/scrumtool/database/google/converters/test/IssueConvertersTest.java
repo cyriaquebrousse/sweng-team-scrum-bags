@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.conversion.IssueConverters;
 import ch.epfl.scrumtool.database.google.conversion.MainTaskConverters;
 import ch.epfl.scrumtool.entity.Issue;

@@ -3,8 +3,8 @@ package ch.epfl.scrumtool.database.google.conversion;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.scrumtool.database.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.containers.InsertResponse;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -135,9 +135,11 @@ public class IssueConverters {
             List<TaskIssueProject> issues = new ArrayList<TaskIssueProject>();
             if (a != null && a.getItems() != null) {
                 for (ScrumIssue s: a.getItems()) {
+                    //Check data integrity
                     Preconditions.throwIfInconsistentData("Server did not sent MainTask data", s.getMainTask());
                     Preconditions.throwIfInconsistentData("Server dit not sent Project data",
                             s.getMainTask().getProject());
+                    
                     Issue issue = IssueConverters.SCRUMISSUE_TO_ISSUE.convert(s);
                     MainTask mainTask = MainTaskConverters.SCRUMMAINTASK_TO_MAINTASK.convert(s.getMainTask());
                     Project project = ProjectConverters.SCRUMPROJECT_TO_PROJECT.convert(s.getMainTask().getProject());

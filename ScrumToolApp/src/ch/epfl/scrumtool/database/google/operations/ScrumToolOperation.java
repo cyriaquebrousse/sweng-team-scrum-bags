@@ -8,6 +8,9 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 
 /**
+ * Abstract class to relate the corresponding operation from the AppEngine with the client
+ * Furthermore, it allows us to generalize the exceptions handling)
+ * 
  * @author aschneuw
  *
  * @param <A>
@@ -20,6 +23,13 @@ public abstract class ScrumToolOperation<A, B> {
         return ExceptionConverter.handle(e);
     }
     
+    /**
+     * Executes the defined operation and handles it's exceptions
+     * @param arg
+     * @param service
+     * @return
+     * @throws ScrumToolException
+     */
     public B execute(A arg, Scrumtool service) throws ScrumToolException {
         try {
             return operation(arg, service);
@@ -30,5 +40,14 @@ public abstract class ScrumToolOperation<A, B> {
         }
     }
     
+    /**
+     * Has to implement a server operation
+     * 
+     * @param arg
+     * @param service
+     * @return
+     * @throws IOException
+     * @throws ScrumToolException
+     */
     public abstract B operation(A arg, Scrumtool service) throws IOException, ScrumToolException;
 }

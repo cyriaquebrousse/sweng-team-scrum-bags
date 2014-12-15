@@ -2,7 +2,9 @@ package ch.epfl.scrumtool.database.google.conversion;
 
 
 /**
- * @author vincent
+ * For database operations where no answer is sent from the server a pseudo-void-converter is needed
+ * 
+ * @author aschneuw
  *
  */
 public final class VoidConverter {

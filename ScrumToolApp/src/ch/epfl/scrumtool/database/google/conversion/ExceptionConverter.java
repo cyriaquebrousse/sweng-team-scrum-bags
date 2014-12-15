@@ -28,7 +28,7 @@ public final class ExceptionConverter {
             GoogleJsonResponseException exception = (GoogleJsonResponseException) e;
             switch (exception.getStatusCode()){
                 case FORBIDDEN:
-                    return new NotAuthenticatedException(e, "Authentication /login error");
+                    return new NotAuthenticatedException(e, "Authentication / login error");
                 case CONFLICT:
                 case NOTFOUND:
                 case UNAUTHORIZED:
@@ -37,6 +37,7 @@ public final class ExceptionConverter {
                     return new ScrumToolException(e, "Server Error");
             }
         } else {
+            //If there is not GoogleJsonResponseException means that the problem is not on the database.
             return new ConnectionException(e, "Connection error");
         }
     }

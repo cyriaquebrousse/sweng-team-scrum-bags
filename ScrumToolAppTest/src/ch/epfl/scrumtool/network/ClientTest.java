@@ -4,7 +4,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;

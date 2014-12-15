@@ -19,7 +19,7 @@ import org.mockito.stubbing.Answer;
 import android.test.ActivityInstrumentationTestCase2;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;

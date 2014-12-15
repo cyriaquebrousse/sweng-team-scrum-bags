@@ -4,10 +4,12 @@ import ch.epfl.scrumtool.exception.ScrumToolException;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Container for a ScrumToolOperation
+ * 
  * @author aschneuw
  *
- * @param <A>
- * @param <B>
+ * @param <A> Operaiton input
+ * @param <B> Operaiton output
  */
 public abstract class DatastoreOperation<A, B> {
     private final ScrumToolOperation<A, B> operation;

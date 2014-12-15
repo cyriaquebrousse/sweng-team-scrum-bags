@@ -12,6 +12,8 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
+ * Implementation of the User database operations for the AppEngine
+ * 
  * @author aschneuw
  */
 public class DSUserHandler implements UserHandler {

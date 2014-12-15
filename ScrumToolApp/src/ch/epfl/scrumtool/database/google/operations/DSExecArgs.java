@@ -9,11 +9,13 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Container to bring together an operation, it's corresponding converter and a callback
+ * 
  * @author aschneuw
  *
- * @param <A>
- * @param <B>
- * @param <C>
+ * @param <A> Operation input
+ * @param <B> Operation output
+ * @param <C> Callback return value
  */
 public final class DSExecArgs<A, B, C> {
     private final DatastoreOperation<A, B> operation;
@@ -51,12 +53,14 @@ public final class DSExecArgs<A, B, C> {
     }
 
     /**
+     * Factory for DSExecArgs
      * 
-     * @author Arno
+     * 
+     * @author aschneuw
      *
-     * @param <A>
-     * @param <B>
-     * @param <C>
+     * @param <A> Operation Input
+     * @param <B> Operation output
+     * @param <C> Callback return value
      */
     public static class Factory<A, B, C> {
         /**

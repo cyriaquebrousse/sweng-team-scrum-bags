@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.database.google.handlers.DSIssueHandler;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.gui.utils.test.MockScrumTool;

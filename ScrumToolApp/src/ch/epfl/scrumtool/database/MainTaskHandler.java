@@ -9,6 +9,8 @@ import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
 
 /**
+ * Defines the database operations related to MainTask
+ * 
  * @author aschneuw
  * 
  */

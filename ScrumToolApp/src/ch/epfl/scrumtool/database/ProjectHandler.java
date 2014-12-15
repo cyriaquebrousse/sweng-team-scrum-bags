@@ -8,6 +8,8 @@ import java.util.List;
 import ch.epfl.scrumtool.entity.Project;
 
 /**
+ * 
+ * Defines database operations related to a project
  * @author aschneuw
  * 
  */

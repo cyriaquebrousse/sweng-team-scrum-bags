@@ -7,6 +7,12 @@ import ch.epfl.scrumtool.server.scrumtool.model.KeyResponse;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Wrapper for an entity and a corresponding KeyResponse from the server.
+ * When an entity like a project is inserted to the database, we don't know the key on the client
+ * at the moment of the execution of the insertion operation. Therefore, the server sends a keyResponse
+ * with the generated key for the inserted entity. In a later state. the entity can be updated with the
+ * key
+ * 
  * @author aschneuw
  *
  * @param <A>

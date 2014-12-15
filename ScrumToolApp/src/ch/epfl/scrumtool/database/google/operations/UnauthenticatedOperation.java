@@ -5,6 +5,7 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Unauthenticated DatastoreOperation. 
  * @author aschneuw
  * 
  * @param <A>
@@ -16,7 +17,7 @@ public final class UnauthenticatedOperation<A, B> extends
 
     public UnauthenticatedOperation(final ScrumToolOperation<A, B> operation, Scrumtool service) {
         super(operation);
-        Preconditions.throwIfNull("", service);
+        Preconditions.throwIfNull("Must have a valid Scrumtool service object", service);
         this.service = service;
     }
 

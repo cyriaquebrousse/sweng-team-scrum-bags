@@ -2,6 +2,8 @@ package ch.epfl.scrumtool.database;
 
 /**
  * 
+ * Defines basic databse operations
+ * 
  * @author aschneuw
  * 
  * @param <A>
@@ -27,8 +29,6 @@ public interface DatabaseHandler<A> {
 
     /**
      * Updates an object of type A on the database.
-     * 
-     * Do not remove the ref parameter, can be usefull later
      * 
      * @param modified
      * @param dbC

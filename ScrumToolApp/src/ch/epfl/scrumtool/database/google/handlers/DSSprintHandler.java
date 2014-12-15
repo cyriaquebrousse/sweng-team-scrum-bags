@@ -18,6 +18,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumSprint;
 
 /**
+ * Implementation of the Sprint database operations for the AppEngine
+ * 
  * @author aschneuw
  */
 public class DSSprintHandler implements SprintHandler {

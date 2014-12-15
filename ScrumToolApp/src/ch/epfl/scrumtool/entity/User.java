@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.Preconditions;
 

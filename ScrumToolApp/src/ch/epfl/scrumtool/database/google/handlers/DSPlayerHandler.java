@@ -20,6 +20,8 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumPlayer;
 
 /**
+ * Implementation of the Player databseoperation for the AppEngine
+ * 
  * @author aschneuw
  */
 public class DSPlayerHandler implements PlayerHandler {
