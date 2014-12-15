@@ -37,7 +37,7 @@ public abstract class DefaultGUICallback<A> implements Callback<A> {
     }
 
     @Override
-    public final void failure(String errorMessage) {
+    public void failure(String errorMessage) {
         if (context != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
             if (viewToReactivate != null) {

@@ -57,7 +57,6 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             listView = (ListView) findViewById(R.id.project_playerlist);
             listView.setAdapter(adapter);
             
-            
             listView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
@@ -75,17 +74,26 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 }
             });
             registerForContextMenu(listView);
-
+        }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
         }
     };
     
-    private Callback<Void> setAdminCallback = new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
-
+    private Callback<Void> setAdminOrRoleCallback = new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
         @Override
         public void interactionDone(Void object) {
             project.loadPlayers(loadPlayersCallback);
         }
         
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
+        }
     };
 
     @Override
@@ -107,8 +115,8 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refreshLayout.setRefreshing(true);
                 project.loadPlayers(loadPlayersCallback);
-                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -153,7 +161,8 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    item.setAsAdmin(setAdminCallback);
+                    listViewLayout.setRefreshing(true);
+                    item.setAsAdmin(setAdminOrRoleCallback);
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -169,6 +178,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
         Dialogs.showRoleEditDialog(ProjectPlayerListActivity.this, new DialogCallback<Role>() {
             @Override
             public void onSelected(final Role selected) {
+                listViewLayout.setRefreshing(true);
                 Player.Builder builder = new Player.Builder(player);
                 builder.setRole(selected);
                 builder.build().update(new DefaultGUICallback<Void>(ProjectPlayerListActivity.this) {
@@ -182,7 +192,6 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     }
 
     private void deletePlayer(final Player player) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Player")
             .setMessage("Do you really want to delete this Player? "
                     + "This will remove the Player from the project and unlink it from its issues.")
@@ -191,13 +200,20 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
                     final Context context = ProjectPlayerListActivity.this;
                     player.remove(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Player deleted", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Player deleted", Toast.LENGTH_SHORT).show();
                             adapter.remove(player);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -205,7 +221,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }

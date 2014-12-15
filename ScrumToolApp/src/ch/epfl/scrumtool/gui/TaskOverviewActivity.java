@@ -69,7 +69,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     private Project project;
     private MainTask.Builder taskBuilder;
 
-    private Callback<List<Issue>> callback = new DefaultGUICallback<List<Issue>>(this) {
+    private Callback<List<Issue>> loadIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
         @Override
         public void interactionDone(final List<Issue> issueList) {
             listViewLayout.setRefreshing(false);
@@ -98,6 +98,13 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             }
             adapter.notifyDataSetChanged();
         }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
+        }
     };
 
     @Override
@@ -123,7 +130,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
-        task.loadIssues(callback);
+        task.loadIssues(loadIssuesCallback);
         updateViews();
     }
 
@@ -193,8 +200,9 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                task.loadIssues(callback);
-                refreshLayout.setRefreshing(false);
+                listViewLayout.setRefreshing(true);
+                emptyViewLayout.setRefreshing(true);
+                task.loadIssues(loadIssuesCallback);
                 updateViews();
             }
         });
@@ -263,7 +271,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      *            the issue to be deleted
      */
     private void deleteIssue(final Issue issue) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Issue")
             .setMessage("Do you really want to delete this Issue? "
                     + "This will remove the Issue and its links with Players and Sprints.")
@@ -272,6 +279,8 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = TaskOverviewActivity.this;
                     issue.remove(new DefaultGUICallback<Void>(context) {
                         @Override
@@ -280,13 +289,20 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                             listViewLayout.setRefreshing(false);
                             adapter.remove(issue);
                         }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
+                        }
                     });
                 }
             })
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }
@@ -315,16 +331,21 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      *            true if need to update to done, false for undone
      */
     private void markIssueAsDone(final Issue issue, boolean done) {
+        listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
         issue.markAsDone(done, new Callback<Void>() {
             @Override
             public void interactionDone(Void v) {
-                listViewLayout.setRefreshing(true);
-                task.loadIssues(callback);
+                listViewLayout.setRefreshing(false);
+                emptyViewLayout.setRefreshing(false);
+                task.loadIssues(loadIssuesCallback);
                 updateViews();
             }
 
             @Override
             public void failure(String errorMessage) {
+                listViewLayout.setRefreshing(false);
+                emptyViewLayout.setRefreshing(false);
                 Toast.makeText(TaskOverviewActivity.this, "Could not mark as done/undone", Toast.LENGTH_SHORT).show();
             }
         });
@@ -336,9 +357,13 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
      * It also updates the status and estimation views accordingly.
      */
     private void updateTaskAndBuilderAccordingToNewStatusAndEstimation() {
-        task.loadIssues(new Callback<List<Issue>>() {
+        listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
+        task.loadIssues(new DefaultGUICallback<List<Issue>>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(final List<Issue> issues) {
+                listViewLayout.setRefreshing(false);
+                emptyViewLayout.setRefreshing(false);
                 final Set<Issue> issueSet = new HashSet<Issue>(issues);
 
                 // Predict new status and estimation according to updated issue set
@@ -360,7 +385,11 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
             }
 
             @Override
-            public void failure(String errorMessage) { }
+            public void failure(String errorMessage) {
+                listViewLayout.setRefreshing(false);
+                emptyViewLayout.setRefreshing(false);
+                super.failure(errorMessage);
+            }
             
             
             /* ****************************************************************

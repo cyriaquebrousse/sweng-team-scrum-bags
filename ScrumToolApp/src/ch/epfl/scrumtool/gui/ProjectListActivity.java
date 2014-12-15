@@ -34,7 +34,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     private SwipeRefreshLayout listViewLayout;
     private SwipeRefreshLayout emptyViewLayout;
 
-    private Callback<List<Project>> callback = new DefaultGUICallback<List<Project>>(this) {
+    private Callback<List<Project>> loadProjectCallback = new DefaultGUICallback<List<Project>>(this) {
         @Override
         public void interactionDone(final List<Project> projectList) {
             ProjectListActivity that = ProjectListActivity.this;
@@ -52,6 +52,13 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
             }
 
             adapter.notifyDataSetChanged();
+        }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
         }
     };
     
@@ -74,7 +81,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
-        Client.getScrumClient().loadProjects(callback);
+        emptyViewLayout.setRefreshing(true);
+        Client.getScrumClient().loadProjects(loadProjectCallback);
     }
     
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
@@ -82,8 +90,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Client.getScrumClient().loadProjects(callback);
-                refreshLayout.setRefreshing(false);
+                
+                Client.getScrumClient().loadProjects(loadProjectCallback);
             }
         });
     }
@@ -123,21 +131,31 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
      *            the project to delete
      */
     private void deleteProject(final Project project) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Project")
             .setMessage("Do you really want to delete this Project? "
-                    + "This will remove the Project and all its Tasks, Issues, Players and Sprints.")
+                    + "If you are admin, this will remove the Project and all its Tasks, Issues, Players and Sprints."
+                    + "If not, you will only be unsubscribed from it.")
             .setIcon(R.drawable.ic_dialog_alert)
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = ProjectListActivity.this;
                     project.remove(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
                             adapter.remove(project);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -145,7 +163,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }

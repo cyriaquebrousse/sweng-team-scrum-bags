@@ -87,6 +87,13 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             }
             issueListAdapter.notifyDataSetChanged();
         }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
+        }
     };
     private Callback<List<Issue>> loadUnsprintedIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
         @Override
@@ -121,6 +128,8 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     @Override
     protected void onResume() {
         super.onResume();
+        listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
         sprint.loadIssues(loadIssuesCallback);
     }
     
@@ -213,7 +222,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     }
     
     private void removeIssueFromSprint(final Issue issue) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Issue")
             .setMessage("Do you really want to delete this Issue from this Sprint? "
                     + "This will remove the Issue from this Sprints but not from the Project.")
@@ -222,13 +230,23 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = SprintOverviewActivity.this;
                     issue.getBuilder().setSprint(null).build().update(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Issue removed from Sprint", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Issue removed from Sprint", Toast.LENGTH_SHORT).show();
                             issueListAdapter.remove(issue);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -236,7 +254,7 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }
@@ -253,12 +271,23 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     final Issue issue = unsprintedIssues.get(which).getBuilder().setSprint(sprint).build();
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     issue.update(
                            new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
     
                             @Override
                             public void interactionDone(Void object) {
+                                listViewLayout.setRefreshing(false);
+                                emptyViewLayout.setRefreshing(false);
                                 issueListAdapter.add(issue);
+                            }
+                            
+                            @Override
+                            public void failure(String errorMessage) {
+                                listViewLayout.setRefreshing(false);
+                                emptyViewLayout.setRefreshing(false);
+                                super.failure(errorMessage);
                             }
                         });
                 }
@@ -281,8 +310,9 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listViewLayout.setRefreshing(true);
+                emptyViewLayout.setRefreshing(true);
                 sprint.loadIssues(loadIssuesCallback);
-                refreshLayout.setRefreshing(false);
             }
         });
     }

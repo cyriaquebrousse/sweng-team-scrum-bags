@@ -17,11 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Project;
@@ -67,8 +67,14 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                     startActivity(openTaskOverviewIntent);
                 }
             });
-
             adapter.notifyDataSetChanged();
+        }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
         }
     };
 
@@ -96,6 +102,7 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
         project.loadBacklog(callback);
     }
     
@@ -105,7 +112,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
             @Override
             public void onRefresh() {
                 project.loadBacklog(callback);
-                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -137,7 +143,6 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
      *            the project to delete
      */
     private void deleteMainTask(final MainTask mainTask) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Task")
             .setMessage("Do you really want to delete this Task? "
                     + "This will remove the Task and all its Issues.")
@@ -146,13 +151,23 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = BacklogActivity.this;
                     mainTask.remove(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Task deleted", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Task deleted", Toast.LENGTH_SHORT).show();
                             adapter.remove(mainTask);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(true);
+                            emptyViewLayout.setRefreshing(true);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -160,7 +175,7 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }
