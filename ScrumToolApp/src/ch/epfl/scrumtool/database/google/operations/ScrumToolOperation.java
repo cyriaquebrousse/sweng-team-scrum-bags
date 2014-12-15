@@ -13,8 +13,8 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  * 
  * @author aschneuw
  *
- * @param <A>
- * @param <B>
+ * @param <A> Operaiton input
+ * @param <B> Operationm output / return value
  */
 
 public abstract class ScrumToolOperation<A, B> {

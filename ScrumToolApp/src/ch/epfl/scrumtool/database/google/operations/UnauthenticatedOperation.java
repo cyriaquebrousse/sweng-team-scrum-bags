@@ -5,7 +5,8 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
- * Unauthenticated DatastoreOperation. 
+ * Unauthenticated DatastoreOperation. Can be used with a custom Scrumtool object which is not necxessarily related
+ * to the GoogleSession
  * @author aschneuw
  * 
  * @param <A>
