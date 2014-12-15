@@ -58,6 +58,10 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         saveSprintChanges();
     }
 
+    /**
+     * Opens the date picker for the sprint deadline.
+     * @param v the view that called the picker
+     */
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment() {
             

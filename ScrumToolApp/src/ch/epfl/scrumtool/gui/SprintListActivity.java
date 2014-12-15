@@ -101,6 +101,14 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         project.loadSprints(callback);
     }
     
+    @Override
+    protected void openEditElementActivity(Sprint sprint) {
+        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
+        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openSprintEditIntent);
+    }
+
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
         super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -171,13 +179,5 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
                     dialog.dismiss();
                 }
             }).show();
-    }
-
-    @Override
-    void openEditElementActivity(Sprint sprint) {
-        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
-        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(openSprintEditIntent);
     }
 }

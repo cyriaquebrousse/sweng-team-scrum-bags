@@ -120,7 +120,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     }
     
     @Override
-    void openEditElementActivity(Project project) {
+    protected void openEditElementActivity(Project project) {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openProjectEditIntent);

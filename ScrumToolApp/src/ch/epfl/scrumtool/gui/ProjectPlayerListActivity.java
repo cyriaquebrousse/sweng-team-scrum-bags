@@ -227,7 +227,7 @@ public class ProjectPlayerListActivity extends BaseListMenuActivity<Player> impl
     }
 
     @Override
-    void openEditElementActivity(Player optionalElementToEdit) {
+    protected void openEditElementActivity(Player optionalElementToEdit) {
         Intent openPlayerAddIntent = new Intent(this, PlayerAddActivity.class);
         openPlayerAddIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openPlayerAddIntent);

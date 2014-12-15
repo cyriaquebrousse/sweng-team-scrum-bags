@@ -181,7 +181,7 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
     }
     
     @Override
-    void openEditElementActivity(MainTask task) {
+    protected void openEditElementActivity(MainTask task) {
         Intent openTaskEditIntent = new Intent(this, TaskEditActivity.class);
         openTaskEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, task);
         openTaskEditIntent.putExtra(Project.SERIALIZABLE_NAME, this.project);

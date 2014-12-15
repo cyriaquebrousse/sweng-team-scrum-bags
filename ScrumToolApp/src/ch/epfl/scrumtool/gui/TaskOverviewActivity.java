@@ -305,7 +305,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     }
 
     @Override
-    void openEditElementActivity(Issue issue) {
+    protected void openEditElementActivity(Issue issue) {
         Intent openIssueEditIntent = new Intent(this, IssueEditActivity.class);
         openIssueEditIntent.putExtra(Issue.SERIALIZABLE_NAME, issue);
         openIssueEditIntent.putExtra(MainTask.SERIALIZABLE_NAME, this.task);
