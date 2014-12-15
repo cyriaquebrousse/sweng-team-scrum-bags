@@ -54,5 +54,4 @@ public class InsertResponseTest extends TestCase {
                 new InsertResponse<Object>(new Object(), ServerClientEntities.VALID_KEY_RESPONSE);
         assertEquals(insResp.getKeyReponse(), ServerClientEntities.VALID_KEY_RESPONSE);
     }
-
 }

@@ -89,5 +89,4 @@ public class ClientTest extends TestCase {
         Client.setScrumClient(null);
         assertEquals(null, Client.getScrumClient());
     }
-
 }

@@ -47,5 +47,4 @@ public class EntityKeyArgTest extends TestCase {
         EntityKeyArg<Object> args = new EntityKeyArg<Object>(OBJECT, VALID_KEY);
         //No Exception if valid arguments
     }
-
 }

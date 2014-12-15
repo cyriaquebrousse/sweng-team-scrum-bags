@@ -120,6 +120,7 @@ public class IssueConvertersTest extends TestCase {
         ScrumIssue ref = ServerClientEntities.generateBasicScrumIssue();
         ref.setKey(null);
         ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
+        
         assertEquals(scrumIssue.getDescription(), ref.getDescription());
         assertEquals(scrumIssue.getEstimation(), ref.getEstimation());
         assertEquals(scrumIssue.getKey(), ref.getKey());
@@ -140,6 +141,7 @@ public class IssueConvertersTest extends TestCase {
         ref.setAssignedPlayer(ServerClientEntities.generateBasicScrumPlayer());
         ref.setSprint(ServerClientEntities.generateBasicScrumSprint());
         ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(issue);
+        
         assertEquals(scrumIssue.getDescription(), ref.getDescription());
         assertEquals(scrumIssue.getEstimation(), ref.getEstimation());
         assertEquals(scrumIssue.getKey(), ref.getKey());

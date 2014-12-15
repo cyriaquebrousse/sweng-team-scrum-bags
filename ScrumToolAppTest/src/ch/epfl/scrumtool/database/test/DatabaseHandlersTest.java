@@ -1,9 +1,6 @@
 package ch.epfl.scrumtool.database.test;
 
 import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import ch.epfl.scrumtool.database.DatabaseHandlers;
 import ch.epfl.scrumtool.database.IssueHandler;
 import ch.epfl.scrumtool.database.MainTaskHandler;
@@ -39,49 +36,42 @@ public class DatabaseHandlersTest extends TestCase {
         .setUserHandler(USER_HANDLER)
         .build();
     
-    @Test
     public void testBuilderSetGetUserHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setUserHandler(USER_HANDLER);
         assertEquals(builder.getUserHandler(), USER_HANDLER);
     }
     
-    @Test
     public void testBuilderSetGetProjectHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setProjectHandler(PROJECT_HANDLER);
         assertEquals(builder.getProjectHandler(), PROJECT_HANDLER);
     }
     
-    @Test
     public void testBuilderSetGetPlayerHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setPlayerHandler(PLAYER_HANDLER);
         assertEquals(builder.getPlayerHandler(), PLAYER_HANDLER);
     }
     
-    @Test
     public void testBuilderSetGetMainTaskHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setMaintaskHandler(MAINTASK_HANDLER);
         assertEquals(builder.getMainTaskHandler(), MAINTASK_HANDLER);
     }
 
-    @Test
     public void testBuilderSetGetIssueHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER);
         assertEquals(builder.getIssueHandler(), ISSUE_HANDLER);
     }
     
-    @Test
     public void testBuilderSetGetSprintHandler() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setSprintHandler(SPRINT_HANDLER);
         assertEquals(builder.getSprintHandler(), SPRINT_HANDLER);
     }
     
-    @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullIssue() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setMaintaskHandler(MAINTASK_HANDLER)
@@ -97,7 +87,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    @Test
     public void testBuilderBuildNullMainTask() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -113,7 +102,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullPlayer() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -129,7 +117,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullProject() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -145,8 +132,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    
-    @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullSprint() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -162,7 +147,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    @Test(expected = NullPointerException.class)
     public void testBuilderBuildNullUser() throws NullPointerException {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -178,7 +162,6 @@ public class DatabaseHandlersTest extends TestCase {
         }
     }
     
-    @Test
     public void testBuilderBuild() {
         DatabaseHandlers.Builder builder = new DatabaseHandlers.Builder();
         builder.setIssueHandler(ISSUE_HANDLER)
@@ -190,32 +173,26 @@ public class DatabaseHandlersTest extends TestCase {
         builder.build();
     }
     
-    @Test
     public void testGetIssueHandler() {
         assertEquals(HANDLERS.getIssueHandler(), ISSUE_HANDLER);
     }
 
-    @Test
     public void testGetMainTaskHandler() {
         assertEquals(HANDLERS.getMainTaskHandler(), MAINTASK_HANDLER);
     }
 
-    @Test
     public void testGetPlayerHandler() {
         assertEquals(HANDLERS.getPlayerHandler(), PLAYER_HANDLER);
     }
 
-    @Test
     public void testGetProjectHandler() {
         assertEquals(HANDLERS.getProjectHandler(), PROJECT_HANDLER);
     }
 
-    @Test
     public void testGetSprintHandler() {
         assertEquals(HANDLERS.getSprintHandler(), SPRINT_HANDLER);
     }
 
-    @Test
     public void testGetUserHandler() {
         assertEquals(HANDLERS.getUserHandler(), USER_HANDLER);
     }

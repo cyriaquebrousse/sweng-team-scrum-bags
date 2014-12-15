@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.database.test;
+package ch.epfl.scrumtool.database.google.containers.test;
 
 import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;

@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 import ch.epfl.scrumtool.database.Callback;
 
 /**
- * 
+ * This is a callback generated for the handler tests. We use Signal to avoid concurrency issues during the tests
  * @author aschneuw
  *
  * @param <A>

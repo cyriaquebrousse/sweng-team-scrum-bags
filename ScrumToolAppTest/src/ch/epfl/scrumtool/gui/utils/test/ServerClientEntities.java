@@ -25,7 +25,7 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumSprint;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 /**
- * 
+ * Models Immutable client entities with the corresponding mutable service server objects
  * @author aschneuw
  *
  */

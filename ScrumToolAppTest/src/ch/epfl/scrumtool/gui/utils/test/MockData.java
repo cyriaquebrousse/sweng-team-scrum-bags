@@ -21,7 +21,6 @@ import ch.epfl.scrumtool.entity.User.Gender;
  *
  */
 public class MockData {
-    
     public static final long  CURRENT_TIME = Calendar.getInstance().getTimeInMillis();
     public static final String TEST_TEXT = "test text";
     public static final String ERROR_MESSAGE = "error";
@@ -198,5 +197,4 @@ public class MockData {
             .setProject(MURCS);
         return player.build();
     }
-    
 }

@@ -12,7 +12,8 @@ import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 /**
- * 
+ * These test verify if the operation gets called and therefore if we get a callback.
+ * The data integrity tests, operation tests etc can be found in the corresponding unit tests
  * @author aschneuw
  *
  */

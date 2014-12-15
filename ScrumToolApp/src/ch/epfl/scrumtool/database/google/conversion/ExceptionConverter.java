@@ -20,7 +20,11 @@ public final class ExceptionConverter {
     private static final int CONFLICT = 409;
     private static final int NOTFOUND = 404;
     
-
+    /**
+     * handels an IOException based on Google AppEngine server errors
+     * @param e
+     * @return
+     */
     public static ScrumToolException handle(IOException e) {
         if (e instanceof GoogleJsonResponseException) {
             //Due to a bug in the current version of AppEngine we can't create custom exceptions on the server side

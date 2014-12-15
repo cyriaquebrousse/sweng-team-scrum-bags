@@ -36,7 +36,6 @@ public class MainTaskConvertersTest extends TestCase {
             
         }
     }
-        
     
     public void testToMainTaskNullName() {
         try {
