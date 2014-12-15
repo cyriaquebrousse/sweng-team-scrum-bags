@@ -100,7 +100,7 @@ public final class GoogleSession extends Session {
         }
 
         /**
-         * @return
+         * @return an itent for the account selector
          */
         public Intent getIntent() {
             return googleCredential.newChooseAccountIntent();

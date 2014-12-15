@@ -16,10 +16,9 @@ public final class Client {
     }
 
     /**
-     * @return
+     * @return the current client
      */
     public static ScrumClient getScrumClient() {
         return currentClient;
     }
-
 }

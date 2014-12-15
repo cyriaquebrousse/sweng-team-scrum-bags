@@ -16,19 +16,40 @@ public final class InputVerifiers {
     private static final int MAX_NAME_LENGTH = 50;
     private static final int MAX_ESTIMATION_VALUE = 100;
 
+    /**
+     * 
+     * @param view
+     * @return
+     */
     public static boolean textEditNullOrEmpty(EditText view) {
         return (view == null) || (view.getText().length() <= 0);
     }
 
+    /**
+     * 
+     * @param view
+     * @return
+     */
     public static boolean nameTooLong(EditText view) {
         return view.getText().length() >= MAX_NAME_LENGTH;
     }
 
+    /**
+     * Estimation verifier
+     * @param view
+     * @return
+     */
     public static boolean estimationTooBig(EditText view) {
         final float estimation = sanitizeFloat(view.getText().toString());
         return Float.compare(estimation, MAX_ESTIMATION_VALUE) >= 0; 
     }
 
+    /**
+     * Name verifier
+     * @param view
+     * @param res
+     * @return
+     */
     public static boolean verifyNameIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
             view.setError(res.getString(R.string.error_field_required));
@@ -40,6 +61,12 @@ public final class InputVerifiers {
         return !textEditNullOrEmpty(view) && !nameTooLong(view);
     }
 
+    /**
+     * Description verifier
+     * @param view
+     * @param res
+     * @return
+     */
     public static boolean verifyDescriptionIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
             view.setError(res.getString(R.string.error_field_required));
@@ -49,6 +76,12 @@ public final class InputVerifiers {
         return !textEditNullOrEmpty(view);
     }
 
+    /**
+     * Issue Estimation verifier
+     * @param view
+     * @param res
+     * @return
+     */
     public static boolean verifyEstimationIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
             view.setError(res.getString(R.string.error_field_required));
@@ -60,6 +93,12 @@ public final class InputVerifiers {
         return !textEditNullOrEmpty(view) && !estimationTooBig(view);
     }
 
+    /**
+     * verifies the e-mail address for a given editText element
+     * @param view
+     * @param res
+     * @return
+     */
     public static boolean verifyEmailIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
             view.setError(res.getString(R.string.error_field_required));
@@ -71,11 +110,21 @@ public final class InputVerifiers {
         return !textEditNullOrEmpty(view) && emailIsValid(view.getText().toString());
     }
 
+    /**
+     * capitalized the first character
+     * @param s
+     * @return
+     */
     public static String capitalize(String s) {
         s = s.toLowerCase(Locale.ENGLISH);
         return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
+    /**
+     * E-Mail-address validator
+     * @param email
+     * @return
+     */
     public static boolean emailIsValid(String email) {
         return EmailValidator.getInstance().isValid(email);
     }

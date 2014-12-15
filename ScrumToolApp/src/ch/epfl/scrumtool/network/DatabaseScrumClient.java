@@ -14,6 +14,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Class putting together all important database operations to provide easy access
+ * 
  * @author aschneuw
  */
 public class DatabaseScrumClient implements ScrumClient {
@@ -47,20 +49,16 @@ public class DatabaseScrumClient implements ScrumClient {
 
     public void updateProject(Project project, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().update(project, callback);
-
-
     }
 
     @Override
     public void deleteProject(Project project, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().remove(project, callback);
-
     }
 
     @Override
     public void loadBacklog(Project project, Callback<List<MainTask>> callback) {
         databaseHandlers.getMainTaskHandler().loadMainTasks(project, callback);
-
     }
 
     @Override
@@ -135,13 +133,6 @@ public class DatabaseScrumClient implements ScrumClient {
     @Override
     public void loadPlayers(Project project, Callback<List<Player>> callback) {
         databaseHandlers.getPlayerHandler().loadPlayers(project, callback);
-    }
-
-    @Deprecated
-    @Override
-    public void addPlayer(Player player, Project project,
-            Callback<Player> callback) {
-        databaseHandlers.getPlayerHandler().insert(player, project, callback);
     }
     
     @Override

@@ -13,6 +13,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Interface providing essential operations
+ * 
  * @author aschneuw
  */
 public interface ScrumClient {
@@ -63,12 +65,7 @@ public interface ScrumClient {
      * @param callback
      */
     void loadInvitedPlayers(final Callback<List<Player>> callback);
-    /**
-     * @param player
-     * @param project
-     * @param callback
-     */
-    void addPlayer(final Player player, final Project project, final Callback<Player> callback);
+    
     /**
      * @param player
      * @param ref

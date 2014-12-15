@@ -9,6 +9,8 @@ import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
+ * Basic Session. Contains a user. Provides automatic relogin functionality
+ * 
  * @author aschneuw
  */
 public abstract class Session {
@@ -58,6 +60,9 @@ public abstract class Session {
         }
     }
     
+    /**
+     * destorys the current sesison object
+     */
     public static void destroySession() {
         currentSession = null;
     }
@@ -78,9 +83,13 @@ public abstract class Session {
         context.startActivity(intent);
         Activity activity = (Activity) context;
         activity.finish();
-        currentSession = null;
+        destroySession();
     }
     
+    /**
+     * relogin from a given context
+     * @param context
+     */
     public static void relogin(Activity context) {
         Intent openLoginIntent = new Intent(context, LoginActivity.class);
         context.startActivityForResult(openLoginIntent, 0);

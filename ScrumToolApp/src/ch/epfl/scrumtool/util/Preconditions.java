@@ -27,6 +27,11 @@ public final class Preconditions {
         }
     }
     
+    /**
+     * throws InconsistentDataException if a given object is null
+     * @param message
+     * @param objects
+     */
     public static void throwIfInconsistentData(String message, Object... objects) {
         try {
             throwIfNull(message, objects);
@@ -35,6 +40,11 @@ public final class Preconditions {
         }
     }
     
+    /**
+     * throws illegalArgumentException if a given string is empty
+     * @param message
+     * @param string
+     */
     public static void throwIfEmptyString(String message, String string) {
         throwIfNull("Nothing to check", string);
         if (string.length() == 0) {
@@ -42,10 +52,18 @@ public final class Preconditions {
         }
     }
     
+    /**
+     * throws IllegalArgumentException when a key string is empty
+     * @param key
+     */
     public static void throwIfInvalidKey(String key) {
         throwIfEmptyString("Key must not be empty", key);
     }
-    
+
+    /**
+     * throws an InconsistentDataException if an E-Mail-address is not valid
+     * @param email
+     */
     public static void throwIfInvalidEmail(String email) {
         assertTrue(email != null);
         if (!InputVerifiers.emailIsValid(email)) {

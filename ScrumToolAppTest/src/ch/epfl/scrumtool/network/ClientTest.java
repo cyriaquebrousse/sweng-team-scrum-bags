@@ -76,8 +76,6 @@ public class ClientTest extends TestCase {
             public void addPlayerToProject(Project project, String userEmail,
                     Role role, Callback<Player> callback) { }
             @Override
-            public void addPlayer(Player player, Project project, Callback<Player> callback) { }
-            @Override
             public void addIssueToSprint(Issue issue, Sprint sprint, Callback<Void> callback) { }
             @Override
             public void setPlayerAsAdmin(Player player, Callback<Void> callback) { }
