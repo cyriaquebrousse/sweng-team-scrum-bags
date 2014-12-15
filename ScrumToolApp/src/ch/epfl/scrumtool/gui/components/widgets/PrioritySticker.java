@@ -30,6 +30,12 @@ public class PrioritySticker extends Sticker {
         setPaddingRelative(space, smallSpace, space, smallSpace);
     }
     
+    /**
+     * Sets the sticker's priority
+     * 
+     * @param priority
+     *            the new priority
+     */
     public void setPriority(Priority priority) {
         assertTrue(priority != null);
         
@@ -38,6 +44,9 @@ public class PrioritySticker extends Sticker {
         super.setColor(getResources().getColor(priority.getColorRef()));
     }
     
+    /**
+     * @return the priority
+     */
     public Priority getPriority() {
         return priority;
     }
