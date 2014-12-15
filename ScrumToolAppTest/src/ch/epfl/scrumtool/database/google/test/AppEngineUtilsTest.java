@@ -17,5 +17,9 @@ public class AppEngineUtilsTest extends TestCase {
             assertEquals(AppEngineUtils.SERVER_URL, AppEngineUtils.getServerURL());
         }
     }
-
+    
+    public void testAppEngineUtils() {
+        new AppEngineUtils();
+        //OK
+    }
 }
