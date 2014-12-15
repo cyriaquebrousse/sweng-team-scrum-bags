@@ -1,4 +1,4 @@
-package ch.epfl.scrumtool.network;
+package ch.epfl.scrumtool.network.test;
 
 /**
  * 
