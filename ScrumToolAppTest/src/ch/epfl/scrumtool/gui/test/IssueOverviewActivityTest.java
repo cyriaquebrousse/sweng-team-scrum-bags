@@ -55,22 +55,15 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
     private static final Project PROJECT = MockData.PROJECT;
     private static final Issue ISSUE = MockData.ISSUE3;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
-//    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
-//    private static final Player PLAYER2 = MockData.JOEY_DEV;
     
     private List<Sprint> sprintList = new ArrayList<Sprint>();
     private List<Player> playerList = new ArrayList<Player>();
     
     private static final String TEST_TEXT = MockData.TEST_TEXT;
     private static final String VERY_LONG_TEXT = MockData.VERY_LONG_TEXT;
-    private static final String ERROR_MESSAGE = MockData.ERROR_MESSAGE;
-//    private static final Float NO_ESTIMATION = MockData.NO_ESTIMATION;
     private static final Float ESTIMATION = MockData.ESTIMATION;
     private static final Float LARGE_ESTIMATION = MockData.LARGE_ESTIMATION;
-//    private static final long THREADSLEEPTIME = MockData.THREADSLEEPTIME;
     
-    @SuppressWarnings("unused")
-    private Solo solo = null;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     public IssueOverviewActivityTest() {
@@ -118,90 +111,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
                 Mockito.any(Callback.class));
     }
 
-    @SuppressWarnings({ "unchecked", "unused" })
-    private void setFailedLoadOperationPlayerList() {
-        solo = new Solo(getInstrumentation());
-        playerList = MockData.generatePlayerLists();
-        sprintList = MockData.generateSprintLists();
-
-        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Player>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE);
-                return null;
-            }
-        };
-
-        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Sprint>>) invocation.getArguments()[1]).interactionDone(sprintList);
-                return null;
-            }
-        };
-
-        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-    }
-
-    @SuppressWarnings({ "unchecked", "unused" })
-    private void setFailedLoadOperationSprintList() {
-        solo = new Solo(getInstrumentation());
-        playerList = MockData.generatePlayerLists();
-        sprintList = MockData.generateSprintLists();
-
-        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerList);
-                return null;
-            }
-        };
-
-        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Sprint>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE);
-                return null;
-            }
-        };
-
-        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-    }
-
-    @SuppressWarnings({ "unchecked", "unused" })
-    private void setFailedLoadOperationBoth() {
-        solo = new Solo(getInstrumentation());
-        playerList = MockData.generatePlayerLists();
-        sprintList = MockData.generateSprintLists();
-
-        Answer<Void> loadPlayersAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Player>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE+"Player");
-                return null;
-            }
-        };
-
-        Answer<Void> loadSprintsAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                ((Callback<List<Sprint>>) invocation.getArguments()[1]).failure(ERROR_MESSAGE+"Sprint");
-                return null;
-            }
-        };
-
-        Mockito.doAnswer(loadPlayersAnswer).when(mockClient).loadPlayers(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-        Mockito.doAnswer(loadSprintsAnswer).when(mockClient).loadSprints(Mockito.any(Project.class),
-                Mockito.any(Callback.class));
-    }
-    
     @LargeTest
     public void testTaskOverviewAllFieldsAreDisplayed() {
         setSuccessFulLoadOperationsBoth();
@@ -238,7 +147,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         setSuccessFulLoadOperationsBoth();
         // check if the fields are displayed correctly
         onView(withId(R.id.issue_name)).check(matches(withText(ISSUE.getName())));
-//        onView(withId(R.id.issue_estimation_stamp)).check(matches(withText(ISSUE1.getEstimatedTime()));
         onView(withId(R.id.issue_status)).check(matches(withText(ISSUE.getStatus().toString())));
         onView(withId(R.id.issue_sprint)).check(matches(withText(R.string.no_sprint)));
         onView(withId(R.id.issue_assignee_name)).check(matches(withText(ISSUE.getPlayer().getUser().fullname())));
@@ -386,32 +294,4 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.popup_user_input)).perform(pressBack());
         onView(withId(R.id.popup_user_input)).perform(pressBack());
     }
-    
-//    FIXME : Tests do not terminate
-//    @LargeTest
-//    public void testloadPlayerFailed() throws Exception {
-//        setFailedLoadOperationPlayerList();
-//        onView(withId(R.id.issue_assignee_label)).perform(click());
-//        Thread.sleep(THREADSLEEPTIME);
-//        assertTrue(solo.waitForText(ERROR_MESSAGE));
-//    }
-    
-//    @LargeTest
-//    public void testloadSprintFailed() throws Exception {
-//        setFailedLoadOperationSprintList();
-//        onView(withId(R.id.issue_sprint)).perform(click());
-//        assertTrue(solo.waitForText(ERROR_MESSAGE));
-//    }
-    
-//    @LargeTest
-//    public void testloadBothFailed() throws Exception {
-//        setFailedLoadOperationBoth();
-//        onView(withId(R.id.issue_assignee_label)).perform(click());
-//        assertTrue(solo.waitForText(ERROR_MESSAGE+"Player"));
-//        Thread.sleep(THREADSLEEPTIME);
-//        onView(withId(R.id.issue_sprint)).perform(click());
-//        assertTrue(solo.waitForText(ERROR_MESSAGE+"Sprint"));
-//    }
-    
-
 }

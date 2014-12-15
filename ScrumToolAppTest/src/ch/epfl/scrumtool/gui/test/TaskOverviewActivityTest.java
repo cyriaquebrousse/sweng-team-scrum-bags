@@ -241,14 +241,6 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
             .check(matches(isDisplayed()));
         onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(1)
             .check(matches(isDisplayed()));
-//        FIXME : find how to test if the field is clickable and if the correct value is displayed
-//        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
-//            .check(matches(isClickable()));
-//        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
-//            .check(matches(isClickable()));
-//        onData(instanceOf(Issue.class)).inAdapterView(allOf(withId(R.id.issue_list))).atPosition(0)
-//            .check(matches(withText(ISSUE1.getName())));
-
     }
     
     @SuppressWarnings("unchecked")
@@ -258,9 +250,5 @@ public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<T
         atPosition(0).perform(longClick());
         onView(withText(R.string.action_edit)).check(matches(isDisplayed()));
         onView(withText(R.string.action_delete)).check(matches(isDisplayed()));
-        onView(withText(R.string.action_markDoneUndone)).check(matches(isDisplayed()));
-//        onView(withText(R.string.action_edit)).check(matches(isClickable()));
-//        onView(withText(R.string.action_delete)).check(matches(isClickable()));
-//        onView(withText(R.string.action_markDoneUndone)).check(matches(isClickable()));
     }
 }
