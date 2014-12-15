@@ -89,12 +89,10 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     public void testPlayerIsDisplayed() {
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .check(matches(isDisplayed()));
-        //TODO find out why this doesn't work
         DataInteraction listInteraction = onData(instanceOf(Player.class))
             .inAdapterView(allOf(withId(R.id.project_playerlist)));
-        
-        listInteraction.atPosition(0)
-            .check(matches(withPlayer(PLAYER1)));
+        listInteraction.atPosition(0).onChildView(withId(R.id.player_row_name))
+            .check(matches(withText(PLAYER1.getUser().fullname())));
     }
     
     public void testClickOnCrossOpenPlayerAddActivity() {
