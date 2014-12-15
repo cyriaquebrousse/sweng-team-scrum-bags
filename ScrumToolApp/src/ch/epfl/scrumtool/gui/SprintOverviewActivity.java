@@ -43,7 +43,8 @@ import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
- * @author AlexVeuthey, sylb
+ * @author AlexVeuthey
+ * @author sylb
  */
 public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
@@ -54,8 +55,8 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private List<Issue> unsprintedIssues;
     
     // Views
-    private static TextView nameView;
-    private static TextView deadlineView;
+    private TextView nameView;
+    private TextView deadlineView;
     private ListView issueListView;
     private IssueListAdapter issueListAdapter;
     private IssueListAdapter issueNoSprintAdapter;
@@ -95,6 +96,7 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             super.failure(errorMessage);
         }
     };
+    
     private Callback<List<Issue>> loadUnsprintedIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
         @Override
         public void interactionDone(List<Issue> unsprintedIssuesList) {
@@ -336,7 +338,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             }
         }
     }
-
     
     private void updateSprint() {
         sprint = sprintBuilder.build();
@@ -347,14 +348,21 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         });
     }
     
-    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback) {
+    /**
+     * Displays a date picker and calls back
+     * 
+     * @param view
+     *            view that triggered the event
+     * @param callback
+     *            will be called after user's choice
+     */
+    public void showDatePickerDialog(View view, final DefaultGUICallback<Calendar> callback) {
         Calendar oldDate = Calendar.getInstance();
         oldDate.setTimeInMillis(sprint.getDeadline());
         OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                    int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar chosen = Calendar.getInstance();
                 chosen.set(Calendar.YEAR, year);
                 chosen.set(Calendar.MONTH, monthOfYear);
@@ -362,6 +370,7 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                 callback.interactionDone(chosen);
             }
         };
+        
         new DatePickerDialog(SprintOverviewActivity.this, dateListener, oldDate.get(Calendar.YEAR),
                 oldDate.get(Calendar.MONTH), oldDate.get(Calendar.DAY_OF_MONTH)).show();
                 
