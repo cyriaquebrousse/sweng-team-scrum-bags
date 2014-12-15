@@ -28,9 +28,14 @@ public final class Preconditions {
     }
     
     /**
-     * throws InconsistentDataException if a given object is null
+     * Throws an {@link InconsistentDataException} with {@code message} of any
+     * of the provided {@code objects} is null
+     * 
      * @param message
+     *            message to throw
      * @param objects
+     *            objects to check
+     * @see #throwIfNull(String, Object...)
      */
     public static void throwIfInconsistentData(String message, Object... objects) {
         try {
@@ -41,9 +46,13 @@ public final class Preconditions {
     }
     
     /**
-     * throws illegalArgumentException if a given string is empty
+     * Throws an {@link IllegalArgumentException} with {@code message} if
+     * {@code string} is empty
+     * 
      * @param message
+     *            message to throw
      * @param string
+     *            string to check
      */
     public static void throwIfEmptyString(String message, String string) {
         throwIfNull("Nothing to check", string);
@@ -53,16 +62,22 @@ public final class Preconditions {
     }
     
     /**
-     * throws IllegalArgumentException when a key string is empty
+     * Throws an {@link IllegalArgumentException} if {@code key} is empty
+     * 
      * @param key
+     *            key to check
+     * @see #throwIfEmptyString(String, String)
      */
     public static void throwIfInvalidKey(String key) {
         throwIfEmptyString("Key must not be empty", key);
     }
 
     /**
-     * throws an InconsistentDataException if an E-Mail-address is not valid
+     * Throws an {@link InconsistentDataException} if {@code email} is invalid
+     * 
      * @param email
+     *            email address to check
+     * @see InputVerifiers#emailIsValid(String)
      */
     public static void throwIfInvalidEmail(String email) {
         assertTrue(email != null);
