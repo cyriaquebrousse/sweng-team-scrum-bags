@@ -2,9 +2,8 @@ package ch.epfl.scrumtool.util.gui;
 
 /**
  * @author AlexVeuthey
- *
  */
-public class EstimationFormating {
+public class EstimationFormatting {
     
     public static String estimationAsHourFormat(float est) {
         int hour = (int) est;

@@ -219,25 +219,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         });
     }
     
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                dateOfBirthChosen = calendar.getTimeInMillis();
-                updateDateOfBirth();
-            }
-        };
-        Bundle args = new Bundle();
-        args.putLong("long", dateOfBirthChosen);
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-    
     private void updateDateOfBirth() {
         SimpleDateFormat sdf = new SimpleDateFormat(getResources()
                 .getString(R.string.format_date), Locale.ENGLISH);
@@ -245,9 +226,34 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         userBuilder = new User.Builder(userProfile);
         userBuilder.setDateOfBirth(dateOfBirthChosen);
         updateUser();
-        
     }
     
+    /**
+     * Displays a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
+        DialogFragment newFragment = new DatePickerFragment() {
+    
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    
+                dateOfBirthChosen = calendar.getTimeInMillis();
+                updateDateOfBirth();
+            }
+        };
+        
+        Bundle args = new Bundle();
+        args.putLong("long", dateOfBirthChosen);
+        newFragment.setArguments(args);
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {

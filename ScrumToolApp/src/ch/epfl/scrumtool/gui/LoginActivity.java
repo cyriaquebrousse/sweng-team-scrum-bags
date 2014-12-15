@@ -41,16 +41,6 @@ public class LoginActivity extends Activity {
         }
     }
     
-    /**
-     * Opens the account picker from where the user can 
-     * chose the account he wants to log in with.
-     * @param view
-     */
-    public void openAccountPicker(View view) {
-        Intent googleAccountPicker = sessionBuilder.getIntent();
-        this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
-    }
-    
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -63,6 +53,18 @@ public class LoginActivity extends Activity {
         } else {
             Toast.makeText(this, "Please choose an account", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Opens the account picker from where the user can choose the account he
+     * wants to log in with
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openAccountPicker(View view) {
+        Intent googleAccountPicker = sessionBuilder.getIntent();
+        this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
     }
 
     private void openFirstActivityAndFinish(final Class<? extends Activity> nextActivity) {

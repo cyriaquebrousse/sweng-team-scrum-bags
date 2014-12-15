@@ -17,7 +17,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.ScrumToolActivity;
-import ch.epfl.scrumtool.util.gui.EstimationFormating;
+import ch.epfl.scrumtool.util.gui.EstimationFormatting;
 
 /**
  * @author Cyriaque Brousse
@@ -62,7 +62,7 @@ public final class IssueListAdapter extends DefaultAdapter<Issue> {
             assignee.setText(optionAssignee != null ? "- " + optionAssignee.getUser().fullname() : "- No one assigned");
             float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-" 
-                    : EstimationFormating.estimationAsHourFormat(estim));
+                    : EstimationFormatting.estimationAsHourFormat(estim));
             if (1.0 >= estim) {
                 unit.setText(activity.getResources().getString(R.string.project_single_unit));
             } else {

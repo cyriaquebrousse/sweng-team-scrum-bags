@@ -3,8 +3,8 @@ package ch.epfl.scrumtool.gui.components.adapters;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -47,9 +47,8 @@ public class SprintListAdapter extends DefaultAdapter<Sprint> {
         return convertView;
     }
     
-    @SuppressLint("SimpleDateFormat")
     private void setDeadlineText(long deadline, TextView view) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         Calendar date = Calendar.getInstance();
         date.setTimeInMillis(deadline);
         view.setText(sdf.format(date.getTime()));

@@ -37,13 +37,8 @@ public class SingleSizePrioritySticker extends PrioritySticker {
     }
     
     @Override
-    public void setColor(int color) {
-    }
+    public void setColor(int color) { }
 
-    /**
-     * Updates the bullet sticker text by setting a unique letter, the first of
-     * the priority state (e.g. N for normal, H for high, etc.).
-     */
     private void updateStickerText() {
         assertTrue(getPriority() != null);
         setStickerText("");

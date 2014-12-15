@@ -30,7 +30,7 @@ import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.EstimationFormating;
+import ch.epfl.scrumtool.util.gui.EstimationFormatting;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -88,7 +88,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         }
     }
 
-
     private void updateViews() {
         nameView.setText(issue.getName());
         descriptionView.setText(issue.getDescription());
@@ -108,7 +107,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         }
 
         float estim = issue.getEstimatedTime();
-        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(estim));
+        estimationStamp.setQuantity(EstimationFormatting.estimationAsHourFormat(estim));
         if (1.0 >= estim) {
             estimationStamp.setUnit(getResources().getString(R.string.project_single_unit));
         } else {
@@ -150,7 +149,6 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
     }
 
     private void initializeListeners() {
-
         nameView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,9 +296,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         issue = issueBuilder.build();
         issue.update(new DefaultGUICallback<Void>(IssueOverviewActivity.this) {
             @Override
-            public void interactionDone(Void v) {
-                    //TODO handling?
-            }
+            public void interactionDone(Void v) { }
         });
     }
     
@@ -310,6 +306,15 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         statusView.setText(status.toString());
     }
 
+    /**
+     * Show a pop-up dialog for selecting a player in the project to assign to
+     * the issue
+     * 
+     * @param parent
+     *            parent activity
+     * @param callback
+     *            will be called after user choice
+     */
     public void showPlayerSelector(final Activity parent, final DialogCallback<Player> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
 
@@ -332,6 +337,15 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         });
     }
 
+    /**
+     * Show a pop-up dialog for selecting a sprint in the project to assign to
+     * the issue
+     * 
+     * @param parent
+     *            parent activity
+     * @param callback
+     *            will be called after user choice
+     */
     public void showSprintSelector(final Activity parent, final DialogCallback<Sprint> callback) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(parent);
 

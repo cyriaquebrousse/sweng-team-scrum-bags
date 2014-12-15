@@ -29,7 +29,6 @@ import ch.epfl.scrumtool.gui.components.adapters.PlayerListAdapter;
 import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 import ch.epfl.scrumtool.util.InputVerifiers;
 
-
 /**
  * @author Cyriaque Brousse
  * @author sylb

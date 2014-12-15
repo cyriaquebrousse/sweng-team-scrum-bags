@@ -83,8 +83,7 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
         // init the gender spinner
         genderView = (Spinner) findViewById(R.id.profile_edit_gender);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.gender_options,
-                android.R.layout.simple_spinner_item);
+                this, R.array.gender_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderView.setAdapter(adapter);
 
@@ -112,9 +111,14 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 break;
         }
     }
-    
 
-    public void showDatePickerDialog(View v) {
+    /**
+     * Show a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment() {
 
             @Override
@@ -127,6 +131,7 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 updateDateOfBirth();
             }
         };
+        
         Bundle args = new Bundle();
         args.putLong("long", dateOfBirthChosen);
         newFragment.setArguments(args);

@@ -23,6 +23,9 @@ public abstract class ScrumToolActivity extends Activity {
         checkSession();
     }
     
+    /**
+     * Refreshes the activity
+     */
     public void refresh() {
         onResume();
     }
