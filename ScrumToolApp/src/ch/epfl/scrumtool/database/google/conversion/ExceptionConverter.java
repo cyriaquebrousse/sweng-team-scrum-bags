@@ -25,13 +25,14 @@ public final class ExceptionConverter {
         if (e instanceof GoogleJsonResponseException) {
             //Due to a bug in the current version of AppEngine we can't create custom exceptions on the server side
             //with our own error codes.
-            switch (((GoogleJsonResponseException) e).getStatusCode()){
+            GoogleJsonResponseException exception = (GoogleJsonResponseException) e;
+            switch (exception.getStatusCode()){
                 case FORBIDDEN:
                     return new NotAuthenticatedException(e, "Authentication /login error");
                 case CONFLICT:
                 case NOTFOUND:
                 case UNAUTHORIZED:
-                    return new ScrumToolException(e, e.getMessage());
+                    return new ScrumToolException(e, exception.getDetails().getMessage());
                 default:
                     return new ScrumToolException(e, "Server Error");
             }
