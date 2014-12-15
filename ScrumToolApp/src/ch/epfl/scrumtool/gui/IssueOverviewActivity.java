@@ -30,7 +30,7 @@ import ch.epfl.scrumtool.gui.components.adapters.SprintListAdapter;
 import ch.epfl.scrumtool.gui.components.widgets.Stamp;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.EstimationFormating;
+import ch.epfl.scrumtool.util.gui.EstimationFormatting;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -107,7 +107,7 @@ public class IssueOverviewActivity extends BaseOverviewMenuActivity {
         }
 
         float estim = issue.getEstimatedTime();
-        estimationStamp.setQuantity(EstimationFormating.estimationAsHourFormat(estim));
+        estimationStamp.setQuantity(EstimationFormatting.estimationAsHourFormat(estim));
         if (1.0 >= estim) {
             estimationStamp.setUnit(getResources().getString(R.string.project_single_unit));
         } else {

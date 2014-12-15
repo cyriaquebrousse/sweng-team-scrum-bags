@@ -43,7 +43,7 @@ import ch.epfl.scrumtool.gui.components.widgets.PrioritySticker;
 import ch.epfl.scrumtool.gui.components.widgets.Slate;
 import ch.epfl.scrumtool.util.gui.Dialogs;
 import ch.epfl.scrumtool.util.gui.Dialogs.DialogCallback;
-import ch.epfl.scrumtool.util.gui.EstimationFormating;
+import ch.epfl.scrumtool.util.gui.EstimationFormatting;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
@@ -234,7 +234,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         if (Float.compare(estimatedTime, 1.0f) <= 0) {
             unit = getResources().getString(R.string.project_single_unit);
         }
-        estimationSlate.setText(estimatedTime <= 0 ? "―" : EstimationFormating
+        estimationSlate.setText(estimatedTime <= 0 ? "―" : EstimationFormatting
                 .estimationAsHourFormat(estimatedTime) + " " + unit);
     }
 
