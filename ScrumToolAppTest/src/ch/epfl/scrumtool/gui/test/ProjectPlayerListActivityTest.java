@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui.test;
 
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withPlayer;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -171,9 +170,6 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         onView(withText(R.string.action_delete)).perform(click());
         //delete
         onView(withId(android.R.id.button1)).perform(click());
-        //TODO check if list is empty
-        //onView(withId(R.id.swipe_update_project_playerlist)).check(matches(not(isDisplayed())));
-
     }
 
 }
