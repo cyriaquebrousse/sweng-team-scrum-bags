@@ -1,39 +1,40 @@
 package ch.epfl.scrumtool.exception.test;
 
-import ch.epfl.scrumtool.exception.ScrumToolException;
 import junit.framework.TestCase;
-
+import ch.epfl.scrumtool.exception.ConnectionException;
 /**
  * 
  * @author aschneuw
  *
  */
-public class ScrumToolExceptionTest extends TestCase {
+public class ConnectionExceptionTest extends TestCase {
+
     private static final String TEST_DEBUG = "TestDebug";
     private static final String TEST_GUI = "Error";
 
-    public void testScrumToolExceptionDebugMessageGuiMessage() {
-        ScrumToolException test = new ScrumToolException(TEST_DEBUG, TEST_GUI);
+    public void testConnectionExceptionDebugMessageGuiMessage() {
+        ConnectionException test = new ConnectionException(TEST_DEBUG, TEST_GUI);
         assertEquals(TEST_DEBUG, test.getMessage());
         assertEquals(TEST_GUI, test.getGUIMessage());
     }
     
-    public void testScrumToolExceptionDefault() {
-        ScrumToolException test = new ScrumToolException();
+    public void testConnectionExceptionDefault() {
+        ConnectionException test = new ConnectionException();
         assertEquals("ScrumTool Exception", test.getGUIMessage());
     }
 
-    public void testScrumToolExceptionThrowableStringNull() {
+    public void testConnectionExceptionThrowableStringNull() {
         NullPointerException cause = new NullPointerException();
-        ScrumToolException test = new ScrumToolException(cause, null);
+        ConnectionException test = new ConnectionException(cause, null);
         assertEquals("ScrumTool Exception", test.getGUIMessage());
         assertEquals(cause, test.getCause());
     }
     
-    public void testScrumToolExceptionThrowableString() {
+    public void testConnectionExceptionThrowableString() {
         NullPointerException cause = new NullPointerException();
-        ScrumToolException test = new ScrumToolException(cause, TEST_GUI);
+        ConnectionException test = new ConnectionException(cause, TEST_GUI);
         assertEquals(TEST_GUI, test.getGUIMessage());
         assertEquals(cause, test.getCause());
     }
+
 }
