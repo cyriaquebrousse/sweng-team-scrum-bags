@@ -31,8 +31,8 @@ import android.view.Menu;
 public class ProjectEditActivityTestCreate extends ActivityInstrumentationTestCase2<ProjectEditActivity> {
     
     private Activity activity;
-    private User user = MockData.JOEY;
-    private Project project = MockData.MURCS;
+    private User user = MockData.USER2;
+    private Project project = MockData.PROJECT;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     public ProjectEditActivityTestCreate() {

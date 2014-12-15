@@ -45,9 +45,9 @@ import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
  */
 public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCase2<ProjectPlayerListActivity> {
 
-    private static final Project PROJECT = MockData.MURCS;
-    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;
-    private static final User USER = MockData.VINCENT;
+    private static final Project PROJECT = MockData.PROJECT;
+    private static final Player PLAYER1 = MockData.USER1_ADMIN;
+    private static final User USER = MockData.USER1;
     //private static final Player PLAYER2 = MockData.JOEY_DEV;
     
     private static final List<Player> PLAYERLIST = new ArrayList<Player>();

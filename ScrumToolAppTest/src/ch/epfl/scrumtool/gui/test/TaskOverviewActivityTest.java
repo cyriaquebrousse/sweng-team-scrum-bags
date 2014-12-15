@@ -51,7 +51,7 @@ import ch.epfl.scrumtool.network.DatabaseScrumClient;
 public class TaskOverviewActivityTest extends ActivityInstrumentationTestCase2<TaskOverviewActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
-    private static final Project PROJECT = MockData.MURCS;
+    private static final Project PROJECT = MockData.PROJECT;
     
     private List<Issue> issuesList = new ArrayList<Issue>();
 

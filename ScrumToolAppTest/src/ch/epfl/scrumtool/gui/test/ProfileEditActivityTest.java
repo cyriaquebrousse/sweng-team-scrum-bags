@@ -34,7 +34,7 @@ import ch.epfl.scrumtool.gui.utils.test.MockData;
  */
 public class ProfileEditActivityTest extends ActivityInstrumentationTestCase2<ProfileEditActivity> {
 
-    private User user = MockData.VINCENT;
+    private User user = MockData.USER1;
     private String firstName = "Leonardo";
     private String lastName = "Wirz";
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);

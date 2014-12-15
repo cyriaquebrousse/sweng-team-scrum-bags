@@ -31,8 +31,8 @@ import ch.epfl.scrumtool.network.Session;
  */
 public class ProjectEditActivityTestEdit extends ActivityInstrumentationTestCase2<ProjectEditActivity> {
     
-    private Project project = MockData.MURCS;
-    private User user = MockData.JOEY;
+    private Project project = MockData.PROJECT;
+    private User user = MockData.USER2;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     private String editName = "project name";

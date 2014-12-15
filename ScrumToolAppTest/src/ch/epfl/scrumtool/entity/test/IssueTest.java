@@ -24,7 +24,7 @@ public class IssueTest extends TestCase {
     private static final Status STATUS = Status.READY_FOR_ESTIMATION;
     private static final Priority PRIORITY = Priority.URGENT;
     private static final float ESTIMATION = 5f;
-    private static final Player PLAYER = MockData.JOEY_DEV;
+    private static final Player PLAYER = MockData.USER2_DEV;
     private static final Sprint SPRINT = MockData.SPRINT1;
     
     private final Issue.Builder builder = new Issue.Builder()
@@ -96,7 +96,7 @@ public class IssueTest extends TestCase {
     
     @Test
     public void testBuilderSetGetPlayer() {
-        Player p = MockData.VINCENT_ADMIN;
+        Player p = MockData.USER1_ADMIN;
         builder.setPlayer(p);
         assertEquals(p, builder.getPlayer());
     }

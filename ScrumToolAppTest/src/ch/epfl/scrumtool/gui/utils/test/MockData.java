@@ -32,19 +32,19 @@ public class MockData {
     public static final long THREADSLEEPTIME = 100;
     
     // Users
-    public static final User VINCENT = 
-            buildUser("vincent.debieux@gmail.com", "Vincent", "Debieux", CURRENT_TIME, "EPFL", Gender.MALE, 
-            "Student");
-    public static final User JOEY = 
-            buildUser("joeyzenh@gmail.com", "Joey", "Zenhausern", CURRENT_TIME, "EPFL", Gender.MALE, 
+    public static final User USER1 = 
+            buildUser("some@example.com", "Some", "One", CURRENT_TIME, "Polytech", Gender.FEMALE, 
+            "Proffessor");
+    public static final User USER2 = 
+            buildUser("other@example.com", "Other", "Example", CURRENT_TIME, "University", Gender.MALE, 
             "Student");
     
     // Players
-    public static final Player VINCENT_ADMIN = buildPlayer("player1", true, false, Role.PRODUCT_OWNER, VINCENT);
-    public static final Player JOEY_DEV = buildPlayer("player2", false, true, Role.DEVELOPER, JOEY);
+    public static final Player USER1_ADMIN = buildPlayer("player1", true, false, Role.PRODUCT_OWNER, USER1);
+    public static final Player USER2_DEV = buildPlayer("player2", false, true, Role.DEVELOPER, USER2);
     
     // Projects
-    public static final Project MURCS = buildProject("project1", "Murcs", "murcs description");
+    public static final Project PROJECT = buildProject("project1", "Murcs", "murcs description");
     
     // Sprints
     public static final Sprint SPRINT1 = buildSprint("sprint1", "week 1", CURRENT_TIME);
@@ -56,14 +56,13 @@ public class MockData {
     
     // Issues
     public static final Issue ISSUE1 = buildIssue("Issue1", "tests for server", "desc", 20, Priority.URGENT,
-            Status.FINISHED, VINCENT_ADMIN, SPRINT1);
+            Status.FINISHED, USER1_ADMIN, SPRINT1);
     public static final Issue ISSUE2 = buildIssue("Issue2", "test", "test desc", 5, Priority.NORMAL,
-            Status.IN_SPRINT, JOEY_DEV, SPRINT1);
+            Status.IN_SPRINT, USER2_DEV, SPRINT1);
     public static final Issue ISSUE3 = buildIssue("Issue3", "test new issue", "test for status", 0, Priority.NORMAL,
-            Status.READY_FOR_ESTIMATION, JOEY_DEV, null);
+            Status.READY_FOR_ESTIMATION, USER2_DEV, null);
     public static final Issue ISSUE4 = buildIssue("Issue4", "test unsprinted issue", "test unsprinted issue",
-            3, Priority.NORMAL,
-            Status.READY_FOR_SPRINT, VINCENT_ADMIN, null);
+            3, Priority.NORMAL, Status.READY_FOR_SPRINT, USER1_ADMIN, null);
     
     
     public static final List<User> USERLIST = generateUserLists();
@@ -77,23 +76,23 @@ public class MockData {
     public static List<User> generateUserLists() {
         
         List<User> list = new ArrayList<User>();
-        list.add(VINCENT);
-        list.add(JOEY);
+        list.add(USER1);
+        list.add(USER2);
         return list;
     }
     
     public static List<Player> generatePlayerLists() {
         
         List<Player> list = new ArrayList<Player>();
-        list.add(VINCENT_ADMIN);
-        list.add(JOEY_DEV);
+        list.add(USER1_ADMIN);
+        list.add(USER2_DEV);
         return list;
     }
     
     public static List<Project> generateProjectLists() {
         
         List<Project> list = new ArrayList<Project>();
-        list.add(MURCS);
+        list.add(PROJECT);
         return list;
     }
     
@@ -194,7 +193,7 @@ public class MockData {
             .setIsInvited(invited)
             .setRole(role)
             .setUser(user)
-            .setProject(MURCS);
+            .setProject(PROJECT);
         return player.build();
     }
 }

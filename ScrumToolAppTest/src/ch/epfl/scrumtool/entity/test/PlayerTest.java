@@ -14,9 +14,9 @@ import junit.framework.TestCase;
  *
  */
 public class PlayerTest extends TestCase {
-    private final static User USER = MockData.VINCENT;
-    private final static User USER2 = MockData.JOEY;
-    private final static Project PROJECT = MockData.MURCS;
+    private final static User USER = MockData.USER1;
+    private final static User USER2 = MockData.USER2;
+    private final static Project PROJECT = MockData.PROJECT;
     private final static String KEY = "Key";
     private final static Boolean ADMIN = true;
     private final static Boolean INVITED = false;
@@ -31,7 +31,7 @@ public class PlayerTest extends TestCase {
         .setUser(USER);
     
     private final Player player = builder.build();
-    private final Player player2 = MockData.JOEY_DEV;
+    private final Player player2 = MockData.USER2_DEV;
     
     public void testConstructor() {
         // It's impossible to have null value passed to constructor

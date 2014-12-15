@@ -23,7 +23,7 @@ public class UserTest extends TestCase {
     private final static String LAST_NAME = "Smith";
     private final static String NAME = "Steve";
     
-    private final User user2 = MockData.VINCENT;
+    private final User user2 = MockData.USER1;
     private final User.Builder builder = new User.Builder()
         .setCompanyName(COMPANY_NAME)
         .setDateOfBirth(DATE)

@@ -52,7 +52,7 @@ import com.robotium.solo.Solo;
 public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<IssueOverviewActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
-    private static final Project PROJECT = MockData.MURCS;
+    private static final Project PROJECT = MockData.PROJECT;
     private static final Issue ISSUE = MockData.ISSUE3;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
 //    private static final Player PLAYER1 = MockData.VINCENT_ADMIN;

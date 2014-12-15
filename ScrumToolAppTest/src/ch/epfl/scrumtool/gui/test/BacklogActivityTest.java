@@ -47,7 +47,7 @@ public class BacklogActivityTest extends
 
     private final static MainTask TASK = MockData.TASK1;
 
-    private final static Project PROJECT = MockData.MURCS;
+    private final static Project PROJECT = MockData.PROJECT;
 
     private final static List<MainTask> TASKLIST = new ArrayList<MainTask>();
 

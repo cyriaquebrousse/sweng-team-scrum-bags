@@ -20,7 +20,7 @@ public class ProjectTest extends TestCase {
         .setName(NAME)
         .setDescription(DESCRIPTION);
     private final Project project = builder.build();
-    private final Project project2 = MockData.MURCS; 
+    private final Project project2 = MockData.PROJECT; 
     
     
     public void testConstructor() {

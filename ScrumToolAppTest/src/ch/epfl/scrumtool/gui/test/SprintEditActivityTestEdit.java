@@ -44,7 +44,7 @@ public class SprintEditActivityTestEdit extends ActivityInstrumentationTestCase2
     private Project project;
     private Project.Builder projectBuilder;
     
-    private User user = MockData.JOEY;
+    private User user = MockData.USER2;
     private DatabaseScrumClient mockClient = Mockito.mock(DatabaseScrumClient.class);
     
     public SprintEditActivityTestEdit() {

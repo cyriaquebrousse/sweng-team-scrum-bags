@@ -48,7 +48,7 @@ import com.robotium.solo.Solo;
  */
 public class SprintOverviewActivityTest extends ActivityInstrumentationTestCase2<SprintOverviewActivity> {
 
-    private static final Project PROJECT = MockData.MURCS;
+    private static final Project PROJECT = MockData.PROJECT;
     private static final Sprint SPRINT = MockData.SPRINT1;
     
     private List<Issue> issuesList = new ArrayList<Issue>();

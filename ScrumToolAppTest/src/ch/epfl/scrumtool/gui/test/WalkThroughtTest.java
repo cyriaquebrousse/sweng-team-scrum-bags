@@ -36,7 +36,7 @@ public class WalkThroughtTest extends
         super(DashboardActivity.class);
     }
 
-    private User user = MockData.VINCENT;
+    private User user = MockData.USER1;
 
     @Override
     public void setUp() throws Exception {

@@ -37,7 +37,7 @@ import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 public class TaskEditActivityTest extends ActivityInstrumentationTestCase2<TaskEditActivity> {
 
     private static final MainTask TASK = MockData.TASK1;
-    private static final Project PROJECT = MockData.MURCS;
+    private static final Project PROJECT = MockData.PROJECT;
     
     private static final String TASK_TEST = "task test";
     private static final String VERY_LONG_TEXT = "blablablablablablablablablablablablabla"

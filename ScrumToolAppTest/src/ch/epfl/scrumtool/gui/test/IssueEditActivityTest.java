@@ -53,8 +53,8 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
     private static final Issue ISSUE = MockData.ISSUE1;
     private static final MainTask TASK = MockData.TASK1;
-    private static final Project PROJECT = MockData.MURCS;
-    private static final Player PLAYER = MockData.VINCENT_ADMIN;
+    private static final Project PROJECT = MockData.PROJECT;
+    private static final Player PLAYER = MockData.USER1_ADMIN;
     private static final Sprint SPRINT2 = MockData.SPRINT2;
 
     private static final String TEST_TEXT = MockData.TEST_TEXT;

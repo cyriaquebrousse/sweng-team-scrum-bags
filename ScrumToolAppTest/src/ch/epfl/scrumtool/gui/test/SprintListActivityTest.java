@@ -53,7 +53,7 @@ public class SprintListActivityTest extends ActivityInstrumentationTestCase2<Spr
         .setTitle(SPRINT_TITLE).build();
     private final List<Sprint> sprintList = new ArrayList<Sprint>();
 
-    private static final Project PROJECT = MockData.MURCS;
+    private static final Project PROJECT = MockData.PROJECT;
 
     private final Answer<Void> loadAnswer = new Answer<Void>() {
         @SuppressWarnings("unchecked")

@@ -38,11 +38,11 @@ import ch.epfl.scrumtool.network.Session;
 public class DashboardActivityTest extends
         ActivityInstrumentationTestCase2<DashboardActivity> {
 
-    private Project project = MockData.MURCS;
+    private Project project = MockData.PROJECT;
     private MainTask task = MockData.TASK1;
     private Issue issue1 = MockData.ISSUE1;
     private Issue issue2 = MockData.ISSUE2;
-    private User user = MockData.VINCENT;
+    private User user = MockData.USER1;
     @SuppressWarnings("unused")
     private Player player = MockData.PLAYERLIST.get(1);
     private TaskIssueProject taskIssueProject1 = new TaskIssueProject(task,

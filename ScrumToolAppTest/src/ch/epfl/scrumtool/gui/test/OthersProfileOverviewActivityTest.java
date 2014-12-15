@@ -32,7 +32,7 @@ public class OthersProfileOverviewActivityTest extends
         super(OthersProfileOverviewActivity.class);
     }
 
-    private final static User USER = MockData.VINCENT;
+    private final static User USER = MockData.USER1;
 
     private DatabaseScrumClient mockClient = Mockito
             .mock(DatabaseScrumClient.class);
