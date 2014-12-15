@@ -6,7 +6,6 @@ import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withRole;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -85,25 +84,6 @@ public class PlayerAddActivityTest extends ActivityInstrumentationTestCase2<Play
             .perform(click());
         onView(withId(R.id.player_role_sticker))
             .check(matches(withRole(Role.DEVELOPER)));
-    }
-    
-    public void testBrowseContactInsertAddress() {
-        onView(withId(R.id.player_select_contact_button))
-            .perform(click());
-        fail("Not Yet Implemented");
-    }
-    
-    public void testAutoComplete() {
-        //check dropDown not displayed
-        
-        // write one letter
-        onView(withId(R.id.player_address_add))
-            .perform(typeText("s"));
-        
-        //check DropDown displayed
-        
-        fail("Not Yet Implemented");
-
     }
     
     public void testClickInvite() {

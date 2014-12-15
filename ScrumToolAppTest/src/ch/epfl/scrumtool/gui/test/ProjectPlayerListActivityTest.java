@@ -30,7 +30,6 @@ import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.ProjectPlayerListActivity;
-import ch.epfl.scrumtool.gui.utils.test.CustomViewActions;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
@@ -101,14 +100,6 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     public void testClickOnCrossOpenPlayerAddActivity() {
         onView(withId(Menu.FIRST))
             .perform(click());
-    }
-    
-    @SuppressWarnings("unchecked")
-    public void testSwipeDownUpdatesPlayerList() {
-        fail("figure out why swipe doesn't work in tests");
-        onView(withId(R.id.swipe_update_project_playerlist)).perform(CustomViewActions.swipeDown());
-        onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(1)
-            .check(matches(isDisplayed()));
     }
     
     @SuppressWarnings("unchecked")
