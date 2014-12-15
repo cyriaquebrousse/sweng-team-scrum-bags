@@ -58,7 +58,7 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         saveSprintChanges();
     }
 
-     * Displays a date picker
+     /** Displays a date picker
      * 
      * @param view
      *            view that triggered the event
