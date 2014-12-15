@@ -17,8 +17,8 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 public final class ExceptionConverter {
     private static final int UNAUTHORIZED = 401;
     private static final int FORBIDDEN = 403;
-    private static final int CONFLICT = 409;
     private static final int NOTFOUND = 404;
+    private static final int CONFLICT = 409;
     
     /**
      * handels an IOException based on Google AppEngine server errors
