@@ -54,7 +54,7 @@ public class PlayerOperationsTest extends TestCase {
     
     public void testSetPlayerAsAdmin() {
         try {
-            assertNotNull(PlayerOperations.SET_PLAYER_AS_ADMIN.execute("", SCRUMTOOL));
+            assertNull(PlayerOperations.SET_PLAYER_AS_ADMIN.execute("", SCRUMTOOL));
         } catch (ScrumToolException e) {
             fail();
         }

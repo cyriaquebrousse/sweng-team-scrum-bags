@@ -2,10 +2,11 @@ package ch.epfl.scrumtool.entity.test;
 
 import java.util.Calendar;
 
+import junit.framework.TestCase;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
+import ch.epfl.scrumtool.exception.InconsistentDataException;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
-import junit.framework.TestCase;
 
 /**
  * Tests the User entity
@@ -41,9 +42,9 @@ public class UserTest extends TestCase {
         
         // check for invalid email
         try {
-            new User.Builder().setName("Joe").build();
-            fail("expected an IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
+            new User.Builder().setEmail("Joe").build();
+            fail("expected an InconsistentDataException");
+        } catch (InconsistentDataException e) {
             // expected
         }
     }

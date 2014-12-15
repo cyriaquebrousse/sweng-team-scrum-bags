@@ -25,8 +25,6 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.robotium.solo.Solo;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -43,6 +41,8 @@ import ch.epfl.scrumtool.gui.IssueEditActivity;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
+
+import com.robotium.solo.Solo;
 
 /**
  * 
@@ -191,6 +191,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
                 Mockito.any(Callback.class));
     }
 
+    @SuppressWarnings("unchecked")
     @LargeTest
     public void testEditIssueNewIssue() throws InterruptedException {
 
@@ -200,68 +201,6 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
         onView(withId(Menu.FIRST)).check(
                 matches(isClickable()));
-        newIssue();
-    }
-
-    @LargeTest
-    public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
-
-        setActivityIntent(createMockIntent());
-        setSuccessFulLoadOperationsBoth();
-        getActivity();
-
-        // check that all fields are displayed
-        onView(withId(R.id.issue_name_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_description_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
-        onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
-        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
-    }
-
-    @LargeTest
-    public void testEditIssueUpdateIssue() throws InterruptedException {
-
-        Intent intent = createMockIntent();
-        intent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
-
-        setActivityIntent(intent);
-        setSuccessFulLoadOperationsBoth();
-        getActivity();
-
-        onView(withId(Menu.FIRST)).check(
-                matches(isClickable()));
-        updateIssue();
-    }
-
-    @LargeTest
-    public void testEditIssueBadUserInputs() throws InterruptedException {
-
-        Intent intent = createMockIntent();
-
-        setActivityIntent(intent);
-        setSuccessFulLoadOperationsBoth();
-        getActivity();
-        Resources res = getInstrumentation().getTargetContext().getResources();
-
-        nameIsEmpty(res);
-        descriptionIsEmpty(res);
-        estimationIsEmpty(res);
-        largeInputForTheName(res);
-        largeInputForTheEstimation(res);
-    }
-
-    private Intent createMockIntent() {
-
-        Intent mockIntent = new Intent();
-        mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
-        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
-
-        return mockIntent;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void newIssue() throws InterruptedException {
         // fill the different fields
         onView(withId(R.id.issue_name_edit)).perform(typeText(TEST_TEXT));
         onView(withId(R.id.issue_description_edit)).perform(typeText(TEST_TEXT));
@@ -283,8 +222,35 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(Menu.FIRST)).perform(click());
     }
 
+    @LargeTest
+    public void testEditIssueAllFieldsAreDisplayed() throws InterruptedException {
+
+        setActivityIntent(createMockIntent());
+        setSuccessFulLoadOperationsBoth();
+        getActivity();
+
+        // check that all fields are displayed
+        onView(withId(R.id.issue_name_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_description_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_estimation_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_assignee_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.issue_sprint_spinner)).check(matches(isDisplayed()));
+        onView(withId(Menu.FIRST)).check(matches(isDisplayed()));
+    }
+
     @SuppressWarnings("unchecked")
-    private void updateIssue() throws InterruptedException {
+    @LargeTest
+    public void testEditIssueUpdateIssue() throws InterruptedException {
+
+        Intent intent = createMockIntent();
+        intent.putExtra(Issue.SERIALIZABLE_NAME, ISSUE);
+
+        setActivityIntent(intent);
+        setSuccessFulLoadOperationsBoth();
+        getActivity();
+
+        onView(withId(Menu.FIRST)).check(
+                matches(isClickable()));
         // check if the fields are displayed correctly
         onView(withId(R.id.issue_name_edit)).check(matches(withText(ISSUE.getName())));
         onView(withId(R.id.issue_description_edit)).check(matches(withText(ISSUE.getDescription())));
@@ -314,6 +280,32 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
         onView(withId(R.id.issue_sprint_spinner)).check(matches(withSprint(SPRINT2)));
         // click on save button
         onView(withId(Menu.FIRST)).perform(click());
+    }
+
+    @LargeTest
+    public void testEditIssueBadUserInputs() throws InterruptedException {
+
+        Intent intent = createMockIntent();
+
+        setActivityIntent(intent);
+        setSuccessFulLoadOperationsBoth();
+        getActivity();
+        Resources res = getInstrumentation().getTargetContext().getResources();
+
+        nameIsEmpty(res);
+        descriptionIsEmpty(res);
+        estimationIsEmpty(res);
+        largeInputForTheName(res);
+        largeInputForTheEstimation(res);
+    }
+
+    private Intent createMockIntent() {
+
+        Intent mockIntent = new Intent();
+        mockIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
+        mockIntent.putExtra(MainTask.SERIALIZABLE_NAME, TASK);
+
+        return mockIntent;
     }
     
     private void nameIsEmpty(Resources res) throws InterruptedException {

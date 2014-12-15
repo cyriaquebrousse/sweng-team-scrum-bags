@@ -1,11 +1,11 @@
 package ch.epfl.scrumtool.entity.test;
 
+import junit.framework.TestCase;
 import ch.epfl.scrumtool.entity.Player;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.gui.utils.test.MockData;
-import junit.framework.TestCase;
 
 /**
  * Tests the Player entity
@@ -132,7 +132,7 @@ public class PlayerTest extends TestCase {
     public void testCompareTo() {
         assertTrue(player.compareTo(player) == 0);
         assertTrue(player.compareTo(null) == 1);
-        assertTrue(player.compareTo(builder.setUser(USER2).build()) < 0);
-        assertTrue(builder.setUser(USER2).build().compareTo(player) > 0);
+        assertTrue(player.compareTo(builder.setUser(USER2).build()) > 0);
+        assertTrue(builder.setUser(USER2).build().compareTo(player) < 0);
     }
 }

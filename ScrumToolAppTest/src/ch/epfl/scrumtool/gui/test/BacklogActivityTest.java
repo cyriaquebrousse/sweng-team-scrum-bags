@@ -34,6 +34,8 @@ import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+
 /**
  * @author LeoWirz
  * 
@@ -111,10 +113,10 @@ public class BacklogActivityTest extends
         onView(withText("Edit")).perform(click());
         onView(withId(R.id.task_description_edit)).perform(clearText());
         onView(withId(R.id.task_description_edit)).perform(typeText("des"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.task_priority_edit)).perform(click());
         onView(withText("Urgent")).perform(click());
         onView(withId(Menu.FIRST)).perform(click());
-
     }
 
 }
