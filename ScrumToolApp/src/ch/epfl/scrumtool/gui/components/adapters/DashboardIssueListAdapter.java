@@ -20,7 +20,7 @@ import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.Status;
 import ch.epfl.scrumtool.gui.ScrumToolActivity;
-import ch.epfl.scrumtool.util.gui.EstimationFormating;
+import ch.epfl.scrumtool.util.gui.EstimationFormatting;
 
 /**
  * @author ketsio
@@ -80,8 +80,8 @@ public final class DashboardIssueListAdapter extends
                     : "- No sprint assigned");
             float estim = issue.getEstimatedTime();
             estimation.setText(issue.getEstimatedTime() == 0 ? "-"
-                    : EstimationFormating.estimationAsHourFormat(estim));
-            if (1.0 >= estim) {
+                    : EstimationFormatting.estimationAsHourFormat(estim));
+            if (Float.compare(estim, 1.0f) <= 0) {
                 unit.setText(activity.getResources().getString(
                         R.string.project_single_unit));
             } else {
