@@ -242,7 +242,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_markable_context, menu);
+        inflater.inflate(R.menu.menu_entitylist_context, menu);
     }
 
     @Override
@@ -255,9 +255,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
                 return true;
             case R.id.action_entity_delete:
                 deleteIssue(issue);
-                return true;
-            case R.id.action_entity_markAsDoneUndone:
-                markIssueAsDone(issue, issue.getStatus() != Status.FINISHED);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -321,33 +318,6 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
         task.update(new DefaultGUICallback<Void>(TaskOverviewActivity.this) {
             @Override
             public void interactionDone(Void v) { }
-        });
-    }
-
-    /**
-     * @param issue
-     *            the issue to update
-     * @param done
-     *            true if need to update to done, false for undone
-     */
-    private void markIssueAsDone(final Issue issue, boolean done) {
-        listViewLayout.setRefreshing(true);
-        emptyViewLayout.setRefreshing(true);
-        issue.markAsDone(done, new Callback<Void>() {
-            @Override
-            public void interactionDone(Void v) {
-                listViewLayout.setRefreshing(false);
-                emptyViewLayout.setRefreshing(false);
-                task.loadIssues(loadIssuesCallback);
-                updateViews();
-            }
-
-            @Override
-            public void failure(String errorMessage) {
-                listViewLayout.setRefreshing(false);
-                emptyViewLayout.setRefreshing(false);
-                Toast.makeText(TaskOverviewActivity.this, "Could not mark as done/undone", Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
