@@ -45,38 +45,13 @@ public class DashboardActivity extends BaseMenuActivity {
     private LinearLayout projectListEmptyView;
     private DashboardProjectListAdapter projectAdapter;
     
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-        
-        initViews();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateViews();
-    }
-
-    public void openProjectList(View view) {
-        Intent intent = new Intent(this, ProjectListActivity.class);
-        startActivity(intent);
-    }
-    
-    public void openMyProfile(View view) {
-        Intent intent = new Intent(this, MyProfileOverviewActivity.class);
-        startActivity(intent);
-    }
-    
-
     private Callback<List<TaskIssueProject>> issuesCallback = new DefaultGUICallback<List<TaskIssueProject>>(this) {
         @Override
         public void interactionDone(final List<TaskIssueProject> containerList) {
             
             issueAdapter = new DashboardIssueListAdapter(DashboardActivity.this, containerList);
             issueListView.setAdapter(issueAdapter);
-
+    
             if (!containerList.isEmpty()) {
                 issueListView.setOnItemClickListener(new OnItemClickListener() {
                     @Override
@@ -97,7 +72,7 @@ public class DashboardActivity extends BaseMenuActivity {
     private Callback<List<Project>> projectsCallback = new DefaultGUICallback<List<Project>>(this) {
         @Override
         public void interactionDone(final List<Project> projectList) {
-
+    
             List<Project> displayedProjectList = projectList;
             if (projectList.size() == 1) {
                 projectListView.setNumColumns(1);
@@ -110,13 +85,12 @@ public class DashboardActivity extends BaseMenuActivity {
             
             projectAdapter = new DashboardProjectListAdapter(DashboardActivity.this, displayedProjectList);
             projectListView.setAdapter(projectAdapter);
-
+    
             projectAdapter.notifyDataSetChanged();
         }
     };
     
     private Callback<List<Player>> playersCallback = new DefaultGUICallback<List<Player>>(this) {
-
         @Override
         public void interactionDone(List<Player> players) {
             for (final Player p : players) {
@@ -132,7 +106,7 @@ public class DashboardActivity extends BaseMenuActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         p.getBuilder().setIsInvited(false).build().update(
                                 new DefaultGUICallback<Void>(DashboardActivity.this) {
-
+    
                                 @Override
                                 public void interactionDone(Void object) {
                                     Toast.makeText(DashboardActivity.this, "Project Joined", Toast.LENGTH_SHORT).show();
@@ -146,7 +120,7 @@ public class DashboardActivity extends BaseMenuActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         p.remove(new DefaultGUICallback<Void>(DashboardActivity.this) {
-
+    
                             @Override
                             public void interactionDone(Void object) {
                                 // TODO Auto-generated method stub
@@ -159,12 +133,60 @@ public class DashboardActivity extends BaseMenuActivity {
             }
         }
     };
-    
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+        
+        initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateViews();
+    }
+
+    /**
+     * Opens the project list
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openProjectList(View view) {
+        Intent intent = new Intent(this, ProjectListActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Opens the user's personal profile
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openMyProfile(View view) {
+        Intent intent = new Intent(this, MyProfileOverviewActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Opens the activity for creating a project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openAddProject(View view) {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         startActivity(openProjectEditIntent);
     }
 
+    /**
+     * Opens the backlog activity (list of tasks for a given project)
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openBacklog(View view) {
         final int position = projectListView.getPositionForView(view);
         if (position >= 0) {
@@ -175,6 +197,12 @@ public class DashboardActivity extends BaseMenuActivity {
         }
     }
     
+    /**
+     * Opens the sprint list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openSprints(View view) {
         final int position = projectListView.getPositionForView(view);
         if (position >= 0) {
@@ -185,6 +213,12 @@ public class DashboardActivity extends BaseMenuActivity {
         }
     }
     
+    /**
+     * Opens the player list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openPlayers(View view) {
         final int position = projectListView.getPositionForView(view);
         if (position >= 0) {

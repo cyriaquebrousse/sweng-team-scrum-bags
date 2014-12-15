@@ -76,6 +76,7 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             super.failure(errorMessage);
         }
     };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

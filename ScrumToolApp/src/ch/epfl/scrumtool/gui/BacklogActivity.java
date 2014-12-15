@@ -139,8 +139,10 @@ public class BacklogActivity extends BaseListMenuActivity<MainTask> implements O
     }
     
     /**
-     * @param project
-     *            the project to delete
+     * Deletes the main task passed as argument
+     * 
+     * @param mainTask
+     *            the task to delete
      */
     private void deleteMainTask(final MainTask mainTask) {
         new AlertDialog.Builder(this).setTitle("Delete Task")

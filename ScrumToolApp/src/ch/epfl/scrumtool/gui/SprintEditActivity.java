@@ -58,7 +58,13 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         saveSprintChanges();
     }
 
-    public void showDatePickerDialog(View v) {
+    /**
+     * Displays a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment() {
             
             @Override
@@ -146,21 +152,14 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         sprint.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {
-//                passResult(sprint);
                 SprintEditActivity.this.finish();
             }
         });
     }
     
-//    private void passResult(Sprint sprint) {
-//        Intent data = new Intent();
-//        data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-//        setResult(RESULT_OK, data);
-//    }
     
     private void setDeadlineText(Calendar date) {
-        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
-                .getString(R.string.format_date), Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.format_date), Locale.ENGLISH);
         sprintDateView.setText(sdf.format(date.getTime()));
     }
     

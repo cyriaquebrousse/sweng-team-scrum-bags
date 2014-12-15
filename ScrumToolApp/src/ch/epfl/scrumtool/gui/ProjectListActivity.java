@@ -127,6 +127,56 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     }
 
     /**
+     * Opens the backlog for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openBacklog(View view) {
+        final int position = listView.getPositionForView(view);
+        if (position >= 0) {
+            Project project = (Project) listView.getAdapter().getItem(position);
+            Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
+            openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openBacklogIntent);
+        }
+    }
+    
+    /**
+     * Opens the sprint list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openSprints(View view) {
+        final int position = listView.getPositionForView(view);
+        if (position >= 0) {
+            Project project = (Project) listView.getAdapter().getItem(position);
+            Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
+            openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openSprintsIntent);
+        }
+    }
+    
+    /**
+     * Opens the player list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openPlayers(View view) {
+        final int position = listView.getPositionForView(view);
+        if (position >= 0) {
+            Project project = (Project) listView.getAdapter().getItem(position);
+            Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
+            openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+            startActivity(openPlayerListIntent);
+        }
+    }
+
+    /**
+     * Deletes a given project
+     * 
      * @param project
      *            the project to delete
      */
@@ -166,35 +216,5 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
                     dialog.dismiss();
                 }
             }).show();
-    }
-    
-    public void openBacklog(View view) {
-        final int position = listView.getPositionForView(view);
-        if (position >= 0) {
-            Project project = (Project) listView.getAdapter().getItem(position);
-            Intent openBacklogIntent = new Intent(this, BacklogActivity.class);
-            openBacklogIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-            startActivity(openBacklogIntent);
-        }
-    }
-    
-    public void openSprints(View view) {
-        final int position = listView.getPositionForView(view);
-        if (position >= 0) {
-            Project project = (Project) listView.getAdapter().getItem(position);
-            Intent openSprintsIntent = new Intent(this, SprintListActivity.class);
-            openSprintsIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-            startActivity(openSprintsIntent);
-        }
-    }
-    
-    public void openPlayers(View view) {
-        final int position = listView.getPositionForView(view);
-        if (position >= 0) {
-            Project project = (Project) listView.getAdapter().getItem(position);
-            Intent openPlayerListIntent = new Intent(this, ProjectPlayerListActivity.class);
-            openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-            startActivity(openPlayerListIntent);
-        }
     }
 }

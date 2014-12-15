@@ -366,7 +366,7 @@ public class TaskOverviewActivity extends BaseListMenuActivity<Issue> implements
              * 
              * Some are just copied from the server project, other are
              * auxiliaries we need here (and nowhere else, that's why they were
-             * not made publicly and statically accessible in the .util package.
+             * not made publicly and statically accessible in the .util package).
              * ****************************************************************
              */
 
