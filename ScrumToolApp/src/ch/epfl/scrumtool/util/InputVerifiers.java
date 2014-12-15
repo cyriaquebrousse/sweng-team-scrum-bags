@@ -17,27 +17,24 @@ public final class InputVerifiers {
     private static final int MAX_ESTIMATION_VALUE = 100;
 
     /**
-     * 
-     * @param view
-     * @return
+     * @return true if the edit text is null or is empty, false otherwise
      */
     public static boolean textEditNullOrEmpty(EditText view) {
         return (view == null) || (view.getText().length() <= 0);
     }
 
     /**
-     * 
-     * @param view
-     * @return
+     * @return true if the name contained in the view is too long, i.e. its
+     *         length is greater or equal to {@link #MAX_NAME_LENGTH}, false
+     *         otherwise
      */
     public static boolean nameTooLong(EditText view) {
         return view.getText().length() >= MAX_NAME_LENGTH;
     }
 
     /**
-     * Estimation verifier
-     * @param view
-     * @return
+     * @return true if the estimation contained in the view is too big, i.e. is
+     *         bigger than {@link #MAX_ESTIMATION_VALUE}, false otherwise
      */
     public static boolean estimationTooBig(EditText view) {
         final float estimation = sanitizeFloat(view.getText().toString());
@@ -45,10 +42,14 @@ public final class InputVerifiers {
     }
 
     /**
-     * Name verifier
+     * Returns the name validity decision on the provided view, with
+     * side-effects on the view's error appearence
+     * 
      * @param view
+     *            view to evaluate, and to set error on if need be
      * @param res
-     * @return
+     *            resources to get error strings from
+     * @return true if the name contained in the view is valid, false otherwise
      */
     public static boolean verifyNameIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
@@ -62,10 +63,15 @@ public final class InputVerifiers {
     }
 
     /**
-     * Description verifier
+     * Returns the description validity decision on the provided view, with
+     * side-effects on the view's error appearence
+     * 
      * @param view
+     *            view to evaluate, and to set error on if need be
      * @param res
-     * @return
+     *            resources to get error strings from
+     * @return true if the description contained in the view is valid, false
+     *         otherwise
      */
     public static boolean verifyDescriptionIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
@@ -77,10 +83,15 @@ public final class InputVerifiers {
     }
 
     /**
-     * Issue Estimation verifier
+     * Returns the estimation validity decision on the provided view, with
+     * side-effects on the view's error appearence
+     * 
      * @param view
+     *            view to evaluate, and to set error on if need be
      * @param res
-     * @return
+     *            resources to get error strings from
+     * @return true if the estimation contained in the view is valid, false
+     *         otherwise
      */
     public static boolean verifyEstimationIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
@@ -94,10 +105,15 @@ public final class InputVerifiers {
     }
 
     /**
-     * verifies the e-mail address for a given editText element
+     * Returns the email address validity decision on the provided view, with
+     * side-effects on the view's error appearence
+     * 
      * @param view
+     *            view to evaluate, and to set error on if need be
      * @param res
-     * @return
+     *            resources to get error strings from
+     * @return true if the email address contained in the view is valid, false
+     *         otherwise
      */
     public static boolean verifyEmailIsValid(EditText view, Resources res) {
         if (textEditNullOrEmpty(view)) {
@@ -111,9 +127,12 @@ public final class InputVerifiers {
     }
 
     /**
-     * capitalized the first character
+     * Sets the first character of the provided string to a capital letter,
+     * leaves the rest of the string unchanged
+     * 
      * @param s
-     * @return
+     *            the string to capitalize
+     * @return the capitalized string
      */
     public static String capitalize(String s) {
         s = s.toLowerCase(Locale.ENGLISH);
@@ -121,9 +140,9 @@ public final class InputVerifiers {
     }
 
     /**
-     * E-Mail-address validator
      * @param email
-     * @return
+     *            email address to validate
+     * @return true if email address is valid, false otherwise
      */
     public static boolean emailIsValid(String email) {
         return EmailValidator.getInstance().isValid(email);

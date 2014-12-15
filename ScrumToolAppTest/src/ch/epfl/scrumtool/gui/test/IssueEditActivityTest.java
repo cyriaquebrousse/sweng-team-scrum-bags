@@ -82,7 +82,7 @@ public class IssueEditActivityTest extends ActivityInstrumentationTestCase2<Issu
 
     @SuppressWarnings("unchecked")
     private void setSuccessFulLoadOperationsBoth() {
-        playerList = MockData.generatePlayerLists();
+        playerList.add(PLAYER);
         sprintList = MockData.generateSprintLists();
 
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {

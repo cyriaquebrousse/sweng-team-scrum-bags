@@ -109,10 +109,7 @@ public class CustomMatchers {
                 Player player = null;
                 if (((Spinner) view).getSelectedItem() != null) {
                     player = (Player) ((Spinner) view).getSelectedItem();
-                } else {
-                    player = null;
                 }
-
                 if (expectedPlayer == null && player == null) {
                     return true;
                 } else {

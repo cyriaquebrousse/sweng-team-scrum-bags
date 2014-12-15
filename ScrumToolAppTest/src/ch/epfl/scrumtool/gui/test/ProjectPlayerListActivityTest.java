@@ -1,6 +1,5 @@
 package ch.epfl.scrumtool.gui.test;
 
-import static ch.epfl.scrumtool.gui.utils.test.CustomMatchers.withPlayer;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -49,7 +48,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     private static final User USER = MockData.USER1;
     //private static final Player PLAYER2 = MockData.JOEY_DEV;
     
-    private static final List<Player> PLAYERLIST = new ArrayList<Player>();
+    private final List<Player> playerlist = new ArrayList<Player>();
     
     private static final DatabaseScrumClient MOCKCLIENT = Mockito.mock(DatabaseScrumClient.class);
 
@@ -69,12 +68,12 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         Intent openPlayerListIntent = new Intent();
         openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, PROJECT);
         
-        PLAYERLIST.add(PLAYER1);
+        playerlist.add(PLAYER1);
 
         Answer<Void> loadPlayersAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(PLAYERLIST);
+                ((Callback<List<Player>>) invocation.getArguments()[1]).interactionDone(playerlist);
                 return null;
             }
         };
@@ -89,12 +88,10 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
     public void testPlayerIsDisplayed() {
         onData(instanceOf(Player.class)).inAdapterView(allOf(withId(R.id.project_playerlist))).atPosition(0)
             .check(matches(isDisplayed()));
-        //TODO find out why this doesn't work
         DataInteraction listInteraction = onData(instanceOf(Player.class))
             .inAdapterView(allOf(withId(R.id.project_playerlist)));
-        
-        listInteraction.atPosition(0)
-            .check(matches(withPlayer(PLAYER1)));
+        listInteraction.atPosition(0).onChildView(withId(R.id.player_row_name))
+            .check(matches(withText(PLAYER1.getUser().fullname())));
     }
     
     public void testClickOnCrossOpenPlayerAddActivity() {
@@ -159,7 +156,7 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         Answer<Void> removePlayersAnswer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) {
-                PLAYERLIST.remove(0);
+                playerlist.remove(0);
                 ((Callback<Void>) invocation.getArguments()[1]).interactionDone(null);
                 return null;
             }
@@ -173,9 +170,6 @@ public class ProjectPlayerListActivityTest extends ActivityInstrumentationTestCa
         onView(withText(R.string.action_delete)).perform(click());
         //delete
         onView(withId(android.R.id.button1)).perform(click());
-        //TODO check if list is empty
-        //onView(withId(R.id.swipe_update_project_playerlist)).check(matches(not(isDisplayed())));
-
     }
 
 }
