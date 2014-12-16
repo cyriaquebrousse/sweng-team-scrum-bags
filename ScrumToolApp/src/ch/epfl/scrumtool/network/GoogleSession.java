@@ -130,17 +130,17 @@ public final class GoogleSession extends Session {
 
                 @Override
                 public void interactionDone(User user) {
-                        session.setUser(user);
-                        DatabaseHandlers.Builder handlersBuilder = new DatabaseHandlers.Builder()
-                            .setIssueHandler(new DSIssueHandler())
-                            .setMaintaskHandler(new DSMainTaskHandler())
-                            .setPlayerHandler(new DSPlayerHandler())
-                            .setProjectHandler(new DSProjectHandler())
-                            .setSprintHandler(new DSSprintHandler())
-                            .setUserHandler(new DSUserHandler());
+                    session.setUser(user);
+                    DatabaseHandlers.Builder handlersBuilder = new DatabaseHandlers.Builder()
+                        .setIssueHandler(new DSIssueHandler())
+                        .setMaintaskHandler(new DSMainTaskHandler())
+                        .setPlayerHandler(new DSPlayerHandler())
+                        .setProjectHandler(new DSProjectHandler())
+                        .setSprintHandler(new DSSprintHandler())
+                        .setUserHandler(new DSUserHandler());
 
-                        Client.setScrumClient(new DatabaseScrumClient(handlersBuilder.build()));
-                        authCallback.interactionDone(null);
+                    Client.setScrumClient(new DatabaseScrumClient(handlersBuilder.build()));
+                    authCallback.interactionDone(null);
                 }
 
                 @Override

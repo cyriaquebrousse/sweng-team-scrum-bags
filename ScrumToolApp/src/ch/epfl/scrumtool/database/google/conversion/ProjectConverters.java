@@ -14,59 +14,56 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumProject;
 public final class ProjectConverters {
 
     public static final EntityConverter<ScrumProject, Project> SCRUMPROJECT_TO_PROJECT = 
-            new EntityConverter<ScrumProject, Project>() {
+        new EntityConverter<ScrumProject, Project>() {
+            @Override
+            public Project convert(ScrumProject dbProject) {
+                throwIfInconsistentData("Trying to convert a Project with null parameters",
+                        dbProject.getKey(),
+                        dbProject.getName(),
+                        dbProject.getDescription());
 
-        @Override
-        public Project convert(ScrumProject dbProject) {
-            throwIfInconsistentData("Trying to convert a Project with null parameters",
-                    dbProject.getKey(),
-                    dbProject.getName(),
-                    dbProject.getDescription());
+                Project.Builder project = new Project.Builder();
 
-            Project.Builder project = new Project.Builder();
+                String key = dbProject.getKey();
+                project.setKey(key);
 
-            String key = dbProject.getKey();
-            project.setKey(key);
+                String name = dbProject.getName();
+                project.setName(name);
 
-            String name = dbProject.getName();
-            project.setName(name);
+                String description = dbProject.getDescription();
+                project.setDescription(description);
 
-            String description = dbProject.getDescription();
-            project.setDescription(description);
+                return project.build();
+            }
 
-            return project.build();
-        }
-
-    };
+        };
 
     public static final EntityConverter<Project, ScrumProject> PROJECT_TO_SCRUMPROJECT = 
-            new EntityConverter<Project, ScrumProject>() {
+        new EntityConverter<Project, ScrumProject>() {
 
-        @Override
-        public ScrumProject convert(Project project) {
-            ScrumProject dbProject = new ScrumProject();
+            @Override
+            public ScrumProject convert(Project project) {
+                ScrumProject dbProject = new ScrumProject();
 
-            if (!project.getKey().equals("")) {
-                dbProject.setKey(project.getKey());
+                if (!project.getKey().equals("")) {
+                    dbProject.setKey(project.getKey());
+                }
+                
+                dbProject.setName(project.getName());
+                dbProject.setDescription(project.getDescription());
+                return dbProject;
             }
-            
-            dbProject.setName(project.getName());
-            dbProject.setDescription(project.getDescription());
-            return dbProject;
-        }
 
-    };
+        };
 
     public static final EntityConverter<InsertResponse<Project>, Project> INSERTRESPONE_TO_PROJECT = 
-            new EntityConverter<InsertResponse<Project>, Project>() {
-
-        @Override
-        public Project convert(InsertResponse<Project> a) {
-            return a.getEntity()
-                    .getBuilder()
-                    .setKey(a.getKeyReponse().getKey())
-                    .build();
-        }
-    };
-
+        new EntityConverter<InsertResponse<Project>, Project>() {
+            @Override
+            public Project convert(InsertResponse<Project> a) {
+                return a.getEntity()
+                        .getBuilder()
+                        .setKey(a.getKeyReponse().getKey())
+                        .build();
+            }
+        };
 }

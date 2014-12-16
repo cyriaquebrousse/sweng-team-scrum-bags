@@ -21,50 +21,49 @@ public final class SprintOperations {
      * operation to update a sprint
      */
     public static final ScrumToolOperation<Sprint, Void> UPDATE_SPRINT = 
-            new ScrumToolOperation<Sprint, Void>() {
-        @Override
-        public Void operation(Sprint arg, Scrumtool service) throws IOException {
-            ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg);
+        new ScrumToolOperation<Sprint, Void>() {
+            @Override
+            public Void operation(Sprint arg, Scrumtool service) throws IOException {
+                ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg);
                 return service.updateScrumSprint(scrumSprint).execute();
-        }
-    };
-    
+            }
+        };
+
     /**
      * operation to delete a sprint
      */
     public static final ScrumToolOperation<String, Void> DELETE_SPRINT = 
-            new ScrumToolOperation<String, Void>() {
-        @Override
-        public Void operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, Void>() {
+            @Override
+            public Void operation(String arg, Scrumtool service) throws IOException {
                 return service.removeScrumSprint(arg).execute();
-        }
-    };
+            }
+        };
     
     /**
      * operation to insert a sprint
      */
     public static final ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>> INSERT_SPRINT =
-            new ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>>() {
-                
-        @Override
-        public InsertResponse<Sprint> operation(EntityKeyArg<Sprint> arg,
-                Scrumtool service) throws IOException {
+        new ScrumToolOperation<EntityKeyArg<Sprint>, InsertResponse<Sprint>>() {
+            
+            @Override
+            public InsertResponse<Sprint> operation(EntityKeyArg<Sprint> arg, Scrumtool service) throws IOException {
                 ScrumSprint scrumSprint = SprintConverters.SPRINT_TO_SCRUMSPRINT.convert(arg.getEntity());
                 KeyResponse opStat = service.insertScrumSprint(arg.getKey(), scrumSprint).execute();
                 InsertResponse<Sprint> response = new InsertResponse<Sprint>(arg.getEntity(), opStat);
                 return response;
-        }
-    };
+            }
+        };
     
     /**
      * operation to load the sprints for a given project
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumSprint> LOAD_SPRINT = 
-            new ScrumToolOperation<String, CollectionResponseScrumSprint>() {
-        @Override
-        public CollectionResponseScrumSprint operation(String arg, Scrumtool service)
+        new ScrumToolOperation<String, CollectionResponseScrumSprint>() {
+            @Override
+            public CollectionResponseScrumSprint operation(String arg, Scrumtool service)
                 throws IOException {
                 return service.loadSprints(arg).execute();
-        }
-    };
+            }
+        };
 }

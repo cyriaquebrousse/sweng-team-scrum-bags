@@ -24,10 +24,10 @@ public final class PlayerOperations {
      * Operation to add a player to a given project
      */
     public static final ScrumToolOperation<InsertPlayerArgs, InsertResponse<Player>> INSERT_PLAYER_TO_PROJECT =
-            new ScrumToolOperation<InsertPlayerArgs, InsertResponse<Player>>() {
+        new ScrumToolOperation<InsertPlayerArgs, InsertResponse<Player>>() {
 
-        @Override
-        public InsertResponse<Player> operation(InsertPlayerArgs arg,
+            @Override
+            public InsertResponse<Player> operation(InsertPlayerArgs arg,
                 Scrumtool service) throws IOException, ScrumToolException {
                 Player.Builder player = new Player.Builder();
                 User.Builder user = new User.Builder();
@@ -37,66 +37,66 @@ public final class PlayerOperations {
                 return new InsertResponse<Player>(player.build(), 
                         service.addPlayerToProject(arg.getProjectKey(),
                                 arg.getKey(), arg.getRole()).execute());
-        }
-    };
+            }
+        };
 
     /**
      * operation to update a player 
      */
     public static final ScrumToolOperation<Player, Void> UPDATE_PLAYER = 
-            new ScrumToolOperation<Player, Void>() {
-        @Override
-        public Void operation(Player arg, Scrumtool service)throws IOException, ScrumToolException {
-            ScrumPlayer scrumPlayer = PlayerConverters.PLAYER_TO_SCRUMPLAYER.convert(arg);
-            return service.updateScrumPlayer(scrumPlayer).execute();
-        }
-    };
+        new ScrumToolOperation<Player, Void>() {
+            @Override
+            public Void operation(Player arg, Scrumtool service)throws IOException, ScrumToolException {
+                ScrumPlayer scrumPlayer = PlayerConverters.PLAYER_TO_SCRUMPLAYER.convert(arg);
+                return service.updateScrumPlayer(scrumPlayer).execute();
+            }
+        };
     
     /**
      * operation to set a given player as project administrator
      */
     public static final ScrumToolOperation<String, Void> SET_PLAYER_AS_ADMIN =
-            new ScrumToolOperation<String, Void>() {
-        @Override
-        public Void operation(String arg, Scrumtool service) throws IOException, ScrumToolException {
-            return service.setPlayerAsAdmin(arg).execute();
-        }
-    };
+        new ScrumToolOperation<String, Void>() {
+            @Override
+            public Void operation(String arg, Scrumtool service) throws IOException, ScrumToolException {
+                return service.setPlayerAsAdmin(arg).execute();
+            }
+        };
 
     /**
      * operation to delete the given player on the database
      */
     public static final ScrumToolOperation<String, Void> DELETE_PLAYER =
-            new ScrumToolOperation<String, Void>() {
-        @Override
-        public Void operation(String arg, Scrumtool service) throws IOException {
-            return service.removeScrumPlayer(arg).execute();
-        }
-    };
+        new ScrumToolOperation<String, Void>() {
+            @Override
+            public Void operation(String arg, Scrumtool service) throws IOException {
+                return service.removeScrumPlayer(arg).execute();
+            }
+        };
 
     /**
      * operation to load the players for a given project
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumPlayer> LOAD_PLAYERS =
-            new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
+        new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
 
-        @Override
-        public CollectionResponseScrumPlayer operation(String arg,
-                Scrumtool service) throws IOException {
-            return service.loadPlayers(arg).execute();
-        }
-    };
+            @Override
+            public CollectionResponseScrumPlayer operation(String arg,
+                    Scrumtool service) throws IOException {
+                return service.loadPlayers(arg).execute();
+            }
+        };
 
     /**
      * operation to load project invitations for the current user
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumPlayer> LOAD_INVITED_PLAYERS = 
-            new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
+        new ScrumToolOperation<String, CollectionResponseScrumPlayer>() {
 
-        @Override
-        public CollectionResponseScrumPlayer operation(String arg,
-                Scrumtool service) throws IOException {
-            return service.loadInvitedPlayers().execute();
-        }
-    };
+            @Override
+            public CollectionResponseScrumPlayer operation(String arg,
+                    Scrumtool service) throws IOException {
+                return service.loadInvitedPlayers().execute();
+            }
+        };
 }

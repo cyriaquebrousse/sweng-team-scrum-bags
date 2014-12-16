@@ -22,54 +22,54 @@ public final class IssueOperations {
      * Inserts an issue to a MainTask
      */
     public static final ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>> INSERT_ISSUE_MAINTASK = 
-            new ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>>() {
-        @Override
-        public InsertResponse<Issue> operation(EntityKeyArg<Issue> arg, Scrumtool service)
+        new ScrumToolOperation<EntityKeyArg<Issue>, InsertResponse<Issue>>() {
+            @Override
+            public InsertResponse<Issue> operation(EntityKeyArg<Issue> arg, Scrumtool service)
                 throws IOException, ScrumToolException {
-            
-            ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getEntity());
-            
-            final String playerKey;
-            if (insert.getAssignedPlayer() != null) {
-                playerKey = insert.getAssignedPlayer().getKey();
-                //Set player to null -> we don't need to change the object on the database again
-                insert.setAssignedPlayer(null);
-            } else {
-                playerKey = null;
+
+                ScrumIssue insert = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg.getEntity());
+                
+                final String playerKey;
+                if (insert.getAssignedPlayer() != null) {
+                    playerKey = insert.getAssignedPlayer().getKey();
+                    //Set player to null -> we don't need to change the object on the database again
+                    insert.setAssignedPlayer(null);
+                } else {
+                    playerKey = null;
+                }
+                final String sprintKey;
+                if (insert.getSprint() != null) {
+                    sprintKey = insert.getSprint().getKey();
+                  //Set sprint to null -> we don't need to change the object on the database again
+                    insert.setSprint(null);
+                } else {
+                    sprintKey = null;
+                }
+
+                return new InsertResponse<Issue>(arg.getEntity(),
+                        service.insertScrumIssue(arg.getKey(), insert)
+                        .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
             }
-            final String sprintKey;
-            if (insert.getSprint() != null) {
-                sprintKey = insert.getSprint().getKey();
-              //Set sprint to null -> we don't need to change the object on the database again
-                insert.setSprint(null);
-            } else {
-                sprintKey = null;
-            }
-            
-            return new InsertResponse<Issue>(arg.getEntity(),
-                    service.insertScrumIssue(arg.getKey(), insert)
-                    .setPlayerKey(playerKey).setSprintKey(sprintKey).execute());
-        }
-    };
+        };
     
     /**
      * Operation used add an Issue to a sprint
      */
     public static final ScrumToolOperation<EntityKeyArg<Issue>, Void> INSERT_ISSUE_SPRINT = 
-            new ScrumToolOperation<EntityKeyArg<Issue>, Void>() {
-        @Override
-        public Void operation(EntityKeyArg<Issue> arg, Scrumtool service) throws IOException, ScrumToolException {
+        new ScrumToolOperation<EntityKeyArg<Issue>, Void>() {
+            @Override
+            public Void operation(EntityKeyArg<Issue> arg, Scrumtool service) throws IOException, ScrumToolException {
                 return service.insertIssueInSprint(arg.getEntity().getKey(), arg.getKey()).execute();
-        }
-    };
+            }
+        };
     
     /**
      * Operation used to update an issue
      */
     public static final ScrumToolOperation<Issue, Void> UPDATE_ISSUE = 
-          new ScrumToolOperation<Issue, Void>() {
-        @Override
-        public Void operation(Issue arg, Scrumtool service) throws ScrumToolException, IOException {
+        new ScrumToolOperation<Issue, Void>() {
+            @Override
+            public Void operation(Issue arg, Scrumtool service) throws ScrumToolException, IOException {
                 ScrumIssue scrumIssue = IssueConverters.ISSUE_TO_SCRUMISSUE.convert(arg);
                 
                 final String playerKey;
@@ -90,65 +90,61 @@ public final class IssueOperations {
                         .setPlayerKey(playerKey)
                         .setSprintKey(sprintKey)
                         .execute();
-        }
-    };
+            }
+        };
     
     /**
      * operation used to delete an issue
      */
     public static final ScrumToolOperation<String, Void> DELETE_ISSUE = 
-            new ScrumToolOperation<String, Void>() {
-        @Override
-        public Void operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, Void>() {
+            @Override
+            public Void operation(String arg, Scrumtool service) throws IOException {
                 return service.removeScrumIssue(arg).execute();
-        }
-    };
+            }
+        };
     
     /**
      * operation used to load issues for a given MainTask
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_MAINTASK = 
-            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
-
-        @Override
-        public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+            @Override
+            public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
                 return service.loadIssuesByMainTask(arg).execute();
-        }
-    };
+            }
+        };
     
     /**
      * operation used to load issues for a given sprint
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_SPRINT = 
-            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
-
-        @Override
-        public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+            @Override
+            public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
                 return service.loadIssuesBySprint(arg).execute();
-        }
-    };
+            }
+        };
     
     /**
      * operation used to load issues which are not associated to a sprint for a given project
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_NO_SPRINT =
-            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
-
+        new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
             @Override
             public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
                 return service.loadUnsprintedIssuesForProject(arg).execute();
             }
-        
-    };
+        };
     
     /**
      * operation used to load issues associated to a given user
      */
     public static final ScrumToolOperation<String, CollectionResponseScrumIssue> LOAD_ISSUES_USER = 
-            new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
-        @Override
-        public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, CollectionResponseScrumIssue>() {
+            @Override
+            public CollectionResponseScrumIssue operation(String arg, Scrumtool service) throws IOException {
                 return service.loadIssuesForUser(arg).execute();
-        }
-    };
+            }
+        };
 }
