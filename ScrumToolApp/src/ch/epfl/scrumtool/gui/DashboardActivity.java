@@ -123,7 +123,6 @@ public class DashboardActivity extends BaseMenuActivity {
     
                             @Override
                             public void interactionDone(Void object) {
-                                // TODO Auto-generated method stub
                                 Toast.makeText(DashboardActivity.this, "invitation denied", Toast.LENGTH_SHORT).show();
                             }
                         });

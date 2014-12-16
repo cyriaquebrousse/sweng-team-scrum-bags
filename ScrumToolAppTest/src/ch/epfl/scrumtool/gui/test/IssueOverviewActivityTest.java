@@ -42,8 +42,6 @@ import ch.epfl.scrumtool.gui.utils.test.MockData;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.network.DatabaseScrumClient;
 
-import com.robotium.solo.Solo;
-
 /**
  * 
  * @author sylb

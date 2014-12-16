@@ -79,8 +79,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public InsertScrumProject insertScrumProject(ScrumProject content)
-            throws IOException {
+    public InsertScrumProject insertScrumProject(ScrumProject content) throws IOException {
         return new InsertScrumProject(content) {
             @Override
             public KeyResponse execute() throws IOException {
@@ -111,8 +110,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public LoadIssuesByMainTask loadIssuesByMainTask(String mainTaskKey)
-            throws IOException {
+    public LoadIssuesByMainTask loadIssuesByMainTask(String mainTaskKey) throws IOException {
         return new LoadIssuesByMainTask(mainTaskKey){
             @Override
             public CollectionResponseScrumIssue execute() throws IOException {
@@ -122,8 +120,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public LoadIssuesBySprint loadIssuesBySprint(String sprintKey)
-            throws IOException {
+    public LoadIssuesBySprint loadIssuesBySprint(String sprintKey) throws IOException {
         return new LoadIssuesBySprint(sprintKey){
             @Override
             public CollectionResponseScrumIssue execute() throws IOException {
@@ -133,8 +130,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public LoadIssuesForUser loadIssuesForUser(String userKey)
-            throws IOException {
+    public LoadIssuesForUser loadIssuesForUser(String userKey) throws IOException {
         return new LoadIssuesForUser(userKey) {
             @Override
             public CollectionResponseScrumIssue execute() throws IOException {
@@ -217,8 +213,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public RemoveScrumIssue removeScrumIssue(String issueKey)
-            throws IOException {
+    public RemoveScrumIssue removeScrumIssue(String issueKey) throws IOException {
         return new RemoveScrumIssue(issueKey){
             @Override
             public Void execute() throws IOException {
@@ -228,8 +223,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public RemoveScrumIssueFromSprint removeScrumIssueFromSprint(String issueKey)
-            throws IOException {
+    public RemoveScrumIssueFromSprint removeScrumIssueFromSprint(String issueKey) throws IOException {
         return new RemoveScrumIssueFromSprint(issueKey){
             @Override
             public Void execute() throws IOException {
@@ -239,8 +233,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public RemoveScrumMainTask removeScrumMainTask(String mainTaskKey)
-            throws IOException {
+    public RemoveScrumMainTask removeScrumMainTask(String mainTaskKey) throws IOException {
         return new RemoveScrumMainTask(mainTaskKey){
             @Override
             public Void execute() throws IOException {
@@ -250,8 +243,7 @@ public class MockScrumTool extends Scrumtool {
     }
 
     @Override
-    public RemoveScrumPlayer removeScrumPlayer(String playerKey)
-            throws IOException {
+    public RemoveScrumPlayer removeScrumPlayer(String playerKey) throws IOException {
         return new RemoveScrumPlayer(playerKey){
             @Override
             public Void execute() throws IOException {
@@ -261,8 +253,7 @@ public class MockScrumTool extends Scrumtool {
     }
 
     @Override
-    public RemoveScrumProject removeScrumProject(String projectKey)
-            throws IOException {
+    public RemoveScrumProject removeScrumProject(String projectKey) throws IOException {
         return new RemoveScrumProject(projectKey) {
             @Override
             public Void execute() throws IOException {
@@ -272,8 +263,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public RemoveScrumSprint removeScrumSprint(String sprintKey)
-            throws IOException {
+    public RemoveScrumSprint removeScrumSprint(String sprintKey) throws IOException {
         return new RemoveScrumSprint(sprintKey){
             @Override
             public Void execute() throws IOException {
@@ -293,8 +283,7 @@ public class MockScrumTool extends Scrumtool {
     }
 
     @Override
-    public UpdateScrumIssue updateScrumIssue(ScrumIssue content)
-            throws IOException {
+    public UpdateScrumIssue updateScrumIssue(ScrumIssue content) throws IOException {
         return new UpdateScrumIssue(content){
             @Override
             public Void execute() throws IOException {
@@ -303,8 +292,7 @@ public class MockScrumTool extends Scrumtool {
         };
     }
     @Override
-    public UpdateScrumMainTask updateScrumMainTask(ScrumMainTask content)
-            throws IOException {
+    public UpdateScrumMainTask updateScrumMainTask(ScrumMainTask content) throws IOException {
         return new UpdateScrumMainTask(content) {
             @Override
             public Void execute() throws IOException {
@@ -314,8 +302,7 @@ public class MockScrumTool extends Scrumtool {
     }
 
     @Override
-    public UpdateScrumPlayer updateScrumPlayer(ScrumPlayer content)
-            throws IOException {
+    public UpdateScrumPlayer updateScrumPlayer(ScrumPlayer content) throws IOException {
         return new UpdateScrumPlayer(content){
             @Override
             public Void execute() throws IOException {
@@ -325,8 +312,7 @@ public class MockScrumTool extends Scrumtool {
     }
 
     @Override
-    public UpdateScrumProject updateScrumProject(ScrumProject content)
-            throws IOException {
+    public UpdateScrumProject updateScrumProject(ScrumProject content) throws IOException {
         return new UpdateScrumProject(content){
             @Override
             public Void execute() throws IOException {
@@ -336,8 +322,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public UpdateScrumSprint updateScrumSprint(ScrumSprint content)
-            throws IOException {
+    public UpdateScrumSprint updateScrumSprint(ScrumSprint content) throws IOException {
         return new UpdateScrumSprint(content) {
             @Override
             public Void execute() throws IOException {
@@ -347,8 +332,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public UpdateScrumUser updateScrumUser(ScrumUser content)
-            throws IOException {
+    public UpdateScrumUser updateScrumUser(ScrumUser content) throws IOException {
         return new UpdateScrumUser(content){
             @Override
             public Void execute() throws IOException {
@@ -358,8 +342,7 @@ public class MockScrumTool extends Scrumtool {
     }
     
     @Override
-    public SetPlayerAsAdmin setPlayerAsAdmin(String playerKey)
-            throws IOException {
+    public SetPlayerAsAdmin setPlayerAsAdmin(String playerKey) throws IOException {
         return new SetPlayerAsAdmin(playerKey){
             @Override
             public Void execute() throws IOException {

@@ -21,37 +21,36 @@ import junit.framework.TestCase;
  */
 public class DSExecArgsTest extends TestCase {
     private static final ScrumToolOperation<Object, Object> OPERATION =
-            new ScrumToolOperation<Object, Object>() {
-        
-        @Override
-        public Object operation(Object arg, Scrumtool service) throws IOException,
-                ScrumToolException {
-            return arg;
-        }
-    };
+        new ScrumToolOperation<Object, Object>() {
+    
+            @Override
+            public Object operation(Object arg, Scrumtool service) throws IOException,
+                    ScrumToolException {
+                return arg;
+            }
+        };
     
     private static final Callback<Object> CALLBACK = new Callback<Object>() {
         
         @Override
         public void interactionDone(Object object) {
-            // TODO Auto-generated method stub
-            
+            // empty interactionDone
         }
         
         @Override
         public void failure(String errorMessage) {
-            // TODO Auto-generated method stub
+            // empty failure
         }
     };
     
     private static final EntityConverter<Object, Object> CONVERTER = 
-            new EntityConverter<Object, Object>() {
-        
-        @Override
-        public Object convert(Object a) {
-            return a;
-        }
-    };
+        new EntityConverter<Object, Object>() {
+
+            @Override
+            public Object convert(Object a) {
+                return a;
+            }
+        };
     
     public void testFactoryNullAuthMode() {
         try {

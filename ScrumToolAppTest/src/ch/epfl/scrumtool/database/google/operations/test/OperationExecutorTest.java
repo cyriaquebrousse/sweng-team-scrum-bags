@@ -21,22 +21,20 @@ import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
  */
 public class OperationExecutorTest extends TestCase {
     private static final ScrumToolOperation<Object, Object> OPERATION =
-            new ScrumToolOperation<Object, Object>() {
-        @Override
-        public Object operation(Object arg, Scrumtool service) throws IOException,
-                ScrumToolException {
-            return arg;
-        }
-    };
+        new ScrumToolOperation<Object, Object>() {
+            @Override
+            public Object operation(Object arg, Scrumtool service) throws IOException, ScrumToolException {
+                return arg;
+            }
+        };
     
     private static final ScrumToolOperation<Object, Object> OPERATIONEXCEPTION =
-            new ScrumToolOperation<Object, Object>() {
-        @Override
-        public Object operation(Object arg, Scrumtool service) throws IOException,
-                ScrumToolException {
-            throw new ScrumToolException();
-        }
-    };
+        new ScrumToolOperation<Object, Object>() {
+            @Override
+            public Object operation(Object arg, Scrumtool service) throws IOException, ScrumToolException {
+                throw new ScrumToolException();
+            }
+        };
     
     private static final EntityConverter<Object, Object> CONVERTER = new EntityConverter<Object, Object>() {
         
@@ -76,8 +74,7 @@ public class OperationExecutorTest extends TestCase {
         factory.setOperation(OPERATION);
         
         final Object test = new Object();
-        final TestCallback callback =
-                new TestCallback() {
+        final TestCallback callback = new TestCallback() {
             @Override
             public void interactionDone(Object object) {
                 setSuccess(object.equals(test));
@@ -116,8 +113,7 @@ public class OperationExecutorTest extends TestCase {
         factory.setOperation(OPERATIONEXCEPTION);
         
         final Object test = new Object();
-        final TestCallback callback =
-                new TestCallback() {
+        final TestCallback callback = new TestCallback() {
             @Override
             public void interactionDone(Object object) {
                 setSuccess(false);

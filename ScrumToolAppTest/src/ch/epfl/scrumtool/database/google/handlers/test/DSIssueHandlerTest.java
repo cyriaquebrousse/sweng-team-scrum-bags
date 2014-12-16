@@ -128,23 +128,23 @@ public class DSIssueHandlerTest extends TestCase {
     public void testLoadIssuesForUser() {
         final CountDownLatch signal = new CountDownLatch(1);
         final HandlerTestCallback<List<TaskIssueProject>> callback =
-                new HandlerTestCallback<List<TaskIssueProject>>(signal) {
-            @Override
-            public void interactionDone(List<TaskIssueProject> v) {
-                boolean success = true;
-                
-                for (TaskIssueProject i: v) {
-                    if (!(i.getIssue().equals(ServerClientEntities.generateBasicIssue()))
-                            && i.getMainTask().equals(ServerClientEntities.generateBasicMainTask())
-                            && i.getProject().equals(ServerClientEntities.generateBasicScrumProject())) {
-                        success = false;
-                        break;
+            new HandlerTestCallback<List<TaskIssueProject>>(signal) {
+                @Override
+                public void interactionDone(List<TaskIssueProject> v) {
+                    boolean success = true;
+                    
+                    for (TaskIssueProject i: v) {
+                        if (!(i.getIssue().equals(ServerClientEntities.generateBasicIssue()))
+                                && i.getMainTask().equals(ServerClientEntities.generateBasicMainTask())
+                                && i.getProject().equals(ServerClientEntities.generateBasicScrumProject())) {
+                            success = false;
+                            break;
+                        }
                     }
+                    setSuccess(success);
+                    super.interactionDone(v);
                 }
-                setSuccess(success);
-                super.interactionDone(v);
-            }
-        };
+            };
         
         HANDLER.loadIssuesForUser(ServerClientEntities.generateBasicUser(), callback);
         
@@ -234,21 +234,21 @@ public class DSIssueHandlerTest extends TestCase {
     public void testLoadIssuesForSprint() {
         final CountDownLatch signal = new CountDownLatch(1);
         final HandlerTestCallback<List<Issue>> callback =
-                new HandlerTestCallback<List<Issue>>(signal) {
-            @Override
-            public void interactionDone(List<Issue> v) {
-                boolean success = true;
-                
-                for (Issue i: v) {
-                    if (!(i.equals(ServerClientEntities.generateBasicIssue()))) {
-                        success = false;
-                        break;
+            new HandlerTestCallback<List<Issue>>(signal) {
+                @Override
+                public void interactionDone(List<Issue> v) {
+                    boolean success = true;
+                    
+                    for (Issue i: v) {
+                        if (!(i.equals(ServerClientEntities.generateBasicIssue()))) {
+                            success = false;
+                            break;
+                        }
                     }
+                    setSuccess(success);
+                    super.interactionDone(v);
                 }
-                setSuccess(success);
-                super.interactionDone(v);
-            }
-        };
+            };
         
         HANDLER.loadIssues(ServerClientEntities.generateBasicSprint(), callback);
         

@@ -22,8 +22,7 @@ public class ScrumToolOperationTest extends TestCase {
             }
             
             @Override
-            public Object operation(Object arg, Scrumtool service)
-                    throws IOException, ScrumToolException {
+            public Object operation(Object arg, Scrumtool service) throws IOException, ScrumToolException {
                 return arg;
             }
         };
@@ -38,8 +37,7 @@ public class ScrumToolOperationTest extends TestCase {
             }
 
             @Override
-            public Object operation(Object arg, Scrumtool service)
-                    throws IOException, ScrumToolException {
+            public Object operation(Object arg, Scrumtool service) throws IOException, ScrumToolException {
                 throw new IOException("Error");
             }
         };
@@ -55,8 +53,7 @@ public class ScrumToolOperationTest extends TestCase {
             }
 
             @Override
-            public Object operation(Object arg, Scrumtool service)
-                    throws IOException, ScrumToolException {
+            public Object operation(Object arg, Scrumtool service) throws IOException, ScrumToolException {
                 throw new ScrumToolException("Error", "Error");
             }
         };

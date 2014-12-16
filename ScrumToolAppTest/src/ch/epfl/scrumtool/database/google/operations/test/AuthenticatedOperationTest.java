@@ -23,34 +23,32 @@ import com.google.api.client.json.gson.GsonFactory;
 public class AuthenticatedOperationTest extends TestCase {
     
     private final Scrumtool testReturnNull =
-            new Scrumtool(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null) {
-        @Override
-        public LoadProjects loadProjects(String userKey) throws IOException {
-            LoadProjects loadProjects = new Scrumtool.LoadProjects("") {
-                @Override
-                public CollectionResponseScrumProject execute()
-                        throws IOException {
-                    return null;
-                }
-            };
-            return loadProjects;
-        }
-    };
+        new Scrumtool(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null) {
+            @Override
+            public LoadProjects loadProjects(String userKey) throws IOException {
+                LoadProjects loadProjects = new Scrumtool.LoadProjects("") {
+                    @Override
+                    public CollectionResponseScrumProject execute() throws IOException {
+                        return null;
+                    }
+                };
+                return loadProjects;
+            }
+        };
     
     private final Scrumtool testThrowIoException =
-            new Scrumtool(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null) {
-        @Override
-        public LoadProjects loadProjects(String userKey) throws IOException {
-            LoadProjects loadProjects = new Scrumtool.LoadProjects("") {
-                @Override
-                public CollectionResponseScrumProject execute()
-                        throws IOException {
-                    throw new IOException("MockIOException");
-                }
-            };
-            return loadProjects;
-        }
-    };
+        new Scrumtool(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null) {
+            @Override
+            public LoadProjects loadProjects(String userKey) throws IOException {
+                LoadProjects loadProjects = new Scrumtool.LoadProjects("") {
+                    @Override
+                    public CollectionResponseScrumProject execute() throws IOException {
+                        throw new IOException("MockIOException");
+                    }
+                };
+                return loadProjects;
+            }
+        };
         
     public void testNullOperation() {
         try {
