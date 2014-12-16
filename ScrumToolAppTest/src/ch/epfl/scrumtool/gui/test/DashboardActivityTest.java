@@ -43,8 +43,7 @@ public class DashboardActivityTest extends
     private Issue issue1 = MockData.ISSUE1;
     private Issue issue2 = MockData.ISSUE2;
     private User user = MockData.USER1;
-    @SuppressWarnings("unused")
-    private Player player = MockData.PLAYERLIST.get(1);
+    private Player player = new Player.Builder(MockData.PLAYERLIST.get(1)).setProject(project).build();
     private TaskIssueProject taskIssueProject1 = new TaskIssueProject(task,
             project, issue1);
     private TaskIssueProject taskIssueProject2 = new TaskIssueProject(task,
@@ -61,8 +60,7 @@ public class DashboardActivityTest extends
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) {
-            ((Callback<List<Project>>) invocation.getArguments()[0])
-                    .interactionDone(projectList);
+            ((Callback<List<Project>>) invocation.getArguments()[0]).interactionDone(projectList);
             return null;
         }
     };
@@ -71,8 +69,7 @@ public class DashboardActivityTest extends
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) {
-            ((Callback<List<TaskIssueProject>>) invocation.getArguments()[1])
-                    .interactionDone(issueList);
+            ((Callback<List<TaskIssueProject>>) invocation.getArguments()[1]).interactionDone(issueList);
             return null;
         }
     };
@@ -81,8 +78,7 @@ public class DashboardActivityTest extends
         @SuppressWarnings("unchecked")
         @Override
         public Void answer(InvocationOnMock invocation) {
-            ((Callback<List<Player>>) invocation.getArguments()[0])
-                    .interactionDone(playerList);
+            ((Callback<List<Player>>) invocation.getArguments()[0]).interactionDone(playerList);
             return null;
         }
     };
@@ -95,13 +91,6 @@ public class DashboardActivityTest extends
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        playerList.clear();
-        //FIXME doesn't work when there's a player in the list
-        // playerList.add(player);
-        projectList.clear();
-        //FIXME it doesn't work anymore when i put a project in the list
-        // projectList.add(project);
-        issueList.clear();
         issueList.add(taskIssueProject1);
         issueList.add(taskIssueProject2);
         Client.setScrumClient(mockclient);
@@ -109,30 +98,33 @@ public class DashboardActivityTest extends
             // We use this to mock the session
         };
         doAnswer(answer1).when(mockclient).loadProjects(any(Callback.class));
-        doAnswer(answer2).when(mockclient).loadIssuesForUser(any(User.class),
-                any(Callback.class));
-        doAnswer(answer3).when(mockclient).loadInvitedPlayers(
-                any(Callback.class));
+        doAnswer(answer2).when(mockclient).loadIssuesForUser(any(User.class), any(Callback.class));
+        doAnswer(answer3).when(mockclient).loadInvitedPlayers(any(Callback.class));
 
-        getActivity();
     }
 
     @SuppressWarnings("unchecked")
     public void testOpenIssue() {
+        getActivity();
         onData(instanceOf(TaskIssueProject.class))
                 .inAdapterView(allOf(withId(R.id.dashboard_issue_summary)))
                 .atPosition(0).perform(click());
     }
 
     public void testAddProject() {
+        getActivity();
         onView(withId(R.id.dashboard_project_summary_empty)).perform(click());
     }
 
     public void testDenyInvitation() {
+        playerList.add(player);
+        getActivity();
         onView(withText("Work alone")).perform(click());
     }
 
     public void testAcceptInvitation() {
+        playerList.add(player);
+        getActivity();
         onView(withText("Join the fun")).perform(click());
     }
 

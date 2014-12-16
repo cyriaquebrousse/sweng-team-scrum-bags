@@ -273,7 +273,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         onView(withText(android.R.string.ok)).perform(click());
         onView(withId(R.id.popup_user_input)).check(matches(withError(res.getString(R.string.error_name_too_long))));
         onView(withId(R.id.popup_user_input)).perform(pressBack());
-        onView(withId(R.id.popup_user_input)).perform(pressBack());
     }
     
     private void largeInputForTheEstimation(Resources res) {
@@ -289,7 +288,6 @@ public class IssueOverviewActivityTest extends ActivityInstrumentationTestCase2<
         onView(withText(android.R.string.ok)).perform(click());
         onView(withId(R.id.popup_user_input)).check(
                 matches(withError(res.getString(R.string.error_estimation_too_big))));
-        onView(withId(R.id.popup_user_input)).perform(pressBack());
         onView(withId(R.id.popup_user_input)).perform(pressBack());
     }
 }
