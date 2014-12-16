@@ -41,5 +41,4 @@ public enum Priority implements Serializable {
     public String toString() {
         return value;
     }
-
 }

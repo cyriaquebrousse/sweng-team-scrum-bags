@@ -10,20 +10,26 @@ import android.util.AttributeSet;
  * Sticker that represents a Scrum Role
  * 
  * @author vincent
- *
  */
-public class RoleSticker extends Sticker{
+public class RoleSticker extends Sticker {
 
     private Role role;
+    
     public RoleSticker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-     // Adjusting the padding
+        // Adjusting the padding
         int smallSpace = getResources().getDimensionPixelSize(R.dimen.small_space);
         int space = getResources().getDimensionPixelSize(R.dimen.space);
         setPaddingRelative(space, smallSpace, space, smallSpace);
     }
     
+    /**
+     * Sets the sticker's role
+     * 
+     * @param role
+     *            the new role
+     */
     public void setRole(Role role) {
         assertTrue(role != null);
         
@@ -32,6 +38,9 @@ public class RoleSticker extends Sticker{
         super.setColor(getResources().getColor(R.color.blue));
     }
     
+    /**
+     * @return the role
+     */
     public Role getRole() {
         return this.role;
     }

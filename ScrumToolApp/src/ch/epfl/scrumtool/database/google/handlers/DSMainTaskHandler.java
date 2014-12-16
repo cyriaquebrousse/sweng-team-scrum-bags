@@ -18,6 +18,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumMainTask;
 
 /**
+ * Implementation of the MainTask database operations for the AppEngine
+ * 
  * @author sylb, aschneuw, zenhaeus
  * 
  */

@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,17 +18,17 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
@@ -35,7 +36,6 @@ import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
-import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.gui.components.adapters.IssueListAdapter;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
@@ -43,7 +43,8 @@ import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.PopupCallback;
 
 /**
- * @author AlexVeuthey, sylb
+ * @author AlexVeuthey
+ * @author sylb
  */
 public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implements OnMenuItemClickListener {
 
@@ -53,14 +54,9 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private Sprint.Builder sprintBuilder;
     private List<Issue> unsprintedIssues;
     
-    // Calendar
-    private Calendar chosen = Calendar.getInstance();
-    private final Calendar today = Calendar.getInstance();
-    private long sprintDeadline = today.getTimeInMillis();
-    
     // Views
-    private static TextView nameView;
-    private static TextView deadlineView;
+    private TextView nameView;
+    private TextView deadlineView;
     private ListView issueListView;
     private IssueListAdapter issueListAdapter;
     private IssueListAdapter issueNoSprintAdapter;
@@ -92,7 +88,15 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             }
             issueListAdapter.notifyDataSetChanged();
         }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
+        }
     };
+    
     private Callback<List<Issue>> loadUnsprintedIssuesCallback = new DefaultGUICallback<List<Issue>>(this) {
         @Override
         public void interactionDone(List<Issue> unsprintedIssuesList) {
@@ -121,13 +125,13 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         
         initValues();
         initViews();
-        
-        setTitle(sprint.getTitle());
     }
     
     @Override
     protected void onResume() {
         super.onResume();
+        listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
         sprint.loadIssues(loadIssuesCallback);
     }
     
@@ -146,7 +150,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                                 sprintBuilder = new Sprint.Builder(sprint);
                                 sprintBuilder.setTitle(userInput);
                                 nameView.setText(userInput);
-                                setTitle(userInput);
                                 updateSprint();
                             }
                         });
@@ -221,7 +224,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     }
     
     private void removeIssueFromSprint(final Issue issue) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Issue")
             .setMessage("Do you really want to delete this Issue from this Sprint? "
                     + "This will remove the Issue from this Sprints but not from the Project.")
@@ -230,13 +232,23 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = SprintOverviewActivity.this;
                     issue.getBuilder().setSprint(null).build().update(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Issue removed from Sprint", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Issue removed from Sprint", Toast.LENGTH_SHORT).show();
                             issueListAdapter.remove(issue);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -244,7 +256,7 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
     }
@@ -261,12 +273,23 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     final Issue issue = unsprintedIssues.get(which).getBuilder().setSprint(sprint).build();
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     issue.update(
                            new DefaultGUICallback<Void>(SprintOverviewActivity.this) {
     
                             @Override
                             public void interactionDone(Void object) {
+                                listViewLayout.setRefreshing(false);
+                                emptyViewLayout.setRefreshing(false);
                                 issueListAdapter.add(issue);
+                            }
+                            
+                            @Override
+                            public void failure(String errorMessage) {
+                                listViewLayout.setRefreshing(false);
+                                emptyViewLayout.setRefreshing(false);
+                                super.failure(errorMessage);
                             }
                         });
                 }
@@ -282,7 +305,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
     private void updateViews() {
         nameView.setText(sprint.getTitle());
         setDeadlineText();
-        setTitle(sprint.getTitle());
     }
     
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
@@ -290,8 +312,9 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listViewLayout.setRefreshing(true);
+                emptyViewLayout.setRefreshing(true);
                 sprint.loadIssues(loadIssuesCallback);
-                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -315,7 +338,6 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
             }
         }
     }
-
     
     private void updateSprint() {
         sprint = sprintBuilder.build();
@@ -326,23 +348,32 @@ public class SprintOverviewActivity extends BaseListMenuActivity<Issue> implemen
         });
     }
     
-    public void showDatePickerDialog(View v, final DefaultGUICallback<Calendar> callback) {
-        DialogFragment newFragment = new DatePickerFragment() {
-            
+    /**
+     * Displays a date picker and calls back
+     * 
+     * @param view
+     *            view that triggered the event
+     * @param callback
+     *            will be called after user's choice
+     */
+    public void showDatePickerDialog(View view, final DefaultGUICallback<Calendar> callback) {
+        Calendar oldDate = Calendar.getInstance();
+        oldDate.setTimeInMillis(sprint.getDeadline());
+        OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
+
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar chosen = Calendar.getInstance();
                 chosen.set(Calendar.YEAR, year);
                 chosen.set(Calendar.MONTH, monthOfYear);
                 chosen.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                sprintDeadline = chosen.getTimeInMillis();
                 callback.interactionDone(chosen);
-                deadlineView.setText(convertDeadlineToString(chosen));
             }
         };
-        Bundle args = new Bundle();
-        args.putLong("long", sprintDeadline);
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "datePicker");
+        
+        new DatePickerDialog(SprintOverviewActivity.this, dateListener, oldDate.get(Calendar.YEAR),
+                oldDate.get(Calendar.MONTH), oldDate.get(Calendar.DAY_OF_MONTH)).show();
+                
     }
 
     private String convertDeadlineToString(Calendar date) {

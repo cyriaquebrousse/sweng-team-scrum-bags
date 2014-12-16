@@ -31,5 +31,4 @@ public enum Role {
     public String toString() {
         return this.stringValue;
     }
-
 }

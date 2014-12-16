@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import ch.epfl.scrumtool.R;
+import ch.epfl.scrumtool.database.google.handlers.DSUserHandler;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
@@ -30,26 +31,14 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_login);
-        this.setTitle("Welcome");
 
-        sessionBuilder = new GoogleSession.Builder(this);
+        sessionBuilder = new GoogleSession.Builder(this, new DSUserHandler());
         String accName = ApplicationSettings.getCachedUser(this);
         if (accName != null) {
             findViewById(R.id.button_login).setEnabled(false);
             login(accName, FIRST_ACTIVITY);
         }
-    }
-    
-    /**
-     * Opens the account picker from where the user can 
-     * chose the account he wants to log in with.
-     * @param view
-     */
-    public void openAccountPicker(View view) {
-        Intent googleAccountPicker = sessionBuilder.getIntent();
-        this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
     }
     
     @Override
@@ -66,6 +55,18 @@ public class LoginActivity extends Activity {
         }
     }
 
+    /**
+     * Opens the account picker from where the user can choose the account he
+     * wants to log in with
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void openAccountPicker(View view) {
+        Intent googleAccountPicker = sessionBuilder.getIntent();
+        this.startActivityForResult(googleAccountPicker, REQUEST_ACCOUNT_PICKER);
+    }
+
     private void openFirstActivityAndFinish(final Class<? extends Activity> nextActivity) {
         if (getCallingActivity() == null) {
             Intent intent = new Intent(this, nextActivity);
@@ -76,15 +77,14 @@ public class LoginActivity extends Activity {
     
     private void login(final String accName, final Class<? extends Activity> nextActivity) {
         Button loginButton = (Button) findViewById(R.id.button_login);
-        sessionBuilder.build(accName, new DefaultGUICallback<Boolean>(this, loginButton) {
+        sessionBuilder.build(accName, new DefaultGUICallback<Void>(this, loginButton) {
             @Override
-            public void interactionDone(Boolean success) {
+            public void interactionDone(Void success) {
                 if (LoginActivity.this.progressDialog != null) {
                     LoginActivity.this.progressDialog.dismiss();
                 }
                 LoginActivity.this.openFirstActivityAndFinish(nextActivity);
             }
         });
-
     }
 }

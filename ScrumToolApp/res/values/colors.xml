@@ -14,7 +14,7 @@
     
     <!-- Shades -->
     <color name="shadeA">#FFCC0000</color>
-    <color name="shadeB">#FFEDEDED</color>
+    <color name="shadeB">#FFDDDDDD</color>
     <color name="shadeC">#FF8AD0EB</color>
     <color name="shadeD">#FF29BCED</color>
     <color name="shadeE">#FF000000</color>

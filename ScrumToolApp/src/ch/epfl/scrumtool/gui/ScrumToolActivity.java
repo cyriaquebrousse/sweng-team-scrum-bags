@@ -23,6 +23,13 @@ public abstract class ScrumToolActivity extends Activity {
         checkSession();
     }
     
+    /**
+     * Refreshes the activity
+     */
+    public void refresh() {
+        onResume();
+    }
+    
     private void checkSession() {
         if (Client.getScrumClient() == null) {
             Toast.makeText(this, "Session lost! Attempting new login.", Toast.LENGTH_SHORT).show();

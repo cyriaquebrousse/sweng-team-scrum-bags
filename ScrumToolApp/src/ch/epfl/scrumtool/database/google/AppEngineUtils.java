@@ -15,7 +15,7 @@ public class AppEngineUtils {
     /** Enables or disables assertions */
     public static final boolean ENABLE_ASSERTIONS = true;
 
-    public static final String LOCAL_IP = "192.168.0.16";
+    public static final String LOCAL_IP = "192.168.1.108";
     
     /**
      * URL to default Google App Engine project

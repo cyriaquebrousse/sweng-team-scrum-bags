@@ -13,13 +13,9 @@ import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -62,7 +58,12 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         saveSprintChanges();
     }
 
-    public void showDatePickerDialog(View v) {
+     /** Displays a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment() {
             
             @Override
@@ -107,24 +108,16 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         }
     }
     
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_entitylist_context, menu);
-    }
-    
     private void initOriginalAndParentProject() {
         sprint = (Sprint) getIntent().getSerializableExtra(Sprint.SERIALIZABLE_NAME);
         if (sprint == null) {
             sprintBuilder = new Sprint.Builder();
             sprintBuilder.setDeadline(sprintDeadline);
-            setTitle("New sprint");
+            setTitle(R.string.title_activity_sprint_edit_new);
         } else {
             sprintBuilder = new Sprint.Builder(sprint);
             sprintDeadline = sprintBuilder.getDeadline();
             name = sprintBuilder.getTitle();
-            setTitle(name);
         }
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent project cannot be null", project);
@@ -136,9 +129,8 @@ public class SprintEditActivity extends BaseEditMenuActivity {
 
         sprintNameView.setText(sprintBuilder.getTitle());
         
-        final Calendar date = Calendar.getInstance();
-        date.setTimeInMillis(sprintBuilder.getDeadline());
-        setDeadlineText(date);
+        chosen.setTimeInMillis(sprintBuilder.getDeadline());
+        setDeadlineText(chosen);
     }
     
     private void insertSprint() {
@@ -147,7 +139,7 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         sprint.insert(project, new DefaultGUICallback<Sprint>(this, next) {
             @Override
             public void interactionDone(Sprint object) {
-                passResult(object);
+//                passResult(object);
                 SprintEditActivity.this.finish();
             }
         });
@@ -159,21 +151,14 @@ public class SprintEditActivity extends BaseEditMenuActivity {
         sprint.update(new DefaultGUICallback<Void>(this, next) {
             @Override
             public void interactionDone(Void v) {
-                passResult(sprint);
                 SprintEditActivity.this.finish();
             }
         });
     }
     
-    private void passResult(Sprint sprint) {
-        Intent data = new Intent();
-        data.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        setResult(RESULT_OK, data);
-    }
     
     private void setDeadlineText(Calendar date) {
-        SimpleDateFormat sdf = new SimpleDateFormat(getResources()
-                .getString(R.string.format_date), Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.format_date), Locale.ENGLISH);
         sprintDateView.setText(sdf.format(date.getTime()));
     }
     

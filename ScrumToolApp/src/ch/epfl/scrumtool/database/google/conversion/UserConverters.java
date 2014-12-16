@@ -1,6 +1,6 @@
 package ch.epfl.scrumtool.database.google.conversion;
 
-import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+import static ch.epfl.scrumtool.util.Preconditions.throwIfInconsistentData;
 import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.entity.User.Gender;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
@@ -16,7 +16,7 @@ public final class UserConverters {
 
         @Override
         public User convert(ScrumUser dbUser) {
-            throwIfNull("Trying to convert a User with null parameters",
+            throwIfInconsistentData("Trying to convert a User with null parameters",
                     dbUser.getEmail());
 
             Preconditions.throwIfInvalidEmail(dbUser.getEmail());

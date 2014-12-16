@@ -5,8 +5,7 @@ import ch.epfl.scrumtool.entity.Role;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
- * We need a container because of the way we implemented the Handlers to make
- * the communication with the database. They are just wrappers for more arguments.
+ * Extension of the EntityKeyArg to insert / create a player for a project
  * 
  * @author vincent
  *

@@ -6,11 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Represents a user
  * @author vincent
  * @author aschneuw
  * @author zenhaeus
@@ -178,6 +179,7 @@ public final class User implements Serializable, Comparable<User> {
             this.lastName = "";
             this.companyName = "";
             this.jobTitle = "";
+            this.dateOfBirth = 0;
             this.gender = Gender.UNKNOWN;
         }
 
@@ -317,7 +319,9 @@ public final class User implements Serializable, Comparable<User> {
          * @return
          */
         public User.Builder setGender(Gender gender) {
-            this.gender = gender;
+            if (gender != null) {
+                this.gender = gender;
+            }
             return this;
         }
 
@@ -348,11 +352,17 @@ public final class User implements Serializable, Comparable<User> {
                 && other.name.equals(this.name);
     }
 
+    /**
+     * based on e-mail address
+     */
     @Override
     public int hashCode() {
         return email.hashCode();
     }
 
+    /**
+     * Order: LastName->Name
+     */
     @Override
     public int compareTo(User that) {
         if (that == null) {

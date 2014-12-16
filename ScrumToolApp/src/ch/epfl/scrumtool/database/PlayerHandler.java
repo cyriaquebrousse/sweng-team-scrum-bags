@@ -10,6 +10,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Role;
 
 /**
+ * Defines database operations related to player
+ * 
  * @author Arno
  * 
  */
@@ -45,8 +47,17 @@ public interface PlayerHandler extends DatabaseHandler<Player> {
 
     /**
      * Loads the the players that have been invited for the currentUser
+     * 
      * @param callback
      */
     void loadInvitedPlayers(Callback<List<Player>> callback);
+
+    /**
+     * Sets the player as admin for his associated project
+     * 
+     * @param player
+     * @param callback
+     */
+    void setPlayerAsAdmin(Player player, Callback<Void> callback);
 
 }

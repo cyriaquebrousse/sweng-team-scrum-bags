@@ -1,7 +1,7 @@
 package ch.epfl.scrumtool.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
@@ -10,6 +10,8 @@ import ch.epfl.scrumtool.util.Preconditions;
 import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
 
 /**
+ * Represents a sprint
+ * 
  * @author ketsio
  * @author zenhaeus
  * @author Cyriaque Brousse
@@ -130,7 +132,7 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
         public Builder() {
             this.keyb = "";
             this.title = "";
-            this.deadline = new Date().getTime();
+            this.deadline = Calendar.getInstance().getTimeInMillis();
         }
 
         /**
@@ -180,10 +182,19 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
             return this;
         }
 
+        /**
+         * 
+         * @return the title
+         */
         public String getTitle() {
             return title;
         }
 
+        /**
+         * 
+         * @param newTitle
+         * @return the current builder instance
+         */
         public Sprint.Builder setTitle(String newTitle) {
             if (newTitle != null) {
                 this.title = newTitle;
@@ -210,11 +221,17 @@ public final class Sprint implements Serializable, Comparable<Sprint> {
                 && other.title == this.title;
     }
 
+    /**
+     * based on it's key
+     */
     @Override
     public int hashCode() {
         return key.hashCode();
     }
     
+    /**
+     * Order: Deadline->Title
+     */
     @Override
     public int compareTo(Sprint that) {
         if (that == null) {

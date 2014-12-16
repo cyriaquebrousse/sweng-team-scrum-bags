@@ -9,6 +9,8 @@ import ch.epfl.scrumtool.gui.LoginActivity;
 import ch.epfl.scrumtool.settings.ApplicationSettings;
 
 /**
+ * Basic Session. Contains a user. Provides automatic relogin functionality
+ * 
  * @author aschneuw
  */
 public abstract class Session {
@@ -59,6 +61,13 @@ public abstract class Session {
     }
     
     /**
+     * destorys the current sesison object
+     */
+    public static void destroySession() {
+        currentSession = null;
+    }
+    
+    /**
      * Destroys current session
      * @param context
      */
@@ -67,17 +76,23 @@ public abstract class Session {
          *  Remove our user from the settings, otherwise the AccountPicker will be 
          *  skipped in the LoginActivity
          */
+        
         ApplicationSettings.removeCachedUser(context);
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+        Activity activity = (Activity) context;
+        activity.finish();
+        destroySession();
     }
     
+    /**
+     * relogin from a given context
+     * @param context
+     */
     public static void relogin(Activity context) {
         Intent openLoginIntent = new Intent(context, LoginActivity.class);
         context.startActivityForResult(openLoginIntent, 0);
-
-        currentSession = null;
-        
+        destroySession();
     }
 }

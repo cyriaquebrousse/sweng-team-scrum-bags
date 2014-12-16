@@ -3,6 +3,9 @@ package ch.epfl.scrumtool.database.google.containers;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * This is a container class for an entity and a key
+ * Can be used to define an operation where an entity of Type A needs to be inserted to a related entity with
+ * the given key
  * 
  * @author aschneuw
  *

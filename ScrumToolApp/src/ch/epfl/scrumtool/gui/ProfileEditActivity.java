@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -82,8 +83,7 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
         // init the gender spinner
         genderView = (Spinner) findViewById(R.id.profile_edit_gender);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.gender_options,
-                android.R.layout.simple_spinner_item);
+                this, R.array.gender_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderView.setAdapter(adapter);
 
@@ -111,9 +111,14 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 break;
         }
     }
-    
 
-    public void showDatePickerDialog(View v) {
+    /**
+     * Show a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment() {
 
             @Override
@@ -126,6 +131,7 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 updateDateOfBirth();
             }
         };
+        
         Bundle args = new Bundle();
         args.putLong("long", dateOfBirthChosen);
         newFragment.setArguments(args);
@@ -172,6 +178,9 @@ public class ProfileEditActivity extends BaseEditMenuActivity {
                 public void interactionDone(Void v) {
                     try {
                         Session.getCurrentSession().setUser(userToUpdate);
+                        Intent intent = new Intent();
+                        intent.putExtra(User.SERIALIZABLE_NAME, userToUpdate);
+                        setResult(RESULT_OK, intent);
                         ProfileEditActivity.this.finish();
                     } catch (NotAuthenticatedException e) {
                         Session.relogin(ProfileEditActivity.this);

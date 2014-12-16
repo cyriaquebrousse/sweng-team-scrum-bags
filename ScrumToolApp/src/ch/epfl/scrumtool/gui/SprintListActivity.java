@@ -17,11 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.Toast;
 import ch.epfl.scrumtool.R;
 import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.entity.Sprint;
@@ -69,7 +69,14 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             adapter.notifyDataSetChanged();
         }
         
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
+        }
     };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +85,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
         project = (Project) getIntent().getSerializableExtra(Project.SERIALIZABLE_NAME);
         throwIfNull("Parent project cannot be null", project);
         
-        this.setTitle(project.getName());
-
         listViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_sprint_list);
         onCreateSwipeToRefresh(listViewLayout);
         emptyViewLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_update_empty_sprint_list);
@@ -93,25 +98,28 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
+        emptyViewLayout.setRefreshing(true);
         project.loadSprints(callback);
     }
     
+    @Override
+    protected void openEditElementActivity(Sprint sprint) {
+        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
+        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
+        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
+        startActivity(openSprintEditIntent);
+    }
+
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
         super.onCreateSwipeToRefresh(refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                listViewLayout.setRefreshing(true);
+                emptyViewLayout.setRefreshing(true);
                 project.loadSprints(callback);
-                refreshLayout.setRefreshing(false);
             }
         });
-    }
-
-    @Override
-    public void openCreateElementActivity() {
-        Intent createSprintIntent = new Intent(this, SprintEditActivity.class);
-        createSprintIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(createSprintIntent);
     }
     
     @Override
@@ -137,7 +145,6 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
     }
 
     private void deleteSprint(final Sprint sprint) {
-        listViewLayout.setRefreshing(true);
         new AlertDialog.Builder(this).setTitle("Delete Sprint")
             .setMessage("Do you really want to delete this Sprint? "
                     + "This will remove the Sprint and all its links with Issues.")
@@ -146,13 +153,23 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
                 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
                     final Context context = SprintListActivity.this;
                     sprint.remove(new DefaultGUICallback<Void>(context) {
                         @Override
                         public void interactionDone(Void v) {
-                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
                             listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Sprint deleted", Toast.LENGTH_SHORT).show();
                             adapter.remove(sprint);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
                         }
                     });
                 }
@@ -160,16 +177,8 @@ public class SprintListActivity extends BaseListMenuActivity<Sprint> implements 
             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
+                    dialog.dismiss();
                 }
             }).show();
-    }
-
-    @Override
-    void openEditElementActivity(Sprint sprint) {
-        Intent openSprintEditIntent = new Intent(this, SprintEditActivity.class);
-        openSprintEditIntent.putExtra(Sprint.SERIALIZABLE_NAME, sprint);
-        openSprintEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
-        startActivity(openSprintEditIntent);
     }
 }

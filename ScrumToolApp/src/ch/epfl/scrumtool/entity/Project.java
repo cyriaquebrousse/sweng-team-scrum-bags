@@ -10,11 +10,12 @@ import ch.epfl.scrumtool.network.Client;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Represents a project
+ * 
  * @author Vincent
  * @author zenhaeus
  */
 public final class Project implements Serializable, Comparable<Project> {
-
     private static final long serialVersionUID = -4181818270822077982L;
     public static final String SERIALIZABLE_NAME = "ch.epfl.scrumtool.PROJECT";
 
@@ -36,7 +37,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * @return the name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -50,7 +51,7 @@ public final class Project implements Serializable, Comparable<Project> {
      * @return the key
      */
     public String getKey() {
-        return key;
+        return this.key;
     }
 
     /**
@@ -233,6 +234,9 @@ public final class Project implements Serializable, Comparable<Project> {
         return key.hashCode();
     }
 
+    /**
+     * Order: name
+     */
     @Override
     public int compareTo(Project that) {
         if (that == null) {
@@ -240,5 +244,4 @@ public final class Project implements Serializable, Comparable<Project> {
         }
         return this.getName().compareTo(that.getName());
     }
-
 }

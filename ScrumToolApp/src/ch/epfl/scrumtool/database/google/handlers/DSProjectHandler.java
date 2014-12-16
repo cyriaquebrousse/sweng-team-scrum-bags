@@ -17,6 +17,8 @@ import ch.epfl.scrumtool.entity.Project;
 import ch.epfl.scrumtool.server.scrumtool.model.CollectionResponseScrumProject;
 
 /**
+ * Implementation of the project database operations for the AppEngine
+ * 
  * @author aschneuw
  */
 public class DSProjectHandler implements ProjectHandler {

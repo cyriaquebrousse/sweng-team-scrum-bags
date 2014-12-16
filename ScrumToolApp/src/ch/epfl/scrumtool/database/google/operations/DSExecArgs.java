@@ -1,15 +1,21 @@
 package ch.epfl.scrumtool.database.google.operations;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.google.conversion.EntityConverter;
+import ch.epfl.scrumtool.server.scrumtool.Scrumtool;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * Container to bring together an operation, it's corresponding converter and a callback
+ * 
  * @author aschneuw
  *
- * @param <A>
- * @param <B>
- * @param <C>
+ * @param <A> Operation input
+ * @param <B> Operation output
+ * @param <C> Callback return value
  */
 public final class DSExecArgs<A, B, C> {
     private final DatastoreOperation<A, B> operation;
@@ -47,14 +53,16 @@ public final class DSExecArgs<A, B, C> {
     }
 
     /**
+     * Factory for DSExecArgs
      * 
-     * @author Arno
+     * 
+     * @author aschneuw
      *
-     * @param <A>
-     * @param <B>
-     * @param <C>
+     * @param <A> Operation Input
+     * @param <B> Operation output
+     * @param <C> Callback return value
      */
-    public static class Factory<A, B, C> {
+    public static final class Factory<A, B, C> {
         /**
          * 
          * @author aschneuw
@@ -62,7 +70,7 @@ public final class DSExecArgs<A, B, C> {
          */
         public static enum MODE {
             AUTHENTICATED, 
-            UNAUTHETICATED
+            UNAUTHENTICATED
         };
 
         private DatastoreOperation<A, B> operation;
@@ -75,6 +83,7 @@ public final class DSExecArgs<A, B, C> {
          * 
          */
         public Factory(final MODE mode) {
+            Preconditions.throwIfNull("Authentication mode must be specified", mode);
             this.mode = mode;
         }
 
@@ -92,8 +101,11 @@ public final class DSExecArgs<A, B, C> {
                 case AUTHENTICATED : 
                     this.operation = new AuthenticatedOperation<A, B>(operation);
                     break;
-                case UNAUTHETICATED: 
-                    this.operation = new UnauthenticatedOperation<A, B>(operation);
+                case UNAUTHENTICATED: 
+                    Scrumtool service = new Scrumtool(AndroidHttp.newCompatibleTransport(),
+                            new GsonFactory(),
+                            null);
+                    this.operation = new UnauthenticatedOperation<A, B>(operation, service);
                     break;
                 default: 
                     break;
@@ -126,9 +138,13 @@ public final class DSExecArgs<A, B, C> {
             this.callback = callback;
             return this;
         }
-
+        
+        /**
+         * 
+         * @return the Datastore Execution Arguments DSExecArgs
+         */
         public DSExecArgs<A, B, C> build() {
-            return new DSExecArgs<>(this);
+            return new DSExecArgs<A, B, C>(this);
         }
     }
 }

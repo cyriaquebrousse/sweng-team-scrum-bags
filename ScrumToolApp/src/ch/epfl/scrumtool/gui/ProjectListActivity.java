@@ -34,7 +34,7 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     private SwipeRefreshLayout listViewLayout;
     private SwipeRefreshLayout emptyViewLayout;
 
-    private Callback<List<Project>> callback = new DefaultGUICallback<List<Project>>(this) {
+    private Callback<List<Project>> loadProjectCallback = new DefaultGUICallback<List<Project>>(this) {
         @Override
         public void interactionDone(final List<Project> projectList) {
             ProjectListActivity that = ProjectListActivity.this;
@@ -52,6 +52,13 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
             }
 
             adapter.notifyDataSetChanged();
+        }
+        
+        @Override
+        public void failure(String errorMessage) {
+            listViewLayout.setRefreshing(false);
+            emptyViewLayout.setRefreshing(false);
+            super.failure(errorMessage);
         }
     };
     
@@ -74,7 +81,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     protected void onResume() {
         super.onResume();
         listViewLayout.setRefreshing(true);
-        Client.getScrumClient().loadProjects(callback);
+        emptyViewLayout.setRefreshing(true);
+        Client.getScrumClient().loadProjects(loadProjectCallback);
     }
     
     protected void onCreateSwipeToRefresh(final SwipeRefreshLayout refreshLayout) {
@@ -82,8 +90,8 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Client.getScrumClient().loadProjects(callback);
-                refreshLayout.setRefreshing(false);
+                
+                Client.getScrumClient().loadProjects(loadProjectCallback);
             }
         });
     }
@@ -112,44 +120,18 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
     }
     
     @Override
-    void openEditElementActivity(Project project) {
+    protected void openEditElementActivity(Project project) {
         Intent openProjectEditIntent = new Intent(this, ProjectEditActivity.class);
         openProjectEditIntent.putExtra(Project.SERIALIZABLE_NAME, project);
         startActivity(openProjectEditIntent);
     }
 
     /**
-     * @param project
-     *            the project to delete
+     * Opens the backlog for a given project
+     * 
+     * @param view
+     *            view that triggered the event
      */
-    private void deleteProject(final Project project) {
-        listViewLayout.setRefreshing(true);
-        new AlertDialog.Builder(this).setTitle("Delete Project")
-            .setMessage("Do you really want to delete this Project? "
-                    + "This will remove the Project and all its Tasks, Issues, Players and Sprints.")
-            .setIcon(R.drawable.ic_dialog_alert)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    final Context context = ProjectListActivity.this;
-                    project.remove(new DefaultGUICallback<Void>(context) {
-                        @Override
-                        public void interactionDone(Void v) {
-                            Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
-                            listViewLayout.setRefreshing(false);
-                            adapter.remove(project);
-                        }
-                    });
-                }
-            })
-            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    listViewLayout.setRefreshing(false);
-                }
-            }).show();
-    }
-    
     public void openBacklog(View view) {
         final int position = listView.getPositionForView(view);
         if (position >= 0) {
@@ -160,6 +142,12 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         }
     }
     
+    /**
+     * Opens the sprint list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openSprints(View view) {
         final int position = listView.getPositionForView(view);
         if (position >= 0) {
@@ -170,6 +158,12 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
         }
     }
     
+    /**
+     * Opens the player list for a given project
+     * 
+     * @param view
+     *            view that triggered the event
+     */
     public void openPlayers(View view) {
         final int position = listView.getPositionForView(view);
         if (position >= 0) {
@@ -178,5 +172,49 @@ public class ProjectListActivity extends BaseListMenuActivity<Project> {
             openPlayerListIntent.putExtra(Project.SERIALIZABLE_NAME, project);
             startActivity(openPlayerListIntent);
         }
+    }
+
+    /**
+     * Deletes a given project
+     * 
+     * @param project
+     *            the project to delete
+     */
+    private void deleteProject(final Project project) {
+        new AlertDialog.Builder(this).setTitle("Delete Project")
+            .setMessage("Do you really want to delete this Project? "
+                    + "If you are admin, this will remove the Project and all its Tasks, Issues, Players and Sprints."
+                    + "If not, you will only be unsubscribed from it.")
+            .setIcon(R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    listViewLayout.setRefreshing(true);
+                    emptyViewLayout.setRefreshing(true);
+                    final Context context = ProjectListActivity.this;
+                    project.remove(new DefaultGUICallback<Void>(context) {
+                        @Override
+                        public void interactionDone(Void v) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            Toast.makeText(context , "Project deleted", Toast.LENGTH_SHORT).show();
+                            adapter.remove(project);
+                        }
+                        
+                        @Override
+                        public void failure(String errorMessage) {
+                            listViewLayout.setRefreshing(false);
+                            emptyViewLayout.setRefreshing(false);
+                            super.failure(errorMessage);
+                        }
+                    });
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
     }
 }

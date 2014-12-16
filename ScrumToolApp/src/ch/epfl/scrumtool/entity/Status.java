@@ -8,7 +8,6 @@ import ch.epfl.scrumtool.R;
  * @author ketsio
  */
 public enum Status implements Serializable {
-
     /*
      * The order of definition also specifies the natural 
      * order of the enum values, which means:

@@ -1,5 +1,7 @@
 package ch.epfl.scrumtool.gui;
 
+import static ch.epfl.scrumtool.util.Preconditions.throwIfNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -20,7 +22,6 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
 import ch.epfl.scrumtool.gui.components.DatePickerFragment;
 import ch.epfl.scrumtool.gui.components.DefaultGUICallback;
-import ch.epfl.scrumtool.network.GoogleSession;
 import ch.epfl.scrumtool.network.Session;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers;
 import ch.epfl.scrumtool.util.gui.TextViewModifiers.FieldType;
@@ -51,25 +52,15 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         init();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        init();
-    }
-
     private void init() {
         setContentView(R.layout.activity_profile_overview);
         
         // Get the connected user, and the user to display
         try {
-            if (getIntent().hasExtra(User.SERIALIZABLE_NAME)) {
-                userProfile = (User) getIntent().getSerializableExtra(User.SERIALIZABLE_NAME);
-            } else {
-                userProfile = Session.getCurrentSession().getUser();
-            }
-            this.setTitle(userProfile.getName());
+            userProfile = Session.getCurrentSession().getUser();
             
             initViews();
+            updateViews();
             initializeListeners();
             
         } catch (NotAuthenticatedException e) {
@@ -87,6 +78,10 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         dateOfBirthView = (TextView) findViewById(R.id.profile_date_of_birth);
         emailView = (TextView) findViewById(R.id.profile_email);
         genderView = (TextView) findViewById(R.id.profile_gender);
+        
+    }
+    
+    private void updateViews() {
 
         // Set Views
         nameView.setText(userProfile.fullname());
@@ -132,7 +127,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                                 userBuilder = new User.Builder(userProfile);
                                 userBuilder.setName(firstName);
                                 userBuilder.setLastName(lastName);
-                                MyProfileOverviewActivity.this.setTitle(firstName);
                                 nameView.setText(firstName + " " + lastName);
                                 updateUser();
                             }
@@ -184,7 +178,7 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
     @Override
     void openEditElementActivity() {
         Intent intent = new Intent(this, ProfileEditActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -202,10 +196,9 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
                         @Override
                         public void interactionDone(Void v) {
                             Toast.makeText(context , "User deleted", Toast.LENGTH_SHORT).show();
-                            GoogleSession.destroyCurrentSession(context);
+                            Session.destroyCurrentSession(context);
                         }
                     });
-                    finish();
                 }
             })
             .setNegativeButton(android.R.string.no, null).show();
@@ -226,25 +219,6 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         });
     }
     
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                dateOfBirthChosen = calendar.getTimeInMillis();
-                updateDateOfBirth();
-            }
-        };
-        Bundle args = new Bundle();
-        args.putLong("long", dateOfBirthChosen);
-        newFragment.setArguments(args);
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-    
     private void updateDateOfBirth() {
         SimpleDateFormat sdf = new SimpleDateFormat(getResources()
                 .getString(R.string.format_date), Locale.ENGLISH);
@@ -252,6 +226,42 @@ public class MyProfileOverviewActivity extends BaseMyProfileMenuActivity {
         userBuilder = new User.Builder(userProfile);
         userBuilder.setDateOfBirth(dateOfBirthChosen);
         updateUser();
+    }
+    
+    /**
+     * Displays a date picker
+     * 
+     * @param view
+     *            view that triggered the event
+     */
+    public void showDatePickerDialog(View view) {
+        DialogFragment newFragment = new DatePickerFragment() {
+    
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    
+                dateOfBirthChosen = calendar.getTimeInMillis();
+                updateDateOfBirth();
+            }
+        };
         
+        Bundle args = new Bundle();
+        args.putLong("long", dateOfBirthChosen);
+        newFragment.setArguments(args);
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                userProfile = (User) data.getSerializableExtra(User.SERIALIZABLE_NAME);
+                throwIfNull("User cannot be null", userProfile);
+                updateViews();
+            }
+        }
     }
 }

@@ -2,8 +2,8 @@ package ch.epfl.scrumtool.database.google.conversion;
 
 import java.io.IOException;
 
+import ch.epfl.scrumtool.exception.ConnectionException;
 import ch.epfl.scrumtool.exception.NotAuthenticatedException;
-import ch.epfl.scrumtool.exception.NotFoundException;
 import ch.epfl.scrumtool.exception.ScrumToolException;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -15,26 +15,34 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
  *
  */
 public final class ExceptionConverter {
-
-    public static final int BAD_REQUEST = 400;
-    public static final int UNAUTHROIZED = 401;
-    public static final int FORBIDDEN = 403;
-    public static final int NOT_FOUND = 404;
-    public static final int CONBFLICT = 409;
-    public static final int INTERNAL_SERVER_ERROR = 500;
-    public static final int SERVICE_UNAVAILABLE = 503;
-
-
+    private static final int UNAUTHORIZED = 401;
+    private static final int FORBIDDEN = 403;
+    private static final int NOTFOUND = 404;
+    private static final int CONFLICT = 409;
+    
+    /**
+     * handels an IOException based on Google AppEngine server errors
+     * @param e
+     * @return
+     */
     public static ScrumToolException handle(IOException e) {
         if (e instanceof GoogleJsonResponseException) {
-            switch (((GoogleJsonResponseException) e).getStatusCode()) {
-                case NOT_FOUND:
-                    return new NotFoundException(e, "Not found"); 
-                case UNAUTHROIZED:
-                    return new NotAuthenticatedException(e, "Not authenticated!");
+            //Due to a bug in the current version of AppEngine we can't create custom exceptions on the server side
+            //with our own error codes.
+            GoogleJsonResponseException exception = (GoogleJsonResponseException) e;
+            switch (exception.getStatusCode()){
+                case FORBIDDEN:
+                    return new NotAuthenticatedException(e, "Authentication / login error");
+                case CONFLICT:
+                case NOTFOUND:
+                case UNAUTHORIZED:
+                    return new ScrumToolException(e, exception.getDetails().getMessage());
                 default:
+                    return new ScrumToolException(e, "Server Error");
             }
+        } else {
+            //If there is not GoogleJsonResponseException means that the problem is not on the database.
+            return new ConnectionException(e, "Connection error");
         }
-        return new ScrumToolException(e, "Server error");
     }
 }

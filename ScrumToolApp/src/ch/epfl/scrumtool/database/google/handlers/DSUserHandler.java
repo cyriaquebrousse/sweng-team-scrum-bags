@@ -12,13 +12,15 @@ import ch.epfl.scrumtool.entity.User;
 import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
 
 /**
+ * Implementation of the User database operations for the AppEngine
+ * 
  * @author aschneuw
  */
 public class DSUserHandler implements UserHandler {
     @Override
     public void loginUser(final String email, final Callback<User> callback) {
         DSExecArgs.Factory<String, ScrumUser, User> builder = 
-                new DSExecArgs.Factory<String, ScrumUser, User>(MODE.UNAUTHETICATED);
+                new DSExecArgs.Factory<String, ScrumUser, User>(MODE.AUTHENTICATED);
         builder.setCallback(callback);
         builder.setConverter(UserConverters.SCRUMUSER_TO_USER);
         builder.setOperation(UserOperations.LOGIN_USER);

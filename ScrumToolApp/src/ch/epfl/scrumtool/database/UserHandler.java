@@ -6,6 +6,8 @@ package ch.epfl.scrumtool.database;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Defines the database operations related to User
+ * 
  * @author aschneuw
  * 
  */

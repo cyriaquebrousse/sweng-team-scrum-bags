@@ -4,7 +4,7 @@ import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
 import ch.epfl.scrumtool.database.DatabaseHandlers;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -14,6 +14,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Class putting together all important database operations to provide easy access
+ * 
  * @author aschneuw
  */
 public class DatabaseScrumClient implements ScrumClient {
@@ -47,20 +49,16 @@ public class DatabaseScrumClient implements ScrumClient {
 
     public void updateProject(Project project, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().update(project, callback);
-
-
     }
 
     @Override
     public void deleteProject(Project project, Callback<Void> callback) {
         databaseHandlers.getProjectHandler().remove(project, callback);
-
     }
 
     @Override
     public void loadBacklog(Project project, Callback<List<MainTask>> callback) {
         databaseHandlers.getMainTaskHandler().loadMainTasks(project, callback);
-
     }
 
     @Override
@@ -136,13 +134,6 @@ public class DatabaseScrumClient implements ScrumClient {
     public void loadPlayers(Project project, Callback<List<Player>> callback) {
         databaseHandlers.getPlayerHandler().loadPlayers(project, callback);
     }
-
-    @Deprecated
-    @Override
-    public void addPlayer(Player player, Project project,
-            Callback<Player> callback) {
-        databaseHandlers.getPlayerHandler().insert(player, project, callback);
-    }
     
     @Override
     public void updatePlayer(Player player, Callback<Void> callback) {
@@ -175,5 +166,10 @@ public class DatabaseScrumClient implements ScrumClient {
     @Override
     public void loadInvitedPlayers(Callback<List<Player>> callback) {
         databaseHandlers.getPlayerHandler().loadInvitedPlayers(callback);
+    }
+
+    @Override
+    public void setPlayerAsAdmin(Player player, Callback<Void> callback) {
+        databaseHandlers.getPlayerHandler().setPlayerAsAdmin(player, callback);
     }
 }

@@ -80,7 +80,6 @@ public abstract class BaseMyProfileMenuActivity extends ScrumToolActivity implem
                 openEditElementActivity();
                 return true;
             case DELETE_ID:
-                item.setEnabled(false);
                 deleteElement();
                 return true;
             default:

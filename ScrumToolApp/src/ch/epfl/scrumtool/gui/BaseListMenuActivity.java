@@ -56,7 +56,7 @@ public abstract class BaseListMenuActivity<E> extends BaseMenuActivity {
      * @param optionToEdit
      *            the element to edit
      */
-    abstract void openEditElementActivity(E optionalElementToEdit);
+    protected abstract void openEditElementActivity(E optionalElementToEdit);
     
     /**
      * Opens an activity to create a new element of type <E>

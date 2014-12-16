@@ -3,7 +3,7 @@ package ch.epfl.scrumtool.network;
 import java.util.List;
 
 import ch.epfl.scrumtool.database.Callback;
-import ch.epfl.scrumtool.database.TaskIssueProject;
+import ch.epfl.scrumtool.database.google.containers.TaskIssueProject;
 import ch.epfl.scrumtool.entity.Issue;
 import ch.epfl.scrumtool.entity.MainTask;
 import ch.epfl.scrumtool.entity.Player;
@@ -13,6 +13,8 @@ import ch.epfl.scrumtool.entity.Sprint;
 import ch.epfl.scrumtool.entity.User;
 
 /**
+ * Interface providing essential operations
+ * 
  * @author aschneuw
  */
 public interface ScrumClient {
@@ -63,12 +65,7 @@ public interface ScrumClient {
      * @param callback
      */
     void loadInvitedPlayers(final Callback<List<Player>> callback);
-    /**
-     * @param player
-     * @param project
-     * @param callback
-     */
-    void addPlayer(final Player player, final Project project, final Callback<Player> callback);
+    
     /**
      * @param player
      * @param ref
@@ -88,6 +85,13 @@ public interface ScrumClient {
      */
     void addPlayerToProject(final Project project, final String userEmail, 
             final Role role, final Callback<Player> callback);
+    
+    /**
+     * @param player
+     * @param callback
+     */
+    void setPlayerAsAdmin(final Player player, final Callback<Void> callback);
+    
     
     // Maintask methods
     /**

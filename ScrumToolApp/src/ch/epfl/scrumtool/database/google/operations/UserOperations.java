@@ -14,28 +14,37 @@ import ch.epfl.scrumtool.server.scrumtool.model.ScrumUser;
  */
 public final class UserOperations {
     
+    /**
+     * operation to login a user 
+     */
     public static final ScrumToolOperation<String, ScrumUser> LOGIN_USER = 
-            new ScrumToolOperation<String, ScrumUser>() {
-        @Override
-        public ScrumUser operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, ScrumUser>() {
+            @Override
+            public ScrumUser operation(String arg, Scrumtool service) throws IOException {
                 return service.loginUser(arg).execute();
-        }
-    };
+            }
+        };
 
+    /**
+     * operation to update a user
+     */
     public static final ScrumToolOperation<User, Void> UPDATE_USER = 
-            new ScrumToolOperation<User, Void>() {
-        @Override
-        public Void operation(User arg, Scrumtool service) throws IOException {
-            ScrumUser scrumUser = UserConverters.USER_TO_SCRUMUSER.convert(arg);
-            return service.updateScrumUser(scrumUser).execute();
-        }
-    };
+        new ScrumToolOperation<User, Void>() {
+            @Override
+            public Void operation(User arg, Scrumtool service) throws IOException {
+                ScrumUser scrumUser = UserConverters.USER_TO_SCRUMUSER.convert(arg);
+                return service.updateScrumUser(scrumUser).execute();
+            }
+        };
     
+    /**
+     * operation to delete a user
+     */
     public static final ScrumToolOperation<String, Void> DELETE_USER = 
-            new ScrumToolOperation<String, Void>() {
-        @Override
-        public Void operation(String arg, Scrumtool service) throws IOException {
+        new ScrumToolOperation<String, Void>() {
+            @Override
+            public Void operation(String arg, Scrumtool service) throws IOException {
                 return service.removeScrumUser(arg).execute();
-        }
-    };
+            }
+        };
 }

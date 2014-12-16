@@ -6,6 +6,8 @@ package ch.epfl.scrumtool.database;
 import ch.epfl.scrumtool.util.Preconditions;
 
 /**
+ * This is a container class for the different database handlers.
+ * 
  * @author aschneuw
  * 
  */
@@ -18,7 +20,7 @@ public final class DatabaseHandlers {
     private final UserHandler userHandler;
 
     private DatabaseHandlers(DatabaseHandlers.Builder builder) {
-        Preconditions.throwIfNull("All Databasehandlers need to be defined",
+        Preconditions.throwIfNull("All DatabaseHandlers need to be defined",
                 builder.issueHandler,
                 builder.mainTaskHandler,
                 builder.playerHandler,
@@ -76,6 +78,7 @@ public final class DatabaseHandlers {
     }
 
     /**
+     * DatabaseHandlers builder class
      * 
      * @author aschneuw
      * 

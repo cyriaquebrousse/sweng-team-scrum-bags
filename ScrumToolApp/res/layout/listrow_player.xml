@@ -38,9 +38,9 @@
             android:maxLines="1"
             android:textSize="@dimen/list_row_name"
             android:textStyle="bold" />
-
+            
         <!-- Player role in this project -->
-
+        
         <TextView
             android:id="@+id/player_row_role"
             android:layout_width="wrap_content"
@@ -48,6 +48,20 @@
             android:layout_below="@id/player_row_name"
             android:layout_marginTop="1dip"
             android:layout_toEndOf="@id/player_row_icon"
+            android:maxLines="1"
+            android:textSize="@dimen/list_row_desc" />
+        
+        <!-- flag to show if a player is admin or invited -->
+        
+            <TextView
+            android:id="@+id/player_row_status"
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/player_row_name"
+            android:layout_marginTop="1dip"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"
             android:maxLines="1"
             android:textSize="@dimen/list_row_desc" />
     </RelativeLayout>
